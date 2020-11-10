@@ -18,4 +18,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build and publish with Gradle
-      run: ./gradlew -PrepositoryUrl=$REPOSITORY_URL -PrepositoryUser=$REPOSITORY_USER -PrepositoryPassword=$REPOSITORY_PASSWORD build publishToMavenLocal uploadArchives
+      run: echo $REPOSITORY_URL $REPOSITORY_USER $REPOSITORY_PASSWORD
