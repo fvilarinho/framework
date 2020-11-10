@@ -62,9 +62,7 @@ Author
 
 My name is Felipe Vilarinho (A.K.A Vila) and you can know more about me at the social medias below:
 
-1. [Twitter](https://www.twitter.com/fvilarinho)
-2. [Instagram](https://www.instagram.com/fvilarinho)
-3. [LinkedIn](https://br.linkedin.com/in/fvilarinho)
+1. [LinkedIn](https://br.linkedin.com/in/fvilarinho)
 
 Or send an email to fvilarinho@gmail.com or fvilarinho@innovativethinking.com.br
 
