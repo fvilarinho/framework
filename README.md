@@ -63,7 +63,7 @@ My name is Felipe Vilarinho (A.K.A Vila) and you can know more about me at the s
 
 1. [LinkedIn](https://br.linkedin.com/in/fvilarinho)
 
-Or send an email to fvilarinho@gmail.com or fvilarinho@innovativethinking.com.br
+Or send an email to fvilarinho@gmail.com or fvilarinho@concepting.com.br
 
 Have Fun!
 
