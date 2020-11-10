@@ -6,10 +6,10 @@
         version="2.1">
     <tlib-version>1.0</tlib-version>
     <short-name>ui-components</short-name>
-	<uri>https://www.innovativethinking.com.br/framework/ui/components</uri>    
+	<uri>https://www.concepting.com.br/framework/ui/components</uri>    
 	<tag>
         <name>accordion</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.AccordionComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.AccordionComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
         	<name>actionFormName</name>
@@ -51,7 +51,7 @@
     </tag>
     <tag>
         <name>form</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.ActionFormComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.ActionFormComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>name</name>
@@ -77,7 +77,7 @@
     </tag>
     <tag>
         <name>addButton</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.AddButtonComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.AddButtonComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -294,7 +294,7 @@
     </tag>
     <tag>
         <name>backButton</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.BackButtonComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.BackButtonComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -511,7 +511,7 @@
     </tag> 
     <tag>
         <name>breadCrumb</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.BreadCrumbComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.BreadCrumbComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -528,7 +528,7 @@
     </tag>
     <tag>
         <name>button</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.ButtonComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.ButtonComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -745,7 +745,7 @@
     </tag>
     <tag>
         <name>calendar</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.CalendarPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.CalendarPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -1063,7 +1063,7 @@
     </tag>
     <tag>
         <name>cancelButton</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.CancelButtonComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.CancelButtonComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -1320,7 +1320,7 @@
     </tag> 
     <tag>
         <name>check</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.CheckPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.CheckPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -1634,7 +1634,7 @@
     </tag>
     <tag>
         <name>clock</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.ClockComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.ClockComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>pattern</name>
@@ -1659,7 +1659,7 @@
     </tag>
     <tag>
         <name>page</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.PageComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.PageComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>title</name>
@@ -1676,7 +1676,7 @@
     </tag>
     <tag>
         <name>download</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.DownloadPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.DownloadPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -1770,7 +1770,7 @@
     </tag>
     <tag>
         <name>upload</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.UploadPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.UploadPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -1896,7 +1896,7 @@
     </tag>
     <tag>
         <name>messageBox</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.MessageBoxComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.MessageBoxComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -1957,7 +1957,7 @@
     </tag>
     <tag>
         <name>dialogBox</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.DialogBoxComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.DialogBoxComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -2010,7 +2010,7 @@
     </tag>
     <tag>
         <name>confirmDialogBox</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.ConfirmDialogBoxComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.ConfirmDialogBoxComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -2087,7 +2087,7 @@
     </tag>
     <tag>
         <name>guides</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.GuidesComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.GuidesComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -2125,7 +2125,7 @@
     </tag>
     <tag>
         <name>guide</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.GuideComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.GuideComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>name</name>
@@ -2211,7 +2211,7 @@
     </tag>
     <tag>
         <name>menuBar</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.MenuBarComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.MenuBarComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -2240,7 +2240,7 @@
     </tag>
     <tag>
         <name>link</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.LinkComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.LinkComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -2365,7 +2365,7 @@
     </tag>    
     <tag>
         <name>confirmButton</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.ConfirmButtonComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.ConfirmButtonComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -2622,7 +2622,7 @@
     </tag>
     <tag>
         <name>searchButton</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.SearchButtonComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.SearchButtonComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -2839,7 +2839,7 @@
     </tag>
     <tag>
         <name>printButton</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.PrintButtonComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.PrintButtonComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -3096,7 +3096,7 @@
     </tag>
     <tag>
         <name>editButton</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.EditButtonComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.EditButtonComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -3313,7 +3313,7 @@
     </tag>
     <tag>
         <name>deleteButton</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.DeleteButtonComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.DeleteButtonComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -3570,7 +3570,7 @@
     </tag>
     <tag>
         <name>saveButton</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.SaveButtonComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.SaveButtonComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -3827,7 +3827,7 @@
     </tag>
     <tag>
         <name>image</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.ImageComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.ImageComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -3988,7 +3988,7 @@
     </tag>
     <tag>
         <name>maps</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.MapsComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.MapsComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -4157,7 +4157,7 @@
     </tag>
     <tag>
         <name>text</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.TextPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.TextPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -4491,7 +4491,7 @@
     </tag>
     <tag>
         <name>sliderBar</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.SliderBarComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.SliderBarComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -4821,7 +4821,7 @@
     </tag>
     <tag>
         <name>spinner</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.SpinnerComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.SpinnerComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -5155,7 +5155,7 @@
     </tag>
     <tag>
         <name>progressBar</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.ProgressBarComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.ProgressBarComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -5256,7 +5256,7 @@
     </tag>
     <tag>
         <name>password</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.PasswordPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.PasswordPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -5578,7 +5578,7 @@
     </tag>
     <tag>
         <name>textArea</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.TextAreaPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.TextAreaPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -5904,7 +5904,7 @@
     </tag>
     <tag>
         <name>hidden</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.HiddenPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.HiddenPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -5938,7 +5938,7 @@
     </tag>
     <tag>
         <name>radio</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.RadioPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.RadioPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -6252,7 +6252,7 @@
     </tag>
     <tag>
         <name>optionState</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.OptionStateComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.OptionStateComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>expression</name>
@@ -6273,7 +6273,7 @@
     </tag>
     <tag>
         <name>options</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.OptionsPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.OptionsPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -6420,7 +6420,7 @@
     </tag>
     <tag>
         <name>list</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.ListPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.ListPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -6775,7 +6775,7 @@
     </tag>
     <tag>
         <name>suggestionBox</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.SuggestionBoxComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.SuggestionBoxComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -7158,7 +7158,7 @@
     </tag>
     <tag>
         <name>languageSelector</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.LanguageSelectorComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.LanguageSelectorComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -7239,7 +7239,7 @@
     </tag>
     <tag>
         <name>skinSelector</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.SkinSelectorComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.SkinSelectorComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>showLabel</name>
@@ -7308,7 +7308,7 @@
     </tag>    
     <tag>
         <name>searchPropertiesGroup</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.SearchPropertiesGroupComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.SearchPropertiesGroupComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -7381,7 +7381,7 @@
     </tag>
     <tag>
         <name>pager</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.PagerComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.PagerComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -7414,7 +7414,7 @@
     </tag>
     <tag>
         <name>treeView</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.TreeViewPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.TreeViewPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -7597,7 +7597,7 @@
     </tag>
     <tag>
         <name>grid</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.GridPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.GridPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -7695,7 +7695,7 @@
     </tag>
     <tag>
         <name>gridColumnGroup</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.GridColumnGroupComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.GridColumnGroupComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>name</name>
@@ -7744,7 +7744,7 @@
     </tag>
     <tag>
         <name>gridColumn</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.GridColumnComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.GridColumnComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>name</name>
@@ -8093,7 +8093,7 @@
     </tag>
     <tag>
         <name>gridColumnState</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.GridColumnStateComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.GridColumnStateComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>expression</name>
@@ -8406,7 +8406,7 @@
     </tag>
     <tag>
         <name>gridRowState</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.GridRowStateComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.GridRowStateComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>expression</name>
@@ -8427,7 +8427,7 @@
     </tag>
     <tag>
         <name>script</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.ScriptComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.ScriptComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>url</name>
@@ -8436,7 +8436,7 @@
     </tag>
     <tag>
         <name>style</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.StyleComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.StyleComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>url</name>
@@ -8445,12 +8445,12 @@
     </tag>
     <tag>
         <name>system</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.SystemComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.SystemComponent</tag-class>
         <body-content>JSP</body-content>
     </tag>
     <tag>
         <name>label</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.LabelComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.LabelComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -8615,7 +8615,7 @@
     </tag>
     <tag>
         <name>section</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.SectionComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.SectionComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>name</name>
@@ -8733,7 +8733,7 @@
     </tag>
     <tag>
         <name>timer</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.TimerComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.TimerComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -8840,7 +8840,7 @@
     </tag>
     <tag>
         <name>colorPicker</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.ColorPickerPropertyComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.ColorPickerPropertyComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>actionFormName</name>
@@ -9154,7 +9154,7 @@
     </tag>
     <tag>
         <name>loginSessionBox</name>
-        <tag-class>br.com.innovativethinking.framework.ui.components.LoginSessionBoxComponent</tag-class>
+        <tag-class>br.com.concepting.framework.ui.components.LoginSessionBoxComponent</tag-class>
         <body-content>JSP</body-content>
         <attribute>
             <name>render</name>

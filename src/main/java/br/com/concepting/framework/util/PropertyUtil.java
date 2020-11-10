@@ -1,0 +1,2120 @@
+package br.com.concepting.framework.util;
+
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.AbstractCollection;
+import java.util.Collection;
+import java.util.Currency;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils.PropertyUtils;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+
+import br.com.concepting.framework.audit.annotations.Auditable;
+import br.com.concepting.framework.constants.Constants;
+import br.com.concepting.framework.controller.form.constants.ActionFormConstants;
+import br.com.concepting.framework.exceptions.InternalErrorException;
+import br.com.concepting.framework.model.BaseModel;
+import br.com.concepting.framework.model.annotations.Model;
+import br.com.concepting.framework.model.annotations.Property;
+import br.com.concepting.framework.model.constants.ModelConstants;
+import br.com.concepting.framework.model.helpers.ModelInfo;
+import br.com.concepting.framework.model.types.ConditionOperationType;
+import br.com.concepting.framework.model.types.ConditionType;
+import br.com.concepting.framework.model.types.ValidationType;
+import br.com.concepting.framework.model.util.ModelUtil;
+import br.com.concepting.framework.persistence.constants.PersistenceConstants;
+import br.com.concepting.framework.persistence.types.RelationJoinType;
+import br.com.concepting.framework.persistence.types.RelationType;
+import br.com.concepting.framework.processors.ExpressionProcessor;
+import br.com.concepting.framework.resources.PropertiesResources;
+import br.com.concepting.framework.ui.constants.UIConstants;
+import br.com.concepting.framework.util.helpers.DateTime;
+import br.com.concepting.framework.util.helpers.PropertyInfo;
+import br.com.concepting.framework.util.types.ContentType;
+import br.com.concepting.framework.util.types.FormulaType;
+import br.com.concepting.framework.util.types.InputType;
+import br.com.concepting.framework.util.types.PropertyType;
+import br.com.concepting.framework.util.types.SearchType;
+import br.com.concepting.framework.util.types.SortOrderType;
+
+/**
+ * Class responsible to manipulate properties of classes and methods.
+ *
+ * @author fvilarinho
+ * @since 1.0.0
+ * 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ */
+public class PropertyUtil extends PropertyUtils{
+	private static ObjectMapper mapper = null;
+	
+	/**
+	 * Returns the mapper instance.
+	 * 
+	 * @return Instance of the mapper.
+	 */
+	@SuppressWarnings("deprecation")
+	public static ObjectMapper getMapper(){
+		if(mapper == null){
+			mapper = new ObjectMapper();
+			mapper.registerModule(new Hibernate5Module());
+			mapper.setSerializationInclusion(Include.NON_NULL);
+			mapper.enable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
+			mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+			mapper.setDateFormat(new SimpleDateFormat(Constants.DEFAULT_DATE_TIME_PATTERN));
+		}
+
+		return mapper;
+	}
+	
+	/**
+	 * Compares two objects.
+	 * 
+	 * @param object1 Object 1.
+	 * @param object2 Object 2.
+	 * @return 1 - Indicates that the numeric value 1 is greater than numeric
+	 * value 2. 0 - Indicates that the numeric value 1 is equal the numeric
+	 * value 2. -1 - Indicates that the numeric value 1 less than numeric value
+	 * 2.
+	 */
+	public static Integer compareTo(Object object1, Object object2){
+		if(object1 == null && object2 == null)
+			return 0;
+		else if(object1 != null && object2 == null)
+			return 1;
+		else if(object1 == null && object2 != null)
+			return -1;
+
+		try{
+			return (Integer)MethodUtil.invokeMethod(object1, "compareTo", object2);
+		}
+		catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException e){
+			return -1;
+		}
+	}
+
+	/**
+	 * Returns the property type.
+	 * 
+	 * @param name String that contains the identifier of the property.
+	 * @return Instance that contains the property type.
+	 */
+	public static PropertyType getType(String name){
+		if(name.endsWith(".".concat(Constants.LABEL_ATTRIBUTE_ID)) ||
+		   name.endsWith(".".concat(Constants.PATTERN_ATTRIBUTE_ID)) ||
+		   name.equals(ActionFormConstants.ACTION_ATTRIBUTE_ID) ||
+		   name.equals(ActionFormConstants.FORWARD_ATTRIBUTE_ID) ||
+		   name.endsWith(".".concat(ActionFormConstants.DATASET_START_INDEX_ATTRIBUTE_ID)) ||
+		   name.endsWith(".".concat(ActionFormConstants.DATASET_END_INDEX_ATTRIBUTE_ID)) ||
+		   name.endsWith(".".concat(ActionFormConstants.DATASET_SCOPE_ATTRIBUTE_ID)) ||
+		   name.endsWith(".".concat(ActionFormConstants.DATASET_ATTRIBUTE_ID)) ||
+		   name.equals(ModelConstants.VALIDATE_MODEL_ATTRIBUTE_ID) ||
+		   name.equals(ModelConstants.VALIDATE_MODEL_PROPERTIES_ATTRIBUTE_ID) ||
+		   name.endsWith(".".concat(ActionFormConstants.DATASET_START_INDEX_ATTRIBUTE_ID)) ||
+		   name.endsWith(".".concat(ActionFormConstants.DATASET_END_INDEX_ATTRIBUTE_ID)) ||
+		   name.endsWith(".".concat(ActionFormConstants.DATASET_SCOPE_ATTRIBUTE_ID)) ||
+		   name.endsWith(".".concat(ActionFormConstants.DATASET_ATTRIBUTE_ID)))
+			return PropertyType.FORM;
+		else if(name.endsWith(".".concat(UIConstants.SORT_ORDER_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.SORT_PROPERTY_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.CURRENT_GUIDE_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.CURRENT_SECTIONS_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.CURRENT_TREE_VIEW_NODE_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.IS_TREE_VIEW_NODE_EXPANDED_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.PAGER_ITEMS_PER_PAGE_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.PAGER_CURRENT_PAGE_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.PAGER_ACTION_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.COLOR_PICKER_RED_VALUE_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.COLOR_PICKER_GREEN_VALUE_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.COLOR_PICKER_BLUE_VALUE_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.CALENDAR_HOURS_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.CALENDAR_MINUTES_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.CALENDAR_SECONDS_ATTRIBUTE_ID)) ||
+				name.endsWith(".".concat(UIConstants.CALENDAR_MILLISECONDS_ATTRIBUTE_ID)) ||
+				name.equals(UIConstants.UPDATE_VIEWS_ATTRIBUTE_ID))
+			return PropertyType.UI;
+		else
+			return PropertyType.MODEL;
+	}
+
+	/**
+	 * Parses a content.
+	 * 
+	 * @param <O> Class that defines the content.
+	 * @param clazz Class that defines the content.
+	 * @param value String that contains the content.
+	 * @param pattern String that contains the parsing pattern.
+	 * @param useAdditionalParsing Indicates if must be used an additional pattern for parsing.
+	 * @param precision Numeric value that defines the precision.
+	 * @param language Instance that defines the 
+	 * @return Returns the parsed content.
+	 * @throws ParseException Occurs when was not possible to execute the operation.
+	 * @throws UnsupportedEncodingException Occurs when was not possible to execute the operation.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <O> O parse(Class<O> clazz, String value, String pattern, Boolean useAdditionalParsing, Integer precision, Locale language) throws ParseException, UnsupportedEncodingException{
+		if(isDate(clazz)){
+			if(pattern != null && pattern.length() > 0)
+				return (O)DateTimeUtil.parse(value, pattern);
+
+			return (O)DateTimeUtil.parse(value, language);
+		}
+		else if(isNumber(clazz))
+			return (O)NumberUtil.parse(clazz, value, useAdditionalParsing, precision, language);
+		else if(isBoolean(clazz))
+			return (O)Boolean.valueOf(value);
+		else if(isByteArray(clazz))
+			return (O)ByteUtil.fromBase64(value);
+
+		return (O)value;
+	}
+
+	/**
+	 * Returns the default implementation of a class.
+	 * 
+	 * @param clazz Definition of the class.
+	 * @return Implementation of the class.
+	 */
+	public static Class<?> getDefaultImplementation(Class<?> clazz){
+		if(clazz.equals(Collection.class) || clazz.equals(List.class))
+			return Constants.DEFAULT_LIST_CLASS;
+		else if(clazz.equals(Set.class))
+			return Constants.DEFAULT_LIST_CLASS;
+		else if(clazz.equals(Map.class))
+			return Constants.DEFAULT_MAP_CLASS;
+		else if(clazz.equals(Queue.class))
+			return Constants.DEFAULT_LIFO_QUEUE_CLASS;
+		else if(clazz.equals(Set.class))
+			return Constants.DEFAULT_SET_CLASS;
+
+		return clazz;
+	}
+	
+	/**
+	 * Instantiate the default implementation of a class.
+	 * 
+	 * @param <O> Class that defines the implementation.
+	 * @param clazz Definition of the class.
+	 * @return Instance that contains the implementation.
+	 * operation.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <O> O instantiate(Class<?> clazz){
+		try{
+			if(clazz != null)
+				return (O)getDefaultImplementation(clazz).newInstance();
+		} 
+		catch(IllegalAccessException | InstantiationException e){
+		}
+
+		return null;
+	}
+
+	/**
+	 * Clears all properties of an instance.
+	 *
+	 * @param <O> Instance before clearing.
+	 * @param instance Instance after clearing.
+	 */
+	public static <O> void clearAllProperties(O instance){
+		if(instance == null)
+			return;
+
+		Class<?> superClass = instance.getClass();
+		Field fields[] = null;
+
+		while(superClass != null){
+			fields = superClass.getDeclaredFields();
+
+			for(Field fieldItem : fields){
+				if(Modifier.isStatic(fieldItem.getModifiers()))
+					continue;
+
+				try{
+					setValue(instance, fieldItem.getName(), null);
+				}
+				catch(InvocationTargetException e){
+				}
+			}
+
+			superClass = superClass.getSuperclass();
+		}
+	}
+
+	/**
+	 * Indicates if the class is a string.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isString(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isString(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a string.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isString(Object value){
+		return (value instanceof String);
+	}
+
+	/**
+	 * Indicates if the class is a string.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isString(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(String.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is boolean.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isBoolean(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isBoolean(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a boolean.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isBoolean(Object value){
+		return (value instanceof Boolean);
+	}
+
+	/**
+	 * Indicates if the class is boolean.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isBoolean(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(Boolean.class) || superClass.equals(boolean.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a date.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isDate(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isDate(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a date.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isDate(Object value){
+		return (value instanceof Date);
+	}
+
+	/**
+	 * Indicates if the class is a date.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isDate(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(Date.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a time.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isTime(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isTime(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a time.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isTime(Object value){
+		return (value instanceof DateTime);
+	}
+
+	/**
+	 * Indicates if the class is a time.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isTime(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(DateTime.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a byte array.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isByteArray(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isByteArray(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a byte array.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isByteArray(Object value){
+		return (value instanceof byte[]);
+	}
+
+	/**
+	 * Indicates if the class is a byte array.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isByteArray(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(byte[].class) || superClass.equals(Byte[].class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is an integer value.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isInteger(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isInteger(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is an integer value.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isInteger(Object value){
+		return (value instanceof Integer);
+	}
+
+	/**
+	 * Indicates if the class is an integer value.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isInteger(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(int.class) || superClass.equals(Integer.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a long value.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isLong(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isLong(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a long value.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isLong(Object value){
+		return (value instanceof Long);
+	}
+
+	/**
+	 * Indicates if the class is a long value.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isLong(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(long.class) || superClass.equals(Long.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a short value.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isShort(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isShort(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a short value.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isShort(Object value){
+		return (value instanceof Short);
+	}
+
+	/**
+	 * Indicates if the class is a short value.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isShort(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(short.class) || superClass.equals(Short.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a byte value.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isByte(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isByte(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a byte value.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isByte(Object value){
+		return (value instanceof Byte);
+	}
+
+	/**
+	 * Indicates if the class is a byte value.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isByte(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(byte.class) || superClass.equals(Byte.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a float value.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isFloat(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isFloat(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a float value.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isFloat(Object value){
+		return (value instanceof Float);
+	}
+
+	/**
+	 * Indicates if the class is a float value.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isFloat(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(float.class) || superClass.equals(Float.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a double value.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isDouble(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isDouble(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a double value.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isDouble(Object value){
+		return (value instanceof Double);
+	}
+
+	/**
+	 * Indicates if the class is a double value.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isDouble(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(double.class) || superClass.equals(Double.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a big integer value.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isBigInteger(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isBigInteger(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a big integer value.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isBigInteger(Object value){
+		return (value instanceof BigInteger);
+	}
+
+	/**
+	 * Indicates if the class is a big integer value.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isBigInteger(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(BigInteger.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a big decimal value.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isBigDecimal(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isBigDecimal(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a big decimal value.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isBigDecimal(Object value){
+		return (value instanceof BigDecimal);
+	}
+
+	/**
+	 * Indicates if the class is a big decimal value.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isBigDecimal(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(BigDecimal.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a numeric value.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isNumber(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isNumber(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a numeric value.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isNumber(Object value){
+		return (value instanceof Number);
+	}
+
+	/**
+	 * Indicates if the class is a numeric value.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isNumber(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(Number.class) || superClass.equals(byte.class) || superClass.equals(short.class) || superClass.equals(int.class) || superClass.equals(long.class) || superClass.equals(float.class) || superClass.equals(double.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a currency value.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isCurrency(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isCurrency(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a currency value.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isCurrency(Object value){
+		return (value instanceof Currency);
+	}
+
+	/**
+	 * Indicates if the class is a currency value.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isCurrency(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(Currency.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a data model.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isModel(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isModel(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a data model.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isModel(Object value){
+		return (value instanceof BaseModel);
+	}
+
+	/**
+	 * Indicates if the class is a data model.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isModel(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(BaseModel.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is an array.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isArray(Object value){
+		return (value instanceof Object[]);
+	}
+
+	/**
+	 * Indicates if the class is a map.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isMap(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isMap(Class.forName(className));
+
+		return false;
+	}
+	
+	/**
+	 * Indicates if the value is a map.
+	 * 
+	 * @param value Instance that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isMap(Object value){
+		return (value instanceof Map);
+	}
+
+	/**
+	 * Indicates if the class is a map.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isMap(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(Map.class))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is a collection.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isCollection(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isCollection(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is a collection.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isCollection(Object value){
+		return (value instanceof Collection);
+	}
+
+	/**
+	 * Indicates if the class is a collection.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isCollection(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		Class<?> superClass = clazz;
+
+		while(superClass != null && !superClass.equals(Object.class)){
+			if(superClass.equals(AbstractCollection.class) || PersistenceConstants.DEFAULT_COLLECTION_TYPES_IDS.contains(superClass.getName()))
+				return true;
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the class is an enumeration.
+	 * 
+	 * @param className String that contains the class name.
+	 * @return True/False.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static Boolean isEnum(String className) throws ClassNotFoundException{
+		if(className != null && className.length() > 0)
+			return isEnum(Class.forName(className));
+
+		return false;
+	}
+
+	/**
+	 * Indicates if the value is an enumeration.
+	 * 
+	 * @param value Instance to be verified.
+	 * @return True/False.
+	 */
+	public static Boolean isEnum(Object value){
+		return (value instanceof Enum);
+	}
+
+	/**
+	 * Indicates if the class is a enumeration.
+	 * 
+	 * @param clazz Class that will be checked.
+	 * @return True/False.
+	 */
+	public static Boolean isEnum(Class<?> clazz){
+		if(clazz == null)
+			return false;
+
+		return clazz.isEnum();
+	}
+
+	/**
+	 * Formats an instance.
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param language Instance that contains the language that will be used.
+	 * @return String that contains the formatted instance.
+	 */
+	public static <O> String format(O instance, Locale language){
+		if(instance != null)
+			return format(instance, null, null, null, language);
+
+		return null;
+	}
+
+	/**
+	 * Formats an instance.
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param pattern String that contains the pattern that will be used.
+	 * @return String that contains the formatted instance.
+	 */
+	public static <O> String format(O instance, String pattern){
+		if(instance != null)
+			return format(instance, pattern, LanguageUtil.getDefaultLanguage());
+
+		return null;
+	}
+
+	/**
+	 * Formats an instance.
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param pattern String that contains the pattern that will be used.
+	 * @param language Instance that contains the language that will be used.
+	 * @return String that contains the formatted instance.
+	 */
+	public static <O> String format(O instance, String pattern, Locale language){
+		if(instance != null)
+			return format(instance, pattern, null, null, language);
+
+		return null;
+	}
+
+	/**
+	 * Formats an instance.
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @return String that contains the formatted instance.
+	 */
+	public static <O> String format(O instance){
+		if(instance != null)
+			return format(instance, null, null, null, LanguageUtil.getDefaultLanguage());
+
+		return null;
+	}
+
+	/**
+	 * Formats an instance.
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param useAdditionalFormatting Indicates if additional formatting
+	 * should be used
+	 * @return String that contains the formatted instance.
+	 */
+	public static <O> String format(O instance, Boolean useAdditionalFormatting){
+		if(instance != null)
+			return format(instance, null, useAdditionalFormatting, null, LanguageUtil.getDefaultLanguage());
+
+		return null;
+	}
+
+	/**
+	 * Formats an instance.
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param useAdditionalFormatting Indicates if additional formatting
+	 * should be used
+	 * @param language Instance that contains the language that will be used.
+	 * @return String that contains the formatted instance.
+	 */
+	public static <O> String format(O instance, Boolean useAdditionalFormatting, Locale language){
+		if(instance != null)
+			return format(instance, null, useAdditionalFormatting, null, language);
+
+		return null;
+	}
+
+	/**
+	 * Formats an instance.
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param useAdditionalFormatting Indicates if additional formatting
+	 * should be used
+	 * @param precision Numeric value that contains the decimal precision.
+	 * @param language Instance that contains the language that will be used.
+	 * @return String that contains the formatted instance.
+	 */
+	public static <O> String format(O instance, Boolean useAdditionalFormatting, Integer precision, Locale language){
+		if(instance != null)
+			return format(instance, null, useAdditionalFormatting, precision, language);
+
+		return null;
+	}
+
+	/**
+	 * Formats an instance.
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param pattern String that contains the pattern that will be used.
+	 * @param useAdditionalFormatting Indicates if additional formatting
+	 * should be used
+	 * @param precision Numeric value that contains the decimal precision.
+	 * @param language Instance that contains the language that will be used.
+	 * @return String that contains the formatted instance.
+	 */
+	public static <O> String format(O instance, String pattern, Boolean useAdditionalFormatting, Integer precision, Locale language){
+		String result = null;
+
+		if(language == null)
+			language = LanguageUtil.getDefaultLanguage();
+
+		if(isDate(instance)){
+			Date value = (Date)instance;
+
+			if(pattern == null || pattern.length() == 0)
+				result = DateTimeUtil.format(value, language);
+			else
+				result = DateTimeUtil.format(value, pattern);
+		}
+		else if(isNumber(instance)){
+			Number value = (Number)instance;
+
+			result = NumberUtil.format(value, useAdditionalFormatting, precision, language);
+		}
+		else if(isByteArray(instance)){
+			byte[] value = (byte[])instance;
+
+			try{
+				result = ByteUtil.toBase64(value);
+			}
+			catch(UnsupportedEncodingException e){
+			}
+		}
+		else{
+			if(instance != null){
+				result = StringUtil.trim(instance);
+
+				if(pattern != null && pattern.length() > 0 )
+					result = StringUtil.format(result, pattern);
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Replaces the instance properties in a string. The string should be declared 
+	 * like following: <pre>#{&lt;property-name&gt;.&lt;child-property-name&gt;} E.g.: #{loginSession.user.name}</pre>
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param value String before the processing.
+	 * @return String after the processing.
+	 */
+	public static <O> String fillPropertiesInString(O instance, String value){
+		return fillPropertiesInString(instance, value, LanguageUtil.getDefaultLanguage());
+	}
+
+	/**
+	 * Replaces the instance properties in a string. The string should be declared 
+	 * like following: <pre>#{&lt;property-name&gt;.&lt;child-property-name&gt;} E.g.: #{loginSession.user.name}</pre>
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param value String before the processing.
+	 * @param language Instance that contains the language that will be used.
+	 * @return String after the processing.
+	 */
+	public static <O> String fillPropertiesInString(O instance, String value, Locale language){
+		return fillPropertiesInString(instance, value, true, language);
+	}
+
+	/**
+	 * Replaces the instance properties in a string. The string should be declared 
+	 * like following: <pre>#{&lt;property-name&gt;.&lt;child-property-name&gt;} E.g.: #{loginSession.user.name}</pre>
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param value String before the processing.
+	 * @param replaceNotFoundMatches Indicates if the properties that were not
+	 * found should be replaces with blank.
+	 * @param language Instance that contains the language that will be used.
+	 * @return String after the processing.
+	 */
+	public static <O> String fillPropertiesInString(O instance, String value, boolean replaceNotFoundMatches, Locale language){
+		return fillPropertiesInString(instance, value, replaceNotFoundMatches, false, language);
+	}
+	
+	/**
+	 * Replaces the instance properties in a string. The string should be declared 
+	 * like following: <pre>#{&lt;property-name&gt;.&lt;child-property-name&gt;} E.g.: #{loginSession.user.name}</pre>
+	 *
+	 * @param <O> Class that defines the instance.
+	 * @param instance Instance that will be used.
+	 * @param value String before the processing.
+	 * @param replaceNotFoundMatches Indicates if the properties that were not
+	 * found should be replaces with blank.
+	 * @param escapeCrlf Indicates if it should escape CRLF in the replacements.
+	 * @param language Instance that contains the language that will be used.
+	 * @return String after the processing.
+	 */
+	public static <O> String fillPropertiesInString(O instance, String value, boolean replaceNotFoundMatches, boolean escapeCrlf, Locale language){
+		if(value != null && value.length() > 0 && instance != null){
+			Pattern pattern = Pattern.compile("\\#\\{(.*?)(\\((.*?)\\))?\\}");
+			Matcher matcher = pattern.matcher(value);
+			PropertyInfo propertyInfo = null;
+			String propertyExpression = null;
+			String propertyExpressionBuffer = null;
+			String propertyName = null;
+			String propertyPattern = null;
+			Object propertyValue = null;
+			ExpressionProcessor expressionProcessor = new ExpressionProcessor(instance, language);
+
+			if(language == null)
+				language = LanguageUtil.getDefaultLanguage();
+
+			while(matcher.find()){
+				propertyExpression = matcher.group();
+				propertyName = matcher.group(1);
+				propertyPattern = matcher.group(3);
+
+				if(propertyPattern != null && propertyPattern.length() > 0){
+					propertyExpressionBuffer = StringUtil.replaceAll(propertyExpression, propertyPattern, "");
+					propertyExpressionBuffer = StringUtil.replaceAll(propertyExpressionBuffer, "(", "");
+					propertyExpressionBuffer = StringUtil.replaceAll(propertyExpressionBuffer, ")", "");
+				}
+				else
+					propertyExpressionBuffer = propertyExpression;
+
+				try{
+					propertyValue = expressionProcessor.evaluate(propertyExpressionBuffer);
+
+					if((propertyValue == null && replaceNotFoundMatches) || propertyValue != null){
+						Boolean useAdditionalFormatting = null;
+						Integer precision = null;
+
+						if(propertyPattern == null || propertyPattern.length() == 0){
+							try{
+								propertyInfo = getInfo(instance.getClass(), propertyName);
+	
+								if(propertyInfo != null){
+									propertyPattern = propertyInfo.getPattern();
+	
+									if(propertyInfo.isDate() != null && propertyInfo.isDate())
+										useAdditionalFormatting = propertyInfo.isTime();
+									else if(propertyInfo.isNumber() != null && propertyInfo.isNumber()){
+										useAdditionalFormatting = propertyInfo.useGroupSeparator();
+										precision = propertyInfo.getPrecision();
+									}
+								}
+							}
+							catch(NoSuchFieldException e){
+							}
+						}
+
+						String buffer = null;
+						
+						if(propertyValue != null){
+							if(propertyPattern != null && propertyPattern.length() > 0)
+								buffer = format(propertyValue, propertyPattern, language);
+							else
+								buffer = format(propertyValue, useAdditionalFormatting, precision, language);
+
+							if(escapeCrlf)
+								buffer = buffer.replaceAll(StringUtil.getLineBreak(), "\\\\n");
+						}
+						
+						value = StringUtil.replaceAll(value, propertyExpression, buffer);
+					}
+				}
+				catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | InternalErrorException e){
+				}
+			}
+		}
+
+		return value;
+	}
+
+	/**
+	 * Replaces resources in a string. The string declared like 
+	 * following: <pre>${&lt;property-name&gt;} E.g.: ${xyz}</pre>
+	 *
+	 * @param resources Instance that contains the resource.
+	 * @param value String before the processing.
+	 * @return String after the processing.
+	 */
+	public static String fillResourcesInString(PropertiesResources resources, String value){
+		String buffer = value;
+
+		if(value != null && value.length() > 0 && resources != null){
+			Pattern pattern = Pattern.compile("\\$\\{(.*?)\\}");
+			Matcher matcher = pattern.matcher(value);
+			String propertiesExpression = null;
+			String propertiesName = null;
+			String propertiesValue = null;
+
+			while(matcher.find()){
+				propertiesExpression = matcher.group();
+				propertiesName = matcher.group(1);
+				propertiesValue = resources.getProperty(propertiesName, false);
+				buffer = StringUtil.replaceAll(buffer, propertiesExpression, propertiesValue);
+				buffer = fillResourcesInString(resources, buffer);
+			}
+		}
+
+		return buffer;
+	}
+
+	/**
+	 * Returns the generic type of a property of a class.
+	 *
+	 * @param instanceClass Class that will be used.
+	 * @param name String that contains the identifier of the property.
+	 * @return Class that defines the generic type.
+	 * @throws NoSuchFieldException Occurs when was not possible to execute the
+	 * operation.
+	 */
+	public static Class<?> getGenericClass(Class<?> instanceClass, String name) throws NoSuchFieldException{
+		if(instanceClass == null || name == null || name.length() == 0)
+			return null;
+
+		Field propertyField = getField(instanceClass, name);
+
+		return getGenericClass(propertyField);
+	}
+
+	/**
+	 * Returns the generic type of a property of a class.
+	 *
+	 * @param field Instance that contains the property attributes.
+	 * @return Class that defines the generic type.
+	 */
+	public static Class<?> getGenericClass(Field field){
+		if(field == null)
+			return null;
+
+		Type genericType = field.getGenericType();
+		Type type = field.getType();
+		String typeName = field.getType().getName();
+		Class<?> propertyClass = null;
+
+		if(!genericType.equals(type)){
+			String buffer = StringUtil.replaceAll(genericType.toString(), typeName, "");
+
+			buffer = StringUtil.replaceAll(buffer, "<", "");
+			buffer = StringUtil.replaceAll(buffer, ">", "");
+			buffer = StringUtil.replaceAll(buffer, "?", "");
+			buffer = StringUtil.replaceAll(buffer, " extends ", "");
+
+			try{
+				propertyClass = Class.forName(buffer);
+			}
+			catch(ClassNotFoundException e){
+				propertyClass = Object.class;
+			}
+		}
+		else
+			propertyClass = Object.class;
+
+		return propertyClass;
+	}
+
+	/**
+	 * Returns the instance that contains the property attributes.
+	 *
+	 * @param instanceClass Class that will be used.
+	 * @param name String that contains the identifier of the property.
+	 * @return Instance that contains the property attributes.
+	 * @throws NoSuchFieldException Occurs when was not possible to execute the
+	 * operation.
+	 */
+	public static Field getField(Class<?> instanceClass, String name) throws NoSuchFieldException{
+		if(instanceClass == null || name == null || name.length() == 0)
+			throw new NoSuchFieldException();
+
+		String names[] = StringUtil.split(name, ".");
+		Class<?> clazz = instanceClass;
+		Field field = null;
+
+		for(String nameItem : names){
+			while(clazz != null){
+				try{
+					field = clazz.getDeclaredField(nameItem);
+					clazz = field.getType();
+
+					break;
+				}
+				catch(NoSuchFieldException | SecurityException e){
+					clazz = clazz.getSuperclass();
+				}
+			}
+		}
+
+		if(field == null)
+			throw new NoSuchFieldException(name);
+
+		return field;
+	}
+
+	/**
+	 * Returns the class of a property of a class
+	 *
+	 * @param instanceClass Class that defines the instance.
+	 * @param name String that contains the identifier of the property.
+	 * @return Class that defines the property.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws InstantiationException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws InvocationTargetException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws IllegalAccessException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws NoSuchMethodException Occurs when was not possible to execute the
+	 * operation.
+	 * @throws IllegalArgumentException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws NoSuchFieldException Occurs when was not possible to execute the
+	 * operation.
+	 */
+	@SuppressWarnings("unchecked")
+	public static Class<?> getClass(Class<?> instanceClass, String name) throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
+		if(instanceClass == null || name == null || name.length() == 0)
+			return null;
+
+		Class<?> propertyClass = null;
+		Boolean isModel = isModel(instanceClass);
+
+		if(isModel){
+			Class<? extends BaseModel> modelClass = (Class<? extends BaseModel>)instanceClass;
+			ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
+			PropertyInfo propertyInfo = modelInfo.getPropertyInfo(name);
+
+			propertyClass = propertyInfo.getClazz();
+		}
+
+		if(propertyClass != null)
+			return getDefaultImplementation(propertyClass);
+
+		Field propertyField = getField(instanceClass, name);
+
+		return getClass(propertyField);
+	}
+
+	/**
+	 * Returns the class of a property.
+	 *
+	 * @param propertyField Instance that contains the property attributes.
+	 * @return Class that defines the property.
+	 */
+	private static Class<?> getClass(Field propertyField){
+		if(propertyField == null)
+			return null;
+
+		Class<?> propertyClass = propertyField.getType();
+
+		return getDefaultImplementation(propertyClass);
+	}
+
+	/**
+	 * Defines the value of a property
+	 *
+	 * @param instance Instance that will be used.
+	 * @param name String that contains the identifier of the property.
+	 * @param value Instance that contains the value of the property.
+	 * @throws InvocationTargetException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	public static void setValue(Object instance, String name, Object value) throws InvocationTargetException{
+		if(instance == null || name == null || name.length() == 0)
+			return;
+
+		String propertyNames[] = StringUtil.split(name, ".");
+		String propertyName = null;
+		Class<?> propertyClass = null;
+		Object propertyValue = instance;
+		Object propertyValueBuffer = null;
+
+		try{
+			for(int cont = 0 ; cont < (propertyNames.length - 1) ; cont++){
+				propertyName = propertyNames[cont];
+				propertyClass = getClass(propertyValue.getClass(), propertyName);
+				propertyValueBuffer = getValue(propertyValue, propertyName);
+
+				if(propertyValueBuffer == null){
+					propertyValueBuffer = ConstructorUtils.invokeConstructor(propertyClass, null);
+
+					PropertyUtils.setProperty(propertyValue, propertyName, propertyValueBuffer);
+				}
+
+				propertyValue = propertyValueBuffer;
+			}
+
+			propertyName = propertyNames[propertyNames.length - 1];
+			propertyClass = getClass(propertyValue.getClass(), propertyName);
+
+			if(value != null){
+				if(isNumber(propertyClass))
+					propertyValueBuffer = convertTo(value, propertyClass);
+				else if(isTime(propertyClass))
+					propertyValueBuffer = new DateTime(((Date)value).getTime());
+				else
+					propertyValueBuffer = value;
+			}
+			else
+				propertyValueBuffer = null;
+
+			PropertyUtils.setProperty(propertyValue, propertyName, propertyValueBuffer);
+		}
+		catch(IllegalAccessException | NoSuchMethodException | InstantiationException | IllegalArgumentException | ClassNotFoundException | NoSuchFieldException e){
+			throw new InvocationTargetException(e);
+		}
+	}
+
+	/**
+	 * Returns the value of a property.
+	 *
+	 * @param <O> Instance that contains the value of the property.
+	 * @param instance Instance that will be used.
+	 * @param name String that contains the identifier of the property.
+	 * @return Instance that contains the value of the property.
+	 * @throws IllegalAccessException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws InvocationTargetException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws NoSuchMethodException Occurs when was not possible to execute the
+	 * operation.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <O> O getValue(Object instance, String name) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
+		if(instance == null || name == null || name.length() == 0)
+			return null;
+
+		String propertyNames[] = StringUtil.split(name, ".");
+		Object propertyValue = instance;
+
+		for(String propertyName : propertyNames){
+			propertyValue = PropertyUtils.getProperty(propertyValue, propertyName);
+
+			if(propertyValue == null){
+				Method method = MethodUtil.getAccessibleMethod(instance.getClass(), name, new Class[0]);
+
+				if(method == null){
+					String methodName = "get".concat(StringUtil.capitalize(name));
+
+					method = MethodUtil.getAccessibleMethod(instance.getClass(), methodName, new Class[0]);
+				}
+
+				if(method != null){
+					propertyValue = method.invoke(instance);
+
+					if(propertyValue == null)
+						break;
+				}
+				else
+					break;
+			}
+		}
+
+		return (O)propertyValue;
+	}
+
+	/**
+	 * Returns the instance that contains the property attributes.
+	 *
+	 * @param instanceClass Class that defines the instance.
+	 * @param name String that contains the identifier of the property.
+	 * @return Instance that contains the property attributes.
+	 * @throws IllegalArgumentException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws NoSuchMethodException Occurs when was not possible to execute the
+	 * operation.
+	 * @throws IllegalAccessException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws InvocationTargetException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws InstantiationException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws ClassNotFoundException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws NoSuchFieldException Occurs when was not possible to execute the
+	 * operation.
+	 */
+	public static PropertyInfo getInfo(Class<?> instanceClass, String name) throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
+		if(instanceClass == null || name == null || name.length() == 0)
+			throw new NoSuchFieldException();
+
+		Field propertyField = getField(instanceClass, name);
+
+		return getInfo(instanceClass, propertyField);
+	}
+
+	/**
+	 * Returns the instance that contains the property attributes.
+	 *
+	 * @param instanceClass Instance that contains the properties.
+	 * @param propertyField Instance that contains the property attributes.
+	 * @return Instance that contains the property attributes.
+	 * @throws NoSuchFieldException Occurs when was not possible to execute the
+	 * operation.
+	 */
+	protected static PropertyInfo getInfo(Class<?> instanceClass, Field propertyField) throws NoSuchFieldException{
+		if(instanceClass == null || propertyField == null)
+			throw new NoSuchFieldException();
+
+		Class<?> superClass = instanceClass;
+		List<Property> mappedPropertiesList = null;
+		Property propertyAnnotation = propertyField.getAnnotation(Property.class);
+		
+		if(propertyAnnotation != null){
+			mappedPropertiesList = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+			
+			mappedPropertiesList.add(propertyAnnotation);
+		}
+		
+		while(superClass != null && !superClass.equals(Object.class)){
+			Model modelAnnotation = superClass.getAnnotation(Model.class);
+			
+			if(modelAnnotation != null){
+				Property mappedProperties[] = modelAnnotation.mappedProperties();
+				
+				if(mappedProperties != null && mappedProperties.length > 0){
+					for(Property mappedProperty : mappedProperties){
+						if(mappedProperty.propertyId() != null && mappedProperty.propertyId().length() > 0 && mappedProperty.propertyId().equals(propertyField.getName())){
+							if(mappedPropertiesList == null)
+								mappedPropertiesList = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+							
+							mappedPropertiesList.add(mappedProperty);
+						}
+					}
+				}
+			}
+			
+			superClass = superClass.getSuperclass();
+		}
+		
+		PropertyInfo propertyInfo = new PropertyInfo();
+
+		propertyInfo.setId(propertyField.getName());
+		propertyInfo.setFromClass(propertyField.getDeclaringClass().equals(instanceClass));
+		
+		if(mappedPropertiesList != null && !mappedPropertiesList.isEmpty()){
+			for(Property mappedProperty : mappedPropertiesList){
+				if(propertyInfo.getPropertyTypeId() == null || propertyInfo.getPropertyTypeId().length() == 0)
+					propertyInfo.setPropertyTypeId(mappedProperty.propertyTypeId());
+				
+				if(propertyInfo.isIdentity() == null || !propertyInfo.isIdentity())
+					propertyInfo.setIsIdentity(mappedProperty.isIdentity());
+
+				if(propertyInfo.isUnique() == null || !propertyInfo.isUnique())
+					propertyInfo.setIsUnique(mappedProperty.isUnique());
+				
+				if(propertyInfo.isSerializable() == null || !propertyInfo.isSerializable())
+					propertyInfo.setIsSerializable(mappedProperty.isSerializable());
+
+				if(propertyInfo.getSequenceId() == null || propertyInfo.getSequenceId().length() == 0)
+					propertyInfo.setSequenceId(mappedProperty.sequenceId());
+
+				if(propertyInfo.getKeyId() == null || propertyInfo.getKeyId().length() == 0)
+					propertyInfo.setKeyId(mappedProperty.keyId());
+
+				if(propertyInfo.getForeignKeyId() == null || propertyInfo.getForeignKeyId().length() == 0)
+					propertyInfo.setForeignKeyId(mappedProperty.foreignKeyId());
+
+				if(propertyInfo.isConstrained() == null || !propertyInfo.isConstrained())
+					propertyInfo.setConstrained(mappedProperty.constrained());
+
+				if(propertyInfo.isNullable() == null || !propertyInfo.isNullable())
+					propertyInfo.setNullable(mappedProperty.nullable());
+
+				if(propertyInfo.isForSearch() == null || !propertyInfo.isForSearch())
+					propertyInfo.setIsForSearch(mappedProperty.isForSearch());
+
+				if(propertyInfo.getSearchCondition() == null || propertyInfo.getSearchCondition().equals(ConditionType.NONE))
+					propertyInfo.setSearchCondition(mappedProperty.searchCondition());
+
+				if(propertyInfo.getSearchConditionOperation() == null || propertyInfo.getSearchConditionOperation().equals(ConditionOperationType.NONE))
+					propertyInfo.setSearchConditionOperation(mappedProperty.searchConditionOperation());
+				
+				if(propertyInfo.getSearchPropertyId() == null || propertyInfo.getSearchPropertyId().length() == 0)
+					propertyInfo.setSearchPropertyId(mappedProperty.searchPropertyId());
+
+				if(propertyInfo.getSearchType() == null || propertyInfo.getSearchType().equals(SearchType.NONE))
+					propertyInfo.setSearchType(mappedProperty.searchType());
+
+				if(propertyInfo.getValidations() == null || propertyInfo.getValidations().length == 0 || propertyInfo.getValidations()[0].equals(ValidationType.NONE))
+					propertyInfo.setValidations(mappedProperty.validations());
+				
+				if(propertyInfo.getValidationActions() == null || propertyInfo.getValidationActions().length == 0)
+					propertyInfo.setValidationActions(mappedProperty.validationActions());
+
+				if(propertyInfo.getCustomValidationId() == null || propertyInfo.getCustomValidationId().length() == 0)
+					propertyInfo.setCustomValidationId(mappedProperty.customValidationId());
+				
+				if(propertyInfo.getSize() == null || propertyInfo.getSize() == 0)
+					propertyInfo.setSize(mappedProperty.size());
+
+				if(propertyInfo.getMinimumLength() == null || propertyInfo.getMinimumLength() == 0)
+					propertyInfo.setMinimumLength(mappedProperty.minimumLength());
+
+				if(propertyInfo.getMaximumLength() == null || propertyInfo.getMaximumLength() == 0)
+					propertyInfo.setMaximumLength(mappedProperty.maximumLength());
+
+				if(propertyInfo.getMinimumValue() == null || propertyInfo.getMinimumValue().length() == 0)
+					propertyInfo.setMinimumValue(mappedProperty.minimumValue());
+
+				if(propertyInfo.getMaximumValue() == null || propertyInfo.getMaximumValue().length() == 0)
+					propertyInfo.setMaximumValue(mappedProperty.maximumValue());
+
+				if(propertyInfo.getPrecision() == null || propertyInfo.getPrecision() == 0)
+					propertyInfo.setPrecision(mappedProperty.precision());
+
+				if(propertyInfo.getPattern() == null || propertyInfo.getPattern().length() == 0)
+					propertyInfo.setPattern(mappedProperty.pattern());
+
+				if(propertyInfo.getRegularExpression() == null || propertyInfo.getRegularExpression().length() == 0)
+					propertyInfo.setRegularExpression(mappedProperty.regularExpression());
+
+				if(propertyInfo.persistPattern() == null || !propertyInfo.persistPattern())
+					propertyInfo.setPersistPattern(mappedProperty.persistPattern());
+
+				if(propertyInfo.getPhoneticPropertyId() == null || propertyInfo.getPhoneticPropertyId().length() == 0)
+					propertyInfo.setPhoneticPropertyId(mappedProperty.phoneticPropertyId());
+
+				if(propertyInfo.getPropertiesIds() == null || propertyInfo.getPropertiesIds().length == 0)
+					propertyInfo.setPropertiesIds(mappedProperty.propertiesIds());
+
+				if(propertyInfo.getMappedPropertyType() == null || propertyInfo.getMappedPropertyType().length() == 0)
+					propertyInfo.setMappedPropertyType(mappedProperty.mappedPropertyType());
+				
+				if(propertyInfo.getMappedPropertyId() == null || propertyInfo.getMappedPropertyId().length() == 0)
+					propertyInfo.setMappedPropertyId(mappedProperty.mappedPropertyId());
+
+				if(propertyInfo.getRelationType() == null || propertyInfo.getRelationType() == RelationType.NONE)
+					propertyInfo.setRelationType(mappedProperty.relationType());
+				
+				if(propertyInfo.getRelationJoinType() == null || propertyInfo.getRelationJoinType() == RelationJoinType.NONE)
+					propertyInfo.setRelationJoinType(mappedProperty.relationJoinType());
+
+				if(propertyInfo.getMappedPropertiesIds() == null || propertyInfo.getMappedPropertiesIds().length == 0)
+					propertyInfo.setMappedPropertiesIds(mappedProperty.mappedPropertiesIds());
+
+				if(propertyInfo.getMappedRelationPropertiesIds() == null || propertyInfo.getMappedRelationPropertiesIds().length == 0)
+					propertyInfo.setMappedRelationPropertiesIds(mappedProperty.mappedRelationPropertiesIds());
+
+				if(propertyInfo.getMappedRelationRepositoryId() == null || propertyInfo.getMappedRelationRepositoryId().length() == 0)
+					propertyInfo.setMappedRelationRepositoryId(mappedProperty.mappedRelationRepositoryId());
+
+				if(propertyInfo.cascadeOnSave() == null || !propertyInfo.cascadeOnSave())
+					propertyInfo.setCascadeOnSave(mappedProperty.cascadeOnSave());
+				
+				if(propertyInfo.cascadeOnDelete() == null || !propertyInfo.cascadeOnDelete())
+					propertyInfo.setCascadeOnDelete(mappedProperty.cascadeOnDelete());
+
+				if(propertyInfo.useGroupSeparator() == null || !propertyInfo.useGroupSeparator())
+					propertyInfo.setUseGroupSeparator(mappedProperty.useGroupSeparator());
+
+				if(propertyInfo.getFormulaExpression() == null || propertyInfo.getFormulaExpression().length() == 0)
+					propertyInfo.setFormulaExpression(mappedProperty.formulaExpression());
+
+				if(propertyInfo.getFormulaType() == null || propertyInfo.getFormulaType() == FormulaType.NONE)
+					propertyInfo.setFormulaType(mappedProperty.formulaType());
+
+				if(propertyInfo.getSortOrder() == null || propertyInfo.getSortOrder() == SortOrderType.NONE)
+					propertyInfo.setSortOrder(mappedProperty.sortOrder());
+
+				if(propertyInfo.getPhoneticAccuracy() == null || propertyInfo.getPhoneticAccuracy() == 0d)
+					propertyInfo.setPhoneticAccuracy(mappedProperty.phoneticAccuracy());
+				
+				if(propertyInfo.getCompareCondition() == null || propertyInfo.getCompareCondition().equals(ConditionType.NONE))
+					propertyInfo.setCompareCondition(mappedProperty.compareCondition());
+				
+				if(propertyInfo.getComparePropertyId() == null || propertyInfo.getComparePropertyId().length() == 0)
+					propertyInfo.setComparePropertyId(mappedProperty.comparePropertyId());
+				
+				if(propertyInfo.getWordCount() == null || propertyInfo.getWordCount() == 0)
+					propertyInfo.setWordCount(mappedProperty.wordCount());
+				
+				if(propertyInfo.getInputType() == null || propertyInfo.getInputType() == InputType.NONE)
+					propertyInfo.setInputType(mappedProperty.inputType());
+				
+				if(propertyInfo.getContentFilenamePropertyId() == null || propertyInfo.getContentFilenamePropertyId().length() == 0)
+					propertyInfo.setContentFilenamePropertyId(mappedProperty.contentFilenamePropertyId());
+				
+				if(propertyInfo.getContentTypePropertyId() == null || propertyInfo.getContentTypePropertyId().length() == 0)
+					propertyInfo.setContentTypePropertyId(mappedProperty.contentTypePropertyId());
+
+				if(propertyInfo.getContentTypes() == null || propertyInfo.getContentTypes().length == 0 || propertyInfo.getContentTypes()[0] == ContentType.NONE)
+					propertyInfo.setContentTypePropertyId(mappedProperty.contentTypePropertyId());
+
+				if(propertyInfo.getContentSize() == null || propertyInfo.getContentSize() == 0)
+					propertyInfo.setContentSize(mappedProperty.contentSize());
+
+				if(propertyInfo.getContentSizeUnit() == null)
+					propertyInfo.setInputType(mappedProperty.inputType());
+				
+				if(propertyInfo.getDataset() == null || propertyInfo.getDataset().length() == 0)
+					propertyInfo.setDataset(mappedProperty.dataset());
+				
+				if(propertyInfo.getClazz() == null || propertyInfo.getClazz().equals(Object.class)){
+					if(propertyInfo.getId().equals("parent"))
+						propertyInfo.setClazz(instanceClass);
+					else
+						propertyInfo.setClazz(mappedProperty.relationClass());
+				}
+				
+				if(propertyInfo.getCollectionItemsClass() == null || propertyInfo.getCollectionItemsClass().equals(Object.class)){
+					if(propertyInfo.getId().equals("children"))
+						propertyInfo.setCollectionItemsClass(instanceClass);
+					else
+						propertyInfo.setCollectionItemsClass(mappedProperty.relationCollectionItemsClass());
+				}
+			}
+		}
+		
+		propertyInfo.setIsAuditable((propertyField.getAnnotation(Auditable.class) != null ? true : false));
+		
+		if(propertyInfo.getClazz() == null || propertyInfo.getClazz().equals(Object.class))
+			propertyInfo.setClazz(getClass(propertyField));
+		
+		if(propertyInfo.getCollectionItemsClass() == null || propertyInfo.getCollectionItemsClass().equals(Object.class))
+			propertyInfo.setCollectionItemsClass(getGenericClass(propertyField));
+
+		if(propertyInfo.getDataset() == null || propertyInfo.getDataset().length() == 0){
+			if(propertyInfo.isCollection())
+				propertyInfo.setDataset(propertyInfo.getId());
+			else{
+				if(propertyInfo.getId().endsWith("y"))
+					propertyInfo.setDataset(propertyInfo.getId().substring(0, propertyInfo.getId().length() - 1).concat("ies"));
+				else
+					propertyInfo.setDataset(propertyInfo.getId().concat("s"));
+			}
+		}
+
+		if(propertyInfo.getMappedPropertyType() == null || propertyInfo.getMappedPropertyType().length() == 0){
+			if(propertyInfo.isEnum() != null && propertyInfo.isEnum())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_ENUM_TYPE_ID);
+			else if(propertyInfo.isBoolean() != null && propertyInfo.isBoolean())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_BOOLEAN_TYPE_ID);
+			else if(propertyInfo.isByteArray() != null && propertyInfo.isByteArray())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_BINARY_TYPE_ID);
+			else if(propertyInfo.isDate() != null && propertyInfo.isDate()){
+				if(propertyInfo.isTime() != null && propertyInfo.isTime())
+					propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_DATE_TIME_TYPE_ID);
+				else
+					propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_DATE_TYPE_ID);
+			}
+			else if(propertyInfo.isBigDecimal() != null && propertyInfo.isBigDecimal())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_BIG_DECIMAL_TYPE_ID);
+			else if(propertyInfo.isBigInteger() != null && propertyInfo.isBigInteger())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_BIG_INTEGER_TYPE_ID);
+			else if(propertyInfo.isByte() != null && propertyInfo.isByte())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_BYTE_TYPE_ID);
+			else if(propertyInfo.isCurrency() != null && propertyInfo.isCurrency())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_CURRENCY_TYPE_ID);
+			else if(propertyInfo.isDouble() != null && propertyInfo.isDouble())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_DOUBLE_TYPE_ID);
+			else if(propertyInfo.isFloat() != null && propertyInfo.isFloat())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_FLOAT_TYPE_ID);
+			else if(propertyInfo.isInteger() != null && propertyInfo.isInteger())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_INTEGER_TYPE_ID);
+			else if(propertyInfo.isLong() != null && propertyInfo.isLong())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_LONG_TYPE_ID);
+			else if(propertyInfo.isShort() != null && propertyInfo.isShort())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_SHORT_TYPE_ID);
+			else if(propertyInfo.isString() != null && propertyInfo.isString())
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_STRING_TYPE_ID);
+			else
+				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_OBJECT_TYPE_ID);
+		}
+
+		return propertyInfo;
+	}
+
+	/**
+	 * Returns the list that contains all properties attributes of a class.
+	 *
+	 * @param <C> Class that defines the list.
+	 * @param instanceClass Class that defines the instance.
+	 * @return List that contains all properties attributes.
+	 * @throws InstantiationException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws InvocationTargetException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws IllegalAccessException Occurs when was not possible to execute
+	 * the operation.
+	 * @throws NoSuchMethodException Occurs when was not possible to execute the
+	 * operation.
+	 * @throws NoSuchFieldException Occurs when was not possible to execute the
+	 * operation.
+	 */
+	public static <C extends List<PropertyInfo>> C getInfos(Class<?> instanceClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException{
+		if(instanceClass == null)
+			return null;
+
+		C propertiesInfo = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+		Field propertyFields[] = null;
+		Class<?> superClass = instanceClass;
+
+		while(superClass != null){
+			propertyFields = superClass.getDeclaredFields();
+
+			for(Field propertyField : propertyFields){
+				if(Modifier.isStatic(propertyField.getModifiers()))
+					continue;
+
+				propertiesInfo.add(getInfo(instanceClass, propertyField));
+			}
+
+			superClass = superClass.getSuperclass();
+		}
+
+		return propertiesInfo;
+	}
+	
+	/**
+	 * Converts the type of a value into another type.
+	 * 
+	 * @param <O> Class that defines the value type.
+	 * @param value Instance to be converted.
+	 * @param clazz Class that defines the value type.
+	 * @return Converted instance.
+	 */
+	public static <O> O convertTo(Object value, Class<O> clazz){
+		if(mapper == null)
+			mapper = getMapper();
+		
+		return mapper.convertValue(value, clazz);
+	}
+}

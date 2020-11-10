@@ -4,22 +4,22 @@
 <artifacts xmlns:concepting="default namespace"
            xmlns:jsp="default namespace"
            xmlns:c="default namespace">
-	<artifact name="br.com.innovativethinking.framework.model.util.ModelUtil.getUrlByModel(#{clazz})">
+	<artifact name="br.com.concepting.framework.model.util.ModelUtil.getUrlByModel(#{clazz})">
 		&lt;%@ page errorPage="/WEB-INF/jsp/error.jsp"%&gt;
 		&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%&gt;
 		&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%&gt;
 		&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%&gt;
-		&lt;%@ taglib uri="https://www.innovativethinking.com.br/framework/ui/components" prefix="concepting"%&gt;
-    	<set var="actionFormName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormIdByModel(#{clazz})"/>
-   		<set var="resourcesId" value="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})"/>
+		&lt;%@ taglib uri="https://www.concepting.com.br/framework/ui/components" prefix="concepting"%&gt;
+    	<set var="actionFormName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormIdByModel(#{clazz})"/>
+   		<set var="resourcesId" value="br.com.concepting.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})"/>
 		<set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
 		<set var="searchPropertyId" value="@{searchPropertyInfo.id}"/>
 		<set var="searchPropertyClass" value="@{searchPropertyInfo.clazz}"/>
 		<set var="searchPropertyName" value="@{searchPropertyClass.simpleName}"/>
 		<set var="searchPropertyPrefix" value="@{searchPropertyName}.substring(0, 1).toLowerCase()"/>
 		<set var="searchPropertyPrefix" value="@{searchPropertyPrefix}.concat(@{searchPropertyName}.substring(1))"/>
-		<set var="searchPropertyPrefix" value="br.com.innovativethinking.framework.util.StringUtil.replaceAll(@{searchPropertyPrefix}, 'Model', '')"/>
-		<set var="searchPropertyModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
+		<set var="searchPropertyPrefix" value="br.com.concepting.framework.util.StringUtil.replaceAll(@{searchPropertyPrefix}, 'Model', '')"/>
+		<set var="searchPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
 		<set var="mainPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
 		<set var="mainPropertyId" value="@{mainPropertyInfo.id}"/>
 		<set var="mainPropertyDataset" value="@{mainPropertyInfo.dataset}"/>
@@ -27,8 +27,8 @@
 		<set var="mainPropertyName" value="@{mainPropertyClass.simpleName}"/>
 		<set var="mainPropertyPrefix" value="@{mainPropertyName}.substring(0, 1).toLowerCase()"/>
 		<set var="mainPropertyPrefix" value="@{mainPropertyPrefix}.concat(@{mainPropertyName}.substring(1))"/>
-		<set var="mainPropertyPrefix" value="br.com.innovativethinking.framework.util.StringUtil.replaceAll(@{mainPropertyPrefix}, 'Model', '')"/>
-		<set var="mainPropertyModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{mainPropertyClass})"/>
+		<set var="mainPropertyPrefix" value="br.com.concepting.framework.util.StringUtil.replaceAll(@{mainPropertyPrefix}, 'Model', '')"/>
+		<set var="mainPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{mainPropertyClass})"/>
 
 		<concepting:page title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
 			<jsp:include page="/WEB-INF/jsp/header.jsp"/>

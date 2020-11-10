@@ -2,35 +2,35 @@
 <!DOCTYPE artifacts>
  
 <artifacts>
-	<artifact packageName="br.com.innovativethinking.framework.service.util.ServiceUtil.getServicePackageByModel(#{clazz})"
-	          name="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceNameByModel(#{clazz})">
+	<artifact packageName="br.com.concepting.framework.service.util.ServiceUtil.getServicePackageByModel(#{clazz})"
+	          name="br.com.concepting.framework.service.util.ServiceUtil.getServiceNameByModel(#{clazz})">
 		package @{packageName};
 	    <set var="userPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
 		<set var="userModelClass" value="@{userPropertyInfo.clazz}"/>
-		<set var="userModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{userModelClass})"/>
+		<set var="userModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{userModelClass})"/>
 		<set var="userModelClassName" value="@{userModelClass.name}"/>
 		<set var="userModelName" value="@{userModelClass.simpleName}"/>
-	    <set var="userServiceInterfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{userModelClass})"/>
-	    <set var="userServiceInterfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{userModelClass})"/>
+	    <set var="userServiceInterfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{userModelClass})"/>
+	    <set var="userServiceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{userModelClass})"/>
 	    <set var="loginParameterPropertyInfo" value="@{userModelInfo}.getPropertyInfo('loginParameter')"/>
 	    <set var="loginParameterModelClass" value="@{loginParameterPropertyInfo.clazz}"/>
 	    <set var="loginParameterModelClassName" value="@{loginParameterModelClass.name}"/>
 	    <set var="loginParameterModelName" value="@{loginParameterModelClass.simpleName}"/>
-		<set var="interfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(#{clazz})"/>
-		<set var="interfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(#{clazz})"/>
+		<set var="interfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(#{clazz})"/>
+		<set var="interfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(#{clazz})"/>
 		
-		import br.com.innovativethinking.framework.exceptions.InternalErrorException;
-		import br.com.innovativethinking.framework.model.exceptions.ItemAlreadyExistsException;
-		import br.com.innovativethinking.framework.resources.exceptions.InvalidResourcesException;
-		import br.com.innovativethinking.framework.security.exceptions.PasswordsNotMatchException;
-		import br.com.innovativethinking.framework.security.exceptions.PasswordWithoutMinimumLengthException;
-		import br.com.innovativethinking.framework.security.exceptions.PasswordIsNotStrongException;
-		import br.com.innovativethinking.framework.security.util.SecurityUtil;
-		import br.com.innovativethinking.framework.service.BaseService;
-		import br.com.innovativethinking.framework.service.annotations.Service;
-		import br.com.innovativethinking.framework.util.DateTimeUtil;
-		import br.com.innovativethinking.framework.util.helpers.DateTime;
-		import br.com.innovativethinking.framework.util.types.DateFieldType;
+		import br.com.concepting.framework.exceptions.InternalErrorException;
+		import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
+		import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
+		import br.com.concepting.framework.security.exceptions.PasswordsNotMatchException;
+		import br.com.concepting.framework.security.exceptions.PasswordWithoutMinimumLengthException;
+		import br.com.concepting.framework.security.exceptions.PasswordIsNotStrongException;
+		import br.com.concepting.framework.security.util.SecurityUtil;
+		import br.com.concepting.framework.service.BaseService;
+		import br.com.concepting.framework.service.annotations.Service;
+		import br.com.concepting.framework.util.DateTimeUtil;
+		import br.com.concepting.framework.util.helpers.DateTime;
+		import br.com.concepting.framework.util.types.DateFieldType;
 		
 		import #{clazz.name};
 		import @{userModelClassName};

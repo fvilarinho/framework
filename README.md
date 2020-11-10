@@ -25,7 +25,7 @@ If you want to contribute with us, just fork the project that is located in GitH
 Build Status
 ============
 
-* ![CI/CD](https://github.com/concepting-com-br/framework/workflows/CI/CD/badge.svg)
+* ![3.8](https://github.com/concepting-com-br/framework/workflows/CI/CD/badge.svg)
 
 Installation
 ============
@@ -38,16 +38,16 @@ The pre-requisites to use the framework are:
 To start using the framework, you should clone the project from BitBucket and then import it into your IDE.
 Now I'm using Eclipse IDE for JEE Developers. This IDE already has an integration with GitHub but if you use an another tool and it doesn't have a GitHub integration, you should use the git client. To clone the repository just run the command below:
 
-`git clone git@bitbucket.org:innovativethinking/framework.git`
+`git clone git@github.com:concepting-com-br/framework.git`
 
 After the cloning, you can choose the version that you want to work.
 To use the development version (Unstable), execute the command below:
 
 `git checkout master`
 
-To use the last version (Stable), execute the command below:
+To use the last stable version, execute the command below:
 
-`git checkout stable`
+`git checkout 3.8`
 
 Or use the IDE to switch between the versions.
 

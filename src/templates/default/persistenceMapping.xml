@@ -135,7 +135,7 @@
 								<set var="hasComponentProperties" value="@{componentPropertiesSize} > 0"/>
 								<if expr="@{hasComponentProperties}">
 									<component name="@{propertyInfo.id}" class="@{propertyInfo.clazz.name}">
-										<set var="componentModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{propertyInfo.clazz})"/>
+										<set var="componentModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{propertyInfo.clazz})"/>
 										<if expr="@{componentModelInfo} != null">
 											<iterate var="propertyId" values="@{propertyInfo.propertiesIds}" index="cont">
 												<set var="componentPropertyInfo" value="@{componentModelInfo}.getPropertyInfo(@{propertyId})"/>
@@ -1049,7 +1049,7 @@
 								<!-- TODO: The foreign key of '@{propertyInfo.id}' is not defined! -->
 							</if>
 							<if expr="@{count} > 0">
-								<set var="relationModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{propertyInfo.collectionItemsClass})"/>
+								<set var="relationModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{propertyInfo.collectionItemsClass})"/>
 								<set var="mappedRelationRepositoryId" value="@{relationModelInfo.mappedRepositoryId}"/>
 								<if expr="@{mappedRelationRepositoryId} == ''">
 									<!-- TODO: The repository of '@{propertyInfo.id}' is not defined! -->

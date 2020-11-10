@@ -1,0 +1,143 @@
+package br.com.concepting.framework.webservice.resources;
+
+import java.util.Map;
+
+import br.com.concepting.framework.constants.Constants;
+import br.com.concepting.framework.resources.BaseResources;
+import br.com.concepting.framework.util.PropertyUtil;
+import br.com.concepting.framework.util.helpers.XmlNode;
+import br.com.concepting.framework.util.types.MethodType;
+
+/**
+ * Class responsible to store the web service resources.
+ * 
+ * @author fvilarinho
+ * @since 3.7.0
+ *
+ * <pre>Copyright (C) 2007 Innovative Thinking. 
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ */
+public class WebServiceResources extends BaseResources<XmlNode>{
+	private static final long serialVersionUID = -4631808238382919312L;
+
+	private MethodType          method  = null;
+	private String              url     = null;
+	private Integer             timeout = null;
+	private String              data    = null;
+	private Map<String, String> headers = null;
+	
+	/**
+	 * Returns the timeout (in seconds).
+	 * 
+	 * @return Numeric value that contains the timeout.
+	 */
+	public Integer getTimeout(){
+		return this.timeout;
+	}
+
+	/**
+	 * Defines the timeout (in seconds).
+	 * 
+	 * @param timeout Numeric value that contains the timeout.
+	 */
+	public void setTimeout(Integer timeout){
+		this.timeout = timeout;
+	}
+
+	/**
+	 * Returns the URL.
+	 * 
+	 * @return String that contains the URL.
+	 */
+	public String getUrl(){
+		return this.url;
+	}
+
+	/**
+	 * Defines the URL.
+	 * 
+	 * @param url String that contains the URL.
+	 */
+	public void setUrl(String url){
+		this.url = url;
+	}
+
+	/**
+	 * Returns the data.
+	 * 
+	 * @return String that contains the data.
+	 */
+	public String getData(){
+		return this.data;
+	}
+
+	/**
+	 * Defines the data.
+	 * 
+	 * @param data String that contains the data.
+	 */
+	public void setData(String data){
+		this.data = data;
+	}
+
+	/**
+	 * Returns the method.
+	 * 
+	 * @return Instance that contains the method.
+	 */
+	public MethodType getMethod(){
+		return this.method;
+	}
+
+	/**
+	 * Defines the method.
+	 * 
+	 * @param method Instance that contains the method.
+	 */
+	public void setMethod(MethodType method){
+		this.method = method;
+	}
+
+	/**
+	 * Returns the headers.
+	 * 
+	 * @return String that contains the headers.
+	 */
+	public Map<String, String> getHeaders(){
+		return this.headers;
+	}
+
+	/**
+	 * Defines the headers.
+	 * 
+	 * @param headers String that contains the headers.
+	 */
+	public void setHeaders(Map<String, String> headers){
+		this.headers = headers;
+	}
+	
+	/**
+	 * Add a new header.
+	 * 
+	 * @param name String that contains the name.
+	 * @param value String that contains the value.
+	 */
+	public void addHeader(String name, String value){
+		if(this.headers == null)
+			this.headers = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
+		
+		this.headers.put(name, value);
+	}
+}

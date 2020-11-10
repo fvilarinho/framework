@@ -3,7 +3,7 @@
  
 <artifacts>
 	<artifact packageName="#{clazz.package.name}"
-	          name="br.com.innovativethinking.framework.util.StringUtil.replaceAll(#{clazz.simpleName}, 'Model', 'Test')">
+	          name="br.com.concepting.framework.util.StringUtil.replaceAll(#{clazz.simpleName}, 'Model', 'Test')">
 		package @{packageName};
 
 		import org.junit.Test;
@@ -20,7 +20,7 @@
 			<if expr="@{propertyInfo.isDate}">
 				<if expr="!@{alreadyImported}.contains(@{propertyInfo.clazz})">
 					<if expr="@{propertyInfo.isTime}">
-						import br.com.innovativethinking.framework.util.helpers.DateTime;
+						import br.com.concepting.framework.util.helpers.DateTime;
 					</if>
 					<if expr="!@{propertyInfo.isTime}">
 						import java.util.Date;
@@ -61,7 +61,7 @@
 			<iterate var="propertyInfo" values="#{propertiesInfo}">
 				@Test
 				public void @{propertyInfo.id}_Test(){
-					<set var="capitalized" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
+					<set var="capitalized" value="br.com.concepting.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
 					model.set@{capitalized}(null);
 					assertNull(model.get@{capitalized}());
 					
@@ -143,18 +143,18 @@
 						assertEquals(true, model.get@{capitalized}());
 						<set var="methodName" value="is"/>
 						<set var="methodName" value="@{methodName}.concat(@{capitalized})"/>
-						<set var="method" value="br.com.innovativethinking.framework.util.MethodUtil.getMethod(@{modelClass}, @{methodName})"/>
+						<set var="method" value="br.com.concepting.framework.util.MethodUtil.getMethod(@{modelClass}, @{methodName})"/>
 						<if expr="@{method} != null">
 							assertEquals(true, model.is@{capitalized}());
 						</if>
 						<set var="methodName" value="has"/>
 						<set var="methodName" value="@{methodName}.concat(@{capitalized})"/>
-						<set var="method" value="br.com.innovativethinking.framework.util.MethodUtil.getMethod(@{modelClass}, @{methodName})"/>
+						<set var="method" value="br.com.concepting.framework.util.MethodUtil.getMethod(@{modelClass}, @{methodName})"/>
 						<if expr="@{method} != null">
 							assertEquals(true, model.has@{capitalized}());
 						</if>
 						<set var="methodName" value="@{propertyInfo.id}"/>
-						<set var="method" value="br.com.innovativethinking.framework.util.MethodUtil.getMethod(@{modelClass}, @{methodName})"/>
+						<set var="method" value="br.com.concepting.framework.util.MethodUtil.getMethod(@{modelClass}, @{methodName})"/>
 						<if expr="@{method} != null">
 							assertEquals(true, model.@{propertyInfo.id}());
 						</if>

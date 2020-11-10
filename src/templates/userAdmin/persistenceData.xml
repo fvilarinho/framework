@@ -3,7 +3,7 @@
 
 <artifacts>
 	<artifact name="persistenceData2">
-		<set var="menuItemUrl" value="br.com.innovativethinking.framework.model.util.ModelUtil.getUrlByModel(#{clazz})"/>
+		<set var="menuItemUrl" value="br.com.concepting.framework.model.util.ModelUtil.getUrlByModel(#{clazz})"/>
 		<set var="menuItemUrl" value="@{menuItemUrl}.concat('.ui?action=init&amp;forward=index')"/>
 		<set var="menuItemName" value="menuUserAdmin"/>
 		insert into @{openQuote}object@{closeQuote} (id, type, formId, name, title, description, tooltip, action, actionTarget, objectId, sequence) values (2, 'MENU_ITEM', 1, '@{menuItemName}', '#{ui}', '', '', '@{menuItemUrl}', '', 1, 1);

@@ -1,0 +1,650 @@
+package br.com.concepting.framework.security.service;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.commons.beanutils.ConstructorUtils;
+
+import br.com.concepting.framework.audit.annotations.Auditable;
+import br.com.concepting.framework.constants.Constants;
+import br.com.concepting.framework.constants.SystemConstants;
+import br.com.concepting.framework.exceptions.InternalErrorException;
+import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
+import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
+import br.com.concepting.framework.model.helpers.ModelInfo;
+import br.com.concepting.framework.model.types.ConditionType;
+import br.com.concepting.framework.model.util.ModelUtil;
+import br.com.concepting.framework.persistence.interfaces.IPersistence;
+import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
+import br.com.concepting.framework.security.constants.SecurityConstants;
+import br.com.concepting.framework.security.exceptions.InvalidMfaTokenException;
+import br.com.concepting.framework.security.exceptions.InvalidPasswordException;
+import br.com.concepting.framework.security.exceptions.PasswordIsNotStrongException;
+import br.com.concepting.framework.security.exceptions.PasswordWithoutMinimumLengthException;
+import br.com.concepting.framework.security.exceptions.PasswordsNotMatchException;
+import br.com.concepting.framework.security.exceptions.PermissionDeniedException;
+import br.com.concepting.framework.security.exceptions.UserAlreadyLoggedInException;
+import br.com.concepting.framework.security.exceptions.UserBlockedException;
+import br.com.concepting.framework.security.exceptions.UserNotFoundException;
+import br.com.concepting.framework.security.model.GroupModel;
+import br.com.concepting.framework.security.model.LoginParameterModel;
+import br.com.concepting.framework.security.model.LoginSessionModel;
+import br.com.concepting.framework.security.model.UserModel;
+import br.com.concepting.framework.security.service.interfaces.LoginSessionService;
+import br.com.concepting.framework.security.util.SecurityUtil;
+import br.com.concepting.framework.service.BaseService;
+import br.com.concepting.framework.service.annotations.Transaction;
+import br.com.concepting.framework.service.interfaces.IService;
+import br.com.concepting.framework.util.DateTimeUtil;
+import br.com.concepting.framework.util.helpers.DateTime;
+import br.com.concepting.framework.util.helpers.Filter;
+import br.com.concepting.framework.util.helpers.PropertyInfo;
+import br.com.concepting.framework.util.types.DateFieldType;
+
+/**
+ * Class that defines the basic implementation of the login session service.
+ * 
+ * @author fvilarinho
+ * @since 1.0.0
+ * @param <L> Class that defines the login session data model. 
+ *
+ * <pre>Copyright (C) 2007 Innovative Thinking. 
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ */
+public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel> extends BaseService<L> implements LoginSessionService<L, U>{
+	/**
+	 * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#updateProfile(br.com.concepting.framework.security.model.UserModel)
+	 */
+	@SuppressWarnings("unchecked")
+	public void updateProfile(U user) throws InternalErrorException{
+		L loginSession = getLoginSession();
+		U currentUser = loginSession.getUser();
+		
+		if(user.getFullName() != null)
+			currentUser.setFullName(user.getFullName());
+		
+		if(user.getEmail() != null)
+			currentUser.setEmail(user.getEmail());
+		
+		if(user.getPhoneNumber() != null)
+			currentUser.setPhoneNumber(user.getPhoneNumber());
+
+		LoginParameterModel loginParameter = user.getLoginParameter();
+		LoginParameterModel currentLoginParameter = currentUser.getLoginParameter();
+		
+		if(loginParameter != null){
+			if(loginParameter.getLanguage() != null)
+				currentLoginParameter.setLanguage(loginParameter.getLanguage());
+			
+			if(loginParameter.getMfa() != null)
+				currentLoginParameter.setMfa(loginParameter.getMfa());
+			
+			if(loginParameter.getReceiveSms() != null)
+				currentLoginParameter.setReceiveSms(loginParameter.getReceiveSms());
+			
+			if(loginParameter.getReceiveIm() != null)
+				currentLoginParameter.setReceiveIm(loginParameter.getReceiveIm());
+			
+			if(loginParameter.getReceiveVoipCall() != null)
+				currentLoginParameter.setReceiveVoipCall(loginParameter.getReceiveVoipCall());
+		}
+		
+		Class<U> userClass = (Class<U>)currentUser.getClass();
+		IService<U> userService = getService(userClass);
+		
+		userService.update(currentUser);
+	}
+
+	/**
+	 * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#validateMfaToken(br.com.concepting.framework.security.model.UserModel)
+	 */
+	@SuppressWarnings("unchecked")
+	public void validateMfaToken(U user) throws InvalidMfaTokenException, InternalErrorException{
+		L currentLoginSession = getLoginSession();
+		
+		if(currentLoginSession == null || currentLoginSession.getId() == null || currentLoginSession.getId().length() == 0)
+			return;
+		
+		U currentUser = currentLoginSession.getUser();
+		LoginParameterModel loginParameter = currentUser.getLoginParameter();
+		
+		if(loginParameter != null && loginParameter.isMfaTokenValidated() != null && loginParameter.isMfaTokenValidated())
+			return;
+		
+		loginParameter = user.getLoginParameter();
+		
+		String token = user.getMfaToken();
+		
+		if(loginParameter != null && loginParameter.getMfaToken() != null && loginParameter.getMfaToken().length() > 0 && token != null && token.length() > 0){
+			String mfaToken = loginParameter.getMfaToken();
+			
+			if(token.contentEquals(mfaToken)){
+				loginParameter.setMfaTokenValidated(true);
+				loginParameter.setMfaToken(null);
+				
+				Class<LoginParameterModel> loginParameterClass = (Class<LoginParameterModel>)loginParameter.getClass();
+				IService<LoginParameterModel> loginParameterService = getService(loginParameterClass);
+				
+				loginParameterService.update(loginParameter);
+				
+				return;
+			}
+		}
+		
+		throw new InvalidMfaTokenException();
+	}
+
+	/**
+	 * Does the user authentication.
+	 * 
+	 * @param user Instance that contains the user data model.
+	 * @return Instance that contains the authenticated user data model.
+	 * @throws UserNotFoundException Occurs when the user was not found.
+	 * @throws InvalidPasswordException Occurs when the password is invalid.
+	 * @throws UserBlockedException Occurs when the user is blocked.
+	 * @throws InternalErrorException Occurs when was not possible to execute
+	 * the operation.
+	 */
+	@SuppressWarnings("unchecked")
+	protected U authenticate(U user) throws UserNotFoundException, InvalidPasswordException, UserBlockedException, InternalErrorException{
+		if(user == null || user.getName() == null || user.getName().length() == 0)
+			throw new UserNotFoundException();
+
+		user.setId(null);
+		user.setFullName(null);
+		user.setEmail(null);
+		user.setActive(null);
+		user.setLoginParameter(null);
+
+		Class<U> userClass = (Class<U>)user.getClass();
+		IService<U> userService = getService(userClass);
+		Collection<U> users = userService.search(user);
+
+		if(users == null || users.size() == 0)
+			throw new UserNotFoundException();
+
+		String password = user.getPassword();
+
+		if(password != null && password.length() > 0){
+			try{
+				password = SecurityUtil.encryptPassword(password);
+			}
+			catch(InvalidResourcesException e){
+				throw new InternalErrorException(e);
+			}
+		}
+
+		user = users.iterator().next();
+
+		if(user.isActive() == null || !user.isActive())
+			throw new UserBlockedException();
+
+		Boolean invalidPassword = false;
+
+		if((password == null || password.length() == 0) && user.getPassword() != null && user.getPassword().length() > 0)
+			invalidPassword = true;
+		else if(password != null && password.length() > 0 && (user.getPassword() == null || user.getPassword().length() == 0))
+			invalidPassword = true;
+		else if(password != null && password.length() > 0 && user.getPassword() != null && !password.equals(user.getPassword()))
+			invalidPassword = true;
+
+		LoginParameterModel loginParameter = user.getLoginParameter();
+
+		if(invalidPassword){
+			loginParameter = user.getLoginParameter();
+			
+			if(loginParameter != null){
+				Integer loginTries = loginParameter.getLoginTries();
+				Integer currentLoginTries = loginParameter.getCurrentLoginTries();
+			
+				if(currentLoginTries == null)
+					currentLoginTries = 1;
+				else
+					currentLoginTries++;
+
+				loginParameter.setCurrentLoginTries(currentLoginTries);
+
+				if(loginTries != null && loginTries > 0 && currentLoginTries >= loginTries){
+					user.setActive(false);
+
+					userService.update(user);
+
+					throw new UserBlockedException();
+				}
+			}
+
+			userService.update(user);
+
+			throw new InvalidPasswordException();
+		}
+		else{
+			if(loginParameter != null){
+				loginParameter.setCurrentLoginTries(0);
+				
+				Class<LoginParameterModel> loginParameterClass = (Class<LoginParameterModel>)loginParameter.getClass();
+				IService<LoginParameterModel> loginParameterService = getService(loginParameterClass);
+				
+				loginParameterService.update(loginParameter);
+			}
+		}
+		
+		return user;
+	}
+
+	/**
+	 * Check the user authorization.
+	 * 
+	 * @param user Instance that contains the user data model.
+	 * @return Instance that contains the login session data model.
+	 * @throws UserAlreadyLoggedInException Occurs when the user is already logged in.
+	 * @throws PermissionDeniedException Occurs when the user doesn't have permission.
+	 * @throws InternalErrorException Occurs when was not possible to execute the operation.
+	 */
+	@SuppressWarnings("unchecked")
+	protected L authorize(U user) throws UserAlreadyLoggedInException, PermissionDeniedException, InternalErrorException{
+		Class<U> userClass = (Class<U>)user.getClass();
+		IService<U> userService = getService(userClass);
+
+		user = userService.loadReference(user, SecurityConstants.GROUPS_ATTRIBUTE_ID);
+
+		List<GroupModel> groups = (List<GroupModel>)user.getGroups();
+
+		if(groups != null && !groups.isEmpty()){
+			Class<GroupModel> groupClass = null;
+			GroupModel group = null;
+			IService<GroupModel> groupService = null;
+
+			for(int cont = 0 ; cont < groups.size() ; cont++){
+				group = groups.get(cont);
+
+				if(groupClass == null){
+					groupClass = (Class<GroupModel>)group.getClass();
+					groupService = getService(groupClass);
+				}
+
+				group = groupService.loadReference(group, SystemConstants.OBJECTS_ATTRIBUTE_ID);
+				group = groupService.loadReference(group, SecurityConstants.ACCESSES_ATTRIBUTE_ID);
+
+				groups.set(cont, group);
+			}
+		}
+
+		LoginParameterModel loginParameter = user.getLoginParameter();
+		Boolean expiredPassword = false;
+		Boolean passwordWillExpire = false;
+		Integer daysUntilExpire = 0;
+		Integer hoursUntilExpire = 0;
+		Integer minutesUntilExpire = 0;
+		Integer secondsUntilExpire = 0;
+
+		if(loginParameter == null){
+			try{
+				ModelInfo userModelInfo = ModelUtil.getInfo(user.getClass());
+				PropertyInfo propertyInfo = userModelInfo.getPropertyInfo(SecurityConstants.LOGIN_PARAMETER_ATTRIBUTE_ID);
+
+				loginParameter = (LoginParameterModel)ConstructorUtils.invokeConstructor(propertyInfo.getClazz(), null);
+			}
+			catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException e){
+				loginParameter = new LoginParameterModel();
+			}
+
+			user.setLoginParameter(loginParameter);
+		}
+
+		if(loginParameter.getId() != null && loginParameter.getId() > 0){
+			Calendar calendar = Calendar.getInstance();
+			DateTime now = new DateTime(calendar.getTimeInMillis());
+			DateTime expirePasswordDateTime = loginParameter.getExpirePasswordDateTime();
+			Integer expirePasswordInterval = loginParameter.getExpirePasswordInterval();
+			Integer changePasswordInterval = loginParameter.getChangePasswordInterval();
+
+			if(expirePasswordInterval != null && expirePasswordInterval > 0){
+				if(expirePasswordDateTime == null){
+					expirePasswordDateTime = DateTimeUtil.add(now, expirePasswordInterval, DateFieldType.DAYS);
+
+					loginParameter.setExpirePasswordDateTime(expirePasswordDateTime);
+				}
+
+				daysUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.DAYS).intValue();
+				hoursUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.HOURS).intValue() - (daysUntilExpire * 24);
+
+				if(hoursUntilExpire > 24){
+					hoursUntilExpire -= 24;
+					daysUntilExpire += 1;
+				}
+
+				minutesUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.MINUTES).intValue() - (hoursUntilExpire * 60) - (daysUntilExpire * 24 * 60);
+				secondsUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.SECONDS).intValue() - (minutesUntilExpire * 60) - (hoursUntilExpire * 60 * 60) - (daysUntilExpire * 24 * 60 * 60);
+
+				if(changePasswordInterval != null && changePasswordInterval > 0)
+					if(daysUntilExpire <= changePasswordInterval)
+						passwordWillExpire = true;
+
+				if((expirePasswordDateTime != null && now.after(expirePasswordDateTime)) || loginParameter.changePassword()){
+					expiredPassword = true;
+					passwordWillExpire = false;
+				}
+			}
+		}
+		
+		L loginSession = getLoginSession();
+
+		loginSession.setUser(user);
+
+		Boolean multipleLogins = loginParameter.getMultipleLogins();
+		Boolean superUser = user.getSuperUser();
+
+		if(superUser == null || !superUser){
+			if(!user.hasPermissions())
+				throw new PermissionDeniedException();
+
+			if(multipleLogins == null || !multipleLogins){
+				L multipleLoginSession = null;
+				
+				try {
+					multipleLoginSession = (L)loginSession.clone();
+				} 
+				catch (CloneNotSupportedException e){
+					throw new InternalErrorException(e);
+				}
+				
+				multipleLoginSession.setId(null);
+				multipleLoginSession.setSystemSession(null);
+				multipleLoginSession.setActive(true);
+
+				Collection<L> loginSessions = search(multipleLoginSession);
+
+				if(loginSessions != null && loginSessions.size() > 0)
+					throw new UserAlreadyLoggedInException();
+			}
+		}
+
+		loginSession.setId(SecurityUtil.generateToken());
+		loginSession.setStartDateTime(new DateTime());
+		loginSession.setActive(true);
+		
+		Class<L> loginSessionClass = (Class<L>)loginSession.getClass();
+		IService<L> loginSessionService = getService(loginSessionClass);
+		
+		try{
+			loginSession = loginSessionService.save(loginSession);
+		}
+		catch(ItemAlreadyExistsException e){
+			if(multipleLogins == null || !multipleLogins)
+				throw new UserAlreadyLoggedInException();
+		}
+
+		user.setNewPassword(null);
+		user.setConfirmPassword(null);
+
+		loginParameter.setChangePassword(expiredPassword);
+		loginParameter.setPasswordWillExpire(passwordWillExpire);
+
+		if(passwordWillExpire){
+			loginParameter.setDaysUntilExpire(daysUntilExpire);
+			loginParameter.setHoursUntilExpire(hoursUntilExpire);
+			loginParameter.setMinutesUntilExpire(minutesUntilExpire);
+			loginParameter.setSecondsUntilExpire(secondsUntilExpire);
+		}
+
+		if(loginParameter.hasMfa() != null && loginParameter.hasMfa()){
+			loginParameter.setMfaToken(SecurityUtil.generateToken().substring(0, SecurityConstants.DEFAULT_MINIMUM_PASSWORD_LENGTH));
+			loginParameter.setMfaTokenValidated(false);
+			
+			sendMfaTokenMessage(user);
+		}
+
+		Class<LoginParameterModel> loginParameterClass = (Class<LoginParameterModel>)loginParameter.getClass();
+		IService<LoginParameterModel> loginParameterService = getService(loginParameterClass);
+		
+		loginParameterService.update(loginParameter);
+		
+		return loginSession;
+	}
+
+	/**
+	 * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#logIn(br.com.concepting.framework.security.model.UserModel)
+	 */
+	@Transaction
+	@Auditable
+	public L logIn(U user) throws UserNotFoundException, UserBlockedException, InvalidPasswordException, UserAlreadyLoggedInException, PermissionDeniedException, InternalErrorException{
+		if(user == null || user.getName() == null || user.getName().length() == 0)
+			throw new UserNotFoundException();
+
+		L currentLoginSession = getLoginSession();
+		
+		if(currentLoginSession != null && currentLoginSession.getId() != null && currentLoginSession.getId().length() > 0)
+			return currentLoginSession;		
+
+		user = authenticate(user);
+
+		return authorize(user);
+	}
+
+	/**
+	 * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#changePassword(br.com.concepting.framework.security.model.UserModel)
+	 */
+	@SuppressWarnings("unchecked")
+	@Transaction
+	@Auditable
+	public U changePassword(U user) throws PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException{
+		if(user == null || user.getId() == null || user.getId() == 0)
+			return user;
+		
+		String password = user.getPassword();
+		String newPassword = user.getNewPassword();
+		String confirmPassword = user.getConfirmPassword();
+		IService<U> userService = getService(user.getClass());
+		
+		try{
+			user = userService.find(user);
+		}
+		catch(ItemNotFoundException e){
+			throw new PasswordsNotMatchException();
+		}
+
+		if(password != null && password.length() > 0)
+			password = SecurityUtil.encryptPassword(password);
+		
+		if(password != null && !password.equals(user.getPassword()))
+			throw new PasswordsNotMatchException();
+
+		if(newPassword != null && confirmPassword != null)
+			if(!newPassword.equals(confirmPassword))
+				throw new PasswordsNotMatchException();
+
+		LoginParameterModel loginParameter = user.getLoginParameter();
+
+		if(loginParameter != null){
+			if(loginParameter.getMinimumPasswordLength() != null && newPassword.length() < loginParameter.getMinimumPasswordLength())
+				throw new PasswordWithoutMinimumLengthException(newPassword.length(), loginParameter.getMinimumPasswordLength());
+
+			if(loginParameter.useStrongPassword() != null && loginParameter.useStrongPassword())
+				if(!SecurityUtil.isStrongPassword(newPassword))
+					throw new PasswordIsNotStrongException();
+		}
+
+		try{
+			newPassword = SecurityUtil.encryptPassword(newPassword);
+		}
+		catch(InvalidResourcesException e){
+			throw new InternalErrorException(e);
+		}
+
+		user.setPassword(newPassword);
+
+		DateTime lastUpdate = new DateTime();
+
+		user.setLastUpdate(lastUpdate);
+
+		if(loginParameter != null){
+			loginParameter.setChangePassword(false);
+
+			Integer expirePasswordInterval = loginParameter.getExpirePasswordInterval();
+
+			if(expirePasswordInterval != null){
+				DateTime expirePasswordDateTime = DateTimeUtil.add(lastUpdate, expirePasswordInterval, DateFieldType.DAYS);
+
+				loginParameter.setExpirePasswordDateTime(expirePasswordDateTime);
+			}
+
+			user.setLoginParameter(loginParameter);
+		}
+
+		Class<U> userClass = (Class<U>)user.getClass();
+		IPersistence<U> userPersistence = getPersistence(userClass);
+
+		userPersistence.update(user);
+		
+		return user;
+	}
+
+	/**
+	 * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#logOut()
+	 */
+	@SuppressWarnings("unchecked")
+	@Transaction
+	@Auditable
+	public void logOut() throws InternalErrorException{
+		L loginSession = getLoginSession();
+
+		if(loginSession == null || loginSession.getId() == null || loginSession.getId().length() == 0)
+			return;
+
+		U user = loginSession.getUser();
+
+		if(user == null || user.getId() == null || user.getId() == 0)
+			return;
+
+		try{
+			loginSession = find(loginSession);
+
+			loginSession.setActive(false);
+
+			update(loginSession);
+			
+			user = loginSession.getUser();
+			
+			LoginParameterModel loginParameter = user.getLoginParameter();
+			
+			if(loginParameter != null)
+				loginParameter.setMfaToken(null);
+
+			Class<U> userClass = (Class<U>)user.getClass();
+			IPersistence<U> userPersistence = getPersistence(userClass);
+
+			user.setLastLogin(loginSession.getStartDateTime());
+
+			userPersistence.update(user);
+		}
+		catch(ItemNotFoundException e){
+		}
+	}
+
+	/**
+	 * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#logOutAll()
+	 */
+	@SuppressWarnings("unchecked")
+	@Transaction
+	@Auditable
+	public void logOutAll() throws InternalErrorException{
+		Filter filter = new Filter();
+
+		filter.addPropertyCondition(Constants.ACTIVE_ATTRIBUTE_ID, ConditionType.EQUAL);
+		filter.addPropertyValue(Constants.ACTIVE_ATTRIBUTE_ID, true);
+
+		Collection<L> loginSessions = filter(filter);
+
+		if(loginSessions != null && !loginSessions.isEmpty()){
+			UserModel user = null;
+			Class<UserModel> userClass = null;
+
+			for(L item : loginSessions){
+				item.setActive(false);
+
+				update(item);
+
+				user = item.getUser();
+				userClass = (Class<UserModel>)user.getClass();
+				IPersistence<UserModel> userPersistence = getPersistence(userClass);
+
+				user.setLastLogin(item.getStartDateTime());
+
+				userPersistence.update(user);
+			}
+		}
+	}
+
+	/**
+	 * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#sendForgottenPassword(br.com.concepting.framework.security.model.UserModel)
+	 */
+	@SuppressWarnings("unchecked")
+	@Transaction
+	@Auditable
+	public void sendForgottenPassword(U user) throws UserNotFoundException, UserBlockedException, InternalErrorException{
+		if(user == null || user.getEmail() == null || user.getEmail().length() == 0)
+			throw new UserNotFoundException();
+
+		user.setId(null);
+		user.setActive(true);
+		user.setName(null);
+
+		Class<U> userClass = (Class<U>)user.getClass();
+		IPersistence<U> persistence = getPersistence(userClass);
+		Collection<U> users = persistence.search(user);
+
+		if(users == null || users.size() == 0)
+			throw new UserNotFoundException();
+
+		user = users.iterator().next();
+
+		if(user.isActive() == null || !user.isActive())
+			throw new UserBlockedException();
+		
+		LoginParameterModel loginParameter = user.getLoginParameter();
+		
+		loginParameter.setChangePassword(true);
+
+		String password = SecurityUtil.generateToken().substring(0, SecurityConstants.DEFAULT_MINIMUM_PASSWORD_LENGTH);
+
+		user.setNewPassword(password);
+
+		password = SecurityUtil.encryptPassword(password);
+
+		user.setPassword(password);
+
+		sendForgottenPasswordMessage(user);
+
+		persistence.update(user);
+	}
+
+	/**
+	 * Sends the forgotten password to the user.
+	 * 
+	 * @param user Instance that contains the user data model.
+	 * @throws InternalErrorException Occurs when was not possible to execute the operation.
+	 */
+	protected abstract void sendForgottenPasswordMessage(U user) throws InternalErrorException;
+	
+	/**
+	 * Sends the MFA token to the user.
+	 * 
+	 * @param user Instance that contains the user data model.
+	 * @throws InternalErrorException Occurs when was not possible to execute the operation.
+	 */
+	protected abstract void sendMfaTokenMessage(U user) throws InternalErrorException;
+}

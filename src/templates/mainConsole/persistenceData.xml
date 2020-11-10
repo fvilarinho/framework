@@ -3,29 +3,29 @@
 
 <artifacts>
 	<artifact name="persistenceData1">
-		<set var="loginSessionModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{securityResources.loginSessionClass})"/>
+		<set var="loginSessionModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{securityResources.loginSessionClass})"/>
 		<set var="systemModulePropertyInfo" value="@{loginSessionModelInfo}.getPropertyInfo('systemModule')"/>
-		<set var="systemModuleModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{systemModulePropertyInfo.clazz})"/>
+		<set var="systemModuleModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{systemModulePropertyInfo.clazz})"/>
 		<set var="formPropertyInfo" value="@{systemModuleModelInfo}.getPropertyInfo('forms')"/>
-		<set var="formModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{formPropertyInfo.collectionItemsClass})"/>
+		<set var="formModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{formPropertyInfo.collectionItemsClass})"/>
 		<set var="objectPropertyInfo" value="@{formModelInfo}.getPropertyInfo('objects')"/>
-		<set var="objectModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{objectPropertyInfo.collectionItemsClass})"/>
+		<set var="objectModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{objectPropertyInfo.collectionItemsClass})"/>
 		<set var="userPropertyInfo" value="@{loginSessionModelInfo}.getPropertyInfo('user')"/>
-		<set var="userModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{userPropertyInfo.clazz})"/>
+		<set var="userModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{userPropertyInfo.clazz})"/>
 		<set var="loginParameterPropertyInfo" value="@{userModelInfo}.getPropertyInfo('loginParameter')"/>
-		<set var="loginParameterModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{loginParameterPropertyInfo.clazz})"/>
+		<set var="loginParameterModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{loginParameterPropertyInfo.clazz})"/>
 		<set var="groupPropertyInfo" value="@{userModelInfo}.getPropertyInfo('groups')"/>
-		<set var="groupModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{groupPropertyInfo.collectionItemsClass})"/>
+		<set var="groupModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{groupPropertyInfo.collectionItemsClass})"/>
 		<set var="accessPropertyInfo" value="@{groupModelInfo}.getPropertyInfo('accesses')"/>
-		<set var="accessModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{accessPropertyInfo.collectionItemsClass})"/>
+		<set var="accessModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{accessPropertyInfo.collectionItemsClass})"/>
 		<set var="urlPropertyInfo" value="@{systemModuleModelInfo}.getPropertyInfo('exclusionUrls')"/>
-		<set var="urlModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{urlPropertyInfo.collectionItemsClass})"/>
-		<set var="title" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{build.name})"/>
-		<set var="copyright" value="br.com.innovativethinking.framework.util.DateTimeUtil.format(@{now}, 'yyyy')"/>
+		<set var="urlModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{urlPropertyInfo.collectionItemsClass})"/>
+		<set var="title" value="br.com.concepting.framework.util.StringUtil.capitalize(@{build.name})"/>
+		<set var="copyright" value="br.com.concepting.framework.util.DateTimeUtil.format(@{now}, 'yyyy')"/>
 		<set var="copyright" value="@{title}.concat(' ').concat(@{copyright})"/>
-		<set var="password" value="br.com.innovativethinking.framework.security.util.SecurityUtil.encryptPassword('admin')"/>
+		<set var="password" value="br.com.concepting.framework.security.util.SecurityUtil.encryptPassword('admin')"/>
 		<set var="email" value="@{user.name}.concat('@mydomain.com')"/>
-		<set var="actionFormName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormIdByModel(#{clazz})"/>
+		<set var="actionFormName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormIdByModel(#{clazz})"/>
 		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (1, '*');
 		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (2, '/');
 		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (3, '/index.jsp');

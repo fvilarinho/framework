@@ -2,16 +2,16 @@
 <!DOCTYPE artifacts>
 
 <artifacts>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
 	          packageSuffix="security.model"
 	          name="UserModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 	    <set var="groupModelClassName" value="@{packageName}.concat('.GroupModel')"/>	          
 	    <set var="loginParameterModelClassName" value="@{packageName}.concat('.LoginParameterModel')"/>
 	    
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		import @{groupModelClassName};
 		import @{loginParameterModelClassName};
@@ -41,18 +41,18 @@
 		        @Property(propertyId="groups", relationCollectionItemsClass=GroupModel.class, mappedPropertiesIds="userId", mappedRelationPropertiesIds="groupId", mappedRelationRepositoryId="userGroup", keyId="fk_group_user", foreignKeyId="fk_user_group")
 			}
 		)
-		public class @{name} extends br.com.innovativethinking.framework.security.model.UserModel{
+		public class @{name} extends br.com.concepting.framework.security.model.UserModel{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
 	          packageSuffix="security.model"
 	          name="LoginParameterModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 		
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		/**
 		 * Class that defines the login parameter data model.
@@ -83,21 +83,21 @@
 		        @Property(propertyId="language", mappedPropertyId="language")
 			}
 		)
-		public class @{name} extends br.com.innovativethinking.framework.security.model.LoginParameterModel{
+		public class @{name} extends br.com.concepting.framework.security.model.LoginParameterModel{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
 	          packageSuffix="security.model"
 	          name="GroupModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 	    <set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
 	    <set var="objectModelClassName" value="@{packagePrefix}.concat('.model.ObjectModel')"/>
 		<set var="accessModelClassName" value="@{packageName}.concat('.AccessModel')"/>
 		
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		import @{objectModelClassName};
 		import @{userModelClassName};
@@ -121,19 +121,19 @@
 				@Property(propertyId="accesses", relationCollectionItemsClass=AccessModel.class, mappedPropertiesIds="groupId", mappedRelationPropertiesIds="accessId", mappedRelationRepositoryId="groupAccess", keyId="fk_access_group", foreignKeyId="fk_group_access")
 			}
 		)
-		public class @{name} extends br.com.innovativethinking.framework.security.model.GroupModel{
+		public class @{name} extends br.com.concepting.framework.security.model.GroupModel{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
 	          packageSuffix="security.model"
 	          name="AccessModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 		<set var="urlModelClassName" value="@{packagePrefix}.concat('.model.UrlModel')"/>
 		
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		import @{urlModelClassName};
 		
@@ -151,21 +151,21 @@
 				@Property(propertyId="blocked", mappedPropertyId="blocked")
 			}
 		)
-		public class @{name} extends br.com.innovativethinking.framework.security.model.AccessModel{
+		public class @{name} extends br.com.concepting.framework.security.model.AccessModel{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
 	          packageSuffix="security.model"
 	          name="LoginSessionModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 	    <set var="systemSessionModelClassName" value="@{packagePrefix}.concat('.model.SystemSessionModel')"/>
 	    <set var="systemModuleModelClassName" value="@{packagePrefix}.concat('.model.SystemModuleModel')"/>
 	    <set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
 	    
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		import @{systemSessionModelClassName};
 		import @{systemModuleModelClassName};
@@ -187,23 +187,23 @@
 				@Property(propertyId="active", mappedPropertyId="active")
 			}
 		)
-		public class @{name} extends br.com.innovativethinking.framework.security.model.LoginSessionModel{
+		public class @{name} extends br.com.concepting.framework.security.model.LoginSessionModel{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
 	          packageSuffix="security.model"
 	          name="UserAdminModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 	    <set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
 	    <set var="groupModelClassName" value="@{packageName}.concat('.GroupModel')"/>
 	    
 	    import java.util.Collection;
 	    
-		import br.com.innovativethinking.framework.model.BaseModel;
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.BaseModel;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		import @{userModelClassName};
 		import @{groupModelClassName};
@@ -304,11 +304,11 @@
 			}
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
 	          packageSuffix="security.model"
 	          name="GroupAdminModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 	    <set var="urlModelClassName" value="@{packagePrefix}.concat('.model.UrlModel')"/>
 	    <set var="objectModelClassName" value="@{packagePrefix}.concat('.model.ObjectModel')"/>
 		<set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
@@ -317,9 +317,9 @@
 	    
 	    import java.util.Collection;
 	    
-		import br.com.innovativethinking.framework.model.BaseModel;
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.BaseModel;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		import @{urlModelClassName};
 		import @{objectModelClassName};
@@ -486,16 +486,16 @@
 			}
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
 	          packageSuffix="model"
 	          name="SystemModuleModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 	    <set var="formModelClassName" value="@{packageName}.concat('.FormModel')"/>
 	    <set var="urlModelClassName" value="@{packageName}.concat('.UrlModel')"/>
 	    
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		import @{formModelClassName};
 		import @{urlModelClassName};
@@ -523,20 +523,20 @@
 				@Property(propertyId="exclusionUrls", relationCollectionItemsClass=UrlModel.class, mappedPropertiesIds="systemModuleId", mappedRelationPropertiesIds="urlId", mappedRelationRepositoryId="systemModuleExclusionUrls", foreignKeyId="fk_systemModule_url")
 			}
 		)
-		public class @{name} extends br.com.innovativethinking.framework.model.SystemModuleModel{
+		public class @{name} extends br.com.concepting.framework.model.SystemModuleModel{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
 	          packageSuffix="model"
 	          name="FormModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 	    <set var="objectModelClassName" value="@{packageName}.concat('.ObjectModel')"/>	          
 		<set var="systemModuleModelClassName" value="@{packageName}.concat('.SystemModuleModel')"/>
 		
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		import @{objectModelClassName};
 		import @{systemModuleModelClassName};
@@ -558,23 +558,23 @@
 				@Property(propertyId="objects", relationCollectionItemsClass=ObjectModel.class, mappedRelationPropertiesIds="formId", foreignKeyId="fk_form_object")
 			}
 		)
-		public class @{name} extends br.com.innovativethinking.framework.model.FormModel{
+		public class @{name} extends br.com.concepting.framework.model.FormModel{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
 	          packageSuffix="model"
 	          name="ObjectModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 		<set var="formModelClassName" value="@{packageName}.concat('.FormModel')"/>
-	    <set var="groupModelClassName" value="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"/>
+	    <set var="groupModelClassName" value="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"/>
 	    <set var="groupModelClassName" value="@{groupModelClassName}.concat('.security.model.GroupModel')"/>
 	    	          
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
-		import br.com.innovativethinking.framework.persistence.types.RelationType;
-		import br.com.innovativethinking.framework.util.types.SortOrderType;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
+		import br.com.concepting.framework.persistence.types.RelationType;
+		import br.com.concepting.framework.util.types.SortOrderType;
 		
 		import @{formModelClassName};
 		import @{groupModelClassName};
@@ -602,18 +602,18 @@
 				@Property(propertyId="groups", relationCollectionItemsClass=GroupModel.class, mappedPropertiesIds="objectId", mappedRelationPropertiesIds="groupId", mappedRelationRepositoryId="groupObject", keyId="fk_group_object", foreignKeyId="fk_object_group")
 			}
 		)
-		public class @{name} extends br.com.innovativethinking.framework.model.ObjectModel{
+		public class @{name} extends br.com.concepting.framework.model.ObjectModel{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
 	          packageSuffix="model"
 	          name="UrlModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 		
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		/**
 		 * Class that defines the URL data model.
@@ -628,18 +628,18 @@
 				@Property(propertyId="path", mappedPropertyId="path")
 			}
 		)
-		public class @{name} extends br.com.innovativethinking.framework.model.UrlModel{
+		public class @{name} extends br.com.concepting.framework.model.UrlModel{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
 	          packageSuffix="model"
 	          name="SystemSessionModel">
 		package @{packageName};
-		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 		
-		import br.com.innovativethinking.framework.model.annotations.Model;
-		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.concepting.framework.model.annotations.Model;
+		import br.com.concepting.framework.model.annotations.Property;
 		
 		/**
 		 * Class that defines the system session data model.
@@ -656,7 +656,7 @@
 				@Property(propertyId="hostName", mappedPropertyId="hostName")
 			}
 		)
-		public class @{name} extends br.com.innovativethinking.framework.model.SystemSessionModel{
+		public class @{name} extends br.com.concepting.framework.model.SystemSessionModel{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>

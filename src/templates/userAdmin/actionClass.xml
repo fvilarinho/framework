@@ -2,30 +2,30 @@
 <!DOCTYPE artifacts>
  
 <artifacts>
-	<artifact packageName="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionPackageByModel(#{clazz})"
-	          name="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionNameByModel(#{clazz})">
+	<artifact packageName="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionPackageByModel(#{clazz})"
+	          name="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionNameByModel(#{clazz})">
 		package @{packageName};
-		<set var="serviceInterfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(#{clazz})"/>
-		<set var="serviceInterfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(#{clazz})"/>
-	    <set var="actionFormClassName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormClassNameByModel(#{clazz})"/>
-		<set var="actionFormName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormNameByModel(#{clazz})"/>
+		<set var="serviceInterfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(#{clazz})"/>
+		<set var="serviceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(#{clazz})"/>
+	    <set var="actionFormClassName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormClassNameByModel(#{clazz})"/>
+		<set var="actionFormName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormNameByModel(#{clazz})"/>
 	    <set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
 		<set var="searchModelClass" value="@{searchPropertyInfo.clazz}"/>
 		<set var="searchModelClassName" value="@{searchModelClass.name}"/>
 		<set var="searchModelName" value="@{searchModelClass.simpleName}"/>
 		<set var="searchDataset" value="@{searchPropertyInfo.dataset}"/>
-		<set var="capitalizedSearchDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{searchDataset})"/>
-		<set var="searchServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchModelClass})"/>
-		<set var="searchServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchModelClass})"/>
+		<set var="capitalizedSearchDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{searchDataset})"/>
+		<set var="searchServiceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchModelClass})"/>
+		<set var="searchServiceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchModelClass})"/>
 	    <set var="inputPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
 		<set var="inputModelClass" value="@{inputPropertyInfo.clazz}"/>
-		<set var="inputModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{inputModelClass})"/>
+		<set var="inputModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{inputModelClass})"/>
 		<set var="inputModelClassName" value="@{inputModelClass.name}"/>
 		<set var="inputModelName" value="@{inputModelClass.simpleName}"/>
 		<set var="inputDataset" value="@{inputPropertyInfo.dataset}"/>
-		<set var="capitalizedInputDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{inputDataset})"/>
-		<set var="inputServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{inputModelClass})"/>
-		<set var="inputServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{inputModelClass})"/>
+		<set var="capitalizedInputDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{inputDataset})"/>
+		<set var="inputServiceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{inputModelClass})"/>
+		<set var="inputServiceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{inputModelClass})"/>
 		<set var="loginParameterPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('loginParameter')"/>
 		<set var="loginParameterModelClass" value="@{loginParameterPropertyInfo.clazz}"/>
 		<set var="loginParameterModelClassName" value="@{loginParameterModelClass.name}"/>
@@ -35,15 +35,15 @@
 		<set var="groupModelClassName" value="@{groupModelClass.name}"/>
 		<set var="groupModelName" value="@{groupModelClass.simpleName}"/>
 		<set var="groupDataset" value="@{groupPropertyInfo.dataset}"/>
-		<set var="capitalizedGroupDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{groupDataset})"/>
-		<set var="groupServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{groupModelClass})"/>
-		<set var="groupServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{groupModelClass})"/>
+		<set var="capitalizedGroupDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{groupDataset})"/>
+		<set var="groupServiceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{groupModelClass})"/>
+		<set var="groupServiceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{groupModelClass})"/>
 		
 		import java.util.Collection;
 	
-		import br.com.innovativethinking.framework.controller.action.BaseAction;
-		import br.com.innovativethinking.framework.model.exceptions.ItemNotSelectedException;
-		import br.com.innovativethinking.framework.util.helpers.DateTime;
+		import br.com.concepting.framework.controller.action.BaseAction;
+		import br.com.concepting.framework.model.exceptions.ItemNotSelectedException;
+		import br.com.concepting.framework.util.helpers.DateTime;
 	
 		import #{clazz.name};
 		import @{inputModelClassName};
@@ -83,7 +83,7 @@
 		    }
     
 		    /**
-		     * @see br.com.innovativethinking.framework.controller.action.BaseAction#init()
+		     * @see br.com.concepting.framework.controller.action.BaseAction#init()
 		     */
 		    public void init() throws Throwable{
 		        super.init();

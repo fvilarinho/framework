@@ -2,31 +2,31 @@
 <!DOCTYPE artifacts>
  
 <artifacts>
-	<artifact packageName="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionPackageByModel(#{clazz})"
-	          name="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionNameByModel(#{clazz})">
+	<artifact packageName="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionPackageByModel(#{clazz})"
+	          name="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionNameByModel(#{clazz})">
 		package @{packageName};
 		<set var="modelName" value="#{clazz.simpleName}"/>
-	    <set var="actionFormClassName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormClassNameByModel(#{clazz})"/>
-		<set var="actionFormName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormNameByModel(#{clazz})"/>
+	    <set var="actionFormClassName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormClassNameByModel(#{clazz})"/>
+		<set var="actionFormName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormNameByModel(#{clazz})"/>
 		<set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
 		<set var="searchPropertyDataset" value="@{searchPropertyInfo.dataset}"/>
 		<set var="searchPropertyClass" value="@{searchPropertyInfo.clazz}"/>
 		<set var="searchPropertyName" value="@{searchPropertyClass.simpleName}"/>
 		<set var="searchPropertyClassName" value="@{searchPropertyClass.name}"/>
-		<set var="searchPropertyServiceInterfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchPropertyClass})"/>
-		<set var="searchPropertyServiceInterfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchPropertyClass})"/>
-		<set var="searchPropertyModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
+		<set var="searchPropertyServiceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchPropertyClass})"/>
+		<set var="searchPropertyServiceInterfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchPropertyClass})"/>
+		<set var="searchPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
 		<set var="mainPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
 		<set var="mainPropertyDataset" value="@{mainPropertyInfo.dataset}"/>
 		<set var="mainPropertyClass" value="@{mainPropertyInfo.clazz}"/>
 		<set var="mainPropertyName" value="@{mainPropertyClass.simpleName}"/>
 		<set var="mainPropertyClassName" value="@{mainPropertyClass.name}"/>
-		<set var="mainPropertyServiceInterfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{mainPropertyClass})"/>
-		<set var="mainPropertyServiceInterfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{mainPropertyClass})"/>
-		<set var="mainPropertyModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{mainPropertyClass})"/>
-		<set var="capitalizedMainPropertyDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{mainPropertyDataset})"/>
+		<set var="mainPropertyServiceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{mainPropertyClass})"/>
+		<set var="mainPropertyServiceInterfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{mainPropertyClass})"/>
+		<set var="mainPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{mainPropertyClass})"/>
+		<set var="capitalizedMainPropertyDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{mainPropertyDataset})"/>
 		
-		import br.com.innovativethinking.framework.controller.action.BaseAction;
+		import br.com.concepting.framework.controller.action.BaseAction;
 		import #{clazz.name};
 		<if expr="@{searchPropertyModelInfo} != null or @{mainPropertyModelInfo} != null">
 			import @{actionFormClassName};
@@ -36,7 +36,7 @@
 			</if>
 			import java.util.Collection;
 			<if expr="@{mainPropertyModelInfo} != null">
-				import br.com.innovativethinking.framework.model.exceptions.ItemNotSelectedException;
+				import br.com.concepting.framework.model.exceptions.ItemNotSelectedException;
 		        import @{mainPropertyClassName};
 				import @{mainPropertyServiceInterfaceClassName};
 				<set var="arraysImported" value="false"/>
@@ -54,7 +54,7 @@
 		    				<set var="arraysImported" value="true"/>
 		    			</if>
 		    			<if expr="@{propertyInfo.isModel} or @{propertyInfo.hasModel}">
-			    			<set var="propertyServiceInterfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{propertyClass})"/>
+			    			<set var="propertyServiceInterfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{propertyClass})"/>
 			    			import @{propertyServiceInterfaceClassName};
 			    		</if>
 					</if>
@@ -69,7 +69,7 @@
 				
 				<iterate var="propertyInfo" values="@{mainPropertyModelInfo.propertiesInfo}">
 					<if expr="@{propertyInfo.isEnum} or @{propertyInfo.hasEnum} or ((@{propertyInfo.isModel} or @{propertyInfo.hasModel}) and @{propertyInfo.relationType} != 'NONE')">
-						<set var="capitalizedPropertyId" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
+						<set var="capitalizedPropertyId" value="br.com.concepting.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
 		                list@{capitalizedPropertyId}();
 					</if>
 				</iterate>
@@ -84,13 +84,13 @@
 		            </if>
 	                <set var="propertyName" value="@{propertyClass.simpleName}"/>
 	                <set var="propertyClassName" value="@{propertyClass.name}"/>
-					<set var="capitalizedPropertyId" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
-					<set var="capitalizedPropertyDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{propertyInfo.dataset})"/>
+					<set var="capitalizedPropertyId" value="br.com.concepting.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
+					<set var="capitalizedPropertyDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{propertyInfo.dataset})"/>
 					private void list@{capitalizedPropertyId}() throws Throwable{
 						@{actionFormName} form = getActionForm();
 						@{modelName} model = form.getModel();
 						<if expr="@{propertyInfo.isModel} or @{propertyInfo.hasModel}">
-			    			<set var="propertyServiceInterfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{propertyClass})"/>
+			    			<set var="propertyServiceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{propertyClass})"/>
 			    			@{propertyServiceInterfaceName} service = getService(@{propertyName}.class);
 			    			Collection&lt;@{propertyName}&gt; list = service.list();
 						

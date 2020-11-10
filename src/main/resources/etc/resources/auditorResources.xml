@@ -4,7 +4,7 @@
 	     xsi:noNamespaceSchemaLocation="auditorResources.xsd">
 	<resources id="default" level="INFO" default="true">
 		<appenders>
-			<appender class="br.com.innovativethinking.framework.audit.appenders.ConsoleAuditorAppender"/>
+			<appender class="br.com.concepting.framework.audit.appenders.ConsoleAuditorAppender"/>
 		</appenders>
 	</resources>
 </auditor>

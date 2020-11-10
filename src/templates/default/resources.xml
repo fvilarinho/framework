@@ -2,7 +2,7 @@
 <!DOCTYPE artifacts>
 
 <artifacts>
-	<artifact name="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})">
+	<artifact name="br.com.concepting.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})">
 		//TODO: Define the resources of the #{clazz}.
 	</artifact>
 </artifacts>

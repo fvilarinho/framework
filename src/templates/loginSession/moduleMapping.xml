@@ -9,7 +9,7 @@
 		        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
 		        <init-param> 
 		            <param-name>javax.ws.rs.Application</param-name>  
-		            <param-value>br.com.innovativethinking.framework.webservice.controller.WebServiceListener</param-value>
+		            <param-value>br.com.concepting.framework.webservice.controller.WebServiceListener</param-value>
 		        </init-param>  
 		        <load-on-startup>1</load-on-startup> 
 		    </servlet>  

@@ -3,7 +3,7 @@
 
 <artifacts>
 	<artifact name="persistenceStructure">
-		<set var="content" value="br.com.innovativethinking.framework.persistence.util.PersistenceUtil.generateStructure(@{build.resourcesDirname})"/>
+		<set var="content" value="br.com.concepting.framework.persistence.util.PersistenceUtil.generateStructure(@{build.resourcesDirname})"/>
 		@{content}
 	</artifact>
 </artifacts>
