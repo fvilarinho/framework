@@ -4,6 +4,7 @@ Synopsis
 The main goal of this framework is provide a fast, simple, reliable and standardized way to develop Web Applications.
 The development was started in 2006 and since then new features and improvements are being released constantly.
 
+
 Motivation
 ==========
 
@@ -17,15 +18,18 @@ In my nearly 20 years of experience in software development, I faced the same pr
 
 The framework came up to mitigate these problems and many others and also speed up the development, consequently provide faster and more reliable deliveries.
 
+
 Contribution
 ============
 
 If you want to contribute with us, just fork the project that is located in GitHub ([https://www.github.com/concepting-com-br/framework]([https://www.github.com/concepting-com-br/framework)) and then make a pull request. We will analyze your code and check if it can be incorporated as soon as possible. You can also report a bug or request a new feature.
 
+
 Build Status
 ============
 
 * ![3.8](https://github.com/concepting-com-br/framework/workflows/CI/CD/badge.svg)
+
 
 Installation
 ============
@@ -51,10 +55,12 @@ To use the last stable version, execute the command below:
 
 Or use the IDE to switch between the versions.
 
+
 License
 =======
 
 The framework is licensed under the LGPL 3.0. Please read the licence file or check the URL [http://www.gnu.org/licenses/lgpl-3.0.html](http://www.gnu.org/licenses/lgpl-3.0.html)
+
 
 Author
 ======
