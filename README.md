@@ -20,7 +20,7 @@ The framework came up to mitigate these problems and many others and also speed 
 Contribution
 ============
 
-If you want to contribute with us, just fork the project that is located in BitBucket ([https://bitbucket.org/concepting/framework](https://bitbucket.org/concepting/framework)) and then make a pull request. We will analyze your code and check if it can be incorporated as soon as possible. You can also report a bug or request a new feature.
+If you want to contribute with us, just fork the project that is located in GitHub ([https://www.github.com/concepting-com-br/framework]([https://www.github.com/concepting-com-br/framework)) and then make a pull request. We will analyze your code and check if it can be incorporated as soon as possible. You can also report a bug or request a new feature.
 
 Build Status
 ============
@@ -36,7 +36,7 @@ The pre-requisites to use the framework are:
 2. **Gradle 6.6.1**
 
 To start using the framework, you should clone the project from BitBucket and then import it into your IDE.
-Now I'm using Eclipse IDE for JEE Developers. This IDE already has an integration with BitBucket but if you use an another tool and it doesn't have a BitBucket integration, you should use the git client. To clone the repository just run the command below:
+Now I'm using Eclipse IDE for JEE Developers. This IDE already has an integration with GitHub but if you use an another tool and it doesn't have a GitHub integration, you should use the git client. To clone the repository just run the command below:
 
 `git clone git@bitbucket.org:innovativethinking/framework.git`
 
