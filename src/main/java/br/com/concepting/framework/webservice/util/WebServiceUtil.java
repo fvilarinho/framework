@@ -4,14 +4,25 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 
-import br.com.concepting.framework.exceptions.InternalErrorException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.concepting.framework.constants.Constants;
+import br.com.concepting.framework.model.BaseModel;
+import br.com.concepting.framework.model.helpers.ModelInfo;
+import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.util.ByteUtil;
 import br.com.concepting.framework.util.PropertyUtil;
+import br.com.concepting.framework.util.helpers.PropertyInfo;
 
 /**
  * Utility class responsible to manipulate web services.
@@ -35,6 +46,8 @@ import br.com.concepting.framework.util.PropertyUtil;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class WebServiceUtil{
+	private static final ObjectMapper propertyMapper = PropertyUtil.getMapper();
+	
 	/**
 	 * Returns the client instance.
 	 * 
@@ -53,43 +66,67 @@ public class WebServiceUtil{
 		return clientBuilder.build();
 	}
 
-	/**
-	 * Deserializes an object.
-	 * 
-	 * @param <O> Class that defines the object.
-	 * @param in Stream that contains the content.
-	 * @param clazz Class that defines the object.
-	 * @return Instance of the object.
-	 * @throws InternalErrorException Occurs when was not possible to execute the operation.
-	 */
-	public static <O> O deserialize(InputStream in, Class<?> clazz) throws InternalErrorException{
-		try{
-			String responseContent = new String(ByteUtil.fromTextStream(in));
+	public static <O> O deserialize(InputStream in, Class<?> clazz) throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException, IOException{
+		String responseContent = new String(ByteUtil.fromTextStream(in));
 
-			return deserialize(responseContent, clazz);
-		}
-		catch(IOException e){
-			throw new InternalErrorException(e);
-		}
+		return deserialize(responseContent, clazz);
 	}
 
-	/**
-	 * Deserializes an object.
-	 * 
-	 * @param <O> Class that defines the object.
-	 * @param content String that contains the content.
-	 * @param clazz Class that defines the object.
-	 * @return Instance that contains the deserializable content.
-	 * @throws IOException Occurs when an I/O issue was triggered.
-	 */
-	@SuppressWarnings("unchecked")
-	public static <O> O deserialize(String content, Class<?> clazz) throws IOException{
-		if(clazz != null)
-			return (O)PropertyUtil.getMapper().readValue(content, clazz);
+	public static <O> O deserialize(String content, Class<?> clazz) throws IOException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
+		if(clazz != null){
+			Map<String, Object> contentMap = (Map<String, Object>)propertyMapper.readValue(content, new TypeReference<Map<String, Object>>(){});
+			
+			if(contentMap != null)
+				return deserialize(contentMap, clazz);
+		}
 
-		return (O)content;
+		return null;
 	}
-
+	
+	@SuppressWarnings({"unchecked"})
+	private static <O> O deserialize(Map<String, Object> contentMap, Class<?> clazz) throws IOException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
+		O result = null;
+		
+		if(clazz != null){
+			if(PropertyUtil.isModel(clazz)){
+				Class<? extends BaseModel> modelClass = (Class<? extends BaseModel>)clazz;
+				ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
+				Collection<PropertyInfo> propertiesInfos = modelInfo.getPropertiesInfo();
+				
+				if(propertiesInfos != null && !propertiesInfos.isEmpty()){
+					result = (O)propertyMapper.convertValue(contentMap, clazz);
+					
+					for(PropertyInfo propertyInfo : propertiesInfos){
+						if(propertyInfo.isModel() != null && propertyInfo.isModel()){
+							Map<String, Object> propertyMap = (Map<String, Object>)contentMap.get(propertyInfo.getId());
+							Class<? extends BaseModel> propertyClass = (Class<? extends BaseModel>)propertyInfo.getClazz();
+							O propertyValue = deserialize(propertyMap, propertyClass);
+							
+							if(propertyValue != null)
+								contentMap.put(propertyInfo.getId(), propertyValue);
+						}
+						else if(propertyInfo.hasModel() != null && propertyInfo.hasModel()){
+							List<Map<String, Object>> propertyValuesMap = (List<Map<String, Object>>)contentMap.get(propertyInfo.getId());
+							
+							if(propertyValuesMap != null && !propertyValuesMap.isEmpty()){
+								Class<? extends BaseModel> propertyClass = (Class<? extends BaseModel>)propertyInfo.getCollectionItemsClass(); 
+								List<Object> propertyValues = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+								
+								for(Map<String, Object> item : propertyValuesMap){
+									Object propertyValue = deserialize(item, propertyClass);
+									
+									if(propertyValue != null)
+										propertyValues.add(propertyValue);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
 	/**
 	 * Serializes an object.
 	 * 
@@ -98,7 +135,7 @@ public class WebServiceUtil{
 	 * @throws IOException Occurs when an I/O issue was triggered..
 	 */
 	public static void serialize(Object value, OutputStream out) throws IOException{
-		PropertyUtil.getMapper().writeValue(out, value);
+		propertyMapper.writeValue(out, value);
 	}
 
 	/**
