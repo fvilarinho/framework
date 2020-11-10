@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact packageName="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfacePackageByModel(#{clazz})"
+	          name="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(#{clazz})">
+		package @{packageName};
+		
+		import br.com.innovativethinking.framework.service.interfaces.IService;
+		
+		import #{clazz.name};
+		
+		/**
+		 * Interface that defines the service of the group administration UI.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		public interface @{name} extends IService&lt;#{clazz.simpleName}&gt;{
+		}
+	</artifact>
+</artifacts>

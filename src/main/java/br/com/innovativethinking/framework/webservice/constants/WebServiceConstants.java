@@ -1,0 +1,34 @@
+package br.com.innovativethinking.framework.webservice.constants;
+
+/**
+ * Class that defines the constants used in the manipulation of the web services.
+ * 
+ * @author fvilarinho
+ * @version 3.7.0
+ * 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ */
+public abstract class WebServiceConstants{
+	public static final String ACCEPT_ATTRIBUTE_ID       = "accept";
+	public static final String METHOD_ATTRIBUTE_ID       = "method";
+	public static final String URL_ATTRIBUTE_ID          = "url";
+	public static final String DATA_ATTRIBUTE_ID         = "data";
+	public static final String HEADERS_ATTRIBUTE_ID      = "headers";
+	public static final String HEADER_ATTRIBUTE_ID       = "header";
+	public static final String DEFAULT_ID                = "webService";
+	public static final String DEFAULT_IMPLEMENTATION_ID = "webServiceImpl";
+	public static final String DEFAULT_URL_PATTERN       = "/webServices/*";
+}

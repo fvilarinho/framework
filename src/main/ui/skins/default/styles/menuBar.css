@@ -1,0 +1,143 @@
+/**
+ * Defines the CSS styles of the menu bar component.
+ * 
+ * @author fvilarinho
+ * @version 1.0.0
+ */
+ 
+/**
+ * Style that defines the menu bar.
+ */
+.menuBar{
+	position  : RELATIVE;
+    background: WHITE;
+    border    : NONE;
+    text-align: LEFT;
+    padding   : 2px;
+}
+
+/**
+ * Style that defines the sub-menus.
+ */
+.menuBox{
+	position          : ABSOLUTE;
+    background        : WHITE;
+    border            : 1px SOLID #aaaaaa;
+	padding           : 2px;
+	-moz-box-shadow   : 2px 3px 4px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+	box-shadow        : 2px 3px 4px rgba(0, 0, 0, 0.3);
+	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa')";
+	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa');
+	visibility        : HIDDEN;
+	z-index           : 1001;
+}
+
+/**
+ * Style that defines the content of the menu bar.
+ */
+.menuBarContent{
+    border-collapse: COLLAPSE;
+	border         : NONE;
+	border-spacing : 0px;
+}
+
+/**
+ * Style that defines the content of the menu bar.
+ */
+.menuBarContent td{
+	padding: 0px;
+	height : 30px;
+}
+
+/**
+ * Style that defines the content do the sub-menus.
+ */
+.menuBoxContent{
+    border-collapse: COLLAPSE;
+	border         : NONE;
+	border-spacing : 0px;
+}
+
+/**
+ * Style that defines the content do the sub-menus.
+ */
+.menuBoxContent td{
+	padding: 0px;
+}
+
+/**
+ * Style that defines a menu item.
+ */
+.menuItem{
+    font-family   : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+    font-size     : 14px;  
+    color         : #666666;
+    padding-left  : 4px;
+    padding-right : 4px;
+    padding-top   : 2px;
+    padding-bottom: 2px;
+    white-space   : NOWRAP;
+    cursor        : POINTER;
+    height        : 30px;
+}
+
+/**
+ * Style that defines a selected menu item.
+ */
+.menuItemSelected{
+    font-family   : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+    font-size     : 14px;
+    color         : WHITE;
+    background    : #1e8fad;
+    cursor        : POINTER;
+    padding-left  : 4px;
+    padding-right : 4px;
+    padding-top   : 2px;
+    padding-bottom: 2px;
+    white-space   : NOWRAP;
+    height        : 30px;
+}
+
+/**
+ * Style that defines a menu bar item separator.
+ */
+.menuBarSeparator{
+    border-left: 1px SOLID #aaaaaa;
+    width      : 2px;
+    height     : 85%;
+}
+
+/**
+ * Style that defines a sub-menu item separator.
+ */
+.menuBoxSeparator{
+    border-top: 1px SOLID #aaaaaa;
+	width     : 95%;
+    height    : 2px;
+}
+
+/**
+ * Styles that defines the navigation history.
+ */
+.breadCrumb{
+	border-collapse: COLLAPSE;
+	border-spacing : 5px;
+	border-left    : 1px SOLID #aaaaaa; 
+	border-right   : 1px SOLID #aaaaaa; 
+	border-bottom  : none;
+	border-top     : none;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size      : 14px;
+	background     : WHITE;
+	color          : #666666;
+	width          : 100%;
+	height         : 30px;
+}
+
+/**
+ * Styles that defines the navigation history.
+ */
+.breadCrumb td{
+	padding: 5px;
+}

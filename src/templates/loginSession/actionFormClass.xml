@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact packageName="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormPackageByModel(#{clazz})"
+	          name="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormNameByModel(#{clazz})">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="userPropertyInfo" value="#{declaration}.getPropertyInfo('user')"/>
+		<set var="userModelClass" value="@{userPropertyInfo.clazz}"/>
+		<set var="userModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{userModelClass})"/>
+		<set var="userModelClassName" value="@{userModelClass.name}"/>
+		<set var="userModelName" value="@{userModelClass.simpleName}"/>
+		<set var="loginParameterPropertyInfo" value="@{userModelInfo}.getPropertyInfo('loginParameter')"/>
+		<set var="loginParameterModelClass" value="@{loginParameterPropertyInfo.clazz}"/>
+		<set var="loginParameterModelClassName" value="@{loginParameterModelClass.name}"/>
+		<set var="loginParameterModelName" value="@{loginParameterModelClass.simpleName}"/>
+		
+		import #{clazz.name};
+		import @{userModelClassName};
+		import @{loginParameterModelClassName};
+	
+		/**
+		 * Class that defines the form of the login session UI.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		public class @{name} extends br.com.innovativethinking.framework.security.controller.form.LoginSessionActionForm&lt;#{clazz.simpleName}, @{userModelName}, @{loginParameterModelName}&gt;{
+			private static final long serialVersionUID = @{serialVersionUID}L;	
+		}
+	</artifact>
+</artifacts>

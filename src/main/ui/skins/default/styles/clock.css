@@ -1,0 +1,16 @@
+/**
+ * Defines the CSS styles of the clock component.
+ * 
+ * @author fvilarinho
+ * @version 3.0.0
+ */
+
+/**
+ * Style that defines the component.
+ */
+.clock{
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 14px;
+	white-space: NOWRAP;
+	color      : #666666;
+}

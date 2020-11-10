@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact name="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})">
+		menuAdministration.label=Administration
+		menuAdministration.tooltip=
+
+		menuUserAdmin.label=Users
+		menuUserAdmin.tooltip=
+		
+		menuGroupAdmin.label=Groups
+		menuGroupAdmin.tooltip=
+	</artifact>
+</artifacts>

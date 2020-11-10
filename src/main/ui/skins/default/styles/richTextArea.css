@@ -1,0 +1,365 @@
+/**
+ * Defines the CSS styles of the rich text area component. 
+ * 
+ * @author fvilarinho
+ * @version 1.0.0
+ */
+
+/**
+ * Style that defines the component..
+ */
+.richTextArea{
+	border                            : 1px SOLID #aaaaaa;
+	background                        : WHITE;
+	width                             : 650px;
+	height                            : 150px;	
+	outline                           : NONE;
+	-webkit-transition                : all 0.25s ease-in-out;
+	-moz-transition                   : all 0.25s ease-in-out;
+	transition                        : all 0.25s ease-in-out;
+	-webkit-border-bottom-left-radius : 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft     : 3px;
+	-moz-border-radius-bottomright    : 3px;
+	border-bottom-left-radius         : 3px;
+	border-bottom-right-radius        : 3px;
+	border                            : 1px SOLID #aaaaaa;
+	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size                         : 14px; 
+	color                             : #666666;
+} 
+
+/**
+ * Style that defines the component when it has focus.
+ */
+.richTextArea:focus{
+    -webkit-box-shadow: 0 0 5px #1e8fad;
+    -moz-box-shadow   : 0 0 5px #1e8fad;
+	box-shadow        : 0 0 5px #1e8fad;
+	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
+	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
+	border            : 1px SOLID #1e8fad;
+}
+
+/**
+ * Style that defines the toolbar of the component.
+ */
+.richTextAreaToolbar{
+	width                          : 650px;
+	height                         : 60px;
+	background                     : #efefef;
+	-webkit-border-top-left-radius : 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft     : 3px;
+	-moz-border-radius-topright    : 3px;
+	border-top-left-radius         : 3px;
+	border-top-right-radius        : 3px;
+	border-top                     : 1px SOLID #aaaaaa;
+	border-left                    : 1px SOLID #aaaaaa;
+	border-right                   : 1px SOLID #aaaaaa;
+	border-bottom                  : NONE;
+	font-family                    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size                      : 14px; 
+	color                          : #666666;
+	overflow                       : HIDDEN;
+}
+
+/**
+ * Style that defines the bold button.
+ */
+.richTextAreaBoldButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/boldButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the italic button.
+ */
+.richTextAreaItalicButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/italicButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the underline button.
+ */
+.richTextAreaUnderlineButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/underlineButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the strike button.
+ */
+.richTextAreaStrikeButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/strikeButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the left alignment button.
+ */
+.richTextAreaLeftButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/leftButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the center alignment button.
+ */
+.richTextAreaCenterButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/centerButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the right alignment button.
+ */
+.richTextAreaRightButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/rightButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the justify alignment button.
+ */
+.richTextAreaJustifyButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/justifyButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the unordered list button.
+ */
+.richTextAreaUnorderedListButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/unorderedListButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the ordered list button.
+ */
+.richTextAreaOrderedListButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/orderedListButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the add tab button.
+ */
+.richTextAreaAddTabButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/addTabButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the remove tab button.
+ */
+.richTextAreaRemoveTabButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/removeTabButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the link button.
+ */
+.richTextAreaLinkButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/linkButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the table button.
+ */
+.richTextAreaTableButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/tableButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the image button.
+ */
+.richTextAreaImageButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/imageButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the check box button.
+ */
+.richTextAreaCheckButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/checkButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the cut button.
+ */
+.richTextAreaCutButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/cutButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the copy button.
+ */
+.richTextAreaCopyButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/copyButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the paste button.
+ */
+.richTextAreaPasteButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/pasteButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the undo button.
+ */
+.richTextAreaUndoButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/undoButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the redo button.
+ */
+.richTextAreaRedoButton{
+	width     : 20px;
+	height    : 20px;
+	background: url(../images/redoButton.png) NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the font name button.
+ */
+.richTextAreaFontNameLabel{
+	width      : 50px;
+	white-space: NOWRAP;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 14px;
+	color      : #666666;
+	overflow   : HIDDEN;
+}
+
+/**
+ * Style that defines the font size button.
+ */
+.richTextAreaFontSizeLabel{
+	width      : 50px;
+	white-space: NOWRAP;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 14px;
+	color      : #666666;
+	overflow   : HIDDEN;
+}
+
+/**
+ * Style that defines the font color button.
+ */
+.richTextAreaFontColorLabel{
+	width      : 50px;
+	white-space: NOWRAP;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 14px;
+	color      : #666666;
+	overflow   : HIDDEN;
+}
+
+/**
+ * Style that defines the background color button.
+ */
+.richTextAreaFontBackcolorLabel{
+	width      : 50px;
+	white-space: NOWRAP;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 14px;
+	color      : #666666;
+	overflow   : HIDDEN;
+}

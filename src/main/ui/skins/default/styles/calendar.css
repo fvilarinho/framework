@@ -1,0 +1,246 @@
+/**
+ * Defines the CSS styles of the calendar component.
+ * 
+ * @author fvilarinho
+ * @version 1.0.0
+ */
+
+/**
+ * Style that defines the component..
+ */
+.calendar{
+	position             : ABSOLUTE;
+    -webkit-box-shadow   : 2px 3px 4px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow      : 2px 3px 4px rgba(0, 0, 0, 0.3);
+	box-shadow           : 2px 3px 4px rgba(0, 0, 0, 0.3);
+	-ms-filter           : "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa')";
+	filter               : progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+	border               : 1px SOLID #aaaaaa;
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+	background           : WHITE;
+	text-align           : CENTER;
+	width                : 225px;
+	visibility           : HIDDEN;
+	z-index              : 1000;
+}
+
+/**
+ * Style that defines the input of the component..
+ */
+.calendar[type="text"]{
+	position             : RELATIVE;
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size            : 14px;
+	color                : #666666;
+	width                : AUTO;
+	background           : WHITE;
+	outline              : NONE;
+    -webkit-box-shadow   : NONE;
+    -moz-box-shadow      : NONE;
+	box-shadow           : NONE;
+	-ms-filter           : NONE;
+	filter               : NONE;
+	border               : 1px SOLID #aaaaaa;
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+	-webkit-transition   : all 0.25s ease-in-out;
+	-moz-transition      : all 0.25s ease-in-out;
+	transition           : all 0.25s ease-in-out;
+	visibility           : VISIBLE;
+	z-index              : 1;
+	padding              : 5px;
+	height               : 24px;
+}
+
+/**
+ * Style that defines the input of the component..
+ */
+.calendar[type="text"]:focus{
+    -webkit-box-shadow: 0 0 5px #1e8fad;
+    -moz-box-shadow   : 0 0 5px #1e8fad;
+	box-shadow        : 0 0 5px #1e8fad;
+	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
+	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
+	border            : 1px SOLID #1e8fad;
+}
+
+/**
+ * Style that defines the content.
+ */
+.calendarContent{
+	border         : NONE;
+	border-collapse: COLLAPSE;
+	border-spacing : 0px;
+	width          : 100%;
+}
+ 
+/**
+ * Style that defines the current day.
+ */
+.currentCalendarDay{
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 12px;
+	font-weight: BOLD;
+	color      : WHITE;
+	width      : 30px;
+	height     : 25px;
+	text-align : CENTER;
+	background : #1e8fad;
+	cursor     : POINTER;
+}
+ 
+/**
+ * Style that defines a day.
+ */
+.calendarDay{
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 11px;
+	color      : #666666;
+	width      : 30px;
+	height     : 25px;
+	text-align : CENTER;
+	border     : 1px SOLID #aaaaaa;
+	background : WHITE;
+	cursor     : POINTER;
+}
+
+/**
+ * Style that defines the time.
+ */
+.calendarTime{
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size            : 14px;
+	border               : 1px SOLID #aaaaaa;
+	color                : #666666;
+	background           : WHITE;
+	outline              : NONE;
+	-webkit-transition   : all 0.25s ease-in-out;
+	-moz-transition      : all 0.25s ease-in-out;
+	transition           : all 0.25s ease-in-out;
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+	padding              : 5px;
+	height               : 24px;
+}
+
+/**
+ * Style that defines the time.
+ */
+.calendarTime:focus{
+    -webkit-box-shadow: 0 0 5px #1e8fad;
+    -moz-box-shadow   : 0 0 5px #1e8fad;
+	box-shadow        : 0 0 5px #1e8fad;
+	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
+	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
+	border            : 1px SOLID #1e8fad;
+}
+
+/**
+ * Style that defines the selected day.
+ */
+.selectedCalendarDay{
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 12px;
+	font-weight: BOLD;
+	color      : #1e8fad;
+	width      : 30px;
+	height     : 25px;
+	text-align : CENTER;
+	border     : 1px SOLID #aaaaaa;
+	background : WHITE;
+	cursor     : POINTER;
+}
+
+/**
+ * Style that defines the days of week.
+ */
+.calendarWeek{
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 12px;
+	font-weight: BOLD;
+	border     : 1px OUTSET #aaaaaa;
+	background : #aaaaaa;
+	color      : WHITE;
+	text-align : CENTER;
+	width      : 30px;
+	height     : 25px;
+}
+
+/**
+ * Style that defines the month.
+ */
+.calendarMonth{
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 13px;
+	font-weight: bold;
+	color      : #666666;
+	text-align : CENTER;
+}
+
+/**
+ * Style that defines the next month button.
+ */
+.nextMonthButton{
+	background: url(../images/nextPageButton.png) NO-REPEAT;
+	width     : 20px;
+	height    : 20px;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+	margin    : 5px;
+}
+
+/**
+ * Style that defines the next year button.
+ */
+.nextYearButton{
+	background: url(../images/lastPageButton.png) NO-REPEAT;
+	width     : 20px;
+	height    : 20px;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+	margin    : 5px;
+}
+
+/**
+ * Style that defines the previous month button.
+ */
+.previousMonthButton{
+	background: url(../images/previousPageButton.png) NO-REPEAT;
+	width     : 20px;
+	height    : 20px;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+	margin    : 5px;
+}
+
+/**
+ * Style that defines the previous year button.
+ */
+.previousYearButton{
+	background: url(../images/firstPageButton.png) NO-REPEAT;
+	width     : 20px;
+	height    : 20px;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+	margin    : 5px;
+}
+
+/**
+ * Style that defines the show calendar button.
+ */
+.showCalendarButton{
+	background: url(../images/showCalendarButton.png) NO-REPEAT;
+	width     : 20px;
+	height    : 20px;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}

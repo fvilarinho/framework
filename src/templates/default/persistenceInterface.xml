@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact packageName="br.com.innovativethinking.framework.persistence.util.PersistenceUtil.getPersistenceInterfacePackageByModel(#{clazz})"
+	          name="br.com.innovativethinking.framework.persistence.util.PersistenceUtil.getPersistenceInterfaceNameByModel(#{clazz})">
+		package @{packageName};
+		
+		import br.com.innovativethinking.framework.persistence.interfaces.IPersistence;
+		
+		import #{clazz.name};
+		
+		/**
+		 * Interface that defines the persistence of the #{clazz}.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		public interface @{name} extends IPersistence&lt;#{clazz.simpleName}&gt;{
+		}
+	</artifact>
+</artifacts>

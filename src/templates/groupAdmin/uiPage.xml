@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+ 
+<artifacts xmlns:concepting="default namespace"
+           xmlns:jsp="default namespace"
+           xmlns:c="default namespace">
+	<artifact name="br.com.innovativethinking.framework.model.util.ModelUtil.getUrlByModel(#{clazz})">
+		&lt;%@ page errorPage="/WEB-INF/jsp/error.jsp"%&gt;
+		&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%&gt;
+		&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%&gt;
+		&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%&gt;
+		&lt;%@ taglib uri="https://www.innovativethinking.com.br/framework/ui/components" prefix="concepting"%&gt;
+    	<set var="actionFormName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormIdByModel(#{clazz})"/>
+   		<set var="resourcesId" value="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})"/>
+	    <set var="inputPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
+	    <set var="inputModelClass" value="@{inputPropertyInfo.clazz}"/>
+	    <set var="inputModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{inputModelClass})"/>
+		<set var="inputDataset" value="@{inputPropertyInfo.dataset}"/>
+		<set var="userPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('users')"/>
+		<set var="userDataset" value="@{userPropertyInfo.dataset}"/>
+		<set var="objectPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('objects')"/>
+		<set var="objectDataset" value="@{objectPropertyInfo.dataset}"/>
+		<set var="accessPropertyInfo" value="#{declaration}.getPropertyInfo('access')"/>
+		<set var="accessDataset" value="@{accessPropertyInfo.dataset}"/>
+		<set var="accessModelClass" value="@{accessPropertyInfo.clazz}"/>
+		<set var="accessModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{accessModelClass})"/>
+		<set var="urlPropertyInfo" value="@{accessModelInfo}.getPropertyInfo('url')"/>
+		<set var="urlDataset" value="@{urlPropertyInfo.dataset}"/>
+		<set var="mainConsoleResourcesId" value="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(@{systemResources.mainConsoleClass})"/>
+		
+		<concepting:page title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
+			<jsp:include page="/WEB-INF/jsp/header.jsp"/>
+			<concepting:form name="@{actionFormName}" resourcesId="@{resourcesId}">
+				<table class="content">
+					<tr>
+						<td align="CENTER" valign="TOP">
+	                        <span class="title">
+	                        	<concepting:label styleClass="subTitle" resourcesId="@{mainConsoleResourcesId}" resourcesKey="menuGroupAdmin"/>
+	                        </span>
+	                        <hr width="90%" size="1"/>
+	                        <br/>
+							<table class="contentPanel">
+								<tr>
+									<td align="CENTER">
+										<concepting:guides name="guides" width="75%" showNavigation="false">
+											<concepting:guide name="list">
+												<concepting:searchPropertiesGroup>
+													<concepting:text name="search.name" resourcesKey="group.name"/>
+													<concepting:text name="search.title" resourcesKey="group.title" size="50"/>
+													<concepting:text name="search.description" resourcesKey="group.description" size="70"/>
+												</concepting:searchPropertiesGroup>
+												<concepting:grid name="input.id" resourcesKey="group.id" dataset="@{inputDataset}" width="100%">
+													<concepting:gridColumn name="id" resourcesKey="group.id" width="10%"/>
+													<concepting:gridColumn name="name" resourcesKey="group.name" width="15%"/>
+													<concepting:gridColumn name="title" resourcesKey="group.title" width="25%"/>
+													<concepting:gridColumn name="description" resourcesKey="group.description"/>
+													<concepting:pager/>
+													<concepting:addButton onClick="setCurrentGuide('input', 'guides');"/>
+													<concepting:editButton onClick="setCurrentGuide('input', 'guides');"/>
+													<concepting:deleteButton showDialogBox="true"/>
+												</concepting:grid>
+											</concepting:guide>
+											<concepting:guide name="input"
+                                                              render="${@{actionFormName}.action == 'add' or @{actionFormName}.action == 'edit' or @{actionFormName}.action == 'addAccess' or @{actionFormName}.action == 'deleteAccess'}">
+												<fieldset class="group">
+													<legend class="groupLabel">
+														<concepting:label resourcesKey="inputFieldset"/>:											
+													</legend>
+													<table class="contentPanel">
+														<tr>
+															<td valign="TOP">
+																<concepting:label name="input.id" resourcesKey="group.id" render="${@{actionFormName}.action == 'edit'}"/>
+																<concepting:text name="input.name" resourcesKey="group.name"/>
+																<concepting:text name="input.title" resourcesKey="group.title" size="50"/>
+																<concepting:textArea name="input.description" resourcesKey="group.description" rows="5" columns="70"/>
+																<br/>
+																<concepting:guides name="subGuides" width="100%" showNavigation="false">
+																	<concepting:guide name="users">
+																		<concepting:grid name="input.users" resourcesKey="users" dataset="@{userDataset}" width="100%">
+																			<concepting:gridColumn name="id" resourcesKey="user.id" width="10%"/>
+																			<concepting:gridColumn name="name" resourcesKey="user.name" width="15%"/>
+																			<concepting:gridColumn name="fullName" resourcesKey="user.fullName"/>
+																			<concepting:gridColumn name="email" resourcesKey="user.email" width="35%"/>
+																			<concepting:pager/>
+																		</concepting:grid>
+																	</concepting:guide>
+																	<concepting:guide name="objects">
+																		<concepting:treeView name="input.objects" showLabel="false" resourcesKey="objects" dataset="@{objectDataset}" width="98%" height="200"/>
+																	</concepting:guide>
+																	<concepting:guide name="accesses">
+																		<concepting:grid name="access" resourcesKey="access" dataset="@{accessDataset}" width="100%">
+																			<concepting:gridColumn name="url" resourcesKey="url" dataset="@{urlDataset}">
+																				<concepting:gridColumnState expression="@{item.id} == null or @{item.id} == 0" isEditable="true"/>
+																			</concepting:gridColumn>
+																			<concepting:gridColumn name="blocked" resourcesKey="access.blocked" isEditable="true" width="15%"/>
+																			<concepting:pager/>
+																			<concepting:addButton action="addAccess"/>
+																			<concepting:deleteButton action="deleteAccess" showDialogBox="true"/>
+																		</concepting:grid>
+																	</concepting:guide>
+																</concepting:guides>
+															</td>
+														</tr>
+													</table>
+												</fieldset>
+												<table class="contentPanel">
+													<tr>
+														<td align="CENTER">
+															<br/>
+															<concepting:confirmButton action="save" showDialogBox="true" validateModel="true"/>
+															<concepting:backButton/>
+														</td>
+													</tr>
+												</table>
+											</concepting:guide>
+										</concepting:guides>
+										<br/><br/>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
+			</concepting:form>
+		</concepting:page>
+	</artifact>
+</artifacts>

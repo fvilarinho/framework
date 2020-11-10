@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact name="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})">
+		list.label=List    	
+		list.tooltip=
+		input.label=Add / Edit an item
+		input.tooltip=
+		inputFieldset.label=Form fields
+		inputFieldset.tooltip=
+		
+		<set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
+		<set var="searchPropertyClass" value="@{searchPropertyInfo.clazz}"/>
+		<set var="searchPropertyName" value="@{searchPropertyClass.simpleName}"/>
+		<set var="searchPropertyClassName" value="@{searchPropertyClass.name}"/>
+		<set var="searchPropertyPrefix" value="@{searchPropertyName}.substring(0, 1).toLowerCase()"/>
+		<set var="searchPropertyPrefix" value="@{searchPropertyPrefix}.concat(@{searchPropertyName}.substring(1))"/>
+		<set var="searchPropertyPrefix" value="br.com.innovativethinking.framework.util.StringUtil.replaceAll(@{searchPropertyPrefix}, 'Model', '')"/>
+		<set var="searchPropertyModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
+		<set var="mainPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
+		<set var="mainPropertyClass" value="@{mainPropertyInfo.clazz}"/>
+		<set var="mainPropertyName" value="@{mainPropertyClass.simpleName}"/>
+		<set var="mainPropertyClassName" value="@{mainPropertyClass.name}"/>
+		<set var="mainPropertyPrefix" value="@{mainPropertyName}.substring(0, 1).toLowerCase()"/>
+		<set var="mainPropertyPrefix" value="@{mainPropertyPrefix}.concat(@{mainPropertyName}.substring(1))"/>
+		<set var="mainPropertyPrefix" value="br.com.innovativethinking.framework.util.StringUtil.replaceAll(@{mainPropertyPrefix}, 'Model', '')"/>
+		<set var="mainPropertyModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{mainPropertyClass})"/>
+		<if expr="@{searchPropertyModelInfo} != null and @{searchPropertyClassName} != @{mainPropertyClassName}">
+			<iterate var="propertyInfo" values="@{searchPropertyModelInfo.searchPropertiesInfo}">
+				<if expr="(@{propertyInfo.mappedPropertyId} != null and @{propertyInfo.mappedPropertyId} != '') or @{propertyInfo.relationType} != 'NONE'">
+		            <set var="propertyId" value="@{searchPropertyPrefix}.concat('.').concat(@{propertyInfo.id})"/>
+		            <set var="propertyLabel" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
+		            @{propertyId}.label=@{propertyLabel}
+		            @{propertyId}.tooltip=
+				</if>
+			</iterate>
+		</if>
+		<iterate var="propertyInfo" values="@{mainPropertyModelInfo.propertiesInfo}">
+			<if expr="(@{propertyInfo.mappedPropertyId} != null and @{propertyInfo.mappedPropertyId} != '') or @{propertyInfo.relationType} != 'NONE'">
+	            <set var="propertyId" value="@{mainPropertyPrefix}.concat('.').concat(@{propertyInfo.id})"/>
+	            <set var="propertyLabel" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
+	            @{propertyId}.label=@{propertyLabel}
+	            @{propertyId}.tooltip=
+			</if>
+		</iterate>
+	</artifact>
+</artifacts>

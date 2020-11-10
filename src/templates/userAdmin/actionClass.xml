@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+ 
+<artifacts>
+	<artifact packageName="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionPackageByModel(#{clazz})"
+	          name="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionNameByModel(#{clazz})">
+		package @{packageName};
+		<set var="serviceInterfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(#{clazz})"/>
+		<set var="serviceInterfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(#{clazz})"/>
+	    <set var="actionFormClassName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormClassNameByModel(#{clazz})"/>
+		<set var="actionFormName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormNameByModel(#{clazz})"/>
+	    <set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
+		<set var="searchModelClass" value="@{searchPropertyInfo.clazz}"/>
+		<set var="searchModelClassName" value="@{searchModelClass.name}"/>
+		<set var="searchModelName" value="@{searchModelClass.simpleName}"/>
+		<set var="searchDataset" value="@{searchPropertyInfo.dataset}"/>
+		<set var="capitalizedSearchDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{searchDataset})"/>
+		<set var="searchServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchModelClass})"/>
+		<set var="searchServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchModelClass})"/>
+	    <set var="inputPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
+		<set var="inputModelClass" value="@{inputPropertyInfo.clazz}"/>
+		<set var="inputModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{inputModelClass})"/>
+		<set var="inputModelClassName" value="@{inputModelClass.name}"/>
+		<set var="inputModelName" value="@{inputModelClass.simpleName}"/>
+		<set var="inputDataset" value="@{inputPropertyInfo.dataset}"/>
+		<set var="capitalizedInputDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{inputDataset})"/>
+		<set var="inputServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{inputModelClass})"/>
+		<set var="inputServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{inputModelClass})"/>
+		<set var="loginParameterPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('loginParameter')"/>
+		<set var="loginParameterModelClass" value="@{loginParameterPropertyInfo.clazz}"/>
+		<set var="loginParameterModelClassName" value="@{loginParameterModelClass.name}"/>
+		<set var="loginParameterModelName" value="@{loginParameterModelClass.simpleName}"/>
+		<set var="groupPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('groups')"/>
+		<set var="groupModelClass" value="@{groupPropertyInfo.collectionItemsClass}"/>
+		<set var="groupModelClassName" value="@{groupModelClass.name}"/>
+		<set var="groupModelName" value="@{groupModelClass.simpleName}"/>
+		<set var="groupDataset" value="@{groupPropertyInfo.dataset}"/>
+		<set var="capitalizedGroupDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{groupDataset})"/>
+		<set var="groupServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{groupModelClass})"/>
+		<set var="groupServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{groupModelClass})"/>
+		
+		import java.util.Collection;
+	
+		import br.com.innovativethinking.framework.controller.action.BaseAction;
+		import br.com.innovativethinking.framework.model.exceptions.ItemNotSelectedException;
+		import br.com.innovativethinking.framework.util.helpers.DateTime;
+	
+		import #{clazz.name};
+		import @{inputModelClassName};
+        <if expr="@{searchModelClassName} != @{inputModelClassName}">
+        	import @{searchModelClassName};
+        </if>
+        import @{loginParameterModelClassName};
+        import @{groupModelClassName};
+		import @{actionFormClassName};
+		import @{serviceInterfaceClassName};
+		import @{inputServiceClassName};
+        <if expr="@{searchModelClassName} != @{inputModelClassName}">
+        	import @{searchServiceClassName};
+        </if>
+		import @{groupServiceClassName};
+
+		/**
+		 * Class that defines the actions of the user administration UI.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		public class @{name} extends BaseAction&lt;#{clazz.simpleName}&gt;{
+		    /**
+		     * List the available groups.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void listGroups() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{groupServiceName} service = getService(@{groupModelName}.class);
+		        Collection&lt;@{groupModelName}&gt; @{groupDataset} = service.list();
+		        
+		        model.set@{capitalizedGroupDataset}(@{groupDataset});
+		    }
+    
+		    /**
+		     * @see br.com.innovativethinking.framework.controller.action.BaseAction#init()
+		     */
+		    public void init() throws Throwable{
+		        super.init();
+		        
+		        listGroups();
+		        search();
+		    }
+    
+		    /**
+		     * Search for available users.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void search() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{searchModelName} search = model.getSearch();
+		        
+		        if(search == null){
+		            search = new @{searchModelName}();
+		            
+		            model.setSearch(search);
+		        }
+		        
+		        if(search.isActive() == null)
+		            search.setActive(true);
+		            
+		        search.setSystem(false);
+        
+        		@{searchServiceName} service = getService(@{searchModelName}.class);
+		        Collection&lt;@{searchModelName}&gt; @{inputDataset} = service.search(search);
+		        
+		        model.setInput(null);
+		        model.set@{capitalizedInputDataset}(@{inputDataset});
+		    }
+    
+		    /**
+		     * Add a new user.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void add() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{inputModelName} input = new @{inputModelName}();
+		        
+		        input.setActive(true);
+		        input.setSystem(false);
+		        input.setCreation(new DateTime());
+		        
+		        @{loginParameterModelName} loginParameter = new @{loginParameterModelName}();
+		        
+		        loginParameter.setChangePassword(true);
+		        loginParameter.setUseStrongPassword(true);
+		        loginParameter.setMultipleLogins(true);
+		        
+		        input.setLoginParameter(loginParameter);
+
+		        model.setInput(input);
+		    }
+    
+		    /**
+		     * Edit the selected user.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void edit() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{inputModelName} input = model.getInput();
+		        @{inputServiceName} service = getService(@{inputModelName}.class);
+		        
+		        if(input == null || input.getId() == null || input.getId() == 0)
+		            throw new ItemNotSelectedException();
+		        
+		        input = service.find(input);
+		        input = service.loadReference(input, "groups");
+		        
+		        model.setInput(input);
+		    }
+		    
+		    /**
+		     * Update the expiration date/time of the password.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void updateExpirePasswordDateTime() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{inputModelName} user = model.getInput();
+		        @{serviceInterfaceName} service = getService();
+		        
+		        service.updateExpirePasswordDateTime(user);
+		        
+		        form.setAction(form.getLastAction());
+		    }
+		    
+		    /**
+		     * Delete the selected user.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void delete() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{inputModelName} input = model.getInput();
+		        @{inputServiceName} service = getService(@{inputModelName}.class);
+		        
+		        if(input == null || input.getId() == null || input.getId() == 0)
+		            throw new ItemNotSelectedException();
+		        
+		        service.delete(input);
+		        
+		        getActionFormController().addSuccessMessage();
+		        
+		        search();
+		    }
+		    
+		    /**
+		     * Save the changes of the selected user.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void save() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{inputModelName} input = model.getInput();
+		        @{serviceInterfaceName} service = getService();
+		        
+		        service.saveUser(input);
+		        
+		        getActionFormController().addSuccessMessage();
+		        
+		        search();
+		    }
+		}
+	</artifact>
+</artifacts>

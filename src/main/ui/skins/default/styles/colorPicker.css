@@ -1,0 +1,53 @@
+/**
+ * Defines the CSS styles of the color picker component.
+ * 
+ * @author fvilarinho
+ * @version 3.0.0
+ */
+
+/**
+ * Style that defines the properties labels of the component.
+ */
+.colorPickerLabel{
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 14px; 
+	white-space: NOWRAP;
+	color      : #666666;
+	width      : 30px;
+	overflow   : HIDDEN;
+}
+
+/**
+ * Style that defines the thumbnail of the component.
+ */
+.colorPickerThumbnail{
+	border               : 1px solid #aaaaaa;
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+	background           : WHITE;
+	width                : 50px;
+	height               : 50px;
+	cursor               : POINTER;
+}
+
+/**
+ * Style that defines the dialog of the component.
+ */
+.colorPickerDialog{
+	position             : ABSOLUTE;
+	-webkit-box-shadow   : 2px 3px 4px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow      : 2px 3px 4px rgba(0, 0, 0, 0.3);
+	box-shadow           : 2px 3px 4px rgba(0, 0, 0, 0.3);
+	-ms-filter           : "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa')";
+	filter               : progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
+	border               : 1px SOLID #aaaaaa;
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+	background           : WHITE;
+	text-align           : CENTER;
+	width                : 200px;
+	visibility           : HIDDEN;
+	padding              : 10px;
+}

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+ 
+<artifacts>
+	<artifact packageName="#{clazz.package.name}"
+	          name="br.com.innovativethinking.framework.util.StringUtil.replaceAll(#{clazz.simpleName}, 'Model', 'Test')">
+		package @{packageName};
+
+		import org.junit.Test;
+		import static org.junit.Assert.assertNotNull;
+		import static org.junit.Assert.assertNull;
+		import static org.junit.Assert.assertEquals;
+		import static org.junit.Assert.assertTrue;
+
+		import #{clazz.name};
+		<set var="modelClass" value="#{clazz}"/>
+		<set var="alreadyImported" value="new java.util.ArrayList()"/>
+		<evaluate expr="@{alreadyImported}.add(#{clazz})"/>
+		<iterate var="propertyInfo" values="#{propertiesInfo}">
+			<if expr="@{propertyInfo.isDate}">
+				<if expr="!@{alreadyImported}.contains(@{propertyInfo.clazz})">
+					<if expr="@{propertyInfo.isTime}">
+						import br.com.innovativethinking.framework.util.helpers.DateTime;
+					</if>
+					<if expr="!@{propertyInfo.isTime}">
+						import java.util.Date;
+					</if>
+					<evaluate expr="@{alreadyImported}.add(@{propertyInfo.clazz})"/>
+				</if>
+			</if>
+			<if expr="@{propertyInfo.isEnum}">
+				<if expr="!@{alreadyImported}.contains(@{propertyInfo.clazz})">
+					import @{propertyInfo.clazz.name};
+					<evaluate expr="@{alreadyImported}.add(@{propertyInfo.clazz})"/>
+				</if>
+			</if>
+			<if expr="@{propertyInfo.isModel}">
+				<if expr="!@{alreadyImported}.contains(@{propertyInfo.clazz})">
+					import @{propertyInfo.clazz.name};
+					<evaluate expr="@{alreadyImported}.add(@{propertyInfo.clazz})"/>
+				</if>
+			</if>
+			<if expr="@{propertyInfo.isCollection}">
+				<if expr="!@{alreadyImported}.contains(@{propertyInfo.clazz})">
+					import java.util.List;
+					import @{propertyInfo.clazz.name};
+					<evaluate expr="@{alreadyImported}.add(@{propertyInfo.clazz})"/>
+				</if>
+			</if>
+			<if expr="@{propertyInfo.hasModel}">
+				<if expr="!@{alreadyImported}.contains(@{propertyInfo.collectionItemsClass})">
+					import @{propertyInfo.collectionItemsClass.name};
+					<evaluate expr="@{alreadyImported}.add(@{propertyInfo.collectionItemsClass})"/>
+				</if>
+			</if>
+		</iterate>
+		<set var="modelClassName" value="#{clazz.simpleName}"/>
+		public class @{name}{
+			private #{clazz.simpleName} model = new #{clazz.simpleName}();
+			 
+			<iterate var="propertyInfo" values="#{propertiesInfo}">
+				@Test
+				public void @{propertyInfo.id}_Test(){
+					<set var="capitalized" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
+					model.set@{capitalized}(null);
+					assertNull(model.get@{capitalized}());
+					
+					<if expr="@{propertyInfo.isNumber}">
+						<if expr="@{propertyInfo.isLong}">
+							model.set@{capitalized}(1l);
+						</if>
+						<if expr="@{propertyInfo.isDouble}">
+							model.set@{capitalized}(1d);
+						</if>
+						<if expr="!(@{propertyInfo.isDouble} or @{propertyInfo.isLong})">
+							model.set@{capitalized}(1);
+						</if>
+					</if>
+					<if expr="@{propertyInfo.isString}">
+						model.set@{capitalized}("test");
+					</if>
+					<if expr="@{propertyInfo.isBoolean}">
+						model.set@{capitalized}(true);
+					</if>
+					<if expr="@{propertyInfo.isByteArray}">
+						model.set@{capitalized}(new byte[1]);
+					</if>
+					<if expr="@{propertyInfo.isModel}">
+						@{propertyInfo.clazz.simpleName} value = new @{propertyInfo.clazz.simpleName}();
+						
+						model.set@{capitalized}(value);
+					</if>
+					<if expr="@{propertyInfo.isEnum}">
+						@{propertyInfo.clazz.simpleName} value = @{propertyInfo.clazz.simpleName}.values()[0]; 
+						
+						model.set@{capitalized}(value);
+					</if>
+					<if expr="@{propertyInfo.isCollection}">
+						<if expr="@{propertyInfo.hasModel}">
+							List&lt;@{propertyInfo.collectionItemsClass.simpleName}&gt; values = new @{propertyInfo.clazz.simpleName}&lt;&gt;();
+
+							values.add(new @{propertyInfo.collectionItemsClass.simpleName}());
+							model.set@{capitalized}(values);
+						</if>
+					</if>
+					<if expr="@{propertyInfo.isDate}">
+						<if expr="@{propertyInfo.isTime}">
+							DateTime dateTime = new DateTime();
+							
+							model.set@{capitalized}(dateTime);
+						</if>
+						<if expr="!@{propertyInfo.isTime}">
+							Date date = new Date();
+							
+							model.set@{capitalized}(date);
+						</if>
+					</if>
+					<if expr="!(@{propertyInfo.isNumber} or @{propertyInfo.isString} or @{propertyInfo.isBoolean} or @{propertyInfo.isDate} or @{propertyInfo.isEnum} or @{propertyInfo.isByteArray} or @{propertyInfo.isModel} or @{propertyInfo.isCollection})">
+						<if expr="@{propertyInfo.clazz.simpleName}.equals('Class')">
+							model.set@{capitalized}(model.getClass());
+						</if>
+						<if expr="!@{propertyInfo.clazz.simpleName}.equals('Class')">
+							model.set@{capitalized}(new Object());
+						</if>
+					</if>
+					
+       				assertNotNull(model.get@{capitalized}());
+					<if expr="@{propertyInfo.isNumber}">
+						<if expr="@{propertyInfo.isLong}">
+							assertTrue(model.get@{capitalized}().equals(1l));
+						</if>
+						<if expr="@{propertyInfo.isDouble}">
+							assertTrue(model.get@{capitalized}().equals(1d));
+						</if>
+						<if expr="!(@{propertyInfo.isDouble} or @{propertyInfo.isLong})">
+							assertTrue(model.get@{capitalized}().equals(1));
+						</if>
+					</if>
+					<if expr="@{propertyInfo.isString}">
+						assertEquals("test", model.get@{capitalized}());
+					</if>
+					<if expr="@{propertyInfo.isBoolean}">
+						assertEquals(true, model.get@{capitalized}());
+						<set var="methodName" value="is"/>
+						<set var="methodName" value="@{methodName}.concat(@{capitalized})"/>
+						<set var="method" value="br.com.innovativethinking.framework.util.MethodUtil.getMethod(@{modelClass}, @{methodName})"/>
+						<if expr="@{method} != null">
+							assertEquals(true, model.is@{capitalized}());
+						</if>
+						<set var="methodName" value="has"/>
+						<set var="methodName" value="@{methodName}.concat(@{capitalized})"/>
+						<set var="method" value="br.com.innovativethinking.framework.util.MethodUtil.getMethod(@{modelClass}, @{methodName})"/>
+						<if expr="@{method} != null">
+							assertEquals(true, model.has@{capitalized}());
+						</if>
+						<set var="methodName" value="@{propertyInfo.id}"/>
+						<set var="method" value="br.com.innovativethinking.framework.util.MethodUtil.getMethod(@{modelClass}, @{methodName})"/>
+						<if expr="@{method} != null">
+							assertEquals(true, model.@{propertyInfo.id}());
+						</if>
+					</if>
+					<if expr="@{propertyInfo.isEnum}">
+						assertEquals(value, model.get@{capitalized}());
+					</if>
+					<if expr="@{propertyInfo.isByteArray}">
+						assertEquals(1, model.get@{capitalized}().length);
+					</if>
+					<if expr="@{propertyInfo.isModel}">
+						assertEquals(value, model.get@{capitalized}());
+					</if>
+					<if expr="@{propertyInfo.isCollection}">
+						assertEquals(1, model.get@{capitalized}().size());
+					</if>
+					<if expr="@{propertyInfo.isDate}">
+						<if expr="@{propertyInfo.isTime}">
+							assertEquals(dateTime, model.get@{capitalized}());
+						</if>
+						<if expr="!@{propertyInfo.isTime}">
+							assertEquals(date, model.get@{capitalized}());
+						</if>
+					</if>
+				}
+			</iterate>
+		}
+	</artifact>
+</artifacts>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact name="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})">
+		changeYourPassword.label=Change your password!
+		changeYourPassword.tooltip=
+	
+		forgotMyPassword.label=Forgot my password!
+		forgotMyPassword.tooltip=
+			
+		sendYourForgottenPassword.label=A new password will be sent<br/>once you confirm the data below!
+		sendYourForgottenPassword.tooltip=
+	
+	    rememberUserAndPassword.label=Remember user and password?
+	    rememberUserAndPassword.tooltip=
+	    
+	    mfaTokenValidation.label=Validate your MFA token!
+	    mfaTokenValidation.tooltip=
+	    
+	    logIn.label=Log in
+	    logIn.tooltip=
+	
+		user.name.label=User
+		user.name.tooltip=
+		user.email.label=e-Mail
+		user.email.tooltip=
+		user.password.label=Password
+		user.password.tooltip=
+		user.newPassword.label=New password
+		user.newPassword.tooltip=
+		user.confirmPassword.label=Confirmation
+		user.confirmPassword.tooltip=
+		user.mfaToken.label=Token
+		user.mfaToken.tooltip=
+	</artifact>
+</artifacts>

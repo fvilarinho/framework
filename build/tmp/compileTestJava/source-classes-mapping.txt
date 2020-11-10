@@ -1,0 +1,24 @@
+br/com/innovativethinking/framework/model/ObjectTest.java
+ br.com.innovativethinking.framework.model.ObjectTest
+br/com/innovativethinking/framework/security/model/GroupTest.java
+ br.com.innovativethinking.framework.security.model.GroupTest
+br/com/innovativethinking/framework/model/FormTest.java
+ br.com.innovativethinking.framework.model.FormTest
+br/com/innovativethinking/framework/model/SystemModuleTest.java
+ br.com.innovativethinking.framework.model.SystemModuleTest
+br/com/innovativethinking/framework/security/model/AccessTest.java
+ br.com.innovativethinking.framework.security.model.AccessTest
+br/com/innovativethinking/framework/security/model/UserTest.java
+ br.com.innovativethinking.framework.security.model.UserTest
+br/com/innovativethinking/framework/audit/model/AuditorComplementTest.java
+ br.com.innovativethinking.framework.audit.model.AuditorComplementTest
+br/com/innovativethinking/framework/model/SystemSessionTest.java
+ br.com.innovativethinking.framework.model.SystemSessionTest
+br/com/innovativethinking/framework/security/model/LoginSessionTest.java
+ br.com.innovativethinking.framework.security.model.LoginSessionTest
+br/com/innovativethinking/framework/model/UrlTest.java
+ br.com.innovativethinking.framework.model.UrlTest
+br/com/innovativethinking/framework/security/model/LoginParameterTest.java
+ br.com.innovativethinking.framework.security.model.LoginParameterTest
+br/com/innovativethinking/framework/audit/model/AuditorTest.java
+ br.com.innovativethinking.framework.audit.model.AuditorTest

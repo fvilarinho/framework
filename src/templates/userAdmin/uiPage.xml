@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts xmlns:concepting="default namespace" xmlns:jsp="default namespace" xmlns:c="default namespace">
+	<artifact name="br.com.innovativethinking.framework.model.util.ModelUtil.getUrlByModel(#{clazz})">
+		&lt;%@ page errorPage="/WEB-INF/jsp/error.jsp"%&gt;
+		&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%&gt;
+		&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%&gt;
+		&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%&gt;
+		&lt;%@ taglib uri="https://www.innovativethinking.com.br/framework/ui/components" prefix="concepting"%&gt;
+		<set var="actionFormName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormIdByModel(#{clazz})"/>
+		<set var="resourcesId" value="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})"/>
+		<set var="inputPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
+		<set var="inputModelClass" value="@{inputPropertyInfo.clazz}"/>
+		<set var="inputModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{inputModelClass})"/>
+		<set var="inputDataset" value="@{inputPropertyInfo.dataset}"/>
+		<set var="groupPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('groups')"/>
+		<set var="groupDataset" value="@{groupPropertyInfo.dataset}"/>
+		<set var="mainConsoleResourcesId" value="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(@{systemResources.mainConsoleClass})"/>
+		
+		<concepting:page title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
+			<jsp:include page="/WEB-INF/jsp/header.jsp"/>
+			<concepting:form name="@{actionFormName}" resourcesId="@{resourcesId}">
+				<table class="content">
+					<tr>
+						<td align="CENTER" valign="TOP">
+							<span class="title">
+								<concepting:label styleClass="subTitle" resourcesId="@{mainConsoleResourcesId}" resourcesKey="menuUserAdmin"/>
+							</span>
+							<hr width="90%" size="1"/>
+							<br/>
+							<table class="contentPanel">
+								<tr>
+									<td align="CENTER">
+										<concepting:guides name="guides" width="80%" showNavigation="false">
+											<concepting:guide name="list">
+												<concepting:searchPropertiesGroup>
+													<concepting:text name="search.name" resourcesKey="user.name"/>
+													<concepting:text name="search.fullName" resourcesKey="user.fullName" size="70"/>
+													<concepting:text name="search.email" resourcesKey="user.email" size="50"/>
+													<concepting:check name="search.active" resourcesKey="user.active"/>
+												</concepting:searchPropertiesGroup>
+												<concepting:grid name="input.id" resourcesKey="user.id" dataset="@{inputDataset}" width="100%">
+													<concepting:gridColumn name="id" resourcesKey="user.id" width="10%"/>
+													<concepting:gridColumn name="name" resourcesKey="user.name" width="15%"/>
+													<concepting:gridColumn name="fullName" resourcesKey="user.fullName"/>
+													<concepting:gridColumn name="email" resourcesKey="user.email"/>
+													<concepting:gridColumn name="active" resourcesKey="user.active" width="10%"/>
+													<concepting:pager/>
+													<concepting:addButton onClick="setCurrentGuide('input', 'guides');"/>
+													<concepting:editButton onClick="setCurrentGuide('input', 'guides');"/>
+													<concepting:deleteButton showDialogBox="true"/>
+												</concepting:grid>
+											</concepting:guide>
+											<concepting:guide name="input" render="${@{actionFormName}.model.input != null and (@{actionFormName}.action == 'add' or @{actionFormName}.action == 'edit'}">
+												<fieldset class="group">
+													<legend class="groupLabel">
+														<concepting:label resourcesKey="inputFieldset"/>:
+													</legend>
+													<table class="contentPanel">
+														<tr>
+															<td valign="TOP">
+																<concepting:label name="input.id" resourcesKey="user.id" render="${@{actionFormName}.action == 'edit'}"/>
+																<concepting:text name="input.name" resourcesKey="user.name"/>
+																<concepting:text name="input.fullName" resourcesKey="user.fullName" size="70"/>
+																<concepting:text name="input.email" resourcesKey="user.email" size="50"/>
+																<concepting:password name="input.newPassword" resourcesKey="user.newPassword" render="${@{actionFormName}.action == 'add'}"/>
+																<concepting:password name="input.confirmPassword" resourcesKey="user.confirmPassword" render="${@{actionFormName}.action == 'add'}"/>
+																<concepting:check name="input.active" resourcesKey="user.active"/>
+															</td>
+															<td valign="TOP" width="15%">
+																<concepting:upload name="input.logo" resourcesKey="user.logo" labelPosition="TOP" contentWidth="70" contentHeight="80"/>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="2">
+																<hr size="1" width="100%"/>
+																<table class="contentPanel">
+																	<tr>
+																		<td valign="TOP" align="CENTER" width="33%">
+																			<concepting:label name="input.creation" resourcesKey="user.creation" labelPosition="TOP"/>
+																		</td>
+																		<td valign="TOP" align="CENTER" width="33%">
+																			<concepting:label name="input.lastUpdate" resourcesKey="user.lastUpdate" labelPosition="TOP"/>
+																		</td>
+																		<td valign="TOP" align="CENTER" width="33%">
+																			<concepting:label name="input.lastLogin" resourcesKey="user.lastLogin" labelPosition="TOP"/>
+																		</td>
+																	</tr>
+																</table>
+																<br/>
+																<concepting:guides name="subGuides" width="100%" showNavigation="false">
+																	<concepting:guide name="loginParameters">
+																		<table class="contentPanel">
+																			<tr>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:check name="input.superUser" resourcesKey="user.superUser" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:check name="input.loginParameter.mfa" resourcesKey="loginParameter.mfa" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:check name="input.loginParameter.multipleLogins" resourcesKey="loginParameter.multipleLogins" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:check name="input.loginParameter.changePassword" resourcesKey="loginParameter.changePassword" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:check name="input.loginParameter.useStrongPassword" resourcesKey="loginParameter.useStrongPassword" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																			</tr>
+																		</table>
+																		<hr size="1" width="100%"/>
+																		<table class="contentPanel">
+																			<tr>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:spinner name="input.loginParameter.loginTries" resourcesKey="loginParameter.loginTries" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:spinner name="input.loginParameter.minimumPasswordLength" resourcesKey="loginParameter.minimumPasswordLength" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:spinner name="input.loginParameter.changePasswordInterval" resourcesKey="loginParameter.changePasswordInterval" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:spinner name="input.loginParameter.expirePasswordInterval" resourcesKey="loginParameter.expirePasswordInterval" labelPosition="TOP" alignment="LEFT" onChangeAction="updateExpirePasswordDateTime"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:label name="input.loginParameter.expirePasswordDateTime" resourcesKey="loginParameter.expirePasswordDateTime" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																			</tr>
+																		</table>
+																	</concepting:guide>
+																	<concepting:guide name="groups">
+																		<concepting:grid name="input.groups" resourcesKey="groups" dataset="@{groupDataset}" width="100%">
+																			<concepting:gridColumn name="id" resourcesKey="group.id" width="10%"/>
+																			<concepting:gridColumn name="name" resourcesKey="group.name" width="15%"/>
+																			<concepting:gridColumn name="title" resourcesKey="group.title" width="25%"/>
+																			<concepting:gridColumn name="description" resourcesKey="group.description"/>
+																			<concepting:pager/>
+																		</concepting:grid>
+																	</concepting:guide>
+																</concepting:guides>
+															</td>
+														</tr>
+													</table>
+												</fieldset>
+												<table class="contentPanel">
+													<tr>
+														<td align="CENTER">
+															<br/>
+															<concepting:confirmButton action="save" showDialogBox="true" validateModel="true"/>
+															<concepting:backButton/>
+														</td>
+													</tr>
+												</table>
+											</concepting:guide>
+										</concepting:guides>
+										<br/>
+										<br/>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
+			</concepting:form>
+		</concepting:page>
+	</artifact>
+</artifacts>

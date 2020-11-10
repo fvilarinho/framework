@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <!DOCTYPE artifacts>
+ 
+<artifacts>
+	<artifact name="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})">
+		list.label=List   	
+		list.tooltip=
+		input.label=Add / Edit an item
+		input.tooltip=
+		inputFieldset.label=Form fields
+		inputFieldset.tooltip=
+		
+		users.label=Users
+		users.tooltip=
+		objects.label=Objects
+		objects.tooltip=
+		accesses.label=Accesses
+		accesses.tooltip=
+
+		group.id.label=Id
+		group.id.tooltip=
+		group.name.label=Name
+		group.name.tooltip=
+		group.title.label=Title
+		group.title.tooltip=
+		group.description.label=Description
+		group.description.tooltip=
+		
+		user.id.label=Id
+		user.id.tooltip=
+		user.name.label=Name
+		user.name.tooltip=
+		user.fullName.label=Full name
+		user.fullName.tooltip=
+		user.email.label=e-Mail
+		user.email.tooltip=
+		
+		access.label=Access
+		access.tooltip=
+		access.blocked.label=Blocked?
+		access.blocked.tooltip=
+		
+		url.label=URL
+		url.tooltip=
+	</artifact>
+</artifacts>

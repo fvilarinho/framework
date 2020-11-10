@@ -1,0 +1,153 @@
+/**
+ * Defines the CSS styles of the grid component.
+ * 
+ * @author fvilarinho
+ * @version 1.0.0
+ */
+ 
+/**
+ * Style that defines the ascend sort icon.
+ */
+.ascendOrderIcon{
+	background: url("../images/ascendOrderIcon.gif") NO-REPEAT;
+	width     : 9px;
+	height    : 10px;
+	border    : NONE;
+}
+	
+/**
+ * Style that defines the descend sort icon.
+ */
+.descendOrderIcon{
+	background: url("../images/descendOrderIcon.gif") NO-REPEAT;
+	width     : 9px;
+	height    : 10px;
+	border    : NONE;
+}
+
+/**
+ * Style that defines the control of the component.
+ */
+.gridControl{
+	text-align: CENTER;
+	padding   : 5px;
+}
+
+/**
+ * Style that defines the pager of the component.
+ */
+.gridPager{
+	text-align: RIGHT;
+}
+
+/**
+ * Style that defines the buttons of the component.
+ */
+.gridButtons{
+	text-align: LEFT;
+}
+
+/**
+ * Style that defines the header of the component.
+ */
+.gridHeader{
+	background : url(../images/gridHeader.gif);
+	color      : WHITE;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size  : 14px;
+	font-weight: BOLD;
+	padding    : 1px;
+	border     : 1px SOLID #aaaaaa;
+	height     : 25px;
+}
+
+/**
+ * Style that defines the link of the header.
+ */
+.gridHeader a{
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size      : 14px;
+	text-decoration: NONE;
+	color          : WHITE;
+	cursor         : POINTER;
+}
+
+/**
+ * Style that defines the link of the header when the mouse is over it.
+ */
+.gridHeader a:hover{
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size      : 14px;
+	text-decoration: UNDERLINE;
+	color          : WHITE;
+}
+
+/**
+ * Style that defines the link of the header.
+ */
+.gridHeader a:active{
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size      : 14px;
+	text-decoration: NONE;
+	color          : WHITE;
+}
+
+/**
+ * Style that defines the content of the component.
+ */
+.gridDetail{
+	background : #fffffa;
+	padding    : 1px;
+	color      : #666666;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-weight: NORMAL;
+	font-size  : 14px;
+	border     : 1px SOLID #aaaaaa;
+	height     : 25px;
+}
+
+/**
+ * Style that defines the link of the content.
+ */
+.gridDetail a{
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size      : 14px;
+	text-decoration: NONE;
+	color          : #666666;
+	cursor         : POINTER;
+}
+
+/**
+ * Style that defines the link of the content when the mouse is over it.
+ */
+.gridDetail a:hover{
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size      : 14px;
+	text-decoration: UNDERLINE;
+	color          : #1e8fad;
+	cursor         : POINTER;
+}
+
+/**
+ * Style that defines the link of the content.
+ */
+.gridDetail a:active{
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size      : 14px;
+	text-decoration: NONE;
+	color          : #666666;
+}
+
+/**
+ * Style that defines the grouping of the component.
+ */
+.gridAggregate{
+	background : #eaeace;
+	padding    : 1px;
+	color      : #666666;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-weight: BOLD;
+	font-size  : 16px;
+	border     : 1px SOLID #aaaaaa;
+	height     : 25px;
+}

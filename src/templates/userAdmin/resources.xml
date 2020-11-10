@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+ 
+<artifacts>
+	<artifact name="br.com.innovativethinking.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})">
+		list.label=List   	
+		list.tooltip=
+		input.label=Add / Edit an item
+		input.tooltip=
+		inputFieldset.label=Form fields
+		inputFieldset.tooltip=
+
+		loginParameters.label=Parameters
+		loginParameters.tooltip=
+		groups.label=Groups
+		groups.tooltip=
+
+		user.id.label=Id
+		user.id.tooltip=
+		user.name.label=Name
+		user.name.tooltip=
+		user.fullName.label=Full name
+		user.fullName.tooltip=
+		user.email.label=e-Mail
+		user.email.tooltip=
+		user.logo.label=Logo
+		user.logo.tooltip=
+		user.superUser.label=Super user?
+		user.superUser.tooltip=	
+		user.active.label=Active?
+		user.active.tooltip=	
+		user.newPassword.label=Password
+		user.newPassword.tooltip=
+		user.confirmPassword.label=Confirmation
+		user.confirmPassword.tooltip=
+		user.creation.label=Creation
+		user.creation.tooltip=	
+		user.lastUpdate.label=Last update
+		user.lastUpdate.tooltip=	
+		user.lastLogin.label=Last login
+		user.lastLogin.tooltip=
+		
+		group.id.label=Id
+		group.id.tooltip=
+		group.name.label=Name
+		group.name.tooltip=
+		group.title.label=Title
+		group.title.tooltip=
+		group.description.label=Description
+		group.description.tooltip=
+		
+		loginParameter.multipleLogins.label=Multiple logins?
+		loginParameter.multipleLogins.tooltip=
+		loginParameter.changePassword.label=Change password?
+		loginParameter.changePassword.tooltip=
+		loginParameter.useStrongPassword.label=Use strong passwords?
+		loginParameter.useStrongPassword.tooltip=
+		loginParameter.changePasswordInterval.label=Change password interval
+		loginParameter.changePasswordInterval.tooltip=
+		loginParameter.expirePasswordInterval.label=Expire password interval
+		loginParameter.expirePasswordInterval.tooltip=
+		loginParameter.expirePasswordDateTime.label=Expire password date/time
+		loginParameter.expirePasswordDateTime.tooltip=
+		loginParameter.minimumPasswordLength.label=Minimum password length
+		loginParameter.minimumPasswordLength.tooltip=
+		loginParameter.loginTries.label=Login tries
+		loginParameter.loginTries.tooltip=
+		loginParameter.mfa.label=MFA?
+		loginParameter.mfa.tooltip=
+	</artifact>
+</artifacts>

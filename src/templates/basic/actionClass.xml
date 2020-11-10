@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+ 
+<artifacts>
+	<artifact packageName="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionPackageByModel(#{clazz})"
+	          name="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionNameByModel(#{clazz})">
+		package @{packageName};
+		<set var="modelName" value="#{clazz.simpleName}"/>
+	    <set var="actionFormClassName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormClassNameByModel(#{clazz})"/>
+		<set var="actionFormName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormNameByModel(#{clazz})"/>
+		<set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
+		<set var="searchPropertyDataset" value="@{searchPropertyInfo.dataset}"/>
+		<set var="searchPropertyClass" value="@{searchPropertyInfo.clazz}"/>
+		<set var="searchPropertyName" value="@{searchPropertyClass.simpleName}"/>
+		<set var="searchPropertyClassName" value="@{searchPropertyClass.name}"/>
+		<set var="searchPropertyServiceInterfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchPropertyClass})"/>
+		<set var="searchPropertyServiceInterfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchPropertyClass})"/>
+		<set var="searchPropertyModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
+		<set var="mainPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
+		<set var="mainPropertyDataset" value="@{mainPropertyInfo.dataset}"/>
+		<set var="mainPropertyClass" value="@{mainPropertyInfo.clazz}"/>
+		<set var="mainPropertyName" value="@{mainPropertyClass.simpleName}"/>
+		<set var="mainPropertyClassName" value="@{mainPropertyClass.name}"/>
+		<set var="mainPropertyServiceInterfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{mainPropertyClass})"/>
+		<set var="mainPropertyServiceInterfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{mainPropertyClass})"/>
+		<set var="mainPropertyModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{mainPropertyClass})"/>
+		<set var="capitalizedMainPropertyDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{mainPropertyDataset})"/>
+		
+		import br.com.innovativethinking.framework.controller.action.BaseAction;
+		import #{clazz.name};
+		<if expr="@{searchPropertyModelInfo} != null or @{mainPropertyModelInfo} != null">
+			import @{actionFormClassName};
+			<if expr="@{searchPropertyModelInfo} != null and @{searchPropertyClassName} != @{mainPropertyClassName}">
+		        import @{searchPropertyClassName};
+				import @{searchPropertyServiceInterfaceClassName};
+			</if>
+			import java.util.Collection;
+			<if expr="@{mainPropertyModelInfo} != null">
+				import br.com.innovativethinking.framework.model.exceptions.ItemNotSelectedException;
+		        import @{mainPropertyClassName};
+				import @{mainPropertyServiceInterfaceClassName};
+				<set var="arraysImported" value="false"/>
+				<iterate var="propertyInfo" values="@{mainPropertyModelInfo.propertiesInfo}">
+					<if expr="@{propertyInfo.isEnum} or @{propertyInfo.hasEnum} or ((@{propertyInfo.isModel} or @{propertyInfo.hasModel}) and @{propertyInfo.relationType} != 'NONE')">
+		                <set var="propertyClass" value="@{propertyInfo.clazz}"/>
+			            <if expr="@{propertyInfo.hasEnum} or @{propertyInfo.hasModel}">
+			                <set var="propertyClass" value="@{propertyInfo.collectionItemsClass}"/>
+			            </if>
+		                <set var="propertyName" value="@{propertyClass.simpleName}"/>
+		                <set var="propertyClassName" value="@{propertyClass.name}"/>
+		    			import @{propertyClassName};
+		    			<if expr="(@{propertyInfo.isEnum} or @{propertyInfo.hasEnum}) and !@{arraysImported}">
+		    				import java.util.Arrays;
+		    				<set var="arraysImported" value="true"/>
+		    			</if>
+		    			<if expr="@{propertyInfo.isModel} or @{propertyInfo.hasModel}">
+			    			<set var="propertyServiceInterfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{propertyClass})"/>
+			    			import @{propertyServiceInterfaceClassName};
+			    		</if>
+					</if>
+				</iterate>
+			</if>
+		</if>
+		
+		public class @{name} extends BaseAction&lt;#{clazz.simpleName}&gt;{
+			@Override
+			public void init() throws Throwable{
+				super.init();
+				
+				<iterate var="propertyInfo" values="@{mainPropertyModelInfo.propertiesInfo}">
+					<if expr="@{propertyInfo.isEnum} or @{propertyInfo.hasEnum} or ((@{propertyInfo.isModel} or @{propertyInfo.hasModel}) and @{propertyInfo.relationType} != 'NONE')">
+						<set var="capitalizedPropertyId" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
+		                list@{capitalizedPropertyId}();
+					</if>
+				</iterate>
+				search();
+			}
+
+			<iterate var="propertyInfo" values="@{mainPropertyModelInfo.propertiesInfo}">
+				<if expr="@{propertyInfo.isEnum} or @{propertyInfo.hasEnum} or ((@{propertyInfo.isModel} or @{propertyInfo.hasModel}) and @{propertyInfo.relationType} != 'NONE')">
+	                <set var="propertyClass" value="@{propertyInfo.clazz}"/>
+		            <if expr="@{propertyInfo.hasEnum} or @{propertyInfo.hasModel}">
+		                <set var="propertyClass" value="@{propertyInfo.collectionItemsClass}"/>
+		            </if>
+	                <set var="propertyName" value="@{propertyClass.simpleName}"/>
+	                <set var="propertyClassName" value="@{propertyClass.name}"/>
+					<set var="capitalizedPropertyId" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
+					<set var="capitalizedPropertyDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{propertyInfo.dataset})"/>
+					private void list@{capitalizedPropertyId}() throws Throwable{
+						@{actionFormName} form = getActionForm();
+						@{modelName} model = form.getModel();
+						<if expr="@{propertyInfo.isModel} or @{propertyInfo.hasModel}">
+			    			<set var="propertyServiceInterfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{propertyClass})"/>
+			    			@{propertyServiceInterfaceName} service = getService(@{propertyName}.class);
+			    			Collection&lt;@{propertyName}&gt; list = service.list();
+						
+							model.set@{capitalizedPropertyDataset}(list);
+						</if>
+						
+						<if expr="@{propertyInfo.isEnum} or @{propertyInfo.hasEnum}">
+							model.set@{capitalizedPropertyDataset}(Arrays.asList(@{propertyName}.values()));
+						</if>
+					}
+				</if>
+			</iterate>
+			
+			public void search() throws Throwable{
+				@{actionFormName} form = getActionForm();
+				#{clazz.simpleName} model = form.getModel();
+				@{searchPropertyName} search = model.getSearch();
+				
+				if(search == null)
+					search = new @{searchPropertyName}();
+					
+				@{searchPropertyServiceInterfaceName} service = getService(@{searchPropertyName}.class);
+				Collection&lt;@{searchPropertyName}&gt; list = service.search(search);
+				
+				model.set@{capitalizedMainPropertyDataset}(list);
+				model.setInput(null);
+				
+				form.setModel(model);
+			}
+			
+			public void add() throws Throwable{
+				@{actionFormName} form = getActionForm();
+				#{clazz.simpleName} model = form.getModel();
+				
+				model.setInput(new @{mainPropertyName}());
+				
+				form.setModel(model);
+			}
+			
+			public void edit() throws Throwable{
+				@{actionFormName} form = getActionForm();
+				#{clazz.simpleName} model = form.getModel();
+				@{mainPropertyName} input = model.getInput();
+				
+				if(input == null)
+					throw new ItemNotSelectedException();
+					
+				@{mainPropertyServiceInterfaceName} service = getService(@{mainPropertyName}.class);
+				
+				input = service.find(input);
+				<iterate var="propertyInfo" values="@{mainPropertyModelInfo.propertiesInfo}">
+					<if expr="(@{propertyInfo.isModel} or @{propertyInfo.hasModel}) and @{propertyInfo.relationType} != 'NONE'">
+		    			input = service.loadReference(input, "@{propertyInfo.id}");
+					</if>
+				</iterate>
+				
+				model.setInput(input);
+			}
+
+			public void delete() throws Throwable{
+				@{actionFormName} form = getActionForm();
+				#{clazz.simpleName} model = form.getModel();
+				@{mainPropertyName} input = model.getInput();
+				
+				if(input == null)
+					throw new ItemNotSelectedException();
+					
+				@{mainPropertyServiceInterfaceName} service = getService(@{mainPropertyName}.class);
+				
+				service.delete(input);
+				
+				init();
+				
+				getActionFormController().addSuccessMessage();
+			}
+
+			public void save() throws Throwable{
+				@{actionFormName} form = getActionForm();
+				#{clazz.simpleName} model = form.getModel();
+				@{mainPropertyName} input = model.getInput();
+				@{mainPropertyServiceInterfaceName} service = getService(@{mainPropertyName}.class);
+				
+				service.save(input);
+				
+				init();
+				
+				getActionFormController().addSuccessMessage();
+			}
+		}
+	</artifact>
+</artifacts>

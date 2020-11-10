@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+ 
+<artifacts>
+	<artifact packageName="br.com.innovativethinking.framework.service.util.ServiceUtil.getWebServicePackageByModel(#{clazz})"
+	          name="br.com.innovativethinking.framework.service.util.ServiceUtil.getWebServiceNameByModel(#{clazz})">
+		package @{packageName};
+		<set var="userPropertyInfo" value="#{declaration}.getPropertyInfo('user')"/>
+		<set var="userModelClass" value="@{userPropertyInfo.clazz}"/>
+		<set var="userModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{userModelClass})"/>
+		<set var="userModelClassName" value="@{userModelClass.name}"/>
+		<set var="userModelName" value="@{userModelClass.simpleName}"/>
+		<set var="loginParameterPropertyInfo" value="@{userModelInfo}.getPropertyInfo('loginParameter')"/>
+		<set var="loginParameterModelClass" value="@{loginParameterPropertyInfo.clazz}"/>
+		<set var="loginParameterModelClassName" value="@{loginParameterModelClass.name}"/>
+		<set var="loginParameterModelName" value="@{loginParameterModelClass.simpleName}"/>
+		<set var="interfaceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getWebServiceInterfaceClassNameByModel(#{clazz})"/>
+		<set var="interfaceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getWebServiceInterfaceNameByModel(#{clazz})"/>
+		<set var="lookupName" value="br.com.innovativethinking.framework.model.util.ModelUtil.getUrlByModel(#{clazz})"/>
+		<set var="lookupName" value="@{lookupName}.substring(1)"/>
+		
+		import javax.ws.rs.Path;
+		
+		import #{clazz.name};
+		import @{userModelClassName};
+		import @{loginParameterModelClassName};
+		import @{interfaceClassName};
+		
+		/**
+		 * Class that defines the web service of the login session data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Path("@{lookupName}") 
+		public class @{name} extends br.com.innovativethinking.framework.security.service.LoginSessionWebServiceImpl&lt;#{clazz.simpleName}, @{userModelName}, @{loginParameterModelName}&gt; implements @{interfaceName}{
+		}
+	</artifact>
+</artifacts>

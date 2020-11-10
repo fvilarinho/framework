@@ -1,0 +1,61 @@
+/**
+ * Defines the CSS styles of the slider bar component.
+ * 
+ * @author fvilarinho
+ * @version 3.0.0
+ */
+
+/**
+ * Style that defines the slider bar component.
+ */
+.sliderBar{
+	position  : RELATIVE;
+	left      : 0px;
+	top       : 10px;
+	width     : 100%;
+	height    : 5px;
+	background: url(../images/sliderBar.png) REPEAT-X;
+}
+
+/**
+ * Style that defines the input of the slider bar component.
+ */
+.sliderBar[type="text"]{
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size            : 14px;
+	color                : #666666;
+	left                 : 0px;
+	top                  : 0px;
+	width                : AUTO;
+	height               : AUTO;
+	background           : WHITE;
+	outline              : NONE;
+    -webkit-box-shadow   : NONE;
+    -moz-box-shadow      : NONE;
+	box-shadow           : NONE;
+	-ms-filter           : NONE;
+	filter               : NONE;
+	border               : 1px SOLID #aaaaaa;
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+	-webkit-transition   : all 0.25s ease-in-out;
+	-moz-transition      : all 0.25s ease-in-out;
+	transition           : all 0.25s ease-in-out;
+	padding              : 5px;
+	height               : 24px;
+}
+
+/**
+ * Style that defines the control of the slider bar component.
+ */
+.sliderBarControl{
+	position  : RELATIVE;
+	left      : 0px;
+	top       : 0px;
+	width     : 17px;
+	height    : 19px;
+	float     : LEFT;
+	background: url(../images/sliderBarControl.png) NO-REPEAT;
+	z-index   : 1;
+}

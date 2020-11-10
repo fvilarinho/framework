@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+ 
+<artifacts>
+	<artifact packageName="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionPackageByModel(#{clazz})"
+	          name="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionNameByModel(#{clazz})">
+		package @{packageName};
+	    <set var="actionFormClassName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormClassNameByModel(#{clazz})"/>
+		<set var="actionFormName" value="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionFormNameByModel(#{clazz})"/>
+	    <set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
+		<set var="searchModelClass" value="@{searchPropertyInfo.clazz}"/>
+		<set var="searchModelClassName" value="@{searchModelClass.name}"/>
+		<set var="searchModelName" value="@{searchModelClass.simpleName}"/>
+		<set var="searchServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchModelClass})"/>
+		<set var="searchServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchModelClass})"/>
+		<set var="searchDataset" value="@{searchPropertyInfo.dataset}"/>
+		<set var="capitalizedSearchDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{searchDataset})"/>
+		<set var="inputPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
+		<set var="inputModelClass" value="@{inputPropertyInfo.clazz}"/>
+		<set var="inputModelClassName" value="@{inputModelClass.name}"/>
+		<set var="inputModelName" value="@{inputModelClass.simpleName}"/>
+	    <set var="inputModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{inputModelClass})"/>
+		<set var="inputServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{inputModelClass})"/>
+		<set var="inputServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{inputModelClass})"/>
+		<set var="inputDataset" value="@{inputPropertyInfo.dataset}"/>
+		<set var="capitalizedInputDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{inputDataset})"/>
+		<set var="userPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('users')"/>
+		<set var="userModelClass" value="@{userPropertyInfo.collectionItemsClass}"/>
+		<set var="userModelClassName" value="@{userModelClass.name}"/>
+		<set var="userModelName" value="@{userModelClass.simpleName}"/>
+		<set var="userServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{userModelClass})"/>
+		<set var="userServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{userModelClass})"/>
+		<set var="userDataset" value="@{userPropertyInfo.dataset}"/>
+		<set var="capitalizedUserDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{userDataset})"/>
+		<set var="objectPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('objects')"/>
+		<set var="objectModelClass" value="@{objectPropertyInfo.collectionItemsClass}"/>
+		<set var="objectModelClassName" value="@{objectModelClass.name}"/>
+		<set var="objectModelName" value="@{objectModelClass.simpleName}"/>
+	    <set var="objectModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{objectModelClass})"/>
+		<set var="objectServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{objectModelClass})"/>
+		<set var="objectServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{objectModelClass})"/>
+		<set var="objectDataset" value="@{objectPropertyInfo.dataset}"/>
+		<set var="capitalizedObjectDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{objectDataset})"/>
+		<set var="accessPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('accesses')"/>
+		<set var="accessModelClass" value="@{accessPropertyInfo.collectionItemsClass}"/>
+		<set var="accessModelClassName" value="@{accessModelClass.name}"/>
+		<set var="accessModelName" value="@{accessModelClass.simpleName}"/>
+		<set var="accessModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{accessModelClass})"/>
+		<set var="urlPropertyInfo" value="@{accessModelInfo}.getPropertyInfo('url')"/>
+		<set var="urlModelClass" value="@{urlPropertyInfo.clazz}"/>
+		<set var="urlModelClassName" value="@{urlModelClass.name}"/>
+		<set var="urlModelName" value="@{urlModelClass.simpleName}"/>
+		<set var="urlServiceClassName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{urlModelClass})"/>
+		<set var="urlServiceName" value="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{urlModelClass})"/>
+		<set var="urlDataset" value="@{urlPropertyInfo.dataset}"/>
+		<set var="capitalizedUrlDataset" value="br.com.innovativethinking.framework.util.StringUtil.capitalize(@{urlDataset})"/>
+		
+		import java.util.Collection;
+		import java.util.List;
+
+		import br.com.innovativethinking.framework.controller.action.BaseAction;
+		import br.com.innovativethinking.framework.model.exceptions.ItemNotSelectedException;
+		import br.com.innovativethinking.framework.model.types.ConditionType;
+		import br.com.innovativethinking.framework.util.PropertyUtil;
+		import br.com.innovativethinking.framework.util.helpers.Filter;
+		
+		import @{actionFormClassName};
+		import #{clazz.name};
+		import @{inputModelClassName};
+		<if expr="@{searchModelClassName} != @{inputModelClassName}">
+        	import @{searchModelClassName};
+        </if>
+        import @{accessModelClassName};
+        import @{objectModelClassName};
+        import @{urlModelClassName};
+        import @{userModelClassName};
+        import @{inputServiceClassName};
+        <if expr="@{searchModelClassName} != @{inputModelClassName}">
+        	import @{searchServiceClassName};
+        </if>
+        import @{objectServiceClassName};
+        import @{urlServiceClassName};
+        import @{userServiceClassName};
+
+		/**
+		 * Class that defines the actions of the group administration UI.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		public class @{name} extends BaseAction&lt;#{clazz.simpleName}&gt;{
+			/**
+			 * List the available URLs.
+			 *
+			 * @throws Throwable Occurs when was not possible to execute the operation.
+			 */
+			 public void listUrls() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{urlServiceName} service = getService(@{urlModelName}.class);
+			 	Collection&lt;@{urlModelName}&gt; @{urlDataset} = service.list();
+			 	
+			 	model.set@{capitalizedUrlDataset}(@{urlDataset});
+			 }
+			 
+		    /**
+		     * List the available users.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void listUsers() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{userServiceName} service = getService(@{userModelName}.class);
+		        @{userModelName} user = new @{userModelName}();
+		        
+		        user.setActive(true);
+		        user.setSystem(false);
+
+		        Collection&lt;@{userModelName}&gt; @{userDataset} = service.search(user);
+		        
+		        model.set@{capitalizedUserDataset}(@{userDataset});
+		    }
+		    
+		    /**
+		     * List the available objects.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void listObjects() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{objectServiceName} service = getService(@{objectModelName}.class);
+		        Collection&lt;@{objectModelName}&gt; @{objectDataset} = service.list();
+		        
+		        model.set@{capitalizedObjectDataset}(@{objectDataset});
+		    }
+    
+		    /**
+		     * @see br.com.innovativethinking.framework.controller.action.BaseAction#init()
+		     */
+		    public void init() throws Throwable{
+		        super.init();
+		        
+		        listUrls();
+		        listObjects();
+		        listUsers();
+		        search();
+		    }
+    
+		    /**
+		     * Search for available groups.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void search() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{searchModelName} search = model.getSearch();
+		        
+		        if(search == null){
+		            search = new @{searchModelName}();
+		            
+		            model.setSearch(search);
+		        }
+        
+        		@{searchServiceName} service = getService(@{searchModelName}.class);
+		        Collection&lt;@{searchModelName}&gt; @{inputDataset} = service.search(search);
+		        
+		        model.setInput(null);
+		        model.set@{capitalizedInputDataset}(@{inputDataset});
+		    }
+    
+		    /**
+		     * Add a new group.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void add() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+
+		        model.setInput(new @{inputModelName}());
+		    }
+    
+		    /**
+		     * Edit the selected group.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void edit() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{inputModelName} input = model.getInput();
+		        @{inputServiceName} service = getService(@{inputModelName}.class);
+		        
+		        if(input == null || input.getId() == null || input.getId() == 0)
+		            throw new ItemNotSelectedException();
+		        
+		        input = service.find(input);
+		        input = service.loadReference(input, "objects");
+		        input = service.loadReference(input, "users");
+		        input = service.loadReference(input, "accesses");
+		        
+		        model.setInput(input);
+		    }
+    
+		    /**
+		     * Delete the selected group.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void delete() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{inputModelName} input = model.getInput();
+		        @{inputServiceName} service = getService(@{inputModelName}.class);
+		        
+		        if(input == null || input.getId() == null || input.getId() == 0)
+		            throw new ItemNotSelectedException();
+		        
+		        service.delete(input);
+		        
+		        getActionFormController().addSuccessMessage();
+		        
+		        search();
+		    }
+		    
+		    /**
+		     * Save the changes of the selected group.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void save() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{inputModelName} input = model.getInput();
+		        @{inputServiceName} service = getService(@{inputModelName}.class);
+		        
+		        service.save(input);
+		        
+		        getActionFormController().addSuccessMessage();
+		        
+		        search();
+		    }
+		    
+		    /**
+		     * Add a new access.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void addAccess() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{inputModelName} input = model.getInput();
+		        List&lt;@{accessModelName}&gt; accesses = input.getAccesses();
+		        
+		        if(accesses == null){
+		        	accesses = PropertyUtil.instantiate(List.class);
+		        	
+		        	input.setAccesses(accesses);
+		        }
+		        
+		        accesses.add(new @{accessModelName}());
+		    }
+				    
+		    /**
+		     * Delete the selected access.
+		     *
+		     * @throws Throwable Occurs when was not possible to execute the operation.
+		     */
+		    public void deleteAccess() throws Throwable{
+		        @{actionFormName} form = getActionForm();
+		        #{clazz.simpleName} model = form.getModel();
+		        @{inputModelName} input = model.getInput();
+		        @{accessModelName} access = model.getAccess();
+		        List&lt;@{accessModelName}&gt; accesses = input.getAccesses();
+		        
+		        if(access == null || accesses == null || accesses.size() == 0)
+		        	throw new ItemNotSelectedException();
+		        	
+		        accesses.remove(access);
+		    }
+		}
+	</artifact>
+</artifacts>

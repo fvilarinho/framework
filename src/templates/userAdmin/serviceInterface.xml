@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact packageName="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfacePackageByModel(#{clazz})"
+	          name="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(#{clazz})">
+		package @{packageName};
+	    <set var="userPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
+		<set var="userModelClass" value="@{userPropertyInfo.clazz}"/>
+		<set var="userModelClassName" value="@{userModelClass.name}"/>
+		<set var="userModelName" value="@{userModelClass.simpleName}"/>
+		
+		import br.com.innovativethinking.framework.exceptions.InternalErrorException;
+		import br.com.innovativethinking.framework.model.exceptions.ItemAlreadyExistsException;
+		import br.com.innovativethinking.framework.security.exceptions.PasswordsNotMatchException;
+		import br.com.innovativethinking.framework.security.exceptions.PasswordWithoutMinimumLengthException;
+		import br.com.innovativethinking.framework.security.exceptions.PasswordIsNotStrongException;
+		import br.com.innovativethinking.framework.service.interfaces.IService;
+		
+		import #{clazz.name};
+		import @{userModelClassName};
+		
+		/**
+		 * Interface that defines the service of the user administration UI.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		public interface @{name} extends IService&lt;#{clazz.simpleName}&gt;{
+		    /**
+		     * Update the expiration date/time of the password.
+		     *
+		     * @param user Instance that contains the user data model.
+		     * @throws InternalErrorException Occurs when was not possible to execute the operation.
+		     */
+			public void updateExpirePasswordDateTime(@{userModelName} user) throws InternalErrorException;
+
+		    /**
+		     * Save the changes of the user.
+		     *
+		     * @param user Instance that contains the user data model.
+		     * @throws ItemAlreadyExistsException Occurs when the user already exists.
+		     * @throws PasswordsNotMatchException Occurs when the passwords don't match.
+		     * @throws PasswordWithoutMinimumLengthException Occurs when the password doesn't have the minimum length.
+		     * @throws PasswordIsNotStrongException Occurs when the password is not strong.
+		     * @throws InternalErrorException Occurs when was not possible to execute the operation.
+		     */
+			public void saveUser(@{userModelName} user) throws ItemAlreadyExistsException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, PasswordIsNotStrongException, InternalErrorException;
+		}
+	</artifact>
+</artifacts>

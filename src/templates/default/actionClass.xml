@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact packageName="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionPackageByModel(#{clazz})"
+	          name="br.com.innovativethinking.framework.controller.form.util.ActionFormUtil.getActionNameByModel(#{clazz})">
+		package @{packageName};
+
+		import br.com.innovativethinking.framework.controller.action.BaseAction;
+
+		import #{clazz.name};
+
+		/**
+		 * Class that defines the actions of the #{clazz} UI.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		public class @{name} extends BaseAction&lt;#{clazz.simpleName}&gt;{
+		}
+	</artifact>
+</artifacts>

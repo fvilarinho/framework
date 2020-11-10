@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="br.com.innovativethinking.framework.security.model.LoginParameterTest" tests="30" skipped="0" failures="0" errors="0" timestamp="2020-10-16T16:36:41" hostname="neo.localdomain" time="0.006">
+  <properties/>
+  <testcase name="mfaToken_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="receiveSms_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="expirePasswordInterval_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.001"/>
+  <testcase name="hoursUntilExpire_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="receiveIm_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="compareAccuracy_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="useStrongPassword_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="sortPropertyId_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.001"/>
+  <testcase name="receiveVoipCall_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="daysUntilExpire_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="multipleLogins_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="mfaTokenValidated_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="language_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="mfa_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="changePasswordInterval_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="level_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="currentLoginTries_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.001"/>
+  <testcase name="index_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="parent_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="notificationToken_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="children_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="minutesUntilExpire_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="expirePasswordDateTime_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="id_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="loginTries_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="minimumPasswordLength_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="secondsUntilExpire_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.001"/>
+  <testcase name="passwordWillExpire_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="changePassword_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <testcase name="skin_Test" classname="br.com.innovativethinking.framework.security.model.LoginParameterTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

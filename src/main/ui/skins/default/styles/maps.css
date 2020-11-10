@@ -1,0 +1,31 @@
+/**
+ * Style that defines the component.
+ */
+.maps{
+	border: 1px SOLID #aaaaaa;
+}
+
+/**
+ * Style that defines the component input.
+ */
+.mapsInput{
+	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size                         : 14px;
+	border                            : 1px SOLID #aaaaaa;
+	color                             : #666666;
+	background                        : WHITE;
+	outline                           : NONE;
+	-webkit-transition                : all 0.25s ease-in-out;
+	-moz-transition                   : all 0.25s ease-in-out;
+	transition                        : all 0.25s ease-in-out;
+	-webkit-border-radius             : 3px;
+	-moz-border-radius                : 3px;
+	border-radius                     : 3px;
+	-webkit-border-bottom-left-radius : 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	-moz-border-radius-bottomleft     : 0px;
+	-moz-border-radius-bottomright    : 0px;
+	border-bottom-left-radius         : 0px;
+	border-bottom-right-radius        : 0px;
+	border-bottom                     : NONE;
+}

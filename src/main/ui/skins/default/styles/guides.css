@@ -1,0 +1,132 @@
+/**
+ * Defines the CSS styles of the guides component.
+ * 
+ * @author fvilarinho
+ * @version 1.0.0
+ */
+  
+/**
+ * Style that defines the component.
+ */
+.guides{
+	border         : NONE;
+	border-collapse: COLLAPSE;
+	border-spacing : 0px;
+}
+ 
+/**
+ * Style that defines the component.
+ */
+.guides td{
+	padding: 0px;
+}
+
+/**
+ * Style that defines a guide.
+ */
+.guide{
+	-webkit-border-top-left-radius : 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft     : 3px;
+	-moz-border-radius-topright    : 3px;
+	border-top-left-radius         : 3px;
+	border-top-right-radius        : 3px;
+	border                         : 1px SOLID #aaaaaa;
+	background                     : url(../images/guide.jpg) REPEAT-X;
+	border-spacing                 : 0px;
+	padding                        : 1px;
+	text-align                     : CENTER;
+	font-family                    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size                      : 14px;
+	font-weight                    : NORMAL;
+	color                          : #666666;
+	cursor                         : POINTER;
+	height                         : 25px;
+}
+
+/**
+ * Style that defines the current guide.
+ */
+.currentGuide{
+	-webkit-border-top-left-radius : 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft     : 3px;
+	-moz-border-radius-topright    : 3px;
+	border-top-left-radius         : 3px;
+	border-top-right-radius        : 3px;
+	border-top                     : 1px SOLID #aaaaaa;
+	border-left                    : 1px SOLID #aaaaaa;
+	border-right                   : 1px SOLID #aaaaaa;
+	border-bottom                  : NONE;
+	background                     : url(../images/currentGuide.jpg) REPEAT-X;
+	border-spacing                 : 0px;
+	text-align                     : CENTER;
+	font-family                    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size                      : 15px;
+	font-weight                    : BOLD;
+	color                          : #666666;
+	cursor                         : POINTER;
+	height                         : 27px;
+}
+			
+/**
+ * Style that defines the content of a guide.
+ */
+.guideContent{
+	-webkit-border-bottom-left-radius : 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft     : 3px;
+	-moz-border-radius-bottomright    : 3px;
+	border-bottom-left-radius         : 3px;
+	border-bottom-right-radius        : 3px;
+	border-bottom                     : 1px SOLID #aaaaaa;
+	border-left                       : 1px SOLID #aaaaaa;
+	border-right                      : 1px SOLID #aaaaaa;
+	border-top                        : NONE;
+	background                        : #efefef;
+	border-spacing                    : 10px;
+	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-size                         : 14px;
+	color                             : #666666;
+	width                             : 100%;
+}
+
+/**
+ * Style that defines the content of a guide.
+ */
+.guideContent td{
+	padding: 0px;
+}
+
+/**
+ * Style that defines the navigation buttons.
+ */
+.guidesButtons{
+	background: #efefef;
+	height    : 40px;
+	text-align: RIGHT;
+}
+
+/**
+ * Style that defines the previous guide button.
+ */
+.previousGuideButton{
+	background: url(../images/firstPageButton.png) NO-REPEAT;
+	width     : 24px;
+	height    : 20px;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the next guide button.
+ */
+.nextGuideButton{
+	background: url(../images/lastPageButton.png) NO-REPEAT;
+	width     : 24px;
+	height    : 20px;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}

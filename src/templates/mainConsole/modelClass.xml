@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	          packageSuffix="security.model"
+	          name="UserModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+	    <set var="groupModelClassName" value="@{packageName}.concat('.GroupModel')"/>	          
+	    <set var="loginParameterModelClassName" value="@{packageName}.concat('.LoginParameterModel')"/>
+	    
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		import @{groupModelClassName};
+		import @{loginParameterModelClassName};
+		
+		/**
+		 * Class that defines the user data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(mappedRepositoryId="user",
+			mappedProperties={
+				@Property(propertyId="id", mappedPropertyId="id"),
+		        @Property(propertyId="name", mappedPropertyId="name"),
+		        @Property(propertyId="fullName", mappedPropertyId="fullName"),
+		        @Property(propertyId="password", mappedPropertyId="password"),
+		        @Property(propertyId="email", mappedPropertyId="email"),
+		        @Property(propertyId="phoneNumber", mappedPropertyId="phoneNumber"),
+		        @Property(propertyId="active", mappedPropertyId="active"),
+		        @Property(propertyId="creation", mappedPropertyId="creation"),
+		        @Property(propertyId="lastUpdate", mappedPropertyId="lastUpdate"),
+		        @Property(propertyId="lastLogin", mappedPropertyId="lastLogin"),
+		        @Property(propertyId="superUser", mappedPropertyId="superUser"),
+		        @Property(propertyId="logo", mappedPropertyId="logo"),
+		        @Property(propertyId="loginParameter", relationClass=LoginParameterModel.class, mappedRelationPropertiesIds="loginParameterId", foreignKeyId="fk_user_loginParameter"),
+		        @Property(propertyId="groups", relationCollectionItemsClass=GroupModel.class, mappedPropertiesIds="userId", mappedRelationPropertiesIds="groupId", mappedRelationRepositoryId="userGroup", keyId="fk_group_user", foreignKeyId="fk_user_group")
+			}
+		)
+		public class @{name} extends br.com.innovativethinking.framework.security.model.UserModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	          packageSuffix="security.model"
+	          name="LoginParameterModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		/**
+		 * Class that defines the login parameter data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(mappedRepositoryId="loginParameter",
+			mappedProperties={
+				@Property(propertyId="id", mappedPropertyId="id"),
+		        @Property(propertyId="expirePasswordInterval", mappedPropertyId="expirePasswordInterval"),
+		        @Property(propertyId="changePasswordInterval", mappedPropertyId="changePasswordInterval"),
+		        @Property(propertyId="changePassword", mappedPropertyId="changePassword"),
+		        @Property(propertyId="expirePasswordDateTime", mappedPropertyId="expirePasswordDateTime"),
+		        @Property(propertyId="useStrongPassword", mappedPropertyId="useStrongPassword"),
+		        @Property(propertyId="minimumPasswordLength", mappedPropertyId="minimumPasswordLength"),
+		        @Property(propertyId="multipleLogins", mappedPropertyId="multipleLogins"),
+		        @Property(propertyId="loginTries", mappedPropertyId="loginTries"),
+		        @Property(propertyId="currentLoginTries", mappedPropertyId="currentLoginTries"),
+		        @Property(propertyId="receiveSms", mappedPropertyId="receiveSms"),
+		        @Property(propertyId="receiveIm", mappedPropertyId="receiveIm"),
+		        @Property(propertyId="receiveVoipCall", mappedPropertyId="receiveVoipCall"),
+		        @Property(propertyId="notificationToken", mappedPropertyId="notificationToken"),
+		        @Property(propertyId="mfa", mappedPropertyId="mfa"),
+		        @Property(propertyId="mfaTokenValidated", mappedPropertyId="mfaTokenValidated"),
+		        @Property(propertyId="mfaToken", mappedPropertyId="mfaToken"),
+		        @Property(propertyId="language", mappedPropertyId="language")
+			}
+		)
+		public class @{name} extends br.com.innovativethinking.framework.security.model.LoginParameterModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	          packageSuffix="security.model"
+	          name="GroupModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+	    <set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
+	    <set var="objectModelClassName" value="@{packagePrefix}.concat('.model.ObjectModel')"/>
+		<set var="accessModelClassName" value="@{packageName}.concat('.AccessModel')"/>
+		
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		import @{objectModelClassName};
+		import @{userModelClassName};
+		import @{accessModelClassName};
+		
+		/**
+		 * Class that defines the group data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(mappedRepositoryId="group",
+			mappedProperties={
+				@Property(propertyId="id", mappedPropertyId="id"),
+				@Property(propertyId="name", mappedPropertyId="name"),
+				@Property(propertyId="title", mappedPropertyId="title"),
+				@Property(propertyId="description", mappedPropertyId="description"),
+				@Property(propertyId="users", relationCollectionItemsClass=UserModel.class, mappedPropertiesIds="groupId", mappedRelationPropertiesIds="userId", mappedRelationRepositoryId="userGroup", foreignKeyId="fk_group_user"),
+				@Property(propertyId="objects", relationCollectionItemsClass=ObjectModel.class, mappedPropertiesIds="groupId", mappedRelationPropertiesIds="objectId", mappedRelationRepositoryId="groupObject", keyId="fk_object_group", foreignKeyId="fk_group_object"),
+				@Property(propertyId="accesses", relationCollectionItemsClass=AccessModel.class, mappedPropertiesIds="groupId", mappedRelationPropertiesIds="accessId", mappedRelationRepositoryId="groupAccess", keyId="fk_access_group", foreignKeyId="fk_group_access")
+			}
+		)
+		public class @{name} extends br.com.innovativethinking.framework.security.model.GroupModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	          packageSuffix="security.model"
+	          name="AccessModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="urlModelClassName" value="@{packagePrefix}.concat('.model.UrlModel')"/>
+		
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		import @{urlModelClassName};
+		
+		/**
+		 * Class that defines the access data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(mappedRepositoryId="access",
+			mappedProperties={
+				@Property(propertyId="id", mappedPropertyId="id"),
+				@Property(propertyId="url", relationClass=UrlModel.class, mappedRelationPropertiesIds="urlId", foreignKeyId="fk_access_url"),
+				@Property(propertyId="blocked", mappedPropertyId="blocked")
+			}
+		)
+		public class @{name} extends br.com.innovativethinking.framework.security.model.AccessModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	          packageSuffix="security.model"
+	          name="LoginSessionModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+	    <set var="systemSessionModelClassName" value="@{packagePrefix}.concat('.model.SystemSessionModel')"/>
+	    <set var="systemModuleModelClassName" value="@{packagePrefix}.concat('.model.SystemModuleModel')"/>
+	    <set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
+	    
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		import @{systemSessionModelClassName};
+		import @{systemModuleModelClassName};
+		import @{userModelClassName};
+		
+		/**
+		 * Class that defines the login session data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(mappedProperties={
+				@Property(propertyId="id", mappedPropertyId="id"),
+				@Property(propertyId="startDateTime", mappedPropertyId="startDateTime"),
+				@Property(propertyId="systemSession", relationClass=SystemSessionModel.class, mappedRelationPropertiesIds="systemSessionId", foreignKeyId="fk_loginSession_systemSession"),
+				@Property(propertyId="systemModule", relationClass=SystemModuleModel.class, mappedRelationPropertiesIds="systemModuleId", foreignKeyId="fk_loginSession_systemModule"),
+				@Property(propertyId="user", relationClass=UserModel.class, mappedRelationPropertiesIds="userId", foreignKeyId="fk_loginSession_user"),
+				@Property(propertyId="active", mappedPropertyId="active")
+			}
+		)
+		public class @{name} extends br.com.innovativethinking.framework.security.model.LoginSessionModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	          packageSuffix="security.model"
+	          name="UserAdminModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+	    <set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
+	    <set var="groupModelClassName" value="@{packageName}.concat('.GroupModel')"/>
+	    
+	    import java.util.Collection;
+	    
+		import br.com.innovativethinking.framework.model.BaseModel;
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		import @{userModelClassName};
+		import @{groupModelClassName};
+		
+		/**
+		 * Class that defines the user administration UI data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(ui="Users", templateId="userAdmin")
+		public class @{name} extends BaseModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+			
+			@Property(isForSearch=true)
+			private UserModel search = null;
+
+			@Property(dataset="users")
+			private UserModel input = null;
+			
+			@Property
+			private Collection&lt;UserModel&gt; users = null;
+			
+			@Property
+			private Collection&lt;GroupModel&gt; groups = null;
+			
+			/**
+			 * Returns the available users.
+			 *
+			 * @return List that contains the users.
+			 */
+			public Collection&lt;UserModel&gt; getUsers(){
+				return this.users;
+			}
+			
+			/**
+			 * Defines the available users.
+			 *
+			 * @param users List that contains the users.
+			 */
+			public void setUsers(Collection&lt;UserModel&gt; users){
+				this.users = users;
+			}
+			
+			/**
+			 * Returns the available groups.
+			 *
+			 * @return List that contains the groups.
+			 */
+			public Collection&lt;GroupModel&gt; getGroups(){
+				return this.groups;
+			}
+			
+			/**
+			 * Defines the available groups.
+			 *
+			 * @param groups List that contains the groups.
+			 */
+			public void setGroups(Collection&lt;GroupModel&gt; groups){
+				this.groups = groups;
+			}
+
+			/**
+			 * Returns the search data model.
+			 * 
+			 * @return Instance that contains the data model.
+			 */
+			public UserModel getSearch(){
+				return this.search;
+			}
+			
+			/**
+			 * Defines the search data model.
+			 * 
+			 * @param search Instance that contains the data model.
+			 */
+			public void setSearch(UserModel search){
+				this.search = search;
+			}
+				
+			/**
+			 * Returns the input data model.
+			 * 
+			 * @return Instance that contains the data model.
+			 */
+			public UserModel getInput(){
+				return this.input;
+			}
+			
+			/**
+			 * Defines the search data model.
+			 * 
+			 * @param input Instance that contains the data model.
+			 */
+			public void setInput(UserModel input){
+				this.input = input;
+			}
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	          packageSuffix="security.model"
+	          name="GroupAdminModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+	    <set var="urlModelClassName" value="@{packagePrefix}.concat('.model.UrlModel')"/>
+	    <set var="objectModelClassName" value="@{packagePrefix}.concat('.model.ObjectModel')"/>
+		<set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
+	    <set var="groupModelClassName" value="@{packageName}.concat('.GroupModel')"/>
+	    <set var="accessModelClassName" value="@{packageName}.concat('.AccessModel')"/>
+	    
+	    import java.util.Collection;
+	    
+		import br.com.innovativethinking.framework.model.BaseModel;
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		import @{urlModelClassName};
+		import @{objectModelClassName};
+		import @{userModelClassName};
+		import @{groupModelClassName};
+		import @{accessModelClassName};
+		
+		/**
+		 * Class that defines the user administration UI data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(ui="Groups", templateId="groupAdmin")
+		public class @{name} extends BaseModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+			
+			@Property(isForSearch=true)
+			private GroupModel search = null;
+
+			@Property(dataset="groups")
+			private GroupModel input = null;
+	
+			@Property(dataset="input.accesses")		
+			private AccessModel access = null;
+			
+			@Property
+			private Collection&lt;UserModel&gt; users = null;
+			
+			@Property
+			private Collection&lt;GroupModel&gt; groups = null;
+			
+			@Property
+			private Collection&lt;ObjectModel&gt; objects = null;
+
+			@Property
+			private Collection&lt;UrlModel&gt; urls = null;
+			
+			/**
+			 * Returns the available objects.
+			 *
+			 * @return List that contains the objects.
+			 */
+			public Collection&lt;ObjectModel&gt; getObjects(){
+				return this.objects;
+			}
+			
+			/**
+			 * Defines the available objects.
+			 *
+			 * @param objects List that contains the objects.
+			 */
+			public void setObjects(Collection&lt;ObjectModel&gt; objects){
+				this.objects = objects;
+			}
+
+			/**
+			 * Returns an access of the group.
+			 *
+			 * @return Instance that contains the access.
+			 */
+			public AccessModel getAccess(){
+				return this.access;
+			}
+			
+			/**
+			 * Defines an access of the group.
+			 *
+			 * @param access Instance that contains the access.
+			 */
+			public void setAccess(AccessModel access){
+				this.access = access;
+			}
+			
+			/**
+			 * Returns the available URLs.
+			 *
+			 * @return List that contains the URLs.
+			 */
+			public Collection&lt;UrlModel&gt; getUrls(){
+				return this.urls;
+			}
+			
+			/**
+			 * Defines the available URLs.
+			 *
+			 * @param urls List that contains the URLs.
+			 */
+			public void setUrls(Collection&lt;UrlModel&gt; urls){
+				this.urls = urls;
+			}
+
+			/**
+			 * Returns the available users.
+			 *
+			 * @return List that contains the users.
+			 */
+			public Collection&lt;UserModel&gt; getUsers(){
+				return this.users;
+			}
+			
+			/**
+			 * Defines the available users.
+			 *
+			 * @param users List that contains the users.
+			 */
+			public void setUsers(Collection&lt;UserModel&gt; users){
+				this.users = users;
+			}
+			
+			/**
+			 * Returns the available groups.
+			 *
+			 * @return List that contains the groups.
+			 */
+			public Collection&lt;GroupModel&gt; getGroups(){
+				return this.groups;
+			}
+			
+			/**
+			 * Defines the available groups.
+			 *
+			 * @param groups List that contains the groups.
+			 */
+			public void setGroups(Collection&lt;GroupModel&gt; groups){
+				this.groups = groups;
+			}
+
+			/**
+			 * Returns the search data model.
+			 * 
+			 * @return Instance that contains the data model.
+			 */
+			public GroupModel getSearch(){
+				return this.search;
+			}
+			
+			/**
+			 * Defines the search data model.
+			 * 
+			 * @param search Instance that contains the data model.
+			 */
+			public void setSearch(GroupModel search){
+				this.search = search;
+			}
+				
+			/**
+			 * Returns the input data model.
+			 * 
+			 * @return Instance that contains the data model.
+			 */
+			public GroupModel getInput(){
+				return this.input;
+			}
+			
+			/**
+			 * Defines the search data model.
+			 * 
+			 * @param input Instance that contains the data model.
+			 */
+			public void setInput(GroupModel input){
+				this.input = input;
+			}
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	          packageSuffix="model"
+	          name="SystemModuleModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+	    <set var="formModelClassName" value="@{packageName}.concat('.FormModel')"/>
+	    <set var="urlModelClassName" value="@{packageName}.concat('.UrlModel')"/>
+	    
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		import @{formModelClassName};
+		import @{urlModelClassName};
+		
+		/**
+		 * Class that defines the system module data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(mappedRepositoryId="systemModule",
+			mappedProperties={
+				@Property(propertyId="id", mappedPropertyId="id"),
+				@Property(propertyId="name", mappedPropertyId="name"),
+				@Property(propertyId="title", mappedPropertyId="title"),
+				@Property(propertyId="description", mappedPropertyId="description"),
+				@Property(propertyId="url", mappedPropertyId="url"),
+				@Property(propertyId="domain", mappedPropertyId="domain"),
+				@Property(propertyId="copyright", mappedPropertyId="copyright"),
+				@Property(propertyId="logo", mappedPropertyId="logo"),
+				@Property(propertyId="version", mappedPropertyId="version"),
+				@Property(propertyId="active", mappedPropertyId="active"),
+				@Property(propertyId="forms", relationCollectionItemsClass=FormModel.class, mappedRelationPropertiesIds="systemModuleId", foreignKeyId="fk_systemModule_form"),
+				@Property(propertyId="exclusionUrls", relationCollectionItemsClass=UrlModel.class, mappedPropertiesIds="systemModuleId", mappedRelationPropertiesIds="urlId", mappedRelationRepositoryId="systemModuleExclusionUrls", foreignKeyId="fk_systemModule_url")
+			}
+		)
+		public class @{name} extends br.com.innovativethinking.framework.model.SystemModuleModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	          packageSuffix="model"
+	          name="FormModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+	    <set var="objectModelClassName" value="@{packageName}.concat('.ObjectModel')"/>	          
+		<set var="systemModuleModelClassName" value="@{packageName}.concat('.SystemModuleModel')"/>
+		
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		import @{objectModelClassName};
+		import @{systemModuleModelClassName};
+		
+		/**
+		 * Class thar defines the form data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(mappedRepositoryId="form",
+			mappedProperties={
+				@Property(propertyId="id", mappedPropertyId="id"),
+				@Property(propertyId="systemModule", relationClass=SystemModuleModel.class, mappedRelationPropertiesIds="systemModuleId", foreignKeyId="fk_form_systemModule"),
+				@Property(propertyId="name", mappedPropertyId="name"),
+				@Property(propertyId="title", mappedPropertyId="title"),
+				@Property(propertyId="description", mappedPropertyId="description"),
+				@Property(propertyId="objects", relationCollectionItemsClass=ObjectModel.class, mappedRelationPropertiesIds="formId", foreignKeyId="fk_form_object")
+			}
+		)
+		public class @{name} extends br.com.innovativethinking.framework.model.FormModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	          packageSuffix="model"
+	          name="ObjectModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		<set var="formModelClassName" value="@{packageName}.concat('.FormModel')"/>
+	    <set var="groupModelClassName" value="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"/>
+	    <set var="groupModelClassName" value="@{groupModelClassName}.concat('.security.model.GroupModel')"/>
+	    	          
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		import br.com.innovativethinking.framework.persistence.types.RelationType;
+		import br.com.innovativethinking.framework.util.types.SortOrderType;
+		
+		import @{formModelClassName};
+		import @{groupModelClassName};
+		
+		/**
+		 * Class that defines the object data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(mappedRepositoryId="object",
+			mappedProperties={
+				@Property(propertyId="id", mappedPropertyId="id"),
+				@Property(propertyId="type", mappedPropertyId="type"),
+				@Property(propertyId="form", relationClass=FormModel.class, mappedRelationPropertiesIds="formId", foreignKeyId="fk_object_form"),
+				@Property(propertyId="name", mappedPropertyId="name"),
+				@Property(propertyId="title", mappedPropertyId="title"),
+				@Property(propertyId="description", mappedPropertyId="description"),
+				@Property(propertyId="tooltip", mappedPropertyId="tooltip"),
+				@Property(propertyId="action", mappedPropertyId="action"),
+				@Property(propertyId="actionTarget", mappedPropertyId="actionTarget"),
+				@Property(propertyId="parent", relationType=RelationType.ONE_TO_ONE, relationClass=@{name}.class, mappedRelationPropertiesIds="objectId", sortOrder=SortOrderType.ASCEND, foreignKeyId="fk_object"),
+				@Property(propertyId="sequence", mappedPropertyId="sequence"),
+				@Property(propertyId="groups", relationCollectionItemsClass=GroupModel.class, mappedPropertiesIds="objectId", mappedRelationPropertiesIds="groupId", mappedRelationRepositoryId="groupObject", keyId="fk_group_object", foreignKeyId="fk_object_group")
+			}
+		)
+		public class @{name} extends br.com.innovativethinking.framework.model.ObjectModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	          packageSuffix="model"
+	          name="UrlModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		/**
+		 * Class that defines the URL data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(mappedRepositoryId="url",
+			mappedProperties={
+				@Property(propertyId="id", mappedPropertyId="id"),
+				@Property(propertyId="path", mappedPropertyId="path")
+			}
+		)
+		public class @{name} extends br.com.innovativethinking.framework.model.UrlModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+		}
+	</artifact>
+	<artifact packagePrefix="br.com.innovativethinking.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	          packageSuffix="model"
+	          name="SystemSessionModel">
+		package @{packageName};
+		<set var="serialVersionUID" value="br.com.innovativethinking.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
+		
+		import br.com.innovativethinking.framework.model.annotations.Model;
+		import br.com.innovativethinking.framework.model.annotations.Property;
+		
+		/**
+		 * Class that defines the system session data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		@Model(mappedRepositoryId="systemSession",
+			mappedProperties={
+				@Property(propertyId="id", mappedPropertyId="id"),
+				@Property(propertyId="startDateTime", mappedPropertyId="startDateTime"),
+				@Property(propertyId="ip", mappedPropertyId="ip"),
+				@Property(propertyId="hostName", mappedPropertyId="hostName")
+			}
+		)
+		public class @{name} extends br.com.innovativethinking.framework.model.SystemSessionModel{
+			private static final long serialVersionUID = @{serialVersionUID}L;
+		}
+	</artifact>
+</artifacts>

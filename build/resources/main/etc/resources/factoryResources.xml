@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<factory xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="factoryResources.xsd">
+	<ldap>
+		<resources id="ldap" default="true">
+			<class>com.sun.jndi.ldap.LdapCtxFactory</class>
+			<uri>ldap://#{serverName}:#{serverPort}/#{baseDn}</uri>
+		</resources>
+	</ldap>
+	<persistence>
+		<resources id="mssql" type="MSSQL">
+			<class>net.sourceforge.jtds.jdbc.Driver</class>
+			<uri>jdbc:jtds:sqlserver://#{serverName}:#{serverPort}/#{repositoryId}</uri>
+		</resources>
+		<resources id="sybase" type="SYBASE">
+			<class>net.sourceforge.jtds.jdbc.Driver</class>
+			<uri>jdbc:jtds:sybase://#{serverName}:#{serverPort}/#{repositoryId}</uri>
+		</resources>
+		<resources id="db2" type="DB2">
+			<class>COM.ibm.db2.jdbc.app.DB2Driver</class>
+			<uri>jdbc:db2://#{serverName}:#{serverPort}/#{repositoryId}</uri>
+		</resources>
+		<resources id="oracle" type="ORACLE">
+			<class>oracle.jdbc.driver.OracleDriver</class>
+			<uri>jdbc:oracle:thin:@#{serverName}:#{serverPort}:#{repositoryId}</uri>
+		</resources>
+		<resources id="mysql" type="MYSQL" default="true">
+			<class>com.mysql.cj.jdbc.Driver</class>
+			<uri>jdbc:mysql://#{serverName}:#{serverPort}/#{repositoryId}?autoReconnectForPools=true&amp;failOverReadOnly=false&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</uri>
+		</resources>
+		<resources id="postgresql" type="POSTGRESQL">
+			<class>org.postgresql.Driver</class>
+			<uri>jdbc:postgresql://#{serverName}:#{serverPort}/#{repositoryId}</uri>
+		</resources>
+		<resources id="firebird" type="FIREBIRD">
+			<class>org.firebirdsql.jdbc.FBDriver</class>
+			<uri>jdbc:firebirdsql://#{serverName}:#{serverPort}/#{repositoryId}</uri>
+		</resources>
+		<resources id="informix" type="INFORMIX">
+			<class>com.informix.jdbc.IfxDriver</class>
+			<uri>jdbc:informix-sqli://#{serverName}:#{serverPort}/#{repositoryId}:informixserver=#{instanceId}</uri>
+		</resources>
+	</persistence>
+</factory>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact packageName="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfacePackageByModel(#{clazz})"
+	          name="br.com.innovativethinking.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(#{clazz})">
+		package @{packageName};
+		<set var="userPropertyInfo" value="#{declaration}.getPropertyInfo('user')"/>
+		<set var="userModelClass" value="@{userPropertyInfo.clazz}"/>
+		<set var="userModelInfo" value="br.com.innovativethinking.framework.model.util.ModelUtil.getInfo(@{userModelClass})"/>
+		<set var="userModelClassName" value="@{userModelClass.name}"/>
+		<set var="userModelName" value="@{userModelClass.simpleName}"/>
+		<set var="loginParameterPropertyInfo" value="@{userModelInfo}.getPropertyInfo('loginParameter')"/>
+		<set var="loginParameterModelClass" value="@{loginParameterPropertyInfo.clazz}"/>
+		<set var="loginParameterModelClassName" value="@{loginParameterModelClass.name}"/>
+		<set var="loginParameterModelName" value="@{loginParameterModelClass.simpleName}"/>
+		
+		import #{clazz.name};
+		import @{userModelClassName};
+		import @{loginParameterModelClassName};
+		
+		/**
+		 * Interface that defines the service of the login session data model.
+		 *
+		 * @author @{user.name}
+		 * @version @{build.version}
+		 * @since @{now}
+		 */
+		public interface @{name} extends br.com.innovativethinking.framework.security.service.interfaces.LoginSessionService&lt;#{clazz.simpleName}, @{userModelName}, @{loginParameterModelName}&gt;{
+		}
+	</artifact>
+</artifacts>
