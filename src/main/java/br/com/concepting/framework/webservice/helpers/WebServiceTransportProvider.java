@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 
 import javax.inject.Singleton;
@@ -16,7 +17,6 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.webservice.util.WebServiceUtil;
 
 /**
@@ -85,7 +85,7 @@ public class WebServiceTransportProvider implements MessageBodyReader<Object>, M
 		try{
 			return WebServiceUtil.deserialize(in, clazz);
 		} 
-		catch(InternalErrorException e){
+		catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException e){
 			throw new WebApplicationException(e);
 		}
 	}
