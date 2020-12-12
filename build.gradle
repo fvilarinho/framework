@@ -2,11 +2,11 @@ apply plugin: "java"
 apply plugin: "maven"
 apply plugin: "maven-publish"
 
-group = "${buildPackage}" 
+group="${buildPackage}" 
 version="${buildVersion}"
 
 sourceCompatibility = "${buildCompatibility}" 
-targetCompatibility = "${buildCompatibility}" 
+targetCompatibility = "${buildCompatibility}"
 
 repositories{
     mavenLocal()
@@ -38,6 +38,10 @@ sourceSets{
     	    srcDirs "src/tests/resources"
     	}
     }
+}
+
+configurations {
+  runtime.exclude group: "pull-parser", module: "pull-parser"
 }
 
 dependencies{
