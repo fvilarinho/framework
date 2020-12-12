@@ -12,6 +12,7 @@ import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.Address;
 import javax.mail.Authenticator;
+import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -572,17 +573,16 @@ public class Mail{
 			}
 		}
 	}
-
-	/**
-	 * Returns all messages.
-	 * 
-	 * @param folderName String that contains the identifier of the folder where
-	 * the message is stored.
-	 * @return List that contains all messages.
-	 * @throws InternalErrorException Occurs when was not possible to get the
-	 * messages.
-	 */
+	
 	public Collection<MailMessage> retrieve(String folderName) throws InternalErrorException{
+		return retrieve(folderName, false);
+	}
+
+	public Collection<MailMessage> retrieveAndDelete(String folderName) throws InternalErrorException{
+		return retrieve(folderName, true);
+	}
+
+	public Collection<MailMessage> retrieve(String folderName, Boolean delete) throws InternalErrorException{
 		Store storage = null;
 
 		try{
@@ -605,6 +605,9 @@ public class Mail{
 
 			if(messages != null && messages.length > 0){
 				for(Message message : messages){
+					if(delete != null && delete)
+						message.setFlag(Flags.Flag.DELETED, true);
+					
 					mailMessage = buildMessage(message);
 
 					if(mailMessages == null)
