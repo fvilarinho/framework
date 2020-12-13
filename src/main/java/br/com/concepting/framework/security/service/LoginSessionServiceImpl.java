@@ -67,49 +67,6 @@ import br.com.concepting.framework.util.types.DateFieldType;
  */
 public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel> extends BaseService<L> implements LoginSessionService<L, U>{
 	/**
-	 * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#updateProfile(br.com.concepting.framework.security.model.UserModel)
-	 */
-	@SuppressWarnings("unchecked")
-	public void updateProfile(U user) throws InternalErrorException{
-		L loginSession = getLoginSession();
-		U currentUser = loginSession.getUser();
-		
-		if(user.getFullName() != null)
-			currentUser.setFullName(user.getFullName());
-		
-		if(user.getEmail() != null)
-			currentUser.setEmail(user.getEmail());
-		
-		if(user.getPhoneNumber() != null)
-			currentUser.setPhoneNumber(user.getPhoneNumber());
-
-		LoginParameterModel loginParameter = user.getLoginParameter();
-		LoginParameterModel currentLoginParameter = currentUser.getLoginParameter();
-		
-		if(loginParameter != null){
-			if(loginParameter.getLanguage() != null)
-				currentLoginParameter.setLanguage(loginParameter.getLanguage());
-			
-			if(loginParameter.getMfa() != null)
-				currentLoginParameter.setMfa(loginParameter.getMfa());
-			
-			if(loginParameter.getReceiveSms() != null)
-				currentLoginParameter.setReceiveSms(loginParameter.getReceiveSms());
-			
-			if(loginParameter.getReceiveIm() != null)
-				currentLoginParameter.setReceiveIm(loginParameter.getReceiveIm());
-			
-			if(loginParameter.getReceiveVoipCall() != null)
-				currentLoginParameter.setReceiveVoipCall(loginParameter.getReceiveVoipCall());
-		}
-		
-		Class<U> userClass = (Class<U>)currentUser.getClass();
-		IService<U> userService = getService(userClass);
-		
-		userService.update(currentUser);
-	}
-
-	/**
 	 * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#validateMfaToken(br.com.concepting.framework.security.model.UserModel)
 	 */
 	@SuppressWarnings("unchecked")

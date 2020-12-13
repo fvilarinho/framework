@@ -814,7 +814,7 @@ public abstract class HibernateQueryBuilder{
 							}
 							case BETWEEN:{
 								try{
-									propertyValueBuffer = PropertyUtil.getValue(model, propertyInfo.getSearchPropertyId());
+									propertyValueBuffer = PropertyUtil.getValue(model, propertyInfo.getId());
 									
 									if(PropertyUtil.isString(propertyValueBuffer)){
 										if(propertyInfo.isDate()){
@@ -876,22 +876,26 @@ public abstract class HibernateQueryBuilder{
 									else{
 										whereClauseParameters.put(propertyParamBuffer.toString(), propertyValueBuffer);
 
-										whereClause.append(propertyConditionItem.getOperator());
-									}
-		
-									whereClause.append(" :");
-									whereClause.append(propertyParamBuffer);
-		
-									if(propertyValueItem != null && propertyValueBuffer != null){
+										whereClause.append(ConditionType.GREATER_THAN_EQUAL.getOperator().toLowerCase());
+										whereClause.append(" :");
+										whereClause.append(propertyParamBuffer);
+										whereClause.append(" ");
+										whereClause.append(ConditionOperationType.AND);
+										whereClause.append(" ");
+										whereClause.append(propertyIdBuffer);
+										whereClause.append(" ");
+										
 										propertyParamBuffer.delete(0, propertyParamBuffer.length());
 										propertyParamBuffer.append("param");
 										propertyParamBuffer.append(whereClauseParameters.size());
 		
 										whereClauseParameters.put(propertyParamBuffer.toString(), propertyValueItem);
-
-										whereClause.append(" and :");
-										whereClause.append(propertyParamBuffer);
+										
+										whereClause.append(ConditionType.LESS_THAN_EQUAL.getOperator().toLowerCase());
 									}
+		
+									whereClause.append(" :");
+									whereClause.append(propertyParamBuffer);
 								}
 		
 								break;
