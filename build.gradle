@@ -104,19 +104,6 @@ dependencies{
     testImplementation "junit:junit:4.13"
 }
 
-task generateCode(type: JavaCompile, group: "build"){
-    source = sourceSets.main.java
-    classpath = configurations.compile + configurations.annotationProcessor + sourceSets.main.output
-    options.annotationProcessorPath = configurations.compile + configurations.annotationProcessor + sourceSets.main.output
-    options.compilerArgs = [
-		"-proc:only",
-		"-processor", "br.com.innovativethinking.framework.processors.AnnotationProcessorFactory",
-		"-AbuildName=" + rootProject.name,
-		"-AbuildVersion=" + version
-    ]
-	destinationDir sourceSets.main.java.outputDir
-}
-
 ext.coreExcludes = []
 
 task modelJar(type: Jar){
