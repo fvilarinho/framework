@@ -187,17 +187,18 @@ public class Mail{
 				this.properties.put("mail.pop3.socketFactory.port", String.valueOf(this.resources.getStorageServerPort()));
 			}
 		}
-		else if(this.resources.getStorage() == MailStorageType.IMAP){
-			this.properties.setProperty("mail.store.protocol", MailStorageType.IMAP.toString().toLowerCase());
-			this.properties.setProperty("mail.imap.host", this.resources.getStorageServerName());
-			this.properties.setProperty("mail.imap.port", this.resources.getStorageServerPort().toString());
+		else if(this.resources.getStorage() == MailStorageType.IMAPS){
+			this.properties.setProperty("mail.store.protocol", MailStorageType.IMAPS.toString().toLowerCase());
+			this.properties.setProperty("mail.imaps.host", this.resources.getStorageServerName());
+			this.properties.setProperty("mail.imaps.port", this.resources.getStorageServerPort().toString());
 
 			if(this.resources.getStorageUseTls() != null && this.resources.getStorageUseTls())
-				this.properties.put("mail.imap.starttls.enable", Boolean.TRUE.toString());
+				this.properties.put("mail.imaps.starttls.enable", Boolean.TRUE.toString());
 
 			if(this.resources.getStorageUseSsl() != null && this.resources.getStorageUseSsl()){
-				this.properties.put("mail.imap.socketFactory.class", SSLSocketFactory.class.getName());
-				this.properties.put("mail.imap.socketFactory.port", this.resources.getStorageServerPort().toString());
+				this.properties.put("mail.imaps.ssl.enable", Boolean.TRUE.toString());
+				this.properties.put("mail.imaps.socketFactory.class", SSLSocketFactory.class.getName());
+				this.properties.put("mail.imaps.socketFactory.port", this.resources.getStorageServerPort().toString());
 			}
 		}
 	}
@@ -502,10 +503,19 @@ public class Mail{
 	private MailMessage buildMessage(Message message) throws InternalErrorException{
 		try{
 			MailMessage mailMessage = new MailMessage();
-
-			mailMessage.setToRecipients(Arrays.asList(message.getRecipients(Message.RecipientType.TO)));
-			mailMessage.setCcRecipients(Arrays.asList(message.getRecipients(Message.RecipientType.CC)));
-			mailMessage.setBccRecipients(Arrays.asList(message.getRecipients(Message.RecipientType.BCC)));
+			Address[] to = message.getRecipients(Message.RecipientType.TO);
+			Address[] cc = message.getRecipients(Message.RecipientType.CC);
+			Address[] bcc = message.getRecipients(Message.RecipientType.BCC);
+			
+			if(to != null && to.length > 0)
+				mailMessage.setToRecipients(Arrays.asList(to));
+				
+			if(cc != null && cc.length > 0)
+				mailMessage.setCcRecipients(Arrays.asList(cc));
+			
+			if(bcc != null && bcc.length > 0)
+				mailMessage.setBccRecipients(Arrays.asList(bcc));
+			
 			mailMessage.setSubject(message.getSubject());
 			mailMessage.setFrom(message.getFrom()[0]);
 
@@ -578,11 +588,11 @@ public class Mail{
 		return retrieve(folderName, false);
 	}
 
-	public Collection<MailMessage> retrieveAndDelete(String folderName) throws InternalErrorException{
+	public Collection<MailMessage> retrieveUnread(String folderName) throws InternalErrorException{
 		return retrieve(folderName, true);
 	}
-
-	public Collection<MailMessage> retrieve(String folderName, Boolean delete) throws InternalErrorException{
+	
+	public Collection<MailMessage> retrieve(String folderName, Boolean onlyUnread) throws InternalErrorException{
 		Store storage = null;
 
 		try{
@@ -599,14 +609,17 @@ public class Mail{
 
 			folder = storage.getFolder(folderName);
 
-			folder.open(Folder.READ_ONLY);
+			folder.open(Folder.READ_WRITE);
 
 			messages = folder.getMessages();
 
 			if(messages != null && messages.length > 0){
 				for(Message message : messages){
-					if(delete != null && delete)
-						message.setFlag(Flags.Flag.DELETED, true);
+					if(onlyUnread)
+						if(message.getFlags().contains(Flags.Flag.SEEN))
+							continue;
+
+					message.setFlag(Flags.Flag.SEEN, true);
 					
 					mailMessage = buildMessage(message);
 

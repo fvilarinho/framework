@@ -32,7 +32,7 @@ public abstract class MailConstants{
 	public static final String            TO_ATTRIBUTE_ID        = "to";
 	public static final String            TRANSPORT_ATTRIBUTE_ID = "transport";
 	public static final String            DEFAULT_ID             = "mail";
-	public static final MailStorageType   DEFAULT_STORAGE_TYPE   = MailStorageType.IMAP;
+	public static final MailStorageType   DEFAULT_STORAGE_TYPE   = MailStorageType.IMAPS;
 	public static final Integer           DEFAULT_STORAGE_PORT   = 143;
 	public static final MailTransportType DEFAULT_TRANSPORT_TYPE = MailTransportType.SMTP;
 	public static final Integer           DEFAULT_TRANSPORT_PORT = 25;
