@@ -7,12 +7,12 @@
 		package @{packageName};
 
 		import org.junit.Test;
+		
 		import static org.junit.Assert.assertNotNull;
 		import static org.junit.Assert.assertNull;
 		import static org.junit.Assert.assertEquals;
 		import static org.junit.Assert.assertTrue;
- 
-		import #{clazz.name};
+
 		<set var="modelClass" value="#{clazz}"/>
 		<set var="alreadyImported" value="new java.util.ArrayList()"/>
 		<evaluate expr="@{alreadyImported}.add(#{clazz})"/>
@@ -36,8 +36,10 @@
 			</if>
 			<if expr="@{propertyInfo.isModel}">
 				<if expr="!@{alreadyImported}.contains(@{propertyInfo.clazz})">
-					import @{propertyInfo.clazz.name};
-					<evaluate expr="@{alreadyImported}.add(@{propertyInfo.clazz})"/>
+					<if expr="@{propertyInfo.clazz.package.name} != @{modelClass.package.name}">
+						import @{propertyInfo.clazz.name};
+						<evaluate expr="@{alreadyImported}.add(@{propertyInfo.clazz})"/>
+					</if>
 				</if>
 			</if>
 			<if expr="@{propertyInfo.isCollection}">
@@ -49,12 +51,15 @@
 			</if>
 			<if expr="@{propertyInfo.hasModel}">
 				<if expr="!@{alreadyImported}.contains(@{propertyInfo.collectionItemsClass})">
-					import @{propertyInfo.collectionItemsClass.name};
-					<evaluate expr="@{alreadyImported}.add(@{propertyInfo.collectionItemsClass})"/>
+					<if expr="@{propertyInfo.collectionItemsClass.package.name} != @{modelClass.package.name}">
+						import @{propertyInfo.collectionItemsClass.name};
+						<evaluate expr="@{alreadyImported}.add(@{propertyInfo.collectionItemsClass})"/>
+					</if>
 				</if>
 			</if>
 		</iterate>
 		<set var="modelClassName" value="#{clazz.simpleName}"/>
+		
 		public class @{name}{
 			private #{clazz.simpleName} model = new #{clazz.simpleName}();
 			 
