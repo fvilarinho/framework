@@ -197,6 +197,22 @@ artifacts{
 	archives coreJar
 }
 
+publishing{
+    publications{
+       	mavenJava(MavenPublication){
+            from components.java
+			artifact modelJar
+			artifact controllerJar
+			artifact persistenceJar
+			artifact serviceJar
+			artifact uiJar
+			artifact resourcesJar
+			artifact coreJar
+ 			artifact javadocJar
+        }
+    }
+}
+
 uploadArchives{
     repositories{
         mavenDeployer{

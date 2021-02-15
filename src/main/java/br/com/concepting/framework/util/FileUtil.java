@@ -90,7 +90,7 @@ public class FileUtil extends FileUtils{
 		if(!file.exists()){
 			File parentFile = file.getParentFile();
 			
-			if(!parentFile.exists())
+			if(parentFile != null && !parentFile.exists())
 				parentFile.mkdirs();
 		}
 

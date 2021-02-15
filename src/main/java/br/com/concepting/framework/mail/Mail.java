@@ -187,17 +187,18 @@ public class Mail{
 				this.properties.put("mail.pop3.socketFactory.port", String.valueOf(this.resources.getStorageServerPort()));
 			}
 		}
-		else if(this.resources.getStorage() == MailStorageType.IMAP){
-			this.properties.setProperty("mail.store.protocol", MailStorageType.IMAP.toString().toLowerCase());
-			this.properties.setProperty("mail.imap.host", this.resources.getStorageServerName());
-			this.properties.setProperty("mail.imap.port", this.resources.getStorageServerPort().toString());
+		else if(this.resources.getStorage() == MailStorageType.IMAPS){
+			this.properties.setProperty("mail.store.protocol", MailStorageType.IMAPS.toString().toLowerCase());
+			this.properties.setProperty("mail.imaps.host", this.resources.getStorageServerName());
+			this.properties.setProperty("mail.imaps.port", this.resources.getStorageServerPort().toString());
 
 			if(this.resources.getStorageUseTls() != null && this.resources.getStorageUseTls())
-				this.properties.put("mail.imap.starttls.enable", Boolean.TRUE.toString());
+				this.properties.put("mail.imaps.starttls.enable", Boolean.TRUE.toString());
 
 			if(this.resources.getStorageUseSsl() != null && this.resources.getStorageUseSsl()){
-				this.properties.put("mail.imap.socketFactory.class", SSLSocketFactory.class.getName());
-				this.properties.put("mail.imap.socketFactory.port", this.resources.getStorageServerPort().toString());
+				this.properties.put("mail.imaps.ssl.enable", Boolean.TRUE.toString());
+				this.properties.put("mail.imaps.socketFactory.class", SSLSocketFactory.class.getName());
+				this.properties.put("mail.imaps.socketFactory.port", this.resources.getStorageServerPort().toString());
 			}
 		}
 	}
@@ -207,34 +208,29 @@ public class Mail{
 	 * 
 	 * @param message Instance that contains the message.
 	 * @param sendMessage Instance that contains the message.
-	 * @throws InternalErrorException Occurs when was not possible possible to
+	 * @throws MessagingException Occurs when was not possible possible to
 	 * build the message headers.
 	 */
-	private void buildHeader(MailMessage message, Message sendMessage) throws InternalErrorException{
+	private void buildHeader(MailMessage message, Message sendMessage) throws MessagingException{
 		if(message == null || sendMessage == null)
 			return;
 
-		try{
-			sendMessage.setFrom(message.getFrom());
+		sendMessage.setFrom(message.getFrom());
 
-			if(message.getToRecipients() != null && message.getToRecipients().size() > 0)
-				for(Address item : message.getToRecipients())
-					sendMessage.addRecipient(Message.RecipientType.TO, item);
+		if(message.getToRecipients() != null && message.getToRecipients().size() > 0)
+			for(Address item : message.getToRecipients())
+				sendMessage.addRecipient(Message.RecipientType.TO, item);
 
-			if(message.getCcRecipients() != null && message.getCcRecipients().size() > 0)
-				for(Address item : message.getCcRecipients())
-					sendMessage.addRecipient(Message.RecipientType.CC, item);
+		if(message.getCcRecipients() != null && message.getCcRecipients().size() > 0)
+			for(Address item : message.getCcRecipients())
+				sendMessage.addRecipient(Message.RecipientType.CC, item);
 
-			if(message.getBccRecipients() != null && message.getBccRecipients().size() > 0)
-				for(Address item : message.getBccRecipients())
-					sendMessage.addRecipient(Message.RecipientType.BCC, item);
+		if(message.getBccRecipients() != null && message.getBccRecipients().size() > 0)
+			for(Address item : message.getBccRecipients())
+				sendMessage.addRecipient(Message.RecipientType.BCC, item);
 
-			sendMessage.setSubject(message.getSubject());
-			sendMessage.setSentDate(message.getSentDateTime());
-		}
-		catch(MessagingException e){
-			throw new InternalErrorException(e);
-		}
+		sendMessage.setSubject(message.getSubject());
+		sendMessage.setSentDate(message.getSentDateTime());
 	}
 
 	/**
@@ -242,24 +238,21 @@ public class Mail{
 	 * 
 	 * @param message Instance that contains the message.
 	 * @param sendMessage Instance that contains the message.
-	 * @throws InternalErrorException Occurs when was not possible possible to
+	 * @throws MessagingException Occurs when was not possible possible to
+	 * build the message body.
+	 * @throws IOException Occurs when was not possible possible to
 	 * build the message body.
 	 */
-	private void buildBody(MailMessage message, Message sendMessage) throws InternalErrorException{
+	private void buildBody(MailMessage message, Message sendMessage) throws MessagingException, IOException{
 		if(message == null || sendMessage == null)
 			return;
 
 		MimeMultipart parts = new MimeMultipart();
 		MimeBodyPart part = new MimeBodyPart();
 
-		try{
-			part.setContent(message.getContent(), message.getContentType().getMimeType());
+		part.setContent(message.getContent(), message.getContentType().getMimeType());
 
-			parts.addBodyPart(part);
-		}
-		catch(MessagingException e){
-			throw new InternalErrorException(e);
-		}
+		parts.addBodyPart(part);
 
 		loadAttachments(message, sendMessage, parts);
 	}
@@ -270,10 +263,12 @@ public class Mail{
 	 * @param message Instance that contains the message.
 	 * @param sendMessage Instance that contains the message.
 	 * @param parts Instance that contains the attachments.
-	 * @throws InternalErrorException Occurs when was not possible possible to
+	 * @throws MessagingException Occurs when was not possible possible to
+	 * load the attachments.
+	 * @throws IOException Occurs when was not possible possible to
 	 * load the attachments.
 	 */
-	private void loadAttachments(MailMessage message, Message sendMessage, MimeMultipart parts) throws InternalErrorException{
+	private void loadAttachments(MailMessage message, Message sendMessage, MimeMultipart parts) throws MessagingException, IOException{
 		if(message == null || sendMessage == null || parts == null)
 			return;
 
@@ -305,35 +300,25 @@ public class Mail{
 						cont++;
 					}
 
-					try{
-						FileUtil.toBinaryFile(filename, attachData);
+					FileUtil.toBinaryFile(filename, attachData);
 
-						file = new File(filename);
+					file = new File(filename);
 
-						if(file.exists()){
-							handler = new FileDataSource(file);
+					if(file.exists()){
+						handler = new FileDataSource(file);
 
-							attachPart.setDataHandler(new DataHandler(handler));
-							attachPart.setFileName(handler.getName());
+						attachPart.setDataHandler(new DataHandler(handler));
+						attachPart.setFileName(handler.getName());
 
-							parts.addBodyPart(attachPart);
+						parts.addBodyPart(attachPart);
 
-							this.attachments.add(file);
-						}
-					}
-					catch(MessagingException | IOException e){
-						throw new InternalErrorException(e);
+						this.attachments.add(file);
 					}
 				}
 			}
 		}
 
-		try{
-			sendMessage.setContent(parts);
-		}
-		catch(MessagingException e){
-			throw new InternalErrorException(e);
-		}
+		sendMessage.setContent(parts);
 	}
 
 	/**
@@ -391,10 +376,12 @@ public class Mail{
 	 * Sends a message
 	 * 
 	 * @param message Instance that contains the message.
-	 * @throws InternalErrorException Occurs when was not possible to send the
+	 * @throws MessagingException Occurs when was not possible to send the
+	 * message.
+	 * @throws IOException Occurs when was not possible to send the
 	 * message.
 	 */
-	public void send(MailMessage message) throws InternalErrorException{
+	public void send(MailMessage message) throws MessagingException, IOException{
 		Transport transport = null;
 
 		try{
@@ -415,9 +402,6 @@ public class Mail{
 			}
 
 			transport.sendMessage(sendMessage, sendMessage.getAllRecipients());
-		}
-		catch(MessagingException e){
-			throw new InternalErrorException(e);
 		}
 		finally{
 			clearAttachments();
@@ -442,7 +426,7 @@ public class Mail{
 				try{
 					send(message);
 				}
-				catch(InternalErrorException e){
+				catch(MessagingException | IOException e){
 				}
 			}
 		};
@@ -454,10 +438,10 @@ public class Mail{
 	 * Returns the list of folders in the storage.
 	 * 
 	 * @return List that contains the folders.
-	 * @throws InternalErrorException Occurs when was not possible to get the
+	 * @throws MessagingException Occurs when was not possible to get the
 	 * folders.
 	 */
-	public Collection<Folder> getFolders() throws InternalErrorException{
+	public Collection<Folder> getFolders() throws MessagingException{
 		Collection<Folder> folders = null;
 		Store storage = null;
 
@@ -476,9 +460,6 @@ public class Mail{
 				folders = Arrays.asList(rootFolder.list());
 			}
 		}
-		catch(MessagingException e){
-			throw new InternalErrorException(e);
-		}
 		finally{
 			try{
 				if(storage != null)
@@ -496,37 +477,44 @@ public class Mail{
 	 * 
 	 * @param message Instance that contains the message.
 	 * @return Instance that contains the message.
-	 * @throws InternalErrorException Occurs when was not possible to build the
+	 * message.
+	 * @throws MessagingException Occurs when was not possible to get the
+	 * message.
+	 * @throws IOException Occurs when was not possible to get the
 	 * message.
 	 */
-	private MailMessage buildMessage(Message message) throws InternalErrorException{
-		try{
-			MailMessage mailMessage = new MailMessage();
+	private MailMessage buildMessage(Message message) throws MessagingException, IOException{
+		MailMessage mailMessage = new MailMessage();
+		Address[] to = message.getRecipients(Message.RecipientType.TO);
+		Address[] cc = message.getRecipients(Message.RecipientType.CC);
+		Address[] bcc = message.getRecipients(Message.RecipientType.BCC);
+		
+		if(to != null && to.length > 0)
+			mailMessage.setToRecipients(Arrays.asList(to));
+			
+		if(cc != null && cc.length > 0)
+			mailMessage.setCcRecipients(Arrays.asList(cc));
+		
+		if(bcc != null && bcc.length > 0)
+			mailMessage.setBccRecipients(Arrays.asList(bcc));
+		
+		mailMessage.setSubject(message.getSubject());
+		mailMessage.setFrom(message.getFrom()[0]);
 
-			mailMessage.setToRecipients(Arrays.asList(message.getRecipients(Message.RecipientType.TO)));
-			mailMessage.setCcRecipients(Arrays.asList(message.getRecipients(Message.RecipientType.CC)));
-			mailMessage.setBccRecipients(Arrays.asList(message.getRecipients(Message.RecipientType.BCC)));
-			mailMessage.setSubject(message.getSubject());
-			mailMessage.setFrom(message.getFrom()[0]);
+		if(message.getSentDate() != null)
+			mailMessage.setSentDateTime(new DateTime(message.getSentDate().getTime()));
+		else
+			mailMessage.setSentDateTime(new DateTime());
 
-			if(message.getSentDate() != null)
-				mailMessage.setSentDateTime(new DateTime(message.getSentDate().getTime()));
-			else
-				mailMessage.setSentDateTime(new DateTime());
+		if(message.getReceivedDate() != null)
+			mailMessage.setReceivedDateTime(new DateTime(message.getReceivedDate().getTime()));
+		else
+			mailMessage.setReceivedDateTime(new DateTime());
 
-			if(message.getReceivedDate() != null)
-				mailMessage.setReceivedDateTime(new DateTime(message.getReceivedDate().getTime()));
-			else
-				mailMessage.setReceivedDateTime(new DateTime());
+		mailMessage.setContentType(message.getContentType());
+		mailMessage.setContent(buildContent(message, mailMessage));
 
-			mailMessage.setContentType(message.getContentType());
-			mailMessage.setContent(buildContent(message, mailMessage));
-
-			return mailMessage;
-		}
-		catch(MessagingException e){
-			throw new InternalErrorException(e);
-		}
+		return mailMessage;
 	}
 
 	/**
@@ -537,10 +525,12 @@ public class Mail{
 	 * @param messageNumber Numeric value that contains the identifier of the
 	 * message.
 	 * @return Instance that contains the message.
-	 * @throws InternalErrorException Occurs when was not possible to get the
+	 * @throws MessagingException Occurs when was not possible to get the
+	 * message.
+	 * @throws IOException Occurs when was not possible to get the
 	 * message.
 	 */
-	public MailMessage retrieve(String folderName, Integer messageNumber) throws InternalErrorException{
+	public MailMessage retrieve(String folderName, Integer messageNumber) throws MessagingException, IOException{
 		Store storage = null;
 
 		try{
@@ -561,9 +551,6 @@ public class Mail{
 
 			return buildMessage(message);
 		}
-		catch(MessagingException e){
-			throw new InternalErrorException(e);
-		}
 		finally{
 			try{
 				if(storage != null)
@@ -574,15 +561,15 @@ public class Mail{
 		}
 	}
 	
-	public Collection<MailMessage> retrieve(String folderName) throws InternalErrorException{
+	public Collection<MailMessage> retrieve(String folderName) throws MessagingException, IOException{
 		return retrieve(folderName, false);
 	}
 
-	public Collection<MailMessage> retrieveAndDelete(String folderName) throws InternalErrorException{
+	public Collection<MailMessage> retrieveUnread(String folderName) throws MessagingException, IOException{
 		return retrieve(folderName, true);
 	}
-
-	public Collection<MailMessage> retrieve(String folderName, Boolean delete) throws InternalErrorException{
+	
+	public Collection<MailMessage> retrieve(String folderName, Boolean onlyUnread) throws MessagingException, IOException{
 		Store storage = null;
 
 		try{
@@ -599,14 +586,17 @@ public class Mail{
 
 			folder = storage.getFolder(folderName);
 
-			folder.open(Folder.READ_ONLY);
+			folder.open(Folder.READ_WRITE);
 
 			messages = folder.getMessages();
 
 			if(messages != null && messages.length > 0){
 				for(Message message : messages){
-					if(delete != null && delete)
-						message.setFlag(Flags.Flag.DELETED, true);
+					if(onlyUnread)
+						if(message.getFlags().contains(Flags.Flag.SEEN))
+							continue;
+
+					message.setFlag(Flags.Flag.SEEN, true);
 					
 					mailMessage = buildMessage(message);
 
@@ -618,9 +608,6 @@ public class Mail{
 			}
 
 			return mailMessages;
-		}
-		catch(MessagingException e){
-			throw new InternalErrorException(e);
 		}
 		finally{
 			try{
@@ -638,46 +625,43 @@ public class Mail{
 	 * @param part Instance that contains the content.
 	 * @param mailMessage Instance that contains the message.
 	 * @return Instance that contains the content.
-	 * @throws InternalErrorException Occurs when was not possible to build the
+	 * @throws MessagingException Occurs when was not possible to build the
 	 * message content.
+	 * @throws IOException Occurs when was not possible to build the
+	 * message content. 
 	 */
-	private Object buildContent(Object part, MailMessage mailMessage) throws InternalErrorException{
-		try{
-			if(part instanceof Message){
-				Message message = (Message)part;
+	private Object buildContent(Object part, MailMessage mailMessage) throws IOException, MessagingException{
+		if(part instanceof Message){
+			Message message = (Message)part;
 
-				if(message.getContent() instanceof Multipart)
-					return buildContent(message.getContent(), mailMessage);
+			if(message.getContent() instanceof Multipart)
+				return buildContent(message.getContent(), mailMessage);
 
-				return message.getContent();
-			}
-			else if(part instanceof Multipart){
-				Multipart parts = (Multipart)part;
-				Part subPart = null;
-				InputStream attach = null;
-				Object buffer = null;
+			return message.getContent();
+		}
+		else if(part instanceof Multipart){
+			Multipart parts = (Multipart)part;
+			Part subPart = null;
+			InputStream attach = null;
+			Object buffer = null;
 
-				for(int cont = 0 ; cont < parts.getCount() ; cont++){
-					subPart = parts.getBodyPart(cont);
-					attach = subPart.getDataHandler().getDataSource().getInputStream();
+			for(int cont = 0 ; cont < parts.getCount() ; cont++){
+				subPart = parts.getBodyPart(cont);
+				attach = subPart.getDataHandler().getDataSource().getInputStream();
 
-					if(attach instanceof InputStream || (subPart.getDisposition() != null && subPart.getDisposition().equals(Part.ATTACHMENT)))
-						mailMessage.attach(subPart.getFileName(), ByteUtil.fromBinaryStream(attach));
-					else{
-						if(subPart.getContent() instanceof Multipart)
-							buffer = buildContent(subPart.getContent(), mailMessage);
-						else if(buffer == null)
-							buffer = subPart.getContent();
-					}
+				if(attach instanceof InputStream || (subPart.getDisposition() != null && subPart.getDisposition().equals(Part.ATTACHMENT)))
+					mailMessage.attach(subPart.getFileName(), ByteUtil.fromBinaryStream(attach));
+				else{
+					if(subPart.getContent() instanceof Multipart)
+						buffer = buildContent(subPart.getContent(), mailMessage);
+					else if(buffer == null)
+						buffer = subPart.getContent();
 				}
-
-				return buffer;
 			}
 
-			return part.toString();
+			return buffer;
 		}
-		catch(MessagingException | IOException e){
-			throw new InternalErrorException(e);
-		}
+
+		return part.toString();
 	}
 }
