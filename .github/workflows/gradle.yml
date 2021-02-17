@@ -4,6 +4,10 @@ on:
   push:
     branches: 
       - '*'
+    paths-ignore:
+      - 'LICENSE'
+      - '*.md'
+      - '*.yml'
 
 jobs:
   run:
