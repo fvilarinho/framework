@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -31,8 +32,11 @@ import org.openqa.selenium.remote.CommandExecutor;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 
+import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.util.helpers.ProbeOptions;
 import br.com.concepting.framework.util.types.ProbeType;
@@ -939,6 +943,8 @@ public class Probe extends WebDriverBackedSelenium{
 	}
 	
 	public static void main(String[] args) throws Throwable{
+		Date now = new Date();//DateTimeUtil.add(new Date(), 1, DateFieldType.DAYS);
+		String dateFilter = DateTimeUtil.format(now, "dd/MM/yyyy");
 		ProbeOptions options = new ProbeOptions();
 		
 		//options.setHeadless(true);
@@ -950,8 +956,8 @@ public class Probe extends WebDriverBackedSelenium{
 		probe.type("id=UserName", "AKAMAI");
 		probe.type("id=Password", "Akamai1234");
 		probe.clickAndWait("class=t-webbutton");
-		probe.executeScript("document.getElementById('IDE_DEMI_FROM').value = '18/02/2021';");
-		probe.executeScript("document.getElementById('IDE_DEMI_TO').value = '18/02/2021';");
+		probe.executeScript("document.getElementById('IDE_DEMI_FROM').value = '".concat(dateFilter).concat("';"));
+		probe.executeScript("document.getElementById('IDE_DEMI_TO').value = '".concat(dateFilter).concat("';"));
 		probe.clickAndWait("id=buttonSubmit");
 		
 		String value = probe.lookupElement("class=t-status-text").getText();
@@ -963,86 +969,107 @@ public class Probe extends WebDriverBackedSelenium{
 		if(pos >= 0)
 			totalItems = Integer.valueOf(value.substring(pos + 3));
 		
-		int pages = Math.round(totalItems / itemsPerPage);
+		int pages = (totalItems / itemsPerPage) + ((totalItems % itemsPerPage) > 0 ? 1 : 0);
 		int i = 0;
 		int page = 0;
 		List<WebElement> elements = null;
 		
-		while(true){
-			if(elements == null)
-				elements = probe.lookupElements("name=id");
+		if(pages > 0){
+			ObjectMapper mapper = PropertyUtil.getMapper();
+			List<String> nfes = null;
 			
-			WebElement element = elements.get(i);
+			try{
+				nfes = mapper.readValue(FileUtil.fromBinaryFile("/Users/fvilarinho/processedNfes,json"), new TypeReference<List<String>>(){});
+			}
+			catch(IOException e){
+			}
 			
-			element.click();
-
-			WebElement download = probe.lookupElement("id=actionDownload");
-
-			download.click();
-			
-			probe.waitForPageToLoad();
-			
-			WebElement option = probe.lookupElement("id=chkDanfeDacte");
-			
-			option.click();
+			while(true){
+				if(elements == null)
+					elements = probe.lookupElements("name=id");
+				
+				WebElement element = elements.get(i);
+				String nfe = element.getAttribute("value");
+				
+				if(nfes == null)
+					nfes = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+				
+				if(!nfes.contains(nfe)){
+					nfes.add(nfe);
+					
+					element.click();
 		
-			option = probe.lookupElement("id=chkProc");
-			
-			option.click();
-			
-			probe.pressTab();
-			probe.pressTab();
-			
-			option = probe.executeScript("return document.getElementById('chkProcEvent');");
-			
-			if(option != null)
-				probe.pressTab();
-			
-			//TODO check chkProcEvent
-			probe.pressEnter();
-			
-			Thread.sleep(1000l);
-			
-			probe.pressTab();
-			probe.pressEnter();
-			
-			probe.waitForPageToLoad();
-			
-			elements = probe.lookupElements("name=id");
-			element = elements.get(i);
-			element.click();
-			
-			if(i == (elements.size() - 1)){
-				elements = probe.lookupElements("class=t-link");
-				
-				Boolean found = false;
-				
-				for(WebElement next : elements){
-					if(next.getText().equals("next")) {
-						next.click();
-						
-						found = true;
-						
-						break;
-					}
-				}
-				
-				if(found){
-					page++;
-
-					if(page >= pages)
-						break;
+					WebElement download = probe.lookupElement("id=actionDownload");
+		
+					download.click();
 					
 					probe.waitForPageToLoad();
 					
-					elements = null;
-					i = 0;
+					WebElement option = probe.lookupElement("id=chkDanfeDacte");
+					
+					option.click();
+				
+					option = probe.lookupElement("id=chkProc");
+					
+					option.click();
+					
+					probe.pressTab();
+					probe.pressTab();
+					
+					option = probe.executeScript("return document.getElementById('chkProcEvent');");
+					
+					if(option != null)
+						probe.pressTab();
+					
+					probe.pressEnter();
+					
+					Thread.sleep(1000l);
+					
+					probe.pressTab();
+					probe.pressEnter();
+					
+					probe.waitForPageToLoad();
+					
+					elements = probe.lookupElements("name=id");
+					element = elements.get(i);
+					element.click();
 				}
-				else
-					break;
-			}
-			else
+			
 				i++;
+				
+				if(i == (elements.size() - 1)){
+					elements = probe.lookupElements("class=t-link");
+					
+					Boolean found = false;
+					
+					for(WebElement next : elements){
+						if(next.getText().equals("next")) {
+							next.click();
+							
+							found = true;
+							
+							break;
+						}
+					}
+					
+					if(found){
+						page++;
+	
+						if(page >= pages)
+							break;
+						
+						elements = null;
+						i = 0;
+	
+						probe.waitForPageToLoad();
+						
+					}
+					else
+						break;
+				}
+			}
+			
+			FileUtil.toBinaryFile("/Users/fvilarinho/processedNfes,json", mapper.writeValueAsBytes(nfes));
 		}
 		
 		probe.close();
