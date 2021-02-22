@@ -63,14 +63,52 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
 	private BaseModel                     model                   = null;
 	private Collection<ActionFormMessage> messages                = null;
 	
+	/**
+	 * Returns the actions history.
+	 * 
+	 * @return List that contains the actions history.
+	 */
 	public List<String> getActionsHistory(){
 		return this.actionsHistory;
 	}
 
+	/**
+	 * Defines the actions history.
+	 * 
+	 * @param actionsHistory List that contains the actions history.
+	 */
 	public void setActionsHistory(List<String> actionsHistory){
 		this.actionsHistory = actionsHistory;
 	}
 
+	/**
+	 * Adds a new action in the history.
+	 * 
+	 * @param action String that contains the action identifier.
+	 */
+	public void addActionHistory(String action){
+		if(!action.equals(ActionType.BACK.getMethod())){
+			if(this.actionsHistory == null)
+				this.actionsHistory = PropertyUtil.instantiate(Constants.DEFAULT_LIFO_QUEUE_CLASS);
+			
+			this.actionsHistory.add(action);
+		}
+		
+		this.setAction(action);
+	}
+	
+	/**
+	 * Removes the last action from the history.
+	 */
+	public void removeActionHistory(){
+		if(this.actionsHistory != null && !actionsHistory.isEmpty()){
+			actionsHistory.remove(actionsHistory.size() - 1);
+			
+			if(!actionsHistory.isEmpty())
+				setAction(actionsHistory.get(actionsHistory.size() - 1));
+		}
+	}
+	
 	/**
 	 * Clears all form messages.
 	 */
@@ -298,26 +336,6 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
 	 */
 	public void setValidateModelProperties(String validateModelProperties){
 		this.validateModelProperties = validateModelProperties;
-	}
-
-	public void addActionHistory(String action){
-		if(!action.equals(ActionType.BACK.getMethod())){
-			if(this.actionsHistory == null)
-				this.actionsHistory = PropertyUtil.instantiate(Constants.DEFAULT_LIFO_QUEUE_CLASS);
-			
-			this.actionsHistory.add(action);
-		}
-		
-		this.setAction(action);
-	}
-	
-	public void removeActionHistory(){
-		if(this.actionsHistory != null && !actionsHistory.isEmpty()){
-			actionsHistory.remove(actionsHistory.size() - 1);
-			
-			if(!actionsHistory.isEmpty())
-				setAction(actionsHistory.get(actionsHistory.size() - 1));
-		}
 	}
 	
 	/**

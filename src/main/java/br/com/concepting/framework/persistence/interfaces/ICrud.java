@@ -177,5 +177,14 @@ public interface ICrud<M extends BaseModel>{
 	 */
 	public <R extends BaseModel> M loadReference(M model, String referencePropertyId) throws InternalErrorException;
 	
-	public void saveReference(M model, String referenceId) throws InternalErrorException;
+	/**
+	 * Saves the relationship.
+	 *
+	 * @param model Instance that contains the data model.
+	 * @param referencePropertyId String that contains the name of the
+	 * relationship.
+	 * @throws InternalErrorException Occurs when was not possible to save the
+	 * relationship.
+	 */
+	public void saveReference(M model, String referencePropertyId) throws InternalErrorException;
 }

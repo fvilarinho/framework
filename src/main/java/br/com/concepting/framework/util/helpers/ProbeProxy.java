@@ -1,5 +1,6 @@
 package br.com.concepting.framework.util.helpers;
 
+@SuppressWarnings("javadoc")
 public class ProbeProxy{
     private String url = null;
     private String user = null;

@@ -25,6 +25,7 @@ import br.com.concepting.framework.util.types.ContentType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class ReportConstants{
 	public static final String      EXPORT_TYPE_ATTRIBUTE_ID               = "exportType";
 	public static final String      TEXT_PAGE_WIDTH_ATTRIBUTE_ID           = "textPageWidth";

@@ -2,6 +2,7 @@ package br.com.concepting.framework.util.helpers;
 
 import br.com.concepting.framework.util.types.ProbeType;
 
+@SuppressWarnings("javadoc")
 public class ProbeOptions{
 	public static final ProbeType DEFAULT_TYPE      = ProbeType.DESKTOP; 
 	public static final Integer   DEFAULT_TIMEOUT   = 60;

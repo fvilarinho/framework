@@ -27,6 +27,7 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class PersistenceConstants{
 	public static final String             CACHEABLE_QUERY_ATTRIBUTE_ID          = "org.hibernate.cacheable";
 	public static final String             CLOSE_QUOTE_ATTRIBUTE_ID              = "closeQuote";

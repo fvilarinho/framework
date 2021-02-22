@@ -24,6 +24,7 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class NetworkConstants{
 	public static final String IP_ATTRIBUTE_ID              = "ip";
 	public static final String NETWORK_MASK_ATTRIBUTE_ID    = "networkMask";

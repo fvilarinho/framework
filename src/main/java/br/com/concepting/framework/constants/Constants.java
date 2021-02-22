@@ -29,6 +29,7 @@ import br.com.concepting.framework.util.types.SortOrderType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class Constants{
 	public static final String        ACTIVE_ATTRIBUTE_ID           = "active";
 	public static final String        CLASS_ATTRIBUTE_ID            = "class";

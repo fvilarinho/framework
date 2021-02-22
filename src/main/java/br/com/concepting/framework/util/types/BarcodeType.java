@@ -21,6 +21,7 @@ package br.com.concepting.framework.util.types;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public enum BarcodeType{
 	BOOKLAND, QRCODE, CODABAR, CODE128, CODE128A, CODE128B, CODE128C, EAN128, EAN13, GLOBAL_TRADEITEM_NUMBER, INTERVEALED_2_OF_5, MONARCH, PDF417, POST_NET, RANDOM_WEIGHT_UPCA, SCC14_SHIPPING_CODE, SHIPMENT_IDENTIFICATION_NUMBER, SSCC18, STANDARD_2_OF_5, UPCA, USD4, USPS;
 }

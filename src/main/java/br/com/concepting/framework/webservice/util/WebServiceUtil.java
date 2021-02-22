@@ -57,6 +57,12 @@ public class WebServiceUtil{
 		return ClientBuilder.newClient();
 	}
 
+	/**
+	 * Returns the client instance.
+	 * 
+	 * @param timeout Instance that contains the default timeout in seconds.
+	 * @return Instance of the client.
+	 */
 	public static Client getClient(Integer timeout){
 		ClientBuilder clientBuilder = ClientBuilder.newBuilder();
 		
@@ -66,12 +72,44 @@ public class WebServiceUtil{
 		return clientBuilder.build();
 	}
 
+	/**
+	 * Deserializes a content.
+	 * 
+	 * @param <O> Class that defines the content.
+	 * @param in Stream that contains the content.
+	 * @param clazz Class the defines the content.
+	 * @return Instance that contains the content.
+	 * @throws IllegalArgumentException Occurs when was not possible to deserialize the content.
+	 * @throws NoSuchMethodException Occurs when was not possible to deserialize the content.
+	 * @throws IllegalAccessException Occurs when was not possible to deserialize the content.
+	 * @throws InvocationTargetException Occurs when was not possible to deserialize the content.
+	 * @throws InstantiationException Occurs when was not possible to deserialize the content.
+	 * @throws ClassNotFoundException Occurs when was not possible to deserialize the content.
+	 * @throws NoSuchFieldException Occurs when was not possible to deserialize the content.
+	 * @throws IOException Occurs when was not possible to deserialize the content.
+	 */
 	public static <O> O deserialize(InputStream in, Class<?> clazz) throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException, IOException{
 		String responseContent = new String(ByteUtil.fromTextStream(in));
 
 		return deserialize(responseContent, clazz);
 	}
 
+	/**
+	 * Deserializes a content.
+	 * 
+	 * @param <O> Class that defines the content.
+	 * @param content String that contains the content.
+	 * @param clazz Class the defines the content.
+	 * @return Instance that contains the content.
+	 * @throws IllegalArgumentException Occurs when was not possible to deserialize the content.
+	 * @throws NoSuchMethodException Occurs when was not possible to deserialize the content.
+	 * @throws IllegalAccessException Occurs when was not possible to deserialize the content.
+	 * @throws InvocationTargetException Occurs when was not possible to deserialize the content.
+	 * @throws InstantiationException Occurs when was not possible to deserialize the content.
+	 * @throws ClassNotFoundException Occurs when was not possible to deserialize the content.
+	 * @throws NoSuchFieldException Occurs when was not possible to deserialize the content.
+	 * @throws IOException Occurs when was not possible to deserialize the content.
+	 */
 	public static <O> O deserialize(String content, Class<?> clazz) throws IOException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
 		if(clazz != null){
 			Map<String, Object> contentMap = (Map<String, Object>)propertyMapper.readValue(content, new TypeReference<Map<String, Object>>(){});

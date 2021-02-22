@@ -8,6 +8,8 @@ version="${buildVersion}"
 sourceCompatibility = "${buildCompatibility}" 
 targetCompatibility = "${buildCompatibility}"
 
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+
 repositories{
     mavenLocal()
 	mavenCentral()

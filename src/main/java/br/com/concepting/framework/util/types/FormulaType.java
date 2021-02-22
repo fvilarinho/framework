@@ -87,8 +87,4 @@ public enum FormulaType{
 	public void setId(String id){
 		this.id = id;
 	}
-	
-	public static void main(String args[]) {
-		System.out.println(AVERAGE.getId());
-	}
 }

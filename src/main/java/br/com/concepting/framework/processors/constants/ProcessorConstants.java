@@ -21,6 +21,7 @@ package br.com.concepting.framework.processors.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class ProcessorConstants{
 	public static final String VAR_ATTRIBUTE_ID                = "var";
 	public static final String DEFAULT_EVALUATE_PROCESSOR_ID   = "evaluate";

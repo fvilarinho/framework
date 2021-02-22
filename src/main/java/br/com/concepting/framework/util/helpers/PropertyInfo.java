@@ -117,10 +117,20 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
 	private InputType              inputType                     = null;
 	private String                 dataset                       = null;
 	
+	/**
+	 * Indicates if the property belongs to the child class.
+	 * 
+	 * @return True/False.
+	 */
 	public Boolean getFromClass(){
 		return fromClass;
 	}
 
+	/**
+	 * Defines if the property belongs to the child class.
+	 * 
+	 * @param fromClass True/False.
+	 */
 	public void setFromClass(Boolean fromClass){
 		this.fromClass = fromClass;
 	}

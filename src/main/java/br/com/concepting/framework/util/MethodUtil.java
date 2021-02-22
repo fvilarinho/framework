@@ -26,9 +26,16 @@ import org.apache.commons.beanutils.MethodUtils;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class MethodUtil extends MethodUtils{
-	public static Method getMethod(Class<?> instanceClass, String methodName){
+	/**
+	 * Returns a method definition of a class.
+	 * 
+	 * @param clazz Class that contains the desired method.
+	 * @param methodName String that contains the method name.
+	 * @return Instance that contains the method definition.
+	 */
+	public static Method getMethod(Class<?> clazz, String methodName){
 		try{
-			return instanceClass.getMethod(methodName);
+			return clazz.getMethod(methodName);
 		}
 		catch(Throwable e){
 			return null;

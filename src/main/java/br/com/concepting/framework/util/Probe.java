@@ -41,7 +41,34 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.util.helpers.ProbeOptions;
 import br.com.concepting.framework.util.types.ProbeType;
 
+/**
+ * Class that defines the implementation of a probe.
+ * 
+ * @author fvilarinho
+ * @version 3.8.2
+ * 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ */
 public class Probe extends WebDriverBackedSelenium{
+	/**
+	 * Initializes a probe.
+	 * 
+	 * @param options Instance that contains the initialization options.
+	 * @return Instance that contains the initialized probe.
+	 */
 	public static Probe initialize(ProbeOptions options){
 		ChromeOptions driverOptions = new ChromeOptions();
 
@@ -130,11 +157,21 @@ public class Probe extends WebDriverBackedSelenium{
 		show();
 	}
 	
+	/**
+	 * Returns the probe initialization options.
+	 * 
+	 * @return Instance that contains the probe options.
+	 */
 	public ProbeOptions getOptions(){
 		return this.options;
 	}
 
-	public void setOptions(ProbeOptions options){
+	/**
+	 * Defines the probe initialization options.
+	 * 
+	 * @param options Instance that contains the probe options.
+	 */
+	private void setOptions(ProbeOptions options){
 		this.options = options;
 
 		if(options.getNetwork() != null && 
@@ -148,22 +185,47 @@ public class Probe extends WebDriverBackedSelenium{
 		setTimeout(options.getTimeout());
 	}
 	
+	/**
+	 * Defines if the probe is running.
+	 * 
+	 * @param running True/False.
+	 */
 	private void setRunning(Boolean running){
 		this.running = running;
 	}
 
+	/**
+	 * Indicates if the probe is running.
+	 * 
+	 * @return True/False.
+	 */
 	public Boolean isRunning(){
 		return this.running;
 	}
 	
+	/**
+	 * Defines the network metrics captured after an execution.
+	 * 
+	 * @param networkMetrics List that contains the network metrics.
+	 */
 	private void setNetworkMetrics(Collection<LogEntry> networkMetrics){
 		this.networkMetrics = networkMetrics;
 	}
 	
+	/**
+	 * Returns the network metrics captured after an execution.
+	 * 
+	 * @return List that contains the network metrics.
+	 */
 	public Collection<LogEntry> getNetworkMetrics(){
 		return this.networkMetrics;
 	}
 
+	/**
+	 * Defines the default timeout (in seconds) for the commands.
+	 * 
+	 * @param timeout Numeric value that contains the timeout (in seconds).
+	 */
 	public void setTimeout(Integer timeout){
 		WebDriver driver = getWrappedDriver();
 		
@@ -172,6 +234,13 @@ public class Probe extends WebDriverBackedSelenium{
 		driver.manage().timeouts().setScriptTimeout(timeout, TimeUnit.SECONDS);
 	}
 
+	/**
+	 * Applies a network condition.
+	 * 
+	 * @param latency Numeric value that contains the latency (in milliseconds).
+	 * @param downloadKbps Numeric value that contains the download speed.
+	 * @param uploadKbps Numeric value that contains the upload speed.
+	 */
 	public void applyNetworkCondition(Integer latency, Integer downloadKbps, Integer uploadKbps){
 		if(latency != null && downloadKbps != null && uploadKbps != null){
 			Map<String, Object> networkConditions = PropertyUtil.instantiate(Map.class);
@@ -206,7 +275,7 @@ public class Probe extends WebDriverBackedSelenium{
 	}
 
 	/**
-	 * Shows the web browser.
+	 * Shows the probe.
 	 */
 	private void show(){
 		if(isRunning() == null || !isRunning()){
@@ -897,6 +966,12 @@ public class Probe extends WebDriverBackedSelenium{
 			driver.navigate().to(this.url.concat(url));
 	}
 
+	/**
+	 * Executes a list of commands.
+	 * 
+	 * @param commands List that contains the desired commands.
+	 * @throws InternalErrorException Occurs when was not possible to execute the commands.
+	 */
 	@SuppressWarnings("unchecked")
 	public void execute(Collection<Map<String, Object>> commands) throws InternalErrorException{
 		try{
@@ -942,6 +1017,7 @@ public class Probe extends WebDriverBackedSelenium{
 		}
 	}
 	
+	@SuppressWarnings("javadoc")
 	public static void main(String[] args) throws Throwable{
 		Date now = new Date();//DateTimeUtil.add(new Date(), 1, DateFieldType.DAYS);
 		String dateFilter = DateTimeUtil.format(now, "dd/MM/yyyy");
