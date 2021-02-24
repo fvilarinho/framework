@@ -34,6 +34,14 @@ import br.com.concepting.framework.webservice.constants.WebServiceConstants;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ServiceUtil{
+	/**
+	 * Return the service instance by the model class.
+	 *  
+	 * @param <S> Class that defines the service.
+	 * @param modelClass Class that defines the model class.
+	 * @return Instance that contains the service.
+	 * @throws InternalErrorException Occurs when was not possible to instantiate the service.
+	 */
 	public static <S extends IService<? extends BaseModel>> S getByModelClass(Class<? extends BaseModel> modelClass) throws InternalErrorException{
 		if(modelClass != null)
 			return getByModelClass(modelClass, null);
@@ -41,6 +49,14 @@ public class ServiceUtil{
 		return null;
 	}
 
+	/**
+	 * Return the service instance by the service class.
+	 *  
+	 * @param <S> Class that defines the service.
+	 * @param serviceClass Class that defines the service.
+	 * @return Instance that contains the service.
+	 * @throws InternalErrorException Occurs when was not possible to instantiate the service.
+	 */
 	public static <S extends IService<? extends BaseModel>> S getByServiceClass(Class<S> serviceClass) throws InternalErrorException{
 		if(serviceClass != null)
 			return getByServiceClass(serviceClass, null);
@@ -48,6 +64,15 @@ public class ServiceUtil{
 		return null;
 	}
 
+	/**
+	 * Return the service instance by the model class.
+	 *  
+	 * @param <S> Class that defines the service.
+	 * @param modelClass Class that defines the model class.
+	 * @param loginSession Instance that contains the login session data model.
+	 * @return Instance that contains the service.
+	 * @throws InternalErrorException Occurs when was not possible to instantiate the service.
+	 */
 	public static <S extends IService<? extends BaseModel>> S getByModelClass(Class<? extends BaseModel> modelClass, LoginSessionModel loginSession) throws InternalErrorException{
 		if(modelClass != null){
 			ServiceLocator serviceLocator = ServiceLocator.getInstance();
@@ -58,6 +83,15 @@ public class ServiceUtil{
 		return null;
 	}
 	
+	/**
+	 * Return the service instance by the service class.
+	 *  
+	 * @param <S> Class that defines the service.
+	 * @param serviceClass Class that defines the service.
+	 * @param loginSession Instance that contains the login session data model.
+	 * @return Instance that contains the service.
+	 * @throws InternalErrorException Occurs when was not possible to instantiate the service.
+	 */
 	public static <S extends IService<? extends BaseModel>> S getByServiceClass(Class<S> serviceClass, LoginSessionModel loginSession) throws InternalErrorException{
 		if(serviceClass != null){
 			ServiceLocator serviceLocator = ServiceLocator.getInstance();

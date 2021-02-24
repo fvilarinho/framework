@@ -48,14 +48,29 @@ public class Filter implements Serializable{
     private Collection<String> groupByProperties = null;
     private Integer maximumResults = null;
 
+    /**
+     * Returns the group by properties.
+     * 
+     * @return List that contains the group by properties.
+     */
     public Collection<String> getGroupByProperties(){
         return groupByProperties;
     }
 
+    /**
+     * Defines the group by properties.
+     * 
+     * @param groupByProperties List that contains the group by properties.
+     */
     public void setGroupByProperties(Collection<String> groupByProperties){
         this.groupByProperties = groupByProperties;
     }
 
+    /**
+     * Adds a group by property.
+     * 
+     * @param propertyId String that contains the property identifier.
+     */
     public void addGroupByProperty(String propertyId){
         if(this.groupByProperties == null)
             this.groupByProperties = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
@@ -64,25 +79,51 @@ public class Filter implements Serializable{
             this.groupByProperties.add(propertyId);
     }
 
+    /**
+     * Returns the properties aliases.
+     * 
+     * @return Map that contains the properties aliases.
+     */
     public Map<String, String> getPropertiesAliases(){
         return this.propertiesAliases;
     }
 
+    /**
+     * Defines the properties aliases.
+     * 
+     * @param propertiesAliases Map that contains the properties aliases.
+     */
     public void setPropertiesAliases(Map<String, String> propertiesAliases){
         this.propertiesAliases = propertiesAliases;
     }
 
-    public void addPropertyFormulaAlias(String propertyId, String propertyAlias){
+    /**
+     * Adds a property alias.
+     * 
+     * @param propertyId String that contains the property identifier. 
+     * @param propertyAlias String that contains the property alias.
+     */
+    public void addPropertyAlias(String propertyId, String propertyAlias){
         if(propertiesAliases == null)
             propertiesAliases = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
 
         propertiesAliases.put(propertyId, propertyAlias);
     }
 
+    /**
+     * Returns the properties formulas.
+     * 
+     * @return Map that contains the properties formulas.
+     */
     public Map<String, FormulaType> getPropertiesFormulas(){
         return this.propertiesFormulas;
     }
 
+    /**
+     * Returns the properties formulas.
+     * 
+     * @param propertiesFormulas Map that contains the properties formulas.
+     */
     public void setPropertiesFormulas(Map<String, FormulaType> propertiesFormulas){
         this.propertiesFormulas = propertiesFormulas;
     }
@@ -118,11 +159,16 @@ public class Filter implements Serializable{
         this.propertiesRelationsJoins.put(id, relationJoinType);
     }
 
-    public void addPropertyFormula(String id, FormulaType formulaType){
+    /**
+     * Adds a property formula
+     * @param propertyId String that contains the property identifier.
+     * @param formulaType Instance that contains the formula.
+     */
+    public void addPropertyFormula(String propertyId, FormulaType formulaType){
         if(this.propertiesFormulas == null)
             this.propertiesFormulas = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
 
-        this.propertiesFormulas.put(id, formulaType);
+        this.propertiesFormulas.put(propertyId, formulaType);
     }
 
     /**

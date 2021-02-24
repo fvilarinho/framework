@@ -55,6 +55,11 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 public class SecurityUtil{
 	private static final SecureRandom secureRandom = new SecureRandom();
 
+	/**
+	 * Generated a secure token.
+	 * 
+	 * @return String that contains the secure token.
+	 */
 	public static String generateToken(){
 		byte[] randomBytes = new byte[SecurityConstants.DEFAULT_TOKEN_SIZE];
 
@@ -133,6 +138,11 @@ public class SecurityUtil{
 		return System.getProperty("user.name");
 	}
 
+	/**
+	 * Generates a basic token.
+	 * 
+	 * @return String that contains a basic token.
+	 */
 	public static String generateBasicToken(){
 		String token = StringUtil.replaceAll(UUID.randomUUID().toString(), "-", "");
 
@@ -268,9 +278,5 @@ public class SecurityUtil{
 		catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | IllegalArgumentException | NoSuchFieldException e){
 			throw new InternalErrorException(e);
 		}
-	}
-
-	public static void main(String args[]) throws Throwable{
-		System.out.println(SecurityUtil.generateToken());
 	}
 }

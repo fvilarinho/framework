@@ -25,6 +25,7 @@ import br.com.concepting.framework.mail.types.MailTransportType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class MailConstants{
 	public static final String            FROM_ATTRIBUTE_ID      = "from";
 	public static final String            STORAGE_ATTRIBUTE_ID   = "storage";

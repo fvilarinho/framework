@@ -23,6 +23,7 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class SecurityConstants{
 	public static final String  ACCESSES_ATTRIBUTE_ID                      = "accesses";
 	public static final String  AUTHENTICATION_TYPE_ATTRIBUTE_ID           = "authenticationType";

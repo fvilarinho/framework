@@ -22,6 +22,7 @@ package br.com.concepting.framework.mq.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class MqConstants{
 	public static final String  LISTENER_CLASS_ATTRIBUTE_ID = "listenerClass";
 	public static final String  QUEUE_ATTRIBUTE_ID          = "queue";

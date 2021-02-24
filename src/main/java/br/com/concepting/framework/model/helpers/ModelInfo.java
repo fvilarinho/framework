@@ -55,14 +55,29 @@ public class ModelInfo{
 	private Boolean                              generateUi                 = null;
 	private Boolean                              cacheable                  = null;
 
+	/**
+	 * Indicates if the data model is abstract.
+	 * 
+	 * @return True/False.
+	 */
 	public Boolean isAbstract(){
 		return this.isAbstract;
 	}
 
+	/**
+	 * Indicates if the data model is abstract.
+	 * 
+	 * @return True/False.
+	 */
 	public Boolean getIsAbstract(){
 		return this.isAbstract();
 	}
 
+	/**
+	 * Defines if the data model is abstract.
+	 * 
+	 * @param isAbstract True/False.
+	 */
 	public void setIsAbstract(Boolean isAbstract){
 		this.isAbstract = isAbstract;
 	}

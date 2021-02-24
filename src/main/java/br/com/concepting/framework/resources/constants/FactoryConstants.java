@@ -22,6 +22,7 @@ package br.com.concepting.framework.resources.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class FactoryConstants{
 	public static final String RESOURCES_ATTRIBUTE_ID = "factoryResourcesId";    
 	public static final String URI_ATTRIBUTE_ID       = "uri";

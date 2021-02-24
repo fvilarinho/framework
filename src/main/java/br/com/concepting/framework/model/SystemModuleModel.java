@@ -206,6 +206,11 @@ public class SystemModuleModel extends BaseModel{
 		return null;
 	}
 	
+	/**
+	 * Defines the instance that contains a specific form of the system.
+	 *
+	 * @param form Instance that contains a specific form of the system.
+	 */
 	@SuppressWarnings("unchecked")
 	public void setForm(FormModel form){
 		if(this.forms != null){

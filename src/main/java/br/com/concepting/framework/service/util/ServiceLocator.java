@@ -54,6 +54,15 @@ public class ServiceLocator{
 		return instance;
 	}
 
+	/**
+	 * Lookup the service by the model.
+	 * 
+	 * @param <S> Class that defines the service.
+	 * @param modelClass Class that defines the model.
+	 * @param loginSession Instance that contains the login session data model.
+	 * @return Instance that contains the services.
+	 * @throws InternalErrorException Occues when was not possible to locate the service.
+	 */
 	public <S extends IService<? extends BaseModel>> S lookupByModelClass(Class<? extends BaseModel> modelClass, LoginSessionModel loginSession) throws InternalErrorException{
 		if(modelClass == null)
 			return null;
@@ -80,6 +89,15 @@ public class ServiceLocator{
 		}
 	}
 
+	/**
+	 * Lookup the service by the service class.
+	 * 
+	 * @param <S> Class that defines the service.
+	 * @param serviceClass Class that defines the service.
+	 * @param loginSession Instance that contains the login session data model.
+	 * @return Instance that contains the services.
+	 * @throws InternalErrorException Occues when was not possible to locate the service.
+	 */
 	public <S extends IService<? extends BaseModel>> S lookupByServiceClass(Class<S> serviceClass, LoginSessionModel loginSession) throws InternalErrorException{
 		if(serviceClass == null)
 			return null;

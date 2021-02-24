@@ -23,6 +23,7 @@ import br.com.concepting.framework.util.types.ContentType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class XmlConstants{
 	public static final String W3C_SCHEMA_NAMESPACE_ATTRIBUTE_ID             = "xmlns";
 	public static final String W3C_SCHEMA_INSTANCE_ATTRIBUTE_ID              = W3C_SCHEMA_NAMESPACE_ATTRIBUTE_ID.concat(":xsi");

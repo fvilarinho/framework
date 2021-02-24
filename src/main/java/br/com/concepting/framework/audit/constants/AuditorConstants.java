@@ -23,6 +23,7 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class AuditorConstants{
 	public static final String APPENDERS_ATTRIBUTE_ID           = "appenders";
 	public static final String APPENDER_ENTRY_ATTRIBUTE_ID      = "appender";

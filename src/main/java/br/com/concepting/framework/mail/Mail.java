@@ -561,14 +561,39 @@ public class Mail{
 		}
 	}
 	
+	/**
+	 * Retrieves all messages from a specific inbox.
+	 * 
+	 * @param folderName String that contains the inbox identifier.
+	 * @return List that contains the messages.
+	 * @throws MessagingException Occurs when was not possible to read/parse a message.
+	 * @throws IOException Occurs when was not possible to connect into the inbox.
+	 */
 	public Collection<MailMessage> retrieve(String folderName) throws MessagingException, IOException{
 		return retrieve(folderName, false);
 	}
 
+	/**
+	 * Retrieves only the unread messages from a specific inbox.
+	 * 
+	 * @param folderName String that contains the inbox identifier.
+	 * @return List that contains the messages.
+	 * @throws MessagingException Occurs when was not possible to read/parse a message.
+	 * @throws IOException Occurs when was not possible to connect into the inbox.
+	 */
 	public Collection<MailMessage> retrieveUnread(String folderName) throws MessagingException, IOException{
 		return retrieve(folderName, true);
 	}
 	
+	/**
+	 * Retrieves messages from a specific inbox.
+	 * 
+	 * @param folderName String that contains the inbox identifier.
+	 * @param onlyUnread True/False.
+	 * @return List that contains the messages.
+	 * @throws MessagingException Occurs when was not possible to read/parse a message.
+	 * @throws IOException Occurs when was not possible to connect into the inbox.
+	 */
 	public Collection<MailMessage> retrieve(String folderName, Boolean onlyUnread) throws MessagingException, IOException{
 		Store storage = null;
 

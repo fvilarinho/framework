@@ -21,6 +21,7 @@ import br.com.concepting.framework.service.interfaces.IService;
  * @author fvilarinho
  * @since 1.0.0
  * @param <L> Class that defines the login session data model. 
+ * @param <U> Class that defines the user data model. 
  *
  * <pre>Copyright (C) 2007 Innovative Thinking. 
  *
