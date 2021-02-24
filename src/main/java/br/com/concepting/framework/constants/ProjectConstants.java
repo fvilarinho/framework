@@ -21,6 +21,7 @@ package br.com.concepting.framework.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class ProjectConstants{
 	public static final String  BUILD_ATTRIBUTE_ID                                            = "build";
 	public static final String  BUILD_NAME_ATTRIBUTE_ID                                       = "buildName";

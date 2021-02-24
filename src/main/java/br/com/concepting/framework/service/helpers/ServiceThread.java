@@ -42,6 +42,12 @@ public class ServiceThread implements Runnable{
 	private DateTime nextExecution = null;
 	private Boolean executing = null;
 
+	/**
+	 * Default constructor.
+	 * 
+	 * @param serviceClass Class that defines the service.
+	 * @param loginSession Instance that contains the login session data model.
+	 */
 	public ServiceThread(Class<? extends IService<? extends BaseModel>> serviceClass, LoginSessionModel loginSession){
 		super();
 
@@ -50,10 +56,20 @@ public class ServiceThread implements Runnable{
 		setExecuting(false);
 	}
 	
+	/**
+	 * Defines the login session.
+	 * 
+	 * @param loginSession Instance that contains the login session data model.
+	 */
 	private void setLoginSession(LoginSessionModel loginSession){
 		this.loginSession = loginSession;
 	}
 
+	/**
+	 * Defines the service class.
+	 * 
+	 * @param serviceClass Class that defines the service.
+	 */
 	private void setServiceClass(Class<? extends IService<? extends BaseModel>> serviceClass){
 		this.serviceClass = serviceClass;
 	}

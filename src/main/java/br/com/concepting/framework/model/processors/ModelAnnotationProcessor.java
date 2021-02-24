@@ -583,7 +583,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
 		}
 	}
 
-
 	/**
 	 * Generates the model class.
 	 * 
@@ -685,6 +684,13 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
 		}
 	}
 	
+	/**
+	 * Generates the unit tests of the model class.
+	 * 
+	 * @param modelClassTestTemplateFilename String that contains the model class unit test template filename.
+	 * @throws InternalErrorException Occurs when was not possible to generate
+	 * the class.
+	 */
 	@Tag(ProjectConstants.DEFAULT_MODEL_CLASS_TEST_TEMPLATE_FILE_ID)
 	public void generateModelClassTest(String modelClassTestTemplateFilename) throws InternalErrorException{
 		try{
@@ -2094,6 +2100,13 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
 		}
 	}
 	
+	/**
+	 * Generates the module mappings.
+	 * 
+	 * @param moduleMappingsTemplateFilename String that contains the module mappings template filename.
+	 * @throws InternalErrorException Occurs when was not possible to generate
+	 * the module mappings file.
+	 */
 	@Tag(ProjectConstants.DEFAULT_MODULE_MAPPING_TEMPLATE_FILE_ID)
 	public void generateModuleMappings(String moduleMappingsTemplateFilename) throws InternalErrorException{
 		try{

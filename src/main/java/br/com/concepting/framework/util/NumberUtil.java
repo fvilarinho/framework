@@ -792,7 +792,13 @@ public class NumberUtil{
 
 		return null;
 	}
-	
+	/**
+	 * Returns a random number.
+	 * 
+	 * @param <N> Class that defines the number.
+	 * @param clazz Class that defines the number.
+	 * @return Instance that contains the random number.
+	 */
 	@SuppressWarnings("unchecked")
 	public static <N extends Number> N random(Class<N> clazz){
 		if(PropertyUtil.isByte(clazz))

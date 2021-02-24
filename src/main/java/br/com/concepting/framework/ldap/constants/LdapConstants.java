@@ -22,6 +22,7 @@ package br.com.concepting.framework.ldap.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class LdapConstants{
 	public static final String  BASE_DN_ATTRIBUTE_ID        = "baseDn";
 	public static final String  USER_DN_ATTRIBUTE_ID        = "userDn";

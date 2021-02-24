@@ -8,6 +8,8 @@ version="${buildVersion}"
 sourceCompatibility = "${buildCompatibility}" 
 targetCompatibility = "${buildCompatibility}"
 
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+
 repositories{
     mavenLocal()
 	mavenCentral()
@@ -95,6 +97,11 @@ dependencies{
 	compile "org.apache.poi:poi-ooxml:4.1.2"
 	compile "com.sun.mail:pop3:1.6.5"
 	compile "com.wcohen:com.wcohen.secondstring:0.1"
+	compile "org.seleniumhq.selenium:selenium-api:3.141.59"
+	compile "org.seleniumhq.selenium:selenium-java:3.141.59"
+    compile "org.seleniumhq.selenium:selenium-leg-rc:3.141.59"
+    compile "org.seleniumhq.selenium:selenium-remote-driver:3.141.59"
+    compile "org.seleniumhq.selenium:selenium-support:3.141.59"	
 	compile "com.sun.mail:smtp:1.6.5"
 	compile "com.github.ua-parser:uap-java:1.4.4"
 	compile "javax.validation:validation-api:2.0.1.Final"

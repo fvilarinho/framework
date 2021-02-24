@@ -49,6 +49,7 @@ import br.com.concepting.framework.util.types.DateFieldType;
  * @author fvilarinho
  * @since 1.0.0
  * @param <L> Class that defines the login session data model. 
+ * @param <U> Class that defines the userdata model. 
  *
  * <pre>Copyright (C) 2007 Innovative Thinking. 
  *

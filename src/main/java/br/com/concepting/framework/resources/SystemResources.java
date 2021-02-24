@@ -41,10 +41,20 @@ public class SystemResources extends BaseResources<XmlNode>{
 	private Collection<ActionFormResources>   actionForms      = null;
 	private Collection<String>                services         = null;
 
+	/**
+	 * Returns the system available services.
+	 * 
+	 * @return List that contains the system available services.
+	 */
 	public Collection<String> getServices(){
 		return this.services;
 	}
 
+	/**
+	 * Defines the system available services.
+	 * 
+	 * @param services List that contains the system available services.
+	 */
 	public void setServices(Collection<String> services){
 		this.services = services;
 	}

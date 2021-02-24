@@ -23,6 +23,7 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class SystemConstants{
 	public static final String CURRENT_EXCEPTION_ATTRIBUTE_ID       = "currentException";
 	public static final String CURRENT_LANGUAGE_ATTRIBUTE_ID        = "currentLanguage";

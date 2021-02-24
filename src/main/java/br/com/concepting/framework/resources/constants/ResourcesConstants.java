@@ -21,6 +21,7 @@ package br.com.concepting.framework.resources.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("javadoc")
 public abstract class ResourcesConstants{
 	public static final String OPTIONS_ATTRIBUTE_ID                        = "options";
 	public static final String RESOURCES_ATTRIBUTE_ID                      = "resourcesId";
