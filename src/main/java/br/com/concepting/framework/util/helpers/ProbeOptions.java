@@ -17,8 +17,17 @@ public class ProbeOptions{
     private Boolean headless = null;
     private Boolean kiosk = null;
     private Boolean captureNetworkMetrics = null;
+    private String downloadDir = null;
     private Integer timeout = DEFAULT_TIMEOUT;
     
+	public String getDownloadDir(){
+		return this.downloadDir;
+	}
+
+	public void setDownloadDir(String downloadDir) {
+		this.downloadDir = downloadDir;
+	}
+
 	public Boolean getCaptureNetworkMetrics(){
 		return this.captureNetworkMetrics;
 	}

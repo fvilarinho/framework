@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -71,13 +72,18 @@ public class Probe extends WebDriverBackedSelenium{
 	 */
 	public static Probe initialize(ProbeOptions options){
 		ChromeOptions driverOptions = new ChromeOptions();
-
+		HashMap<String, Object> driverPrefs = new HashMap<String, Object>();
+		
+		driverPrefs.put("profile.default_content_settings.popups", 0);
+		driverPrefs.put("download.default_directory", options.getDownloadDir());
+		
 		driverOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 		driverOptions.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 		driverOptions.setCapability(CapabilityType.SUPPORTS_FINDING_BY_CSS, true);
 		driverOptions.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
 		driverOptions.setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, false);
 		driverOptions.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.ACCEPT);
+		driverOptions.setExperimentalOption("prefs", driverPrefs);		
 		driverOptions.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"}); 
 		
 		if(options.getType() != null && options.getType() == ProbeType.MOBILE){
@@ -377,7 +383,14 @@ public class Probe extends WebDriverBackedSelenium{
 		}
 	}
 
-	protected WebElement lookupElement(String elementId) throws NoSuchElementException{
+	/**
+	 * Lookup for a element based on a identifier.
+	 * 
+	 * @param elementId String that contains the identifier.
+	 * @return Instance that contains the element.
+	 * @throws NoSuchElementException Occurs when was not possible to find the element.
+	 */
+	public WebElement lookupElement(String elementId) throws NoSuchElementException{
 		WebElement element = null;
 		WebDriver driver = getWrappedDriver();
 
@@ -402,11 +415,26 @@ public class Probe extends WebDriverBackedSelenium{
 		return element;
 	}
 
-	protected List<WebElement> lookupElements(String elementId) throws NoSuchElementException{
+	/**
+	 * List all elements of the current page based on a identifier.
+	 * 
+	 * @param elementId String that contains the identifier.
+	 * @return List that contains the found elements.
+	 * @throws NoSuchElementException Occurs when was not possible to find the elements.
+	 */
+	public List<WebElement> lookupElements(String elementId) throws NoSuchElementException{
 		return lookupElements(null, elementId);
 	}
 
-	protected List<WebElement> lookupElements(WebElement parent, String elementId) throws NoSuchElementException{
+	/**
+	 * List all elements of a parent based on a identifier.
+	 * 
+	 * @param parent Instance that contains the parent.
+	 * @param elementId String that contains the identifier.
+	 * @return List that contains the found elements.
+	 * @throws NoSuchElementException Occurs when was not possible to find the elements.
+	 */
+	public List<WebElement> lookupElements(WebElement parent, String elementId) throws NoSuchElementException{
 		List<WebElement> elements = null;
 		WebDriver driver = getWrappedDriver();
 
@@ -1023,7 +1051,8 @@ public class Probe extends WebDriverBackedSelenium{
 		String dateFilter = DateTimeUtil.format(now, "dd/MM/yyyy");
 		ProbeOptions options = new ProbeOptions();
 		
-		//options.setHeadless(true);
+		options.setDownloadDir("/Users/fvilarinho");
+		options.setHeadless(true);
 		
 		Probe probe = Probe.initialize(options);
 		
@@ -1055,7 +1084,7 @@ public class Probe extends WebDriverBackedSelenium{
 			List<String> nfes = null;
 			
 			try{
-				nfes = mapper.readValue(FileUtil.fromBinaryFile("/Users/fvilarinho/processedNfes,json"), new TypeReference<List<String>>(){});
+				nfes = mapper.readValue(FileUtil.fromBinaryFile("/Users/fvilarinho/processedNfes.json"), new TypeReference<List<String>>(){});
 			}
 			catch(IOException e){
 			}
@@ -1110,10 +1139,10 @@ public class Probe extends WebDriverBackedSelenium{
 					element = elements.get(i);
 					element.click();
 				}
-			
-				i++;
 				
-				if(i == (elements.size() - 1)){
+				i++;
+			
+				if(i == elements.size()){
 					elements = probe.lookupElements("class=t-link");
 					
 					Boolean found = false;
@@ -1121,6 +1150,8 @@ public class Probe extends WebDriverBackedSelenium{
 					for(WebElement next : elements){
 						if(next.getText().equals("next")) {
 							next.click();
+							
+							probe.waitForPageToLoad();
 							
 							found = true;
 							
@@ -1136,16 +1167,13 @@ public class Probe extends WebDriverBackedSelenium{
 						
 						elements = null;
 						i = 0;
-	
-						probe.waitForPageToLoad();
-						
 					}
 					else
 						break;
 				}
 			}
 			
-			FileUtil.toBinaryFile("/Users/fvilarinho/processedNfes,json", mapper.writeValueAsBytes(nfes));
+			FileUtil.toBinaryFile("/Users/fvilarinho/processedNfes.json", mapper.writeValueAsBytes(nfes));
 		}
 		
 		probe.close();
