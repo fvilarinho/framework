@@ -24,6 +24,7 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
+		@SuppressWarnings("javadoc")
 		@Path("@{lookupName}") 
 		public class @{name} extends BaseWebService&lt;#{clazz.simpleName}&gt; implements @{interfaceName}{
 		}

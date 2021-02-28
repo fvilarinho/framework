@@ -32,6 +32,7 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
+		@SuppressWarnings("javadoc")
 		@Service
 		@Auditable
 		public class @{name} extends br.com.concepting.framework.security.service.LoginSessionServiceImpl&lt;#{clazz.simpleName}, @{userModelName}, @{loginParameterModelName}&gt; implements @{interfaceName}{

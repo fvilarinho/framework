@@ -21,6 +21,7 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
+		@SuppressWarnings("javadoc")
 		public class @{name} extends HibernatePersistence&lt;#{clazz.simpleName}&gt; implements @{interfaceName}{
 			/**
 			 * Constructor - Initializes the persistence.

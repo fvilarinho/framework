@@ -33,6 +33,7 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
+		@SuppressWarnings("javadoc")
 		@Path("@{lookupName}") 
 		public class @{name} extends br.com.concepting.framework.security.service.LoginSessionWebServiceImpl&lt;#{clazz.simpleName}, @{userModelName}, @{loginParameterModelName}&gt; implements @{interfaceName}{
 		}

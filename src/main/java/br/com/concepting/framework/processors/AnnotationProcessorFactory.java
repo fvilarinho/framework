@@ -52,7 +52,7 @@ import br.com.concepting.framework.util.PropertyUtil;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 @SupportedAnnotationTypes({"br.com.concepting.framework.model.annotations.Model"})
-@SupportedOptions({"buildName", "buildVersion"})
+@SupportedOptions({"buildDir", "buildName", "buildVersion"})
 public class AnnotationProcessorFactory extends AbstractProcessor{
 	private ProcessingEnvironment environment       = null;
 	private ProjectBuild          build             = null;
@@ -97,7 +97,7 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
 	private void setEnvironment(ProcessingEnvironment environment) throws InternalErrorException{
 		try{
 			this.environment = environment;
-			
+
 			String buildResourcesDirname = getBuildResourcesDirname();
 			SystemResourcesLoader systemResourcesLoader = new SystemResourcesLoader(buildResourcesDirname);
 			
@@ -153,7 +153,7 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
 	 * @return String that contains the directory.
 	 */
 	private String getBuildBaseDirname(){
-		String baseDirname = new File("").getAbsolutePath();
+		String baseDirname = new File(this.environment.getOptions().get(ProjectConstants.BUILD_DIR_ATTRIBUTE_ID)).getAbsolutePath();
 
 		if(!baseDirname.endsWith(FileUtil.getDirectorySeparator()))
 			baseDirname = baseDirname.concat(FileUtil.getDirectorySeparator());
@@ -221,7 +221,7 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
 								mainConsoleClassName = declarationClassName;
 							else if(PropertyUtil.isModel(declarationClassName)){
 								annotationProcessor = getAnnotationProcessor(declarationClassName);
-								
+
 								if(annotationProcessor != null)
 									annotationProcessor.process();
 							}

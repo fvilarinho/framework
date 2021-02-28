@@ -45,6 +45,7 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
+		@SuppressWarnings("javadoc")
 		@Service
 		public class @{name} extends BaseService&lt;#{clazz.simpleName}&gt; implements @{interfaceName}{
 		    /**
