@@ -70,6 +70,7 @@ dependencies{
 	compile "org.apache.httpcomponents:httpcore:4.4.13"
 	compile "org.apache.httpcomponents:httpcore-nio:4.4.13"
 	compile "org.apache.httpcomponents:httpclient:4.5.12"
+	compile "org.apache.httpcomponents:httpmime:4.5.12"
 	compile "com.sun.mail:imap:1.6.5"
 	compile "org.glassfish.hk2.external:javax.inject:2.4.0"
 	compile "com.lowagie:itext:4.2.2"
