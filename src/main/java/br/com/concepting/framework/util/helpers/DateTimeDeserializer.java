@@ -1,24 +1,22 @@
 package br.com.concepting.framework.util.helpers;
 
-import java.io.IOException;
-import java.text.ParseException;
-
+import br.com.concepting.framework.constants.Constants;
+import br.com.concepting.framework.util.DateTimeUtil;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.google.gson.JsonParseException;
 
-import br.com.concepting.framework.constants.Constants;
-import br.com.concepting.framework.util.DateTimeUtil;
+import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Class that defines the date/time deserializae.
- * 
+ *
  * @author fvilarinho
  * @since 3.7.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,15 +32,15 @@ import br.com.concepting.framework.util.DateTimeUtil;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class DateTimeDeserializer extends JsonDeserializer<DateTime>{
-	/**
-	 * @see com.fasterxml.jackson.databind.JsonDeserializer#deserialize(com.fasterxml.jackson.core.JsonParser, com.fasterxml.jackson.databind.DeserializationContext)
-	 */
-	public DateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException, JsonProcessingException{
-		try{
-			return DateTimeUtil.parse(parser.getText(), Constants.DEFAULT_DATE_TIME_PATTERN);
-		} 
-		catch(ParseException e){
-			throw new JsonParseException(e);
-		}
-	}
+    /**
+     * @see com.fasterxml.jackson.databind.JsonDeserializer#deserialize(com.fasterxml.jackson.core.JsonParser, com.fasterxml.jackson.databind.DeserializationContext)
+     */
+    public DateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException{
+        try{
+            return DateTimeUtil.parse(parser.getText(), Constants.DEFAULT_DATE_TIME_PATTERN);
+        }
+        catch(ParseException e){
+            throw new JsonParseException(e);
+        }
+    }
 }

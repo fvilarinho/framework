@@ -1,8 +1,5 @@
 package br.com.concepting.framework.service.helpers;
 
-import java.text.ParseException;
-import java.util.Calendar;
-
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.SystemSessionModel;
@@ -15,13 +12,16 @@ import br.com.concepting.framework.util.DateTimeUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.DateFieldType;
 
+import java.text.ParseException;
+import java.util.Calendar;
+
 /**
  * Class that defines the service thread.
- * 
+ *
  * @author fvilarinho
  * @since 3.5.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,135 +37,135 @@ import br.com.concepting.framework.util.types.DateFieldType;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ServiceThread implements Runnable{
-	private Class<? extends IService<? extends BaseModel>> serviceClass = null;
-	private LoginSessionModel loginSession = null;
-	private DateTime nextExecution = null;
-	private Boolean executing = null;
-
-	/**
-	 * Default constructor.
-	 * 
-	 * @param serviceClass Class that defines the service.
-	 * @param loginSession Instance that contains the login session data model.
-	 */
-	public ServiceThread(Class<? extends IService<? extends BaseModel>> serviceClass, LoginSessionModel loginSession){
-		super();
-
-		setServiceClass(serviceClass);
-		setLoginSession(loginSession);
-		setExecuting(false);
-	}
-	
-	/**
-	 * Defines the login session.
-	 * 
-	 * @param loginSession Instance that contains the login session data model.
-	 */
-	private void setLoginSession(LoginSessionModel loginSession){
-		this.loginSession = loginSession;
-	}
-
-	/**
-	 * Defines the service class.
-	 * 
-	 * @param serviceClass Class that defines the service.
-	 */
-	private void setServiceClass(Class<? extends IService<? extends BaseModel>> serviceClass){
-		this.serviceClass = serviceClass;
-	}
-
-	/**
-	 * Indicates if the thread is executing.
-	 *
-	 * @return True/False.
-	 */
-	public Boolean isExecuting(){
-		return this.executing;
-	}
-
-	/**
-	 * Indicates if the thread is executing.
-	 *
-	 * @return True/False.
-	 */
-	public Boolean getExecuting(){
-		return isExecuting();
-	}
-
-	/**
-	 * Defines if the thread is executing.
-	 *
-	 * @param executing True/False.
-	 */
-	public void setExecuting(Boolean executing){
-		this.executing = executing;
-	}
-
-	/**
-	 * @see java.lang.Runnable#run()
-	 */
-	public void run(){
-		SystemSessionModel systemSession = this.loginSession.getSystemSession();
-		String domain = systemSession.getId();
-		
-		ExpressionProcessorUtil.setVariable(domain, SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, this.loginSession);
-
-		if(isExecuting())
-			return;
-
-		try{
-			setExecuting(true);
-			
-			IService<? extends BaseModel> service = ServiceUtil.getByServiceClass(this.serviceClass, this.loginSession);
-			Boolean active = (service != null && service.isActive());
-
-			if(active){
-				Integer pollingTime = service.getPollingTime();
-
-				if(pollingTime != null && pollingTime >= 0){
-					Calendar calendar = Calendar.getInstance();
-
-					calendar.set(Calendar.SECOND, 0);
-					calendar.set(Calendar.MILLISECOND, 0);
-
-					DateTime now = new DateTime(calendar.getTimeInMillis());
-
-					if(this.nextExecution == null){
-						try{
-							String startTime = service.getStartTime();
-
-							if(startTime != null && startTime.length() > 0){
-								calendar.setTime(DateTimeUtil.parse(startTime, "HH:mm"));
-								calendar.set(Calendar.SECOND, 0);
-								calendar.set(Calendar.MILLISECOND, 0);
-
-								this.nextExecution = new DateTime(calendar.getTimeInMillis());
-
-								Long diff = DateTimeUtil.diff(this.nextExecution, now, DateFieldType.MINUTES);
-
-								if(diff < 0)
-									this.nextExecution = DateTimeUtil.add(this.nextExecution, pollingTime, DateFieldType.MINUTES);
-							}
-							else
-								this.nextExecution = now;
-						}
-						catch(ParseException e){
-							throw new InternalErrorException(e);
-						}
-					}
-
-					if(this.nextExecution == null || this.nextExecution.equals(now) || this.nextExecution.before(now)){
-						this.nextExecution = DateTimeUtil.add(now, pollingTime, DateFieldType.MINUTES);
-
-						service.execute();
-					}
-				}
-			}
-		}
-		catch(InternalErrorException e){
-		}
-		finally{
-			setExecuting(false);
-		}
-	}
+    private Class<? extends IService<? extends BaseModel>> serviceClass = null;
+    private LoginSessionModel loginSession = null;
+    private DateTime nextExecution = null;
+    private Boolean executing = null;
+    
+    /**
+     * Default constructor.
+     *
+     * @param serviceClass Class that defines the service.
+     * @param loginSession Instance that contains the login session data model.
+     */
+    public ServiceThread(Class<? extends IService<? extends BaseModel>> serviceClass, LoginSessionModel loginSession){
+        super();
+        
+        setServiceClass(serviceClass);
+        setLoginSession(loginSession);
+        setExecuting(false);
+    }
+    
+    /**
+     * Defines the login session.
+     *
+     * @param loginSession Instance that contains the login session data model.
+     */
+    private void setLoginSession(LoginSessionModel loginSession){
+        this.loginSession = loginSession;
+    }
+    
+    /**
+     * Defines the service class.
+     *
+     * @param serviceClass Class that defines the service.
+     */
+    private void setServiceClass(Class<? extends IService<? extends BaseModel>> serviceClass){
+        this.serviceClass = serviceClass;
+    }
+    
+    /**
+     * Indicates if the thread is executing.
+     *
+     * @return True/False.
+     */
+    public Boolean isExecuting(){
+        return this.executing;
+    }
+    
+    /**
+     * Indicates if the thread is executing.
+     *
+     * @return True/False.
+     */
+    public Boolean getExecuting(){
+        return isExecuting();
+    }
+    
+    /**
+     * Defines if the thread is executing.
+     *
+     * @param executing True/False.
+     */
+    public void setExecuting(Boolean executing){
+        this.executing = executing;
+    }
+    
+    /**
+     * @see java.lang.Runnable#run()
+     */
+    public void run(){
+        SystemSessionModel systemSession = this.loginSession.getSystemSession();
+        String domain = systemSession.getId();
+        
+        ExpressionProcessorUtil.setVariable(domain, SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, this.loginSession);
+        
+        if(isExecuting())
+            return;
+        
+        try{
+            setExecuting(true);
+            
+            IService<? extends BaseModel> service = ServiceUtil.getByServiceClass(this.serviceClass, this.loginSession);
+            Boolean active = (service != null && service.isActive());
+            
+            if(active){
+                Integer pollingTime = service.getPollingTime();
+                
+                if(pollingTime != null && pollingTime >= 0){
+                    Calendar calendar = Calendar.getInstance();
+                    
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    
+                    DateTime now = new DateTime(calendar.getTimeInMillis());
+                    
+                    if(this.nextExecution == null){
+                        try{
+                            String startTime = service.getStartTime();
+                            
+                            if(startTime != null && startTime.length() > 0){
+                                calendar.setTime(DateTimeUtil.parse(startTime, "HH:mm"));
+                                calendar.set(Calendar.SECOND, 0);
+                                calendar.set(Calendar.MILLISECOND, 0);
+                                
+                                this.nextExecution = new DateTime(calendar.getTimeInMillis());
+                                
+                                Long diff = DateTimeUtil.diff(this.nextExecution, now, DateFieldType.MINUTES);
+                                
+                                if(diff < 0)
+                                    this.nextExecution = DateTimeUtil.add(this.nextExecution, pollingTime, DateFieldType.MINUTES);
+                            }
+                            else
+                                this.nextExecution = now;
+                        }
+                        catch(ParseException e){
+                            throw new InternalErrorException(e);
+                        }
+                    }
+                    
+                    if(this.nextExecution == null || this.nextExecution.equals(now) || this.nextExecution.before(now)){
+                        this.nextExecution = DateTimeUtil.add(now, pollingTime, DateFieldType.MINUTES);
+                        
+                        service.execute();
+                    }
+                }
+            }
+        }
+        catch(InternalErrorException e){
+        }
+        finally{
+            setExecuting(false);
+        }
+    }
 }

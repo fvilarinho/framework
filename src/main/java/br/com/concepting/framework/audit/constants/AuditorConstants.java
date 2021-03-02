@@ -4,10 +4,10 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
 
 /**
  * Class that defines the constants used in auditing.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,9 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  */
 @SuppressWarnings("javadoc")
 public abstract class AuditorConstants{
-	public static final String APPENDERS_ATTRIBUTE_ID           = "appenders";
-	public static final String APPENDER_ENTRY_ATTRIBUTE_ID      = "appender";
-	public static final String BUSINESS_COMPLEMENT_ATTRIBUTE_ID = "businessComplement";
-	public static final String LEVEL_ATTRIBUTE_ID               = "level";
-	public static final String DEFAULT_RESOURCES_ID             = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("auditorResources.xml");
+    public static final String APPENDERS_ATTRIBUTE_ID = "appenders";
+    public static final String APPENDER_ENTRY_ATTRIBUTE_ID = "appender";
+    public static final String BUSINESS_COMPLEMENT_ATTRIBUTE_ID = "businessComplement";
+    public static final String LEVEL_ATTRIBUTE_ID = "level";
+    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("auditorResources.xml");
 }

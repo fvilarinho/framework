@@ -118,6 +118,7 @@ task modelJar(type: Jar){
 	archiveClassifier = "model"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
+	exclude "**/*.html"
     from(sourceSets.main.output){  
         include "br/com/innovativethinking/framework/**/model/**" 
         project.ext.coreExcludes.addAll(includes)
@@ -128,6 +129,7 @@ task controllerJar(type: Jar){
 	archiveClassifier = "controller"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
+	exclude "**/*.html"
     from(sourceSets.main.output){  
         include "br/com/innovativethinking/framework/**/controller/**" 
         project.ext.coreExcludes.addAll(includes)
@@ -138,6 +140,7 @@ task persistenceJar(type: Jar){
 	archiveClassifier = "persistence"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
+	exclude "**/*.html"
     from(sourceSets.main.output){  
         include "br/com/innovativethinking/framework/**/persistence/**" 
         project.ext.coreExcludes.addAll(includes)
@@ -148,6 +151,7 @@ task serviceJar(type: Jar){
 	archiveClassifier = "service"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
+	exclude "**/*.html"
     from(sourceSets.main.output){  
         include "br/com/innovativethinking/framework/**/service/**" 
         project.ext.coreExcludes.addAll(includes)
@@ -158,6 +162,7 @@ task uiJar(type: Jar){
 	archiveClassifier = "ui"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
+	exclude "**/*.html"
     from(sourceSets.main.output){  
         include "br/com/innovativethinking/framework/**/ui/**" 
         project.ext.coreExcludes.addAll(includes)
@@ -168,6 +173,7 @@ task resourcesJar(type: Jar){
 	archiveClassifier = "resources"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
+	exclude "**/*.html"
     from(sourceSets.main.output){  
         include "etc/**/*.properties"
         include "etc/**/*.xml"
@@ -180,6 +186,7 @@ task coreJar(type: Jar){
 	archiveClassifier = "core"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
+	exclude "**/*.html"
     from(sourceSets.main.output){  
         exclude project.ext.coreExcludes
     }  
@@ -187,6 +194,7 @@ task coreJar(type: Jar){
 
 jar{
     exclude "META-INF/**"
+	exclude "**/*.html"
     duplicatesStrategy = 'exclude'
 }
 

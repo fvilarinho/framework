@@ -6,11 +6,11 @@ import br.com.concepting.framework.ui.constants.UIConstants;
 
 /**
  * Class that defines the save button component.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,40 +26,40 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class SaveButtonComponent extends ConfirmButtonComponent{
-	private static final long serialVersionUID = 2456308888340573819L;
-
-	/**
-	 * @see br.com.concepting.framework.ui.components.ButtonComponent#showOnlyWithDataset()
-	 */
-	public Boolean showOnlyWithDataset(){
-		return true;
-	}
-
-	/**
-	 * @see br.com.concepting.framework.ui.components.ConfirmButtonComponent#buildResources()
-	 */
-	protected void buildResources() throws InternalErrorException{
-		setResourcesKey(UIConstants.DEFAULT_SAVE_BUTTON_ID);
-
-		super.buildResources();
-	}
-
-	/**
-	 * @see br.com.concepting.framework.ui.components.ConfirmButtonComponent#buildStyleClass()
-	 */
-	protected void buildStyleClass() throws InternalErrorException{
-		setStyleClass(UIConstants.DEFAULT_SAVE_BUTTON_STYLE_CLASS);
-
-		super.buildStyleClass();
-	}
-
-	/**
-	 * @see br.com.concepting.framework.ui.components.ConfirmButtonComponent#initialize()
-	 */
-	protected void initialize() throws InternalErrorException{
-		if(!hasAction())
-			setActionType(ActionType.SAVE);
-
-		super.initialize();
-	}
+    private static final long serialVersionUID = 2456308888340573819L;
+    
+    /**
+     * @see br.com.concepting.framework.ui.components.ButtonComponent#showOnlyWithDataset()
+     */
+    public Boolean showOnlyWithDataset(){
+        return true;
+    }
+    
+    /**
+     * @see br.com.concepting.framework.ui.components.ConfirmButtonComponent#buildResources()
+     */
+    protected void buildResources() throws InternalErrorException{
+        setResourcesKey(UIConstants.DEFAULT_SAVE_BUTTON_ID);
+        
+        super.buildResources();
+    }
+    
+    /**
+     * @see br.com.concepting.framework.ui.components.ConfirmButtonComponent#buildStyleClass()
+     */
+    protected void buildStyleClass() throws InternalErrorException{
+        setStyleClass(UIConstants.DEFAULT_SAVE_BUTTON_STYLE_CLASS);
+        
+        super.buildStyleClass();
+    }
+    
+    /**
+     * @see br.com.concepting.framework.ui.components.ConfirmButtonComponent#initialize()
+     */
+    protected void initialize() throws InternalErrorException{
+        if(!hasAction())
+            setActionType(ActionType.SAVE);
+        
+        super.initialize();
+    }
 }

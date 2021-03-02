@@ -2,10 +2,10 @@ package br.com.concepting.framework.controller.form.constants;
 
 /**
  * Class that defines constants used in the form validation.
- * 
+ *
  * @author fvilarinho
  * @since 3.1.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,13 @@ package br.com.concepting.framework.controller.form.constants;
  */
 @SuppressWarnings("javadoc")
 public abstract class ActionFormValidationConstants{
-	public static final String COMPARE_CONDITION_ATTRIBUTE_ID  = "compareCondition";
-	public static final String COMPARE_LABEL_ATTRIBUTE_ID      = "compareLabel";
-	public static final String COMPARE_NAME_ATTRIBUTE_ID       = "compareName";
-	public static final String MAXIMUM_LENGTH_ATTRIBUTE_ID     = "maximumLength";
-	public static final String MAXIMUM_VALUE_ATTRIBUTE_ID      = "maximumValue";
-	public static final String MINIMUM_LENGTH_ATTRIBUTE_ID     = "minimumLength";
-	public static final String MINIMUM_VALUE_ATTRIBUTE_ID      = "minimumValue";
-	public static final String REGULAR_EXPRESSION_ATTRIBUTE_ID = "regularExpression";
-	public static final String WORD_COUNT_ATTRIBUTE_ID         = "wordCount";
+    public static final String COMPARE_CONDITION_ATTRIBUTE_ID = "compareCondition";
+    public static final String COMPARE_LABEL_ATTRIBUTE_ID = "compareLabel";
+    public static final String COMPARE_NAME_ATTRIBUTE_ID = "compareName";
+    public static final String MAXIMUM_LENGTH_ATTRIBUTE_ID = "maximumLength";
+    public static final String MAXIMUM_VALUE_ATTRIBUTE_ID = "maximumValue";
+    public static final String MINIMUM_LENGTH_ATTRIBUTE_ID = "minimumLength";
+    public static final String MINIMUM_VALUE_ATTRIBUTE_ID = "minimumValue";
+    public static final String REGULAR_EXPRESSION_ATTRIBUTE_ID = "regularExpression";
+    public static final String WORD_COUNT_ATTRIBUTE_ID = "wordCount";
 }

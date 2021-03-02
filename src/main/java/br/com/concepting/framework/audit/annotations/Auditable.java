@@ -8,10 +8,10 @@ import java.lang.annotation.Target;
 /**
  * Class that defines the auditing's annotation. This should be used in methods
  * or classes to enable the auditing.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,17 +30,17 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 public @interface Auditable{
-	/**
-	 * Defines the identifier of the auditing resources.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	String resourcesId() default "";
-
-	/**
-	 * Defines the identifier of the element that will be audited.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	String id() default "";
+    /**
+     * Defines the identifier of the auditing resources.
+     *
+     * @return String that contains the identifier.
+     */
+    String resourcesId() default "";
+    
+    /**
+     * Defines the identifier of the element that will be audited.
+     *
+     * @return String that contains the identifier.
+     */
+    String id() default "";
 }

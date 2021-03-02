@@ -4,12 +4,12 @@ import br.com.concepting.framework.caching.CachedObject;
 
 /**
  * Class that defines the basic implementation to store resources.
- * 
+ *
+ * @param <O> Class that defines the resources.
  * @author fvilarinho
  * @since 1.0.0
- * @param <O> Class that defines the resources. 
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,25 +25,25 @@ import br.com.concepting.framework.caching.CachedObject;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public abstract class BaseResources<O> extends CachedObject<O>{
-	private static final long serialVersionUID = 8856089972323762812L;
-
-	private Boolean isDefault = false;
-
-	/**
-	 * Defines if is the default resources.
-	 * 
-	 * @param isDefault True/False.
-	 */
-	public void setDefault(Boolean isDefault){
-		this.isDefault = isDefault;
-	}
-
-	/**
-	 * Indicates if is the default resources.
-	 * 
-	 * @return True/False.
-	 */
-	public Boolean isDefault(){
-		return this.isDefault;
-	}
+    private static final long serialVersionUID = 8856089972323762812L;
+    
+    private Boolean isDefault = false;
+    
+    /**
+     * Defines if is the default resources.
+     *
+     * @param isDefault True/False.
+     */
+    public void setDefault(Boolean isDefault){
+        this.isDefault = isDefault;
+    }
+    
+    /**
+     * Indicates if is the default resources.
+     *
+     * @return True/False.
+     */
+    public Boolean isDefault(){
+        return this.isDefault;
+    }
 }

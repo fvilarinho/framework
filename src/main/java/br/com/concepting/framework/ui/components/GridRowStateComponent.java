@@ -8,7 +8,7 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,39 +24,39 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class GridRowStateComponent extends OptionStateComponent{
-	private static final long serialVersionUID = -2939940944274909545L;
-
-	/**
-	 * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-	 */
-	protected void initialize() throws InternalErrorException{
-		String expression = getExpression();
-
-		if(expression == null){
-			expression = Boolean.TRUE.toString();
-
-			setExpression(expression);
-		}
-
-		GridPropertyComponent gridComponent = (GridPropertyComponent)findAncestorWithClass(this, GridPropertyComponent.class);
-
-		if(gridComponent == null){
-			try{
-				gridComponent = (GridPropertyComponent)getParent();
-			}
-			catch(ClassCastException e){
-			}
-		}
-
-		if(gridComponent != null){
-			try{
-				GridRowStateComponent rowStateComponent = (GridRowStateComponent)this.clone();
-
-				gridComponent.addRowStateComponent(rowStateComponent);
-			}
-			catch(CloneNotSupportedException e){
-				throw new InternalErrorException(e);
-			}
-		}
-	}
+    private static final long serialVersionUID = -2939940944274909545L;
+    
+    /**
+     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
+     */
+    protected void initialize() throws InternalErrorException{
+        String expression = getExpression();
+        
+        if(expression == null){
+            expression = Boolean.TRUE.toString();
+            
+            setExpression(expression);
+        }
+        
+        GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
+        
+        if(gridComponent == null){
+            try{
+                gridComponent = (GridPropertyComponent) getParent();
+            }
+            catch(ClassCastException e){
+            }
+        }
+        
+        if(gridComponent != null){
+            try{
+                GridRowStateComponent rowStateComponent = (GridRowStateComponent) this.clone();
+                
+                gridComponent.addRowStateComponent(rowStateComponent);
+            }
+            catch(CloneNotSupportedException e){
+                throw new InternalErrorException(e);
+            }
+        }
+    }
 }

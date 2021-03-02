@@ -2,11 +2,11 @@ package br.com.concepting.framework.util.types;
 
 /**
  * Class that defines the types of barcodes.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,5 +23,5 @@ package br.com.concepting.framework.util.types;
  */
 @SuppressWarnings("javadoc")
 public enum BarcodeType{
-	BOOKLAND, QRCODE, CODABAR, CODE128, CODE128A, CODE128B, CODE128C, EAN128, EAN13, GLOBAL_TRADEITEM_NUMBER, INTERVEALED_2_OF_5, MONARCH, PDF417, POST_NET, RANDOM_WEIGHT_UPCA, SCC14_SHIPPING_CODE, SHIPMENT_IDENTIFICATION_NUMBER, SSCC18, STANDARD_2_OF_5, UPCA, USD4, USPS;
+    BOOKLAND, QRCODE, CODABAR, CODE128, CODE128A, CODE128B, CODE128C, EAN128, EAN13, GLOBAL_TRADEITEM_NUMBER, INTERVEALED_2_OF_5, MONARCH, PDF417, POST_NET, RANDOM_WEIGHT_UPCA, SCC14_SHIPPING_CODE, SHIPMENT_IDENTIFICATION_NUMBER, SSCC18, STANDARD_2_OF_5, UPCA, USD4, USPS
 }

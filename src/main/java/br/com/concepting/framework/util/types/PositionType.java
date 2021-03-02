@@ -2,11 +2,11 @@ package br.com.concepting.framework.util.types;
 
 /**
  * Class that defines the types of position.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,33 +22,33 @@ package br.com.concepting.framework.util.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum PositionType{
-	/**
-	 * Top position.
-	 */
-	TOP,
-
-	/**
-	 * Bottom position.
-	 */
-	BOTTOM,
-
-	/**
-	 * Center position.
-	 */
-	CENTER,
-
-	/**
-	 * Left position.
-	 */
-	LEFT,
-
-	/**
-	 * Right position.
-	 */
-	RIGHT,
-
-	/**
-	 * Inside position.
-	 */
-	INSIDE;
+    /**
+     * Top position.
+     */
+    TOP,
+    
+    /**
+     * Bottom position.
+     */
+    BOTTOM,
+    
+    /**
+     * Center position.
+     */
+    CENTER,
+    
+    /**
+     * Left position.
+     */
+    LEFT,
+    
+    /**
+     * Right position.
+     */
+    RIGHT,
+    
+    /**
+     * Inside position.
+     */
+    INSIDE
 }

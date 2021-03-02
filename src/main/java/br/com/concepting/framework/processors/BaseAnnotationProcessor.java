@@ -5,11 +5,11 @@ import br.com.concepting.framework.processors.interfaces.IAnnotationProcessor;
 
 /**
  * Class that defines the basic implementation of a annotation processor.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,68 +25,68 @@ import br.com.concepting.framework.processors.interfaces.IAnnotationProcessor;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public abstract class BaseAnnotationProcessor implements IAnnotationProcessor{
-	private Class<?>                   declaration                = null;
-	private AnnotationProcessorFactory annotationProcessorFactory = null;
-
-	/**
-	 * Constructor - Initializes the annotation processor.
-	 * 
-	 * @param declaration Instance that contains the annotated class.
-	 * @param annotationProcessorFactory Instance that contains the annotation processor
-	 * factory.
-	 * @throws InternalErrorException Occurs when was not possible to
-	 * instantiate the processor.
-	 */
-	public BaseAnnotationProcessor(Class<?> declaration, AnnotationProcessorFactory annotationProcessorFactory) throws InternalErrorException{
-		super();
-
-		setDeclaration(declaration);
-		setAnnotationProcessorFactory(annotationProcessorFactory);
-	}
-
-	/**
-	 * Returns the instance of the class that contains the annotations that will
-	 * be processed.
-	 * 
-	 * @return Class that contains the annotations that will be processed.
-	 */
-	public Class<?> getDeclaration(){
-		return this.declaration;
-	}
-
-	/**
-	 * Defines the instance of the class that contains the annotations that will
-	 * be processed.
-	 * 
-	 * @param declaration Class that contains the annotations that will be
-	 * processed.
-	 */
-	public void setDeclaration(Class<?> declaration){
-		this.declaration = declaration;
-	}
-
-	/**
-	 * Returns the instance of the annotation processor factory.
-	 * 
-	 * @return Instance that contains the annotation processor factory.
-	 */
-	public AnnotationProcessorFactory getAnnotationProcessorFactory(){
-		return this.annotationProcessorFactory;
-	}
-
-	/**
-	 * Defines the instance of the annotation processor factory.
-	 * 
-	 * @param annotationProcessorFactory Instance that contains the annotation processor
-	 * factory.
-	 */
-	public void setAnnotationProcessorFactory(AnnotationProcessorFactory annotationProcessorFactory){
-		this.annotationProcessorFactory = annotationProcessorFactory;
-	}
-
-	/**
-	 * @see br.com.concepting.framework.processors.interfaces.IAnnotationProcessor#process()
-	 */
-	public void process() throws InternalErrorException{
-	}
+    private Class<?> declaration = null;
+    private AnnotationProcessorFactory annotationProcessorFactory = null;
+    
+    /**
+     * Constructor - Initializes the annotation processor.
+     *
+     * @param declaration Instance that contains the annotated class.
+     * @param annotationProcessorFactory Instance that contains the annotation processor
+     * factory.
+     * @throws InternalErrorException Occurs when was not possible to
+     * instantiate the processor.
+     */
+    public BaseAnnotationProcessor(Class<?> declaration, AnnotationProcessorFactory annotationProcessorFactory) throws InternalErrorException{
+        super();
+        
+        setDeclaration(declaration);
+        setAnnotationProcessorFactory(annotationProcessorFactory);
+    }
+    
+    /**
+     * Returns the instance of the class that contains the annotations that will
+     * be processed.
+     *
+     * @return Class that contains the annotations that will be processed.
+     */
+    public Class<?> getDeclaration(){
+        return this.declaration;
+    }
+    
+    /**
+     * Defines the instance of the class that contains the annotations that will
+     * be processed.
+     *
+     * @param declaration Class that contains the annotations that will be
+     * processed.
+     */
+    public void setDeclaration(Class<?> declaration){
+        this.declaration = declaration;
+    }
+    
+    /**
+     * Returns the instance of the annotation processor factory.
+     *
+     * @return Instance that contains the annotation processor factory.
+     */
+    public AnnotationProcessorFactory getAnnotationProcessorFactory(){
+        return this.annotationProcessorFactory;
+    }
+    
+    /**
+     * Defines the instance of the annotation processor factory.
+     *
+     * @param annotationProcessorFactory Instance that contains the annotation processor
+     * factory.
+     */
+    public void setAnnotationProcessorFactory(AnnotationProcessorFactory annotationProcessorFactory){
+        this.annotationProcessorFactory = annotationProcessorFactory;
+    }
+    
+    /**
+     * @see br.com.concepting.framework.processors.interfaces.IAnnotationProcessor#process()
+     */
+    public void process() throws InternalErrorException{
+    }
 }

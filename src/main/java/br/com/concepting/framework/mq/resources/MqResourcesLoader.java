@@ -1,8 +1,5 @@
 package br.com.concepting.framework.mq.resources;
 
-import java.text.ParseException;
-import java.util.List;
-
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.mq.constants.MqConstants;
 import br.com.concepting.framework.mq.resources.helpers.MqQueue;
@@ -14,12 +11,15 @@ import br.com.concepting.framework.security.constants.SecurityConstants;
 import br.com.concepting.framework.util.NumberUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
+import java.text.ParseException;
+import java.util.List;
+
 /**
  * Class responsible to manipulate the MQ resources.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,130 +36,130 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
-	/**
-	 * Constructor - Manipulates the default resources.
-	 * 
-	 * @throws InvalidResourcesException Occurs when the default resources could
-	 * not be read.
-	 */
-	public MqResourcesLoader() throws InvalidResourcesException{
-		super();
-	}
-
-	/**
-	 * Constructor - Manipulates specific resource.
-	 * 
-	 * @param resourcesDirname String that contains the directory where the resources
-	 * are stored.
-	 * @throws InvalidResourcesException Occurs when the resources could not be read.
-	 */
-	public MqResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
-		super(resourcesDirname);
-	}
-
-	/**
-	 * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
-	 */
-	public MqResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
-		String resourcesDirname = getResourcesDirname();
-		String resourcesId = getResourcesId();
-		MqResources resources = super.parseResources(resourcesNode);
-		XmlNode serverNameNode = resourcesNode.getNode(NetworkConstants.SERVER_NAME_ATTRIBUTE_ID);
-
-		if(serverNameNode != null){
-			String serverName = serverNameNode.getValue();
-
-			if(serverName == null || serverName.length() == 0)
-				throw new InvalidResourcesException(resourcesDirname, resourcesId, serverNameNode.getText());
-
-			resources.setServerName(serverName);
-		}
-		else
-			resources.setServerName(NetworkConstants.DEFAULT_LOCALHOST_NAME_ID);
-
-		XmlNode serverPortNode = resourcesNode.getNode(NetworkConstants.SERVER_PORT_ATTRIBUTE_ID);
-
-		if(serverPortNode != null){
-			if(serverPortNode.getValue() == null || serverPortNode.getValue().length() == 0)
-				throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText());
-
-			try{
-				Integer serverPort = NumberUtil.parseInt(serverPortNode.getValue());
-
-				resources.setServerPort(serverPort);
-			}
-			catch(ParseException e){
-				throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText(), e);
-			}
-		}
-		else
-			resources.setServerPort(MqConstants.DEFAULT_PORT);
-
-		XmlNode userNameNode = resourcesNode.getNode(SecurityConstants.USER_NAME_ATTRIBUTE_ID);
-
-		if(userNameNode != null){
-			String userName = userNameNode.getValue();
-
-			if(userName != null && userName.length() > 0){
-				userName = ExpressionProcessorUtil.fillEnvironmentInString(userName);
-
-				resources.setUserName(userName);
-			}
-		}
-
-		XmlNode passwordNode = resourcesNode.getNode(SecurityConstants.PASSWORD_ATTRIBUTE_ID);
-
-		if(passwordNode != null){
-			String password = passwordNode.getValue();
-
-			if(password != null && password.length() > 0){
-				password = ExpressionProcessorUtil.fillEnvironmentInString(password);
-
-				resources.setPassword(password);
-			}
-		}
-
-		XmlNode queuesNode = resourcesNode.getNode(MqConstants.QUEUES_ATTRIBUTE_ID);
-
-		if(queuesNode != null){
-			List<XmlNode> queuesNodeList = queuesNode.getChildren();
-			String queueId = null;
-			String queueListenerClass = null;
-
-			if(queuesNodeList != null && !queuesNodeList.isEmpty()){
-				for(XmlNode queueNode : queuesNodeList){
-					queueId = queueNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
-
-					if(queueId == null || queueId.length() == 0)
-						throw new InvalidResourcesException(resourcesDirname, resourcesId, queueNode.getText());
-
-					MqQueue queue = new MqQueue();
-
-					queue.setId(queueId);
-
-					queueListenerClass = queueNode.getAttribute(MqConstants.LISTENER_CLASS_ATTRIBUTE_ID);
-
-					if(queueListenerClass != null && queueListenerClass.length() > 0)
-						queue.setListenerClass(queueListenerClass);
-
-					resources.addQueue(queue);
-				}
-			}
-		}
-
-		return resources;
-	}
-
-	/**
-	 * @see br.com.concepting.framework.resources.BaseResourcesLoader#parseContent()
-	 */
-	protected XmlNode parseContent() throws InvalidResourcesException{
-		XmlNode contentNode = super.parseContent();
-		XmlNode resourcesNode = (contentNode != null ? contentNode.getNode(MqConstants.DEFAULT_ID) : null);
-
-		if(resourcesNode == null)
-			throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), contentNode.getText());
-
-		return resourcesNode;
-	}
+    /**
+     * Constructor - Manipulates the default resources.
+     *
+     * @throws InvalidResourcesException Occurs when the default resources could
+     * not be read.
+     */
+    public MqResourcesLoader() throws InvalidResourcesException{
+        super();
+    }
+    
+    /**
+     * Constructor - Manipulates specific resource.
+     *
+     * @param resourcesDirname String that contains the directory where the resources
+     * are stored.
+     * @throws InvalidResourcesException Occurs when the resources could not be read.
+     */
+    public MqResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
+        super(resourcesDirname);
+    }
+    
+    /**
+     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
+     */
+    public MqResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
+        String resourcesDirname = getResourcesDirname();
+        String resourcesId = getResourcesId();
+        MqResources resources = super.parseResources(resourcesNode);
+        XmlNode serverNameNode = resourcesNode.getNode(NetworkConstants.SERVER_NAME_ATTRIBUTE_ID);
+        
+        if(serverNameNode != null){
+            String serverName = serverNameNode.getValue();
+            
+            if(serverName == null || serverName.length() == 0)
+                throw new InvalidResourcesException(resourcesDirname, resourcesId, serverNameNode.getText());
+            
+            resources.setServerName(serverName);
+        }
+        else
+            resources.setServerName(NetworkConstants.DEFAULT_LOCALHOST_NAME_ID);
+        
+        XmlNode serverPortNode = resourcesNode.getNode(NetworkConstants.SERVER_PORT_ATTRIBUTE_ID);
+        
+        if(serverPortNode != null){
+            if(serverPortNode.getValue() == null || serverPortNode.getValue().length() == 0)
+                throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText());
+            
+            try{
+                Integer serverPort = NumberUtil.parseInt(serverPortNode.getValue());
+                
+                resources.setServerPort(serverPort);
+            }
+            catch(ParseException e){
+                throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText(), e);
+            }
+        }
+        else
+            resources.setServerPort(MqConstants.DEFAULT_PORT);
+        
+        XmlNode userNameNode = resourcesNode.getNode(SecurityConstants.USER_NAME_ATTRIBUTE_ID);
+        
+        if(userNameNode != null){
+            String userName = userNameNode.getValue();
+            
+            if(userName != null && userName.length() > 0){
+                userName = ExpressionProcessorUtil.fillEnvironmentInString(userName);
+                
+                resources.setUserName(userName);
+            }
+        }
+        
+        XmlNode passwordNode = resourcesNode.getNode(SecurityConstants.PASSWORD_ATTRIBUTE_ID);
+        
+        if(passwordNode != null){
+            String password = passwordNode.getValue();
+            
+            if(password != null && password.length() > 0){
+                password = ExpressionProcessorUtil.fillEnvironmentInString(password);
+                
+                resources.setPassword(password);
+            }
+        }
+        
+        XmlNode queuesNode = resourcesNode.getNode(MqConstants.QUEUES_ATTRIBUTE_ID);
+        
+        if(queuesNode != null){
+            List<XmlNode> queuesNodeList = queuesNode.getChildren();
+            String queueId = null;
+            String queueListenerClass = null;
+            
+            if(queuesNodeList != null && !queuesNodeList.isEmpty()){
+                for(XmlNode queueNode: queuesNodeList){
+                    queueId = queueNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
+                    
+                    if(queueId == null || queueId.length() == 0)
+                        throw new InvalidResourcesException(resourcesDirname, resourcesId, queueNode.getText());
+                    
+                    MqQueue queue = new MqQueue();
+                    
+                    queue.setId(queueId);
+                    
+                    queueListenerClass = queueNode.getAttribute(MqConstants.LISTENER_CLASS_ATTRIBUTE_ID);
+                    
+                    if(queueListenerClass != null && queueListenerClass.length() > 0)
+                        queue.setListenerClass(queueListenerClass);
+                    
+                    resources.addQueue(queue);
+                }
+            }
+        }
+        
+        return resources;
+    }
+    
+    /**
+     * @see br.com.concepting.framework.resources.BaseResourcesLoader#parseContent()
+     */
+    protected XmlNode parseContent() throws InvalidResourcesException{
+        XmlNode contentNode = super.parseContent();
+        XmlNode resourcesNode = (contentNode != null ? contentNode.getNode(MqConstants.DEFAULT_ID) : null);
+        
+        if(resourcesNode == null)
+            throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), contentNode.getText());
+        
+        return resourcesNode;
+    }
 }

@@ -1,18 +1,18 @@
 package br.com.concepting.framework.util;
 
-import java.util.Locale;
-
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.SystemResourcesLoader;
 
+import java.util.Locale;
+
 /**
  * Class responsible to manipulate the language resources.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,52 +28,52 @@ import br.com.concepting.framework.resources.SystemResourcesLoader;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class LanguageUtil{
-	/**
-	 * Returns the instance of the language based on its identifier.
-	 * 
-	 * @param value String that contains the identifier of the language.
-	 * @return Instance that contains the language.
-	 */
-	public static Locale getLanguageByString(String value){
-		if(value != null && value.length() > 0){
-			Locale language = null;
-			String languageBuffer[] = StringUtil.split((String)value, "_");
-
-			if(languageBuffer.length == 1)
-				language = new Locale(languageBuffer[0]);
-			else if(languageBuffer.length == 2)
-				language = new Locale(languageBuffer[0], languageBuffer[1]);
-			else if(languageBuffer.length == 3)
-				language = new Locale(languageBuffer[0], languageBuffer[1], languageBuffer[2]);
-
-			return language;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the instance of the default language.
-	 * 
-	 * @return Instance that contains the language.
-	 */
-	public static Locale getDefaultLanguage(){
-		try{
-			SystemResourcesLoader loader = new SystemResourcesLoader();
-			SystemResources resources = loader.getDefault();
-
-			if(resources != null){
-				Locale language = resources.getDefaultLanguage();
-
-				if(language == null)
-					language = Locale.getDefault();
-
-				return language;
-			}
-		}
-		catch(InternalErrorException e){
-		}
-
-		return Locale.getDefault();
-	}
+    /**
+     * Returns the instance of the language based on its identifier.
+     *
+     * @param value String that contains the identifier of the language.
+     * @return Instance that contains the language.
+     */
+    public static Locale getLanguageByString(String value){
+        if(value != null && value.length() > 0){
+            Locale language = null;
+            String languageBuffer[] = StringUtil.split((String) value, "_");
+            
+            if(languageBuffer.length == 1)
+                language = new Locale(languageBuffer[0]);
+            else if(languageBuffer.length == 2)
+                language = new Locale(languageBuffer[0], languageBuffer[1]);
+            else if(languageBuffer.length == 3)
+                language = new Locale(languageBuffer[0], languageBuffer[1], languageBuffer[2]);
+            
+            return language;
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Returns the instance of the default language.
+     *
+     * @return Instance that contains the language.
+     */
+    public static Locale getDefaultLanguage(){
+        try{
+            SystemResourcesLoader loader = new SystemResourcesLoader();
+            SystemResources resources = loader.getDefault();
+            
+            if(resources != null){
+                Locale language = resources.getDefaultLanguage();
+                
+                if(language == null)
+                    language = Locale.getDefault();
+                
+                return language;
+            }
+        }
+        catch(InternalErrorException e){
+        }
+        
+        return Locale.getDefault();
+    }
 }

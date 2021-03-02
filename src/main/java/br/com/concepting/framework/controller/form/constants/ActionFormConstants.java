@@ -4,10 +4,10 @@ import br.com.concepting.framework.controller.types.ScopeType;
 
 /**
  * Class that defines the constants used in the manipulation of forms.
- * 
+ *
  * @author fvilarinho
  * @since 3.1.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,17 +25,17 @@ import br.com.concepting.framework.controller.types.ScopeType;
  */
 @SuppressWarnings("javadoc")
 public abstract class ActionFormConstants{
-	public static final String    ACTION_FORMS_ATTRIBUTE_ID             = "actionForms";
-	public static final String    ACTION_FORM_ATTRIBUTE_ID              = "actionForm";
-	public static final String    ACTION_ATTRIBUTE_ID                   = "action";
-	public static final String    DATASET_ATTRIBUTE_ID                  = "dataset";
-	public static final String    DATASET_SCOPE_ATTRIBUTE_ID            = "datasetScope";
-	public static final String    DATASET_START_INDEX_ATTRIBUTE_ID      = "datasetStartIndex";
-	public static final String    DATASET_END_INDEX_ATTRIBUTE_ID        = "datasetEndIndex";
-	public static final String    FORWARDS_ATTRIBUTE_ID                 = "forwards";
-	public static final String    FORWARD_ATTRIBUTE_ID                  = "forward";
-	public static final String    DEFAULT_ACTION_SERVLET_FILE_EXTENSION = ".ui";
-	public static final String    DEFAULT_ROOT_FORWARD_ID               = "root";
-	public static final String    DEFAULT_FORWARD_ID                    = "index";
-	public static final ScopeType DEFAULT_DATASET_SCOPE_TYPE            = ScopeType.MODEL;
+    public static final String ACTION_FORMS_ATTRIBUTE_ID = "actionForms";
+    public static final String ACTION_FORM_ATTRIBUTE_ID = "actionForm";
+    public static final String ACTION_ATTRIBUTE_ID = "action";
+    public static final String DATASET_ATTRIBUTE_ID = "dataset";
+    public static final String DATASET_SCOPE_ATTRIBUTE_ID = "datasetScope";
+    public static final String DATASET_START_INDEX_ATTRIBUTE_ID = "datasetStartIndex";
+    public static final String DATASET_END_INDEX_ATTRIBUTE_ID = "datasetEndIndex";
+    public static final String FORWARDS_ATTRIBUTE_ID = "forwards";
+    public static final String FORWARD_ATTRIBUTE_ID = "forward";
+    public static final String DEFAULT_ACTION_SERVLET_FILE_EXTENSION = ".ui";
+    public static final String DEFAULT_ROOT_FORWARD_ID = "root";
+    public static final String DEFAULT_FORWARD_ID = "index";
+    public static final ScopeType DEFAULT_DATASET_SCOPE_TYPE = ScopeType.MODEL;
 }

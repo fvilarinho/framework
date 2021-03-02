@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * Class that defines the annotation used to tag a routine.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,10 +29,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Tag{
-	/**
-	 * Defines the value of the annotation.
-	 * 
-	 * @return String that contains the value of the annotation.
-	 */
-	String value() default "";
+    /**
+     * Defines the value of the annotation.
+     *
+     * @return String that contains the value of the annotation.
+     */
+    String value() default "";
 }

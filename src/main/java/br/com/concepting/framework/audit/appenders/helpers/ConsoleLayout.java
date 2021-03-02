@@ -1,19 +1,18 @@
 package br.com.concepting.framework.audit.appenders.helpers;
 
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.spi.LoggingEvent;
-
 import br.com.concepting.framework.audit.model.AuditorModel;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.util.StringUtil;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.spi.LoggingEvent;
 
 /**
  * Class that defines the basic implementation for the layouts of the auditing's
  * messages.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * ss
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,45 +29,45 @@ import br.com.concepting.framework.util.StringUtil;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ConsoleLayout extends PatternLayout{
-	private AuditorModel model = null;
-
-	/**
-	 * Returns the auditing data model.
-	 *
-	 * @param <A> Class that defines the data model.
-	 * @return Instance that contains the data model.
-	 */
-	@SuppressWarnings("unchecked")
-	public <A extends AuditorModel> A getModel(){
-		return (A)this.model;
-	}
-
-	/**
-	 * Defines the auditing data model.
-	 *
-	 * @param model Instance that contains the data model.
-	 */
-	public void setModel(AuditorModel model){
-		this.model = model;
-	}
-
-	/**
-	 * @see org.apache.log4j.PatternLayout#format(org.apache.log4j.spi.LoggingEvent)
-	 */
-	public String format(LoggingEvent event){
-		if(event != null){
-			try{
-				StringBuilder result = new StringBuilder();
-				
-				result.append(ModelUtil.toAuditableString(this.model));
-				result.append(StringUtil.getLineBreak());
-				
-				return result.toString();
-			}
-			catch(Throwable e){
-			}
-		}
-
-		return null;
-	}
+    private AuditorModel model = null;
+    
+    /**
+     * Returns the auditing data model.
+     *
+     * @param <A> Class that defines the data model.
+     * @return Instance that contains the data model.
+     */
+    @SuppressWarnings("unchecked")
+    public <A extends AuditorModel> A getModel(){
+        return (A) this.model;
+    }
+    
+    /**
+     * Defines the auditing data model.
+     *
+     * @param model Instance that contains the data model.
+     */
+    public void setModel(AuditorModel model){
+        this.model = model;
+    }
+    
+    /**
+     * @see org.apache.log4j.PatternLayout#format(org.apache.log4j.spi.LoggingEvent)
+     */
+    public String format(LoggingEvent event){
+        if(event != null){
+            try{
+                StringBuilder result = new StringBuilder();
+                
+                result.append(ModelUtil.toAuditableString(this.model));
+                result.append(StringUtil.getLineBreak());
+                
+                return result.toString();
+            }
+            catch(Throwable e){
+            }
+        }
+        
+        return null;
+    }
 }

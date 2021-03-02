@@ -2,11 +2,11 @@ package br.com.concepting.framework.mail.types;
 
 /**
  * Class that defines the mail transport types.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,13 +22,13 @@ package br.com.concepting.framework.mail.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum MailTransportType{
-	/**
-	 * SMTP transport protocol.
-	 */
-	SMTP,
-
-	/**
-	 * ESMTP transport protocol.
-	 */
-	ESMTP;
+    /**
+     * SMTP transport protocol.
+     */
+    SMTP,
+    
+    /**
+     * ESMTP transport protocol.
+     */
+    ESMTP
 }

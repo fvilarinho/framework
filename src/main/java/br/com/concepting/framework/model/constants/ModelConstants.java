@@ -2,10 +2,10 @@ package br.com.concepting.framework.model.constants;
 
 /**
  * Class that defines the constants used in the manipulation of data models.
- * 
+ *
  * @author fvilarinho
  * @since 3.1.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,8 @@ package br.com.concepting.framework.model.constants;
  */
 @SuppressWarnings("javadoc")
 public abstract class ModelConstants{
-	public static final String COMPARE_ACCURACY_ATTRIBUTE_ID          = "compareAccuracy";
-	public static final String VALIDATE_MODEL_ATTRIBUTE_ID            = "validateModel";
-	public static final String VALIDATE_MODEL_PROPERTIES_ATTRIBUTE_ID = "validateModelProperties";
-	public static final String DEFAULT_ID                             = "model";
+    public static final String COMPARE_ACCURACY_ATTRIBUTE_ID = "compareAccuracy";
+    public static final String VALIDATE_MODEL_ATTRIBUTE_ID = "validateModel";
+    public static final String VALIDATE_MODEL_PROPERTIES_ATTRIBUTE_ID = "validateModelProperties";
+    public static final String DEFAULT_ID = "model";
 }

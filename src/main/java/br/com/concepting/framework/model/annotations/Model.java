@@ -1,18 +1,18 @@
 package br.com.concepting.framework.model.annotations;
 
+import br.com.concepting.framework.controller.form.util.ActionFormValidator;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import br.com.concepting.framework.controller.form.util.ActionFormValidator;
-
 /**
  * Class that defines the annotation of a data model.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,82 +31,82 @@ import br.com.concepting.framework.controller.form.util.ActionFormValidator;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Model{
-	/**
-	 * Defines the identifier of the UI that will be used to generate code.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	String ui() default "";
-
-	/**
-	 * Defines the identifier of the template that will be used to generate
-	 * code.
-	 *
-	 * @return String that contains the identifier.
-	 */
-	String templateId() default "";
-
-	/**
-	 * Defines the identifier of the repository that will store the data model.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	String mappedRepositoryId() default "";
-
-	/**
-	 * Defines the properties mapping of the data model.
-	 * 
-	 * @return Array that contains the properties mapping.
-	 */
-	Property[] mappedProperties() default @Property;
-
-	/**
-	 * Defines the identifier of the persistence resources.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	String persistenceResourcesId() default "";
-
-	/**
-	 * Defines the form validator class.
-	 * 
-	 * @return Class that defines the form validator.
-	 */
-	Class<? extends ActionFormValidator> actionFormValidatorClass() default ActionFormValidator.class;
-
-	/**
-	 * Defines the description pattern of the data model. The pattern should be
-	 * defined like following: <pre>#{&lt;data-model-property&gt;} E.g.: #{id} - #{nome}</pre>
-	 *
-	 * @return String that contains the description pattern.
-	 */
-	String descriptionPattern() default "";
-
-	/**
-	 * Indicates if the data model is cacheable.
-	 * 
-	 * @return True/False.
-	 */
-	boolean cacheable() default false;
-	
-	/**
-	 * Indicates if the persistence should be generated.
-	 * 
-	 * @return True/False.
-	 */
-	boolean generatePersistence() default false;
-
-	/**
-	 * Indicates if the web service should be generated.
-	 * 
-	 * @return True/False.
-	 */
-	boolean generateWebService() default false;
-
-	/**
-	 * Indicates if the service should be generated.
-	 * 
-	 * @return True/False.
-	 */
-	boolean generateService() default false;
+    /**
+     * Defines the identifier of the UI that will be used to generate code.
+     *
+     * @return String that contains the identifier.
+     */
+    String ui() default "";
+    
+    /**
+     * Defines the identifier of the template that will be used to generate
+     * code.
+     *
+     * @return String that contains the identifier.
+     */
+    String templateId() default "";
+    
+    /**
+     * Defines the identifier of the repository that will store the data model.
+     *
+     * @return String that contains the identifier.
+     */
+    String mappedRepositoryId() default "";
+    
+    /**
+     * Defines the properties mapping of the data model.
+     *
+     * @return Array that contains the properties mapping.
+     */
+    Property[] mappedProperties() default @Property;
+    
+    /**
+     * Defines the identifier of the persistence resources.
+     *
+     * @return String that contains the identifier.
+     */
+    String persistenceResourcesId() default "";
+    
+    /**
+     * Defines the form validator class.
+     *
+     * @return Class that defines the form validator.
+     */
+    Class<? extends ActionFormValidator> actionFormValidatorClass() default ActionFormValidator.class;
+    
+    /**
+     * Defines the description pattern of the data model. The pattern should be
+     * defined like following: <pre>#{&lt;data-model-property&gt;} E.g.: #{id} - #{nome}</pre>
+     *
+     * @return String that contains the description pattern.
+     */
+    String descriptionPattern() default "";
+    
+    /**
+     * Indicates if the data model is cacheable.
+     *
+     * @return True/False.
+     */
+    boolean cacheable() default false;
+    
+    /**
+     * Indicates if the persistence should be generated.
+     *
+     * @return True/False.
+     */
+    boolean generatePersistence() default false;
+    
+    /**
+     * Indicates if the web service should be generated.
+     *
+     * @return True/False.
+     */
+    boolean generateWebService() default false;
+    
+    /**
+     * Indicates if the service should be generated.
+     *
+     * @return True/False.
+     */
+    boolean generateService() default false;
 }

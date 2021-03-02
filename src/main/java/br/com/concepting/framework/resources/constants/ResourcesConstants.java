@@ -2,11 +2,11 @@ package br.com.concepting.framework.resources.constants;
 
 /**
  * Class that defines the constants used in the manipulation of resources.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@ package br.com.concepting.framework.resources.constants;
  */
 @SuppressWarnings("javadoc")
 public abstract class ResourcesConstants{
-	public static final String OPTIONS_ATTRIBUTE_ID                        = "options";
-	public static final String RESOURCES_ATTRIBUTE_ID                      = "resourcesId";
-	public static final String DEFAULT_RESOURCES_DIR                       = "etc/resources/";
-	public static final String DEFAULT_PROPERTIES_RESOURCES_DIR            = DEFAULT_RESOURCES_DIR.concat("properties/");
-	public static final String DEFAULT_PROPERTIES_RESOURCES_FILE_EXTENSION = ".properties";
+    public static final String OPTIONS_ATTRIBUTE_ID = "options";
+    public static final String RESOURCES_ATTRIBUTE_ID = "resourcesId";
+    public static final String DEFAULT_RESOURCES_DIR = "etc/resources/";
+    public static final String DEFAULT_PROPERTIES_RESOURCES_DIR = DEFAULT_RESOURCES_DIR.concat("properties/");
+    public static final String DEFAULT_PROPERTIES_RESOURCES_FILE_EXTENSION = ".properties";
 }

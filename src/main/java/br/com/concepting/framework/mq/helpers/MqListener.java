@@ -1,18 +1,18 @@
 package br.com.concepting.framework.mq.helpers;
 
+import br.com.concepting.framework.constants.Constants;
+import br.com.concepting.framework.util.helpers.DateTime;
+
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 
-import br.com.concepting.framework.constants.Constants;
-import br.com.concepting.framework.util.helpers.DateTime;
-
 /**
  * Class responsible to listen queues of the MQ service.
- *  
+ *
  * @author fvilarinho
  * @since 3.5.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,29 +29,29 @@ import br.com.concepting.framework.util.helpers.DateTime;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class MqListener implements MessageListener{
-	/**
-	 * @see javax.jms.MessageListener#onMessage(javax.jms.Message)
-	 */
-	public void onMessage(Message m){
-		try{
-			MqMessage message = new MqMessage();
-
-			message.setId(m.getJMSMessageID());
-			message.setReceivedDateTime(new DateTime());
-			message.setSentDateTime(new DateTime(m.getJMSTimestamp()));
-			message.setContent(m.getObjectProperty(Constants.CONTENT_ATTRIBUTE_ID));
-
-			onReceive(message);
-		}
-		catch(JMSException e){
-		}
-	}
-
-	/**
-	 * Called when a message was received.
-	 *
-	 * @param message Instance that contains the message.
-	 */
-	protected void onReceive(MqMessage message){
-	}
+    /**
+     * @see javax.jms.MessageListener#onMessage(javax.jms.Message)
+     */
+    public void onMessage(Message m){
+        try{
+            MqMessage message = new MqMessage();
+            
+            message.setId(m.getJMSMessageID());
+            message.setReceivedDateTime(new DateTime());
+            message.setSentDateTime(new DateTime(m.getJMSTimestamp()));
+            message.setContent(m.getObjectProperty(Constants.CONTENT_ATTRIBUTE_ID));
+            
+            onReceive(message);
+        }
+        catch(JMSException e){
+        }
+    }
+    
+    /**
+     * Called when a message was received.
+     *
+     * @param message Instance that contains the message.
+     */
+    protected void onReceive(MqMessage message){
+    }
 }

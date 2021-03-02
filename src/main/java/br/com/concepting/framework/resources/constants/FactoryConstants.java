@@ -3,11 +3,11 @@ package br.com.concepting.framework.resources.constants;
 /**
  * Class that defines the constants used in the manipulation of factory
  * resources.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ package br.com.concepting.framework.resources.constants;
  */
 @SuppressWarnings("javadoc")
 public abstract class FactoryConstants{
-	public static final String RESOURCES_ATTRIBUTE_ID = "factoryResourcesId";    
-	public static final String URI_ATTRIBUTE_ID       = "uri";
-	public static final String DEFAULT_RESOURCES_ID   = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("factoryResources.xml");
+    public static final String RESOURCES_ATTRIBUTE_ID = "factoryResourcesId";
+    public static final String URI_ATTRIBUTE_ID = "uri";
+    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("factoryResources.xml");
 }

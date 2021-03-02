@@ -9,7 +9,7 @@ import br.com.concepting.framework.util.types.ComponentType;
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,14 +25,14 @@ import br.com.concepting.framework.util.types.ComponentType;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class PasswordPropertyComponent extends TextPropertyComponent{
-	private static final long serialVersionUID = -4382381009281300936L;
-
-	/**
-	 * @see br.com.concepting.framework.ui.components.TextPropertyComponent#initialize()
-	 */
-	protected void initialize() throws InternalErrorException{
-		setComponentType(ComponentType.PASSWORD);
-
-		super.initialize();
-	}
+    private static final long serialVersionUID = -4382381009281300936L;
+    
+    /**
+     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#initialize()
+     */
+    protected void initialize() throws InternalErrorException{
+        setComponentType(ComponentType.PASSWORD);
+        
+        super.initialize();
+    }
 }

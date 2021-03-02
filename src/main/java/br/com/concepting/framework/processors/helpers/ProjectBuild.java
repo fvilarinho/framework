@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 /**
  * Class that stores the build information of a project.
- * 
+ *
  * @author fvilarinho
  * @since 3.5.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,82 +24,82 @@ import java.io.Serializable;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ProjectBuild implements Serializable{
-	private static final long serialVersionUID  = 5990509906533449866L;
-
-	private String name             = null;
-	private String version          = null;
-	private String baseDirname      = null;
-	private String resourcesDirname = null;
-
-	/**
-	 * Returns the directory of the resources.
-	 *
-	 * @return String that contains the directory.
-	 */
-	public String getResourcesDirname(){
-		return this.resourcesDirname;
-	}
-
-	/**
-	 * Defines the directory of the resources.
-	 *
-	 * @param resourcesDirname String that contains the directory.
-	 */
-	public void setResourcesDirname(String resourcesDirname){
-		this.resourcesDirname = resourcesDirname;
-	}
-
-	/**
-	 * Returns the directory of the project.
-	 *
-	 * @return String that contains the directory.
-	 */
-	public String getBaseDirname(){
-		return this.baseDirname;
-	}
-
-	/**
-	 * Defines the directory of the project.
-	 *
-	 * @param baseDirname String that contains the directory.
-	 */
-	public void setBaseDirname(String baseDirname){
-		this.baseDirname = baseDirname;
-	}
-
-	/**
-	 * Returns the name of the project.
-	 *
-	 * @return String that contains the name.
-	 */
-	public String getName(){
-		return this.name;
-	}
-
-	/**
-	 * Defines the name of the project.
-	 *
-	 * @param name String that contains the name.
-	 */
-	public void setName(String name){
-		this.name = name;
-	}
-
-	/**
-	 * Returns the version of the project.
-	 *
-	 * @return String that contains the name.
-	 */
-	public String getVersion(){
-		return this.version;
-	}
-
-	/**
-	 * Defines the version of the project.
-	 *
-	 * @param version String that contains the version.
-	 */
-	public void setVersion(String version){
-		this.version = version;
-	}
+    private static final long serialVersionUID = 5990509906533449866L;
+    
+    private String name = null;
+    private String version = null;
+    private String baseDirname = null;
+    private String resourcesDirname = null;
+    
+    /**
+     * Returns the directory of the resources.
+     *
+     * @return String that contains the directory.
+     */
+    public String getResourcesDirname(){
+        return this.resourcesDirname;
+    }
+    
+    /**
+     * Defines the directory of the resources.
+     *
+     * @param resourcesDirname String that contains the directory.
+     */
+    public void setResourcesDirname(String resourcesDirname){
+        this.resourcesDirname = resourcesDirname;
+    }
+    
+    /**
+     * Returns the directory of the project.
+     *
+     * @return String that contains the directory.
+     */
+    public String getBaseDirname(){
+        return this.baseDirname;
+    }
+    
+    /**
+     * Defines the directory of the project.
+     *
+     * @param baseDirname String that contains the directory.
+     */
+    public void setBaseDirname(String baseDirname){
+        this.baseDirname = baseDirname;
+    }
+    
+    /**
+     * Returns the name of the project.
+     *
+     * @return String that contains the name.
+     */
+    public String getName(){
+        return this.name;
+    }
+    
+    /**
+     * Defines the name of the project.
+     *
+     * @param name String that contains the name.
+     */
+    public void setName(String name){
+        this.name = name;
+    }
+    
+    /**
+     * Returns the version of the project.
+     *
+     * @return String that contains the name.
+     */
+    public String getVersion(){
+        return this.version;
+    }
+    
+    /**
+     * Defines the version of the project.
+     *
+     * @param version String that contains the version.
+     */
+    public void setVersion(String version){
+        this.version = version;
+    }
 }

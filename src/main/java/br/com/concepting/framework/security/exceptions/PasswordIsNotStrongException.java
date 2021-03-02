@@ -4,11 +4,11 @@ import br.com.concepting.framework.exceptions.ExpectedWarningException;
 
 /**
  * Class that defines the exception when the password is not strong enough.
- * 
+ *
  * @author fvilarinho
  * @since 3.2.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,5 +24,5 @@ import br.com.concepting.framework.exceptions.ExpectedWarningException;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class PasswordIsNotStrongException extends ExpectedWarningException{
-	private static final long serialVersionUID = 2839908192099335123L;
+    private static final long serialVersionUID = 2839908192099335123L;
 }

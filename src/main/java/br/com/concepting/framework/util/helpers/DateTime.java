@@ -1,16 +1,16 @@
 package br.com.concepting.framework.util.helpers;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import java.util.Date;
 
 /**
  * Class that defines the date/time type.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,24 +25,24 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@JsonDeserialize(using=DateTimeDeserializer.class)
+@JsonDeserialize(using = DateTimeDeserializer.class)
 public class DateTime extends Date{
-	private static final long serialVersionUID = -6296515216038853856L;
-
-	/**
-	 * Constructor - Initialize the data type.
-	 */
-	public DateTime(){
-		super();
-	}
-
-	/**
-	 * Constructor - Initialize the data type.
-	 * 
-	 * @param milliseconds Numeric value that contains a specific date/time in
-	 * milliseconds.
-	 */
-	public DateTime(long milliseconds){
-		super(milliseconds);
-	}
+    private static final long serialVersionUID = -6296515216038853856L;
+    
+    /**
+     * Constructor - Initialize the data type.
+     */
+    public DateTime(){
+        super();
+    }
+    
+    /**
+     * Constructor - Initialize the data type.
+     *
+     * @param milliseconds Numeric value that contains a specific date/time in
+     * milliseconds.
+     */
+    public DateTime(long milliseconds){
+        super(milliseconds);
+    }
 }

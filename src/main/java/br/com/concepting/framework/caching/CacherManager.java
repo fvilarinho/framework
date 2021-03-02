@@ -1,17 +1,17 @@
 package br.com.concepting.framework.caching;
 
-import java.util.Map;
-
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.DateFieldType;
 
+import java.util.Map;
+
 /**
  * Class responsible to manage cache instances.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,135 +28,135 @@ import br.com.concepting.framework.util.types.DateFieldType;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class CacherManager{
-	private static CacherManager instance = null;
-
-	private Map<String, Cacher<?>> cachers = null;
-
-	/**
-	 * Constructor - Initialize the cache manager.
-	 * 
-	 * @param <O> Class that defines the type of the content of the cache.
-	 */
-	private <O> CacherManager(){
-		super();
-
-		this.cachers = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-	}
-
-	/**
-	 * Returns the cache manager instance.
-	 * 
-	 * @return Instance that contains the cache manager.
-	 */
-	public static CacherManager getInstance(){
-		if(instance == null)
-			instance = new CacherManager();
-
-		return instance;
-	}
-
-	/**
-	 * Returns the cache instance.
-	 * 
-	 * @param <O> Class that defines the type of the content of the cache.
-	 * @param id String that contains the identifier.
-	 * @param timeout Numeric value containing the timeout.
-	 * @return Instance that contains the cache.
-	 */
-	public <O> Cacher<O> getCacher(String id, Long timeout){
-		Cacher<O> cacher = getCacher(id);
-
-		if(cacher != null && timeout != null && timeout > 0)
-			cacher.setTimeout(timeout);
-
-		return cacher;
-	}
-
-	/**
-	 * Returns the cache instance.
-	 * 
-	 * @param <O> Class that defines the type of the content of the cache.
-	 * @param id String that contains the identifier.
-	 * @param timeout Numeric value containing the timeout.
-	 * @param timeoutType Instance that contains the timeout unit
-	 * @return Instance that contains the cache.
-	 */
-	public <O> Cacher<O> getCacher(String id, Long timeout, DateFieldType timeoutType){
-		Cacher<O> cacher = getCacher(id, timeout);
-
-		if(cacher != null && timeoutType != null)
-			cacher.setTimeoutType(timeoutType);
-
-		return cacher;
-	}
-
-	/**
-	 * Returns the cache instance.
-	 * 
-	 * @param <O> Class that defines the type of the content of the cache.
-	 * @param id String that contains the identifier.
-	 * @return Instance that contains the cache.
-	 */
-	@SuppressWarnings("unchecked")
-	public <O> Cacher<O> getCacher(String id){
-		Cacher<O> cacher = null;
-
-		if(id == null || id.length() == 0)
-			id = Cacher.class.getName();
-
-		cacher = (Cacher<O>)this.cachers.get(id);
-
-		if(cacher == null){
-			cacher = new Cacher<O>(id);
-
-			this.cachers.put(id, cacher);
-		}
-
-		return cacher;
-	}
-
-	/**
-	 * Returns the cache instance.
-	 * 
-	 * @param <O> Class that defines the type of the content of the cache.
-	 * @param clazz Class that contains the identifier.
-	 * @return Instance that contains the cache.
-	 */
-	public <O> Cacher<O> getCacher(Class<?> clazz){
-		if(clazz != null)
-			return getCacher(clazz.getName());
-
-		return null;
-	}
-
-	/**
-	 * Returns the cache instance.
-	 * 
-	 * @param <O> Class that defines the type of the content of the cache.
-	 * @param clazz Class that contains the identifier.
-	 * @param timeout Numeric value containing the timeout.
-	 * @return Instance that contains the cache.
-	 */
-	public <O> Cacher<O> getCacher(Class<?> clazz, Long timeout){
-		if(clazz != null && timeout != null && timeout > 0)
-			return getCacher(clazz.getName(), timeout);
-
-		return null;
-	}
-
-	/**
-	 * Returns the cache instance.
-	 * 
-	 * @param <O> Class that defines the type of the content of the cache.
-	 * @param clazz String that contains the identifier.
-	 * @param timeout Numeric value containing the timeout.
-	 * @param timeoutType Instance that contains the timeout unit
-	 * @return Instance that contains the cache.
-	 */
-	public <O> Cacher<O> getCacher(Class<?> clazz, Long timeout, DateFieldType timeoutType){
-		if(clazz != null && timeout != null && timeout > 0 && timeoutType != null)
-			return getCacher(clazz.getName(), timeout, timeoutType);
-
-		return null;
-	}
+    private static CacherManager instance = null;
+    
+    private Map<String, Cacher<?>> cachers = null;
+    
+    /**
+     * Constructor - Initialize the cache manager.
+     *
+     * @param <O> Class that defines the type of the content of the cache.
+     */
+    private <O> CacherManager(){
+        super();
+        
+        this.cachers = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
+    }
+    
+    /**
+     * Returns the cache manager instance.
+     *
+     * @return Instance that contains the cache manager.
+     */
+    public static CacherManager getInstance(){
+        if(instance == null)
+            instance = new CacherManager();
+        
+        return instance;
+    }
+    
+    /**
+     * Returns the cache instance.
+     *
+     * @param <O> Class that defines the type of the content of the cache.
+     * @param id String that contains the identifier.
+     * @param timeout Numeric value containing the timeout.
+     * @return Instance that contains the cache.
+     */
+    public <O> Cacher<O> getCacher(String id, Long timeout){
+        Cacher<O> cacher = getCacher(id);
+        
+        if(cacher != null && timeout != null && timeout > 0)
+            cacher.setTimeout(timeout);
+        
+        return cacher;
+    }
+    
+    /**
+     * Returns the cache instance.
+     *
+     * @param <O> Class that defines the type of the content of the cache.
+     * @param id String that contains the identifier.
+     * @param timeout Numeric value containing the timeout.
+     * @param timeoutType Instance that contains the timeout unit
+     * @return Instance that contains the cache.
+     */
+    public <O> Cacher<O> getCacher(String id, Long timeout, DateFieldType timeoutType){
+        Cacher<O> cacher = getCacher(id, timeout);
+        
+        if(cacher != null && timeoutType != null)
+            cacher.setTimeoutType(timeoutType);
+        
+        return cacher;
+    }
+    
+    /**
+     * Returns the cache instance.
+     *
+     * @param <O> Class that defines the type of the content of the cache.
+     * @param id String that contains the identifier.
+     * @return Instance that contains the cache.
+     */
+    @SuppressWarnings("unchecked")
+    public <O> Cacher<O> getCacher(String id){
+        Cacher<O> cacher = null;
+        
+        if(id == null || id.length() == 0)
+            id = Cacher.class.getName();
+        
+        cacher = (Cacher<O>) this.cachers.get(id);
+        
+        if(cacher == null){
+            cacher = new Cacher<O>(id);
+            
+            this.cachers.put(id, cacher);
+        }
+        
+        return cacher;
+    }
+    
+    /**
+     * Returns the cache instance.
+     *
+     * @param <O> Class that defines the type of the content of the cache.
+     * @param clazz Class that contains the identifier.
+     * @return Instance that contains the cache.
+     */
+    public <O> Cacher<O> getCacher(Class<?> clazz){
+        if(clazz != null)
+            return getCacher(clazz.getName());
+        
+        return null;
+    }
+    
+    /**
+     * Returns the cache instance.
+     *
+     * @param <O> Class that defines the type of the content of the cache.
+     * @param clazz Class that contains the identifier.
+     * @param timeout Numeric value containing the timeout.
+     * @return Instance that contains the cache.
+     */
+    public <O> Cacher<O> getCacher(Class<?> clazz, Long timeout){
+        if(clazz != null && timeout != null && timeout > 0)
+            return getCacher(clazz.getName(), timeout);
+        
+        return null;
+    }
+    
+    /**
+     * Returns the cache instance.
+     *
+     * @param <O> Class that defines the type of the content of the cache.
+     * @param clazz String that contains the identifier.
+     * @param timeout Numeric value containing the timeout.
+     * @param timeoutType Instance that contains the timeout unit
+     * @return Instance that contains the cache.
+     */
+    public <O> Cacher<O> getCacher(Class<?> clazz, Long timeout, DateFieldType timeoutType){
+        if(clazz != null && timeout != null && timeout > 0 && timeoutType != null)
+            return getCacher(clazz.getName(), timeout, timeoutType);
+        
+        return null;
+    }
 }

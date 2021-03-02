@@ -2,10 +2,10 @@ package br.com.concepting.framework.webservice.constants;
 
 /**
  * Class that defines the constants used in the manipulation of the web services.
- * 
+ *
  * @author fvilarinho
  * @version 3.7.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,13 @@ package br.com.concepting.framework.webservice.constants;
  */
 @SuppressWarnings("javadoc")
 public abstract class WebServiceConstants{
-	public static final String ACCEPT_ATTRIBUTE_ID       = "accept";
-	public static final String METHOD_ATTRIBUTE_ID       = "method";
-	public static final String URL_ATTRIBUTE_ID          = "url";
-	public static final String DATA_ATTRIBUTE_ID         = "data";
-	public static final String HEADERS_ATTRIBUTE_ID      = "headers";
-	public static final String HEADER_ATTRIBUTE_ID       = "header";
-	public static final String DEFAULT_ID                = "webService";
-	public static final String DEFAULT_IMPLEMENTATION_ID = "webServiceImpl";
-	public static final String DEFAULT_URL_PATTERN       = "/webServices/*";
+    public static final String ACCEPT_ATTRIBUTE_ID = "accept";
+    public static final String METHOD_ATTRIBUTE_ID = "method";
+    public static final String URL_ATTRIBUTE_ID = "url";
+    public static final String DATA_ATTRIBUTE_ID = "data";
+    public static final String HEADERS_ATTRIBUTE_ID = "headers";
+    public static final String HEADER_ATTRIBUTE_ID = "header";
+    public static final String DEFAULT_ID = "webService";
+    public static final String DEFAULT_IMPLEMENTATION_ID = "webServiceImpl";
+    public static final String DEFAULT_URL_PATTERN = "/webServices/*";
 }

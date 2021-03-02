@@ -4,10 +4,10 @@ import br.com.concepting.framework.exceptions.ExpectedWarningException;
 
 /**
  * Class that defines the exception when there is not data available.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,5 +24,5 @@ import br.com.concepting.framework.exceptions.ExpectedWarningException;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class DataIsEmptyException extends ExpectedWarningException{
-	private static final long serialVersionUID = -2340658698246819789L;
+    private static final long serialVersionUID = -2340658698246819789L;
 }

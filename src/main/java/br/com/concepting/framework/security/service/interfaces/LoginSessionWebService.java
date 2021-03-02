@@ -6,12 +6,13 @@ import br.com.concepting.framework.security.model.UserModel;
 /**
  * Interface that contains the basic implementation of the login session
  * WebService implementation.
- * 
+ *
+ * @param <L> Class that defines the login session data model.
+ * @param <U> Class that defines the user data model.
  * @author fvilarinho
  * @since 1.0.0
- * @param <L> Class that defines the login session data model. 
- * @param <U> Class that defines the user data model. 
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ *
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

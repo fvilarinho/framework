@@ -3,11 +3,11 @@ package br.com.concepting.framework.service.constants;
 /**
  * Class that defines the constants used in the manipulation of the services
  * implementations.
- * 
+ *
  * @author fvilarinho
  * @since 3.1.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@ package br.com.concepting.framework.service.constants;
  */
 @SuppressWarnings("javadoc")
 public abstract class ServiceConstants{
-	public static final String SERVICE_ATTRIBUTE_ID      = "service";
-	public static final String SERVICES_ATTRIBUTE_ID     = "services";
-	public static final String DEFAULT_ID                = SERVICE_ATTRIBUTE_ID;
-	public static final String DEFAULT_IMPLEMENTATION_ID = "serviceImpl";
+    public static final String SERVICE_ATTRIBUTE_ID = "service";
+    public static final String SERVICES_ATTRIBUTE_ID = "services";
+    public static final String DEFAULT_ID = SERVICE_ATTRIBUTE_ID;
+    public static final String DEFAULT_IMPLEMENTATION_ID = "serviceImpl";
 }

@@ -2,11 +2,11 @@ package br.com.concepting.framework.util.types;
 
 /**
  * Class that defines the types of alignment.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,33 +22,33 @@ package br.com.concepting.framework.util.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum AlignmentType{
-	/**
-	 * Left alignment.
-	 */
-	LEFT,
-
-	/**
-	 * Center alignment.
-	 */
-	CENTER,
-
-	/**
-	 * Right alignment.
-	 */
-	RIGHT,
-
-	/**
-	 * Top alignment.
-	 */
-	TOP,
-
-	/**
-	 * Middle alignment.
-	 */
-	MIDDLE,
-
-	/**
-	 * Bottom alignment.
-	 */
-	BOTTOM;
+    /**
+     * Left alignment.
+     */
+    LEFT,
+    
+    /**
+     * Center alignment.
+     */
+    CENTER,
+    
+    /**
+     * Right alignment.
+     */
+    RIGHT,
+    
+    /**
+     * Top alignment.
+     */
+    TOP,
+    
+    /**
+     * Middle alignment.
+     */
+    MIDDLE,
+    
+    /**
+     * Bottom alignment.
+     */
+    BOTTOM
 }
