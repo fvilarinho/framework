@@ -49,7 +49,7 @@
 					<evaluate expr="@{alreadyImported}.add(@{propertyInfo.clazz})"/>
 				</if>
 			</if>
-			<if expr="@{propertyInfo.hasModel}">
+			<if expr="@{propertyInfo.hasModel} or @{propertyInfo.hasEnum}">
 				<if expr="!@{alreadyImported}.contains(@{propertyInfo.collectionItemsClass})">
 					<if expr="@{propertyInfo.collectionItemsClass.package.name} != @{modelClass.package.name}">
 						import @{propertyInfo.collectionItemsClass.name};
@@ -68,8 +68,10 @@
 				@Test
 				public void @{propertyInfo.id}_Test(){
 					<set var="capitalized" value="br.com.concepting.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
-					model.set@{capitalized}(null);
-					assertNull(model.get@{capitalized}());
+					<if expr="!@{propertyInfo.hasEnum}">
+						model.set@{capitalized}(null);
+						assertNull(model.get@{capitalized}());
+					</if>
 					
 					<if expr="@{propertyInfo.isNumber}">
 						<if expr="@{propertyInfo.isLong}">
@@ -106,6 +108,12 @@
 							List&lt;@{propertyInfo.collectionItemsClass.simpleName}&gt; values = new @{propertyInfo.clazz.simpleName}&lt;&gt;();
 
 							values.add(new @{propertyInfo.collectionItemsClass.simpleName}());
+							model.set@{capitalized}(values);
+						</if>
+						<if expr="@{propertyInfo.hasEnum}">
+							List&lt;@{propertyInfo.collectionItemsClass.simpleName}&gt; values = new @{propertyInfo.clazz.simpleName}&lt;&gt;();
+
+							values.add(@{propertyInfo.collectionItemsClass.simpleName}.values()[0]);
 							model.set@{capitalized}(values);
 						</if>
 					</if>

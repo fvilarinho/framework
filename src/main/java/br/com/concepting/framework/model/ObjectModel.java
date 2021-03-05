@@ -7,6 +7,7 @@ import br.com.concepting.framework.model.types.ValidationType;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.persistence.types.RelationType;
 import br.com.concepting.framework.security.model.GroupModel;
+import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.SearchType;
 import br.com.concepting.framework.util.types.SortOrderType;
