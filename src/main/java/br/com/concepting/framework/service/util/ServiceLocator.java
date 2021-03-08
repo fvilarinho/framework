@@ -83,7 +83,7 @@ public class ServiceLocator{
             
             return serviceInstance;
         }
-        catch(ClassCastException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | IllegalArgumentException | NoSuchFieldException e){
+        catch(NoClassDefFoundError | ClassCastException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | IllegalArgumentException | NoSuchFieldException e){
             throw new InternalErrorException(e);
         }
     }
@@ -106,7 +106,7 @@ public class ServiceLocator{
             
             return lookupByModelClass(modelClass, loginSession);
         }
-        catch(ClassNotFoundException e){
+        catch(NoClassDefFoundError | ClassNotFoundException e){
             throw new InternalErrorException(e);
         }
     }
