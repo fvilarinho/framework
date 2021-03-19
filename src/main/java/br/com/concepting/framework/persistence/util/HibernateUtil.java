@@ -281,7 +281,6 @@ public class HibernateUtil{
                         }
                     }
                     catch(ClassNotFoundException e1){
-                        throw new InternalErrorException(e1);
                     }
                 }
             }

@@ -49,6 +49,7 @@ import java.util.Locale;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@SuppressWarnings("unchecked")
 public class TreeViewPropertyComponent extends OptionsPropertyComponent{
     private static final long serialVersionUID = -5398943872124965129L;
     
