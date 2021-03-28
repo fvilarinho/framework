@@ -175,18 +175,34 @@ public class Mail{
                 this.properties.put("mail.pop3.socketFactory.port", String.valueOf(this.resources.getStorageServerPort()));
             }
         }
-        else if(this.resources.getStorage() == MailStorageType.IMAPS){
+        else if(this.resources.getStorage() == MailStorageType.IMAP || this.resources.getStorage() == MailStorageType.IMAPS){
             this.properties.setProperty("mail.store.protocol", MailStorageType.IMAPS.toString().toLowerCase());
-            this.properties.setProperty("mail.imaps.host", this.resources.getStorageServerName());
-            this.properties.setProperty("mail.imaps.port", this.resources.getStorageServerPort().toString());
             
-            if(this.resources.getStorageUseTls() != null && this.resources.getStorageUseTls())
-                this.properties.put("mail.imaps.starttls.enable", Boolean.TRUE.toString());
-            
-            if(this.resources.getStorageUseSsl() != null && this.resources.getStorageUseSsl()){
-                this.properties.put("mail.imaps.ssl.enable", Boolean.TRUE.toString());
-                this.properties.put("mail.imaps.socketFactory.class", SSLSocketFactory.class.getName());
-                this.properties.put("mail.imaps.socketFactory.port", this.resources.getStorageServerPort().toString());
+            if(this.resources.getStorage() == MailStorageType.IMAP){
+                this.properties.setProperty("mail.imap.host", this.resources.getStorageServerName());
+                this.properties.setProperty("mail.imap.port", this.resources.getStorageServerPort().toString());
+    
+                if(this.resources.getStorageUseTls() != null && this.resources.getStorageUseTls())
+                    this.properties.put("mail.imap.starttls.enable", Boolean.TRUE.toString());
+    
+                if(this.resources.getStorageUseSsl() != null && this.resources.getStorageUseSsl()){
+                    this.properties.put("mail.imap.ssl.enable", Boolean.TRUE.toString());
+                    this.properties.put("mail.imap.socketFactory.class", SSLSocketFactory.class.getName());
+                    this.properties.put("mail.imap.socketFactory.port", this.resources.getStorageServerPort().toString());
+                }
+            }
+            else{
+                this.properties.setProperty("mail.imaps.host", this.resources.getStorageServerName());
+                this.properties.setProperty("mail.imaps.port", this.resources.getStorageServerPort().toString());
+    
+                if(this.resources.getStorageUseTls() != null && this.resources.getStorageUseTls())
+                    this.properties.put("mail.imaps.starttls.enable", Boolean.TRUE.toString());
+    
+                if(this.resources.getStorageUseSsl() != null && this.resources.getStorageUseSsl()){
+                    this.properties.put("mail.imaps.ssl.enable", Boolean.TRUE.toString());
+                    this.properties.put("mail.imaps.socketFactory.class", SSLSocketFactory.class.getName());
+                    this.properties.put("mail.imaps.socketFactory.port", this.resources.getStorageServerPort().toString());
+                }
             }
         }
     }

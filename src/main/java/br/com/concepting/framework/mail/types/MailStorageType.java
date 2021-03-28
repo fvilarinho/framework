@@ -30,5 +30,10 @@ public enum MailStorageType{
     /**
      * IMAP storage protocol.
      */
+    IMAP,
+    
+    /**
+     * IMAPs storage protocol.
+     */
     IMAPS
 }

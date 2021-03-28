@@ -23,6 +23,7 @@
 														<xs:restriction base="xs:string">
 															<xs:enumeration value="POP3"/>
 															<xs:enumeration value="IMAP"/>
+															<xs:enumeration value="IMAPS"/>
 														</xs:restriction>
 													</xs:simpleType>
 												</xs:attribute>
