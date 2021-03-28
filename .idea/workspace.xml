@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0458312e-caf0-4faf-8abf-63a6fd4ee98e" name="Default Changelist" comment="Bug fixes.">
+    <list default="true" id="0458312e-caf0-4faf-8abf-63a6fd4ee98e" name="Default Changelist" comment="New version.">
       <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
@@ -643,7 +643,7 @@
       <workItem from="1616520757369" duration="678000" />
       <workItem from="1616939617601" duration="799000" />
       <workItem from="1616944832244" duration="1212000" />
-      <workItem from="1616946135854" duration="547000" />
+      <workItem from="1616946135854" duration="780000" />
     </task>
     <task id="LOCAL-00001" summary="Updates.">
       <created>1614713035487</created>
@@ -740,7 +740,8 @@
     <MESSAGE value="Delete eclipse files." />
     <MESSAGE value="Adding JCache implementation for hibernage second level cache." />
     <MESSAGE value="Bug fixes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes." />
+    <MESSAGE value="New version." />
+    <option name="LAST_COMMIT_MESSAGE" value="New version." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
