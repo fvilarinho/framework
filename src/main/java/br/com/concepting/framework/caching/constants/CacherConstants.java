@@ -4,10 +4,10 @@ import br.com.concepting.framework.util.types.DateFieldType;
 
 /**
  * Class that defines the constants used in caching.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,6 @@ import br.com.concepting.framework.util.types.DateFieldType;
  */
 @SuppressWarnings("javadoc")
 public abstract class CacherConstants{
-	public static final Long          DEFAULT_TIMEOUT      = DateFieldType.DAYS.getMilliseconds();
-	public static final DateFieldType DEFAULT_TIMEOUT_TYPE = DateFieldType.MILLISECONDS;
+    public static final Long DEFAULT_TIMEOUT = DateFieldType.MINUTES.getMilliseconds();
+    public static final DateFieldType DEFAULT_TIMEOUT_TYPE = DateFieldType.MILLISECONDS;
 }

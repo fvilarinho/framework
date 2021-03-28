@@ -2,11 +2,11 @@ package br.com.concepting.framework.util.types;
 
 /**
  * Class that defines the types of a probe.
- * 
+ *
  * @author fvilarinho
  * @since 3.8.2
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,13 +22,13 @@ package br.com.concepting.framework.util.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum ProbeType{
-	/**
-	 * Defines the mobile probe.
-	 */
-	MOBILE,
-
-	/**
-	 * Defines the desktop probe.
-	 */
-	DESKTOP;
+    /**
+     * Defines the mobile probe.
+     */
+    MOBILE,
+    
+    /**
+     * Defines the desktop probe.
+     */
+    DESKTOP
 }

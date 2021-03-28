@@ -2,11 +2,11 @@ package br.com.concepting.framework.mail.types;
 
 /**
  * Class that defines the mail storage types.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,13 +22,18 @@ package br.com.concepting.framework.mail.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum MailStorageType{
-	/**
-	 * POP3 storage protocol.
-	 */
-	POP3,
-
-	/**
-	 * IMAP storage protocol.
-	 */
-	IMAPS;
+    /**
+     * POP3 storage protocol.
+     */
+    POP3,
+    
+    /**
+     * IMAP storage protocol.
+     */
+    IMAP,
+    
+    /**
+     * IMAPs storage protocol.
+     */
+    IMAPS
 }

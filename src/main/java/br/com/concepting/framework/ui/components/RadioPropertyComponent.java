@@ -1,9 +1,9 @@
 package br.com.concepting.framework.ui.components;
 
-import javax.servlet.jsp.tagext.Tag;
-
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.util.types.ComponentType;
+
+import javax.servlet.jsp.tagext.Tag;
 
 /**
  * Class that defines the radion button component.
@@ -11,7 +11,7 @@ import br.com.concepting.framework.util.types.ComponentType;
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,54 +27,54 @@ import br.com.concepting.framework.util.types.ComponentType;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class RadioPropertyComponent extends BaseOptionPropertyComponent{
-	private static final long serialVersionUID = 7631291170352730770L;
-
-	/**
-	 * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-	 */
-	protected void buildEvents() throws InternalErrorException{
-		Tag parent = findAncestorWithClass(this, OptionsPropertyComponent.class);
-
-		if(parent == null)
-			parent = findAncestorWithClass(this, GridPropertyComponent.class);
-
-		if(parent == null)
-			parent = getParent();
-
-		if(parent == null){
-			String id = getId();
-
-			if(id != null && id.length() > 0){
-				String currentOnClick = getOnClick();
-				StringBuilder onClick = new StringBuilder();
-
-				onClick.append("if(this.checked){ setObjectValue('");
-				onClick.append(id);
-				onClick.append("', this.value); } else { setObjectValue('");
-				onClick.append(id);
-				onClick.append("', ''); }");
-
-				if(currentOnClick != null && currentOnClick.length() > 0){
-					onClick.append(" ");
-					onClick.append(currentOnClick);
-
-					if(!currentOnClick.endsWith(";"))
-						onClick.append(";");
-				}
-
-				setOnClick(onClick.toString());
-			}
-		}
-
-		super.buildEvents();
-	}
-
-	/**
-	 * @see br.com.concepting.framework.ui.components.BaseOptionPropertyComponent#initialize()
-	 */
-	protected void initialize() throws InternalErrorException{
-		setComponentType(ComponentType.RADIO);
-
-		super.initialize();
-	}
+    private static final long serialVersionUID = 7631291170352730770L;
+    
+    /**
+     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
+     */
+    protected void buildEvents() throws InternalErrorException{
+        Tag parent = findAncestorWithClass(this, OptionsPropertyComponent.class);
+        
+        if(parent == null)
+            parent = findAncestorWithClass(this, GridPropertyComponent.class);
+        
+        if(parent == null)
+            parent = getParent();
+        
+        if(parent == null){
+            String id = getId();
+            
+            if(id != null && id.length() > 0){
+                String currentOnClick = getOnClick();
+                StringBuilder onClick = new StringBuilder();
+                
+                onClick.append("if(this.checked){ setObjectValue('");
+                onClick.append(id);
+                onClick.append("', this.value); } else { setObjectValue('");
+                onClick.append(id);
+                onClick.append("', ''); }");
+                
+                if(currentOnClick != null && currentOnClick.length() > 0){
+                    onClick.append(" ");
+                    onClick.append(currentOnClick);
+                    
+                    if(!currentOnClick.endsWith(";"))
+                        onClick.append(";");
+                }
+                
+                setOnClick(onClick.toString());
+            }
+        }
+        
+        super.buildEvents();
+    }
+    
+    /**
+     * @see br.com.concepting.framework.ui.components.BaseOptionPropertyComponent#initialize()
+     */
+    protected void initialize() throws InternalErrorException{
+        setComponentType(ComponentType.RADIO);
+        
+        super.initialize();
+    }
 }

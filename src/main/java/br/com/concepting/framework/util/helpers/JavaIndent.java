@@ -1,17 +1,17 @@
 package br.com.concepting.framework.util.helpers;
 
-import java.util.Collection;
-
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.util.PropertyUtil;
 
+import java.util.Collection;
+
 /**
  * Class that defines the indentation rules for Java source code.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,99 +27,99 @@ import br.com.concepting.framework.util.PropertyUtil;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class JavaIndent extends BaseIndent{
-	private static Collection<JavaIndent> rules = null;
-
-	static{
-		rules = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-		rules.add(new JavaIndent("/*", "*/", 1, true));
-		rules.add(new JavaIndent("if(", ";", true));
-		rules.add(new JavaIndent("while(", ";", true));
-		rules.add(new JavaIndent("for(", ";", true));
-		rules.add(new JavaIndent("{", "}"));
-	}
-
-	/**
-	 * Constructor - Defines the indentation rule.
-	 * 
-	 * @param startChar String that contains the start character.
-	 * @param endChar String that contains the end character.
-	 */
-	public JavaIndent(String startChar, String endChar){
-		super(startChar, endChar);
-	}
-
-	/**
-	 * Constructor - Defines the indentation rule.
-	 * 
-	 * @param startChar String that contains the start character.
-	 * @param endChar String that contains the end character.
-	 * @param indentSize Numeric value that contains the amount of indentation
-	 * characters should be use.
-	 */
-	public JavaIndent(String startChar, String endChar, Integer indentSize){
-		super(startChar, endChar, indentSize);
-	}
-
-	/**
-	 * Constructor - Defines the indentation rule.
-	 * 
-	 * @param startChar String that contains the start character.
-	 * @param endChar String that contains the end character.
-	 * @param indentSize Numeric value that contains the amount of indentation
-	 * characters should be use.
-	 * @param backAfterEndChar Indicates if the indentation should be cleared
-	 * after match the end character.
-	 */
-	public JavaIndent(String startChar, String endChar, Integer indentSize, Boolean backAfterEndChar){
-		super(startChar, endChar, indentSize, backAfterEndChar);
-	}
-
-	/**
-	 * Constructor - Defines the indentation rule.
-	 * 
-	 * @param startChar String that contains the start character.
-	 * @param endChar String that contains the end character.
-	 * @param backAfterEndChar Indicates if the indentation should be cleared
-	 * after match the end character.
-	 */
-	public JavaIndent(String startChar, String endChar, Boolean backAfterEndChar){
-		super(startChar, endChar, backAfterEndChar);
-	}
-
-	/**
-	 * Constructor - Defines the indentation rule.
-	 * 
-	 * @param startChar String that contains the start character.
-	 * @param endChar String that contains the end character.
-	 * @param indentSize Numeric value that contains the amount of indentation
-	 * characters should be use.
-	 * @param indentChar String that contains the indentation character.
-	 */
-	public JavaIndent(String startChar, String endChar, Integer indentSize, String indentChar){
-		super(startChar, endChar, indentSize, indentChar);
-	}
-
-	/**
-	 * Constructor - Defines the indentation rule.
-	 * 
-	 * @param startChar String that contains the start character.
-	 * @param endChar String that contains the end character.
-	 * @param indentSize Numeric value that contains the amount of indentation
-	 * characters should be use.
-	 * @param indentChar String that contains the indentation character.
-	 * @param backAfterEndChar Indicates if the indentation should be cleared
-	 * after match the end character.
-	 */
-	public JavaIndent(String startChar, String endChar, Integer indentSize, String indentChar, Boolean backAfterEndChar){
-		super(startChar, endChar, indentSize, indentChar, backAfterEndChar);
-	}
-
-	/**
-	 * Returns the indentation rules list.
-	 * 
-	 * @return List that contains the indentation rules.
-	 */
-	public static Collection<JavaIndent> getRules(){
-		return rules;
-	}
+    private static Collection<JavaIndent> rules = null;
+    
+    static{
+        rules = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+        rules.add(new JavaIndent("/*", "*/", 1, true));
+        rules.add(new JavaIndent("if(", ";", true));
+        rules.add(new JavaIndent("while(", ";", true));
+        rules.add(new JavaIndent("for(", ";", true));
+        rules.add(new JavaIndent("{", "}"));
+    }
+    
+    /**
+     * Constructor - Defines the indentation rule.
+     *
+     * @param startChar String that contains the start character.
+     * @param endChar String that contains the end character.
+     */
+    public JavaIndent(String startChar, String endChar){
+        super(startChar, endChar);
+    }
+    
+    /**
+     * Constructor - Defines the indentation rule.
+     *
+     * @param startChar String that contains the start character.
+     * @param endChar String that contains the end character.
+     * @param indentSize Numeric value that contains the amount of indentation
+     * characters should be use.
+     */
+    public JavaIndent(String startChar, String endChar, Integer indentSize){
+        super(startChar, endChar, indentSize);
+    }
+    
+    /**
+     * Constructor - Defines the indentation rule.
+     *
+     * @param startChar String that contains the start character.
+     * @param endChar String that contains the end character.
+     * @param indentSize Numeric value that contains the amount of indentation
+     * characters should be use.
+     * @param backAfterEndChar Indicates if the indentation should be cleared
+     * after match the end character.
+     */
+    public JavaIndent(String startChar, String endChar, Integer indentSize, Boolean backAfterEndChar){
+        super(startChar, endChar, indentSize, backAfterEndChar);
+    }
+    
+    /**
+     * Constructor - Defines the indentation rule.
+     *
+     * @param startChar String that contains the start character.
+     * @param endChar String that contains the end character.
+     * @param backAfterEndChar Indicates if the indentation should be cleared
+     * after match the end character.
+     */
+    public JavaIndent(String startChar, String endChar, Boolean backAfterEndChar){
+        super(startChar, endChar, backAfterEndChar);
+    }
+    
+    /**
+     * Constructor - Defines the indentation rule.
+     *
+     * @param startChar String that contains the start character.
+     * @param endChar String that contains the end character.
+     * @param indentSize Numeric value that contains the amount of indentation
+     * characters should be use.
+     * @param indentChar String that contains the indentation character.
+     */
+    public JavaIndent(String startChar, String endChar, Integer indentSize, String indentChar){
+        super(startChar, endChar, indentSize, indentChar);
+    }
+    
+    /**
+     * Constructor - Defines the indentation rule.
+     *
+     * @param startChar String that contains the start character.
+     * @param endChar String that contains the end character.
+     * @param indentSize Numeric value that contains the amount of indentation
+     * characters should be use.
+     * @param indentChar String that contains the indentation character.
+     * @param backAfterEndChar Indicates if the indentation should be cleared
+     * after match the end character.
+     */
+    public JavaIndent(String startChar, String endChar, Integer indentSize, String indentChar, Boolean backAfterEndChar){
+        super(startChar, endChar, indentSize, indentChar, backAfterEndChar);
+    }
+    
+    /**
+     * Returns the indentation rules list.
+     *
+     * @return List that contains the indentation rules.
+     */
+    public static Collection<JavaIndent> getRules(){
+        return rules;
+    }
 }

@@ -3,11 +3,11 @@ package br.com.concepting.framework.util.constants;
 /**
  * Class that defines the constants used in the manipulation of report files
  * (JasperReports).
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,6 +24,6 @@ package br.com.concepting.framework.util.constants;
  */
 @SuppressWarnings("javadoc")
 public abstract class BarcodeConstants{
-	public static final Integer DEFAULT_QRCODE_WIDTH  = 200;
-	public static final Integer DEFAULT_QRCODE_HEIGHT = 200;
+    public static final Integer DEFAULT_QRCODE_WIDTH = 200;
+    public static final Integer DEFAULT_QRCODE_HEIGHT = 200;
 }

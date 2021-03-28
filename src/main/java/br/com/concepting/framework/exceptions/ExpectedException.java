@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
  * Class that defines an expected exception.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,33 +24,33 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="class")
-@JsonIgnoreProperties(value= {"cause", "stackTrace"})
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "class")
+@JsonIgnoreProperties(value = {"cause", "stackTrace"})
 public class ExpectedException extends Exception{
-	private static final long serialVersionUID = -2046392122293087621L;
-
-	/**
-	 * Constructor - Initializes the exception.
-	 */
-	public ExpectedException(){
-		super();
-	}
-
-	/**
-	 * Constructor - Initializes the exception.
-	 * 
-	 * @param exception Instance that contains the caught exception.
-	 */
-	public ExpectedException(Throwable exception){
-		super(exception);
-	}
-
-	/**
-	 * Constructor - Initializes the exception.
-	 * 
-	 * @param message String that contains the exception message.
-	 */
-	public ExpectedException(String message){
-		super(message);
-	}
+    private static final long serialVersionUID = -2046392122293087621L;
+    
+    /**
+     * Constructor - Initializes the exception.
+     */
+    public ExpectedException(){
+        super();
+    }
+    
+    /**
+     * Constructor - Initializes the exception.
+     *
+     * @param exception Instance that contains the caught exception.
+     */
+    public ExpectedException(Throwable exception){
+        super(exception);
+    }
+    
+    /**
+     * Constructor - Initializes the exception.
+     *
+     * @param message String that contains the exception message.
+     */
+    public ExpectedException(String message){
+        super(message);
+    }
 }

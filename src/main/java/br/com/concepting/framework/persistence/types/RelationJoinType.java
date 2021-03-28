@@ -8,7 +8,7 @@ import br.com.concepting.framework.util.StringUtil;
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,32 +24,32 @@ import br.com.concepting.framework.util.StringUtil;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum RelationJoinType{
-	/**
-	 * No join.
-	 */
-	NONE,
-
-	/**
-	 * Inner join.
-	 */
-	INNER_JOIN,
-
-	/**
-	 * Left join.
-	 */
-	LEFT_JOIN,
-
-	/**
-	 * Right join.
-	 */
-	RIGHT_JOIN;
-
-	/**
-	 * Returns the join operator.
-	 * 
-	 * @return String that contains the operator.
-	 */
-	public String getOperator(){
-		return StringUtil.replaceAll(toString().toLowerCase(), "_", " ");
-	}
+    /**
+     * No join.
+     */
+    NONE,
+    
+    /**
+     * Inner join.
+     */
+    INNER_JOIN,
+    
+    /**
+     * Left join.
+     */
+    LEFT_JOIN,
+    
+    /**
+     * Right join.
+     */
+    RIGHT_JOIN;
+    
+    /**
+     * Returns the join operator.
+     *
+     * @return String that contains the operator.
+     */
+    public String getOperator(){
+        return StringUtil.replaceAll(toString().toLowerCase(), "_", " ");
+    }
 }

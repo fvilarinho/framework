@@ -4,10 +4,10 @@ import br.com.concepting.framework.util.StringUtil;
 
 /**
  * Class that defines the action types of a form.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,92 +24,92 @@ import br.com.concepting.framework.util.StringUtil;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum ActionType{
-	/**
-	 * Initialization action.
-	 */
-	INIT,
-
-	/**
-	 * Refresh action.
-	 */
-	REFRESH,
-
-	/**
-	 * Print action.
-	 */
-	PRINT,
-
-	/**
-	 * Add action.
-	 */
-	ADD,
-
-	/**
-	 * Edit action.
-	 */
-	EDIT,
-
-	/**
-	 * Save action.
-	 */
-	SAVE,
-
-	/**
-	 * Back action.
-	 */
-	BACK,
-
-	/**
-	 * Cancel action.
-	 */
-	CANCEL,
-
-	/**
-	 * Search action.
-	 */
-	SEARCH,
-
-	/**
-	 * Insert action.
-	 */
-	INSERT,
-
-	/**
-	 * Update action.
-	 */
-	UPDATE,
-
-	/**
-	 * Delete action.
-	 */
-	DELETE,
-
-	/**
-	 * Change current language action.
-	 */
-	CHANGE_CURRENT_LANGUAGE,
-
-	/**
-	 * Change current skin action.
-	 */
-	CHANGE_CURRENT_SKIN,
-
-	/**
-	 * Download action.
-	 */
-	DOWNLOAD,
-
-	/**
-	 * Upload action.
-	 */
-	UPLOAD;
-
-	/**
-	 * Returns the action identifier.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	public String getMethod(){
-		return StringUtil.normalize(toString().toLowerCase());
-	}
+    /**
+     * Initialization action.
+     */
+    INIT,
+    
+    /**
+     * Refresh action.
+     */
+    REFRESH,
+    
+    /**
+     * Print action.
+     */
+    PRINT,
+    
+    /**
+     * Add action.
+     */
+    ADD,
+    
+    /**
+     * Edit action.
+     */
+    EDIT,
+    
+    /**
+     * Save action.
+     */
+    SAVE,
+    
+    /**
+     * Back action.
+     */
+    BACK,
+    
+    /**
+     * Cancel action.
+     */
+    CANCEL,
+    
+    /**
+     * Search action.
+     */
+    SEARCH,
+    
+    /**
+     * Insert action.
+     */
+    INSERT,
+    
+    /**
+     * Update action.
+     */
+    UPDATE,
+    
+    /**
+     * Delete action.
+     */
+    DELETE,
+    
+    /**
+     * Change current language action.
+     */
+    CHANGE_CURRENT_LANGUAGE,
+    
+    /**
+     * Change current skin action.
+     */
+    CHANGE_CURRENT_SKIN,
+    
+    /**
+     * Download action.
+     */
+    DOWNLOAD,
+    
+    /**
+     * Upload action.
+     */
+    UPLOAD;
+    
+    /**
+     * Returns the action identifier.
+     *
+     * @return String that contains the identifier.
+     */
+    public String getMethod(){
+        return StringUtil.normalize(toString().toLowerCase());
+    }
 }

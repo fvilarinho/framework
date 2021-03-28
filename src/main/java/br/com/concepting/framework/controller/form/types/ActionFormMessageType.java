@@ -2,10 +2,10 @@ package br.com.concepting.framework.controller.form.types;
 
 /**
  * Class that defines the types of a form message.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,23 +22,23 @@ package br.com.concepting.framework.controller.form.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum ActionFormMessageType{
-	/**
-	 * Information message.
-	 */
-	INFO,
-
-	/**
-	 * Warning message.
-	 */
-	WARNING,
-
-	/**
-	 * Error message.
-	 */
-	ERROR,
-
-	/**
-	 * Validation message.
-	 */
-	VALIDATION;
+    /**
+     * Information message.
+     */
+    INFO,
+    
+    /**
+     * Warning message.
+     */
+    WARNING,
+    
+    /**
+     * Error message.
+     */
+    ERROR,
+    
+    /**
+     * Validation message.
+     */
+    VALIDATION
 }

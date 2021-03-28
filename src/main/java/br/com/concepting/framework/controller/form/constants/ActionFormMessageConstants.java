@@ -2,10 +2,10 @@ package br.com.concepting.framework.controller.form.constants;
 
 /**
  * Class that defines the constants used in form messages.
- * 
+ *
  * @author fvilarinho
  * @since 3.1.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,8 @@ package br.com.concepting.framework.controller.form.constants;
  */
 @SuppressWarnings("javadoc")
 public abstract class ActionFormMessageConstants{
-	public static final String DEFAULT_INVALID_PROPERTY_ID = "invalidProperty";
-	public static final String DEFAULT_NO_DATA_KEY_ID      = "noData";
-	public static final String DEFAULT_SELECT_AN_ITEM_ID   = "selectAnItem";
-	public static final String DEFAULT_SUCCESS_ID          = "success";
+    public static final String DEFAULT_INVALID_PROPERTY_ID = "invalidProperty";
+    public static final String DEFAULT_NO_DATA_KEY_ID = "noData";
+    public static final String DEFAULT_SELECT_AN_ITEM_ID = "selectAnItem";
+    public static final String DEFAULT_SUCCESS_ID = "success";
 }

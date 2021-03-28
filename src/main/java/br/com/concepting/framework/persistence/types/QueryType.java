@@ -6,7 +6,7 @@ package br.com.concepting.framework.persistence.types;
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,13 +22,13 @@ package br.com.concepting.framework.persistence.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum QueryType{
-	/**
-	 * Find query type.
-	 */
-	FIND,
-
-	/**
-	 * Search query type.
-	 */
-	SEARCH;
+    /**
+     * Find query type.
+     */
+    FIND,
+    
+    /**
+     * Search query type.
+     */
+    SEARCH
 }

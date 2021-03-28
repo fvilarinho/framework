@@ -61,7 +61,8 @@
 				</iterate>
 			</if>
 		</if>
-		
+
+		@SuppressWarnings("javadoc")
 		public class @{name} extends BaseAction&lt;#{clazz.simpleName}&gt;{
 			@Override
 			public void init() throws Throwable{

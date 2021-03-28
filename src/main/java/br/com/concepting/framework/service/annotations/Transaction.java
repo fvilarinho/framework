@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * Class that defines the service transaction annotation.
- * 
+ *
  * @author fvilarinho
  * @since 3.2.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,18 +29,18 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface Transaction{
-	/**
-	 * Defines the transaction timeout
-	 * 
-	 * @return Numeric value that contains the timeout.
-	 */
-	int timeout() default -1;
-
-	/**
-	 * Defines for which caught exceptions, the transaction should be rolled
-	 * back.
-	 * 
-	 * @return List that contains the caught exceptions.
-	 */
-	Class<? extends Throwable>[] rollbackFor() default Throwable.class;
+    /**
+     * Defines the transaction timeout
+     *
+     * @return Numeric value that contains the timeout.
+     */
+    int timeout() default -1;
+    
+    /**
+     * Defines for which caught exceptions, the transaction should be rolled
+     * back.
+     *
+     * @return List that contains the caught exceptions.
+     */
+    Class<? extends Throwable>[] rollbackFor() default Throwable.class;
 }

@@ -89,6 +89,7 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
+		@SuppressWarnings("javadoc")
 		public class @{name} extends BaseAction&lt;#{clazz.simpleName}&gt;{
 			/**
 			 * List the available URLs.

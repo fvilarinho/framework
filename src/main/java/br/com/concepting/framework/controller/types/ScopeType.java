@@ -2,10 +2,10 @@ package br.com.concepting.framework.controller.types;
 
 /**
  * Class that defines the types of scope to store data.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,23 +22,23 @@ package br.com.concepting.framework.controller.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum ScopeType{
-	/**
-	 * Application scope.
-	 */
-	APPLICATION,
-
-	/**
-	 * Session scope.
-	 */
-	SESSION,
-
-	/**
-	 * Request scope.
-	 */
-	REQUEST,
-
-	/**
-	 * Model scope.
-	 */
-	MODEL;
+    /**
+     * Application scope.
+     */
+    APPLICATION,
+    
+    /**
+     * Session scope.
+     */
+    SESSION,
+    
+    /**
+     * Request scope.
+     */
+    REQUEST,
+    
+    /**
+     * Model scope.
+     */
+    MODEL;
 }

@@ -6,10 +6,10 @@ import br.com.concepting.framework.model.types.ValidationType;
 
 /**
  * Class that defines the basic implementation of the main console data model
- * 
+ *
  * @author fvilarinho
  * @since 3.2.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,48 +27,48 @@ import br.com.concepting.framework.model.types.ValidationType;
  */
 @Model(ui = "Main Console", templateId = "mainConsole")
 public abstract class MainConsoleModel extends BaseModel{
-	private static final long serialVersionUID = -8176019419161691084L;
-
-	@Property(validations = ValidationType.REQUIRED)
-	private String currentLanguage = null;
-
-	@Property(validations = ValidationType.REQUIRED)
-	private String currentSkin = null;
-
-	/**
-	 * Returns the identifier of the current language.
-	 * 
-	 * @return String that contains the identifier of the language.
-	 */
-	public String getCurrentLanguage(){
-		return this.currentLanguage;
-	}
-
-	/**
-	 * Defines the identifier of the current language.
-	 * 
-	 * @param currentLanguage String that contains the identifier of the
-	 * language.
-	 */
-	public void setCurrentLanguage(String currentLanguage){
-		this.currentLanguage = currentLanguage;
-	}
-
-	/**
-	 * Returns the identifier of the current skin.
-	 * 
-	 * @return String that contains the identifier of the skin.
-	 */
-	public String getCurrentSkin(){
-		return this.currentSkin;
-	}
-
-	/**
-	 * Defines the identifier of the current skin.
-	 * 
-	 * @param currentSkin String that contains the identifier of the skin.
-	 */
-	public void setCurrentSkin(String currentSkin){
-		this.currentSkin = currentSkin;
-	}
+    private static final long serialVersionUID = -8176019419161691084L;
+    
+    @Property(validations = ValidationType.REQUIRED)
+    private String currentLanguage = null;
+    
+    @Property(validations = ValidationType.REQUIRED)
+    private String currentSkin = null;
+    
+    /**
+     * Returns the identifier of the current language.
+     *
+     * @return String that contains the identifier of the language.
+     */
+    public String getCurrentLanguage(){
+        return this.currentLanguage;
+    }
+    
+    /**
+     * Defines the identifier of the current language.
+     *
+     * @param currentLanguage String that contains the identifier of the
+     * language.
+     */
+    public void setCurrentLanguage(String currentLanguage){
+        this.currentLanguage = currentLanguage;
+    }
+    
+    /**
+     * Returns the identifier of the current skin.
+     *
+     * @return String that contains the identifier of the skin.
+     */
+    public String getCurrentSkin(){
+        return this.currentSkin;
+    }
+    
+    /**
+     * Defines the identifier of the current skin.
+     *
+     * @param currentSkin String that contains the identifier of the skin.
+     */
+    public void setCurrentSkin(String currentSkin){
+        this.currentSkin = currentSkin;
+    }
 }

@@ -2,11 +2,11 @@ package br.com.concepting.framework.ui.components.types;
 
 /**
  * Class that defines the types of actions of the pager component.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,28 +22,28 @@ package br.com.concepting.framework.ui.components.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum PagerActionType{
-	/**
-	 * Move to first page.
-	 */
-	FIRST_PAGE,
-
-	/**
-	 * Move to previous page.
-	 */
-	PREVIOUS_PAGE,
-
-	/**
-	 * Move to next page.
-	 */
-	NEXT_PAGE,
-
-	/**
-	 * Move to last page.
-	 */
-	LAST_PAGE,
-
-	/**
-	 * Refresh the current page.
-	 */
-	REFRESH_PAGE;
+    /**
+     * Move to first page.
+     */
+    FIRST_PAGE,
+    
+    /**
+     * Move to previous page.
+     */
+    PREVIOUS_PAGE,
+    
+    /**
+     * Move to next page.
+     */
+    NEXT_PAGE,
+    
+    /**
+     * Move to last page.
+     */
+    LAST_PAGE,
+    
+    /**
+     * Refresh the current page.
+     */
+    REFRESH_PAGE
 }

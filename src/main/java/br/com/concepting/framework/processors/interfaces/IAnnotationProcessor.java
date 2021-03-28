@@ -4,11 +4,11 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 
 /**
  * Interfaces that defines the basic implementation of annotation processors.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,11 +24,11 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public interface IAnnotationProcessor{
-	/**
-	 * Initializes the processing.
-	 * 
-	 * @throws InternalErrorException Occurs when was not possible to execute
-	 * the operation.
-	 */
-	public void process() throws InternalErrorException;
+    /**
+     * Initializes the processing.
+     *
+     * @throws InternalErrorException Occurs when was not possible to execute
+     * the operation.
+     */
+    void process() throws InternalErrorException;
 }

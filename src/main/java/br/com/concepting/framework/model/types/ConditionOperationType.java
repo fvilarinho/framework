@@ -2,10 +2,10 @@ package br.com.concepting.framework.model.types;
 
 /**
  * Class that defines the types of compare conditions.
- * 
+ *
  * @author fvilarinho
  * @since 3.5.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,18 +22,18 @@ package br.com.concepting.framework.model.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum ConditionOperationType{
-	/**
-	 * No operation.
-	 */
-	NONE,
-	
-	/**
-	 * And operation.
-	 */
-	AND,
-
-	/**
-	 * Or operation.
-	 */
-	OR
+    /**
+     * No operation.
+     */
+    NONE,
+    
+    /**
+     * And operation.
+     */
+    AND,
+    
+    /**
+     * Or operation.
+     */
+    OR
 }

@@ -7,11 +7,11 @@ import java.lang.annotation.Target;
 
 /**
  * Class that defines the service annotation.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,38 +29,38 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface Service{
-	/**
-	 * Indicates if the service is a daemon.
-	 * 
-	 * @return True/False.
-	 */
-	boolean isDaemon() default false;
-
-	/**
-	 * Indicates if the service is recurrent.
-	 *
-	 * @return True/False.
-	 */
-	boolean isRecurrent() default false;
-
-	/**
-	 * Indicates the polling time (minutes) of the daemon.
-	 *
-	 * @return Numeric value that contains the polling time (minutes).
-	 */
-	int pollingTime() default -1;
-
-	/**
-	 * Defines the start time of the daemon.
-	 * 
-	 * @return String that contains the start time.
-	 */
-	String startTime() default "";
-
-	/**
-	 * Defines the identifier of the application context resources.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	String contextResourcesId() default "";
+    /**
+     * Indicates if the service is a daemon.
+     *
+     * @return True/False.
+     */
+    boolean isDaemon() default false;
+    
+    /**
+     * Indicates if the service is recurrent.
+     *
+     * @return True/False.
+     */
+    boolean isRecurrent() default false;
+    
+    /**
+     * Indicates the polling time (minutes) of the daemon.
+     *
+     * @return Numeric value that contains the polling time (minutes).
+     */
+    int pollingTime() default -1;
+    
+    /**
+     * Defines the start time of the daemon.
+     *
+     * @return String that contains the start time.
+     */
+    String startTime() default "";
+    
+    /**
+     * Defines the identifier of the application context resources.
+     *
+     * @return String that contains the identifier.
+     */
+    String contextResourcesId() default "";
 }

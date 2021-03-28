@@ -1,9 +1,5 @@
 package br.com.concepting.framework.util.helpers;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Map;
-
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.model.types.ConditionOperationType;
 import br.com.concepting.framework.model.types.ConditionType;
@@ -11,6 +7,10 @@ import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.FormulaType;
 import br.com.concepting.framework.util.types.SortOrderType;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Class responsible to store the criteria that will be used to customize the
@@ -36,7 +36,7 @@ import br.com.concepting.framework.util.types.SortOrderType;
  */
 public class Filter implements Serializable{
     private static final long serialVersionUID = -4835660120485569201L;
-
+    
     private Collection<String> returnProperties = null;
     private Map<String, FormulaType> propertiesFormulas = null;
     private Map<String, String> propertiesAliases = null;
@@ -47,87 +47,87 @@ public class Filter implements Serializable{
     private Map<String, SortOrderType> propertiesSortOrders = null;
     private Collection<String> groupByProperties = null;
     private Integer maximumResults = null;
-
+    
     /**
      * Returns the group by properties.
-     * 
+     *
      * @return List that contains the group by properties.
      */
     public Collection<String> getGroupByProperties(){
         return groupByProperties;
     }
-
+    
     /**
      * Defines the group by properties.
-     * 
+     *
      * @param groupByProperties List that contains the group by properties.
      */
     public void setGroupByProperties(Collection<String> groupByProperties){
         this.groupByProperties = groupByProperties;
     }
-
+    
     /**
      * Adds a group by property.
-     * 
+     *
      * @param propertyId String that contains the property identifier.
      */
     public void addGroupByProperty(String propertyId){
         if(this.groupByProperties == null)
             this.groupByProperties = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-
+        
         if(!this.groupByProperties.contains(propertyId))
             this.groupByProperties.add(propertyId);
     }
-
+    
     /**
      * Returns the properties aliases.
-     * 
+     *
      * @return Map that contains the properties aliases.
      */
     public Map<String, String> getPropertiesAliases(){
         return this.propertiesAliases;
     }
-
+    
     /**
      * Defines the properties aliases.
-     * 
+     *
      * @param propertiesAliases Map that contains the properties aliases.
      */
     public void setPropertiesAliases(Map<String, String> propertiesAliases){
         this.propertiesAliases = propertiesAliases;
     }
-
+    
     /**
      * Adds a property alias.
-     * 
-     * @param propertyId String that contains the property identifier. 
+     *
+     * @param propertyId String that contains the property identifier.
      * @param propertyAlias String that contains the property alias.
      */
     public void addPropertyAlias(String propertyId, String propertyAlias){
         if(propertiesAliases == null)
             propertiesAliases = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-
+        
         propertiesAliases.put(propertyId, propertyAlias);
     }
-
+    
     /**
      * Returns the properties formulas.
-     * 
+     *
      * @return Map that contains the properties formulas.
      */
     public Map<String, FormulaType> getPropertiesFormulas(){
         return this.propertiesFormulas;
     }
-
+    
     /**
      * Returns the properties formulas.
-     * 
+     *
      * @param propertiesFormulas Map that contains the properties formulas.
      */
     public void setPropertiesFormulas(Map<String, FormulaType> propertiesFormulas){
         this.propertiesFormulas = propertiesFormulas;
     }
-
+    
     /**
      * Returns the relations joins mapping.
      *
@@ -136,7 +136,7 @@ public class Filter implements Serializable{
     public Map<String, RelationJoinType> getPropertiesRelationsJoins(){
         return this.propertiesRelationsJoins;
     }
-
+    
     /**
      * Defines the relations joins mapping.
      *
@@ -145,32 +145,33 @@ public class Filter implements Serializable{
     public void setPropertiesRelationsJoins(Map<String, RelationJoinType> propertiesRelationsJoins){
         this.propertiesRelationsJoins = propertiesRelationsJoins;
     }
-
+    
     /**
      * Adds a relation join to the mapping.
      *
-     * @param id               String that contains the identifier of the relation.
+     * @param id String that contains the identifier of the relation.
      * @param relationJoinType Instance that defines the join type.
      */
     public void addPropertyRelationJoin(String id, RelationJoinType relationJoinType){
         if(this.propertiesRelationsJoins == null)
             this.propertiesRelationsJoins = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-
+        
         this.propertiesRelationsJoins.put(id, relationJoinType);
     }
-
+    
     /**
      * Adds a property formula
+     *
      * @param propertyId String that contains the property identifier.
      * @param formulaType Instance that contains the formula.
      */
     public void addPropertyFormula(String propertyId, FormulaType formulaType){
         if(this.propertiesFormulas == null)
             this.propertiesFormulas = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-
+        
         this.propertiesFormulas.put(propertyId, formulaType);
     }
-
+    
     /**
      * Returns the maximum number of data models that should be returned.
      *
@@ -179,7 +180,7 @@ public class Filter implements Serializable{
     public Integer getMaximumResults(){
         return this.maximumResults;
     }
-
+    
     /**
      * Defines the maximum number of data models that should be returned.
      *
@@ -188,7 +189,7 @@ public class Filter implements Serializable{
     public void setMaximumResults(Integer maximumResults){
         this.maximumResults = maximumResults;
     }
-
+    
     /**
      * Returns the list of properties of the data model that should return after
      * the search query execution..
@@ -198,18 +199,18 @@ public class Filter implements Serializable{
     public Collection<String> getReturnProperties(){
         return this.returnProperties;
     }
-
+    
     /**
      * Defines the list of properties of the data model that should return after
      * the search query execution..
      *
      * @param returnProperties List that contains the identifiers of the
-     *                         properties.
+     * properties.
      */
     public void setReturnProperties(Collection<String> returnProperties){
         this.returnProperties = returnProperties;
     }
-
+    
     /**
      * Adds a return property.
      *
@@ -219,11 +220,11 @@ public class Filter implements Serializable{
         if(id != null && id.length() > 0){
             if(this.returnProperties == null)
                 this.returnProperties = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-
+            
             this.returnProperties.add(id);
         }
     }
-
+    
     /**
      * Returns the mapping of the properties conditions.
      *
@@ -232,7 +233,7 @@ public class Filter implements Serializable{
     public Map<String, Collection<ConditionType>> getPropertiesConditions(){
         return this.propertiesConditions;
     }
-
+    
     /**
      * Defines the mapping of the properties conditions.
      *
@@ -241,29 +242,29 @@ public class Filter implements Serializable{
     public void setPropertiesConditions(Map<String, Collection<ConditionType>> conditions){
         this.propertiesConditions = conditions;
     }
-
+    
     /**
      * Adds a property condition.
      *
-     * @param id        String that contains the identifier of the property.
+     * @param id String that contains the identifier of the property.
      * @param condition Instance that contains the condition.
      */
     public void addPropertyCondition(String id, ConditionType condition){
         if(id != null && id.length() > 0 && condition != null){
             if(this.propertiesConditions == null)
                 this.propertiesConditions = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-
+            
             Collection<ConditionType> conditions = this.propertiesConditions.get(id);
-
+            
             if(conditions == null)
                 conditions = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-
+            
             conditions.add(condition);
-
+            
             this.propertiesConditions.put(id, conditions);
         }
     }
-
+    
     /**
      * Returns the mapping of the properties conditions operations.
      *
@@ -272,7 +273,7 @@ public class Filter implements Serializable{
     public Map<String, ConditionOperationType> getPropertiesConditionsOperations(){
         return this.propertiesConditionsOperations;
     }
-
+    
     /**
      * Defines the mapping of the properties conditions operations.
      *
@@ -281,22 +282,22 @@ public class Filter implements Serializable{
     public void setPropertiesConditionsOperations(Map<String, ConditionOperationType> propertiesConditionsOperations){
         this.propertiesConditionsOperations = propertiesConditionsOperations;
     }
-
+    
     /**
      * Adds a property condition operation.
      *
-     * @param id                 String that contains the identifier of the property.
+     * @param id String that contains the identifier of the property.
      * @param conditionOperation Instance that contains the condition operation.
      */
     public void addPropertyConditionOperation(String id, ConditionOperationType conditionOperation){
         if(id != null && id.length() > 0 && conditionOperation != null){
             if(this.propertiesConditionsOperations == null)
                 this.propertiesConditionsOperations = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-
+            
             this.propertiesConditionsOperations.put(id, conditionOperation);
         }
     }
-
+    
     /**
      * Returns the properties values mapping.
      *
@@ -305,39 +306,39 @@ public class Filter implements Serializable{
     public Map<String, Collection<Object>> getPropertiesValues(){
         return this.propertiesValues;
     }
-
+    
     /**
      * Defines the properties values mapping.
      *
      * @param propertiesValues Instance that contains the properties values
-     *                         mapping.
+     * mapping.
      */
     public void setPropertiesValues(Map<String, Collection<Object>> propertiesValues){
         this.propertiesValues = propertiesValues;
     }
-
+    
     /**
      * Adds a property value.
      *
-     * @param id    String that contains the identifier of the property.
+     * @param id String that contains the identifier of the property.
      * @param value Instance that contains the value.
      */
     public void addPropertyValue(String id, Object value){
         if(id != null && id.length() > 0){
             if(this.propertiesValues == null)
                 this.propertiesValues = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-
+            
             Collection<Object> values = this.propertiesValues.get(id);
-
+            
             if(values == null)
                 values = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-
+            
             values.add(value);
-
+            
             this.propertiesValues.put(id, values);
         }
     }
-
+    
     /**
      * Returns the properties sort order mapping.
      *
@@ -346,30 +347,30 @@ public class Filter implements Serializable{
     public Map<String, SortOrderType> getPropertiesSortOrders(){
         return this.propertiesSortOrders;
     }
-
+    
     /**
      * Defines the properties sort order mapping.
      *
      * @param propertiesSortOrders Instance that contains the properties sort
-     *                             order mapping.
+     * order mapping.
      */
     public void setPropertiesSortOrders(Map<String, SortOrderType> propertiesSortOrders){
         this.propertiesSortOrders = propertiesSortOrders;
     }
-
+    
     /**
      * Adds a property sort order.
      *
-     * @param id        String that contains the identifier of the property.
+     * @param id String that contains the identifier of the property.
      * @param sortOrder Instance that contains the sort order.
      */
     public void addPropertySortOrder(String id, SortOrderType sortOrder){
         if(id != null && id.length() > 0 && sortOrder != null){
             if(this.propertiesSortOrders == null)
                 this.propertiesSortOrders = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-
+            
             this.propertiesSortOrders.put(id, sortOrder);
         }
     }
-
+    
 }

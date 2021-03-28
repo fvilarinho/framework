@@ -11,11 +11,11 @@ import br.com.concepting.framework.security.model.UserModel;
 
 /**
  * Class that defines the basic implementation of the main console.
- * 
+ *
+ * @param <M> Class that defines the main console data model.
  * @author fvilarinho
  * @version 3.2.0
- * @param <M> Class that defines the main console data model.
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,54 +31,48 @@ import br.com.concepting.framework.security.model.UserModel;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-public class MainConsoleAction<M extends MainConsoleModel>extends BaseAction<M>{
-	/**
-	 * Change the current language.
-	 * 
-	 * @param <F> Class that defines the form.
-	 * @throws Throwable Occurs when was not possible to execute the action.
-	 */
-	public <F extends MainConsoleActionForm<M>> void changeCurrentLanguage() throws Throwable{
-		SystemController systemController = this.getSystemController();
-		SecurityController securityController = this.getSecurityController();
-		LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
-		UserModel user = (loginSession != null ? loginSession.getUser() : null);
-		LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
-		F actionForm = getActionForm();
-		M model = (actionForm != null ? actionForm.getModel() : null);
-
-		if(loginParameter != null && 
-		   model != null && 
-		   model.getCurrentLanguage() != null && 
-		   model.getCurrentLanguage().length() > 0){
-			loginParameter.setLanguage(model.getCurrentLanguage());
-			
-			systemController.addCookie(SystemConstants.CURRENT_LANGUAGE_ATTRIBUTE_ID, loginParameter.getLanguage(), true);
-		}
-	}
-
-	/**
-	 * Change the current skin.
-	 * 
-	 * @param <F> Class that defines the form.
-	 * @throws Throwable Occurs when was not possible to execute the action.
-	 */
-	public <F extends MainConsoleActionForm<M>> void changeCurrentSkin() throws Throwable{
-		SystemController systemController = this.getSystemController();
-		SecurityController securityController = this.getSecurityController();
-		LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
-		UserModel user = (loginSession != null ? loginSession.getUser() : null);
-		LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
-		F actionForm = getActionForm();
-		M model = (actionForm != null ? actionForm.getModel() : null);
-
-		if(loginParameter != null && 
-		   model != null && 
-		   model.getCurrentSkin() != null && 
-		   model.getCurrentSkin().length() > 0){
-			loginParameter.setSkin(model.getCurrentSkin());
-			
-			systemController.addCookie(SystemConstants.CURRENT_SKIN_ATTRIBUTE_ID, loginParameter.getSkin(), true);
-		}
-	}
+public class MainConsoleAction<M extends MainConsoleModel> extends BaseAction<M>{
+    /**
+     * Change the current language.
+     *
+     * @param <F> Class that defines the form.
+     * @throws Throwable Occurs when was not possible to execute the action.
+     */
+    public <F extends MainConsoleActionForm<M>> void changeCurrentLanguage() throws Throwable{
+        SystemController systemController = this.getSystemController();
+        SecurityController securityController = this.getSecurityController();
+        LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
+        UserModel user = (loginSession != null ? loginSession.getUser() : null);
+        LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
+        F actionForm = getActionForm();
+        M model = (actionForm != null ? actionForm.getModel() : null);
+        
+        if(loginParameter != null && model != null && model.getCurrentLanguage() != null && model.getCurrentLanguage().length() > 0){
+            loginParameter.setLanguage(model.getCurrentLanguage());
+            
+            systemController.addCookie(SystemConstants.CURRENT_LANGUAGE_ATTRIBUTE_ID, loginParameter.getLanguage(), true);
+        }
+    }
+    
+    /**
+     * Change the current skin.
+     *
+     * @param <F> Class that defines the form.
+     * @throws Throwable Occurs when was not possible to execute the action.
+     */
+    public <F extends MainConsoleActionForm<M>> void changeCurrentSkin() throws Throwable{
+        SystemController systemController = this.getSystemController();
+        SecurityController securityController = this.getSecurityController();
+        LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
+        UserModel user = (loginSession != null ? loginSession.getUser() : null);
+        LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
+        F actionForm = getActionForm();
+        M model = (actionForm != null ? actionForm.getModel() : null);
+        
+        if(loginParameter != null && model != null && model.getCurrentSkin() != null && model.getCurrentSkin().length() > 0){
+            loginParameter.setSkin(model.getCurrentSkin());
+            
+            systemController.addCookie(SystemConstants.CURRENT_SKIN_ATTRIBUTE_ID, loginParameter.getSkin(), true);
+        }
+    }
 }

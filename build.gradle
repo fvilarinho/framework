@@ -50,6 +50,8 @@ dependencies{
 	compile "org.apache.activemq:activemq-broker:5.15.13"
 	compile "org.apache.activemq:activemq-client:5.15.13"
 	compile "net.sourceforge.barbecue:barbecue:1.5-beta1"
+	compile "net.bytebuddy:byte-buddy:1.10.22"
+	compile "org.apache.commons:commons-dbcp2:2.7.0"
 	compile "commons-fileupload:commons-fileupload:1.4"
 	compile "org.apache.commons:commons-jexl3:3.1"
 	compile "commons-net:commons-net:3.6"
@@ -58,11 +60,13 @@ dependencies{
 	compile "com.sun.mail:dsn:1.6.5"
 	compile "com.sun.mail:gimap:1.6.5"
 	compile "com.google.code.gson:gson:2.8.6"
-	compile "org.hibernate.common:hibernate-commons-annotations:5.1.0.Final"
-	compile "org.hibernate:hibernate-core:5.4.18.Final"
-	compile "org.hibernate:hibernate-ehcache:5.4.18.Final"
+	compile "org.hibernate.common:hibernate-commons-annotations:5.1.2.Final"
+	compile "org.hibernate:hibernate-core:5.4.29.Final"
+	compile "org.hibernate:hibernate-ehcache:5.4.29.Final"
+	compile "org.hibernate:hibernate-jcache:5.4.29.Final"
+	compile "org.ehcache:ehcache:3.3.1"
 	compile "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
-	compile "org.apache.commons:commons-dbcp2:2.7.0"
+	compile "com.google.guava:guava:30.1-jre"
 	compile "org.glassfish.hk2:hk2-api:2.6.1"
 	compile "org.glassfish.hk2:hk2-core:2.6.1"
 	compile "org.glassfish.hk2:hk2-locator:2.6.1"
@@ -70,6 +74,7 @@ dependencies{
 	compile "org.apache.httpcomponents:httpcore:4.4.13"
 	compile "org.apache.httpcomponents:httpcore-nio:4.4.13"
 	compile "org.apache.httpcomponents:httpclient:4.5.12"
+	compile "org.apache.httpcomponents:httpmime:4.5.12"
 	compile "com.sun.mail:imap:1.6.5"
 	compile "org.glassfish.hk2.external:javax.inject:2.4.0"
 	compile "com.lowagie:itext:4.2.2"
@@ -93,15 +98,18 @@ dependencies{
 	compile "log4j:log4j:1.2.17"
 	compile "com.sun.mail:mailapi:1.6.5"
 	compile "mysql:mysql-connector-java:8.0.20"
+	compile "com.squareup.okhttp3:okhttp:4.9.1"
+	compile "com.squareup.okio:okio:2.10.0"
 	compile "org.apache.poi:poi:4.1.2"
 	compile "org.apache.poi:poi-ooxml:4.1.2"
 	compile "com.sun.mail:pop3:1.6.5"
 	compile "com.wcohen:com.wcohen.secondstring:0.1"
 	compile "org.seleniumhq.selenium:selenium-api:3.141.59"
+	compile "org.seleniumhq.selenium:selenium-chrome-driver:3.141.59"
 	compile "org.seleniumhq.selenium:selenium-java:3.141.59"
-    compile "org.seleniumhq.selenium:selenium-leg-rc:3.141.59"
-    compile "org.seleniumhq.selenium:selenium-remote-driver:3.141.59"
-    compile "org.seleniumhq.selenium:selenium-support:3.141.59"	
+	compile "org.seleniumhq.selenium:selenium-leg-rc:3.141.59"
+	compile "org.seleniumhq.selenium:selenium-remote-driver:3.141.59"
+	compile "org.seleniumhq.selenium:selenium-support:3.141.59"
 	compile "com.sun.mail:smtp:1.6.5"
 	compile "com.github.ua-parser:uap-java:1.4.4"
 	compile "javax.validation:validation-api:2.0.1.Final"
@@ -117,7 +125,8 @@ task modelJar(type: Jar){
 	archiveClassifier = "model"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
-    from(sourceSets.main.output){  
+	exclude "**/*.html"
+    from(sourceSets.main.output){
         include "br/com/innovativethinking/framework/**/model/**" 
         project.ext.coreExcludes.addAll(includes)
     }  
@@ -127,7 +136,8 @@ task controllerJar(type: Jar){
 	archiveClassifier = "controller"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
-    from(sourceSets.main.output){  
+	exclude "**/*.html"
+    from(sourceSets.main.output){
         include "br/com/innovativethinking/framework/**/controller/**" 
         project.ext.coreExcludes.addAll(includes)
     }  
@@ -137,7 +147,8 @@ task persistenceJar(type: Jar){
 	archiveClassifier = "persistence"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
-    from(sourceSets.main.output){  
+	exclude "**/*.html"
+    from(sourceSets.main.output){
         include "br/com/innovativethinking/framework/**/persistence/**" 
         project.ext.coreExcludes.addAll(includes)
     }  
@@ -147,7 +158,8 @@ task serviceJar(type: Jar){
 	archiveClassifier = "service"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
-    from(sourceSets.main.output){  
+	exclude "**/*.html"
+    from(sourceSets.main.output){
         include "br/com/innovativethinking/framework/**/service/**" 
         project.ext.coreExcludes.addAll(includes)
     }  
@@ -157,7 +169,8 @@ task uiJar(type: Jar){
 	archiveClassifier = "ui"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
-    from(sourceSets.main.output){  
+	exclude "**/*.html"
+    from(sourceSets.main.output){
         include "br/com/innovativethinking/framework/**/ui/**" 
         project.ext.coreExcludes.addAll(includes)
     }  
@@ -167,7 +180,8 @@ task resourcesJar(type: Jar){
 	archiveClassifier = "resources"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
-    from(sourceSets.main.output){  
+	exclude "**/*.html"
+    from(sourceSets.main.output){
         include "etc/**/*.properties"
         include "etc/**/*.xml"
 		include "etc/**/*.xsd"
@@ -179,13 +193,15 @@ task coreJar(type: Jar){
 	archiveClassifier = "core"
 	duplicatesStrategy = "exclude"
     exclude "META-INF/**"
-    from(sourceSets.main.output){  
+	exclude "**/*.html"
+    from(sourceSets.main.output){
         exclude project.ext.coreExcludes
     }  
 }
 
 jar{
     exclude "META-INF/**"
+	exclude "**/*.html"
     duplicatesStrategy = 'exclude'
 }
 

@@ -1,18 +1,18 @@
 package br.com.concepting.framework.controller.form.helpers;
 
-import java.io.Serializable;
-import java.util.Map;
-
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.controller.form.types.ActionFormMessageType;
 import br.com.concepting.framework.util.PropertyUtil;
 
+import java.io.Serializable;
+import java.util.Map;
+
 /**
  * Class that defines a message of a form.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,106 +29,106 @@ import br.com.concepting.framework.util.PropertyUtil;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ActionFormMessage implements Serializable{
-	private static final long serialVersionUID = -7121791309962868261L;
-
-	private ActionFormMessageType type       = null;
-	private String                key        = null;
-	private Map<String, Object>   attributes = null;
-
-	/**
-	 * Constructor - Initializes the form message.
-	 * 
-	 * @param type Instance that contains the message type.
-	 * @param key String that contains the message identifier.
-	 */
-	public ActionFormMessage(ActionFormMessageType type, String key){
-		super();
-
-		setKey(key);
-		setType(type);
-	}
-
-	/**
-	 * Returns the identifier of the message.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	public String getKey(){
-		return this.key;
-	}
-
-	/**
-	 * Defines the identifier of the message.
-	 * 
-	 * @param key String that contains the identifier.
-	 */
-	public void setKey(String key){
-		this.key = key;
-	}
-
-	/**
-	 * Returns the instance of the message type.
-	 * 
-	 * @return Instance that contains the message type.
-	 */
-	public ActionFormMessageType getType(){
-		return this.type;
-	}
-
-	/**
-	 * Defines the instance of the message type.
-	 * 
-	 * @param type Instance that contains the message type.
-	 */
-	public void setType(ActionFormMessageType type){
-		this.type = type;
-	}
-
-	/**
-	 * Adds a message attribute.
-	 * 
-	 * @param name String that contains the identifier.
-	 * @param value String that contains the value.
-	 */
-	public void addAttribute(String name, Object value){
-		if(name != null && name.length() > 0 && value != null){
-			if(this.attributes == null)
-				this.attributes = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-
-			this.attributes.put(name, value);
-		}
-	}
-
-	/**
-	 * Returns a message attribute.
-	 * 
-	 * @param <O> Class that defines the value of the attribute.
-	 * @param name String that contains the identifier.
-	 * @return String that contains the value.
-	 */
-	@SuppressWarnings("unchecked")
-	public <O> O getAttribute(String name){
-		if(this.attributes != null && this.attributes.size() > 0)
-			return (O)this.attributes.get(name);
-
-		return null;
-	}
-
-	/**
-	 * Returns the attributes mapping.
-	 * 
-	 * @return Instance that contains the attributes mapping.
-	 */
-	public Map<String, Object> getAttributes(){
-		return this.attributes;
-	}
-
-	/**
-	 * Defines the attributes mapping.
-	 * 
-	 * @param attributes Instance that contains the attributes mapping.
-	 */
-	public void setAttributes(Map<String, Object> attributes){
-		this.attributes = attributes;
-	}
+    private static final long serialVersionUID = -7121791309962868261L;
+    
+    private ActionFormMessageType type = null;
+    private String key = null;
+    private Map<String, Object> attributes = null;
+    
+    /**
+     * Constructor - Initializes the form message.
+     *
+     * @param type Instance that contains the message type.
+     * @param key String that contains the message identifier.
+     */
+    public ActionFormMessage(ActionFormMessageType type, String key){
+        super();
+        
+        setKey(key);
+        setType(type);
+    }
+    
+    /**
+     * Returns the identifier of the message.
+     *
+     * @return String that contains the identifier.
+     */
+    public String getKey(){
+        return this.key;
+    }
+    
+    /**
+     * Defines the identifier of the message.
+     *
+     * @param key String that contains the identifier.
+     */
+    public void setKey(String key){
+        this.key = key;
+    }
+    
+    /**
+     * Returns the instance of the message type.
+     *
+     * @return Instance that contains the message type.
+     */
+    public ActionFormMessageType getType(){
+        return this.type;
+    }
+    
+    /**
+     * Defines the instance of the message type.
+     *
+     * @param type Instance that contains the message type.
+     */
+    public void setType(ActionFormMessageType type){
+        this.type = type;
+    }
+    
+    /**
+     * Adds a message attribute.
+     *
+     * @param name String that contains the identifier.
+     * @param value String that contains the value.
+     */
+    public void addAttribute(String name, Object value){
+        if(name != null && name.length() > 0 && value != null){
+            if(this.attributes == null)
+                this.attributes = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
+            
+            this.attributes.put(name, value);
+        }
+    }
+    
+    /**
+     * Returns a message attribute.
+     *
+     * @param <O> Class that defines the value of the attribute.
+     * @param name String that contains the identifier.
+     * @return String that contains the value.
+     */
+    @SuppressWarnings("unchecked")
+    public <O> O getAttribute(String name){
+        if(this.attributes != null && this.attributes.size() > 0)
+            return (O) this.attributes.get(name);
+        
+        return null;
+    }
+    
+    /**
+     * Returns the attributes mapping.
+     *
+     * @return Instance that contains the attributes mapping.
+     */
+    public Map<String, Object> getAttributes(){
+        return this.attributes;
+    }
+    
+    /**
+     * Defines the attributes mapping.
+     *
+     * @param attributes Instance that contains the attributes mapping.
+     */
+    public void setAttributes(Map<String, Object> attributes){
+        this.attributes = attributes;
+    }
 }

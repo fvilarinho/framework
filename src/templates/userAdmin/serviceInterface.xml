@@ -27,6 +27,7 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
+		@SuppressWarnings("javadoc")
 		public interface @{name} extends IService&lt;#{clazz.simpleName}&gt;{
 		    /**
 		     * Update the expiration date/time of the password.

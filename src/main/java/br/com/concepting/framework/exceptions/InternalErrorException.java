@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
  * Class that defines an internal error.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,33 +24,33 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="class")
-@JsonIgnoreProperties(value={"cause", "stackTrace"})
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "class")
+@JsonIgnoreProperties(value = {"cause", "stackTrace"})
 public class InternalErrorException extends Exception{
-	private static final long serialVersionUID = -8931105241132588446L;
-
-	/**
-	 * Constructor - Initializes the internal error.
-	 */
-	public InternalErrorException(){
-		super();
-	}
-
-	/**
-	 * Constructor - Initializes the internal error.
-	 * 
-	 * @param message String that contains the message.
-	 */
-	public InternalErrorException(String message){
-		super(message);
-	}
-
-	/**
-	 * Constructor - Initializes the internal error.
-	 * 
-	 * @param exception Instance that contains the caught exception.
-	 */
-	public InternalErrorException(Throwable exception){
-		super(exception);
-	}
+    private static final long serialVersionUID = -8931105241132588446L;
+    
+    /**
+     * Constructor - Initializes the internal error.
+     */
+    public InternalErrorException(){
+        super();
+    }
+    
+    /**
+     * Constructor - Initializes the internal error.
+     *
+     * @param message String that contains the message.
+     */
+    public InternalErrorException(String message){
+        super(message);
+    }
+    
+    /**
+     * Constructor - Initializes the internal error.
+     *
+     * @param exception Instance that contains the caught exception.
+     */
+    public InternalErrorException(Throwable exception){
+        super(exception);
+    }
 }

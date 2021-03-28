@@ -1,8 +1,8 @@
 package br.com.concepting.framework.util;
 
-import java.lang.reflect.Method;
-
 import org.apache.commons.beanutils.MethodUtils;
+
+import java.lang.reflect.Method;
 
 /**
  * Class responsible to manipulate methods of a class.
@@ -26,64 +26,64 @@ import org.apache.commons.beanutils.MethodUtils;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class MethodUtil extends MethodUtils{
-	/**
-	 * Returns a method definition of a class.
-	 * 
-	 * @param clazz Class that contains the desired method.
-	 * @param methodName String that contains the method name.
-	 * @return Instance that contains the method definition.
-	 */
-	public static Method getMethod(Class<?> clazz, String methodName){
-		try{
-			return clazz.getMethod(methodName);
-		}
-		catch(Throwable e){
-			return null;
-		}
-	}
-	
-	/**
-	 * Returns the instance of a method in the JVM stack trace.
-	 *
-	 * @param level Numeric value that contains the desired level in stack
-	 * trace.
-	 * @return Instance that contains the method.
-	 * @throws ClassNotFoundException Occurs when was not possible to execute
-	 * the operation..
-	 */
-	public static Method getMethodFromStackTrace(Integer level) throws ClassNotFoundException{
-		if(level == null)
-			return null;
-
-		Thread currentThread = Thread.currentThread();
-		StackTraceElement stackTraceElement = null;
-		StackTraceElement stackTrace[] = currentThread.getStackTrace();
-		int cont = 0;
-
-		for(cont = 0 ; cont < stackTrace.length ; cont++){
-			stackTraceElement = stackTrace[cont];
-
-			if(stackTraceElement.getMethodName().equals("getMethodFromStackTrace")){
-				cont += level;
-
-				stackTraceElement = stackTrace[cont];
-
-				break;
-			}
-
-			stackTraceElement = null;
-		}
-
-		if(stackTraceElement == null)
-			return null;
-
-		Class<?> clazz = Class.forName(stackTraceElement.getClassName());
-		Method methods[] = clazz.getDeclaredMethods();
-
-		for(Method method : methods)
-			if(method.getName().equals(stackTraceElement.getMethodName()))
-				return method;
-
-		return null;
-	}
+    /**
+     * Returns a method definition of a class.
+     *
+     * @param clazz Class that contains the desired method.
+     * @param methodName String that contains the method name.
+     * @return Instance that contains the method definition.
+     */
+    public static Method getMethod(Class<?> clazz, String methodName){
+        try{
+            return clazz.getMethod(methodName);
+        }
+        catch(Throwable e){
+            return null;
+        }
+    }
+    
+    /**
+     * Returns the instance of a method in the JVM stack trace.
+     *
+     * @param level Numeric value that contains the desired level in stack
+     * trace.
+     * @return Instance that contains the method.
+     * @throws ClassNotFoundException Occurs when was not possible to execute
+     * the operation..
+     */
+    public static Method getMethodFromStackTrace(Integer level) throws ClassNotFoundException{
+        if(level == null)
+            return null;
+        
+        Thread currentThread = Thread.currentThread();
+        StackTraceElement stackTraceElement = null;
+        StackTraceElement[] stackTrace = currentThread.getStackTrace();
+        int cont = 0;
+        
+        for(cont = 0; cont < stackTrace.length; cont++){
+            stackTraceElement = stackTrace[cont];
+            
+            if(stackTraceElement.getMethodName().equals("getMethodFromStackTrace")){
+                cont += level;
+                
+                stackTraceElement = stackTrace[cont];
+                
+                break;
+            }
+            
+            stackTraceElement = null;
+        }
+        
+        if(stackTraceElement == null)
+            return null;
+        
+        Class<?> clazz = Class.forName(stackTraceElement.getClassName());
+        Method[] methods = clazz.getDeclaredMethods();
+        
+        for(Method method: methods)
+            if(method.getName().equals(stackTraceElement.getMethodName()))
+                return method;
+        
+        return null;
+    }
 }

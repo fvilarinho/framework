@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 /**
  * Class responsible to store the forward properties of the action form.
- * 
+ *
  * @author fvilarinho
  * @since 3.3.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,44 +24,44 @@ import java.io.Serializable;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ActionFormForwardResources implements Serializable{
-	private static final long serialVersionUID = 6106118252078337780L;
-
-	private String name = null;
-	private String url  = null;
-
-	/**
-	 * Returns the identifier of the forward.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	public String getName(){
-		return this.name;
-	}
-
-	/**
-	 * Defines the identifier of the forward.
-	 * 
-	 * @param name String that contains the identifier.
-	 */
-	public void setName(String name){
-		this.name = name;
-	}
-
-	/**
-	 * Returns the URL of the forward.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	public String getUrl(){
-		return this.url;
-	}
-
-	/**
-	 * Defines the URL of the forward.
-	 * 
-	 * @param url String that contains the identifier.
-	 */
-	public void setUrl(String url){
-		this.url = url;
-	}
+    private static final long serialVersionUID = 6106118252078337780L;
+    
+    private String name = null;
+    private String url = null;
+    
+    /**
+     * Returns the identifier of the forward.
+     *
+     * @return String that contains the identifier.
+     */
+    public String getName(){
+        return this.name;
+    }
+    
+    /**
+     * Defines the identifier of the forward.
+     *
+     * @param name String that contains the identifier.
+     */
+    public void setName(String name){
+        this.name = name;
+    }
+    
+    /**
+     * Returns the URL of the forward.
+     *
+     * @return String that contains the identifier.
+     */
+    public String getUrl(){
+        return this.url;
+    }
+    
+    /**
+     * Defines the URL of the forward.
+     *
+     * @param url String that contains the identifier.
+     */
+    public void setUrl(String url){
+        this.url = url;
+    }
 }

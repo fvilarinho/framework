@@ -2,11 +2,11 @@ package br.com.concepting.framework.util.types;
 
 /**
  * Class that defines the types of methods.
- * 
+ *
  * @author fvilarinho
  * @since 3.6.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,38 +22,38 @@ package br.com.concepting.framework.util.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum MethodType{
-	/**
-	 * Defines the GET method.
-	 */
-	GET,
-
-	/**
-	 * Defines the POST method.
-	 */
-	POST,
-
-	/**
-	 * Defines the PUT method.
-	 */
-	PUT,
-
-	/**
-	 * Defines the DELETE method.
-	 */
-	DELETE,
-
-	/**
-	 * Defines the TRACE method.
-	 */
-	TRACE,
-
-	/**
-	 * Defines the OPTIONS method.
-	 */
-	OPTIONS,
-
-	/**
-	 * Defines the HEAD method.
-	 */
-	HEAD;
+    /**
+     * Defines the GET method.
+     */
+    GET,
+    
+    /**
+     * Defines the POST method.
+     */
+    POST,
+    
+    /**
+     * Defines the PUT method.
+     */
+    PUT,
+    
+    /**
+     * Defines the DELETE method.
+     */
+    DELETE,
+    
+    /**
+     * Defines the TRACE method.
+     */
+    TRACE,
+    
+    /**
+     * Defines the OPTIONS method.
+     */
+    OPTIONS,
+    
+    /**
+     * Defines the HEAD method.
+     */
+    HEAD
 }

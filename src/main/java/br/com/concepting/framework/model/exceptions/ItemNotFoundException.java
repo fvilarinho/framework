@@ -4,10 +4,10 @@ import br.com.concepting.framework.exceptions.ExpectedWarningException;
 
 /**
  * Class that defines the exception when the item was not found.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,30 +24,30 @@ import br.com.concepting.framework.exceptions.ExpectedWarningException;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ItemNotFoundException extends ExpectedWarningException{
-	private static final long serialVersionUID = 3101514179420977157L;
-
-	/**
-	 * Constructor - Initializes the exception.
-	 */
-	public ItemNotFoundException(){
-		super();
-	}
-
-	/**
-	 * Constructor - Initializes the exception.
-	 * 
-	 * @param message String that contains the exception message.
-	 */
-	public ItemNotFoundException(String message){
-		super(message);
-	}
-
-	/**
-	 * Constructor - Initializes the exception.
-	 * 
-	 * @param exception Instance that contains the caught exception.
-	 */
-	public ItemNotFoundException(Throwable exception){
-		super(exception);
-	}
+    private static final long serialVersionUID = 3101514179420977157L;
+    
+    /**
+     * Constructor - Initializes the exception.
+     */
+    public ItemNotFoundException(){
+        super();
+    }
+    
+    /**
+     * Constructor - Initializes the exception.
+     *
+     * @param message String that contains the exception message.
+     */
+    public ItemNotFoundException(String message){
+        super(message);
+    }
+    
+    /**
+     * Constructor - Initializes the exception.
+     *
+     * @param exception Instance that contains the caught exception.
+     */
+    public ItemNotFoundException(Throwable exception){
+        super(exception);
+    }
 }

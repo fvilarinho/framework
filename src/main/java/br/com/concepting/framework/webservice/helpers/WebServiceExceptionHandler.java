@@ -1,20 +1,20 @@
 package br.com.concepting.framework.webservice.helpers;
 
+import br.com.concepting.framework.exceptions.InternalErrorException;
+import br.com.concepting.framework.util.ExceptionUtil;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import br.com.concepting.framework.exceptions.InternalErrorException;
-import br.com.concepting.framework.util.ExceptionUtil;
-
 /**
  * Class responsible to handle the exceptions from web services calls.
- * 
+ *
  * @author fvilarinho
  * @since 3.5.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,22 +31,22 @@ import br.com.concepting.framework.util.ExceptionUtil;
  */
 @Provider
 public class WebServiceExceptionHandler implements ExceptionMapper<Throwable>{
-	/**
-	 * @see javax.ws.rs.ext.ExceptionMapper#toResponse(java.lang.Throwable)
-	 */
-	public Response toResponse(Throwable exception){
-		if(!ExceptionUtil.isExpectedException(exception) && !ExceptionUtil.isInternalErrorException(exception))
-			exception = new InternalErrorException(exception);
-
-		if(ExceptionUtil.isUserNotAuthorized(exception))
-			return Response.status(Response.Status.UNAUTHORIZED).entity(exception).type(MediaType.APPLICATION_JSON).build();
-		else if(ExceptionUtil.isPermissionDeniedException(exception))
-			return Response.status(Response.Status.FORBIDDEN).entity(exception).type(MediaType.APPLICATION_JSON).build();
-		else if(ExceptionUtil.isInvalidResourceException(exception))
-			return Response.status(Response.Status.NOT_FOUND).entity(exception).type(MediaType.APPLICATION_JSON).build();
-		else if(ExceptionUtil.isInternalErrorException(exception))
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception).type(MediaType.APPLICATION_JSON).build();
-		else
-			return Response.status(Response.Status.PRECONDITION_FAILED).entity(exception).type(MediaType.APPLICATION_JSON).build();
-	}
+    /**
+     * @see javax.ws.rs.ext.ExceptionMapper#toResponse(java.lang.Throwable)
+     */
+    public Response toResponse(Throwable exception){
+        if(!ExceptionUtil.isExpectedException(exception) && !ExceptionUtil.isInternalErrorException(exception))
+            exception = new InternalErrorException(exception);
+        
+        if(ExceptionUtil.isUserNotAuthorized(exception))
+            return Response.status(Response.Status.UNAUTHORIZED).entity(exception).type(MediaType.APPLICATION_JSON).build();
+        else if(ExceptionUtil.isPermissionDeniedException(exception))
+            return Response.status(Response.Status.FORBIDDEN).entity(exception).type(MediaType.APPLICATION_JSON).build();
+        else if(ExceptionUtil.isInvalidResourceException(exception))
+            return Response.status(Response.Status.NOT_FOUND).entity(exception).type(MediaType.APPLICATION_JSON).build();
+        else if(ExceptionUtil.isInternalErrorException(exception))
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(exception).type(MediaType.APPLICATION_JSON).build();
+        else
+            return Response.status(Response.Status.PRECONDITION_FAILED).entity(exception).type(MediaType.APPLICATION_JSON).build();
+    }
 }

@@ -4,11 +4,11 @@ import br.com.concepting.framework.model.MainConsoleModel;
 
 /**
  * Class that defines the basic implementation of the main console form.
- * 
+ *
+ * @param <M> Class that defines the main console data model.
  * @author fvilarinho
  * @version 3.2.0
- * @param <M> Class that defines the main console data model.
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,5 +25,5 @@ import br.com.concepting.framework.model.MainConsoleModel;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class MainConsoleActionForm<M extends MainConsoleModel> extends BaseActionForm<M>{
-	private static final long serialVersionUID = 2246476401602563788L;
+    private static final long serialVersionUID = 2246476401602563788L;
 }

@@ -2,11 +2,11 @@ package br.com.concepting.framework.util.types;
 
 /**
  * Class that defines the types of sort.
- * 
+ *
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,32 +22,32 @@ package br.com.concepting.framework.util.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum SortOrderType{
-	/**
-	 * No sort.
-	 */
-	NONE,
-
-	/**
-	 * Ascend sort.
-	 */
-	ASCEND,
-
-	/**
-	 * Descend sort.
-	 */
-	DESCEND;
-
-	/**
-	 * Returns the identifier of the sort.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	public String getId(){
-		if(this == ASCEND)
-			return toString().toLowerCase().substring(0, 3);
-		else if(this == DESCEND)
-			return toString().toLowerCase().substring(0, 4);
-
-		return "";
-	}
+    /**
+     * No sort.
+     */
+    NONE,
+    
+    /**
+     * Ascend sort.
+     */
+    ASCEND,
+    
+    /**
+     * Descend sort.
+     */
+    DESCEND;
+    
+    /**
+     * Returns the identifier of the sort.
+     *
+     * @return String that contains the identifier.
+     */
+    public String getId(){
+        if(this == ASCEND)
+            return toString().toLowerCase().substring(0, 3);
+        else if(this == DESCEND)
+            return toString().toLowerCase().substring(0, 4);
+        
+        return "";
+    }
 }

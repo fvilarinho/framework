@@ -2,11 +2,11 @@ package br.com.concepting.framework.util.types;
 
 /**
  * Class that defines the types of a formula.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,69 +22,69 @@ package br.com.concepting.framework.util.types;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public enum FormulaType{
-	/**
-	 * No formula.
-	 */
-	NONE,
-	
-	/**
-	 * Count values formula.
-	 */
-	COUNT,
-
-	/**
-	 * Sum values formula.
-	 */
-	SUM,
-
-	/**
-	 * Minimum values formula.
-	 */
-	MIN,
-
-	/**
-	 * Maximum values formula.
-	 */
-	MAX,
-
-	/**
-	 * Average values formula.
-	 */
-	AVERAGE("avg");
-
-	private String id = null;
-
-	/**
-	 * Constructor - Defines the type.
-	 */
-	private FormulaType(){
-		setId(toString().toLowerCase());
-	}
-
-	/**
-	 * Constructor - Defines the type.
-	 * 
-	 * @param id String that contains the identifier of the formula.
-	 */
-	private FormulaType(String id){
-		setId(id);
-	}
-
-	/**
-	 * Returns the identifier of the formula.
-	 * 
-	 * @return String that contains the identifier.
-	 */
-	public String getId(){
-		return this.id;
-	}
-
-	/**
-	 * Defines the identifier of the formula.
-	 * 
-	 * @param id String that contains the identifier.
-	 */
-	public void setId(String id){
-		this.id = id;
-	}
+    /**
+     * No formula.
+     */
+    NONE,
+    
+    /**
+     * Count values formula.
+     */
+    COUNT,
+    
+    /**
+     * Sum values formula.
+     */
+    SUM,
+    
+    /**
+     * Minimum values formula.
+     */
+    MIN,
+    
+    /**
+     * Maximum values formula.
+     */
+    MAX,
+    
+    /**
+     * Average values formula.
+     */
+    AVERAGE("avg");
+    
+    private String id = null;
+    
+    /**
+     * Constructor - Defines the type.
+     */
+    FormulaType(){
+        setId(toString().toLowerCase());
+    }
+    
+    /**
+     * Constructor - Defines the type.
+     *
+     * @param id String that contains the identifier of the formula.
+     */
+    FormulaType(String id){
+        setId(id);
+    }
+    
+    /**
+     * Returns the identifier of the formula.
+     *
+     * @return String that contains the identifier.
+     */
+    public String getId(){
+        return this.id;
+    }
+    
+    /**
+     * Defines the identifier of the formula.
+     *
+     * @param id String that contains the identifier.
+     */
+    public void setId(String id){
+        this.id = id;
+    }
 }

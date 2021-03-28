@@ -5,10 +5,10 @@ import br.com.concepting.framework.model.types.ValidationType;
 
 /**
  * Class that defines validation message for a data model property.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,23 +25,23 @@ import br.com.concepting.framework.model.types.ValidationType;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ValidationActionFormMessage extends ActionFormMessage{
-	private static final long serialVersionUID = 8110226146359639868L;
-
-	/**
-	 * Constructor - Defines the validation message.
-	 * 
-	 * @param key Instance that contains the identifier of the message.
-	 */
-	public ValidationActionFormMessage(ValidationType key){
-		this(key.getId());
-	}
-
-	/**
-	 * Constructor - Defines the validation message.
-	 * 
-	 * @param key String that contains the identifier of the message.
-	 */
-	public ValidationActionFormMessage(String key){
-		super(ActionFormMessageType.VALIDATION, key);
-	}
+    private static final long serialVersionUID = 8110226146359639868L;
+    
+    /**
+     * Constructor - Defines the validation message.
+     *
+     * @param key Instance that contains the identifier of the message.
+     */
+    public ValidationActionFormMessage(ValidationType key){
+        this(key.getId());
+    }
+    
+    /**
+     * Constructor - Defines the validation message.
+     *
+     * @param key String that contains the identifier of the message.
+     */
+    public ValidationActionFormMessage(String key){
+        super(ActionFormMessageType.VALIDATION, key);
+    }
 }

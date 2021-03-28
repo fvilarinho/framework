@@ -6,11 +6,11 @@ import br.com.concepting.framework.util.types.ContentType;
 /**
  * Class that defines the constants used in the manipulation of report files
  * (JasperReports).
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,15 +27,15 @@ import br.com.concepting.framework.util.types.ContentType;
  */
 @SuppressWarnings("javadoc")
 public abstract class ReportConstants{
-	public static final String      EXPORT_TYPE_ATTRIBUTE_ID               = "exportType";
-	public static final String      TEXT_PAGE_WIDTH_ATTRIBUTE_ID           = "textPageWidth";
-	public static final String      TEXT_PAGE_HEIGHT_ATTRIBUTE_ID          = "textPageHeight";
-	public static final String      SUB_REPORT_ATTRIBUTE_ID                = "SUBREPORT_DIR";
-	public static final ContentType DEFAULT_EXPORT_TYPE                    = ContentType.PDF;
-	public static final Integer     DEFAULT_TEXT_PAGE_WIDTH                = 120;
-	public static final Integer     DEFAULT_TEXT_PAGE_HEIGHT               = 80;
-	public static final String      DEFAULT_RESOURCES_DIR                  = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("reports/");
-	public static final String      DEFAULT_PROPERTIES_RESOURCES_DIR       = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat("reports/");
-	public static final String      DEFAULT_COMPILED_REPORT_FILE_EXTENSION = ".jasper";
-	public static final String      DEFAULT_SOURCE_REPORT_FILE_EXTENSION   = ".jrxml";
+    public static final String EXPORT_TYPE_ATTRIBUTE_ID = "exportType";
+    public static final String TEXT_PAGE_WIDTH_ATTRIBUTE_ID = "textPageWidth";
+    public static final String TEXT_PAGE_HEIGHT_ATTRIBUTE_ID = "textPageHeight";
+    public static final String SUB_REPORT_ATTRIBUTE_ID = "SUBREPORT_DIR";
+    public static final ContentType DEFAULT_EXPORT_TYPE = ContentType.PDF;
+    public static final Integer DEFAULT_TEXT_PAGE_WIDTH = 120;
+    public static final Integer DEFAULT_TEXT_PAGE_HEIGHT = 80;
+    public static final String DEFAULT_RESOURCES_DIR = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("reports/");
+    public static final String DEFAULT_PROPERTIES_RESOURCES_DIR = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat("reports/");
+    public static final String DEFAULT_COMPILED_REPORT_FILE_EXTENSION = ".jasper";
+    public static final String DEFAULT_SOURCE_REPORT_FILE_EXTENSION = ".jrxml";
 }

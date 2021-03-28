@@ -8,12 +8,10 @@ import br.com.concepting.framework.util.helpers.XmlNode;
 
 /**
  * Class responsible to manipulate the network services resources.
- * 
- * @author fvilarinho
- * @since 1.0.0
- * @param <R> Class that defines the resources. 
  *
- * <pre>Copyright (C) 2007 Innovative Thinking. 
+ * @param <R> Class that defines the resources.
+ *
+ * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,26 +25,28 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * @author fvilarinho
+ * @since 1.0.0
  */
 public abstract class NetworkResourcesLoader<R extends BaseResources<XmlNode>> extends XmlResourcesLoader<R>{
-	/**
-	 * Constructor - Manipulates the default resources.
-	 * 
-	 * @throws InvalidResourcesException Occurs when the default resources could
-	 * not be read.
-	 */
-	public NetworkResourcesLoader() throws InvalidResourcesException{
-		super(NetworkConstants.DEFAULT_RESOURCES_ID);
-	}
-
-	/**
-	 * Constructor - Manipulates specific resources.
-	 * 
-	 * @param resourcesDirname String that contains the directory where the resources
-	 * are stored.
-	 * @throws InvalidResourcesException Occurs when the resources could not be read.
-	 */
-	public NetworkResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
-		super(resourcesDirname, NetworkConstants.DEFAULT_RESOURCES_ID);
-	}
+    /**
+     * Constructor - Manipulates the default resources.
+     *
+     * @throws InvalidResourcesException Occurs when the default resources could
+     * not be read.
+     */
+    public NetworkResourcesLoader() throws InvalidResourcesException{
+        super(NetworkConstants.DEFAULT_RESOURCES_ID);
+    }
+    
+    /**
+     * Constructor - Manipulates specific resources.
+     *
+     * @param resourcesDirname String that contains the directory where the resources
+     * are stored.
+     * @throws InvalidResourcesException Occurs when the resources could not be read.
+     */
+    public NetworkResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
+        super(resourcesDirname, NetworkConstants.DEFAULT_RESOURCES_ID);
+    }
 }

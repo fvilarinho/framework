@@ -3,10 +3,10 @@ package br.com.concepting.framework.ldap.constants;
 /**
  * Class that defines the constants used in the manipulation of the LDAP
  * service.
- * 
+ *
  * @author fvilarinho
  * @since 3.0.0
- * 
+ *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,11 +24,11 @@ package br.com.concepting.framework.ldap.constants;
  */
 @SuppressWarnings("javadoc")
 public abstract class LdapConstants{
-	public static final String  BASE_DN_ATTRIBUTE_ID        = "baseDn";
-	public static final String  USER_DN_ATTRIBUTE_ID        = "userDn";
-	public static final String  TIMEOUT_ATTRIBUTE_ID        = "com.sun.jndi.ldap.read.timeout";
-	public static final String  DEFAULT_AUTHENTICATION_TYPE = "simple";
-	public static final String  DEFAULT_ID                  = "ldap";  
-	public static final Integer DEFAULT_PORT                = 389;
-	public static final Long    DEFAULT_TIMEOUT             = 60000l;
+    public static final String BASE_DN_ATTRIBUTE_ID = "baseDn";
+    public static final String USER_DN_ATTRIBUTE_ID = "userDn";
+    public static final String TIMEOUT_ATTRIBUTE_ID = "com.sun.jndi.ldap.read.timeout";
+    public static final String DEFAULT_AUTHENTICATION_TYPE = "simple";
+    public static final String DEFAULT_ID = "ldap";
+    public static final Integer DEFAULT_PORT = 389;
+    public static final Long DEFAULT_TIMEOUT = 60000l;
 }
