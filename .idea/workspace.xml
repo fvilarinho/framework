@@ -249,7 +249,14 @@
       <option name="project" value="LOCAL" />
       <updated>1616945330609</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Bug fixes and code improvements.">
+      <created>1619024080481</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1619024080481</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,7 +282,8 @@
     <MESSAGE value="Adding JCache implementation for hibernage second level cache." />
     <MESSAGE value="Bug fixes." />
     <MESSAGE value="New version." />
-    <option name="LAST_COMMIT_MESSAGE" value="New version." />
+    <MESSAGE value="Bug fixes and code improvements." />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fixes and code improvements." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

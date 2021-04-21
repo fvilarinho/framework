@@ -37,7 +37,7 @@ Installation
 The pre-requisites to use the framework are:
 
 1. **Java Development Kit 1.8.x**
-2. **Gradle 6.6.1**
+2. **Gradle 6.8.x**
 
 To start using the framework, you should clone the project from BitBucket and then import it into your IDE.
 Now I'm using Eclipse IDE for JEE Developers. This IDE already has an integration with GitHub but if you use an another tool and it doesn't have a GitHub integration, you should use the git client. To clone the repository just run the command below:
@@ -47,7 +47,7 @@ Now I'm using Eclipse IDE for JEE Developers. This IDE already has an integratio
 After the cloning, you can choose the version that you want to work.
 To use the development version (Unstable), execute the command below:
 
-`git checkout master`
+`git checkout develop`
 
 To use the last stable version, execute the command below:
 
