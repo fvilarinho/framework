@@ -5,6 +5,7 @@ import br.com.concepting.framework.util.helpers.ProbeOptions;
 import br.com.concepting.framework.util.types.ProbeType;
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -20,7 +21,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.NoSuchElementException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -337,7 +337,7 @@ public class Probe extends WebDriverBackedSelenium{
     }
     
     @Override
-    public void mouseMove(String elementId){
+    public void mouseMove(String elementId) throws NoSuchElementException, TimeoutException{
         WebElement element = lookupElement(elementId);
         Actions action = new Actions(getWrappedDriver());
         
@@ -357,14 +357,7 @@ public class Probe extends WebDriverBackedSelenium{
         }
     }
     
-    /**
-     * Lookup for a element based on a identifier.
-     *
-     * @param elementId String that contains the identifier.
-     * @return Instance that contains the element.
-     * @throws NoSuchElementException Occurs when was not possible to find the element.
-     */
-    public WebElement lookupElement(String elementId) throws NoSuchElementException{
+    public WebElement lookupElement(String elementId) throws NoSuchElementException, TimeoutException{
         WebElement element = null;
         WebDriver driver = getWrappedDriver();
         
@@ -389,26 +382,11 @@ public class Probe extends WebDriverBackedSelenium{
         return element;
     }
     
-    /**
-     * List all elements of the current page based on a identifier.
-     *
-     * @param elementId String that contains the identifier.
-     * @return List that contains the found elements.
-     * @throws NoSuchElementException Occurs when was not possible to find the elements.
-     */
-    public List<WebElement> lookupElements(String elementId) throws NoSuchElementException{
+    public List<WebElement> lookupElements(String elementId) throws NoSuchElementException, TimeoutException{
         return lookupElements(null, elementId);
     }
     
-    /**
-     * List all elements of a parent based on a identifier.
-     *
-     * @param parent Instance that contains the parent.
-     * @param elementId String that contains the identifier.
-     * @return List that contains the found elements.
-     * @throws NoSuchElementException Occurs when was not possible to find the elements.
-     */
-    public List<WebElement> lookupElements(WebElement parent, String elementId) throws NoSuchElementException{
+    public List<WebElement> lookupElements(WebElement parent, String elementId) throws NoSuchElementException, TimeoutException{
         List<WebElement> elements = null;
         WebDriver driver = getWrappedDriver();
         
@@ -451,33 +429,17 @@ public class Probe extends WebDriverBackedSelenium{
         return elements;
     }
     
-    /**
-     * Submits a form.
-     *
-     * @param formId String that contains the identifier of the form.
-     */
-    public void submit(String formId){
+    public void submit(String formId) throws NoSuchElementException, TimeoutException{
         WebElement element = lookupElement(formId);
         
         element.submit();
     }
     
-    /**
-     * Waits until the page loads or the timeout is reached.
-     *
-     * @return Numeric value that contains the fully loaded time (in milliseconds).
-     */
-    public Long waitForPageToLoad(){
+    public Long waitForPageToLoad() throws TimeoutException{
         return waitForPageToLoad(this.options.getTimeout());
     }
     
-    /**
-     * Waits until the page loads or the timeout is reached.
-     *
-     * @param timeout Numeric value that contains the timeout (in seconds).
-     * @return Numeric value that contains the fully loaded time (in milliseconds).
-     */
-    public Long waitForPageToLoad(Integer timeout){
+    public Long waitForPageToLoad(Integer timeout) throws TimeoutException{
         WebDriver driver = getWrappedDriver();
         
         new WebDriverWait(driver, timeout).until(new ExpectedCondition<Boolean>(){
@@ -548,23 +510,12 @@ public class Probe extends WebDriverBackedSelenium{
         
         return fullyLoadedTime;
     }
-    
-    /**
-     * Waits until a element is present in the current page or the timeout is reached.
-     *
-     * @param elementId String that contains the identifier of the element.
-     */
-    public void waitForElementPresent(String elementId){
+
+    public void waitForElementPresent(String elementId) throws NoSuchElementException, TimeoutException{
         waitForElementPresent(elementId, this.options.getTimeout());
     }
-    
-    /**
-     * Waits until a element is present in the current page or the timeout is reached.
-     *
-     * @param elementId String that contains the identifier of the element.
-     * @param timeout Numeric value that contains the timeout (in seconds).
-     */
-    public void waitForElementPresent(String elementId, Integer timeout){
+
+    public void waitForElementPresent(String elementId, Integer timeout) throws NoSuchElementException, TimeoutException{
         WebElement element = null;
         int count = 0;
         
@@ -587,23 +538,12 @@ public class Probe extends WebDriverBackedSelenium{
         
         throw new TimeoutException(timeout.toString());
     }
-    
-    /**
-     * Waits until a text is present in the current page or the timeout is reached.
-     *
-     * @param text String that contains the text.
-     */
-    public void waitForTextPresent(String text){
+
+    public void waitForTextPresent(String text) throws TimeoutException{
         waitForTextPresent(text, this.options.getTimeout());
     }
     
-    /**
-     * Waits until a text is present in the current page or the timeout is reached.
-     *
-     * @param text String that contains the text.
-     * @param timeout Numeric value that contains the timeout (in seconds).
-     */
-    public void waitForTextPresent(String text, Integer timeout){
+    public void waitForTextPresent(String text, Integer timeout) throws TimeoutException{
         int count = 0;
         
         do{
@@ -624,22 +564,11 @@ public class Probe extends WebDriverBackedSelenium{
         throw new TimeoutException(timeout.toString());
     }
     
-    /**
-     * Waits until a element is visible in the current page or the timeout is reached.
-     *
-     * @param elementId String that contains the identifier of the element.
-     */
-    public void waitForElementVisible(String elementId){
+    public void waitForElementVisible(String elementId) throws NoSuchElementException, TimeoutException{
         waitForElementVisible(elementId, this.options.getTimeout());
     }
     
-    /**
-     * Waits until a element is visible in the current page or the timeout is reached.
-     *
-     * @param elementId String that contains the identifier of the element.
-     * @param timeout Numeric value that contains the timeout (in seconds).
-     */
-    public void waitForElementVisible(String elementId, Integer timeout){
+    public void waitForElementVisible(String elementId, Integer timeout) throws NoSuchElementException, TimeoutException{
         WebElement element = null;
         int count = 0;
         
@@ -663,22 +592,11 @@ public class Probe extends WebDriverBackedSelenium{
         throw new TimeoutException(timeout.toString());
     }
     
-    /**
-     * Waits until a element is editable in the current page or the timeout is reached.
-     *
-     * @param elementId String that contains the identifier of the element.
-     */
-    public void waitForElementEditable(String elementId){
+    public void waitForElementEditable(String elementId) throws NoSuchElementException, TimeoutException{
         waitForElementEditable(elementId, this.options.getTimeout());
     }
-    
-    /**
-     * Waits until a element is editable in the current page or the timeout is reached.
-     *
-     * @param elementId String that contains the identifier of the element.
-     * @param timeout Numeric value that contains the timeout (in seconds).
-     */
-    public void waitForElementEditable(String elementId, Integer timeout){
+
+    public void waitForElementEditable(String elementId, Integer timeout) throws NoSuchElementException, TimeoutException{
         WebElement element = null;
         int count = 0;
         
@@ -712,22 +630,11 @@ public class Probe extends WebDriverBackedSelenium{
         return (cookie != null);
     }
     
-    /**
-     * Waits until a cookie is present in the current page or the timeout is reached.
-     *
-     * @param name String that contains the cookie name.
-     */
-    public void waitForCookiePresent(String name){
+    public void waitForCookiePresent(String name) throws TimeoutException{
         waitForCookiePresent(name, this.options.getTimeout());
     }
     
-    /**
-     * Waits until a cookie is present in the current page or the timeout is reached.
-     *
-     * @param name String that contains the cookie name.
-     * @param timeout Numeric value that contains the timeout (in seconds).
-     */
-    public void waitForCookiePresent(String name, Integer timeout){
+    public void waitForCookiePresent(String name, Integer timeout) throws TimeoutException{
         int count = 0;
         
         do{
@@ -748,19 +655,11 @@ public class Probe extends WebDriverBackedSelenium{
         throw new TimeoutException(timeout.toString());
     }
     
-    /**
-     * Waits until an alert is present in the current page or the timeout is reached.
-     */
-    public void waitForAlertPresent(){
+    public void waitForAlertPresent() throws TimeoutException{
         waitForAlertPresent(this.options.getTimeout());
     }
-    
-    /**
-     * Waits until an alert is present in the current page or the timeout is reached.
-     *
-     * @param timeout Numeric value that contains the timeout (in seconds).
-     */
-    public void waitForAlertPresent(Integer timeout){
+
+    public void waitForAlertPresent(Integer timeout) throws TimeoutException{
         WebDriver driver = getWrappedDriver();
         int count = 0;
         
@@ -786,22 +685,11 @@ public class Probe extends WebDriverBackedSelenium{
         throw new TimeoutException(timeout.toString());
     }
     
-    /**
-     * Waits until a title is present in the current page or the timeout is reached.
-     *
-     * @param title String that contains the title.
-     */
-    public void waitForTitle(String title){
+    public void waitForTitle(String title) throws TimeoutException{
         waitForTitle(title, this.options.getTimeout());
     }
-    
-    /**
-     * Waits until a title is present in the current page or the timeout is reached.
-     *
-     * @param title String that contains the title.
-     * @param timeout Numeric value that contains the timeout (in seconds).
-     */
-    public void waitForTitle(String title, Integer timeout){
+
+    public void waitForTitle(String title, Integer timeout) throws TimeoutException{
         int count = 0;
         
         do{
@@ -825,45 +713,28 @@ public class Probe extends WebDriverBackedSelenium{
         
         throw new TimeoutException(timeout.toString());
     }
-    
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#focus(java.lang.String)
-     */
-    public void focus(String elementId){
+
+    public void focus(String elementId) throws NoSuchElementException, TimeoutException{
         WebElement element = lookupElement(elementId);
         Actions action = new Actions(getWrappedDriver());
         
         action.moveToElement(element).build().perform();
     }
     
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#click(java.lang.String)
-     */
-    public void click(String elementId){
+    public void click(String elementId) throws NoSuchElementException, TimeoutException{
         WebElement element = lookupElement(elementId);
         Actions action = new Actions(getWrappedDriver());
         
         action.click(element).build().perform();
     }
     
-    /**
-     * Click and wait the page load.
-     *
-     * @param elementId String that contains the identifier of the element.
-     */
-    public void clickAndWait(String elementId){
+    public void clickAndWait(String elementId) throws NoSuchElementException, TimeoutException{
         click(elementId);
         
         waitForPageToLoad();
     }
     
-    /**
-     * Click and wait the page load.
-     *
-     * @param elementId String that contains the identifier of the element.
-     * @param timeout Numeric value that contains the timeout (in seconds).
-     */
-    public void clickAndWait(String elementId, Integer timeout){
+    public void clickAndWait(String elementId, Integer timeout) throws NoSuchElementException, TimeoutException{
         click(elementId);
         
         waitForPageToLoad(timeout);
@@ -900,10 +771,7 @@ public class Probe extends WebDriverBackedSelenium{
         }
     }
     
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#type(java.lang.String, java.lang.String)
-     */
-    public void type(String elementId, String value){
+    public void type(String elementId, String value) throws NoSuchElementException, TimeoutException{
         focus(elementId);
         
         WebElement element = lookupElement(elementId);
@@ -911,52 +779,28 @@ public class Probe extends WebDriverBackedSelenium{
         element.sendKeys(value);
     }
     
-    /**
-     * Executes a script.
-     *
-     * @param <O> Class that defines the result of the execution.
-     * @param script String that contains the script (Javascript).
-     * @return Instance that contains the result of the execution.
-     */
     @SuppressWarnings("unchecked")
-    public <O> O executeScript(String script){
+    public <O> O executeScript(String script) throws TimeoutException{
         JavascriptExecutor executor = (JavascriptExecutor) getWrappedDriver();
         
         return (O) executor.executeScript(script);
     }
     
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#runScript(java.lang.String)
-     */
-    public void runScript(String script){
+    public void runScript(String script) throws TimeoutException{
         executeScript(script);
     }
     
-    /**
-     * Runs a script and wait the page load.
-     *
-     * @param script String that contains the script (Javascript).
-     */
-    public void runScriptAndWait(String script){
+    public void runScriptAndWait(String script) throws TimeoutException{
         runScriptAndWait(script, this.options.getTimeout());
     }
     
-    /**
-     * Runs a script and wait the page load.
-     *
-     * @param script String that contains the script (Javascript).
-     * @param timeout Numeric value that contains the timeout (in seconds).
-     */
-    public void runScriptAndWait(String script, Integer timeout){
+    public void runScriptAndWait(String script, Integer timeout) throws TimeoutException{
         runScript(script);
         
         waitForPageToLoad(timeout);
     }
     
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#open(java.lang.String)
-     */
-    public void open(String url){
+    public void open(String url) throws TimeoutException{
         WebDriver driver = getWrappedDriver();
         
         if(this.url == null || this.url.length() == 0){

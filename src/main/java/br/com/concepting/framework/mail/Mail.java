@@ -340,17 +340,11 @@ public class Mail{
      * @return Instance that contains the transport session.
      */
     private Session getTransportSession(){
-        Session session = null;
-        
-        if(this.resources.getTransportUseSsl() != null && this.resources.getTransportUseSsl()){
-            session = Session.getDefaultInstance(this.properties, new Authenticator(){
-                protected PasswordAuthentication getPasswordAuthentication(){
-                    return new PasswordAuthentication(Mail.this.resources.getTransportUserName(), Mail.this.resources.getTransportPassword());
-                }
-            });
-        }
-        else
-            session = Session.getDefaultInstance(this.properties, null);
+        Session session = Session.getDefaultInstance(this.properties, new Authenticator(){
+            protected PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication(Mail.this.resources.getTransportUserName(), Mail.this.resources.getTransportPassword());
+            }
+        });
         
         return session;
     }
@@ -361,17 +355,11 @@ public class Mail{
      * @return Instance that contains the storage session.
      */
     private Session getStorageSession(){
-        Session session = null;
-        
-        if(this.resources.getTransportUseSsl() != null && this.resources.getTransportUseSsl()){
-            session = Session.getDefaultInstance(this.properties, new Authenticator(){
-                protected PasswordAuthentication getPasswordAuthentication(){
-                    return new PasswordAuthentication(Mail.this.resources.getStorageUserName(), Mail.this.resources.getStoragePassword());
-                }
-            });
-        }
-        else
-            session = Session.getDefaultInstance(this.properties, null);
+        Session session = Session.getDefaultInstance(this.properties, new Authenticator(){
+            protected PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication(Mail.this.resources.getStorageUserName(), Mail.this.resources.getStoragePassword());
+            }
+        });
         
         return session;
     }
@@ -398,12 +386,8 @@ public class Mail{
             buildHeader(message, sendMessage);
             buildBody(message, sendMessage);
             
-            if(!transport.isConnected()){
-                if(this.resources.getTransportUserName() != null && this.resources.getTransportUserName().length() > 0)
-                    transport.connect(this.resources.getTransportServerName(), this.resources.getTransportUserName(), this.resources.getTransportPassword());
-                else
-                    transport.connect();
-            }
+            if(!transport.isConnected())
+                transport.connect(this.resources.getTransportServerName(), this.resources.getTransportServerPort(), this.resources.getTransportUserName(), this.resources.getTransportPassword());
             
             transport.sendMessage(sendMessage, sendMessage.getAllRecipients());
         }
@@ -427,11 +411,11 @@ public class Mail{
     public void asyncSend(final MailMessage message){
         Thread thread = new Thread(){
             public void run(){
-                try{
-                    send(message);
-                }
-                catch(MessagingException | IOException e){
-                }
+            try{
+                send(message);
+            }
+            catch(MessagingException | IOException e){
+            }
             }
         };
         
@@ -611,7 +595,7 @@ public class Mail{
             storage = session.getStore();
             
             if(!storage.isConnected())
-                storage.connect(this.resources.getStorageServerName(), this.resources.getStorageUserName(), this.resources.getStoragePassword());
+                storage.connect(this.resources.getStorageServerName(), this.resources.getStorageServerPort(), this.resources.getStorageUserName(), this.resources.getStoragePassword());
             
             folder = storage.getFolder(folderName);
             
