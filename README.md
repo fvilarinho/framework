@@ -28,7 +28,7 @@ If you want to contribute with us, just fork the project that is located in GitH
 Build Status
 ============
 
-* ![3.8.1](https://github.com/concepting-com-br/framework/workflows/CI/CD/badge.svg)
+* ![](https://github.com/concepting-com-br/framework/workflows/CI/CD/badge.svg)
 
 
 Installation
