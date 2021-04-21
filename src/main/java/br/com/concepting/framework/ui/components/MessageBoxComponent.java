@@ -207,6 +207,9 @@ public class MessageBoxComponent extends DialogBoxComponent{
                     
                     setResourcesKey(resourcesKey.toString());
                 }
+                
+                if(this.exception.getMessage() != null && this.exception.getMessage().length() > 0)
+                    setMessage(this.exception.getMessage());
             }
         }
         
