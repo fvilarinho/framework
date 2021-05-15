@@ -3,6 +3,7 @@ package br.com.concepting.framework.security.controller;
 import br.com.concepting.framework.controller.SystemController;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
+import br.com.concepting.framework.security.model.LoginParameterModel;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.security.resources.SecurityResources;
@@ -69,7 +70,7 @@ public class LoginSessionListener implements HttpSessionListener{
      * instantiate the service implementation.
      */
     @SuppressWarnings("unchecked")
-    protected <S extends LoginSessionService<? extends LoginSessionModel, ? extends UserModel>> S getService() throws InternalErrorException{
+    protected <S extends LoginSessionService<? extends LoginSessionModel, ? extends UserModel, ? extends LoginParameterModel>> S getService() throws InternalErrorException{
         if(this.loginSession != null)
             return getService(this.loginSession.getClass());
         
@@ -163,7 +164,7 @@ public class LoginSessionListener implements HttpSessionListener{
      */
     protected void onDestroy() throws InternalErrorException{
         if(this.loginSession != null){
-            LoginSessionService<? extends LoginSessionModel, ? extends UserModel> loginSessionService = getService();
+            LoginSessionService<? extends LoginSessionModel, ? extends UserModel, ? extends LoginParameterModel> loginSessionService = getService();
             
             loginSessionService.logOut();
             

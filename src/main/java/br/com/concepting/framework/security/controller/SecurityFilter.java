@@ -109,14 +109,13 @@ public class SecurityFilter implements Filter{
     /**
      * Returns the service implementation of a specific data model.
      *
-     * @param <M> Class that defines a data model.
      * @param <S> Class that defines the service implementation.
      * @param modelClass Class that defines the data model.
      * @return Instance that contains the service implementation of the data model.
      * @throws InternalErrorException Occurs when was not possible to
      * instantiate the service implementation.
      */
-    protected <M extends BaseModel, S extends IService<M>> S getService(Class<M> modelClass) throws InternalErrorException{
+    protected <S extends IService<? extends BaseModel>> S getService(Class<? extends BaseModel> modelClass) throws InternalErrorException{
         if(modelClass != null){
             LoginSessionModel loginSession = this.securityController.getLoginSession();
             
@@ -234,18 +233,18 @@ public class SecurityFilter implements Filter{
      * the filter.
      */
     @SuppressWarnings("unchecked")
-    protected void initialize() throws UserNotAuthorizedException, PermissionDeniedException, InternalErrorException{
+    protected <L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> void initialize() throws UserNotAuthorizedException, PermissionDeniedException, InternalErrorException{
         this.securityController = this.systemController.getSecurityController();
         
-        LoginSessionModel loginSession = (this.securityController != null ? this.securityController.getLoginSession() : null);
+        L loginSession = (this.securityController != null ? this.securityController.getLoginSession() : null);
         
         if(loginSession != null){
             Boolean isWebServicesRequest = (this.systemController != null ? this.systemController.isWebServicesRequest() : null);
             
             if(isWebServicesRequest != null && isWebServicesRequest){
                 if(loginSession.getId() != null && loginSession.getId().length() > 0){
-                    Class<LoginSessionModel> loginSessionClass = (Class<LoginSessionModel>) loginSession.getClass();
-                    LoginSessionService<LoginSessionModel, UserModel> loginSessionService = null;
+                    Class<L> loginSessionClass = (Class<L>)loginSession.getClass();
+                    LoginSessionService<L, U, LP> loginSessionService = null;
                     
                     try{
                         loginSessionService = getService(loginSessionClass);

@@ -4,6 +4,7 @@ import br.com.concepting.framework.audit.annotations.Auditable;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.security.constants.SecurityConstants;
 import br.com.concepting.framework.security.exceptions.*;
+import br.com.concepting.framework.security.model.LoginParameterModel;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.security.service.interfaces.LoginSessionService;
@@ -22,7 +23,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @param <L> Class that defines the login session data model.
  * @param <U> Class that defines the user data model.
- * @author fvilarinho
+ * @param <LP> Class that defines the login parameter data model.
  * @since 3.3.0
  *
  * <pre>Copyright (C) 2007 Innovative Thinking.
@@ -40,7 +41,7 @@ import javax.ws.rs.core.MediaType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-public abstract class LoginSessionWebServiceImpl<L extends LoginSessionModel, U extends UserModel> extends BaseWebService<L> implements LoginSessionWebService<L, U>{
+public abstract class LoginSessionWebServiceImpl<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseWebService<L> implements LoginSessionWebService<L, U, LP>{
     /**
      * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#sendForgottenPassword(br.com.concepting.framework.security.model.UserModel)
      */
@@ -48,8 +49,9 @@ public abstract class LoginSessionWebServiceImpl<L extends LoginSessionModel, U 
     @Path("sendForgottenPassword")
     @Consumes(MediaType.APPLICATION_JSON)
     @Auditable
+    @Override
     public void sendForgottenPassword(U user) throws UserNotFoundException, UserBlockedException, InternalErrorException{
-        LoginSessionService<L, U> loginSessionService = getService();
+        LoginSessionService<L, U, LP> loginSessionService = getService();
         
         loginSessionService.sendForgottenPassword(user);
     }
@@ -62,8 +64,9 @@ public abstract class LoginSessionWebServiceImpl<L extends LoginSessionModel, U 
     @Path("changePassword")
     @Consumes(MediaType.APPLICATION_JSON)
     @Auditable
+    @Override
     public U changePassword(U user) throws PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException{
-        LoginSessionService<L, U> service = getService();
+        LoginSessionService<L, U, LP> service = getService();
         L loginSession = getLoginSession();
         U currentUser = loginSession.getUser();
         
@@ -83,8 +86,9 @@ public abstract class LoginSessionWebServiceImpl<L extends LoginSessionModel, U 
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Auditable
+    @Override
     public void validateMfaToken(U user) throws InvalidMfaTokenException, InternalErrorException{
-        LoginSessionService<L, U> service = getService();
+        LoginSessionService<L, U, LP> service = getService();
         L loginSession = getLoginSession();
         U currentUser = loginSession.getUser();
         
@@ -99,8 +103,9 @@ public abstract class LoginSessionWebServiceImpl<L extends LoginSessionModel, U 
     @POST
     @Path("logOut")
     @Auditable
+    @Override
     public void logOut() throws InternalErrorException{
-        LoginSessionService<L, U> service = getService();
+        LoginSessionService<L, U, LP> service = getService();
         
         service.logOut();
         
@@ -110,6 +115,7 @@ public abstract class LoginSessionWebServiceImpl<L extends LoginSessionModel, U 
     /**
      * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#logOutAll()
      */
+    @Override
     public void logOutAll() throws InternalErrorException{
     }
     
@@ -121,8 +127,9 @@ public abstract class LoginSessionWebServiceImpl<L extends LoginSessionModel, U 
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Auditable
+    @Override
     public L logIn(U user) throws UserAlreadyLoggedInException, UserNotFoundException, UserBlockedException, InvalidPasswordException, PermissionDeniedException, InternalErrorException{
-        LoginSessionService<L, U> service = getService();
+        LoginSessionService<L, U, LP> service = getService();
         L loginSession = service.logIn(user);
         
         getSystemController().addCookie(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, loginSession.getId(), true);

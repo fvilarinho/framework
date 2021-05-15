@@ -8,6 +8,7 @@ import br.com.concepting.framework.model.SystemSessionModel;
 import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.SystemResourcesLoader;
+import br.com.concepting.framework.security.model.LoginParameterModel;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.security.resources.SecurityResources;
@@ -60,6 +61,7 @@ import java.util.concurrent.TimeUnit;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 @WebListener
+@SuppressWarnings("unchecked")
 public class ServiceListener implements ServletContextListener{
     private static ScheduledExecutorService scheduledExecutor = null;
     private static ExecutorService executor = null;
@@ -105,13 +107,17 @@ public class ServiceListener implements ServletContextListener{
      * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
      */
     public void contextDestroyed(ServletContextEvent event){
+        onDestroy(event);
+    }
+    
+    protected <L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> void onDestroy(ServletContextEvent event){
         setEvent(event);
-        
+    
         try{
             SecurityResourcesLoader loader = new SecurityResourcesLoader();
             SecurityResources resources = loader.getDefault();
-            Class<? extends LoginSessionModel> loginSessionClass = resources.getLoginSessionClass();
-            LoginSessionService<? extends LoginSessionModel, ? extends UserModel> loginSessionService = getService(loginSessionClass);
+            Class<L> loginSessionClass = (Class<L>)resources.getLoginSessionClass();
+            LoginSessionService<L, U, LP> loginSessionService = getService(loginSessionClass);
             
             loginSessionService.logOutAll();
         }
@@ -144,8 +150,12 @@ public class ServiceListener implements ServletContextListener{
      * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent event){
+        onInitialize(event);
+    }
+    
+    protected <L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel, SM extends SystemModuleModel, SS extends SystemSessionModel> void onInitialize(ServletContextEvent event){
         setEvent(event);
-        
+
         Runnable serviceListenerRunnable = new Runnable(){
             /**
              * @see java.lang.Runnable#run()
@@ -158,27 +168,27 @@ public class ServiceListener implements ServletContextListener{
                     ServiceListener.this.loginSession.setStartDateTime(new DateTime());
                     ServiceListener.this.loginSession.setActive(true);
                     
-                    UserModel user = ServiceListener.this.loginSession.getUser();
-                    Class<UserModel> userClass = (Class<UserModel>) user.getClass();
-                    IService<UserModel> userService = getService(userClass);
+                    U user = ServiceListener.this.loginSession.getUser();
+                    Class<U> userClass = (Class<U>)user.getClass();
+                    IService<U> userService = getService(userClass);
                     
                     user.setName(SecurityUtil.getSystemUserName());
                     user.setActive(true);
                     
-                    Collection<UserModel> users = userService.search(user);
+                    Collection<U> users = userService.search(user);
                     
                     if(users != null && !users.isEmpty()){
                         user = users.iterator().next();
                         
                         ServiceListener.this.loginSession.setUser(user);
                         
-                        SystemModuleModel systemModule = ServiceListener.this.loginSession.getSystemModule();
-                        Class<SystemModuleModel> systemModuleClass = (Class<SystemModuleModel>) systemModule.getClass();
-                        IService<SystemModuleModel> systemModuleService = getService(systemModuleClass);
+                        SM systemModule = ServiceListener.this.loginSession.getSystemModule();
+                        Class<SM> systemModuleClass = (Class<SM>) systemModule.getClass();
+                        IService<SM> systemModuleService = getService(systemModuleClass);
                         
                         systemModule.setUrl(event.getServletContext().getContextPath());
                         
-                        Collection<SystemModuleModel> systemModules = systemModuleService.search(systemModule);
+                        Collection<SM> systemModules = systemModuleService.search(systemModule);
                         
                         if(systemModules != null && !systemModules.isEmpty()){
                             systemModule = systemModules.iterator().next();
@@ -186,9 +196,9 @@ public class ServiceListener implements ServletContextListener{
                             ServiceListener.this.loginSession.setSystemModule(systemModule);
                             
                             InetAddress localhost = InetAddress.getLocalHost();
-                            SystemSessionModel systemSession = ServiceListener.this.loginSession.getSystemSession();
-                            Class<SystemSessionModel> systemSessionClass = (Class<SystemSessionModel>) systemSession.getClass();
-                            IService<SystemSessionModel> systemSessionService = getService(systemSessionClass);
+                            SS systemSession = ServiceListener.this.loginSession.getSystemSession();
+                            Class<SS> systemSessionClass = (Class<SS>) systemSession.getClass();
+                            IService<SS> systemSessionService = getService(systemSessionClass);
                             
                             systemSession.setId(ServiceListener.this.loginSession.getId());
                             systemSession.setStartDateTime(ServiceListener.this.loginSession.getStartDateTime());
@@ -203,11 +213,11 @@ public class ServiceListener implements ServletContextListener{
                             
                             ServiceListener.this.loginSession.setSystemSession(systemSession);
                             
-                            Class<LoginSessionModel> loginSessionClass = (Class<LoginSessionModel>) ServiceListener.this.loginSession.getClass();
-                            LoginSessionService<LoginSessionModel, UserModel> loginSessionService = getService(loginSessionClass);
+                            Class<L> loginSessionClass = (Class<L>) ServiceListener.this.loginSession.getClass();
+                            LoginSessionService<L, U, LP> loginSessionService = getService(loginSessionClass);
                             
                             try{
-                                ServiceListener.this.loginSession = loginSessionService.save(ServiceListener.this.loginSession);
+                                ServiceListener.this.loginSession = loginSessionService.save((L)ServiceListener.this.loginSession);
                             }
                             catch(ItemAlreadyExistsException e1){
                             }
