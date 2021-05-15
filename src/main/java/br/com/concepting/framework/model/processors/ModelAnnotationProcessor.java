@@ -973,105 +973,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
     }
     
     /**
-     * Generates the persistence structure.
-     *
-     * @param persistenceStructureTemplateFilename String that contains the persistence class template filename.
-     * @throws InternalErrorException Occurs when was not possible to generate
-     * the class.
-     */
-    @Tag(ProjectConstants.DEFAULT_PERSISTENCE_STRUCTURE_TEMPLATE_FILE_ID)
-    public void generatePersistenceStructure(String persistenceStructureTemplateFilename) throws InternalErrorException{
-        try{
-            File persistenceStructureTemplateFile = new File(persistenceStructureTemplateFilename);
-            XmlReader persistenceStructureTemplateReader = new XmlReader(persistenceStructureTemplateFile);
-            String encoding = persistenceStructureTemplateReader.getEncoding();
-            XmlNode persistenceStructureTemplateNode = persistenceStructureTemplateReader.getRoot();
-            List<XmlNode> persistenceStructureTemplateArtifactsNode = persistenceStructureTemplateNode.getChildren();
-            
-            if(persistenceStructureTemplateArtifactsNode != null && !persistenceStructureTemplateArtifactsNode.isEmpty()){
-                ProcessorFactory processorFactory = ProcessorFactory.getInstance();
-                ExpressionProcessor expressionProcessor = new ExpressionProcessor(this.modelInfo);
-                
-                for(XmlNode persistenceStructureTemplateArtifactNode: persistenceStructureTemplateArtifactsNode){
-                    String outputDir = expressionProcessor.evaluate(persistenceStructureTemplateArtifactNode.getAttribute(Constants.OUTPUT_DIRECTORY_ATTRIBUTE_ID));
-                    String packagePrefix = expressionProcessor.evaluate(persistenceStructureTemplateArtifactNode.getAttribute(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID));
-                    String packageName = expressionProcessor.evaluate(persistenceStructureTemplateArtifactNode.getAttribute(Constants.PACKAGE_NAME_ATTRIBUTE_ID));
-                    String packageSuffix = expressionProcessor.evaluate(persistenceStructureTemplateArtifactNode.getAttribute(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID));
-                    String name = expressionProcessor.evaluate(persistenceStructureTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
-                    StringBuilder packageNameBuffer = new StringBuilder();
-                    
-                    if(packagePrefix != null && packagePrefix.length() > 0)
-                        packageNameBuffer.append(packagePrefix);
-                    
-                    if(packageName != null && packageName.length() > 0){
-                        if(packageNameBuffer.length() > 0)
-                            packageNameBuffer.append(".");
-                        
-                        packageNameBuffer.append(packageName);
-                    }
-                    
-                    if(packageSuffix != null && packageSuffix.length() > 0){
-                        if(packageNameBuffer.length() > 0)
-                            packageNameBuffer.append(".");
-                        
-                        packageNameBuffer.append(packageSuffix);
-                    }
-                    
-                    packageName = packageNameBuffer.toString();
-                    
-                    StringBuilder persistenceStructureName = new StringBuilder();
-                    
-                    if(packageName != null && packageName.length() > 0){
-                        persistenceStructureName.append(packageName);
-                        persistenceStructureName.append(".");
-                    }
-                    
-                    persistenceStructureName.append(name);
-                    
-                    StringBuilder persistenceStructureFilename = new StringBuilder();
-                    
-                    if(outputDir != null && outputDir.length() > 0){
-                        persistenceStructureFilename.append(outputDir);
-                        persistenceStructureFilename.append(FileUtil.getDirectorySeparator());
-                    }
-                    else{
-                        persistenceStructureFilename.append(this.build.getBaseDirname());
-                        persistenceStructureFilename.append(FileUtil.getDirectorySeparator());
-                        persistenceStructureFilename.append(ProjectConstants.DEFAULT_PERSISTENCE_DIR);
-                    }
-                    
-                    persistenceStructureFilename.append(StringUtil.replaceAll(persistenceStructureName.toString(), ".", FileUtil.getDirectorySeparator()));
-                    persistenceStructureFilename.append(PersistenceConstants.DEFAULT_FILE_EXTENSION);
-                    
-                    File persistenceStructureFile = new File(persistenceStructureFilename.toString());
-                    
-                    if(!persistenceStructureFile.exists()){
-                        if((this.modelInfo.generatePersistence() != null && this.modelInfo.generatePersistence()) || (this.modelInfo.generateService() != null && this.modelInfo.generateService())){
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
-                            ExpressionProcessorUtil.setVariable(Constants.NAME_ATTRIBUTE_ID, name);
-                            
-                            GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, persistenceStructureTemplateArtifactNode);
-                            String persistenceStructureContent = processor.process();
-                            
-                            if(persistenceStructureContent != null && persistenceStructureContent.length() > 0)
-                                FileUtil.toTextFile(persistenceStructureFilename.toString(), persistenceStructureContent, encoding);
-                        }
-                    }
-                    else{
-                        if((this.modelInfo.generatePersistence() == null || !this.modelInfo.generatePersistence()) && (this.modelInfo.generateService() == null || !this.modelInfo.generateService()))
-                            persistenceStructureFile.delete();
-                    }
-                }
-            }
-        }
-        catch(IOException e){
-            throw new InternalErrorException(e);
-        }
-    }
-    
-    /**
      * Generates the persistence interface.
      *
      * @param persistenceInterfaceTemplateFilename String that contains the persistence interface template filename.
@@ -1660,7 +1561,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             try{
                                 webServiceClass = (Class<? extends IService<? extends BaseModel>>) Class.forName(webServiceClassName.toString());
                                 
-                                if(Modifier.isAbstract(webServiceClass.getModifiers())){
+                                if(!Modifier.isAbstract(webServiceClass.getModifiers())){
                                     webServiceClassFile.delete();
                                     
                                     removeServiceMapping(webServiceClassName.toString());

@@ -113,7 +113,7 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
             ExpressionProcessorUtil.setVariable(ProjectConstants.BUILD_ATTRIBUTE_ID, this.build);
         }
         catch(Throwable e){
-            throw new InternalErrorException(e);
+            this.environment.getMessager().printMessage(Kind.ERROR, ExceptionUtil.getTrace(e));
         }
     }
     
@@ -186,6 +186,7 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
             setEnvironment(environment);
         }
         catch(InternalErrorException e){
+            this.environment.getMessager().printMessage(Kind.ERROR, ExceptionUtil.getTrace(e));
         }
     }
     
