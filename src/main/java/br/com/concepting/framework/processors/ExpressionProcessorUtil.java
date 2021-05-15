@@ -305,10 +305,4 @@ public class ExpressionProcessorUtil{
         if(cacher != null)
             cacher.clear();
     }
-    
-    
-    public static void main(String args[]) throws Throwable{
-        System.out.println(ExpressionProcessorUtil.fillEnvironmentInString("${DATABASE_HOSTNAME}"));
-    }
-    
 }
