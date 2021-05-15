@@ -341,10 +341,10 @@ public class Mail{
      */
     private Session getTransportSession(){
         Session session = Session.getDefaultInstance(this.properties, new Authenticator(){
-                protected PasswordAuthentication getPasswordAuthentication(){
-                    return new PasswordAuthentication(Mail.this.resources.getTransportUserName(), Mail.this.resources.getTransportPassword());
-                }
-            });
+            protected PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication(Mail.this.resources.getTransportUserName(), Mail.this.resources.getTransportPassword());
+            }
+        });
         
         return session;
     }
@@ -356,10 +356,10 @@ public class Mail{
      */
     private Session getStorageSession(){
         Session session = Session.getDefaultInstance(this.properties, new Authenticator(){
-                protected PasswordAuthentication getPasswordAuthentication(){
-                    return new PasswordAuthentication(Mail.this.resources.getStorageUserName(), Mail.this.resources.getStoragePassword());
-                }
-            });
+            protected PasswordAuthentication getPasswordAuthentication(){
+                return new PasswordAuthentication(Mail.this.resources.getStorageUserName(), Mail.this.resources.getStoragePassword());
+            }
+        });
         
         return session;
     }
@@ -411,11 +411,11 @@ public class Mail{
     public void asyncSend(final MailMessage message){
         Thread thread = new Thread(){
             public void run(){
-                try{
-                    send(message);
-                }
-                catch(MessagingException | IOException e){
-                }
+            try{
+                send(message);
+            }
+            catch(MessagingException | IOException e){
+            }
             }
         };
         

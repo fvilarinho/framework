@@ -1,5 +1,6 @@
 package br.com.concepting.framework.security.service.interfaces;
 
+import br.com.concepting.framework.security.model.LoginParameterModel;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.security.model.UserModel;
 
@@ -9,6 +10,7 @@ import br.com.concepting.framework.security.model.UserModel;
  *
  * @param <L> Class that defines the login session data model.
  * @param <U> Class that defines the user data model.
+ * @param <LP> Class that defines the login parameter data model.
  * @author fvilarinho
  * @since 1.0.0
  *
@@ -27,5 +29,5 @@ import br.com.concepting.framework.security.model.UserModel;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-public interface LoginSessionWebService<L extends LoginSessionModel, U extends UserModel> extends LoginSessionService<L, U>{
+public interface LoginSessionWebService<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends LoginSessionService<L, U, LP>{
 }

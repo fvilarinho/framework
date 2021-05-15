@@ -157,9 +157,8 @@ public class ExpressionProcessorUtil{
             while(matcher.find()){
                 environmentExpression = matcher.group();
                 environmentName = matcher.group(1);
-                environmentValue = System.getenv(environmentName);
+                environmentValue = StringUtil.trim(System.getenv(environmentName));
                 value = StringUtil.replaceAll(value, environmentExpression, environmentValue);
-                value = fillEnvironmentInString(value);
             }
         }
         

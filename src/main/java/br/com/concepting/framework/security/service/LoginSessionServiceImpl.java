@@ -39,6 +39,7 @@ import java.util.List;
  *
  * @param <L> Class that defines the login session data model.
  * @param <U> Class that defines the userdata model.
+ * @param <LP> Class that defines the login parameter data model.
  * @author fvilarinho
  * @since 1.0.0
  *
@@ -57,7 +58,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel> extends BaseService<L> implements LoginSessionService<L, U>{
+public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseService<L> implements LoginSessionService<L, U, LP>{
     /**
      * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#validateMfaToken(br.com.concepting.framework.security.model.UserModel)
      */
@@ -69,7 +70,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             return;
         
         U currentUser = currentLoginSession.getUser();
-        LoginParameterModel loginParameter = currentUser.getLoginParameter();
+        LP loginParameter = currentUser.getLoginParameter();
         
         if(loginParameter != null && loginParameter.isMfaTokenValidated() != null && loginParameter.isMfaTokenValidated())
             return;
@@ -151,7 +152,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         else if(password != null && password.length() > 0 && user.getPassword() != null && !password.equals(user.getPassword()))
             invalidPassword = true;
         
-        LoginParameterModel loginParameter = user.getLoginParameter();
+        LP loginParameter = user.getLoginParameter();
         
         if(invalidPassword){
             loginParameter = user.getLoginParameter();
@@ -232,7 +233,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             }
         }
         
-        LoginParameterModel loginParameter = user.getLoginParameter();
+        LP loginParameter = user.getLoginParameter();
         Boolean expiredPassword = false;
         Boolean passwordWillExpire = false;
         Integer daysUntilExpire = 0;
@@ -245,10 +246,10 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
                 ModelInfo userModelInfo = ModelUtil.getInfo(user.getClass());
                 PropertyInfo propertyInfo = userModelInfo.getPropertyInfo(SecurityConstants.LOGIN_PARAMETER_ATTRIBUTE_ID);
                 
-                loginParameter = (LoginParameterModel) ConstructorUtils.invokeConstructor(propertyInfo.getClazz(), null);
+                loginParameter = (LP)ConstructorUtils.invokeConstructor(propertyInfo.getClazz(), null);
             }
             catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException e){
-                loginParameter = new LoginParameterModel();
+                throw new InternalErrorException(e);
             }
             
             user.setLoginParameter(loginParameter);
@@ -416,7 +417,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             if(!newPassword.equals(confirmPassword))
                 throw new PasswordsNotMatchException();
         
-        LoginParameterModel loginParameter = user.getLoginParameter();
+        LP loginParameter = user.getLoginParameter();
         
         if(loginParameter != null){
             if(loginParameter.getMinimumPasswordLength() != null && newPassword.length() < loginParameter.getMinimumPasswordLength())
@@ -488,7 +489,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             
             user = loginSession.getUser();
             
-            LoginParameterModel loginParameter = user.getLoginParameter();
+            LP loginParameter = user.getLoginParameter();
             
             if(loginParameter != null)
                 loginParameter.setMfaToken(null);
@@ -564,7 +565,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         if(user.isActive() == null || !user.isActive())
             throw new UserBlockedException();
         
-        LoginParameterModel loginParameter = user.getLoginParameter();
+        LP loginParameter = user.getLoginParameter();
         
         loginParameter.setChangePassword(true);
         

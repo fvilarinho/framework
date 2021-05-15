@@ -21,6 +21,7 @@ import br.com.concepting.framework.security.util.SecurityUtil;
  *
  * @param <L> Class that defines the login session data model.
  * @param <U> Class that defines the user data model.
+ * @param <LP> Class that defines the login parameter data model.
  * @author fvilarinho
  * @since 1.0.0
  *
@@ -39,7 +40,7 @@ import br.com.concepting.framework.security.util.SecurityUtil;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-public abstract class LoginSessionAction<L extends LoginSessionModel, U extends UserModel> extends BaseAction<L>{
+public abstract class LoginSessionAction<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseAction<L>{
     /**
      * @see br.com.concepting.framework.controller.action.BaseAction#init()
      */
@@ -92,14 +93,14 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         if(user == null)
             return;
         
-        LoginSessionService<L, U> service = getService();
+        LoginSessionService<L, U, LP> service = getService();
         
         try{
             loginSession = service.logIn(user);
             
             user = loginSession.getUser();
             
-            LoginParameterModel loginParameter = user.getLoginParameter();
+            LP loginParameter = user.getLoginParameter();
             
             if(loginParameter.changePassword())
                 throw new ExpiredPasswordException();
@@ -137,7 +138,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         if(loginSession == null)
             return;
         
-        UserModel user = loginSession.getUser();
+        U user = loginSession.getUser();
         String rememberedUserName = securityController.getRememberedUserName();
         String rememberedPassword = securityController.getRememberedPassword();
         
@@ -155,7 +156,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
     public void loadChangePassword() throws Throwable{
         BaseActionForm<L> actionForm = getActionForm();
         L loginSession = (actionForm != null ? actionForm.getModel() : null);
-        UserModel user = (loginSession != null ? loginSession.getUser() : null);
+        U user = (loginSession != null ? loginSession.getUser() : null);
         
         if(user == null || user.getId() == null || user.getId() == 0){
             init();
@@ -167,7 +168,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         user.setNewPassword(null);
         user.setConfirmPassword(null);
         
-        LoginParameterModel loginParameter = user.getLoginParameter();
+        LP loginParameter = user.getLoginParameter();
         
         if(loginParameter != null){
             loginParameter.setChangePassword(true);
@@ -207,13 +208,12 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         if(user == null)
             return;
         
-        LoginSessionService<L, U> service = getService();
+        LoginSessionService<L, U, LP> service = getService();
         
         service.validateMfaToken(user);
         
         actionFormController.addSuccessMessage();
     }
-    
     
     /**
      * Confirms the password change.
@@ -242,7 +242,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         if(user == null)
             return;
         
-        LoginSessionService<L, U> service = getService();
+        LoginSessionService<L, U, LP> service = getService();
         
         user = service.changePassword(user);
         
@@ -263,7 +263,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
     public void cancelChangePassword() throws Throwable{
         BaseActionForm<L> actionForm = getActionForm();
         L loginSession = (actionForm != null ? actionForm.getModel() : null);
-        UserModel user = (loginSession != null ? loginSession.getUser() : null);
+        U user = (loginSession != null ? loginSession.getUser() : null);
         
         if(user == null || user.getId() == null || user.getId() == 0){
             init();
@@ -271,7 +271,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
             throw new LoginSessionExpiredException();
         }
         
-        LoginParameterModel loginParameter = user.getLoginParameter();
+        LP loginParameter = user.getLoginParameter();
         
         if(loginParameter != null){
             loginParameter.setChangePassword(false);
@@ -299,7 +299,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         L loginSession = (actionForm != null ? actionForm.getModel() : null);
         
         if(loginSession != null && loginSession.rememberUserAndPassword()){
-            UserModel user = loginSession.getUser();
+            U user = loginSession.getUser();
             
             if(user != null && user.getName().length() > 0)
                 getSecurityController().rememberUserAndPasword(user);
@@ -321,7 +321,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
     public void loadForgotPassword() throws Throwable{
         BaseActionForm<L> actionForm = getActionForm();
         L loginSession = (actionForm != null ? actionForm.getModel() : null);
-        UserModel user = (loginSession != null ? loginSession.getUser() : null);
+        U user = (loginSession != null ? loginSession.getUser() : null);
         
         if(user != null){
             user.setEmail(null);
@@ -359,7 +359,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         if(user == null)
             return;
         
-        LoginSessionService<L, U> service = getService();
+        LoginSessionService<L, U, LP> service = getService();
         
         service.sendForgottenPassword(user);
         
@@ -382,7 +382,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         if(securityController == null)
             return;
         
-        LoginSessionService<L, U> service = getService();
+        LoginSessionService<L, U, LP> service = getService();
         
         service.logOut();
         

@@ -510,11 +510,11 @@ public class Probe extends WebDriverBackedSelenium{
         
         return fullyLoadedTime;
     }
-    
+
     public void waitForElementPresent(String elementId) throws NoSuchElementException, TimeoutException{
         waitForElementPresent(elementId, this.options.getTimeout());
     }
-    
+
     public void waitForElementPresent(String elementId, Integer timeout) throws NoSuchElementException, TimeoutException{
         WebElement element = null;
         int count = 0;
@@ -538,7 +538,7 @@ public class Probe extends WebDriverBackedSelenium{
         
         throw new TimeoutException(timeout.toString());
     }
-    
+
     public void waitForTextPresent(String text) throws TimeoutException{
         waitForTextPresent(text, this.options.getTimeout());
     }
@@ -595,7 +595,7 @@ public class Probe extends WebDriverBackedSelenium{
     public void waitForElementEditable(String elementId) throws NoSuchElementException, TimeoutException{
         waitForElementEditable(elementId, this.options.getTimeout());
     }
-    
+
     public void waitForElementEditable(String elementId, Integer timeout) throws NoSuchElementException, TimeoutException{
         WebElement element = null;
         int count = 0;
@@ -658,7 +658,7 @@ public class Probe extends WebDriverBackedSelenium{
     public void waitForAlertPresent() throws TimeoutException{
         waitForAlertPresent(this.options.getTimeout());
     }
-    
+
     public void waitForAlertPresent(Integer timeout) throws TimeoutException{
         WebDriver driver = getWrappedDriver();
         int count = 0;
@@ -688,7 +688,7 @@ public class Probe extends WebDriverBackedSelenium{
     public void waitForTitle(String title) throws TimeoutException{
         waitForTitle(title, this.options.getTimeout());
     }
-    
+
     public void waitForTitle(String title, Integer timeout) throws TimeoutException{
         int count = 0;
         
@@ -713,7 +713,7 @@ public class Probe extends WebDriverBackedSelenium{
         
         throw new TimeoutException(timeout.toString());
     }
-    
+
     public void focus(String elementId) throws NoSuchElementException, TimeoutException{
         WebElement element = lookupElement(elementId);
         Actions action = new Actions(getWrappedDriver());
