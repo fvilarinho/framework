@@ -6,6 +6,7 @@ import br.com.concepting.framework.caching.CacherManager;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
+import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.StringUtil;

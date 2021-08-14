@@ -327,16 +327,16 @@ public class EvaluateProcessor extends GenericProcessor{
                                 tokenName = StringUtil.replaceAll(tokenName, "declaration.", "");
                                 tokenValue = PropertyUtil.getValue(declaration, tokenName);
                                 
-                                context.set(tokenName, tokenValue);
+                                context.set(StringUtil.replaceAll(tokenName, ".", "_"), tokenValue);
                             }
                         }
                         else if(tokenExpression.contains("@{")){
                             tokenValue = getVariable(tokenName);
                             
-                            context.set(tokenName, tokenValue);
+                            context.set(StringUtil.replaceAll(tokenName, ".", "_"), tokenValue);
                         }
                         
-                        valueBuffer = StringUtil.replaceAll(valueBuffer, tokenExpression, tokenName);
+                        valueBuffer = StringUtil.replaceAll(StringUtil.replaceAll(valueBuffer, tokenExpression, tokenName), ".", "_");
                     }
                 }
                 while(matcher.find());

@@ -523,16 +523,10 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(securityController == null || uiController == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(uiController == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
             return;
         
-        LoginSessionModel loginSession = securityController.getLoginSession();
-        SystemSessionModel systemSession = (loginSession != null ? loginSession.getSystemSession() : null);
-        
-        if(systemSession == null)
-            return;
-        
-        String domain = systemSession.getId();
+        String domain = String.valueOf(System.currentTimeMillis());
         Boolean hasNodeDataset = hasNoDataset();
         
         try{
@@ -672,7 +666,6 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                             expressionProcessor.setDeclaration(currentModel);
                             
                             rowStateComponent = null;
-                            columnStateComponent = null;
                             columnStyleClass = null;
                             columnStyle = null;
                             expressionResult = true;
@@ -680,7 +673,6 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                             found = false;
                             
                             if(this.rowStatesComponents != null && !this.rowStatesComponents.isEmpty()){
-                                
                                 for(int cont2 = 0; cont2 < this.rowStatesComponents.size(); cont2++){
                                     rowStateComponent = this.rowStatesComponents.get(cont2);
                                     
@@ -1278,7 +1270,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             throw new InternalErrorException(e);
         }
         finally{
-            ExpressionProcessorUtil.setVariable(domain, Constants.ITEM_ATTRIBUTE_ID, null);
+            ExpressionProcessorUtil.clearVariables(domain);
         }
     }
     
