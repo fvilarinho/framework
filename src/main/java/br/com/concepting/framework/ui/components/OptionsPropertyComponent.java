@@ -830,24 +830,10 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderOptions() throws InternalErrorException{
-        SecurityController securityController = getSecurityController();
-        
-        if(securityController == null)
-            return;
-        
-        LoginSessionModel loginSession = securityController.getLoginSession();
-        SystemSessionModel systemSession = (loginSession != null ? loginSession.getSystemSession() : null);
-        
-        if(systemSession == null)
-            return;
-        
-        String domain = systemSession.getId();
         List<?> datasetValues = getDatasetValues();
         
         if(datasetValues != null && datasetValues.size() > 0)
             renderOptions(datasetValues, null, 0);
-        
-        ExpressionProcessorUtil.setVariable(domain, Constants.ITEM_ATTRIBUTE_ID, null);
     }
     
     /**
@@ -865,18 +851,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         if(options == null || options.size() == 0)
             return;
         
-        SecurityController securityController = getSecurityController();
-        
-        if(securityController == null)
-            return;
-        
-        LoginSessionModel loginSession = securityController.getLoginSession();
-        SystemSessionModel systemSession = (loginSession != null ? loginSession.getSystemSession() : null);
-        
-        if(systemSession == null)
-            return;
-        
-        String domain = systemSession.getId();
+        String domain = String.valueOf(System.currentTimeMillis());
         
         try{
             ExpressionProcessor expressionProcessor = new ExpressionProcessor(domain, getCurrentLanguage());
@@ -988,7 +963,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
             throw new InternalErrorException(e);
         }
         finally{
-            ExpressionProcessorUtil.setVariable(domain, Constants.ITEM_ATTRIBUTE_ID, null);
+            ExpressionProcessorUtil.clearVariables(domain);
         }
     }
     

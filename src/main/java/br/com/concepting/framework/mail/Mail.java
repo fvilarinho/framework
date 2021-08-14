@@ -364,6 +364,10 @@ public class Mail{
         return session;
     }
     
+    public MailResources getResources(){
+        return this.resources;
+    }
+    
     /**
      * Sends a message
      *

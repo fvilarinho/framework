@@ -487,25 +487,10 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected <N extends Node, C extends Collection<N>> void renderNodes() throws InternalErrorException{
-        SystemController systemController = getSystemController();
-        SecurityController securityController = getSecurityController();
-        
-        if(systemController == null || securityController == null)
-            return;
-        
-        LoginSessionModel loginSession = securityController.getLoginSession();
-        SystemSessionModel systemSession = (loginSession != null ? loginSession.getSystemSession() : null);
-        
-        if(systemSession == null)
-            return;
-        
-        String domain = systemSession.getId();
         C nodes = getDatasetValues();
         
         if(nodes != null && nodes.size() > 0)
             renderNodes(nodes, null, null, 0);
-        
-        ExpressionProcessorUtil.setVariable(domain, Constants.ITEM_ATTRIBUTE_ID, null);
     }
     
     /**
@@ -521,11 +506,6 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
      */
     protected <N extends Node, C extends Collection<N>> void renderNodes(C nodes, N parent, String index, Integer level) throws InternalErrorException{
         SystemController systemController = getSystemController();
-        SecurityController securityController = getSecurityController();
-        
-        if(systemController == null || securityController == null)
-            return;
-        
         PropertyInfo propertyInfo = getPropertyInfo();
         String actionFormName = getActionFormName();
         String name = getName();
@@ -533,13 +513,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
         if(propertyInfo == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
             return;
         
-        LoginSessionModel loginSession = securityController.getLoginSession();
-        SystemSessionModel systemSession = (loginSession != null ? loginSession.getSystemSession() : null);
-        
-        if(systemSession == null)
-            return;
-        
-        String domain = systemSession.getId();
+        String domain = String.valueOf(System.currentTimeMillis());
         Locale currentLanguage = getCurrentLanguage();
         Boolean multipleSelection = hasMultipleSelection();
         Boolean enabled = isEnabled();
@@ -661,9 +635,8 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                         
                         nodeIsExpandedBuffer = systemController.getRequestParameterValue(expandedNodeId.toString());
                         
-                        if(nodeIsExpandedBuffer == null || nodeIsExpandedBuffer.length() == 0){
+                        if(nodeIsExpandedBuffer == null || nodeIsExpandedBuffer.length() == 0)
                             isExpandedNode = this.expandLevel == null || level == null || this.expandLevel > level;
-                        }
                         else
                             isExpandedNode = Boolean.valueOf(nodeIsExpandedBuffer);
                         
@@ -897,7 +870,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
             throw new InternalErrorException(e);
         }
         finally{
-            ExpressionProcessorUtil.setVariable(domain, Constants.ITEM_ATTRIBUTE_ID, null);
+            ExpressionProcessorUtil.clearVariables(domain);
         }
     }
     

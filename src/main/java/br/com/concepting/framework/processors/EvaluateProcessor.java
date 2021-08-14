@@ -2,6 +2,7 @@ package br.com.concepting.framework.processors;
 
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.processors.constants.ProcessorConstants;
+import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.StringUtil;
@@ -326,13 +327,13 @@ public class EvaluateProcessor extends GenericProcessor{
                             if(!tokenName.equals("declaration")){
                                 tokenName = StringUtil.replaceAll(tokenName, "declaration.", "");
                                 tokenValue = PropertyUtil.getValue(declaration, tokenName);
-                                
+
                                 context.set(tokenName, tokenValue);
                             }
                         }
                         else if(tokenExpression.contains("@{")){
                             tokenValue = getVariable(tokenName);
-                            
+
                             context.set(tokenName, tokenValue);
                         }
                         
