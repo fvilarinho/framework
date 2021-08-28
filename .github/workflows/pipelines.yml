@@ -3,7 +3,8 @@ name: CI/CD
 on:
   push:
     branches: 
-      - '*'
+      - 'master'
+      - 'develop'
     paths-ignore:
       - 'LICENSE'
       - '*.md'
@@ -13,7 +14,6 @@ jobs:
   run:
     runs-on: ubuntu-latest
     env:
-      REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
       REPOSITORY_USER: ${{ secrets.REPOSITORY_USER }}
       REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
     steps:
@@ -26,4 +26,3 @@ jobs:
       run: ./build.sh
     - name: Publish
       run: ./publish.sh
-      
