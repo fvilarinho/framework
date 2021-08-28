@@ -22,13 +22,13 @@ The framework came up to mitigate these problems and many others and also speed 
 Contribution
 ============
 
-If you want to contribute with us, just fork the project that is located in GitHub ([https://www.github.com/concepting-com-br/framework]([https://www.github.com/concepting-com-br/framework)) and then make a pull request. We will analyze your code and check if it can be incorporated as soon as possible. You can also report a bug or request a new feature.
+If you want to contribute with us, just fork the project that is located in GitHub ([https://www.github.com/fvilarinho/framework]([https://www.github.com/fvilarinho/framework)) and then make a pull request. We will analyze your code and check if it can be incorporated as soon as possible. You can also report a bug or request a new feature.
 
 
 Build Status
 ============
 
-* ![](https://github.com/concepting-com-br/framework/workflows/CI/CD/badge.svg)
+* ![](https://github.com/fvilarinho/framework/workflows/CI/CD/badge.svg)
 
 
 Installation
@@ -42,7 +42,7 @@ The pre-requisites to use the framework are:
 To start using the framework, you should clone the project from BitBucket and then import it into your IDE.
 Now I'm using Eclipse IDE for JEE Developers. This IDE already has an integration with GitHub but if you use an another tool and it doesn't have a GitHub integration, you should use the git client. To clone the repository just run the command below:
 
-`git clone git@github.com:concepting-com-br/framework.git`
+`git clone git@github.com:fvilarinho/framework.git`
 
 After the cloning, you can choose the version that you want to work.
 To use the development version (Unstable), execute the command below:
@@ -69,7 +69,7 @@ My name is Felipe Vilarinho (A.K.A Vila) and you can know more about me at the s
 
 1. [LinkedIn](https://br.linkedin.com/in/fvilarinho)
 
-Or send an email to fvilarinho@gmail.com or fvilarinho@concepting.com.br
+Or send an email to fvilarinho@gmail.com or fvilarinho@outlook.com
 
 Have Fun!
 
