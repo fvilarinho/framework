@@ -36,7 +36,7 @@ Installation
 
 The pre-requisites to use the framework are:
 
-1. **Java Development Kit 1.8.x**
+1. **Java Development Kit 11
 2. **Gradle 6.8.x**
 
 To start using the framework, you should clone the project from BitBucket and then import it into your IDE.
