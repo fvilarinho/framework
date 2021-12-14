@@ -7,13 +7,16 @@ import br.com.concepting.framework.util.ByteUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 
 import javax.activation.MimetypesFileTypeMap;
-import javax.mail.Address;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+
+import jakarta.mail.Address;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.util.Collection;
 import java.util.Map;
 
