@@ -12,12 +12,13 @@ import br.com.concepting.framework.util.FileUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
-import javax.mail.*;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import jakarta.activation.DataHandler;
+import jakarta.activation.FileDataSource;
+
+import jakarta.mail.*;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.File;
 import java.io.IOException;
@@ -215,7 +216,7 @@ public class Mail{
      * @throws MessagingException Occurs when was not possible possible to
      * build the message headers.
      */
-    private void buildHeader(MailMessage message, Message sendMessage) throws MessagingException{
+    private void buildHeader(MailMessage message, Message sendMessage) throws MessagingException {
         if(message == null || sendMessage == null)
             return;
         

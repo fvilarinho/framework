@@ -62,7 +62,6 @@ public class Probe extends WebDriverBackedSelenium{
         
         driverOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
         driverOptions.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-        driverOptions.setCapability(CapabilityType.SUPPORTS_FINDING_BY_CSS, true);
         driverOptions.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
         driverOptions.setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, false);
         driverOptions.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.ACCEPT);
