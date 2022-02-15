@@ -7,7 +7,6 @@ import br.com.concepting.framework.processors.ExpressionProcessorUtil;
 import br.com.concepting.framework.security.constants.SecurityConstants;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.service.interfaces.IService;
-import br.com.concepting.framework.service.util.ServiceUtil;
 import br.com.concepting.framework.util.DateTimeUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.DateFieldType;
@@ -37,50 +36,37 @@ import java.util.Calendar;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ServiceThread implements Runnable{
-    private Class<? extends IService<? extends BaseModel>> serviceClass = null;
-    private LoginSessionModel loginSession = null;
+    private IService<? extends BaseModel> service = null;
     private DateTime nextExecution = null;
     private Boolean executing = null;
     
     /**
      * Default constructor.
      *
-     * @param serviceClass Class that defines the service.
-     * @param loginSession Instance that contains the login session data model.
+     * @param service Instance that defines the service.
      */
-    public ServiceThread(Class<? extends IService<? extends BaseModel>> serviceClass, LoginSessionModel loginSession){
+    public ServiceThread(IService<? extends BaseModel> service){
         super();
         
-        setServiceClass(serviceClass);
-        setLoginSession(loginSession);
+        setService(service);
         setExecuting(false);
     }
-    
-    /**
-     * Defines the login session.
-     *
-     * @param loginSession Instance that contains the login session data model.
-     */
-    private void setLoginSession(LoginSessionModel loginSession){
-        this.loginSession = loginSession;
+
+    public IService<? extends BaseModel> getService() {
+        return service;
     }
-    
-    /**
-     * Defines the service class.
-     *
-     * @param serviceClass Class that defines the service.
-     */
-    private void setServiceClass(Class<? extends IService<? extends BaseModel>> serviceClass){
-        this.serviceClass = serviceClass;
+
+    protected void setService(IService<? extends BaseModel> service) {
+        this.service = service;
     }
-    
+
     /**
      * Indicates if the thread is executing.
      *
      * @return True/False.
      */
     public Boolean isExecuting(){
-        return this.executing;
+        return getExecuting();
     }
     
     /**
@@ -89,7 +75,7 @@ public class ServiceThread implements Runnable{
      * @return True/False.
      */
     public Boolean getExecuting(){
-        return isExecuting();
+        return this.executing;
     }
     
     /**
@@ -97,7 +83,7 @@ public class ServiceThread implements Runnable{
      *
      * @param executing True/False.
      */
-    public void setExecuting(Boolean executing){
+    protected void setExecuting(Boolean executing){
         this.executing = executing;
     }
     
@@ -105,19 +91,19 @@ public class ServiceThread implements Runnable{
      * @see java.lang.Runnable#run()
      */
     public void run(){
-        SystemSessionModel systemSession = this.loginSession.getSystemSession();
-        String domain = systemSession.getId();
-        
-        ExpressionProcessorUtil.setVariable(domain, SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, this.loginSession);
-        
-        if(isExecuting())
-            return;
-        
         try{
+            LoginSessionModel loginSession = service.getLoginSession();
+            SystemSessionModel systemSession = loginSession.getSystemSession();
+            String domain = systemSession.getId();
+        
+            ExpressionProcessorUtil.setVariable(domain, SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, loginSession);
+        
+            if(isExecuting())
+                return;
+        
             setExecuting(true);
-            
-            IService<? extends BaseModel> service = ServiceUtil.getByServiceClass(this.serviceClass, this.loginSession);
-            Boolean active = (service != null && service.isActive());
+
+            boolean active = (service != null && service.isActive());
             
             if(active){
                 Integer pollingTime = service.getPollingTime();
@@ -163,6 +149,7 @@ public class ServiceThread implements Runnable{
             }
         }
         catch(InternalErrorException e){
+            service.getAuditor().error(e);
         }
         finally{
             setExecuting(false);

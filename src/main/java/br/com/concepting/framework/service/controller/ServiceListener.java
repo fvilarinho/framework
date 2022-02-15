@@ -135,7 +135,7 @@ public class ServiceListener implements ServletContextListener{
         
         while(drivers.hasMoreElements()){
             Driver driver = drivers.nextElement();
-            
+
             try{
                 DriverManager.deregisterDriver(driver);
             }
@@ -229,7 +229,7 @@ public class ServiceListener implements ServletContextListener{
                             if(items != null && !items.isEmpty()){
                                 Service serviceAnnotation = null;
                                 Collection<Class<? extends IService<? extends BaseModel>>> servicesClasses = null;
-                                
+
                                 for(String item: items){
                                     Class<? extends IService<? extends BaseModel>> serviceClass = null;
                                     
@@ -246,14 +246,16 @@ public class ServiceListener implements ServletContextListener{
                                             if(serviceAnnotation.isRecurrent()){
                                                 if(servicesClasses == null)
                                                     servicesClasses = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                                                
+
                                                 servicesClasses.add(serviceClass);
                                             }
                                             else{
                                                 if(executor == null)
                                                     executor = Executors.newWorkStealingPool();
+
+                                                IService<? extends BaseModel> service = ServiceUtil.getByServiceClass(serviceClass, ServiceListener.this.loginSession);
                                                 
-                                                executor.submit(new ServiceThread(serviceClass, ServiceListener.this.loginSession));
+                                                executor.submit(new ServiceThread(service));
                                             }
                                         }
                                     }
@@ -261,7 +263,7 @@ public class ServiceListener implements ServletContextListener{
                                 
                                 if(servicesClasses != null && !servicesClasses.isEmpty()){
                                     Calendar now = Calendar.getInstance();
-                                    Integer initialDelay = (60 - now.get(Calendar.SECOND));
+                                    int initialDelay = (60 - now.get(Calendar.SECOND));
                                     
                                     if(initialDelay == 60)
                                         initialDelay = 0;
@@ -269,8 +271,11 @@ public class ServiceListener implements ServletContextListener{
                                     if(scheduledExecutor == null)
                                         scheduledExecutor = Executors.newScheduledThreadPool(servicesClasses.size());
                                     
-                                    for(Class<? extends IService<? extends BaseModel>> serviceClass: servicesClasses)
-                                        scheduledExecutor.scheduleAtFixedRate(new ServiceThread(serviceClass, ServiceListener.this.loginSession), initialDelay, 60, TimeUnit.SECONDS);
+                                    for(Class<? extends IService<? extends BaseModel>> serviceClass: servicesClasses){
+                                        IService<? extends BaseModel> service = ServiceUtil.getByServiceClass(serviceClass, ServiceListener.this.loginSession);
+
+                                        scheduledExecutor.scheduleAtFixedRate(new ServiceThread(service), initialDelay, 60, TimeUnit.SECONDS);
+                                    }
                                 }
                             }
                         }
