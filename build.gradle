@@ -18,10 +18,10 @@ repositories{
     mavenLocal()
 	mavenCentral()
 	maven{
-		url "${repositoryUrl}"
+		url System.getenv("REPOSITORY_URL")
 		credentials{
-			username = "${repositoryUser}"
-			password = "${repositoryPassword}"
+			username = System.getenv("REPOSITORY_USER")
+			password = System.getenv("REPOSITORY_PASSWORD")
 		}
 	}
 }
@@ -75,10 +75,10 @@ dependencies{
 	compile "org.apache.httpcomponents:httpmime:4.5.13"
 	compile "com.sun.mail:imap:2.0.1"
 	compile "com.lowagie:itext:4.2.2"
-	compile "com.fasterxml.jackson.core:jackson-annotations:2.13.2"
-	compile "com.fasterxml.jackson.core:jackson-core:2.13.2"
-	compile "com.fasterxml.jackson.core:jackson-databind:2.13.2.2"
-	compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.13.2"
+	compile 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
+	compile 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+	compile 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5:2.13.3'
 	compile 'net.sf.jasperreports:jasperreports:6.19.1'
 	compile 'com.google.zxing:javase:3.5.0'
 	compile "net.sf.jmimemagic:jmimemagic:0.1.5"
@@ -226,8 +226,9 @@ publishing{
 uploadArchives{
     repositories{
         mavenDeployer{
-            repository(url: "${repositoryUrl}"){
-                authentication(userName: "${repositoryUser}", password: "${repositoryPassword}")
+            repository(url: System.getenv("REPOSITORY_URL")){
+                authentication(userName: System.getenv("REPOSITORY_USER"),
+						       password: System.getenv("REPOSITORY_PASSWORD"))
             }
         }
     }

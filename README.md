@@ -1,7 +1,7 @@
 Synopsis
 ========
 
-The main goal of this framework is provide a fast, simple, reliable and standardized way to develop Web Applications.
+The main goal of this framework is to provide a fast, simple, reliable and standardized way to develop Web Applications.
 The development was started in 2006 and since then new features and improvements are being released constantly.
 
 
@@ -40,7 +40,7 @@ The pre-requisites to use the framework are:
 2. **Gradle 6.8.x**
 
 To start using the framework, you should clone the project from BitBucket and then import it into your IDE.
-Now I'm using Eclipse IDE for JEE Developers. This IDE already has an integration with GitHub but if you use an another tool and it doesn't have a GitHub integration, you should use the git client. To clone the repository just run the command below:
+Now I'm using Eclipse IDE for JEE Developers. This IDE already has an integration with GitHub but if you use another tool, and it doesn't have a GitHub integration, you should use the git client. To clone the repository just run the command below:
 
 `git clone git@github.com:fvilarinho/framework.git`
 
@@ -51,7 +51,7 @@ To use the development version (Unstable), execute the command below:
 
 To use the last stable version, execute the command below:
 
-`git checkout tags/3.9.4 -b 3.9.4`
+`git checkout tags/3.9.8 -b 3.9.8`
 
 Or use the IDE to switch between the versions.
 
@@ -65,11 +65,11 @@ The framework is licensed under the LGPL 3.0. Please read the licence file or ch
 Author
 ======
 
-My name is Felipe Vilarinho (A.K.A Vila) and you can know more about me at the social medias below:
+My name is Felipe Vilarinho (A.K.A. Vila) and you can know more about me at the social medias below:
 
 1. [LinkedIn](https://br.linkedin.com/in/fvilarinho)
 
-Or send an email to fvilarinho@gmail.com or fvilarinho@outlook.com
+Or email fvilarinho@gmail.com or fvilarinho@outlook.com
 
 Have Fun!
 
