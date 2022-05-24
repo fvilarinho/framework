@@ -34,6 +34,7 @@ import br.com.concepting.framework.security.constants.SecurityConstants;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.security.util.SecurityUtil;
+import br.com.concepting.framework.service.annotations.Service;
 import br.com.concepting.framework.service.constants.ServiceConstants;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
@@ -80,8 +81,8 @@ import java.util.Locale;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
-    private ModelInfo modelInfo = null;
-    private ProjectBuild build = null;
+    private final ModelInfo modelInfo;
+    private final ProjectBuild build;
     
     /**
      * Constructor - Initializes the annotation processor.
@@ -112,21 +113,10 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
     public ModelInfo getModelInfo(){
         return this.modelInfo;
     }
-    
-    /**
-     * Defines the instance that contains the properties of the data model.
-     *
-     * @param modelInfo Instance that contains the properties of the data model.
-     */
-    public void setModelInfo(ModelInfo modelInfo){
-        this.modelInfo = modelInfo;
-    }
-    
-    /**
-     * @see br.com.concepting.framework.processors.BaseAnnotationProcessor#process()
-     */
+
+    @Override
     public void process() throws InternalErrorException{
-        if(modelInfo.isAbstract() != null && modelInfo.isAbstract())
+        if( modelInfo.isAbstract())
             return;
         
         LoginSessionModel loginSession = SecurityUtil.getLoginSession(this.build.getResourcesDirname());
@@ -178,20 +168,19 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             Auditor auditor = null;
             
             for(File templateFile: templateFiles){
-                for(Method templateMethod: templateMethods){
+                for(Method business: templateMethods){
                     try{
-                        Tag methodTag = templateMethod.getAnnotation(Tag.class);
+                        Tag methodTag = business.getAnnotation(Tag.class);
                         
                         if(methodTag != null && methodTag.value().equals(templateFile.getName())){
                             if(auditorResources != null){
                                 Class<?> entity = getClass();
-                                Method business = templateMethod;
-                                
+
                                 auditor = new Auditor(entity, business, new Object[]{this.modelInfo.getClazz().getName()}, loginSession, auditorResources);
                                 auditor.start();
                             }
                             
-                            templateMethod.invoke(this, templateFile.getAbsolutePath());
+                            business.invoke(this, templateFile.getAbsolutePath());
                             
                             if(auditor != null)
                                 auditor.end();
@@ -284,7 +273,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     File actionClassFile = new File(actionClassFilename.toString());
                     
                     if(!actionClassFile.exists()){
-                        if(this.modelInfo.generateActionsAndForm() != null && this.modelInfo.generateActionsAndForm()){
+                        if(this.modelInfo.generateUi()){
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -298,11 +287,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         }
                     }
                     else{
-                        if(this.modelInfo.generateActionsAndForm() == null || !this.modelInfo.generateActionsAndForm()){
-                            Class<? extends BaseAction<? extends BaseModel>> actionClass = null;
-                            
+                        if(!this.modelInfo.generateUi()){
                             try{
-                                actionClass = (Class<? extends BaseAction<? extends BaseModel>>) Class.forName(actionClassName.toString());
+                                Class<? extends BaseAction<? extends BaseModel>> actionClass = (Class<? extends BaseAction<? extends BaseModel>>) Class.forName(actionClassName.toString());
                                 
                                 if(!Modifier.isAbstract(actionClass.getModifiers()))
                                     actionClassFile.delete();
@@ -395,7 +382,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     File actionFormClassFile = new File(actionFormClassFilename.toString());
                     
                     if(!actionFormClassFile.exists()){
-                        if(this.modelInfo.generateActionsAndForm() != null && this.modelInfo.generateActionsAndForm()){
+                        if(this.modelInfo.generateUi()){
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -411,11 +398,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         }
                     }
                     else{
-                        if(this.modelInfo.generateActionsAndForm() == null || !this.modelInfo.generateActionsAndForm()){
-                            Class<? extends BaseActionForm<? extends BaseModel>> actionFormClass = null;
-                            
+                        if(!this.modelInfo.generateUi()){
                             try{
-                                actionFormClass = (Class<? extends BaseActionForm<? extends BaseModel>>) Class.forName(actionFormClassName.toString());
+                                Class<? extends BaseActionForm<? extends BaseModel>> actionFormClass = (Class<? extends BaseActionForm<? extends BaseModel>>) Class.forName(actionFormClassName.toString());
                                 
                                 if(!Modifier.isAbstract(actionFormClass.getModifiers())){
                                     actionFormClassFile.delete();
@@ -463,7 +448,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             XmlNode content = reader.getRoot();
             XmlNode actionFormsNode = content.getNode(ActionFormConstants.ACTION_FORMS_ATTRIBUTE_ID);
             List<XmlNode> actionFormNodes = (actionFormsNode != null ? actionFormsNode.getChildren() : null);
-            Boolean found = false;
+            boolean found = false;
             
             if(actionFormNodes != null && !actionFormNodes.isEmpty()){
                 for(XmlNode actionFormNode: actionFormNodes){
@@ -540,7 +525,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             XmlNode content = reader.getRoot();
             XmlNode actionFormsNode = content.getNode(ActionFormConstants.ACTION_FORMS_ATTRIBUTE_ID);
             List<XmlNode> actionFormNodes = (actionFormsNode != null ? actionFormsNode.getChildren() : null);
-            Boolean found = false;
+            boolean found = false;
             
             if(actionFormNodes != null && !actionFormNodes.isEmpty()){
                 for(int cont = 0; cont < actionFormNodes.size(); cont++){
@@ -642,7 +627,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     File modelClassFile = new File(modelClassFilename.toString());
                     
                     if(!modelClassFile.exists()){
-                        if((this.modelInfo.generatePersistence() != null && this.modelInfo.generatePersistence()) || (this.modelInfo.generateService() != null && this.modelInfo.generateService())){
+                        if(this.modelInfo.generatePersistence() || this.modelInfo.generateService()){
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -655,10 +640,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 FileUtil.toTextFile(modelClassFilename.toString(), modelClassContent, encoding);
                             
                             addCheckGeneratedCode(modelClassName.toString());
-                        }
-                        else{
-                            if((this.modelInfo.generatePersistence() == null || !this.modelInfo.generatePersistence()) && (this.modelInfo.generateService() == null || !this.modelInfo.generateService()))
-                                modelClassFile.delete();
                         }
                     }
                 }
@@ -765,7 +746,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
     /**
      * Generates the resources.
      *
-     * @param resourcesTemplateFilename String that contains the resources template filename.
+     * @param resourcesTemplateFilename String that contains the resource template filename.
      * @throws InternalErrorException Occurs when was not possible to generate
      * the file.
      */
@@ -846,7 +827,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 File resourcesFile = new File(resourcesFilename.toString());
                                 
                                 if(!resourcesFile.exists()){
-                                    if((this.modelInfo.generateWebService() != null && this.modelInfo.generateWebService()) || (this.modelInfo.generateService() != null && this.modelInfo.generateService()) || (this.modelInfo.generateUi() != null && this.modelInfo.generateUi()) || (this.modelInfo.generateActionsAndForm() != null && this.modelInfo.generateActionsAndForm())){
+                                    if(this.modelInfo.generateService() || this.modelInfo.generateUi()){
                                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -859,7 +840,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                     }
                                 }
                                 else{
-                                    if((this.modelInfo.generateWebService() == null || !this.modelInfo.generateWebService()) && (this.modelInfo.generateService() == null || !this.modelInfo.generateService()) && (this.modelInfo.generateUi() == null || !this.modelInfo.generateUi()) && (this.modelInfo.generateActionsAndForm() == null || !this.modelInfo.generateActionsAndForm()))
+                                    if(!this.modelInfo.generateService() && !this.modelInfo.generateUi())
                                         resourcesFile.delete();
                                 }
                             }
@@ -947,7 +928,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     File persistenceClassFile = new File(persistenceClassFilename.toString());
                     
                     if(!persistenceClassFile.exists()){
-                        if(this.modelInfo.generatePersistence() != null && this.modelInfo.generatePersistence()){
+                        if(this.modelInfo.generatePersistence()){
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -961,7 +942,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         }
                     }
                     else{
-                        if(this.modelInfo.generatePersistence() == null || !this.modelInfo.generatePersistence())
+                        if(!this.modelInfo.generatePersistence())
                             persistenceClassFile.delete();
                     }
                 }
@@ -1046,7 +1027,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     File persistenceInterfaceFile = new File(persistenceInterfaceFilename.toString());
                     
                     if(!persistenceInterfaceFile.exists()){
-                        if(this.modelInfo.generatePersistence() != null && this.modelInfo.generatePersistence()){
+                        if(this.modelInfo.generatePersistence()){
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -1060,7 +1041,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         }
                     }
                     else{
-                        if(this.modelInfo.generatePersistence() == null || !this.modelInfo.generatePersistence())
+                        if(!this.modelInfo.generatePersistence())
                             persistenceInterfaceFile.delete();
                     }
                 }
@@ -1139,7 +1120,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         persistenceMappingFilename.append(PersistenceConstants.DEFAULT_MAPPINGS_DIR);
                     }
                     
-                    persistenceMappingFilename.append(persistenceMappingName.toString());
+                    persistenceMappingFilename.append(persistenceMappingName);
                     persistenceMappingFilename.append(PersistenceConstants.DEFAULT_MAPPING_FILE_EXTENSION);
                     
                     File persistenceMappingFile = new File(persistenceMappingFilename.toString());
@@ -1147,7 +1128,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     if(persistenceMappingFile.exists())
                         persistenceMappingFile.delete();
                     
-                    if(this.modelInfo.generatePersistence() != null && this.modelInfo.generatePersistence() && this.modelInfo.getMappedRepositoryId() != null && this.modelInfo.getMappedRepositoryId().length() > 0){
+                    if(this.modelInfo.generatePersistence() && this.modelInfo.getMappedRepositoryId() != null && this.modelInfo.getMappedRepositoryId().length() > 0){
                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -1308,7 +1289,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     File serviceClassFile = new File(serviceClassFilename.toString());
                     
                     if(!serviceClassFile.exists()){
-                        if(this.modelInfo.generateService() != null && this.modelInfo.generateService()){
+                        if(this.modelInfo.generateService()){
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -1324,11 +1305,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         }
                     }
                     else{
-                        if(this.modelInfo.generateService() == null || !this.modelInfo.generateService()){
-                            Class<? extends IService<? extends BaseModel>> serviceClass = null;
-                            
+                        if(!this.modelInfo.generateService()){
                             try{
-                                serviceClass = (Class<? extends IService<? extends BaseModel>>) Class.forName(serviceClassName.toString());
+                                Class<? extends IService<? extends BaseModel>> serviceClass = (Class<? extends IService<? extends BaseModel>>) Class.forName(serviceClassName.toString());
                                 
                                 if(!Modifier.isAbstract(serviceClass.getModifiers())){
                                     serviceClassFile.delete();
@@ -1343,7 +1322,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             }
                         }
                         else
-                            addServiceMapping(serviceClassName.toString());
+                            updateServiceMapping(serviceClassName.toString());
                     }
                 }
             }
@@ -1427,7 +1406,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     File serviceInterfaceFile = new File(serviceInterfaceFilename.toString());
                     
                     if(!serviceInterfaceFile.exists()){
-                        if(this.modelInfo.generateService() != null && this.modelInfo.generateService()){
+                        if( this.modelInfo.generateService()){
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                             ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -1441,11 +1420,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         }
                     }
                     else{
-                        if(this.modelInfo.generateService() == null || !this.modelInfo.generateService()){
-                            Class<? extends IService<? extends BaseModel>> serviceClass = null;
-                            
+                        if(!this.modelInfo.generateService()){
                             try{
-                                serviceClass = ServiceUtil.getServiceClassByModel(this.modelInfo.getClazz());
+                                Class<? extends IService<? extends BaseModel>> serviceClass = ServiceUtil.getServiceClassByModel(this.modelInfo.getClazz());
                                 
                                 if(!Modifier.isAbstract(serviceClass.getModifiers()))
                                     serviceInterfaceFile.delete();
@@ -1462,238 +1439,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * Generates the web service class.
-     *
-     * @param webServiceClassTemplateFilename String that contains the web service class template filename.
-     * @throws InternalErrorException Occurs when was not possible to generate
-     * the class.
-     */
-    @SuppressWarnings("unchecked")
-    @Tag(ProjectConstants.DEFAULT_WEB_SERVICE_CLASS_TEMPLATE_FILE_ID)
-    public void generateWebServiceClass(String webServiceClassTemplateFilename) throws InternalErrorException{
-        try{
-            File webServiceClassTemplateFile = new File(webServiceClassTemplateFilename);
-            XmlReader webServiceClassTemplateReader = new XmlReader(webServiceClassTemplateFile);
-            String encoding = webServiceClassTemplateReader.getEncoding();
-            XmlNode webServiceClassTemplateNode = webServiceClassTemplateReader.getRoot();
-            List<XmlNode> webServiceClassTemplateArtifactsNode = webServiceClassTemplateNode.getChildren();
-            
-            if(webServiceClassTemplateArtifactsNode != null && !webServiceClassTemplateArtifactsNode.isEmpty()){
-                ProcessorFactory processorFactory = ProcessorFactory.getInstance();
-                ExpressionProcessor expressionProcessor = new ExpressionProcessor(this.modelInfo);
-                
-                for(XmlNode webServiceClassTemplateArtifactNode: webServiceClassTemplateArtifactsNode){
-                    String outputDir = expressionProcessor.evaluate(webServiceClassTemplateArtifactNode.getAttribute(Constants.OUTPUT_DIRECTORY_ATTRIBUTE_ID));
-                    String packagePrefix = expressionProcessor.evaluate(webServiceClassTemplateArtifactNode.getAttribute(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID));
-                    String packageName = expressionProcessor.evaluate(webServiceClassTemplateArtifactNode.getAttribute(Constants.PACKAGE_NAME_ATTRIBUTE_ID));
-                    String packageSuffix = expressionProcessor.evaluate(webServiceClassTemplateArtifactNode.getAttribute(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID));
-                    String name = expressionProcessor.evaluate(webServiceClassTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
-                    StringBuilder packageNameBuffer = new StringBuilder();
-                    
-                    if(packagePrefix != null && packagePrefix.length() > 0)
-                        packageNameBuffer.append(packagePrefix);
-                    
-                    if(packageName != null && packageName.length() > 0){
-                        if(packageNameBuffer.length() > 0)
-                            packageNameBuffer.append(".");
-                        
-                        packageNameBuffer.append(packageName);
-                    }
-                    
-                    if(packageSuffix != null && packageSuffix.length() > 0){
-                        if(packageNameBuffer.length() > 0)
-                            packageNameBuffer.append(".");
-                        
-                        packageNameBuffer.append(packageSuffix);
-                    }
-                    
-                    packageName = packageNameBuffer.toString();
-                    
-                    StringBuilder webServiceClassName = new StringBuilder();
-                    
-                    if(packageName != null && packageName.length() > 0){
-                        webServiceClassName.append(packageName);
-                        webServiceClassName.append(".");
-                    }
-                    
-                    webServiceClassName.append(name);
-                    
-                    StringBuilder webServiceClassFilename = new StringBuilder();
-                    
-                    if(outputDir != null && outputDir.length() > 0){
-                        webServiceClassFilename.append(outputDir);
-                        webServiceClassFilename.append(FileUtil.getDirectorySeparator());
-                    }
-                    else{
-                        webServiceClassFilename.append(this.build.getBaseDirname());
-                        webServiceClassFilename.append(FileUtil.getDirectorySeparator());
-                        webServiceClassFilename.append(ProjectConstants.DEFAULT_JAVA_DIR);
-                    }
-                    
-                    webServiceClassFilename.append(StringUtil.replaceAll(webServiceClassName.toString(), ".", FileUtil.getDirectorySeparator()));
-                    webServiceClassFilename.append(ProjectConstants.DEFAULT_JAVA_FILE_EXTENSION);
-                    
-                    File webServiceClassFile = new File(webServiceClassFilename.toString());
-                    
-                    if(!webServiceClassFile.exists()){
-                        if(this.modelInfo.generateWebService() != null && this.modelInfo.generateWebService()){
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
-                            ExpressionProcessorUtil.setVariable(Constants.NAME_ATTRIBUTE_ID, name);
-                            
-                            GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, webServiceClassTemplateArtifactNode);
-                            String webServiceClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
-                            
-                            if(webServiceClassContent != null && webServiceClassContent.length() > 0){
-                                FileUtil.toTextFile(webServiceClassFilename.toString(), webServiceClassContent, encoding);
-                                
-                                addServiceMapping(webServiceClassName.toString());
-                            }
-                        }
-                    }
-                    else{
-                        if(this.modelInfo.generateWebService() == null || !this.modelInfo.generateWebService()){
-                            Class<? extends IService<? extends BaseModel>> webServiceClass = null;
-                            
-                            try{
-                                webServiceClass = (Class<? extends IService<? extends BaseModel>>) Class.forName(webServiceClassName.toString());
-                                
-                                if(!Modifier.isAbstract(webServiceClass.getModifiers())){
-                                    webServiceClassFile.delete();
-                                    
-                                    removeServiceMapping(webServiceClassName.toString());
-                                }
-                            }
-                            catch(ClassNotFoundException e){
-                                webServiceClassFile.delete();
-                                
-                                removeServiceMapping(webServiceClassName.toString());
-                            }
-                        }
-                        else
-                            addServiceMapping(webServiceClassName.toString());
-                    }
-                }
-            }
-        }
-        catch(IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e){
-            throw new InternalErrorException(e);
-        }
-    }
-    
-    /**
-     * Generates the web service interface.
-     *
-     * @param webServiceInterfaceTemplateFilename String that contains the web service interface filename.
-     * @throws InternalErrorException Occurs when was not possible to generate
-     * the interface.
-     */
-    @Tag(ProjectConstants.DEFAULT_WEB_SERVICE_INTERFACE_TEMPLATE_FILE_ID)
-    public void generateWebServiceInterface(String webServiceInterfaceTemplateFilename) throws InternalErrorException{
-        try{
-            File webServiceInterfaceTemplateFile = new File(webServiceInterfaceTemplateFilename);
-            XmlReader webServiceInterfaceTemplateReader = new XmlReader(webServiceInterfaceTemplateFile);
-            String encoding = webServiceInterfaceTemplateReader.getEncoding();
-            XmlNode webServiceInterfaceTemplateNode = webServiceInterfaceTemplateReader.getRoot();
-            List<XmlNode> webServiceInterfaceTemplateArtifactsNode = webServiceInterfaceTemplateNode.getChildren();
-            
-            if(webServiceInterfaceTemplateArtifactsNode != null && !webServiceInterfaceTemplateArtifactsNode.isEmpty()){
-                ProcessorFactory processorFactory = ProcessorFactory.getInstance();
-                ExpressionProcessor expressionProcessor = new ExpressionProcessor(this.modelInfo);
-                
-                for(XmlNode webServiceInterfaceTemplateArtifactNode: webServiceInterfaceTemplateArtifactsNode){
-                    String outputDir = expressionProcessor.evaluate(webServiceInterfaceTemplateArtifactNode.getAttribute(Constants.OUTPUT_DIRECTORY_ATTRIBUTE_ID));
-                    String packagePrefix = expressionProcessor.evaluate(webServiceInterfaceTemplateArtifactNode.getAttribute(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID));
-                    String packageName = expressionProcessor.evaluate(webServiceInterfaceTemplateArtifactNode.getAttribute(Constants.PACKAGE_NAME_ATTRIBUTE_ID));
-                    String packageSuffix = expressionProcessor.evaluate(webServiceInterfaceTemplateArtifactNode.getAttribute(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID));
-                    String name = expressionProcessor.evaluate(webServiceInterfaceTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
-                    StringBuilder packageNameBuffer = new StringBuilder();
-                    
-                    if(packagePrefix != null && packagePrefix.length() > 0)
-                        packageNameBuffer.append(packagePrefix);
-                    
-                    if(packageName != null && packageName.length() > 0){
-                        if(packageNameBuffer.length() > 0)
-                            packageNameBuffer.append(".");
-                        
-                        packageNameBuffer.append(packageName);
-                    }
-                    
-                    if(packageSuffix != null && packageSuffix.length() > 0){
-                        if(packageNameBuffer.length() > 0)
-                            packageNameBuffer.append(".");
-                        
-                        packageNameBuffer.append(packageSuffix);
-                    }
-                    
-                    packageName = packageNameBuffer.toString();
-                    
-                    StringBuilder webServiceInterfaceName = new StringBuilder();
-                    
-                    if(packageName != null && packageName.length() > 0){
-                        webServiceInterfaceName.append(packageName);
-                        webServiceInterfaceName.append(".");
-                    }
-                    
-                    webServiceInterfaceName.append(name);
-                    
-                    StringBuilder webServiceInterfaceFilename = new StringBuilder();
-                    
-                    if(outputDir != null && outputDir.length() > 0){
-                        webServiceInterfaceFilename.append(outputDir);
-                        webServiceInterfaceFilename.append(FileUtil.getDirectorySeparator());
-                    }
-                    else{
-                        webServiceInterfaceFilename.append(this.build.getBaseDirname());
-                        webServiceInterfaceFilename.append(FileUtil.getDirectorySeparator());
-                        webServiceInterfaceFilename.append(ProjectConstants.DEFAULT_JAVA_DIR);
-                    }
-                    
-                    webServiceInterfaceFilename.append(StringUtil.replaceAll(webServiceInterfaceName.toString(), ".", FileUtil.getDirectorySeparator()));
-                    webServiceInterfaceFilename.append(ProjectConstants.DEFAULT_JAVA_FILE_EXTENSION);
-                    
-                    File webServiceInterfaceFile = new File(webServiceInterfaceFilename.toString());
-                    
-                    if(!webServiceInterfaceFile.exists()){
-                        if(this.modelInfo.generateWebService() != null && this.modelInfo.generateWebService()){
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
-                            ExpressionProcessorUtil.setVariable(Constants.NAME_ATTRIBUTE_ID, name);
-                            
-                            GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, webServiceInterfaceTemplateArtifactNode);
-                            String webServiceInterfaceContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
-                            
-                            if(webServiceInterfaceContent != null && webServiceInterfaceContent.length() > 0)
-                                FileUtil.toTextFile(webServiceInterfaceFilename.toString(), webServiceInterfaceContent, encoding);
-                        }
-                    }
-                    else{
-                        if(this.modelInfo.generateWebService() == null || !this.modelInfo.generateWebService()){
-                            Class<? extends IService<? extends BaseModel>> webServiceClass = null;
-                            
-                            try{
-                                webServiceClass = ServiceUtil.getWebServiceClassByModel(this.modelInfo.getClazz());
-                                
-                                if(Modifier.isAbstract(webServiceClass.getModifiers()))
-                                    webServiceInterfaceFile.delete();
-                            }
-                            catch(ClassNotFoundException e){
-                                webServiceInterfaceFile.delete();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        catch(IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e){
-            throw new InternalErrorException(e);
-        }
-    }
-    
+
     /**
      * Generates the persistence data.
      *
@@ -1788,7 +1534,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             File persistenceDataFile = new File(persistenceDataFilename.toString());
                             
                             if(!persistenceDataFile.exists()){
-                                if((this.modelInfo.generatePersistence() != null && this.modelInfo.generatePersistence()) || (this.modelInfo.generateService() != null && this.modelInfo.generateService())){
+                                if(this.modelInfo.generatePersistence() || this.modelInfo.generateService()){
                                     ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                                     ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                                     ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -1800,11 +1546,10 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                     if(persistenceDataContent != null && persistenceDataContent.length() > 0){
                                         StringBuilder persistenceDataContentBuffer = new StringBuilder();
                                         BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(persistenceDataContent.getBytes())));
-                                        String line = null;
-                                        String indentation = null;
-                                        
+                                        String line;
+
                                         while((line = reader.readLine()) != null){
-                                            indentation = StringUtil.replicate(Constants.DEFAULT_INDENT_CHARACTER, Constants.DEFAULT_INDENT_SIZE);
+                                            String indentation = StringUtil.replicate(Constants.DEFAULT_INDENT_CHARACTER, Constants.DEFAULT_INDENT_SIZE);
                                             
                                             if(indentation != null && indentation.length() > 0)
                                                 persistenceDataContentBuffer.append(indentation);
@@ -1820,7 +1565,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 }
                             }
                             else{
-                                if((this.modelInfo.generatePersistence() == null || !this.modelInfo.generatePersistence()) && (this.modelInfo.generateService() == null || !this.modelInfo.generateService()))
+                                if(!this.modelInfo.generatePersistence() && !this.modelInfo.generateService())
                                     persistenceDataFile.delete();
                             }
                         }
@@ -1863,14 +1608,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     StringBuilder uiPageFilename = new StringBuilder();
                     StringBuilder uiPageScriptFilename = new StringBuilder();
                     StringBuilder uiPageStyleFilename = new StringBuilder();
-                    File uiPageDir = null;
-                    File uiPageFile = null;
-                    File uiPageImagesDir = null;
-                    File uiPageScriptsDir = null;
-                    File uiPageStylesDir = null;
-                    File uiPageScriptFile = null;
-                    File uiPageStyleFile = null;
-                    
+
                     if(outputDir != null && outputDir.length() > 0){
                         uiPageDirname.append(outputDir);
                         uiPageDirname.append(FileUtil.getDirectorySeparator());
@@ -1878,7 +1616,8 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     uiPageDirname.append(ProjectConstants.DEFAULT_UI_DIR);
                     uiPageDirname.append(actionFormUrl);
-                    uiPageDir = new File(uiPageDirname.toString());
+
+                    File uiPageDir = new File(uiPageDirname.toString());
                     
                     if(outputDir != null && outputDir.length() > 0){
                         uiPageFilename.append(outputDir);
@@ -1894,30 +1633,36 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     uiPageFilename.append(actionFormUrl.substring(1));
                     uiPageFilename.append(FileUtil.getDirectorySeparator());
                     uiPageFilename.append(ProjectConstants.DEFAULT_UI_PAGE_FILE_ID);
-                    uiPageFile = new File(uiPageFilename.toString());
+
+                    File uiPageFile = new File(uiPageFilename.toString());
                     
-                    uiPageImagesDirname.append(uiPageDirname.toString());
+                    uiPageImagesDirname.append(uiPageDirname);
                     uiPageImagesDirname.append(UIConstants.DEFAULT_IMAGES_RESOURCES_DIR);
-                    uiPageImagesDir = new File(uiPageImagesDirname.toString());
+
+                    File uiPageImagesDir = new File(uiPageImagesDirname.toString());
                     
-                    uiPageScriptsDirname.append(uiPageDirname.toString());
+                    uiPageScriptsDirname.append(uiPageDirname);
                     uiPageScriptsDirname.append(UIConstants.DEFAULT_SCRIPTS_RESOURCES_DIR);
-                    uiPageScriptsDir = new File(uiPageScriptsDirname.toString());
+
+                    File uiPageScriptsDir = new File(uiPageScriptsDirname.toString());
                     
-                    uiPageStylesDirname.append(uiPageDirname.toString());
+                    uiPageStylesDirname.append(uiPageDirname);
                     uiPageStylesDirname.append(UIConstants.DEFAULT_STYLES_RESOURCES_DIR);
-                    uiPageStylesDir = new File(uiPageStylesDirname.toString());
+
+                    File uiPageStylesDir = new File(uiPageStylesDirname.toString());
                     
                     uiPageScriptFilename.append(uiPageScriptsDirname);
                     uiPageScriptFilename.append(UIConstants.DEFAULT_PAGE_SCRIPT_RESOURCES_ID);
-                    uiPageScriptFile = new File(uiPageScriptFilename.toString());
+
+                    File uiPageScriptFile = new File(uiPageScriptFilename.toString());
                     
                     uiPageStyleFilename.append(uiPageStylesDirname);
                     uiPageStyleFilename.append(UIConstants.DEFAULT_PAGE_STYLE_RESOURCES_ID);
-                    uiPageStyleFile = new File(uiPageStyleFilename.toString());
+
+                    File uiPageStyleFile = new File(uiPageStyleFilename.toString());
                     
                     if(!uiPageFile.exists() || !uiPageDir.exists() || !uiPageImagesDir.exists() || !uiPageStylesDir.exists() || !uiPageScriptsDir.exists() || !uiPageScriptFile.exists() || !uiPageStyleFile.exists()){
-                        if(this.modelInfo.generateUi() != null && this.modelInfo.generateUi()){
+                        if(this.modelInfo.generateUi()){
                             if(!uiPageDir.exists())
                                 uiPageDir.mkdirs();
                             
@@ -1945,7 +1690,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             }
                         }
                         else{
-                            if(this.modelInfo.generateUi() == null || !this.modelInfo.generateUi()){
+                            if(!this.modelInfo.generateUi()){
                                 if(uiPageFile.exists())
                                     uiPageFile.delete();
                                 
@@ -1999,41 +1744,43 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                 ProcessorFactory processorFactory = ProcessorFactory.getInstance();
                 ExpressionProcessor expressionProcessor = new ExpressionProcessor(this.modelInfo);
                 
-                for(XmlNode moduleMappingTemplateArtifactNode: moduleMappingTemplateArtifactsNode){
+                for(XmlNode moduleMappingTemplateArtifactNode: moduleMappingTemplateArtifactsNode) {
                     String outputDir = expressionProcessor.evaluate(moduleMappingTemplateArtifactNode.getAttribute(Constants.OUTPUT_DIRECTORY_ATTRIBUTE_ID));
                     String name = expressionProcessor.evaluate(moduleMappingTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder moduleMappingFilename = new StringBuilder();
-                    
-                    if(outputDir != null && outputDir.length() > 0){
+
+                    if (outputDir != null && outputDir.length() > 0) {
                         moduleMappingFilename.append(outputDir);
                         moduleMappingFilename.append(FileUtil.getDirectorySeparator());
-                    }
-                    else{
+                    } else {
                         moduleMappingFilename.append(this.build.getBaseDirname());
                         moduleMappingFilename.append(FileUtil.getDirectorySeparator());
                         moduleMappingFilename.append(ProjectConstants.DEFAULT_UI_DIR);
                         moduleMappingFilename.append(ProjectConstants.DEFAULT_MODULE_DESCRIPTORS_DIR);
                         moduleMappingFilename.append("/");
                     }
-                    
+
                     moduleMappingFilename.append(name);
                     moduleMappingFilename.append(XmlConstants.DEFAULT_FILE_EXTENSION);
-                    
+
                     File moduleMappingFile = new File(moduleMappingFilename.toString());
-                    
-                    if(moduleMappingFile.exists())
-                        moduleMappingFile.delete();
-                    
-                    if((this.modelInfo.generateWebService() != null && this.modelInfo.generateWebService()) || (this.modelInfo.generateUi() != null && this.modelInfo.generateUi())){
-                        GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, moduleMappingTemplateArtifactNode);
-                        String moduleMappingContent = processor.process();
-                        
-                        if(moduleMappingContent != null && moduleMappingContent.length() > 0){
-                            String moduleMappingEncoding = moduleMappingTemplateReader.getEncoding();
-                            XmlWriter moduleMappingTemplateWriter = new XmlWriter(moduleMappingFile, moduleMappingEncoding);
-                            
-                            moduleMappingTemplateWriter.write(moduleMappingContent);
+
+                    if (!moduleMappingFile.exists()){
+                        if (this.modelInfo.generateUi()) {
+                            GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, moduleMappingTemplateArtifactNode);
+                            String moduleMappingContent = processor.process();
+
+                            if (moduleMappingContent != null && moduleMappingContent.length() > 0) {
+                                String moduleMappingEncoding = moduleMappingTemplateReader.getEncoding();
+                                XmlWriter moduleMappingTemplateWriter = new XmlWriter(moduleMappingFile, moduleMappingEncoding);
+
+                                moduleMappingTemplateWriter.write(moduleMappingContent);
+                            }
                         }
+                    }
+                    else{
+                        if (!this.modelInfo.generateUi())
+                            moduleMappingFile.delete();
                     }
                 }
             }
@@ -2088,7 +1835,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                 XmlNode timeoutNode = loginSessionNode.getNode(Constants.TIMEOUT_ATTRIBUTE_ID);
                 
                 if(timeoutNode == null){
-                    timeoutNode = new XmlNode(Constants.TIMEOUT_ATTRIBUTE_ID, SecurityConstants.DEFAULT_LOGIN_SESSION_TIMEOUT.toString());
+                    timeoutNode = new XmlNode(Constants.TIMEOUT_ATTRIBUTE_ID, String.valueOf(SecurityConstants.DEFAULT_LOGIN_SESSION_TIMEOUT));
                     
                     loginSessionNode.addChild(timeoutNode);
                 }
@@ -2098,7 +1845,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                 if(cryptographyNode == null){
                     cryptographyNode = new XmlNode(SecurityConstants.CRYPTOGRAPHY_ATTRIBUTE_ID);
                     cryptographyNode.addAttribute(SecurityConstants.CRYPTOGRAPHY_ALGORITHM_ATTRIBUTE_ID, SecurityConstants.DEFAULT_CRYPTO_ALGORITHM_ID);
-                    cryptographyNode.addAttribute(SecurityConstants.CRYPTOGRAPHY_KEY_SIZE_ATTRIBUTE_ID, SecurityConstants.DEFAULT_CRYPTO_KEY_SIZE.toString());
+                    cryptographyNode.addAttribute(SecurityConstants.CRYPTOGRAPHY_KEY_SIZE_ATTRIBUTE_ID, String.valueOf(SecurityConstants.DEFAULT_CRYPTO_KEY_SIZE));
                     
                     securityResourceContent.addChild(cryptographyNode);
                 }
@@ -2116,10 +1863,10 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
     /**
      * Adds a service mapping.
      *
-     * @param currentServiceClassName String that contains the service implementation class name.
+     * @param serviceClassName String that contains the service implementation class name.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    private void addServiceMapping(String currentServiceClassName) throws InternalErrorException{
+    private void addServiceMapping(String serviceClassName) throws InternalErrorException{
         if(this.modelInfo == null)
             return;
         
@@ -2140,30 +1887,85 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             }
             
             List<XmlNode> servicesNodes = servicesNode.getChildren();
-            Boolean found = false;
-            
+            XmlNode serviceNode = null;
+
             if(servicesNodes != null && !servicesNodes.isEmpty()){
-                for(int cont = 0; cont < servicesNodes.size(); cont++){
-                    XmlNode serviceNode = servicesNodes.get(cont);
-                    String serviceClassName = serviceNode.getValue();
-                    
-                    if(serviceClassName != null && serviceClassName.equals(currentServiceClassName)){
-                        found = true;
-                        
+                for(XmlNode item : servicesNodes){
+                    serviceNode = item;
+
+                    if(serviceClassName != null && serviceClassName.equals(serviceNode.getValue()))
                         break;
-                    }
+
+                    serviceNode = null;
                 }
             }
             
-            if(!found){
-                servicesNode.addChild(new XmlNode(ServiceConstants.SERVICE_ATTRIBUTE_ID, currentServiceClassName));
-                
-                XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
-                
-                writer.write(systemResourceContentNode);
+            if(serviceNode == null) {
+                serviceNode = new XmlNode(ServiceConstants.SERVICE_ATTRIBUTE_ID, serviceClassName);
+
+                servicesNode.addChild(serviceNode);
             }
+
+            XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
+
+            writer.write(systemResourceContentNode);
         }
         catch(IOException | DocumentException e){
+            throw new InternalErrorException(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void updateServiceMapping(String serviceClassName) throws InternalErrorException{
+        if(this.modelInfo == null)
+            return;
+
+        try{
+            StringBuilder systemResourcesFilename = new StringBuilder();
+
+            systemResourcesFilename.append(ProjectConstants.DEFAULT_RESOURCES_DIR);
+            systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
+
+            XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
+            XmlNode systemResourceContentNode = reader.getRoot();
+
+            XmlNode servicesNode = systemResourceContentNode.getNode(ServiceConstants.SERVICES_ATTRIBUTE_ID);
+            List<XmlNode> servicesNodes = (servicesNode != null ? servicesNode.getChildren() : null);
+
+            if(servicesNodes != null && !servicesNodes.isEmpty()){
+                XmlNode serviceNode = null;
+
+                for(XmlNode item : servicesNodes){
+                    serviceNode = item;
+
+                    if(serviceClassName != null && serviceClassName.equals(serviceNode.getValue()))
+                        break;
+
+                    serviceNode = null;
+                }
+
+                if(serviceNode != null){
+                    Class<IService<? extends BaseModel>> serviceClass = (Class<IService<? extends BaseModel>>)Class.forName(serviceClassName);
+                    Service serviceAnnotation = serviceClass.getAnnotation(Service.class);
+
+                    if(serviceAnnotation != null){
+                        if(serviceAnnotation.isDaemon())
+                            serviceNode.addAttribute("isDaemon", String.valueOf(serviceAnnotation.isDaemon()));
+
+                        if(serviceAnnotation.isRecurrent())
+                            serviceNode.addAttribute("isRecurrent", String.valueOf(serviceAnnotation.isRecurrent()));
+
+                        if(serviceAnnotation.path() != null && serviceAnnotation.path().length() > 0)
+                            serviceNode.addAttribute("path", serviceAnnotation.path());
+
+                        XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
+
+                        writer.write(systemResourceContentNode);
+                    }
+                }
+            }
+        }
+        catch(IOException | DocumentException | ClassNotFoundException e){
             throw new InternalErrorException(e);
         }
     }
@@ -2171,10 +1973,10 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
     /**
      * Removes a service mapping.
      *
-     * @param currentServiceClassName String that contains the service implementation class name.
+     * @param serviceClassName String that contains the service implementation class name.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    private void removeServiceMapping(String currentServiceClassName) throws InternalErrorException{
+    private void removeServiceMapping(String serviceClassName) throws InternalErrorException{
         if(this.modelInfo == null)
             return;
         
@@ -2189,18 +1991,18 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             
             XmlNode servicesNode = systemResourceContentNode.getNode(ServiceConstants.SERVICES_ATTRIBUTE_ID);
             List<XmlNode> servicesNodes = (servicesNode != null ? servicesNode.getChildren() : null);
-            Boolean found = false;
-            
+
             if(servicesNodes != null && !servicesNodes.isEmpty()){
+                boolean found = false;
+
                 for(int cont = 0; cont < servicesNodes.size(); cont++){
                     XmlNode serviceNode = servicesNodes.get(cont);
-                    String serviceClassName = serviceNode.getValue();
-                    
-                    if(serviceClassName != null && serviceClassName.equals(currentServiceClassName)){
-                        servicesNodes.remove(cont);
-                        
+
+                    if(serviceClassName != null && serviceClassName.equals(serviceNode.getValue())){
                         found = true;
-                        
+
+                        servicesNodes.remove(cont);
+
                         break;
                     }
                 }
@@ -2255,7 +2057,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     mainConsoleNode.addChild(classNode);
                 }
                 
-                if(this.modelInfo.generateUi() != null && this.modelInfo.generateUi())
+                if(this.modelInfo.generateUi())
                     classNode.setValue(modelClass.getName());
             }
             
@@ -2269,7 +2071,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
     }
     
     /**
-     * Adds a class name to the generate code checking file.
+     * Adds a class name to generate code checking file.
      *
      * @param className String that contains the class name.
      * @throws IOException Occurs when was not possible to execute the

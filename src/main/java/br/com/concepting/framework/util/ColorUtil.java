@@ -32,9 +32,9 @@ public class ColorUtil{
      */
     public static String toString(Color color){
         if(color != null){
-            Integer red = color.getRed();
-            Integer green = color.getGreen();
-            Integer blue = color.getBlue();
+            int red = color.getRed();
+            int green = color.getGreen();
+            int blue = color.getBlue();
             StringBuilder value = new StringBuilder();
             
             value.append("rgb(");
@@ -91,7 +91,7 @@ public class ColorUtil{
      * @return Instance that contains the color.
      */
     public static Color toColor(String color){
-        if(color != null && color.indexOf("rgb") >= 0){
+        if(color != null && color.contains("rgb")){
             String value = StringUtil.replaceAll(color, "rgb(", "");
             
             value = StringUtil.replaceAll(value, ")", "");

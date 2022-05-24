@@ -34,14 +34,14 @@ public class ConfirmButtonComponent extends ButtonComponent{
     
     private String message = null;
     private String messageKey = null;
-    private Boolean showDialogBox = null;
+    private boolean showDialogBox = false;
     
     /**
      * Indicates if the confirmation box should be shown.
      *
      * @return True/False.
      */
-    public Boolean showDialogBox(){
+    public boolean showDialogBox(){
         return this.showDialogBox;
     }
     
@@ -50,7 +50,7 @@ public class ConfirmButtonComponent extends ButtonComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowDialogBox(){
+    public boolean getShowDialogBox(){
         return showDialogBox();
     }
     
@@ -59,7 +59,7 @@ public class ConfirmButtonComponent extends ButtonComponent{
      *
      * @param showDialogBox True/False.
      */
-    public void setShowDialogBox(Boolean showDialogBox){
+    public void setShowDialogBox(boolean showDialogBox){
         this.showDialogBox = showDialogBox;
     }
     
@@ -108,19 +108,17 @@ public class ConfirmButtonComponent extends ButtonComponent{
     protected void buildMessage() throws InternalErrorException{
         String name = getName();
         
-        if(name != null && name.length() > 0 && this.showDialogBox != null && this.showDialogBox && this.messageKey != null && this.messageKey.length() > 0 && this.message == null){
+        if(name != null && name.length() > 0 && this.showDialogBox && this.messageKey != null && this.messageKey.length() > 0 && this.message == null){
             PropertiesResources resources = getResources();
             PropertiesResources mainConsoleResources = getMainConsoleResources();
             PropertiesResources defaultResources = getDefaultResources();
-            String resourcesKeyValue = null;
-            String messageValue = null;
             StringBuilder propertyId = new StringBuilder();
             
             propertyId.append(name);
             propertyId.append(".");
             propertyId.append(this.messageKey);
             
-            messageValue = (resources != null ? resources.getProperty(propertyId.toString(), false) : null);
+            String messageValue = (resources != null ? resources.getProperty(propertyId.toString(), false) : null);
             
             if(messageValue == null)
                 messageValue = (mainConsoleResources != null ? mainConsoleResources.getProperty(propertyId.toString(), false) : null);
@@ -135,7 +133,7 @@ public class ConfirmButtonComponent extends ButtonComponent{
                 propertyId.append(".");
                 propertyId.append(this.messageKey);
                 
-                resourcesKeyValue = (resources != null ? resources.getProperty(propertyId.toString(), false) : null);
+                String resourcesKeyValue = (resources != null ? resources.getProperty(propertyId.toString(), false) : null);
                 
                 if(resourcesKeyValue == null)
                     resourcesKeyValue = (mainConsoleResources != null ? mainConsoleResources.getProperty(propertyId.toString(), false) : null);
@@ -149,10 +147,8 @@ public class ConfirmButtonComponent extends ButtonComponent{
                 this.message = messageValue;
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         String resourcesKey = getResourcesKey();
         
@@ -169,10 +165,8 @@ public class ConfirmButtonComponent extends ButtonComponent{
         
         buildMessage();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         String name = getName();
         
@@ -203,20 +197,8 @@ public class ConfirmButtonComponent extends ButtonComponent{
         else
             super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        if(this.showDialogBox == null)
-            this.showDialogBox = false;
-        
-        super.buildRestrictions();
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         String styleClass = getStyleClass();
         
@@ -228,17 +210,15 @@ public class ConfirmButtonComponent extends ButtonComponent{
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         String actionFormName = getActionFormName();
         String name = getName();
-        Boolean enabled = isEnabled();
-        Boolean render = render();
+        boolean enabled = isEnabled();
+        boolean render = render();
         
-        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && enabled != null && enabled && render != null && render && this.showDialogBox != null && this.showDialogBox){
+        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && enabled && render && this.showDialogBox){
             ConfirmDialogBoxComponent confirmDialogBoxComponent = new ConfirmDialogBoxComponent();
             
             confirmDialogBoxComponent.setPageContext(this.pageContext);
@@ -265,15 +245,13 @@ public class ConfirmButtonComponent extends ButtonComponent{
         
         super.renderOpen();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
         setMessage(null);
         setMessageKey(null);
-        setShowDialogBox(null);
+        setShowDialogBox(false);
     }
 }

@@ -26,10 +26,10 @@ import br.com.concepting.framework.exceptions.ExpectedWarningException;
 public class PasswordWillExpireException extends ExpectedWarningException{
     private static final long serialVersionUID = 5978487541406636762L;
     
-    private Integer daysUntilExpiration = null;
-    private Integer hoursUntilExpiration = null;
-    private Integer minutesUntilExpiration = null;
-    private Integer secondsUntilExpiration = null;
+    private final int daysUntilExpiration;
+    private final int hoursUntilExpiration;
+    private final int minutesUntilExpiration;
+    private final int secondsUntilExpiration;
     
     /**
      * Constructor - Initializes the exception.
@@ -41,11 +41,11 @@ public class PasswordWillExpireException extends ExpectedWarningException{
      */
     public PasswordWillExpireException(Integer daysUntilExpiration, Integer hoursUntilExpiration, Integer minutesUntilExpiration, Integer secondsUntilExpiration){
         super();
-        
-        setDaysUntilExpiration(daysUntilExpiration);
-        setHoursUntilExpiration(hoursUntilExpiration);
-        setMinutesUntilExpiration(minutesUntilExpiration);
-        setSecondsUntilExpiration(secondsUntilExpiration);
+
+        this.daysUntilExpiration = daysUntilExpiration;
+        this.hoursUntilExpiration = hoursUntilExpiration;
+        this.minutesUntilExpiration = minutesUntilExpiration;
+        this.secondsUntilExpiration = secondsUntilExpiration;
     }
     
     /**
@@ -53,71 +53,34 @@ public class PasswordWillExpireException extends ExpectedWarningException{
      *
      * @return Numeric value that contains the days until expiration.
      */
-    public Integer getHoursUntilExpiration(){
+    public int getHoursUntilExpiration(){
         return this.hoursUntilExpiration;
     }
-    
-    /**
-     * Defines the days until expiration.
-     *
-     * @param hoursUntilExpiration Numeric value that contains the days until expiration.
-     */
-    public void setHoursUntilExpiration(Integer hoursUntilExpiration){
-        this.hoursUntilExpiration = hoursUntilExpiration;
-    }
-    
+
     /**
      * Returns the minutes until expiration.
      *
      * @return Numeric value that contains the minutes until expiration.
      */
-    public Integer getMinutesUntilExpiration(){
+    private int getMinutesUntilExpiration(){
         return this.minutesUntilExpiration;
     }
-    
-    /**
-     * Defines the minutes until expiration.
-     *
-     * @param minutesUntilExpiration Numeric value that contains the minutes until expiration.
-     */
-    public void setMinutesUntilExpiration(Integer minutesUntilExpiration){
-        this.minutesUntilExpiration = minutesUntilExpiration;
-    }
-    
+
     /**
      * Returns the seconds until expiration.
      *
      * @return Numeric value that contains the seconds until expiration.
      */
-    public Integer getSecondsUntilExpiration(){
+    public int getSecondsUntilExpiration(){
         return this.secondsUntilExpiration;
     }
-    
-    /**
-     * Defines the seconds until expiration.
-     *
-     * @param secondsUntilExpiration Numeric value that contains the seconds until expiration.
-     */
-    public void setSecondsUntilExpiration(Integer secondsUntilExpiration){
-        this.secondsUntilExpiration = secondsUntilExpiration;
-    }
-    
+
     /**
      * Returns the number of days until expiration.
      *
      * @return Numeric value that contains the number of days until expiration.
      */
-    public Integer getDaysUntilExpiration(){
+    public int getDaysUntilExpiration(){
         return this.daysUntilExpiration;
-    }
-    
-    /**
-     * Defines the number of days until expiration.
-     *
-     * @param daysUntilExpiration Numeric value that contains the number of days
-     * until expiration.
-     */
-    public void setDaysUntilExpiration(Integer daysUntilExpiration){
-        this.daysUntilExpiration = daysUntilExpiration;
     }
 }

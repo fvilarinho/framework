@@ -23,6 +23,11 @@ package br.com.concepting.framework.util.types;
  */
 public enum MethodType{
     /**
+     * No method defined.
+     */
+    NONE,
+
+    /**
      * Defines the GET method.
      */
     GET,

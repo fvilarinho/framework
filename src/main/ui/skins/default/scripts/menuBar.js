@@ -4,7 +4,7 @@
  * @author fvilarinho
  * @version 1.0.0
  */
-var currentMenu = null;
+let currentMenu = null;
  
 /**
  * Finds the parent menu.
@@ -13,11 +13,11 @@ var currentMenu = null;
  * @return Instance that contains the parent menu.
  */
 function findParentMenu(menu){
-	var parentMenu   = menu;
-    var parentMenuId = "";
+	let parentMenu   = menu;
+    let parentMenuId = "";
     
     while(true){
-    		parentMenu = parentMenu.parentNode;
+		parentMenu = parentMenu.parentNode;
         
        	if(!parentMenu)
        	  	break;
@@ -40,29 +40,29 @@ function findParentMenu(menu){
  */
 function selectMenuItem(menuItem, menuItemClass){
 	if(menuItem){
-		var currentMenuId = "";
-		var menuItemId    = replaceAll(menuItem.id, ".menuItem", "");
-       	var parentMenu    = findParentMenu(menuItem);
-       	var parentMenuId  = parentMenu.id;
-       	var menu          = getObject(menuItemId + ".menuBox");
+		let currentMenuId = "";
+		let menuItemId    = replaceAll(menuItem.id, ".menuItem", "");
+       	let parentMenu    = findParentMenu(menuItem);
+       	let parentMenuId  = parentMenu.id;
+       	let menu          = getObject(menuItemId + ".menuBox");
 
        	if(parentMenuId.indexOf(".menuBar") < 0)
 	     	menuItem.parentNode.className = menuItemClass;
 
-    		menuItem.className = menuItemClass;
+		menuItem.className = menuItemClass;
 	    
        	if(currentMenu){
        		currentMenuId = currentMenu.id;
         	
-           	if(currentMenuId != parentMenuId){
-               	var bufferMenuId = "";
-               	var bufferMenu   = currentMenu;
+           	if(currentMenuId !== parentMenuId){
+               	let bufferMenuId = "";
+               	let bufferMenu   = currentMenu;
 
                	while(true){
                    	if(bufferMenu){
-    	               		bufferMenuId = bufferMenu.id;
+						bufferMenuId = bufferMenu.id;
                         
-                   		if(bufferMenuId == parentMenuId)
+                   		if(bufferMenuId === parentMenuId)
                        		break;
 
                    		bufferMenu.style.visibility = "HIDDEN";
@@ -77,12 +77,12 @@ function selectMenuItem(menuItem, menuItemClass){
 	
         if(menu){
           	if(parentMenuId.indexOf(".menuBar") >= 0){
-        	   		menu.style.left = parseInt(menuItem.offsetLeft) - 1;
-               	menu.style.top  = parseInt(parentMenu.offsetHeight);
+				menu.style.left = (parseInt(menuItem.offsetLeft) - 1) + "px";
+               	menu.style.top  = parseInt(parentMenu.offsetHeight) + "px";
             }
             else{
-               	menu.style.left = parseInt(menuItem.parentNode.offsetWidth) + 4;
-               	menu.style.top  = parseInt(menuItem.offsetTop) - 1;
+               	menu.style.left = (parseInt(menuItem.parentNode.offsetWidth) + 4) + "px";
+               	menu.style.top  = (parseInt(menuItem.offsetTop) - 1) + "px";
             }
 
             menu.style.visibility = "VISIBLE";
@@ -100,9 +100,6 @@ function selectMenuItem(menuItem, menuItemClass){
  */
 function unselectMenuItem(menuItem, menuItemClass){
 	if(menuItem){
-		var parentMenu   = findParentMenu(menuItem);
-       	var parentMenuId = parentMenu.id;
-        
    		menuItem.parentNode.className = menuItemClass;
        	menuItem.className            = menuItemClass;
     }
@@ -114,10 +111,10 @@ function unselectMenuItem(menuItem, menuItemClass){
  * @param name String that contains the identifier of the menu bar component.
  */
 function renderFixedMenuBar(name){
-	var object = getObject(name + ".menuBar");
+	let object = getObject(name + ".menuBar");
 	
 	if(object){
-		object.style.left = 0;
-		object.style.top = document.body.scrollTop;
+		object.style.left = "0px";
+		object.style.top = (document.body.scrollTop) + "px";
 	}
 }

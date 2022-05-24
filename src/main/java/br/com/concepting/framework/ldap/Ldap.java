@@ -43,7 +43,8 @@ import java.util.Properties;
 public class Ldap{
     private static Map<String, Ldap> instances = null;
     
-    private LdapResources resources = null;
+    private final LdapResources resources;
+
     private DirContext context = null;
     
     /**
@@ -143,8 +144,8 @@ public class Ldap{
         
         properties.put(Context.PROVIDER_URL, url);
         
-        if(this.resources.getTimeout() != null && this.resources.getTimeout() > 0)
-            properties.put(LdapConstants.TIMEOUT_ATTRIBUTE_ID, this.resources.getTimeout().toString());
+        if(this.resources.getTimeout() > 0)
+            properties.put(LdapConstants.TIMEOUT_ATTRIBUTE_ID, String.valueOf(this.resources.getTimeout() * 1000));
         
         if(this.resources.getUserName() != null && this.resources.getUserName().length() > 0){
             StringBuilder securityBuffer = new StringBuilder();
@@ -194,13 +195,13 @@ public class Ldap{
     public XmlNode list(String dn) throws InternalErrorException{
         try{
             NamingEnumeration<NameClassPair> list = getContext().list(dn);
-            NameClassPair item = null;
-            Attributes attributes = null;
-            NamingEnumeration<Attribute> attributesList = null;
-            Attribute attribute = null;
-            XmlNode root = null;
-            XmlNode child = null;
-            XmlNode attributeChild = null;
+            NameClassPair item;
+            Attributes attributes;
+            NamingEnumeration<Attribute> attributesList;
+            Attribute attribute;
+            XmlNode root;
+            XmlNode child;
+            XmlNode attributeChild;
             Object attributeValue = null;
             StringBuilder attributeValueBuffer = null;
             

@@ -127,10 +127,8 @@ public class SetProcessor extends EvaluateProcessor{
     public void setName(String name){
         this.name = name;
     }
-    
-    /**
-     * @see br.com.concepting.framework.processors.GenericProcessor#process()
-     */
+
+    @Override
     public String process() throws InternalErrorException{
         setVariable(this.name, evaluate());
         

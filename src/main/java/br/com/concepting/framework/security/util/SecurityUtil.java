@@ -77,7 +77,7 @@ public class SecurityUtil{
      * @param password String that contains the password.
      * @return True/False.
      */
-    public static Boolean isStrongPassword(String password){
+    public static boolean isStrongPassword(String password){
         if(password == null)
             return false;
         
@@ -108,7 +108,7 @@ public class SecurityUtil{
             
             if(resources != null){
                 String cryptographyAlgorithm = resources.getCriptographyAlgorithm();
-                Integer cryptographyKeySize = resources.getCriptographyKeySize();
+                int cryptographyKeySize = resources.getCriptographyKeySize();
                 CryptoDigest digest = new CryptoDigest(true);
                 String cryptographyKey = digest.encrypt(password);
                 ICrypto crypto = CryptoFactory.getInstance(cryptographyAlgorithm, cryptographyKey, cryptographyKeySize, true);
@@ -126,9 +126,9 @@ public class SecurityUtil{
     }
     
     /**
-     * Returns the operating system user name.
+     * Returns the operating system username.
      *
-     * @return String that contains the user name.
+     * @return String that contains the username.
      */
     public static String getSystemUserName(){
         return System.getProperty("user.name");
@@ -140,9 +140,7 @@ public class SecurityUtil{
      * @return String that contains a basic token.
      */
     public static String generateBasicToken(){
-        String token = StringUtil.replaceAll(UUID.randomUUID().toString(), "-", "");
-        
-        return token;
+        return StringUtil.replaceAll(UUID.randomUUID().toString(), "-", "");
     }
     
     /**
@@ -161,7 +159,7 @@ public class SecurityUtil{
      * Instantiate the login session data model based on the security resources.
      *
      * @param <L> Class that defines the data model.
-     * @param resourcesDirname String that contains the resources directory.
+     * @param resourcesDirname String that contains the resources' directory.
      * @return Instance that contains the login session data model.
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
@@ -187,7 +185,7 @@ public class SecurityUtil{
      * Instantiate the login session data model based on the security resources.
      *
      * @param <L> Class that defines the data model.
-     * @param resourcesDirname String that contains the resources directory.
+     * @param resourcesDirname String that contains the resources' directory.
      * @param loginSession Instance of the login session data model.
      * @return Instance that contains the login session data model.
      * @throws InternalErrorException Occurs when was not possible to execute

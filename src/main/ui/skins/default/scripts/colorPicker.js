@@ -11,20 +11,20 @@
  * @param name String that contains the identifier of the color picker component.
  */
 function showHideColorPickerDialog(name){
-	var divs = document.getElementsByTagName("div");
+	let divs = document.getElementsByTagName("div");
 	
-	for(var i = 0 ; i < divs.length ; i++){
-		var div = divs[i];
-		var id  = div.id;
+	for(let i = 0 ; i < divs.length ; i++){
+		let div = divs[i];
+		let id  = div.id;
 		
-		if(id && id.indexOf(".colorPickerDialog") >= 0 && id != (name + ".colorPickerDialog"))
+		if(id && id.indexOf(".colorPickerDialog") >= 0 && id !== (name + ".colorPickerDialog"))
 			div.style.visibility = "HIDDEN";
 	}
 	
-	var object = getObject(name + ".colorPickerDialog");
+	let object = getObject(name + ".colorPickerDialog");
 	
 	if(object){
-		if(object.style.visibility.toUpperCase() == "VISIBLE")
+		if(object.style.visibility.toUpperCase() === "VISIBLE")
 			object.style.visibility = "HIDDEN";
 		else
 			object.style.visibility = "VISIBLE";
@@ -37,14 +37,14 @@ function showHideColorPickerDialog(name){
  * @param name String that contains the identifier of the color picker component.
  */
 function changeColorPickerThumbnail(name){
-	var redValue   = getObjectValue(name + ".redValue");
-	var greenValue = getObjectValue(name + ".greenValue");
-	var blueValue  = getObjectValue(name + ".blueValue");
-	var value      = "rgb(" + (redValue != "" ? redValue : "0") + ", " + (greenValue != "" ? greenValue : "0") + ", " + (blueValue != "" ? blueValue: "0") + ")";
+	let redValue   = getObjectValue(name + ".redValue");
+	let greenValue = getObjectValue(name + ".greenValue");
+	let blueValue  = getObjectValue(name + ".blueValue");
+	let value      = "rgb(" + (redValue !== "" ? redValue : "0") + ", " + (greenValue !== "" ? greenValue : "0") + ", " + (blueValue !== "" ? blueValue: "0") + ")";
 	
 	setObjectValue(name, value);
 	
-	var thumbnailObject = getObject(name + ".colorPickerThumbnail");
+	let thumbnailObject = getObject(name + ".colorPickerThumbnail");
 	
 	if(thumbnailObject)
 		thumbnailObject.style.background = value;

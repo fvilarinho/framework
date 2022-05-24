@@ -66,7 +66,7 @@ public class CryptoAES extends BaseCrypto{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public CryptoAES(Integer keySize) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    public CryptoAES(int keySize) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         this(keySize, true);
     }
     
@@ -106,7 +106,7 @@ public class CryptoAES extends BaseCrypto{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public CryptoAES(String passPhrase, Integer keySize) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    public CryptoAES(String passPhrase, int keySize) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         this(passPhrase, keySize, true);
     }
     
@@ -126,7 +126,7 @@ public class CryptoAES extends BaseCrypto{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public CryptoAES(Boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    public CryptoAES(boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         this(SecurityConstants.DEFAULT_CRYPTO_AES_KEY_SIZE, useBase64);
     }
     
@@ -148,7 +148,7 @@ public class CryptoAES extends BaseCrypto{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public CryptoAES(Integer keySize, Boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    public CryptoAES(int keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         super(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID, null, keySize, useBase64);
     }
     
@@ -169,7 +169,7 @@ public class CryptoAES extends BaseCrypto{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public CryptoAES(String passPhrase, Boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    public CryptoAES(String passPhrase, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         this(passPhrase, SecurityConstants.DEFAULT_CRYPTO_AES_KEY_SIZE, useBase64);
     }
     
@@ -192,13 +192,11 @@ public class CryptoAES extends BaseCrypto{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public CryptoAES(String passPhrase, Integer keySize, Boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    public CryptoAES(String passPhrase, int keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         super(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID, passPhrase, keySize, useBase64);
     }
-    
-    /**
-     * @see br.com.concepting.framework.security.util.BaseCrypto#generateKey()
-     */
+
+    @Override
     protected SecretKey generateKey() throws InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException, UnsupportedEncodingException{
         if(this.passPhrase == null || this.passPhrase.length() == 0)
             return super.generateKey();

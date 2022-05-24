@@ -1,4 +1,4 @@
-package br.com.concepting.framework.service.helpers;
+package br.com.concepting.framework.service.controller;
 
 import br.com.concepting.framework.audit.Auditor;
 import br.com.concepting.framework.exceptions.InternalErrorException;
@@ -33,9 +33,7 @@ import java.lang.reflect.Method;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ServiceInterceptor extends Interceptor{
-    /**
-     * @see br.com.concepting.framework.util.Interceptor#before()
-     */
+    @Override
     public void before() throws InternalErrorException{
         IService<? extends BaseModel> service = getInterceptableInstance();
         LoginSessionModel loginSession = service.getLoginSession();
@@ -55,10 +53,8 @@ public class ServiceInterceptor extends Interceptor{
         service.setAuditor(getAuditor());
         service.begin();
     }
-    
-    /**
-     * @see br.com.concepting.framework.util.Interceptor#after()
-     */
+
+    @Override
     public void after() throws InternalErrorException{
         try{
             IService<? extends BaseModel> service = getInterceptableInstance();
@@ -69,10 +65,8 @@ public class ServiceInterceptor extends Interceptor{
             super.after();
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.util.Interceptor#beforeThrow(java.lang.Throwable)
-     */
+
+    @Override
     public void beforeThrow(Throwable e) throws InternalErrorException{
         try{
             IService<? extends BaseModel> service = getInterceptableInstance();

@@ -13,12 +13,12 @@
  * @param guideOnSelect String that contains the select event.
  */
 function setCurrentGuide(guideName, guidesName, guideOnSelect){
-	var currentGuideName    = getObjectValue(guidesName + ".currentGuide");
-	var currentGuide        = getObject(guidesName + "." + currentGuideName + ".guide");
-	var currentGuideContent = getObject(guidesName + "." + currentGuideName + ".guideContent");
-	var guide               = getObject(guidesName + "." + guideName + ".guide");
-	var guideContent        = getObject(guidesName + "." + guideName + ".guideContent");
-	
+	let currentGuideName = getObjectValue(guidesName + ".currentGuide");
+	let currentGuide = getObject(guidesName + "." + currentGuideName + ".guide");
+	let currentGuideContent = getObject(guidesName + "." + currentGuideName + ".guideContent");
+	let guide = getObject(guidesName + "." + guideName + ".guide");
+	let guideContent = getObject(guidesName + "." + guideName + ".guideContent");
+
 	if(guide && guideContent){
 		if(currentGuide && currentGuideContent){
 			currentGuide.className = "guide";

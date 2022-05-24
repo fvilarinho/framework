@@ -1,22 +1,21 @@
-<xs:schema attributeFormDefault="unqualified" 
-           elementFormDefault="qualified" 
+<xs:schema elementFormDefault="qualified"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
  	<xs:element name="persistence">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="resources" minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="resources" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element type="xs:string" name="serverName" minOccurs="0" maxOccurs="1"/>
-                            <xs:element type="xs:string" name="serverPort" minOccurs="0" maxOccurs="1"/>
-                            <xs:element type="xs:string" name="instanceId" minOccurs="0" maxOccurs="1"/>
-                            <xs:element type="xs:string" name="repositoryId" minOccurs="1" maxOccurs="1"/>
-							<xs:element type="xs:string" name="userName" minOccurs="0" maxOccurs="1"/>
-							<xs:element type="xs:string" name="password" minOccurs="0" maxOccurs="1"/>
-							<xs:element name="options" minOccurs="0" maxOccurs="1">
+							<xs:element type="xs:string" name="serverName" minOccurs="0"/>
+                            <xs:element type="xs:string" name="serverPort" minOccurs="0"/>
+                            <xs:element type="xs:string" name="instanceId" minOccurs="0"/>
+                            <xs:element type="xs:string" name="repositoryId"/>
+							<xs:element type="xs:string" name="userName" minOccurs="0"/>
+							<xs:element type="xs:string" name="password" minOccurs="0"/>
+							<xs:element name="options" minOccurs="0">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="option" minOccurs="1" maxOccurs="unbounded">
+										<xs:element name="option" maxOccurs="unbounded">
 											<xs:complexType>
 												<xs:simpleContent>
 													<xs:extension base="xs:string">
@@ -31,8 +30,8 @@
 							</xs:element>
 						</xs:sequence>
 						<xs:attribute type="xs:string" name="id" use="required"/>
-						<xs:attribute type="xs:string" name="factoryResourcesId" use="optional"/>
-						<xs:attribute type="xs:boolean" name="default" use="optional"/>
+						<xs:attribute type="xs:string" name="factoryResourcesId"/>
+						<xs:attribute type="xs:boolean" name="default"/>
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="mappings" minOccurs="0" maxOccurs="unbounded">

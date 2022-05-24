@@ -16,7 +16,7 @@
  * Style that defines a title.
  */
 .title{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 18px;
 	font-weight: BOLD; 
 	color      : #666666;
@@ -26,7 +26,7 @@
  * Style that defines a subtitle
  */
 .subTitle{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 16px;
 	font-weight: BOLD; 
 	color      : #666666;
@@ -36,7 +36,7 @@
  * Style that defines a link.
  */
 .link{
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px; 
 	color          : #1e8fad;
 	text-decoration: NONE;
@@ -47,7 +47,7 @@
  * Style that defines a link when the mouse is over it.
  */
 .link:hover{
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px; 
 	color          : #1e8fad;
 	text-decoration: UNDERLINE;
@@ -57,11 +57,11 @@
  * Style that defines a label.
  */
 .label{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size  : 14px; 
-	white-space: NOWRAP;
-	color      : #666666;
 	width      : 150px;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size  : 14px; 
+	color      : #666666;
+	white-space: NOWRAP;
 	overflow   : HIDDEN;
 }
 
@@ -69,19 +69,19 @@
  * Style that defines a group.
  */
 .group{
-	border               : 1px SOLID #aaaaaa;
 	color                : #666666;
-	outline              : NONE;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
+	border               : 1px SOLID #aaaaaa;
+	outline              : NONE;
 }
 
 /**
  * Style that defines the label of a group.
  */
 .groupLabel{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	font-weight: BOLD;
 	color      : #666666;
@@ -91,31 +91,29 @@
  * Style that defines the text box component.
  */
 .textBox{
-	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size            : 14px;
-	border               : 1px SOLID #aaaaaa;
-	color                : #666666;
+	height               : 24px;
 	background           : WHITE;
-	outline              : NONE;
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size            : 14px;
+	color                : #666666;
+	transition           : all 0.25s ease-in-out;
 	-webkit-transition   : all 0.25s ease-in-out;
 	-moz-transition      : all 0.25s ease-in-out;
-	transition           : all 0.25s ease-in-out;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
+	border               : 1px SOLID #aaaaaa;
 	padding              : 5px;
-	height               : 24px;
+	outline              : NONE;
 }
 
 /**
  * Style that defines the text box component when it has focus.
  */
 .textBox:focus{
+	box-shadow        : 0 0 5px #1e8fad;
     -webkit-box-shadow: 0 0 5px #1e8fad;
     -moz-box-shadow   : 0 0 5px #1e8fad;
-	box-shadow        : 0 0 5px #1e8fad;
-	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
-	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
 	border            : 1px SOLID #1e8fad;
 }
 
@@ -123,28 +121,26 @@
  * Style that defines the text area component.
  */
 .textArea{
-	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size            : 14px;
-	border               : 1px SOLID #aaaaaa;
-	color                : #666666;
 	background           : WHITE;
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size            : 14px;
+	color                : #666666;
+	transition           : all 0.25s ease-in-out;
 	-webkit-transition   : all 0.25s ease-in-out;
 	-moz-transition      : all 0.25s ease-in-out;
-	transition           : all 0.25s ease-in-out;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
+	border               : 1px SOLID #aaaaaa;
 }
 
 /**
  * Style that defines the text area component when it has focus.
  */
 .textArea:focus{
+	box-shadow        : 0 0 5px #1e8fad;
     -webkit-box-shadow: 0 0 5px #1e8fad;
     -moz-box-shadow   : 0 0 5px #1e8fad;
-	box-shadow        : 0 0 5px #1e8fad;
-	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
-	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
 	border            : 1px SOLID #1e8fad;
 }
 
@@ -152,20 +148,20 @@
  * Style that defines the password component.
  */
 .password{
-	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size            : 14px;
-	border               : 1px SOLID #aaaaaa;
-	color                : #666666;
+	height               : 24px;
 	background           : WHITE;
-	outline              : NONE;
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size            : 14px;
+	color                : #666666;
+	transition           : all 0.25s ease-in-out;
 	-webkit-transition   : all 0.25s ease-in-out;
 	-moz-transition      : all 0.25s ease-in-out;
-	transition           : all 0.25s ease-in-out;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
+	border               : 1px SOLID #aaaaaa;
 	padding              : 5px;
-	height               : 24px;
+	outline              : NONE;
 }
 
 /**
@@ -175,8 +171,6 @@
 	box-shadow        : 0 0 5px #1e8fad;
     -webkit-box-shadow: 0 0 5px #1e8fad;
     -moz-box-shadow   : 0 0 5px #1e8fad;
-	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
-	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
 	border            : 1px SOLID #1e8fad;
 }
 
@@ -184,46 +178,44 @@
  * Style that defines the list component.
  */
 .list{
-	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size            : 14px;
-	border               : 1px SOLID #aaaaaa;
-	color                : #666666;
+	height               : 24px;
 	background           : WHITE;
-	outline              : NONE;
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size            : 14px;
+	color                : #666666;
 	transition           : all 0.25s ease-in-out;
 	-webkit-transition   : all 0.25s ease-in-out;
 	-moz-transition      : all 0.25s ease-in-out;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
-	height               : 24px;
+	border               : 1px SOLID #aaaaaa;
+	outline              : NONE;
 }
 
 .list[multiple]{
-	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size            : 14px;
-	border               : 1px SOLID #aaaaaa;
-	color                : #666666;
+	height               : AUTO;
 	background           : WHITE;
-	outline              : NONE;
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size            : 14px;
+	color                : #666666;
 	transition           : all 0.25s ease-in-out;
 	-webkit-transition   : all 0.25s ease-in-out;
 	-moz-transition      : all 0.25s ease-in-out;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
-	height               : AUTO;
+	border               : 1px SOLID #aaaaaa;
+	outline              : NONE;
 }
 
 /**
  * Style that defines the list component when it has focus.
  */
 .list:focus{
+	box-shadow        : 0 0 5px #1e8fad;
     -webkit-box-shadow: 0 0 5px #1e8fad;
     -moz-box-shadow   : 0 0 5px #1e8fad;
-	box-shadow        : 0 0 5px #1e8fad;
-	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
-	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
 	border            : 1px SOLID #1e8fad;
 }
 
@@ -247,12 +239,12 @@ option:hover{
  * Style that defines the options component.
  */
 .options{
-	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size            : 14px;
 	color                : #666666;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
 	border               : 1px SOLID #aaaaaa;
 }
 
@@ -260,32 +252,32 @@ option:hover{
  * Style that defines a button.
  */
 .button{
-	-moz-border-radius   : 3px;
-	-webkit-border-radius: 3px;
-	border-radius        : 3px;
-	border               : 1px SOLID #aaaaaa;
 	background           : #efefef;
+	white-space          : NOWRAP;
+	transition           : all 0.25s ease-in-out;
 	-webkit-transition   : all 0.25s ease-in-out;
 	-moz-transition      : all 0.25s ease-in-out;
-	transition           : all 0.25s ease-in-out;
+	border-radius        : 3px;
+	-moz-border-radius   : 3px;
+	-webkit-border-radius: 3px;
+	border               : 1px SOLID #aaaaaa;
 	cursor               : POINTER;
-	white-space          : NOWRAP;
 }
 
 /**
  * Style that defines a disabled button.
  */
 .buttonDisabled{
-	-moz-border-radius   : 3px;
-	-webkit-border-radius: 3px;
-	border-radius        : 3px;
-	border               : 1px SOLID #aaaaaa;
 	background           : #efefef;
+	white-space          : NOWRAP;
+	transition           : all 0.25s ease-in-out;
 	-webkit-transition   : all 0.25s ease-in-out;
 	-moz-transition      : all 0.25s ease-in-out;
-	transition           : all 0.25s ease-in-out;
+	border-radius        : 3px;
+	-moz-border-radius   : 3px;
+	-webkit-border-radius: 3px;
+	border               : 1px SOLID #aaaaaa;
 	cursor               : POINTER;
-	white-space          : NOWRAP;
 }
 
 /**
@@ -298,24 +290,20 @@ option:hover{
  * Style that defines the button when the mouse is over it.
  */
 .button:hover{
+	background        : #fafafa;
+	box-shadow        : 0 0 5px #1e8fad;
     -webkit-box-shadow: 0 0 5px #1e8fad;
     -moz-box-shadow   : 0 0 5px #1e8fad;
-	box-shadow        : 0 0 5px #1e8fad;
-	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
-	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
 	border            : 1px SOLID #1e8fad;
-	background        : #fafafa;
 }
 
 /**
  * Style that defines the button when it has focus.
  */
 .button:focus{
+	box-shadow        : 0 0 5px #1e8fad;
     -webkit-box-shadow: 0 0 5px #1e8fad;
     -moz-box-shadow   : 0 0 5px #1e8fad;
-	box-shadow        : 0 0 5px #1e8fad;
-	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
-	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
 	border            : 1px SOLID #1e8fad;
 }
 
@@ -323,7 +311,7 @@ option:hover{
  * Style that defines the button label.
  */
 .buttonLabel{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	color      : #666666;
 	text-align : CENTER;
@@ -334,7 +322,7 @@ option:hover{
  * Style that defines the disabled button label.
  */
 .buttonLabelDisabled{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	color      : #aaaaaa;
 	text-align : CENTER;
@@ -345,9 +333,9 @@ option:hover{
  * Style that defines the cancel button.
  */
 .cancelButton{
-	background: url("../images/cancelButton.png") NO-REPEAT;
 	width     : 28px;
 	height    : 24px;
+	background: url("../images/cancelButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -357,9 +345,9 @@ option:hover{
  * Style that defines the close button.
  */
 .closeButton{
-	background: url("../images/closeButton.png") NO-REPEAT;
 	width     : 28px;
 	height    : 24px;
+	background: url("../images/closeButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -369,17 +357,17 @@ option:hover{
  * Style that defines the close button icon.
  */
 .closeButtonIcon{
-	width : 0px;
-	height: 0px;
+	width : 0;
+	height: 0;
 }
 
 /**
  * Style that defines the confirm button.
  */
 .confirmButton{
-	background: url("../images/confirmButton.png") NO-REPEAT;
 	width     : 28px;
 	height    : 24px;
+	background: url("../images/confirmButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -389,9 +377,9 @@ option:hover{
  * Style that defines the back button.
  */
 .backButton{
-	background: url("../images/backButton.png") NO-REPEAT;
 	width     : 28px;
 	height    : 24px;
+	background: url("../images/backButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -401,9 +389,9 @@ option:hover{
  * Style that defines the search button.
  */
 .searchButton{
-	background: url("../images/searchButton.png") NO-REPEAT;
 	width     : 28px;
 	height    : 24px;
+	background: url("../images/searchButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -413,9 +401,9 @@ option:hover{
  * Style that defines the save button.
  */
 .saveButton{
-	background: url("../images/saveButton.png") NO-REPEAT;
 	width     : 28px;
 	height    : 24px;
+	background: url("../images/saveButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -425,9 +413,9 @@ option:hover{
  * Style that defines the add button.
  */
 .addButton{
-	background: url("../images/addButton.png") NO-REPEAT;
 	width     : 28px;
 	height    : 24px;
+	background: url("../images/addButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -437,9 +425,9 @@ option:hover{
  * Style that defines the edit button.
  */
 .editButton{
-	background: url("../images/editButton.png") NO-REPEAT;
 	width     : 28px;
 	height    : 24px;
+	background: url("../images/editButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -449,9 +437,9 @@ option:hover{
  * Style that defines the delete button.
  */
 .deleteButton{
-	background: url("../images/deleteButton.png") NO-REPEAT;
 	width     : 28px;
 	height    : 24px;
+	background: url("../images/deleteButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -461,9 +449,21 @@ option:hover{
  * Style that defines the print button.
  */
 .printButton{
-	background: url("../images/printButton.png") NO-REPEAT;
 	width     : 28px;
 	height    : 24px;
+	background: url("../images/printButton.png") NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
+ * Style that defines the refresh button.
+ */
+.refreshButton{
+	width     : 28px;
+	height    : 28px;
+	background: url("../images/refreshButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -473,9 +473,9 @@ option:hover{
  * Style that defines the upload button.
  */
 .uploadButton{
-	background: url("../images/uploadButton.png") NO-REPEAT;
 	width     : 26px;
 	height    : 26px;
+	background: url("../images/uploadButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -486,26 +486,26 @@ option:hover{
  */
 .upload{
 	border        : NONE;
-	border-spacing: 0px;  
+	border-spacing: 0;
 }
 
 /**
  * Style that defines the upload.
  */
 .upload td{
-	padding: 0px;
+	padding: 0;
 }
 
 /**
  * Style that defines the download.
  */
 .download{
-	border               : 1px SOLID #aaaaaa;
 	background           : #fffffa;
-	border-spacing       : 10px;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
+	border               : 1px SOLID #aaaaaa;
+	border-spacing       : 10px;
 }
 
 /**
@@ -519,9 +519,9 @@ option:hover{
  * Style that defines the PDF icon.
  */
 .pdfIcon{
-	background: url("../images/pdfIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/pdfIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -529,9 +529,9 @@ option:hover{
  * Style that defines the JSON icon.
  */
 .jsonIcon{
-	background: url("../images/jsonIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/jsonIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -539,9 +539,9 @@ option:hover{
  * Style that defines the binary icon.
  */
 .binaryIcon{
-	background: url("../images/binaryIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/binaryIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -549,9 +549,9 @@ option:hover{
  * Style that defines the CSV icon.
  */
 .csvIcon{
-	background: url("../images/csvIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/csvIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -559,9 +559,9 @@ option:hover{
  * Style that defines the RTF icon.
  */
 .rtfIcon{
-	background: url("../images/rtfIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/rtfIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -569,9 +569,9 @@ option:hover{
  * Style that defines the DOC icon.
  */
 .pptIcon{
-	background: url("../images/pptIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/pptIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -579,9 +579,9 @@ option:hover{
  * Style that defines the PPTX icon.
  */
 .pptxIcon{
-	background: url("../images/pptIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/pptIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -589,9 +589,9 @@ option:hover{
  * Style that defines the PPT icon.
  */
 .docIcon{
-	background: url("../images/docIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/docIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -599,9 +599,9 @@ option:hover{
  * Style that defines the DOCX icon.
  */
 .docxIcon{
-	background: url("../images/docIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/docIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -609,9 +609,9 @@ option:hover{
  * Style that defines the XLS icon.
  */
 .xlsIcon{
-	background: url("../images/xlsIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/xlsIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -619,9 +619,9 @@ option:hover{
  * Style that defines the XLSX icon.
  */
 .xlsxIcon{
-	background: url("../images/xlsIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/xlsIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -629,9 +629,9 @@ option:hover{
  * Style that defines the GIF icon.
  */
 .gifIcon{
-	background: url("../images/gifIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/gifIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -639,9 +639,9 @@ option:hover{
  * Style that defines JPG icon.
  */
 .jpgIcon{
-	background: url("../images/jpgIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/jpgIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -649,9 +649,9 @@ option:hover{
  * Style that defines the PNG icon.
  */
 .pngIcon{
-	background: url("../images/pngIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/pngIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -659,9 +659,9 @@ option:hover{
  * Style that defines the HTML icon.
  */
 .htmlIcon{
-	background: url("../images/htmlIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/htmlIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -669,9 +669,9 @@ option:hover{
  * Style that defines the JS icon.
  */
 .jsIcon{
-	background: url("../images/jsIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/jsIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -679,9 +679,9 @@ option:hover{
  * Style that defines the JS icon.
  */
 .cssIcon{
-	background: url("../images/cssIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/cssIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -689,9 +689,9 @@ option:hover{
  * Style that defines the TXT icon.
  */
 .txtIcon{
-	background: url("../images/txtIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/txtIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -699,9 +699,9 @@ option:hover{
  * Style that defines the XML icon.
  */
 .xmlIcon{
-	background: url("../images/xmlIcon.png") NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url("../images/xmlIcon.png") NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -715,8 +715,8 @@ option:hover{
  * Style that defines the image thumbnail.
  */
 .imageThumbnail{
-	border    : 1px SOLID #aaaaaa;
 	background: WHITE;
+	border    : 1px SOLID #aaaaaa;
 }
 
 /**
@@ -724,18 +724,16 @@ option:hover{
  */
 .loadingBox{
 	position             : ABSOLUTE;
-	visibility           : HIDDEN;
 	background           : WHITE;
-	padding              : 2;
+	box-shadow           : 2px 3px 4px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow   : 2px 3px 4px rgba(0, 0, 0, 0.3);
     -moz-box-shadow      : 2px 3px 4px rgba(0, 0, 0, 0.3);
-	box-shadow           : 2px 3px 4px rgba(0, 0, 0, 0.3);
-	-ms-filter           : "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa')";
-	filter               : progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa');
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
 	border               : 1px SOLID #aaaaaa;
+	padding              : 2px;
+	visibility           : HIDDEN;
 	z-index              : 1002;
 }
 
@@ -743,20 +741,20 @@ option:hover{
  * Style that defines loading box text.
  */
 .loadingBoxText{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 13px;
 	font-weight: BOLD;
-	text-align : CENTER;
 	color      : #666666;
+	text-align : CENTER;
 }
 
 /**
  * Style that defines loading box icon.
  */
 .loadingBoxIcon{
-	background: url(../images/loadingBoxIcon.gif) NO-REPEAT;
 	width     : 32px;
 	height    : 32px;
+	background: url(../images/loadingBoxIcon.gif) NO-REPEAT;
 }
  
 /**
@@ -764,13 +762,12 @@ option:hover{
  */
 .pageShade{
 	position  : ABSOLUTE; 
-	left      : 0px;  
-	top       : 0px; 
+	left      : 0;
+	top       : 0;
+	background: #aaaaaa;
+	opacity   : 0.5;
 	border    : NONE;
-	background: #aaaaaa; 
-	opacity   : 0.5; 
-	filter    : alpha(opacity=50);
-	visibility: HIDDEN; 
+	visibility: HIDDEN;
 	z-index   : 1000;
 }
 
@@ -778,101 +775,101 @@ option:hover{
  * Style that defines the page header.
  */
 .header{
+	width                          : 100%;
+	min-height                     : 7.5vh;
+	background                     : #efefef;
+	font-family                    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size                      : 14px;
+	font-weight                    : NORMAL;
+	color                          : #666666;
+	text-align                     : CENTER;
+	white-space                    : NOWRAP;
+	border-top-left-radius         : 3px;
+	border-top-right-radius        : 3px;
 	-webkit-border-top-left-radius : 3px;
 	-webkit-border-top-right-radius: 3px;
 	-moz-border-radius-topleft     : 3px;
 	-moz-border-radius-topright    : 3px;
-	border-top-left-radius         : 3px;
-	border-top-right-radius        : 3px;
 	border                         : 1px SOLID #aaaaaa;
-	width                          : 100%;
-	min-height                     : 7.5vh;
-	font-family                    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size                      : 14px;
-	font-weight                    : NORMAL;
-	background                     : #efefef;
-	color                          : #666666;
-	text-align                     : CENTER;
-	white-space                    : NOWRAP;
 }
 
 /**
  * Style that defines the page content.
  */
 .content{
-	border-spacing : 0px;
-	border-collapse: COLLAPSE;
-	border-left    : 1px SOLID #aaaaaa; 
-	border-right   : 1px SOLID #aaaaaa; 
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size      : 14px;
-	background     : WHITE;
-	color          : #666666;
-	padding        : 0px;
 	width          : 100%;
 	min-height     : 80vh;
-    text-align     : CENTER;
+	background     : WHITE;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size      : 14px;
+	color          : #666666;
+	text-align     : CENTER;
+	border-left    : 1px SOLID #aaaaaa;
+	border-right   : 1px SOLID #aaaaaa;
+	border-spacing : 0;
+	border-collapse: COLLAPSE;
+	padding        : 0;
 }
 
 /**
  * Style that defines a content panel.
  */
 .contentPanel{
+	width          : 100%;
 	border         : NONE;
 	border-collapse: COLLAPSE;
-	border-spacing : 0px;
-	width          : 100%;
+	border-spacing : 0;
 }
 
 /**
  * Style that defines a panel.
  */
 .contentPanel td{
-	padding: 0px;
+	padding: 0;
 }
 
 /**
  * Style that defines the page footer.
  */
 .footer{
+	width                             : 100%;
+	min-height                        : 4.5vh;
+	background                        : #efefef;
+	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size                         : 14px;
+	font-weight                       : NORMAL;
+	color                             : #666666;
+	text-align                        : CENTER;
+	border-bottom-left-radius         : 3px;
+	border-bottom-right-radius        : 3px;
 	-webkit-border-bottom-left-radius : 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	-moz-border-radius-bottomleft     : 3px;
 	-moz-border-radius-bottomright    : 3px;
-	border-bottom-left-radius         : 3px;
-	border-bottom-right-radius        : 3px;
-	border                            : 1px SOLID #aaaaaa; 
-	width                             : 100%; 
-	min-height                        : 4.5vh;
-	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size                         : 14px;
-	font-weight                       : NORMAL;
-	background                        : #efefef;
-	color                             : #666666;
-	text-align                        : CENTER;
+	border                            : 1px SOLID #aaaaaa;
 }
 
 /**
  * Style that defines the navigation bar.
  */
 .navigationBar{
-	border-collapse: COLLAPSE;
-	border-spacing : 0px;
-	border-left    : 1px SOLID #aaaaaa; 
-	border-right   : 1px SOLID #aaaaaa; 
-	border-bottom  : 1px SOLID #aaaaaa;
-	border-top     : none;
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size      : 14px;
-	background     : WHITE;
-	color          : #666666;
 	width          : 100%;
 	height         : 35px;
+	background     : WHITE;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size      : 14px;
+	color          : #666666;
+	border-left    : 1px SOLID #aaaaaa;
+	border-right   : 1px SOLID #aaaaaa;
+	border-bottom  : 1px SOLID #aaaaaa;
+	border-top     : none;
+	border-collapse: COLLAPSE;
+	border-spacing : 0;
 }
 
 /**
  * Style that defines the navigation bar.
  */
 .navigationBar td{
-	padding: 0px;
+	padding: 0;
 }

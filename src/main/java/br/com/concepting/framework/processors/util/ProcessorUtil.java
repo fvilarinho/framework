@@ -30,8 +30,8 @@ import java.util.Map;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public abstract class ProcessorUtil{
-    private static Map<String, Class<? extends GenericProcessor>> validProcessors = null;
-    private static Map<String, String> validProcessorAttributes = null;
+    private static final Map<String, Class<? extends GenericProcessor>> validProcessors;
+    private static final Map<String, String> validProcessorAttributes;
     
     static{
         validProcessors = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
@@ -50,13 +50,13 @@ public abstract class ProcessorUtil{
     }
     
     /**
-     * Returns the class of the logic processor based on a XML content.
+     * Returns the class of the logic processor based on XML content.
      *
      * @param node Instance that contains the content XML.
      * @return Class of the logic processor.
      */
     public static Class<? extends GenericProcessor> getClass(XmlNode node){
-        Class<? extends GenericProcessor> clazz = null;
+        Class<? extends GenericProcessor> clazz;
         
         if(node != null && (node.getNamespace() == null || node.getNamespace().length() == 0)){
             clazz = validProcessors.get(node.getName());

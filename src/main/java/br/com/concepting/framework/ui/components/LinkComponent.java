@@ -73,10 +73,8 @@ public class LinkComponent extends BaseActionFormComponent{
     public void setTarget(String target){
         this.target = target;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         super.buildResources();
         
@@ -143,19 +141,15 @@ public class LinkComponent extends BaseActionFormComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.LINK);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderAttributes()
-     */
+
+    @Override
     protected void renderAttributes() throws InternalErrorException{
         String onClick = getOnClick();
         
@@ -173,51 +167,37 @@ public class LinkComponent extends BaseActionFormComponent{
         
         super.renderAttributes();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderType()
-     */
+
+    @Override
     protected void renderType() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderName()
-     */
+
+    @Override
     protected void renderName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderSize()
-     */
+
+    @Override
     protected void renderSize() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderEnabled()
-     */
+
+    @Override
     protected void renderEnabled() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderLabel()
-     */
+
+    @Override
     protected void renderLabel() throws InternalErrorException{
-        Boolean showLabel = showLabel();
+        boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(showLabel != null && showLabel && label != null && label.length() > 0)
+        if(showLabel && label != null && label.length() > 0)
             print(label);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         print("<a");
         
@@ -229,16 +209,12 @@ public class LinkComponent extends BaseActionFormComponent{
         
         println("</a>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         

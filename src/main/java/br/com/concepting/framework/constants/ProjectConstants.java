@@ -21,7 +21,6 @@ package br.com.concepting.framework.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class ProjectConstants{
     public static final String BUILD_ATTRIBUTE_ID = "build";
     public static final String BUILD_DIR_ATTRIBUTE_ID = "buildDir";
@@ -46,7 +45,7 @@ public abstract class ProjectConstants{
     public static final String DEFAULT_PERSISTENCE_DIR = DEFAULT_SOURCE_DIR.concat("sql/");
     public static final String DEFAULT_PERSISTENCE_INTERFACE_TEMPLATE_FILE_ID = "persistenceInterface.xml";
     public static final String DEFAULT_PERSISTENCE_MAPPING_DTD_PUBLIC_ID = "-//Hibernate/Hibernate Mapping DTD 3.0//EN";
-    public static final String DEFAULT_PERSISTENCE_MAPPING_DTD_SYSTEM_ID = "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd";
+    public static final String DEFAULT_PERSISTENCE_MAPPING_DTD_SYSTEM_ID = "https://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd";
     public static final String DEFAULT_PERSISTENCE_MAPPING_TEMPLATE_FILE_ID = "persistenceMapping.xml";
     public static final String DEFAULT_REPORTS_DIR = DEFAULT_SOURCE_DIR.concat("reports/");
     public static final String DEFAULT_SERVICE_CLASS_TEMPLATE_FILE_ID = "serviceClass.xml";
@@ -56,6 +55,4 @@ public abstract class ProjectConstants{
     public static final String DEFAULT_UI_PAGE_FILE_ID = "index.jsp";
     public static final String DEFAULT_UI_PAGE_TEMPLATE_FILE_ID = "uiPage.xml";
     public static final String DEFAULT_UI_PAGES_DIR = DEFAULT_MODULE_DESCRIPTORS_DIR.concat("/jsp/");
-    public static final String DEFAULT_WEB_SERVICE_CLASS_TEMPLATE_FILE_ID = "webServiceClass.xml";
-    public static final String DEFAULT_WEB_SERVICE_INTERFACE_TEMPLATE_FILE_ID = "webServiceInterface.xml";
 }

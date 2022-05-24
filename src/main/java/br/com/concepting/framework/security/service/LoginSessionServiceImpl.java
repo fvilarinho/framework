@@ -9,6 +9,7 @@ import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.types.ConditionType;
 import br.com.concepting.framework.model.util.ModelUtil;
+import br.com.concepting.framework.persistence.helpers.Filter;
 import br.com.concepting.framework.persistence.interfaces.IPersistence;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.constants.SecurityConstants;
@@ -24,7 +25,6 @@ import br.com.concepting.framework.service.annotations.Transaction;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.util.DateTimeUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
-import br.com.concepting.framework.util.helpers.Filter;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.DateFieldType;
 import org.apache.commons.beanutils.ConstructorUtils;
@@ -59,9 +59,7 @@ import java.util.List;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseService<L> implements LoginSessionService<L, U, LP>{
-    /**
-     * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#validateMfaToken(br.com.concepting.framework.security.model.UserModel)
-     */
+    @Override
     @SuppressWarnings("unchecked")
     public void validateMfaToken(U user) throws InvalidMfaTokenException, InternalErrorException{
         L currentLoginSession = getLoginSession();
@@ -143,7 +141,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         if(user.isActive() == null || !user.isActive())
             throw new UserBlockedException();
         
-        Boolean invalidPassword = false;
+        boolean invalidPassword = false;
         
         if((password == null || password.length() == 0) && user.getPassword() != null && user.getPassword().length() > 0)
             invalidPassword = true;
@@ -215,11 +213,10 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         
         if(groups != null && !groups.isEmpty()){
             Class<GroupModel> groupClass = null;
-            GroupModel group = null;
             IService<GroupModel> groupService = null;
             
             for(int cont = 0; cont < groups.size(); cont++){
-                group = groups.get(cont);
+                GroupModel group = groups.get(cont);
                 
                 if(groupClass == null){
                     groupClass = (Class<GroupModel>) group.getClass();
@@ -234,13 +231,13 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         }
         
         LP loginParameter = user.getLoginParameter();
-        Boolean expiredPassword = false;
-        Boolean passwordWillExpire = false;
-        Integer daysUntilExpire = 0;
-        Integer hoursUntilExpire = 0;
-        Integer minutesUntilExpire = 0;
-        Integer secondsUntilExpire = 0;
-        
+        boolean expiredPassword = false;
+        boolean passwordWillExpire = false;
+        int daysUntilExpire = 0;
+        int hoursUntilExpire = 0;
+        int minutesUntilExpire = 0;
+        int secondsUntilExpire = 0;
+
         if(loginParameter == null){
             try{
                 ModelInfo userModelInfo = ModelUtil.getInfo(user.getClass());
@@ -269,16 +266,16 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
                     loginParameter.setExpirePasswordDateTime(expirePasswordDateTime);
                 }
                 
-                daysUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.DAYS).intValue();
-                hoursUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.HOURS).intValue() - (daysUntilExpire * 24);
+                daysUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.DAYS);
+                hoursUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.HOURS) - (daysUntilExpire * 24);
                 
                 if(hoursUntilExpire > 24){
                     hoursUntilExpire -= 24;
                     daysUntilExpire += 1;
                 }
                 
-                minutesUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.MINUTES).intValue() - (hoursUntilExpire * 60) - (daysUntilExpire * 24 * 60);
-                secondsUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.SECONDS).intValue() - (minutesUntilExpire * 60) - (hoursUntilExpire * 60 * 60) - (daysUntilExpire * 24 * 60 * 60);
+                minutesUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.MINUTES) - (hoursUntilExpire * 60) - (daysUntilExpire * 24 * 60);
+                secondsUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.SECONDS) - (minutesUntilExpire * 60) - (hoursUntilExpire * 60 * 60) - (daysUntilExpire * 24 * 60 * 60);
                 
                 if(changePasswordInterval != null && changePasswordInterval > 0)
                     if(daysUntilExpire <= changePasswordInterval)
@@ -303,7 +300,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
                 throw new PermissionDeniedException();
             
             if(multipleLogins == null || !multipleLogins){
-                L multipleLoginSession = null;
+                L multipleLoginSession;
                 
                 try{
                     multipleLoginSession = (L) loginSession.clone();
@@ -365,10 +362,8 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         
         return loginSession;
     }
-    
-    /**
-     * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#logIn(br.com.concepting.framework.security.model.UserModel)
-     */
+
+    @Override
     @Transaction
     @Auditable
     public L logIn(U user) throws UserNotFoundException, UserBlockedException, InvalidPasswordException, UserAlreadyLoggedInException, PermissionDeniedException, InternalErrorException{
@@ -384,10 +379,8 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         
         return authorize(user);
     }
-    
-    /**
-     * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#changePassword(br.com.concepting.framework.security.model.UserModel)
-     */
+
+    @Override
     @SuppressWarnings("unchecked")
     @Transaction
     @Auditable
@@ -462,10 +455,8 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         
         return user;
     }
-    
-    /**
-     * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#logOut()
-     */
+
+    @Override
     @SuppressWarnings("unchecked")
     @Transaction
     @Auditable
@@ -501,13 +492,11 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             
             userPersistence.update(user);
         }
-        catch(ItemNotFoundException e){
+        catch(ItemNotFoundException ignored){
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#logOutAll()
-     */
+
+    @Override
     @SuppressWarnings("unchecked")
     @Transaction
     @Auditable
@@ -520,16 +509,13 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         Collection<L> loginSessions = filter(filter);
         
         if(loginSessions != null && !loginSessions.isEmpty()){
-            UserModel user = null;
-            Class<UserModel> userClass = null;
-            
             for(L item: loginSessions){
                 item.setActive(false);
                 
                 update(item);
-                
-                user = item.getUser();
-                userClass = (Class<UserModel>) user.getClass();
+
+                UserModel user = item.getUser();
+                Class<UserModel> userClass = (Class<UserModel>) user.getClass();
                 IPersistence<UserModel> userPersistence = getPersistence(userClass);
                 
                 user.setLastLogin(item.getStartDateTime());
@@ -538,10 +524,8 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.security.service.interfaces.LoginSessionService#sendForgottenPassword(br.com.concepting.framework.security.model.UserModel)
-     */
+
+    @Override
     @SuppressWarnings("unchecked")
     @Transaction
     @Auditable

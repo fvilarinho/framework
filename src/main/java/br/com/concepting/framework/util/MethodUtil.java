@@ -51,16 +51,15 @@ public class MethodUtil extends MethodUtils{
      * @throws ClassNotFoundException Occurs when was not possible to execute
      * the operation..
      */
-    public static Method getMethodFromStackTrace(Integer level) throws ClassNotFoundException{
-        if(level == null)
+    public static Method getMethodFromStackTrace(int level) throws ClassNotFoundException{
+        if(level < 1)
             return null;
-        
+
         Thread currentThread = Thread.currentThread();
         StackTraceElement stackTraceElement = null;
         StackTraceElement[] stackTrace = currentThread.getStackTrace();
-        int cont = 0;
-        
-        for(cont = 0; cont < stackTrace.length; cont++){
+
+        for(int cont = 0; cont < stackTrace.length; cont++){
             stackTraceElement = stackTrace[cont];
             
             if(stackTraceElement.getMethodName().equals("getMethodFromStackTrace")){

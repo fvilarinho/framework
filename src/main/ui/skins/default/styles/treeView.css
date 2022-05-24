@@ -9,14 +9,14 @@
  * Style that defines the component.
  */
 .treeView{
+	width                : 450px;
 	background           : WHITE;
-	padding              : 5px;
-    border-spacing       : 0px;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
 	border               : 1px SOLID #aaaaaa;
-	width                : 450px;
+	border-spacing       : 0;
+	padding              : 5px;
 	overflow             : AUTO;
 }
 
@@ -39,33 +39,33 @@
  */
 .treeViewNodeLabel{
 	border     : none;
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size  : 14px;	
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size  : 14px;
 	color      : #666666;
-	cursor     : POINTER;
 	white-space: NOWRAP;
-}	
+	cursor     : POINTER;
+}
 
 /**
  * Style that defines o label of the selected node.
  */
 .selectedTreeViewNodeLabel{
 	border     : none;
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	font-weight: BOLD;	
 	color      : #1e8fad;
-	cursor     : POINTER;
 	white-space: NOWRAP;
+	cursor     : POINTER;
 }
 
 /**
  * Style that defines the icon of the node.
  */
 .treeViewNodeIcon{
-	background : url(../images/nodeIcon.gif) NO-REPEAT;
 	width      : 20px;
 	height     : 20px;
+	background : url(../images/nodeIcon.gif) NO-REPEAT;
 	cursor     : POINTER;
 }
 
@@ -73,9 +73,9 @@
  * Style that defines the closed node icon.
  */
 .closedTreeViewNodeIcon{
-	background: url(../images/closedNodeIcon.png) NO-REPEAT;
 	width     : 20px;
 	height    : 20px;
+	background: url(../images/closedNodeIcon.png) NO-REPEAT;
 	cursor    : POINTER;
 }	
 
@@ -83,9 +83,9 @@
  * Style that defines the opened node icon.
  */
 .openedTreeViewNodeIcon{
-	background: url(../images/openedNodeIcon.png) NO-REPEAT;
 	width     : 20px;
 	height    : 20px;
+	background: url(../images/openedNodeIcon.png) NO-REPEAT;
 	cursor    : POINTER;
 }	
 
@@ -93,9 +93,9 @@
  * Style that defines the collapsed node icon.
  */
 .collapsedTreeViewNodeIcon{
-	background: url(../images/collapsedNodeIcon.gif) NO-REPEAT;
 	width     : 16px;
 	height    : 20px;
+	background: url(../images/collapsedNodeIcon.gif) NO-REPEAT;
 	cursor    : POINTER;
 }
 
@@ -103,8 +103,8 @@
  * Style that defines the expanded node icon.
  */
 .expandedTreeViewNodeIcon{
-	background: url(../images/expandedNodeIcon.gif) NO-REPEAT;
 	width     : 16px;
 	height    : 20px;
+	background: url(../images/expandedNodeIcon.gif) NO-REPEAT;
 	cursor    : POINTER;
 }

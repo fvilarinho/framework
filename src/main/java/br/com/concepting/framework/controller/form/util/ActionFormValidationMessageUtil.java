@@ -76,8 +76,8 @@ public class ActionFormValidationMessageUtil{
      * @param propertyContentSizeUnit Instance that contains the size unit.
      * @return Instance that contains the validation message.
      */
-    public static ValidationActionFormMessage createContentSizeValidationMessage(String propertyName, String propertyLabel, Double propertyContentSize, ByteMetricType propertyContentSizeUnit){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0 && propertyContentSize != null && propertyContentSizeUnit != null){
+    public static ValidationActionFormMessage createContentSizeValidationMessage(String propertyName, String propertyLabel, double propertyContentSize, ByteMetricType propertyContentSizeUnit){
+        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0 && propertyContentSize > 0 && propertyContentSizeUnit != null){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.CONTENT_SIZE);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -188,8 +188,8 @@ public class ActionFormValidationMessageUtil{
      * @param propertyWordCount Numeric value that contains the word count.
      * @return Instance that contains the validation message.
      */
-    public static ValidationActionFormMessage createWordCountValidationMessage(String propertyName, String propertyLabel, Integer propertyWordCount){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyWordCount != null){
+    public static ValidationActionFormMessage createWordCountValidationMessage(String propertyName, String propertyLabel, int propertyWordCount){
+        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyWordCount > 0){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.WORD_COUNT);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -210,8 +210,8 @@ public class ActionFormValidationMessageUtil{
      * @param propertyMinimumLength Numeric value that contains the minimum length.
      * @return Instance that contains the validation message.
      */
-    public static ValidationActionFormMessage createMinimumLengthValidationMessage(String propertyName, String propertyLabel, Integer propertyMinimumLength){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyMinimumLength != null){
+    public static ValidationActionFormMessage createMinimumLengthValidationMessage(String propertyName, String propertyLabel, int propertyMinimumLength){
+        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyMinimumLength > 0){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.MINIMUM_LENGTH);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -232,8 +232,8 @@ public class ActionFormValidationMessageUtil{
      * @param propertyMaximumLength Numeric value that contains the maximum length.
      * @return Instance that contains the validation message.
      */
-    public static ValidationActionFormMessage createMaximumLengthValidationMessage(String propertyName, String propertyLabel, Integer propertyMaximumLength){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyMaximumLength != null){
+    public static ValidationActionFormMessage createMaximumLengthValidationMessage(String propertyName, String propertyLabel, int propertyMaximumLength){
+        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyMaximumLength > 0){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.MAXIMUM_LENGTH);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);

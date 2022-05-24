@@ -35,14 +35,14 @@ import javax.servlet.jsp.JspException;
 public class MapsComponent extends BasePropertyComponent{
     private static final long serialVersionUID = 6479362456008135703L;
     
-    private Integer zoom = null;
+    private int zoom = UIConstants.DEFAULT_MAPS_NO_ZOOM;
     
     /**
      * Returns the zoom of the map.
      *
      * @return Numeric value that contains the zoom.
      */
-    public Integer getZoom(){
+    public int getZoom(){
         return this.zoom;
     }
     
@@ -51,71 +51,57 @@ public class MapsComponent extends BasePropertyComponent{
      *
      * @param zoom Numeric value that contains the zoom.
      */
-    public void setZoom(Integer zoom){
+    public void setZoom(int zoom){
         this.zoom = zoom;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildDimensions()
-     */
+
+    @Override
     protected void buildDimensions() throws InternalErrorException{
         String width = getWidth();
         
-        if(width == null || width.length() == 0){
-            width = UIConstants.DEFAULT_MAPS_WIDTH;
-            
-            setWidth(width);
-        }
-        
+        if(width == null || width.length() == 0)
+            setWidth(UIConstants.DEFAULT_MAPS_WIDTH);
+
         String height = getHeight();
         
-        if(height == null || height.length() == 0){
-            height = UIConstants.DEFAULT_MAPS_HEIGHT;
-            
-            setHeight(height);
-        }
-        
+        if(height == null || height.length() == 0)
+            setHeight(UIConstants.DEFAULT_MAPS_HEIGHT);
+
         super.buildDimensions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
         if(getPropertyInfo() == null)
             setShowLabel(false);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.MAPS);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         String name = getName();
         
         if(name == null || name.length() == 0)
             return;
         
-        Boolean enabled = isEnabled();
+        boolean enabled = isEnabled();
         String width = getWidth();
         String height = getHeight();
         String value = getValue();
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition){
+        if(!hasInvalidPropertyDefinition){
             print("<table class=\"");
             print(UIConstants.DEFAULT_MAPS_CONTENT_STYLE_CLASS);
             println("\">");
             
-            if(enabled != null && enabled){
+            if(enabled){
                 println("<tr>");
                 print("<td align=\"");
                 print(AlignmentType.CENTER);
@@ -236,7 +222,7 @@ public class MapsComponent extends BasePropertyComponent{
             valueBuffer.append("=");
             
             if(value == null || value.length() == 0){
-                if(this.zoom == null)
+                if(this.zoom == 0)
                     this.zoom = UIConstants.DEFAULT_MAPS_NO_ZOOM;
             }
             else{
@@ -294,13 +280,11 @@ public class MapsComponent extends BasePropertyComponent{
         else
             super.renderBody();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setZoom(null);
+        setZoom(UIConstants.DEFAULT_MAPS_NO_ZOOM);
     }
 }

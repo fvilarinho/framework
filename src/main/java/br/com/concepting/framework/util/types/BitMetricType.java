@@ -2,6 +2,8 @@ package br.com.concepting.framework.util.types;
 
 import br.com.concepting.framework.util.interfaces.IMetric;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Class that defines the metrics of bit ranges.
  *
@@ -27,30 +29,30 @@ public enum BitMetricType implements IMetric{
     /**
      * Bit metric.
      */
-    BIT(1d, "bit"),
+    BIT(1D, "bit"),
     
     /**
      * Kilobit metric.
      */
-    KILO_BIT(BIT.getValue() * 1000d, "Kbit"),
+    KILO_BIT(BIT.getValue() * 1000D, "Kbit"),
     
     /**
      * Megabit metric.
      */
-    MEGA_BIT(KILO_BIT.getValue() * 1000d, "Mbit"),
+    MEGA_BIT(KILO_BIT.getValue() * 1000D, "Mbit"),
     
     /**
      * Gigabit metric.
      */
-    GIGA_BIT(MEGA_BIT.getValue() * 1000d, "Gbit"),
+    GIGA_BIT(MEGA_BIT.getValue() * 1000D, "Gbit"),
     
     /**
      * Terabit metric.
      */
-    TERA_BYTE(GIGA_BIT.getValue() * 1000d, "Tbit");
+    TERA_BYTE(GIGA_BIT.getValue() * 1000D, "Tbit");
     
-    private Double metricValue = null;
-    private String metricUnit = null;
+    private double metricValue;
+    private String metricUnit;
     
     /**
      * Constructor - Defines the metric.
@@ -58,35 +60,27 @@ public enum BitMetricType implements IMetric{
      * @param value Defines the metric value.
      * @param unit Defines the metric unit.
      */
-    BitMetricType(Double value, String unit){
+    BitMetricType(double value, String unit){
         setValue(value);
         setUnit(unit);
     }
-    
-    /**
-     * @see br.com.concepting.framework.util.interfaces.IMetric#getValue()
-     */
-    public Double getValue(){
+
+    @Override
+    public double getValue(){
         return this.metricValue;
     }
-    
-    /**
-     * @see br.com.concepting.framework.util.interfaces.IMetric#setValue(java.lang.Double)
-     */
-    public void setValue(Double metricValue){
+
+    @Override
+    public void setValue(double metricValue){
         this.metricValue = metricValue;
     }
-    
-    /**
-     * @see br.com.concepting.framework.util.interfaces.IMetric#getUnit()
-     */
+
+    @Override
     public String getUnit(){
         return this.metricUnit;
     }
-    
-    /**
-     * @see br.com.concepting.framework.util.interfaces.IMetric#setUnit(java.lang.String)
-     */
+
+    @Override
     public void setUnit(String metricUnit){
         this.metricUnit = metricUnit;
     }

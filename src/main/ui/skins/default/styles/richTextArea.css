@@ -9,35 +9,32 @@
  * Style that defines the component..
  */
 .richTextArea{
-	border                            : 1px SOLID #aaaaaa;
-	background                        : WHITE;
 	width                             : 650px;
-	height                            : 150px;	
-	outline                           : NONE;
+	height                            : 150px;
+	background                        : WHITE;
+	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size                         : 14px;
+	color                             : #666666;
+	transition                        : all 0.25s ease-in-out;
 	-webkit-transition                : all 0.25s ease-in-out;
 	-moz-transition                   : all 0.25s ease-in-out;
-	transition                        : all 0.25s ease-in-out;
+	border-bottom-left-radius         : 3px;
+	border-bottom-right-radius        : 3px;
 	-webkit-border-bottom-left-radius : 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	-moz-border-radius-bottomleft     : 3px;
 	-moz-border-radius-bottomright    : 3px;
-	border-bottom-left-radius         : 3px;
-	border-bottom-right-radius        : 3px;
 	border                            : 1px SOLID #aaaaaa;
-	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size                         : 14px; 
-	color                             : #666666;
-} 
+	outline                           : NONE;
+}
 
 /**
  * Style that defines the component when it has focus.
  */
 .richTextArea:focus{
+	box-shadow        : 0 0 5px #1e8fad;
     -webkit-box-shadow: 0 0 5px #1e8fad;
     -moz-box-shadow   : 0 0 5px #1e8fad;
-	box-shadow        : 0 0 5px #1e8fad;
-	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
-	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
 	border            : 1px SOLID #1e8fad;
 }
 
@@ -48,19 +45,19 @@
 	width                          : 650px;
 	height                         : 60px;
 	background                     : #efefef;
+	font-family                    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size                      : 14px;
+	color                          : #666666;
+	border-top-left-radius         : 3px;
+	border-top-right-radius        : 3px;
 	-webkit-border-top-left-radius : 3px;
 	-webkit-border-top-right-radius: 3px;
 	-moz-border-radius-topleft     : 3px;
 	-moz-border-radius-topright    : 3px;
-	border-top-left-radius         : 3px;
-	border-top-right-radius        : 3px;
 	border-top                     : 1px SOLID #aaaaaa;
 	border-left                    : 1px SOLID #aaaaaa;
 	border-right                   : 1px SOLID #aaaaaa;
 	border-bottom                  : NONE;
-	font-family                    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size                      : 14px; 
-	color                          : #666666;
 	overflow                       : HIDDEN;
 }
 
@@ -321,10 +318,10 @@
  */
 .richTextAreaFontNameLabel{
 	width      : 50px;
-	white-space: NOWRAP;
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	color      : #666666;
+	white-space: NOWRAP;
 	overflow   : HIDDEN;
 }
 
@@ -333,10 +330,10 @@
  */
 .richTextAreaFontSizeLabel{
 	width      : 50px;
-	white-space: NOWRAP;
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	color      : #666666;
+	white-space: NOWRAP;
 	overflow   : HIDDEN;
 }
 
@@ -345,10 +342,10 @@
  */
 .richTextAreaFontColorLabel{
 	width      : 50px;
-	white-space: NOWRAP;
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	color      : #666666;
+	white-space: NOWRAP;
 	overflow   : HIDDEN;
 }
 
@@ -357,9 +354,9 @@
  */
 .richTextAreaFontBackcolorLabel{
 	width      : 50px;
-	white-space: NOWRAP;
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	color      : #666666;
+	white-space: NOWRAP;
 	overflow   : HIDDEN;
 }

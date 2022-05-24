@@ -64,10 +64,8 @@ public class ClockComponent extends BaseComponent{
     public void setPattern(String pattern){
         this.pattern = pattern;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.CLOCK);
         
@@ -84,10 +82,8 @@ public class ClockComponent extends BaseComponent{
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderName()
-     */
+
+    @Override
     protected void renderName() throws InternalErrorException{
     }
     
@@ -123,10 +119,8 @@ public class ClockComponent extends BaseComponent{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         renderPatternAttribute();
         
@@ -136,17 +130,13 @@ public class ClockComponent extends BaseComponent{
         
         println(">");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         println(this.formatter.format(new Date()));
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         println("</span>");
         
@@ -169,10 +159,8 @@ public class ClockComponent extends BaseComponent{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         

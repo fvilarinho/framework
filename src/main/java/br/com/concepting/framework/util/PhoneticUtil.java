@@ -4,7 +4,10 @@ import br.com.concepting.framework.constants.Constants;
 import com.wcohen.ss.Jaro;
 import com.wcohen.ss.MongeElkan;
 import org.apache.commons.codec.language.RefinedSoundex;
+import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -30,9 +33,9 @@ import java.util.Map.Entry;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class PhoneticUtil{
-    private static Map<String, String> firstSoundexMap = null;
-    private static Map<String, String> middleSoundexMap = null;
-    private static Map<String, String> lastSoundexMap = null;
+    private static final Map<String, String> firstSoundexMap;
+    private static final Map<String, String> middleSoundexMap;
+    private static final Map<String, String> lastSoundexMap;
     
     static{
         firstSoundexMap = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
@@ -108,33 +111,29 @@ public class PhoneticUtil{
      * @param value String that will be used.
      * @return String that contains the phonetic representation.
      */
-    public static String soundCode(String value){
-        if(value != null && value.length() > 0){
-            String tokens[] = StringUtil.split(value.toLowerCase(), " ");
-            
-            for(Entry<String, String> entry: firstSoundexMap.entrySet())
-                for(int cont = 0; cont < tokens.length; cont++)
-                    if(tokens[cont].indexOf(entry.getKey()) == 0)
-                        tokens[cont] = StringUtil.replaceAll(tokens[cont], entry.getKey(), entry.getValue());
-            
-            for(Entry<String, String> entry: lastSoundexMap.entrySet())
-                for(int cont = 0; cont < tokens.length; cont++)
-                    if(tokens[cont].indexOf(entry.getKey()) == (tokens[cont].length() - entry.getKey().length()))
-                        tokens[cont] = StringUtil.replaceAll(tokens[cont], entry.getKey(), entry.getValue());
-            
-            for(Entry<String, String> entry: middleSoundexMap.entrySet())
-                for(int cont = 0; cont < tokens.length; cont++)
-                    tokens[cont] = StringUtil.replaceAll(tokens[cont], entry.getKey(), entry.getValue());
-            
-            RefinedSoundex encoder = new RefinedSoundex();
-            
+    public static String soundCode(@NotBlank String value){
+        String[] tokens = StringUtil.split(value.toLowerCase(), StringUtils.SPACE);
+
+        for(Entry<String, String> entry: firstSoundexMap.entrySet())
             for(int cont = 0; cont < tokens.length; cont++)
-                tokens[cont] = encoder.encode(tokens[cont]);
-            
-            return StringUtil.merge(tokens, " ");
-        }
-        
-        return null;
+                if(tokens[cont].indexOf(entry.getKey()) == 0)
+                    tokens[cont] = StringUtil.replaceAll(tokens[cont], entry.getKey(), entry.getValue());
+
+        for(Entry<String, String> entry: lastSoundexMap.entrySet())
+            for(int cont = 0; cont < tokens.length; cont++)
+                if(tokens[cont].indexOf(entry.getKey()) == (tokens[cont].length() - entry.getKey().length()))
+                    tokens[cont] = StringUtil.replaceAll(tokens[cont], entry.getKey(), entry.getValue());
+
+        for(Entry<String, String> entry: middleSoundexMap.entrySet())
+            for(int cont = 0; cont < tokens.length; cont++)
+                tokens[cont] = StringUtil.replaceAll(tokens[cont], entry.getKey(), entry.getValue());
+
+        RefinedSoundex encoder = new RefinedSoundex();
+
+        for(int cont = 0; cont < tokens.length; cont++)
+            tokens[cont] = encoder.encode(tokens[cont]);
+
+        return StringUtil.merge(tokens, StringUtils.SPACE);
     }
     
     /**
@@ -144,12 +143,9 @@ public class PhoneticUtil{
      * @param value2 String 2
      * @return Numeric value that contains the accuracy percentage.
      */
-    public static Double getAccuracy(String value1, String value2){
-        if(value1 == null || value2 == null)
-            return null;
-        
-        String valueTokens1[] = StringUtil.split(value1, " ");
-        String valueTokens2[] = StringUtil.split(value2, " ");
+    public static double getAccuracy(@NotBlank String value1, @NotBlank String value2){
+        String[] valueTokens1 = StringUtil.split(value1, StringUtils.SPACE);
+        String[] valueTokens2 = StringUtil.split(value2, StringUtils.SPACE);
         StringBuilder valueBuffer1 = null;
         
         for(int cont = 0; cont < valueTokens1.length; cont++){
@@ -159,7 +155,7 @@ public class PhoneticUtil{
                         valueBuffer1 = new StringBuilder();
                     
                     valueBuffer1.append(valueTokens1[cont]);
-                    valueBuffer1.append(" ");
+                    valueBuffer1.append(StringUtils.SPACE);
                 }
             }
         }
@@ -167,6 +163,6 @@ public class PhoneticUtil{
         if(valueBuffer1 == null || valueBuffer1.length() == 0)
             return 0d;
         
-        return ((new MongeElkan().score(valueBuffer1.toString(), value2) + new Jaro().score(valueBuffer1.toString(), value2)) / 2d) * 100d;
+        return ((new MongeElkan().score(valueBuffer1.toString(), value2) + new Jaro().score(valueBuffer1.toString(), value2)) / 2D) * 100D;
     }
 }

@@ -341,7 +341,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Indicates if the password will expires soon.
+     * Indicates if the password will expire soon.
      *
      * @return True/False.
      */
@@ -350,7 +350,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Indicates if the password will expires soon.
+     * Indicates if the password will expire soon.
      *
      * @return True/False.
      */
@@ -359,7 +359,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Defines if the password will expires soon.
+     * Defines if the password will expire soon.
      *
      * @param passwordWillExpire True/False.
      */

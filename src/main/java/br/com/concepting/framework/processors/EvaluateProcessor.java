@@ -2,7 +2,6 @@ package br.com.concepting.framework.processors;
 
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.processors.constants.ProcessorConstants;
-import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.StringUtil;
@@ -150,18 +149,14 @@ public class EvaluateProcessor extends GenericProcessor{
     public EvaluateProcessor(String domain, Object declaration, XmlNode content, Locale language){
         super(domain, declaration, content, language);
     }
-    
-    /**
-     * @see br.com.concepting.framework.processors.GenericProcessor#returnContent()
-     */
-    protected Boolean returnContent(){
+
+    @Override
+    protected boolean returnContent(){
         return false;
     }
-    
-    /**
-     * @see br.com.concepting.framework.processors.GenericProcessor#hasLogic()
-     */
-    protected Boolean hasLogic(){
+
+    @Override
+    protected boolean hasLogic(){
         return true;
     }
     
@@ -238,20 +233,19 @@ public class EvaluateProcessor extends GenericProcessor{
                 String clazzId = matcher.group(1);
                 String parametersId = matcher.group(2);
                 String[] parameters = StringUtil.split(parametersId);
-                String parameter = null;
-                Object parameterValue = null;
                 Object[] parametersValues = (parameters != null && parameters.length > 0 ? new Object[parameters.length] : null);
                 
                 if(parameters != null && parameters.length > 0){
                     for(int cont = 0; cont < parameters.length; cont++){
-                        parameter = parameters[cont];
+                        String parameter = parameters[cont];
                         
                         if(parameter != null && parameter.length() > 0 && ((parameter.startsWith("'") && parameter.endsWith("'")) || (parameter.startsWith("\"") && parameter.endsWith("\"")))){
                             parameter = StringUtil.replaceAll(parameter, "'", "");
                             parameter = StringUtil.replaceAll(parameter, "\"", "");
                         }
                         
-                        parameterValue = evaluate(parameter);
+                        Object parameterValue = evaluate(parameter);
+
                         parametersValues[cont] = parameterValue;
                     }
                 }
@@ -270,8 +264,6 @@ public class EvaluateProcessor extends GenericProcessor{
                 if(!clazzId.contains("#{") && !clazzId.contains("@{")){
                     String parametersId = matcher.group(2);
                     String[] parameters = StringUtil.split(parametersId);
-                    String parameter = null;
-                    Object parameterValue = null;
                     Object[] parametersValues = (parameters != null && parameters.length > 0 ? new Object[parameters.length] : null);
                     int pos = clazzId.lastIndexOf(".");
                     String methodId = clazzId.substring(pos + 1);
@@ -283,14 +275,15 @@ public class EvaluateProcessor extends GenericProcessor{
                         
                         if(parameters != null && parameters.length > 0){
                             for(int cont = 0; cont < parameters.length; cont++){
-                                parameter = parameters[cont];
+                                String parameter = parameters[cont];
                                 
                                 if(parameter != null && parameter.length() > 0 && ((parameter.startsWith("'") && parameter.endsWith("'")) || (parameter.startsWith("\"") && parameter.endsWith("\"")))){
                                     parameter = StringUtil.replaceAll(parameter, "'", "");
                                     parameter = StringUtil.replaceAll(parameter, "\"", "");
                                 }
                                 
-                                parameterValue = evaluate(parameter);
+                                Object parameterValue = evaluate(parameter);
+
                                 parametersValues[cont] = parameterValue;
                             }
                         }
@@ -308,17 +301,15 @@ public class EvaluateProcessor extends GenericProcessor{
             Object declaration = getDeclaration();
             JexlContext context = new MapContext();
             String valueBuffer = value;
-            String tokenExpression = null;
-            String tokenName = null;
-            Object tokenValue = null;
-            
+
             if(matcher.find()){
                 context.set("declaration", declaration);
                 
                 do{
-                    tokenExpression = matcher.group();
-                    tokenName = matcher.group(1);
-                    
+                    String tokenExpression = matcher.group();
+                    String tokenName = matcher.group(1);
+                    Object tokenValue;
+
                     if(tokenName == null)
                         tokenName = matcher.group(2);
                     
@@ -370,12 +361,10 @@ public class EvaluateProcessor extends GenericProcessor{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.processors.GenericProcessor#process()
-     */
+
+    @Override
     public String process() throws InternalErrorException{
-        if(returnContent() == null || !returnContent()){
+        if(!returnContent()){
             evaluate();
             
             return ProcessorConstants.DEFAULT_REMOVE_TAG_ID;

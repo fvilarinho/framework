@@ -12,6 +12,7 @@ import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.DateTimeUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.ComponentType;
+import br.com.concepting.framework.util.types.MethodType;
 import br.com.concepting.framework.util.types.PositionType;
 
 import javax.servlet.jsp.JspException;
@@ -39,88 +40,62 @@ import javax.servlet.jsp.JspException;
  */
 public class LoginSessionBoxComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = 1710312403838229576L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildLabel()
-     */
+
+    @Override
     protected void buildLabel() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildTooltip()
-     */
+
+    @Override
     protected void buildTooltip() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildDimensions()
-     */
+
+    @Override
     protected void buildDimensions() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildStyle()
-     */
+
+    @Override
     protected void buildStyle() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
         setRenderWhenAuthenticated(true);
         
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.SystemComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.LOGIN_SESSION_BOX);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderType()
-     */
+
+    @Override
     protected void renderType() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderName()
-     */
+
+    @Override
     protected void renderName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderEnabled()
-     */
+
+    @Override
     protected void renderEnabled() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         print("<div");
         
@@ -263,11 +238,13 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
         
         url.append(contextPath);
         url.append(actionFormUrl);
-        url.append(ActionFormConstants.DEFAULT_ACTION_SERVLET_FILE_EXTENSION);
+        url.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
         
         StringBuilder onClick = new StringBuilder();
-        
-        onClick.append("submitRequest('POST', '");
+
+        onClick.append("submitRequest('");
+        onClick.append(MethodType.POST);
+        onClick.append("', '");
         onClick.append(url);
         onClick.append("', '");
         onClick.append(ActionFormConstants.ACTION_ATTRIBUTE_ID);
@@ -299,7 +276,9 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
         println("<br/>");
         
         onClick.delete(0, onClick.length());
-        onClick.append("submitRequest('POST', '");
+        onClick.append("submitRequest('");
+        onClick.append(MethodType.POST);
+        onClick.append("', '");
         onClick.append(url);
         onClick.append("', '");
         onClick.append(ActionFormConstants.ACTION_ATTRIBUTE_ID);
@@ -326,10 +305,8 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         print("<div id=\"");
         print(UIConstants.DEFAULT_LOGIN_SESSION_BOX_CONTENT_ID);
@@ -344,10 +321,8 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
         
         renderControls();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         println("</div>");
     }

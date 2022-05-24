@@ -9,7 +9,7 @@
  * Style that defines the component.
  */
 .accordion{
-	border-spacing: 0px;
+	border-spacing: 0;
 	padding       : 1px;
 }
 
@@ -17,136 +17,139 @@
  * Style that defines the header of the first section.
  */
 .firstSectionHeader{
+	width                          : 100%;
+	height                         : 26px;
+	background-image               : url(../images/section.gif);
+	background-repeat              : REPEAT-X;
+	background-color               : #efefef;
+	font-family                    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size                      : 14px;
+	font-weight                    : BOLD;
+	color                          : #666666;
+	text-align                     : CENTER;
+	border-top-left-radius         : 3px;
+	border-top-right-radius        : 3px;
 	-webkit-border-top-left-radius : 3px;
 	-webkit-border-top-right-radius: 3px;
 	-moz-border-radius-topleft     : 3px;
 	-moz-border-radius-topright    : 3px;
-	border-top-left-radius         : 3px;
-	border-top-right-radius        : 3px;
 	border-top                     : 1px SOLID #aaaaaa;
+	border-bottom                  : 1px SOLID #aaaaaa;
 	border-left                    : 1px SOLID #aaaaaa;
 	border-right                   : 1px SOLID #aaaaaa;
-	border-bottom                  : 1px SOLID #aaaaaa;
-	background                     : url(../images/section.gif) REPEAT-X;
-	background-color               : #efefef;
-	border-spacing                 : 0px;
+	border-spacing                 : 0;
 	padding                        : 1px;
-	text-align                     : CENTER;
-	font-family                    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size                      : 14px;
-	font-weight                    : BOLD;
-	color                          : #666666;
 	cursor                         : POINTER;
-	width                          : 100%;
-	height                         : 26px;
 }
 
 /**
  * Style that defines the header of a section.
  */
 .sectionHeader{
-	border-top      : NONE;
-	border-left     : 1px SOLID #aaaaaa;
-	border-right    : 1px SOLID #aaaaaa;
-	border-bottom   : 1px SOLID #aaaaaa;
-	background      : url(../images/section.gif) REPEAT-X;
-	background-color: #efefef;
-	border-spacing  : 0px;
-	padding         : 1px;
-	text-align      : CENTER;
-	font-family     : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size       : 14px;
-	font-weight     : BOLD;
-	color           : #666666;
-	cursor          : POINTER;
-	width           : 100%;
-	height          : 26px;
+	width            : 100%;
+	height           : 26px;
+	background-image : url(../images/section.gif);
+	background-repeat: REPEAT-X;
+	background-color : #efefef;
+	font-family      : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size        : 14px;
+	font-weight      : BOLD;
+	color            : #666666;
+	text-align       : CENTER;
+	border-top       : NONE;
+	border-bottom    : 1px SOLID #aaaaaa;
+	border-left      : 1px SOLID #aaaaaa;
+	border-right     : 1px SOLID #aaaaaa;
+	border-spacing   : 0;
+	padding          : 1px;
+	cursor           : POINTER;
 }
 
 /**
  * Style that defines the header of the last section.
  */
 .lastSectionHeader{
+	width                             : 100%;
+	height                            : 26px;
+	background-repeat                 : REPEAT-X;
+	background-color                  : #efefef;
+	background-image                  : url(../images/section.gif);
+	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size                         : 14px;
+	font-weight                       : BOLD;
+	color                             : #666666;
+	text-align                        : CENTER;
+	border-bottom-left-radius         : 3px;
+	border-bottom-right-radius        : 3px;
 	-webkit-border-bottom-left-radius : 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	-moz-border-radius-bottomleft     : 3px;
 	-moz-border-radius-bottomright    : 3px;
-	border-bottom-left-radius         : 3px;
-	border-bottom-right-radius        : 3px;
 	border-top                        : NONE;
+	border-bottom                     : 1px SOLID #aaaaaa;
 	border-left                       : 1px SOLID #aaaaaa;
 	border-right                      : 1px SOLID #aaaaaa;
-	border-bottom                     : 1px SOLID #aaaaaa;
-	background                        : url(../images/section.gif) REPEAT-X;
-	background-color                  : #efefef;
-	border-spacing                    : 0px;
+	border-spacing                    : 0;
 	padding                           : 1px;
-	text-align                        : CENTER;
-	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size                         : 14px;
-	font-weight                       : BOLD;
-	color                             : #666666;
 	cursor                            : POINTER;
-	width                             : 100%;
-	height                            : 26px;
 }
 
 /**
  * Style that defines the content of the first section.
  */
 .firstSectionContent{
-	border-top    : NONE;
-	border-left   : 1px SOLID #aaaaaa;
-	border-right  : 1px SOLID #aaaaaa;
-	border-bottom : 1px SOLID #aaaaaa;
 	width         : 100%;
-	border-spacing: 0px;
-	padding       : 1px;
 	background    : #fffffa;
-	font-family   : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family   : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size     : 14px;
 	color         : #666666;
-	overflow      : auto; 
+	border-top    : NONE;
+	border-bottom : 1px SOLID #aaaaaa;
+	border-left   : 1px SOLID #aaaaaa;
+	border-right  : 1px SOLID #aaaaaa;
+	border-spacing: 0;
+	padding       : 1px;
+	overflow      : auto;
 }
 
 /**
  * Style that defines the content of a section.
  */
 .sectionContent{
-	border-top    : NONE;
-	border-left   : 1px SOLID #aaaaaa;
-	border-right  : 1px SOLID #aaaaaa;
-	border-bottom : 1px SOLID #aaaaaa;
 	width         : 100%;
-	border-spacing: 0px;
-	padding       : 1px;
 	background    : #fffffa;
-	font-family   : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family   : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size     : 14px;
 	color         : #666666;
-	overflow      : auto; 
+	border-top    : NONE;
+	border-bottom : 1px SOLID #aaaaaa;
+	border-left   : 1px SOLID #aaaaaa;
+	border-right  : 1px SOLID #aaaaaa;
+	border-spacing: 0;
+	padding       : 1px;
+	overflow      : auto;
 }
 
 /**
  * Style that defines the content of the last section.
  */
 .lastSectionContent{
+	width                             : 100%;
+	background                        : #fffffa;
+	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size                         : 14px;
+	color                             : #666666;
+	border-bottom-left-radius         : 3px;
+	border-bottom-right-radius        : 3px;
 	-webkit-border-bottom-left-radius : 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	-moz-border-radius-bottomleft     : 3px;
 	-moz-border-radius-bottomright    : 3px;
-	border-bottom-left-radius         : 3px;
-	border-bottom-right-radius        : 3px;
 	border-top                        : NONE;
+	border-bottom                     : 1px SOLID #aaaaaa;
 	border-left                       : 1px SOLID #aaaaaa;
 	border-right                      : 1px SOLID #aaaaaa;
-	border-bottom                     : 1px SOLID #aaaaaa;
-	width                             : 100%;
-	border-spacing                    : 0px;
+	border-spacing                    : 0;
 	padding                           : 1px;
-	background                        : #fffffa;
-	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size                         : 14px;
-	color                             : #666666;
-	overflow                          : auto; 
+	overflow                          : auto;
 }

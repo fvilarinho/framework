@@ -63,4 +63,11 @@ public @interface Service{
      * @return String that contains the identifier.
      */
     String contextResourcesId() default "";
+
+    /**
+     * Defines the path for APIs calls.
+     *
+     * @return String that contains the path.
+     */
+    String path() default "";
 }

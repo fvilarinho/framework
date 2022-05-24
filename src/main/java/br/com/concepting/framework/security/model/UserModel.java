@@ -468,19 +468,14 @@ public class UserModel extends BaseModel{
     public Boolean hasPermissions(){
         try{
             if(this.groups != null && !this.groups.isEmpty()){
-                GroupModel groupItem = null;
-                
-                for(Object item: this.groups){
-                    groupItem = (GroupModel) item;
-                    
-                    if(groupItem.hasPermissions())
+                for(GroupModel group : this.groups)
+                    if(group.hasPermissions())
                         return true;
-                }
-                
+
                 return false;
             }
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         return true;
@@ -495,19 +490,14 @@ public class UserModel extends BaseModel{
     public Boolean hasPermission(String path){
         try{
             if(this.groups != null && !this.groups.isEmpty()){
-                GroupModel groupItem = null;
-                
-                for(Object item: this.groups){
-                    groupItem = (GroupModel) item;
-                    
-                    if(groupItem.hasPermission(path))
+                for(GroupModel group : this.groups)
+                    if(group.hasPermission(path))
                         return true;
-                }
-                
+
                 return false;
             }
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         return true;
@@ -522,19 +512,14 @@ public class UserModel extends BaseModel{
     public Boolean hasPermission(SystemModuleModel compareSystemModule){
         try{
             if(this.groups != null && this.groups.size() > 0 && compareSystemModule != null){
-                GroupModel groupItem = null;
-                
-                for(Object item: this.groups){
-                    groupItem = (GroupModel) item;
-                    
-                    if(groupItem.hasPermission(compareSystemModule))
+                for(GroupModel group : this.groups)
+                    if(group.hasPermission(compareSystemModule))
                         return true;
-                }
-                
+
                 return false;
             }
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         return true;
@@ -549,19 +534,14 @@ public class UserModel extends BaseModel{
     public Boolean hasPermission(ObjectModel compareObject){
         try{
             if(this.groups != null && this.groups.size() > 0 && compareObject != null){
-                GroupModel groupItem = null;
-                
-                for(Object item: this.groups){
-                    groupItem = (GroupModel) item;
-                    
-                    if(groupItem.hasPermission(compareObject))
+                for(GroupModel group : this.groups)
+                    if(group.hasPermission(compareObject))
                         return true;
-                }
-                
+
                 return false;
             }
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         return true;

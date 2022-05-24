@@ -6,31 +6,29 @@
  */
 
 .spinner{
-	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size            : 14px;
-	border               : 1px SOLID #aaaaaa;
-	color                : #666666;
+	height               : 24px;
 	background           : WHITE;
-	outline              : NONE;
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size            : 14px;
+	color                : #666666;
+	transition           : all 0.25s ease-in-out;
 	-webkit-transition   : all 0.25s ease-in-out;
 	-moz-transition      : all 0.25s ease-in-out;
-	transition           : all 0.25s ease-in-out;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
+	border               : 1px SOLID #aaaaaa;
 	padding              : 5px;
-	height               : 24px;
+	outline              : NONE;
 }
 
 /**
  * Style that defines the spinner component when it has focus.
  */
 .spinner:focus{
+	box-shadow        : 0 0 5px #1e8fad;
     -webkit-box-shadow: 0 0 5px #1e8fad;
     -moz-box-shadow   : 0 0 5px #1e8fad;
-	box-shadow        : 0 0 5px #1e8fad;
-	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad')";
-	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color='#1e8fad');
 	border            : 1px SOLID #1e8fad;
 }
 
@@ -38,204 +36,150 @@
  * Style that defines the content of the spinner component.
  */
 .spinnerContent{
+	width          : 100%;
 	border         : NONE;
 	border-collapse: COLLAPSE;
-	border-spacing : 0px;
-	width          : 100%;
+	border-spacing : 0;
 }
 
 /**
  * Style that defines the content of the spinner component.
  */
 .spinnerContent td{
-	padding: 0px;
+	padding: 0;
 }
 
 /**
  * Style that defines the add button.
  */
 .addSpinnerButton{
-	-webkit-border-top-left-radius    : 3px;
-	-webkit-border-top-right-radius   : 0px;
-	-moz-border-radius-topleft        : 3px;
-	-moz-border-radius-topright       : 0px;
-	border-top-left-radius            : 3px;
-	border-top-right-radius           : 0px;
-	-webkit-border-bottom-left-radius : 3px;
-	-webkit-border-bottom-right-radius: 0px;
-	-moz-border-radius-bottomleft     : 3px;
-	-moz-border-radius-bottomright    : 0px;
-	border-bottom-left-radius         : 3px;
-	border-bottom-right-radius        : 0px;
-    border-top                        : 1px SOLID #aaaaaa;
-	border-left                       : 1px SOLID #aaaaaa;
-	border-right                      : 1px SOLID #aaaaaa;
-	border-bottom                     : 1px SOLID #aaaaaa;
-	width                             : 24px;
-	height                            : 24px;
-	background                        : #efefef;
-	-webkit-transition                : all 0.25s ease-in-out;
-	-moz-transition                   : all 0.25s ease-in-out;
-	transition                        : all 0.25s ease-in-out;
-	cursor                            : POINTER;
-	white-space                       : NOWRAP;
+	width                : 24px;
+	height               : 24px;
+	background           : #efefef;
+	transition           : all 0.25s ease-in-out;
+	-webkit-transition   : all 0.25s ease-in-out;
+	-moz-transition      : all 0.25s ease-in-out;
+	border-radius        : 3px 0 0 3px;
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius   : 3px 0 0 3px;
+	border-top           : 1px SOLID #aaaaaa;
+	border-left          : 1px SOLID #aaaaaa;
+	border-right         : 1px SOLID #aaaaaa;
+	border-bottom        : 1px SOLID #aaaaaa;
+	cursor               : POINTER;
+	white-space          : NOWRAP;
 }
 
 /**
  * Style that defines the disabled add button.
  */
 .addSpinnerButtonDisabled{
-	-webkit-border-top-left-radius    : 3px;
-	-webkit-border-top-right-radius   : 0px;
-	-moz-border-radius-topleft        : 3px;
-	-moz-border-radius-topright       : 0px;
-	border-top-left-radius            : 3px;
-	border-top-right-radius           : 0px;
-	-webkit-border-bottom-left-radius : 3px;
-	-webkit-border-bottom-right-radius: 0px;
-	-moz-border-radius-bottomleft     : 3px;
-	-moz-border-radius-bottomright    : 0px;
-	border-bottom-left-radius         : 3px;
-	border-bottom-right-radius        : 0px;
-    border-top                        : 1px SOLID #aaaaaa;
-	border-left                       : 1px SOLID #aaaaaa;
-	border-right                      : 1px SOLID #aaaaaa;
-	border-bottom                     : 1px SOLID #aaaaaa;
-	width                             : 24px;
-	height                            : 24px;
-	background                        : #efefef;
-	-webkit-transition                : all 0.25s ease-in-out;
-	-moz-transition                   : all 0.25s ease-in-out;
-	transition                        : all 0.25s ease-in-out;
-	cursor                            : POINTER;
-	white-space                       : NOWRAP;
+	width                : 24px;
+	height               : 24px;
+	background           : #efefef;
+	transition           : all 0.25s ease-in-out;
+	-webkit-transition   : all 0.25s ease-in-out;
+	-moz-transition      : all 0.25s ease-in-out;
+	border-radius        : 3px 0 0 3px;
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius   : 3px 0 0 3px;
+	border-top           : 1px SOLID #aaaaaa;
+	border-left          : 1px SOLID #aaaaaa;
+	border-right         : 1px SOLID #aaaaaa;
+	border-bottom        : 1px SOLID #aaaaaa;
+	cursor               : POINTER;
+	white-space          : NOWRAP;
 }
  
 /**
  * Style that defines the add button when the mouse is over it.
  */
 .addSpinnerButton:hover{
-	-webkit-border-top-left-radius    : 3px;
-	-webkit-border-top-right-radius   : 0px;
-	-moz-border-radius-topleft        : 3px;
-	-moz-border-radius-topright       : 0px;
-	border-top-left-radius            : 3px;
-	border-top-right-radius           : 0px;
-	-webkit-border-bottom-left-radius : 3px;
-	-webkit-border-bottom-right-radius: 0px;
-	-moz-border-radius-bottomleft     : 3px;
-	-moz-border-radius-bottomright    : 0px;
-	border-bottom-left-radius         : 3px;
-	border-bottom-right-radius        : 0px;
-    border-top                        : 1px SOLID #aaaaaa;
-	border-left                       : 1px SOLID #aaaaaa;
-	border-right                      : 1px SOLID #aaaaaa;
-	border-bottom                     : 1px SOLID #aaaaaa;
-	width                             : 24px;
-	height                            : 24px;
-	background                        : #fafafa;
-	-webkit-transition                : all 0.25s ease-in-out;
-	-moz-transition                   : all 0.25s ease-in-out;
-	transition                        : all 0.25s ease-in-out;
-	cursor                            : POINTER;
-	white-space                       : NOWRAP;
+	width                : 24px;
+	height               : 24px;
+	background           : #fafafa;
+	transition           : all 0.25s ease-in-out;
+	-webkit-transition   : all 0.25s ease-in-out;
+	-moz-transition      : all 0.25s ease-in-out;
+	border-radius        : 3px 0 0 3px;
+	-webkit-border-radius: 3px 0 0 3px;
+	-moz-border-radius   : 3px 0 0 3px;
+	border-top           : 1px SOLID #aaaaaa;
+	border-left          : 1px SOLID #aaaaaa;
+	border-right         : 1px SOLID #aaaaaa;
+	border-bottom        : 1px SOLID #aaaaaa;
+	cursor               : POINTER;
+	white-space          : NOWRAP;
 }
 
 /**
  * Style that defines the subtract button.
  */
 .subtractSpinnerButton{
-	-webkit-border-top-left-radius    : 0px;
-	-webkit-border-top-right-radius   : 3px;
-	-moz-border-radius-topleft        : 0px;
-	-moz-border-radius-topright       : 3px;
-	border-top-left-radius            : 0px;
-	border-top-right-radius           : 3px;
-	-webkit-border-bottom-left-radius : 0px;
-	-webkit-border-bottom-right-radius: 3px;
-	-moz-border-radius-bottomleft     : 0px;
-	-moz-border-radius-bottomright    : 3px;
-	border-bottom-left-radius         : 0px;
-	border-bottom-right-radius        : 3px;
-    border-top                        : 1px SOLID #aaaaaa;
-	border-left                       : NONE;
-	border-right                      : 1px SOLID #aaaaaa;
-	border-bottom                     : 1px SOLID #aaaaaa;
-	width                             : 24px;
-	height                            : 24px;
-	background                        : #efefef;
-	-webkit-transition                : all 0.25s ease-in-out;
-	-moz-transition                   : all 0.25s ease-in-out;
-	transition                        : all 0.25s ease-in-out;
-	cursor                            : POINTER;
-	white-space                       : NOWRAP;
+	width                : 24px;
+	height               : 24px;
+	background           : #efefef;
+	transition           : all 0.25s ease-in-out;
+	-webkit-transition   : all 0.25s ease-in-out;
+	-moz-transition      : all 0.25s ease-in-out;
+	border-radius        : 0 3px 3px 0;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius   : 0 3px 3px 0;
+	border-top           : 1px SOLID #aaaaaa;
+	border-left          : NONE;
+	border-right         : 1px SOLID #aaaaaa;
+	border-bottom        : 1px SOLID #aaaaaa;
+	cursor               : POINTER;
+	white-space          : NOWRAP;
 }
 
 /**
  * Style that defines the disabled subtract button.
  */
 .subtractSpinnerButtonDisabled{
-	-webkit-border-top-left-radius    : 0px;
-	-webkit-border-top-right-radius   : 3px;
-	-moz-border-radius-topleft        : 0px;
-	-moz-border-radius-topright       : 3px;
-	border-top-left-radius            : 0px;
-	border-top-right-radius           : 3px;
-	-webkit-border-bottom-left-radius : 0px;
-	-webkit-border-bottom-right-radius: 3px;
-	-moz-border-radius-bottomleft     : 0px;
-	-moz-border-radius-bottomright    : 3px;
-	border-bottom-left-radius         : 0px;
-	border-bottom-right-radius        : 3px;
-    border-top                        : 1px SOLID #aaaaaa;
-	border-left                       : NONE;
-	border-right                      : 1px SOLID #aaaaaa;
-	border-bottom                     : 1px SOLID #aaaaaa;
-	width                             : 24px;
-	height                            : 24px;
-	background                        : #efefef;
-	-webkit-transition                : all 0.25s ease-in-out;
-	-moz-transition                   : all 0.25s ease-in-out;
-	transition                        : all 0.25s ease-in-out;
-	cursor                            : POINTER;
-	white-space                       : NOWRAP;
+	width                : 24px;
+	height               : 24px;
+	background           : #efefef;
+	transition           : all 0.25s ease-in-out;
+	-webkit-transition   : all 0.25s ease-in-out;
+	-moz-transition      : all 0.25s ease-in-out;
+	border-radius        : 0 3px 3px 0;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius   : 0 3px 3px 0;
+	border-top           : 1px SOLID #aaaaaa;
+	border-left          : NONE;
+	border-right         : 1px SOLID #aaaaaa;
+	border-bottom        : 1px SOLID #aaaaaa;
+	cursor               : POINTER;
+	white-space          : NOWRAP;
 }
 
 /**
  * Style that defines the subtract button when the mouse is over it.
  */
 .subtractSpinnerButton:hover{
-	-webkit-border-top-left-radius    : 0px;
-	-webkit-border-top-right-radius   : 3px;
-	-moz-border-radius-topleft        : 0px;
-	-moz-border-radius-topright       : 3px;
-	border-top-left-radius            : 0px;
-	border-top-right-radius           : 3px;
-	-webkit-border-bottom-left-radius : 0px;
-	-webkit-border-bottom-right-radius: 3px;
-	-moz-border-radius-bottomleft     : 0px;
-	-moz-border-radius-bottomright    : 3px;
-	border-bottom-left-radius         : 0px;
-	border-bottom-right-radius        : 3px;
-    border-top                        : 1px SOLID #aaaaaa;
-	border-left                       : NONE;
-	border-right                      : 1px SOLID #aaaaaa;
-	border-bottom                     : 1px SOLID #aaaaaa;
-	width                             : 24px;
-	height                            : 24px;
-	background                        : #fafafa;
-	-webkit-transition                : all 0.25s ease-in-out;
-	-moz-transition                   : all 0.25s ease-in-out;
-	transition                        : all 0.25s ease-in-out;
-	cursor                            : POINTER;
-	white-space                       : NOWRAP;
+	width                : 24px;
+	height               : 24px;
+	background           : #fafafa;
+	transition           : all 0.25s ease-in-out;
+	-webkit-transition   : all 0.25s ease-in-out;
+	-moz-transition      : all 0.25s ease-in-out;
+	border-radius        : 0 3px 3px 0;
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius   : 0 3px 3px 0;
+	border-top           : 1px SOLID #aaaaaa;
+	border-left          : NONE;
+	border-right         : 1px SOLID #aaaaaa;
+	border-bottom        : 1px SOLID #aaaaaa;
+	cursor               : POINTER;
+	white-space          : NOWRAP;
 }
 
 /**
  * Style that defines o label of the buttons.
  */
 .spinnerButtonLabel{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 18px;
 	font-weight: BOLD;
 	color      : #666666;

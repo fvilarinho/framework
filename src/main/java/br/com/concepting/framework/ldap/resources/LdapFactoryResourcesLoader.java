@@ -47,10 +47,8 @@ public class LdapFactoryResourcesLoader extends FactoryResourcesLoader{
     public LdapFactoryResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname);
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseContent()
-     */
+
+    @Override
     protected XmlNode parseContent() throws InvalidResourcesException{
         XmlNode contentNode = super.parseContent();
         XmlNode resourcesNode = (contentNode != null ? contentNode.getNode(LdapConstants.DEFAULT_ID) : null);

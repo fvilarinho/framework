@@ -1,5 +1,7 @@
 package br.com.concepting.framework.util.types;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Class that defines the types of sort.
  *
@@ -48,6 +50,6 @@ public enum SortOrderType{
         else if(this == DESCEND)
             return toString().toLowerCase().substring(0, 4);
         
-        return "";
+        return StringUtils.EMPTY;
     }
 }

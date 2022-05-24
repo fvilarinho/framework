@@ -5,7 +5,7 @@ import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.security.model.LoginSessionModel;
-import br.com.concepting.framework.service.helpers.ServiceInterceptor;
+import br.com.concepting.framework.service.controller.ServiceInterceptor;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.util.Observer;
 import org.apache.commons.beanutils.ConstructorUtils;
@@ -13,7 +13,7 @@ import org.apache.commons.beanutils.ConstructorUtils;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Class responsible to find a service in a application context.
+ * Class responsible to find a service in an application context.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -67,8 +67,6 @@ public class ServiceLocator{
             return null;
         
         try{
-            S serviceLookupObject = null;
-            S serviceInstance = null;
             ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
             Class<S> serviceInterfaceClass = ServiceUtil.getServiceInterfaceClassByModel(modelInfo.getClazz());
             Class<S> serviceClass = ServiceUtil.getServiceClassByModel(modelInfo.getClazz());
@@ -76,12 +74,11 @@ public class ServiceLocator{
             if(serviceInterfaceClass == null || serviceClass == null)
                 return null;
             
-            serviceLookupObject = ConstructorUtils.invokeConstructor(serviceClass, null);
+            S serviceLookupObject = ConstructorUtils.invokeConstructor(serviceClass, null);
+
             serviceLookupObject.setLoginSession(loginSession);
             
-            serviceInstance = Observer.getInstance(serviceLookupObject, serviceInterfaceClass, new ServiceInterceptor());
-            
-            return serviceInstance;
+            return Observer.getInstance(serviceLookupObject, serviceInterfaceClass, new ServiceInterceptor());
         }
         catch(NoClassDefFoundError | ClassCastException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | IllegalArgumentException | NoSuchFieldException e){
             throw new InternalErrorException(e);

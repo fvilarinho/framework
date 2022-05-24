@@ -44,7 +44,7 @@ import java.lang.reflect.InvocationTargetException;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> extends BaseResourcesLoader<XmlNode>{
-    private Cacher<R> resourcesCacher = null;
+    private final Cacher<R> resourcesCacher;
     
     /**
      * Constructor - Manipulates specific resources.
@@ -69,16 +69,14 @@ public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> exten
         
         this.resourcesCacher = CacherManager.getInstance().getCacher(getClass());
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.BaseResourcesLoader#parseContent()
-     */
+
+    @Override
     protected XmlNode parseContent() throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
         
         try{
-            InputStream contentStream = null;
+            InputStream contentStream;
             
             if(resourcesDirname == null || resourcesDirname.length() == 0){
                 contentStream = getClass().getClassLoader().getResourceAsStream(resourcesId);
@@ -120,7 +118,7 @@ public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> exten
     }
     
     /**
-     * Parses the resources node.
+     * Parses the resources' node.
      *
      * @param node Instance that contains the node.
      * @return Instance that contains the resources.
@@ -133,7 +131,7 @@ public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> exten
             if(node != null){
                 resources = ConstructorUtils.invokeConstructor(getResourcesClass(), null);
                 resources.setId(node.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID));
-                resources.setDefault(Boolean.valueOf(node.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)));
+                resources.setDefault(Boolean.parseBoolean(node.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)));
                 resources.setContent(node);
             }
             
@@ -156,8 +154,8 @@ public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> exten
         if(id == null)
             id = Constants.DEFAULT_ATTRIBUTE_ID;
         
-        CachedObject<R> object = null;
-        R resources = null;
+        CachedObject<R> object;
+        R resources;
         
         try{
             object = this.resourcesCacher.get(id);
@@ -181,7 +179,7 @@ public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> exten
                             break;
                         
                         if(resourcesNode.getName().equals(XmlConstants.DEFAULT_RESOURCES_NODE_ID)){
-                            if(Boolean.valueOf(resourcesNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
+                            if(Boolean.parseBoolean(resourcesNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
                                 defaultResourcesNode = resourcesNode;
                             
                             if(id.equals(resourcesNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID)))
@@ -223,14 +221,14 @@ public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> exten
             catch(ItemNotFoundException e1){
                 resources = parseResources(resourcesNode);
                 
-                object = new CachedObject<R>();
+                object = new CachedObject<>();
                 object.setId(id);
                 object.setContent(resources);
                 
                 try{
                     this.resourcesCacher.add(object);
                 }
-                catch(ItemAlreadyExistsException e2){
+                catch(ItemAlreadyExistsException ignored){
                 }
                 
                 return resources;

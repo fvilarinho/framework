@@ -32,10 +32,8 @@ import java.io.IOException;
  */
 public class ImageComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -3933038010029461283L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
         String name = getName();
         
@@ -44,20 +42,16 @@ public class ImageComponent extends BasePropertyComponent{
         
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         if(getComponentType() == null)
             setComponentType(ComponentType.IMAGE);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderAttributes()
-     */
+
+    @Override
     protected void renderAttributes() throws InternalErrorException{
         String contextPath = getContextPath();
         String currentSkin = getCurrentSkin();
@@ -101,44 +95,32 @@ public class ImageComponent extends BasePropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderType()
-     */
+
+    @Override
     protected void renderType() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderValue()
-     */
+
+    @Override
     protected void renderValue() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderSize()
-     */
+
+    @Override
     protected void renderSize() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderReadOnly()
-     */
+
+    @Override
     protected void renderReadOnly() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderEnabled()
-     */
+
+    @Override
     protected void renderEnabled() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition != null && hasInvalidPropertyDefinition)
+        if(hasInvalidPropertyDefinition)
             super.renderInvalidPropertyMessage();
         else{
             if(getValue() != null){

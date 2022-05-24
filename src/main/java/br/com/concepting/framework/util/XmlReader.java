@@ -57,7 +57,7 @@ public class XmlReader{
      * @param validate Indicates if the content validation must be done.
      * @throws IOException Occurs when was not possible to read the content.
      */
-    public XmlReader(File file, Boolean validate) throws IOException{
+    public XmlReader(File file, boolean validate) throws IOException{
         this(new FileInputStream(file), validate);
     }
     
@@ -78,7 +78,7 @@ public class XmlReader{
      * @param validate Indicates if the content validation must be done.
      * @throws IOException Occurs when was not possible to read the content.
      */
-    public XmlReader(InputStream stream, Boolean validate) throws IOException{
+    public XmlReader(InputStream stream, boolean validate) throws IOException{
         super();
         
         if(stream != null){
@@ -86,10 +86,10 @@ public class XmlReader{
                 SAXReader reader = new SAXReader(validate);
                 
                 try{
-                    reader.setFeature(XmlConstants.DEFAULT_APACHE_VALIDATION_FEATURE_ID, (validate != null && validate));
-                    reader.setFeature(XmlConstants.DEFAULT_SAX_VALIDATION_FEATURE_ID, (validate != null && validate));
+                    reader.setFeature(XmlConstants.DEFAULT_APACHE_VALIDATION_FEATURE_ID,  validate);
+                    reader.setFeature(XmlConstants.DEFAULT_SAX_VALIDATION_FEATURE_ID, validate);
                 }
-                catch(SAXException e){
+                catch(SAXException ignored){
                 }
                 
                 parseDocument(reader.read(stream));

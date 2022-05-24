@@ -1,11 +1,12 @@
 package br.com.concepting.framework.mq.resources;
 
 import br.com.concepting.framework.constants.Constants;
-import br.com.concepting.framework.mq.resources.helpers.MqQueue;
+import br.com.concepting.framework.mq.constants.MqConstants;
 import br.com.concepting.framework.resources.BaseResources;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -33,31 +34,31 @@ public class MqResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = 3052749946121399692L;
     
     private String serverName = null;
-    private Integer serverPort = null;
+    private int serverPort = MqConstants.DEFAULT_PORT;
     private String userName = null;
     private String password = null;
     private Collection<MqQueue> queues = null;
     
     /**
-     * Returns the user name to connect into the service.
+     * Returns the username to connect into the service.
      *
-     * @return String that contains the user name.
+     * @return String that contains the username.
      */
     public String getUserName(){
         return this.userName;
     }
     
     /**
-     * Defines the user name to connect into the service.
+     * Defines the username to connect into the service.
      *
-     * @param userName String that contains the user name.
+     * @param userName String that contains the username.
      */
     public void setUserName(String userName){
         this.userName = userName;
     }
     
     /**
-     * Returns the password of the user name to connect into the service.
+     * Returns the password of the username to connect into the service.
      *
      * @return String that contains the password.
      */
@@ -66,7 +67,7 @@ public class MqResources extends BaseResources<XmlNode>{
     }
     
     /**
-     * Defines the password of the user name to connect into the service.
+     * Defines the password of the username to connect into the service.
      *
      * @param password String that contains the password.
      */
@@ -111,7 +112,7 @@ public class MqResources extends BaseResources<XmlNode>{
      *
      * @return Numeric value that contains the port.
      */
-    public Integer getServerPort(){
+    public int getServerPort(){
         return this.serverPort;
     }
     
@@ -120,7 +121,7 @@ public class MqResources extends BaseResources<XmlNode>{
      *
      * @param serverPort Numeric value that contains the port.
      */
-    public void setServerPort(Integer serverPort){
+    public void setServerPort(int serverPort){
         this.serverPort = serverPort;
     }
     
@@ -140,5 +141,48 @@ public class MqResources extends BaseResources<XmlNode>{
      */
     public void setServerName(String serverName){
         this.serverName = serverName;
+    }
+
+    public static class MqQueue implements Serializable {
+        private static final long serialVersionUID = -4707395643493075904L;
+
+        private String id = null;
+        private String listenerClass = null;
+
+        /**
+         * Returns the identifier of the queue.
+         *
+         * @return String that contains the identifier.
+         */
+        public String getId(){
+            return this.id;
+        }
+
+        /**
+         * Defines the identifier of the queue.
+         *
+         * @param id String that contains the identifier.
+         */
+        public void setId(String id){
+            this.id = id;
+        }
+
+        /**
+         * Returns the identifier of the queue listener.
+         *
+         * @return String that contains the identifier.
+         */
+        public String getListenerClass(){
+            return this.listenerClass;
+        }
+
+        /**
+         * Defines the identifier of the queue listener.
+         *
+         * @param listenerClass String that contains the identifier.
+         */
+        public void setListenerClass(String listenerClass){
+            this.listenerClass = listenerClass;
+        }
     }
 }

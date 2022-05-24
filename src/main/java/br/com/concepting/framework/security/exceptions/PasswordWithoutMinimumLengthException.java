@@ -3,7 +3,7 @@ package br.com.concepting.framework.security.exceptions;
 import br.com.concepting.framework.exceptions.ExpectedWarningException;
 
 /**
- * Class that defines the exception when the password doesn't have the minimum length..
+ * Class that defines the exception when the password doesn't have the minimum length.
  *
  * @author fvilarinho
  * @since 3.3.0
@@ -26,8 +26,8 @@ import br.com.concepting.framework.exceptions.ExpectedWarningException;
 public class PasswordWithoutMinimumLengthException extends ExpectedWarningException{
     private static final long serialVersionUID = 5978487541406636762L;
     
-    private Integer length = null;
-    private Integer minimumLength = null;
+    private final int length;
+    private final int minimumLength;
     
     /**
      * Constructor - Initializes the exception.
@@ -35,11 +35,11 @@ public class PasswordWithoutMinimumLengthException extends ExpectedWarningExcept
      * @param length Numeric value that contains the password length.
      * @param minimumLength Numeric value that contains the minimumpassword length.
      */
-    public PasswordWithoutMinimumLengthException(Integer length, Integer minimumLength){
+    public PasswordWithoutMinimumLengthException(int length, int minimumLength){
         super();
-        
-        setLength(length);
-        setMinimumLength(minimumLength);
+
+        this.length = length;
+        this.minimumLength = minimumLength;
     }
     
     /**
@@ -47,34 +47,16 @@ public class PasswordWithoutMinimumLengthException extends ExpectedWarningExcept
      *
      * @return Numeric value that contains the password length.
      */
-    public Integer getLength(){
+    public int getLength(){
         return this.length;
     }
-    
-    /**
-     * Defines the password length.
-     *
-     * @param length Numeric value that contains the password length.
-     */
-    public void setLength(Integer length){
-        this.length = length;
-    }
-    
+
     /**
      * Returns the minimum password length.
      *
      * @return Numeric value that contains the minimum password length.
      */
-    public Integer getMinimumLength(){
+    public int getMinimumLength(){
         return this.minimumLength;
-    }
-    
-    /**
-     * Defines the minimum password length.
-     *
-     * @param minimumLength Numeric value that contains the minimum password length.
-     */
-    public void setMinimumLength(Integer minimumLength){
-        this.minimumLength = minimumLength;
     }
 }

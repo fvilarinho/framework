@@ -35,10 +35,8 @@ import java.util.Collection;
  */
 public class RichTextAreaPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -3254930243069817268L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
@@ -602,27 +600,21 @@ public class RichTextAreaPropertyComponent extends BasePropertyComponent{
         
         println("</div>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         renderValue();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderValue()
-     */
+
+    @Override
     protected void renderValue() throws InternalErrorException{
         String formattedValue = getFormattedValue();
         
         if(formattedValue != null && formattedValue.length() > 0)
             println(formattedValue);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         PropertyInfo propertyInfo = getPropertyInfo();
         String actionFormName = getActionFormName();

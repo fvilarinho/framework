@@ -75,7 +75,7 @@ public abstract class CallableThread<O> implements Runnable{
     }
     
     /**
-     * Returns the current exception of the processing.
+     * Returns the current processing exceptio.
      *
      * @return Instance that contains the exception.
      */
@@ -84,17 +84,15 @@ public abstract class CallableThread<O> implements Runnable{
     }
     
     /**
-     * Defines the current exception of the processing.
+     * Defines the current processing exception.
      *
      * @param exception Instance that contains the exception.
      */
     public void setException(Throwable exception){
         this.exception = exception;
     }
-    
-    /**
-     * @see java.lang.Runnable#run()
-     */
+
+    @Override
     public void run(){
         setStartDateTime(new DateTime());
     }

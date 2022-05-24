@@ -6,7 +6,6 @@ import br.com.concepting.framework.mq.helpers.MqListener;
 import br.com.concepting.framework.mq.helpers.MqMessage;
 import br.com.concepting.framework.mq.resources.MqResources;
 import br.com.concepting.framework.mq.resources.MqResourcesLoader;
-import br.com.concepting.framework.mq.resources.helpers.MqQueue;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.util.ByteUtil;
 import br.com.concepting.framework.util.DateTimeUtil;
@@ -56,8 +55,9 @@ public class Mq{
     
     private static Map<String, Mq> instances = null;
     
-    private MqResources resources = null;
+    private final MqResources resources;
     private final BrokerService service = null;
+
     private ActiveMQConnection connection = null;
     private Session session = null;
     private Map<String, MessageProducer> messageProducers = null;
@@ -159,7 +159,7 @@ public class Mq{
             connectorUri.append(":");
             connectorUri.append(this.resources.getServerPort());
             
-            ActiveMQConnectionFactory connectionFactory = null;
+            ActiveMQConnectionFactory connectionFactory;
             
             if(this.resources.getUserName() != null && this.resources.getUserName().length() > 0)
                 connectionFactory = new ActiveMQConnectionFactory(this.resources.getUserName(), this.resources.getPassword(), connectorUri.toString());
@@ -171,10 +171,10 @@ public class Mq{
             
             this.session = this.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             
-            Collection<MqQueue> queues = this.resources.getQueues();
+            Collection<MqResources.MqQueue> queues = this.resources.getQueues();
             
             if(queues != null && !queues.isEmpty()){
-                for(MqQueue queue: queues){
+                for(MqResources.MqQueue queue: queues){
                     if(this.messageProducers == null)
                         this.messageProducers = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                     
@@ -230,7 +230,7 @@ public class Mq{
             Collection<PropertyInfo> propertiesInfos = PropertyUtil.getInfos(clazz);
             
             if(propertiesInfos != null && !propertiesInfos.isEmpty()){
-                Object propertyValue = null;
+                Object propertyValue;
                 
                 for(PropertyInfo propertyInfo: propertiesInfos){
                     propertyValue = PropertyUtil.getValue(m, propertyInfo.getId());
@@ -298,7 +298,7 @@ public class Mq{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public <M extends MqMessage> M pull(String queueId, Boolean wait) throws InternalErrorException{
+    public <M extends MqMessage> M pull(String queueId, boolean wait) throws InternalErrorException{
         try{
             if(queueId == null)
                 return null;
@@ -308,7 +308,7 @@ public class Mq{
             if(messageConsumer == null)
                 throw new InvalidResourcesException(queueId);
             
-            Message m = (wait != null && wait ? messageConsumer.receive() : messageConsumer.receiveNoWait());
+            Message m = (wait ? messageConsumer.receive() : messageConsumer.receiveNoWait());
             M message = null;
             
             if(m != null){
@@ -322,7 +322,7 @@ public class Mq{
                 Collection<PropertyInfo> propertiesInfos = PropertyUtil.getInfos(clazz);
                 
                 if(propertiesInfos != null && !propertiesInfos.isEmpty()){
-                    Object propertyValue = null;
+                    Object propertyValue;
                     
                     for(PropertyInfo propertyInfo: propertiesInfos){
                         try{
@@ -355,7 +355,7 @@ public class Mq{
                             
                             PropertyUtil.setValue(message, propertyInfo.getId(), propertyValue);
                         }
-                        catch(Throwable e){
+                        catch(Throwable ignored){
                         }
                     }
                 }
@@ -375,25 +375,25 @@ public class Mq{
         try{
             this.connection.cleanup();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         try{
             this.connection.close();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         try{
             this.session.close();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         try{
             this.service.stop();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
     }
 }

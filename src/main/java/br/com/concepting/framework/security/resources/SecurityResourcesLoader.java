@@ -51,10 +51,8 @@ public class SecurityResourcesLoader extends XmlResourcesLoader<SecurityResource
     public SecurityResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname, SecurityConstants.DEFAULT_RESOURCES_ID);
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
-     */
+
+    @Override
     public SecurityResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
@@ -115,7 +113,7 @@ public class SecurityResourcesLoader extends XmlResourcesLoader<SecurityResource
                 throw new InvalidResourcesException(resourcesDirname, resourcesId, cryptographyNode.getText());
             
             try{
-                Integer cryptographyKeySize = NumberUtil.parseInt(cryptographKeySizeBuffer);
+                int cryptographyKeySize = NumberUtil.parseInt(cryptographKeySizeBuffer);
                 
                 resources.setCriptographyKeySize(cryptographyKeySize);
             }

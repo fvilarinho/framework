@@ -32,10 +32,8 @@ import java.text.DecimalFormatSymbols;
  */
 public class SliderBarComponent extends TextPropertyComponent{
     private static final long serialVersionUID = 1573821017694529722L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         String name = getName();
         
@@ -61,12 +59,10 @@ public class SliderBarComponent extends TextPropertyComponent{
         
         super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
-        setMinimumValue(0l);
+        setMinimumValue(0);
         
         String width = getWidth();
         
@@ -78,7 +74,7 @@ public class SliderBarComponent extends TextPropertyComponent{
         super.initialize();
         
         if(width == null || width.length() == 0)
-            width = UIConstants.DEFAULT_SLIDER_BAR_WIDTH.toString();
+            width = String.valueOf(UIConstants.DEFAULT_SLIDER_BAR_WIDTH);
         
         setWidth(width);
     }
@@ -94,7 +90,7 @@ public class SliderBarComponent extends TextPropertyComponent{
         if(name == null || name.length() == 0)
             return;
         
-        Boolean enabled = isEnabled();
+        boolean enabled = isEnabled();
         
         print("<div id=\"");
         print(name);
@@ -104,7 +100,7 @@ public class SliderBarComponent extends TextPropertyComponent{
         print(UIConstants.DEFAULT_SLIDER_BAR_CONTROL_STYLE_CLASS);
         print("\"");
         
-        if(enabled != null && enabled){
+        if(enabled){
             print(" onMouseDown=\"dragSliderBarControl('");
             print(name);
             print("', event);\" onMouseUp=\"dropSliderBarControl();\" onMouseOut=\"dropSliderBarControl();\" onMouseMove=\"slideIt(event);\"");
@@ -134,16 +130,14 @@ public class SliderBarComponent extends TextPropertyComponent{
         
         println("></div>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition){
+        if(!hasInvalidPropertyDefinition){
             print("<table class=\"");
             print(UIConstants.DEFAULT_CONTENT_PANEL_STYLE_CLASS);
             println("\">");
@@ -159,14 +153,12 @@ public class SliderBarComponent extends TextPropertyComponent{
             println("<td>");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition){
+        if(!hasInvalidPropertyDefinition){
             println("</td>");
             println("</tr>");
             println("</table>");
@@ -174,15 +166,15 @@ public class SliderBarComponent extends TextPropertyComponent{
         
         super.renderClose();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition){
+        if(!hasInvalidPropertyDefinition){
             String name = getName();
             
             if(name != null && name.length() > 0){
                 DecimalFormatSymbols symbols = NumberUtil.getFormatSymbols(getCurrentLanguage());
                 String width = getWidth();
                 Number maximumValue = getMaximumValue();
-                Boolean useGroupSeparator = useAdditionalFormatting();
-                Integer precision = getPrecision();
+                boolean useGroupSeparator = useAdditionalFormatting();
+                int precision = getPrecision();
                 Object value = getValue();
                 StringBuilder content = new StringBuilder();
                 
@@ -193,11 +185,11 @@ public class SliderBarComponent extends TextPropertyComponent{
                 content.append(", ");
                 content.append((maximumValue != null ? maximumValue.toString() : Constants.DEFAULT_NULL_ID));
                 content.append(", ");
-                content.append((useGroupSeparator != null ? useGroupSeparator : Constants.DEFAULT_NULL_ID));
+                content.append(useGroupSeparator);
                 content.append(", '");
                 content.append(symbols.getGroupingSeparator());
                 content.append("', ");
-                content.append((precision != null ? precision : Constants.DEFAULT_NULL_ID));
+                content.append(precision);
                 content.append(", '");
                 content.append(symbols.getDecimalSeparator());
                 content.append("', ");

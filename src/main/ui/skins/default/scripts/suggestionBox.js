@@ -4,12 +4,13 @@
  * @author fvilarinho
  * @version 3.3.0
  */
-
-var suggestionBoxTimer = null;
+let suggestionBoxTimer = null;
 
 function hideSuggestionBox(name){
-	var object = getObject(name + ".suggestionBox");
+	let object = getObject(name + ".suggestionBox");
 	
 	if(object)
 		object.style.visibility = "HIDDEN";
+
+	clearTimeout(suggestionBoxTimer);
 }

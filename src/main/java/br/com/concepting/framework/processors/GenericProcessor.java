@@ -68,7 +68,7 @@ public class GenericProcessor{
      *
      * @return True/False.
      */
-    protected Boolean returnContent(){
+    protected boolean returnContent(){
         return true;
     }
     
@@ -77,7 +77,7 @@ public class GenericProcessor{
      *
      * @return True/False.
      */
-    protected Boolean hasLogic(){
+    protected boolean hasLogic(){
         return false;
     }
     
@@ -162,24 +162,20 @@ public class GenericProcessor{
      */
     public String process() throws InternalErrorException{
         ProcessorFactory processorFactory = ProcessorFactory.getInstance();
-        GenericProcessor processor = null;
         List<?> nodeChildren = this.content.getChildren();
-        String nodeBody = null;
-        String nodeValue = null;
         String nodeText = StringUtil.trim(this.content.getText());
-        XmlNode node = null;
         int cont = 0;
         
         if(nodeChildren != null && !nodeChildren.isEmpty()){
             while(true){
-                node = this.content.getNode(cont);
+                XmlNode node = this.content.getNode(cont);
                 
                 if(node == null)
                     break;
-                
-                processor = processorFactory.getProcessor(this.domain, this.declaration, node, this.language);
-                nodeBody = StringUtil.trim(node.getBody());
-                nodeValue = StringUtil.trim(processor.process());
+
+                GenericProcessor processor = processorFactory.getProcessor(this.domain, this.declaration, node, this.language);
+                String nodeBody = StringUtil.trim(node.getBody());
+                String nodeValue = StringUtil.trim(processor.process());
                 
                 if(processor.hasLogic())
                     nodeText = StringUtil.replaceAll(nodeText, nodeBody, nodeValue);

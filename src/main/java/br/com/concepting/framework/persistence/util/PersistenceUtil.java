@@ -1,8 +1,6 @@
 package br.com.concepting.framework.persistence.util;
 
 import br.com.concepting.framework.constants.Constants;
-import br.com.concepting.framework.constants.ProjectConstants;
-import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.constants.ModelConstants;
 import br.com.concepting.framework.persistence.constants.PersistenceConstants;
@@ -10,20 +8,7 @@ import br.com.concepting.framework.persistence.interfaces.IPersistence;
 import br.com.concepting.framework.persistence.resources.PersistenceResources;
 import br.com.concepting.framework.persistence.resources.PersistenceResourcesLoader;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
-import br.com.concepting.framework.util.FileUtil;
 import br.com.concepting.framework.util.StringUtil;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Environment;
-import org.hibernate.tool.hbm2ddl.SchemaExport;
-import org.hibernate.tool.schema.TargetType;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.SecureRandom;
-import java.util.EnumSet;
 
 /**
  * Class responsible to manipulate the persistence service.

@@ -27,14 +27,14 @@ public class OptionStateComponent extends BaseComponent{
     private static final long serialVersionUID = 4128806874828828898L;
     
     private String expression = null;
-    private Boolean remove = null;
+    private boolean remove = false;
     
     /**
      * Indicates if the option should be removed.
      *
      * @return True/False.
      */
-    public Boolean remove(){
+    public boolean remove(){
         return this.remove;
     }
     
@@ -43,7 +43,7 @@ public class OptionStateComponent extends BaseComponent{
      *
      * @param remove True/False.
      */
-    public void setRemove(Boolean remove){
+    public void setRemove(boolean remove){
         this.remove = remove;
     }
     
@@ -64,10 +64,8 @@ public class OptionStateComponent extends BaseComponent{
     public void setExpression(String expression){
         this.expression = expression;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         if(this.expression == null)
             this.expression = Boolean.TRUE.toString();
@@ -79,7 +77,7 @@ public class OptionStateComponent extends BaseComponent{
                 try{
                     gridColumnComponent = (GridColumnComponent) getParent();
                 }
-                catch(ClassCastException e){
+                catch(ClassCastException ignored){
                 }
             }
             
@@ -95,7 +93,7 @@ public class OptionStateComponent extends BaseComponent{
                 try{
                     optionsPropertyComponent = (OptionsPropertyComponent) getParent();
                 }
-                catch(ClassCastException e){
+                catch(ClassCastException ignored){
                 }
             }
             
@@ -109,32 +107,24 @@ public class OptionStateComponent extends BaseComponent{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
         setExpression(null);
-        setRemove(null);
+        setRemove(false);
     }
 }

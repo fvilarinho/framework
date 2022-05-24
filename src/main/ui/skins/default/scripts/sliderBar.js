@@ -4,24 +4,24 @@
  * @author fvilarinho
  * @version 3.0.0
  */
-var pagePosition         = null;
-var currentSliderBarName = null;
-var slidersBar           = new Object();
+let pagePosition         = null;
+let currentSliderBarName = null;
+let slidersBar           = {};
 
 /**
  * Class that defines the slider bar component.
  */
 function SliderBar(){
-	var name;
-	var width;
-	var controlCurrentPosition;
-	var controlWidth;
-	var maximumValue;
-	var useGroupSeparator;
-	var groupSeparator;
-	var precision;
-	var decimalSeparator;
-	var value;
+	let name;
+	let width;
+	let controlCurrentPosition;
+	let controlWidth;
+	let maximumValue;
+	let useGroupSeparator;
+	let groupSeparator;
+	let precision;
+	let decimalSeparator;
+	let value;
 	
 	this.getUseGroupSeparator = function(){
 		return useGroupSeparator;
@@ -110,24 +110,24 @@ function SliderBar(){
  * @param name String that contains the identifier of the slider bar component.
  * @param width Numeric value that contains the width.
  * @param maximumValue Numeric value that contains the maximum value permitted.
- * @param useGroupSeparator Indicates the the mask should use the group separator.
+ * @param useGroupSeparator Indicates the mask should use the group separator.
  * @param groupSeparator String that contains the group separator.
  * @param precision Numeric value that contains the decimal precision.
  * @param decimalSeparator String that contains the decimal separator.
  */
 function initializeSliderBar(name, width, maximumValue, useGroupSeparator, groupSeparator, precision, decimalSeparator){
-	var sliderBarObject        = getObject(name + ".sliderBar");
-	var sliderBarControlObject = getObject(name + ".sliderBarControl");
+	let sliderBarObject        = getObject(name + ".sliderBar");
+	let sliderBarControlObject = getObject(name + ".sliderBarControl");
 	
 	if(sliderBarObject && sliderBarControlObject){
-		var sliderBar = slidersBar[name];
+		let sliderBar = slidersBar[name];
 		
 		if(!sliderBar)
 			sliderBar = new SliderBar();
 		
 		sliderBar.setName(name);
 		
-		if(width != null)
+		if(width !== null)
 			sliderBar.setWidth(width);
 		else
 			sliderBar.setWidth(sliderBarObject.offsetWidth);
@@ -150,12 +150,12 @@ function initializeSliderBar(name, width, maximumValue, useGroupSeparator, group
  * @param name String that contains the identifier of the slider bar component.
  */
 function setSliderBarPosition(name){
-	var sliderBarObject        = getObject(name + ".sliderBar");
-	var sliderBarControlObject = getObject(name + ".sliderBarControl");
+	let sliderBarObject        = getObject(name + ".sliderBar");
+	let sliderBarControlObject = getObject(name + ".sliderBarControl");
 	
 	if(sliderBarObject && sliderBarControlObject){
-		var sliderBar = slidersBar[name];
-		var value     = getObjectValue(name);
+		let sliderBar = slidersBar[name];
+		let value     = getObjectValue(name);
 		
 		if(value < 0)
 			value = 0;
@@ -200,12 +200,12 @@ function dropSliderBarControl(){
  * @param event Instance that contains the event.
  */
 function slideIt(event){
-	if(currentSliderBarName != null && pagePosition != null && event){
-		var sliderBar              = slidersBar[currentSliderBarName];
-		var currentPagePosition    = event.pageX;
-		var currentPosition        = (sliderBar.getControlCurrentPosition() + event.pageX - pagePosition);
-		var sliderBarObject        = getObject(currentSliderBarName);
-		var sliderBarControlObject = getObject(currentSliderBarName + ".sliderBarControl");
+	if(currentSliderBarName !== null && pagePosition !== null && event){
+		let sliderBar              = slidersBar[currentSliderBarName];
+		let currentPagePosition    = event.pageX;
+		let currentPosition        = (sliderBar.getControlCurrentPosition() + event.pageX - pagePosition);
+		let sliderBarObject        = getObject(currentSliderBarName);
+		let sliderBarControlObject = getObject(currentSliderBarName + ".sliderBarControl");
 		
 		if(sliderBarObject && sliderBarControlObject){
 			pagePosition = currentPagePosition;
@@ -216,7 +216,7 @@ function slideIt(event){
 			if(currentPosition > sliderBar.getWidth())
 				currentPosition = sliderBar.getWidth();
 		
-			sliderBarControlObject.style.left = currentPosition; 
+			sliderBarControlObject.style.left = currentPosition + "px";
 			sliderBarObject.value = sliderBar.getValue();
 			
 			sliderBar.setControlCurrentPosition(currentPosition);

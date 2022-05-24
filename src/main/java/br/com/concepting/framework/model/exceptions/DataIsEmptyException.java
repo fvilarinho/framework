@@ -3,7 +3,7 @@ package br.com.concepting.framework.model.exceptions;
 import br.com.concepting.framework.exceptions.ExpectedWarningException;
 
 /**
- * Class that defines the exception when there is not data available.
+ * Class that defines the exception when there is no data available.
  *
  * @author fvilarinho
  * @since 1.0.0

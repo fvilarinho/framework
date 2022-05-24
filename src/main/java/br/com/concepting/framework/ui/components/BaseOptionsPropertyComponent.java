@@ -39,18 +39,18 @@ import java.util.Collection;
 public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -5223346768919041691L;
     
-    private static String noDatasetMessage = null;
+    private static String noDataMessage = null;
     
     private String optionLabelStyle = null;
     private String optionLabelStyleClass = null;
-    private Boolean multipleSelection = null;
+    private boolean multipleSelection = false;
     private Collection<OptionStateComponent> optionStatesComponents = null;
     private String dataset = null;
     private String datasetScope = null;
     private Collection<?> datasetValues = null;
-    private Integer datasetStartIndex = null;
-    private Integer datasetEndIndex = null;
-    private Boolean hasNoDataset = null;
+    private int datasetStartIndex = 0;
+    private int datasetEndIndex = 0;
+    private boolean hasNoData = true;
     
     /**
      * Returns the CSS style for the label of the options.
@@ -94,7 +94,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
      *
      * @return Numeric value that contains the start index.
      */
-    protected Integer getDatasetStartIndex(){
+    protected int getDatasetStartIndex(){
         return this.datasetStartIndex;
     }
     
@@ -103,7 +103,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
      *
      * @param datasetStartIndex Numeric value that contains the start index.
      */
-    protected void setDatasetStartIndex(Integer datasetStartIndex){
+    protected void setDatasetStartIndex(int datasetStartIndex){
         this.datasetStartIndex = datasetStartIndex;
     }
     
@@ -112,7 +112,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
      *
      * @return Numeric value that contains the end index.
      */
-    protected Integer getDatasetEndIndex(){
+    protected int getDatasetEndIndex(){
         return this.datasetEndIndex;
     }
     
@@ -121,7 +121,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
      *
      * @param datasetEndIndex Numeric value that contains the end index.
      */
-    protected void setDatasetEndIndex(Integer datasetEndIndex){
+    protected void setDatasetEndIndex(int datasetEndIndex){
         this.datasetEndIndex = datasetEndIndex;
     }
     
@@ -196,7 +196,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
             try{
                 return ScopeType.valueOf(this.datasetScope.toUpperCase());
             }
-            catch(IllegalArgumentException e){
+            catch(IllegalArgumentException ignored){
             }
         }
         
@@ -249,7 +249,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
      *
      * @return True/False.
      */
-    public Boolean hasMultipleSelection(){
+    public boolean hasMultipleSelection(){
         return this.multipleSelection;
     }
     
@@ -258,7 +258,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
      *
      * @return True/False.
      */
-    public Boolean getMultipleSelection(){
+    public boolean getMultipleSelection(){
         return hasMultipleSelection();
     }
     
@@ -267,57 +267,53 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
      *
      * @param multipleSelection True/False.
      */
-    public void setMultipleSelection(Boolean multipleSelection){
+    public void setMultipleSelection(boolean multipleSelection){
         this.multipleSelection = multipleSelection;
     }
     
     /**
-     * Returns the message when there is not dataset to show.
+     * Returns the message when there is no data to show.
      *
      * @return String that contains the message.
      */
-    protected static String getNoDatasetMessage(){
-        return noDatasetMessage;
+    protected static String getNoDataMessage(){
+        return noDataMessage;
     }
     
     /**
-     * Indicates if the component has no dataset to show.
+     * Indicates if the component has no data to show.
      *
      * @return True/False.
      */
-    protected Boolean hasNoDataset(){
-        return this.hasNoDataset;
+    protected boolean hasNoData(){
+        return this.hasNoData;
     }
     
     /**
-     * Defines if the component has no dataset to show.
+     * Defines if the component has no data to show.
      *
-     * @param hasNoDataset True/False.
+     * @param hasNoData True/False.
      */
-    private void setHasNoDataset(Boolean hasNoDataset){
-        this.hasNoDataset = hasNoDataset;
+    private void setHasNoData(boolean hasNoData){
+        this.hasNoData = hasNoData;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
-        if(noDatasetMessage == null){
+        if(noDataMessage == null){
             PropertiesResources resources = getDefaultResources();
             
             if(resources != null){
-                noDatasetMessage = resources.getProperty(ActionFormMessageConstants.DEFAULT_NO_DATA_KEY_ID);
-                noDatasetMessage = PropertyUtil.fillPropertiesInString(this, noDatasetMessage);
-                noDatasetMessage = PropertyUtil.fillResourcesInString(resources, noDatasetMessage);
+                noDataMessage = resources.getProperty(ActionFormMessageConstants.DEFAULT_NO_DATA_KEY_ID);
+                noDataMessage = PropertyUtil.fillPropertiesInString(this, noDataMessage);
+                noDataMessage = PropertyUtil.fillResourcesInString(resources, noDataMessage);
             }
         }
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
         PropertyInfo propertyInfo = getPropertyInfo();
         
@@ -326,10 +322,8 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         String optionLabelStyleClass = getOptionLabelStyleClass();
         
@@ -341,17 +335,15 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         super.initialize();
         
         String name = getName();
         String dataset = getDataset();
         
-        if(name != null && dataset != null && name.equals(dataset))
+        if(name != null && name.equals(dataset))
             setHasInvalidPropertyDefinition(false);
         
         this.datasetStartIndex = 0;
@@ -359,9 +351,9 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         
         SystemController systemController = getSystemController();
         String actionFormName = getActionFormName();
-        Boolean render = render();
+        boolean render = render();
         
-        if(systemController != null && actionFormName != null && actionFormName.length() > 0 && dataset != null && dataset.length() > 0 && (this.datasetValues == null || this.datasetValues.size() == 0) && render != null && render){
+        if(systemController != null && actionFormName != null && actionFormName.length() > 0 && dataset != null && dataset.length() > 0 && (this.datasetValues == null || this.datasetValues.size() == 0) && render){
             ScopeType datasetScope = getDatasetScopeType();
             
             if(datasetScope == null){
@@ -387,15 +379,15 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         if(this.datasetValues != null && this.datasetValues.size() > 0)
             this.datasetEndIndex = this.datasetValues.size();
         
-        this.hasNoDataset = (this.datasetValues == null || this.datasetValues.size() == 0);
+        this.hasNoData = (this.datasetValues == null || this.datasetValues.size() == 0);
     }
     
     /**
-     * Renders the no dataset message.
+     * Renders the no data message.
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
-    protected void renderNoDatasetMessage() throws InternalErrorException{
+    protected void renderNoDatatMessage() throws InternalErrorException{
         String labelStyleClass = getLabelStyleClass();
         
         print("<span");
@@ -419,7 +411,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         }
         
         print(">");
-        print(getNoDatasetMessage());
+        print(getNoDataMessage());
         println("</span>");
     }
     
@@ -435,16 +427,16 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         if(actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
             return;
         
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         BaseOptionsPropertyComponent optionsPropertyComponent = null;
         
         try{
             optionsPropertyComponent = (BaseOptionsPropertyComponent) getParent();
         }
-        catch(ClassCastException e){
+        catch(ClassCastException ignored){
         }
         
-        if((hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition) && this.dataset != null && this.dataset.length() > 0 && optionsPropertyComponent == null){
+        if(!hasInvalidPropertyDefinition && this.dataset != null && this.dataset.length() > 0 && optionsPropertyComponent == null){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(name);
@@ -502,17 +494,17 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         if(actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
             return;
         
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
-        Boolean hasNoDataset = hasNoDataset();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasNoData = hasNoData();
         BaseOptionsPropertyComponent optionsPropertyComponent = null;
         
         try{
             optionsPropertyComponent = (BaseOptionsPropertyComponent) getParent();
         }
-        catch(ClassCastException e){
+        catch(ClassCastException ignored){
         }
         
-        if((hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition) && (hasNoDataset == null || !hasNoDataset) && optionsPropertyComponent == null){
+        if(!hasInvalidPropertyDefinition && !hasNoData && optionsPropertyComponent == null){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(name);
@@ -557,10 +549,8 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
@@ -569,10 +559,10 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         setDataset(null);
         setDatasetScope(null);
         setDatasetValues(null);
-        setDatasetStartIndex(null);
-        setDatasetEndIndex(null);
+        setDatasetStartIndex(0);
+        setDatasetEndIndex(0);
         setOptionStatesComponents(null);
-        setMultipleSelection(null);
-        setHasNoDataset(null);
+        setMultipleSelection(false);
+        setHasNoData(true);
     }
 }

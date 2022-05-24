@@ -7,7 +7,6 @@ import br.com.concepting.framework.model.types.ValidationType;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.persistence.types.RelationType;
 import br.com.concepting.framework.security.model.GroupModel;
-import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.SearchType;
 import br.com.concepting.framework.util.types.SortOrderType;
@@ -16,7 +15,7 @@ import java.util.Collection;
 
 /**
  * Class that defines the basic implementation of the data model that stores the
- * information of an form object.
+ * information of a form object.
  *
  * @author fvilarinho
  * @since 1.0.0

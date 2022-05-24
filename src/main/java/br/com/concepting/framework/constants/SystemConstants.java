@@ -23,7 +23,6 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class SystemConstants{
     public static final String CURRENT_EXCEPTION_ATTRIBUTE_ID = "currentException";
     public static final String CURRENT_LANGUAGE_ATTRIBUTE_ID = "currentLanguage";
@@ -39,11 +38,13 @@ public abstract class SystemConstants{
     public static final String MAIN_CONSOLE_ATTRIBUTE_ID = "mainConsole";
     public static final String OPERATING_SYSTEM_ATTRIBUTE_ID = "os";
     public static final String OPERATING_SYSTEMS_ATTRIBUTE_ID = "oss";
+    public static final String CONTENT_TYPE_ATTRIBUTE_ID = "Content-Type";
+    public static final String ACCEPT_ATTRIBUTE_ID = "Accept";
     public static final String REQUEST_PARAMETERS_ATTRIBUTE_ID = "requestParameters";
-    public static final String REQUEST_USER_AGENT_ATTRIBUTE_ID = "User-Agent";
-    public static final String REQUEST_TRUE_CLIENT_IP_ATTRIBUTE_ID = "True-Client-IP";
-    public static final String REQUEST_CONNECTING_IP_ATTRIBUTE_ID = "CF-Connecting-IP";
-    public static final String REQUEST_ACCEPT_LANGUAGE_ATTRIBUTE_ID = "Accept-Language";
+    public static final String USER_AGENT_ATTRIBUTE_ID = "User-Agent";
+    public static final String TRUE_CLIENT_IP_ATTRIBUTE_ID = "True-Client-IP";
+    public static final String CONNECTING_IP_ATTRIBUTE_ID = "CF-Connecting-IP";
+    public static final String ACCEPT_LANGUAGE_ATTRIBUTE_ID = "Accept-Language";
     public static final String RESOURCES_ATTRIBUTE_ID = "systemResources";
     public static final String SKINS_ATTRIBUTE_ID = "skins";
     public static final String SYSTEM_MODULE_ATTRIBUTE_ID = "systemModule";

@@ -27,15 +27,15 @@ import br.com.concepting.framework.util.types.ComponentType;
 public class TextAreaPropertyComponent extends TextPropertyComponent{
     private static final long serialVersionUID = -4412598905102532413L;
     
-    private Integer rows = null;
-    private Integer columns = null;
+    private int rows = 0;
+    private int columns = 0;
     
     /**
      * Returns the number of columns.
      *
      * @return Numeric value that contains the number of columns.
      */
-    public Integer getColumns(){
+    public int getColumns(){
         return this.columns;
     }
     
@@ -44,7 +44,7 @@ public class TextAreaPropertyComponent extends TextPropertyComponent{
      *
      * @param columns Numeric value that contains the number of columns.
      */
-    public void setColumns(Integer columns){
+    public void setColumns(int columns){
         this.columns = columns;
     }
     
@@ -53,7 +53,7 @@ public class TextAreaPropertyComponent extends TextPropertyComponent{
      *
      * @return Numeric value that contains the number of rows.
      */
-    public Integer getRows(){
+    public int getRows(){
         return this.rows;
     }
     
@@ -62,63 +62,53 @@ public class TextAreaPropertyComponent extends TextPropertyComponent{
      *
      * @param rows Numeric value that contains the number of rows.
      */
-    public void setRows(Integer rows){
+    public void setRows(int rows){
         this.rows = rows;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderValue()
-     */
+
+    @Override
     protected void renderValue() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderAttributes()
-     */
+
+    @Override
     protected void renderAttributes() throws InternalErrorException{
         super.renderAttributes();
         
-        Integer rows = getRows();
+        int rows = getRows();
         
-        if(rows != null && rows > 0){
+        if(rows > 0){
             print(" rows=\"");
             print(rows);
             print("\"");
         }
         
-        Integer columns = getColumns();
+        int columns = getColumns();
         
-        if(columns != null && columns > 0){
+        if(columns > 0){
             print(" cols=\"");
             print(columns);
             print("\"");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.TEXT_AREA);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderType()
-     */
+
+    @Override
     protected void renderType() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition() || getValue() != null){
+        if(!hasInvalidPropertyDefinition() || getValue() != null){
             print("<textarea");
             
             renderAttributes();
@@ -126,41 +116,35 @@ public class TextAreaPropertyComponent extends TextPropertyComponent{
             print(">");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         String formattedValue = getFormattedValue();
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition()){
+        if(!hasInvalidPropertyDefinition()){
             if(formattedValue != null && formattedValue.length() > 0)
                 println(formattedValue);
         }
         else
             super.renderBody();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition() || getValue() != null)
+        if(!hasInvalidPropertyDefinition() || getValue() != null)
             println("</textarea>");
         
         super.renderClose();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setRows(null);
-        setColumns(null);
+        setRows(0);
+        setColumns(0);
     }
 }

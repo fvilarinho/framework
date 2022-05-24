@@ -234,7 +234,7 @@ public @interface Property{
     ConditionOperationType searchConditionOperation() default ConditionOperationType.NONE;
     
     /**
-     * Indicates if the search will be done considering case sensitive or insensitive.
+     * Indicates if the search will be done considering case-sensitive or insensitive.
      *
      * @return Instance that contains the search type.
      */

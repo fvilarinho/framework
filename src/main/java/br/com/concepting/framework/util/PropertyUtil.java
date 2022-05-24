@@ -1,36 +1,5 @@
 package br.com.concepting.framework.util;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.AbstractCollection;
-import java.util.Collection;
-import java.util.Currency;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.commons.beanutils.ConstructorUtils;
-import org.apache.commons.beanutils.PropertyUtils;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-
 import br.com.concepting.framework.audit.annotations.Auditable;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.controller.form.constants.ActionFormConstants;
@@ -52,12 +21,24 @@ import br.com.concepting.framework.resources.PropertiesResources;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
-import br.com.concepting.framework.util.types.ContentType;
-import br.com.concepting.framework.util.types.FormulaType;
-import br.com.concepting.framework.util.types.InputType;
-import br.com.concepting.framework.util.types.PropertyType;
-import br.com.concepting.framework.util.types.SearchType;
-import br.com.concepting.framework.util.types.SortOrderType;
+import br.com.concepting.framework.util.types.*;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils.PropertyUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class responsible to manipulate properties of classes and methods.
@@ -112,7 +93,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * value 2. -1 - Indicates that the numeric value 1 less than numeric value
 	 * 2.
 	 */
-	public static Integer compareTo(Object object1, Object object2){
+	public static int compareTo(Object object1, Object object2){
 		if(object1 == null && object2 == null)
 			return 0;
 		else if(object1 != null && object2 == null)
@@ -139,10 +120,6 @@ public class PropertyUtil extends PropertyUtils{
 		   name.endsWith(".".concat(Constants.PATTERN_ATTRIBUTE_ID)) ||
 		   name.equals(ActionFormConstants.ACTION_ATTRIBUTE_ID) ||
 		   name.equals(ActionFormConstants.FORWARD_ATTRIBUTE_ID) ||
-		   name.endsWith(".".concat(ActionFormConstants.DATASET_START_INDEX_ATTRIBUTE_ID)) ||
-		   name.endsWith(".".concat(ActionFormConstants.DATASET_END_INDEX_ATTRIBUTE_ID)) ||
-		   name.endsWith(".".concat(ActionFormConstants.DATASET_SCOPE_ATTRIBUTE_ID)) ||
-		   name.endsWith(".".concat(ActionFormConstants.DATASET_ATTRIBUTE_ID)) ||
 		   name.equals(ModelConstants.VALIDATE_MODEL_ATTRIBUTE_ID) ||
 		   name.equals(ModelConstants.VALIDATE_MODEL_PROPERTIES_ATTRIBUTE_ID) ||
 		   name.endsWith(".".concat(ActionFormConstants.DATASET_START_INDEX_ATTRIBUTE_ID)) ||
@@ -179,7 +156,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that defines the content.
 	 * @param value String that contains the content.
 	 * @param pattern String that contains the parsing pattern.
-	 * @param useAdditionalParsing Indicates if must be used an additional pattern for parsing.
+	 * @param useAdditionalParsing Indicates if it must be used an additional pattern for parsing.
 	 * @param precision Numeric value that defines the precision.
 	 * @param language Instance that defines the 
 	 * @return Returns the parsed content.
@@ -187,7 +164,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws UnsupportedEncodingException Occurs when was not possible to execute the operation.
 	 */
 	@SuppressWarnings("unchecked")
-	public static <O> O parse(Class<O> clazz, String value, String pattern, Boolean useAdditionalParsing, Integer precision, Locale language) throws ParseException, UnsupportedEncodingException{
+	public static <O> O parse(Class<O> clazz, String value, String pattern, boolean useAdditionalParsing, int precision, Locale language) throws ParseException, UnsupportedEncodingException{
 		if(isDate(clazz)){
 			if(pattern != null && pattern.length() > 0)
 				return (O)DateTimeUtil.parse(value, pattern);
@@ -214,13 +191,11 @@ public class PropertyUtil extends PropertyUtils{
 		if(clazz.equals(Collection.class) || clazz.equals(List.class))
 			return Constants.DEFAULT_LIST_CLASS;
 		else if(clazz.equals(Set.class))
-			return Constants.DEFAULT_LIST_CLASS;
+			return Constants.DEFAULT_SET_CLASS;
 		else if(clazz.equals(Map.class))
 			return Constants.DEFAULT_MAP_CLASS;
 		else if(clazz.equals(Queue.class))
 			return Constants.DEFAULT_LIFO_QUEUE_CLASS;
-		else if(clazz.equals(Set.class))
-			return Constants.DEFAULT_SET_CLASS;
 
 		return clazz;
 	}
@@ -239,7 +214,7 @@ public class PropertyUtil extends PropertyUtils{
 			if(clazz != null)
 				return (O)getDefaultImplementation(clazz).newInstance();
 		} 
-		catch(IllegalAccessException | InstantiationException e){
+		catch(IllegalAccessException | InstantiationException ignored){
 		}
 
 		return null;
@@ -256,10 +231,9 @@ public class PropertyUtil extends PropertyUtils{
 			return;
 
 		Class<?> superClass = instance.getClass();
-		Field fields[] = null;
 
 		while(superClass != null){
-			fields = superClass.getDeclaredFields();
+			Field[] fields = superClass.getDeclaredFields();
 
 			for(Field fieldItem : fields){
 				if(Modifier.isStatic(fieldItem.getModifiers()))
@@ -268,7 +242,7 @@ public class PropertyUtil extends PropertyUtils{
 				try{
 					setValue(instance, fieldItem.getName(), null);
 				}
-				catch(InvocationTargetException e){
+				catch(InvocationTargetException ignored){
 				}
 			}
 
@@ -284,7 +258,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isString(String className) throws ClassNotFoundException{
+	public static boolean isString(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isString(Class.forName(className));
 
@@ -297,7 +271,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isString(Object value){
+	public static boolean isString(Object value){
 		return (value instanceof String);
 	}
 
@@ -307,7 +281,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isString(Class<?> clazz){
+	public static boolean isString(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -331,7 +305,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isBoolean(String className) throws ClassNotFoundException{
+	public static boolean isBoolean(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isBoolean(Class.forName(className));
 
@@ -339,12 +313,12 @@ public class PropertyUtil extends PropertyUtils{
 	}
 
 	/**
-	 * Indicates if the value is a boolean.
+	 * Indicates if the value it is boolean.
 	 * 
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isBoolean(Object value){
+	public static boolean isBoolean(Object value){
 		return (value instanceof Boolean);
 	}
 
@@ -354,7 +328,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isBoolean(Class<?> clazz){
+	public static boolean isBoolean(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -378,7 +352,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isDate(String className) throws ClassNotFoundException{
+	public static boolean isDate(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isDate(Class.forName(className));
 
@@ -391,7 +365,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isDate(Object value){
+	public static boolean isDate(Object value){
 		return (value instanceof Date);
 	}
 
@@ -401,7 +375,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isDate(Class<?> clazz){
+	public static boolean isDate(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -425,7 +399,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isTime(String className) throws ClassNotFoundException{
+	public static boolean isTime(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isTime(Class.forName(className));
 
@@ -438,7 +412,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isTime(Object value){
+	public static boolean isTime(Object value){
 		return (value instanceof DateTime);
 	}
 
@@ -448,7 +422,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isTime(Class<?> clazz){
+	public static boolean isTime(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -472,7 +446,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isByteArray(String className) throws ClassNotFoundException{
+	public static boolean isByteArray(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isByteArray(Class.forName(className));
 
@@ -485,7 +459,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isByteArray(Object value){
+	public static boolean isByteArray(Object value){
 		return (value instanceof byte[]);
 	}
 
@@ -495,7 +469,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isByteArray(Class<?> clazz){
+	public static boolean isByteArray(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -519,7 +493,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isInteger(String className) throws ClassNotFoundException{
+	public static boolean isInteger(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isInteger(Class.forName(className));
 
@@ -532,7 +506,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isInteger(Object value){
+	public static boolean isInteger(Object value){
 		return (value instanceof Integer);
 	}
 
@@ -542,7 +516,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isInteger(Class<?> clazz){
+	public static boolean isInteger(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -566,7 +540,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isLong(String className) throws ClassNotFoundException{
+	public static boolean isLong(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isLong(Class.forName(className));
 
@@ -579,7 +553,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isLong(Object value){
+	public static boolean isLong(Object value){
 		return (value instanceof Long);
 	}
 
@@ -589,7 +563,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isLong(Class<?> clazz){
+	public static boolean isLong(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -613,7 +587,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isShort(String className) throws ClassNotFoundException{
+	public static boolean isShort(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isShort(Class.forName(className));
 
@@ -626,7 +600,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isShort(Object value){
+	public static boolean isShort(Object value){
 		return (value instanceof Short);
 	}
 
@@ -636,7 +610,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isShort(Class<?> clazz){
+	public static boolean isShort(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -660,7 +634,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isByte(String className) throws ClassNotFoundException{
+	public static boolean isByte(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isByte(Class.forName(className));
 
@@ -673,7 +647,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isByte(Object value){
+	public static boolean isByte(Object value){
 		return (value instanceof Byte);
 	}
 
@@ -683,7 +657,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isByte(Class<?> clazz){
+	public static boolean isByte(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -707,7 +681,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isFloat(String className) throws ClassNotFoundException{
+	public static boolean isFloat(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isFloat(Class.forName(className));
 
@@ -720,7 +694,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isFloat(Object value){
+	public static boolean isFloat(Object value){
 		return (value instanceof Float);
 	}
 
@@ -730,7 +704,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isFloat(Class<?> clazz){
+	public static boolean isFloat(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -754,7 +728,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isDouble(String className) throws ClassNotFoundException{
+	public static boolean isDouble(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isDouble(Class.forName(className));
 
@@ -767,7 +741,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isDouble(Object value){
+	public static boolean isDouble(Object value){
 		return (value instanceof Double);
 	}
 
@@ -777,7 +751,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isDouble(Class<?> clazz){
+	public static boolean isDouble(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -801,7 +775,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isBigInteger(String className) throws ClassNotFoundException{
+	public static boolean isBigInteger(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isBigInteger(Class.forName(className));
 
@@ -814,7 +788,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isBigInteger(Object value){
+	public static boolean isBigInteger(Object value){
 		return (value instanceof BigInteger);
 	}
 
@@ -824,7 +798,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isBigInteger(Class<?> clazz){
+	public static boolean isBigInteger(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -848,7 +822,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isBigDecimal(String className) throws ClassNotFoundException{
+	public static boolean isBigDecimal(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isBigDecimal(Class.forName(className));
 
@@ -861,7 +835,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isBigDecimal(Object value){
+	public static boolean isBigDecimal(Object value){
 		return (value instanceof BigDecimal);
 	}
 
@@ -871,7 +845,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isBigDecimal(Class<?> clazz){
+	public static boolean isBigDecimal(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -895,7 +869,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isNumber(String className) throws ClassNotFoundException{
+	public static boolean isNumber(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isNumber(Class.forName(className));
 
@@ -908,7 +882,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isNumber(Object value){
+	public static boolean isNumber(Object value){
 		return (value instanceof Number);
 	}
 
@@ -918,7 +892,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isNumber(Class<?> clazz){
+	public static boolean isNumber(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -942,7 +916,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isCurrency(String className) throws ClassNotFoundException{
+	public static boolean isCurrency(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isCurrency(Class.forName(className));
 
@@ -955,7 +929,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isCurrency(Object value){
+	public static boolean isCurrency(Object value){
 		return (value instanceof Currency);
 	}
 
@@ -965,7 +939,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isCurrency(Class<?> clazz){
+	public static boolean isCurrency(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -989,7 +963,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isModel(String className) throws ClassNotFoundException{
+	public static boolean isModel(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isModel(Class.forName(className));
 
@@ -1002,7 +976,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isModel(Object value){
+	public static boolean isModel(Object value){
 		return (value instanceof BaseModel);
 	}
 
@@ -1012,7 +986,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isModel(Class<?> clazz){
+	public static boolean isModel(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -1034,7 +1008,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isArray(Object value){
+	public static boolean isArray(Object value){
 		return (value instanceof Object[]);
 	}
 
@@ -1046,7 +1020,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isMap(String className) throws ClassNotFoundException{
+	public static boolean isMap(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isMap(Class.forName(className));
 
@@ -1059,7 +1033,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isMap(Object value){
+	public static boolean isMap(Object value){
 		return (value instanceof Map);
 	}
 
@@ -1069,7 +1043,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isMap(Class<?> clazz){
+	public static boolean isMap(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -1093,7 +1067,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isCollection(String className) throws ClassNotFoundException{
+	public static boolean isCollection(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isCollection(Class.forName(className));
 
@@ -1106,7 +1080,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isCollection(Object value){
+	public static boolean isCollection(Object value){
 		return (value instanceof Collection);
 	}
 
@@ -1116,7 +1090,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isCollection(Class<?> clazz){
+	public static boolean isCollection(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -1140,7 +1114,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @throws ClassNotFoundException Occurs when was not possible to execute
 	 * the operation.
 	 */
-	public static Boolean isEnum(String className) throws ClassNotFoundException{
+	public static boolean isEnum(String className) throws ClassNotFoundException{
 		if(className != null && className.length() > 0)
 			return isEnum(Class.forName(className));
 
@@ -1153,17 +1127,17 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param value Instance to be verified.
 	 * @return True/False.
 	 */
-	public static Boolean isEnum(Object value){
+	public static boolean isEnum(Object value){
 		return (value instanceof Enum);
 	}
 
 	/**
-	 * Indicates if the class is a enumeration.
+	 * Indicates if the class is am enumeration.
 	 * 
 	 * @param clazz Class that will be checked.
 	 * @return True/False.
 	 */
-	public static Boolean isEnum(Class<?> clazz){
+	public static boolean isEnum(Class<?> clazz){
 		if(clazz == null)
 			return false;
 
@@ -1180,7 +1154,7 @@ public class PropertyUtil extends PropertyUtils{
 	 */
 	public static <O> String format(O instance, Locale language){
 		if(instance != null)
-			return format(instance, null, null, null, language);
+			return format(instance, null, false, NumberUtil.getDefaultPrecision(instance), language);
 
 		return null;
 	}
@@ -1211,7 +1185,7 @@ public class PropertyUtil extends PropertyUtils{
 	 */
 	public static <O> String format(O instance, String pattern, Locale language){
 		if(instance != null)
-			return format(instance, pattern, null, null, language);
+			return format(instance, pattern, false, NumberUtil.getDefaultPrecision(instance), language);
 
 		return null;
 	}
@@ -1225,7 +1199,7 @@ public class PropertyUtil extends PropertyUtils{
 	 */
 	public static <O> String format(O instance){
 		if(instance != null)
-			return format(instance, null, null, null, LanguageUtil.getDefaultLanguage());
+			return format(instance, null, false, NumberUtil.getDefaultPrecision(instance), LanguageUtil.getDefaultLanguage());
 
 		return null;
 	}
@@ -1239,9 +1213,9 @@ public class PropertyUtil extends PropertyUtils{
 	 * should be used
 	 * @return String that contains the formatted instance.
 	 */
-	public static <O> String format(O instance, Boolean useAdditionalFormatting){
+	public static <O> String format(O instance, boolean useAdditionalFormatting){
 		if(instance != null)
-			return format(instance, null, useAdditionalFormatting, null, LanguageUtil.getDefaultLanguage());
+			return format(instance, null, useAdditionalFormatting, NumberUtil.getDefaultPrecision(instance), LanguageUtil.getDefaultLanguage());
 
 		return null;
 	}
@@ -1256,9 +1230,9 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param language Instance that contains the language that will be used.
 	 * @return String that contains the formatted instance.
 	 */
-	public static <O> String format(O instance, Boolean useAdditionalFormatting, Locale language){
+	public static <O> String format(O instance, boolean useAdditionalFormatting, Locale language){
 		if(instance != null)
-			return format(instance, null, useAdditionalFormatting, null, language);
+			return format(instance, null, useAdditionalFormatting, NumberUtil.getDefaultPrecision(instance), language);
 
 		return null;
 	}
@@ -1274,7 +1248,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param language Instance that contains the language that will be used.
 	 * @return String that contains the formatted instance.
 	 */
-	public static <O> String format(O instance, Boolean useAdditionalFormatting, Integer precision, Locale language){
+	public static <O> String format(O instance, boolean useAdditionalFormatting, int precision, Locale language){
 		if(instance != null)
 			return format(instance, null, useAdditionalFormatting, precision, language);
 
@@ -1293,7 +1267,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param language Instance that contains the language that will be used.
 	 * @return String that contains the formatted instance.
 	 */
-	public static <O> String format(O instance, String pattern, Boolean useAdditionalFormatting, Integer precision, Locale language){
+	public static <O> String format(O instance, String pattern, boolean useAdditionalFormatting, int precision, Locale language){
 		String result = null;
 
 		if(language == null)
@@ -1318,7 +1292,7 @@ public class PropertyUtil extends PropertyUtils{
 			try{
 				result = ByteUtil.toBase64(value);
 			}
-			catch(UnsupportedEncodingException e){
+			catch(UnsupportedEncodingException ignored){
 			}
 		}
 		else{
@@ -1368,7 +1342,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param instance Instance that will be used.
 	 * @param value String before the processing.
 	 * @param replaceNotFoundMatches Indicates if the properties that were not
-	 * found should be replaces with blank.
+	 * found should be replaced with blank.
 	 * @param language Instance that contains the language that will be used.
 	 * @return String after the processing.
 	 */
@@ -1384,7 +1358,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @param instance Instance that will be used.
 	 * @param value String before the processing.
 	 * @param replaceNotFoundMatches Indicates if the properties that were not
-	 * found should be replaces with blank.
+	 * found should be replaced with blank.
 	 * @param escapeCrlf Indicates if it should escape CRLF in the replacements.
 	 * @param language Instance that contains the language that will be used.
 	 * @return String after the processing.
@@ -1393,21 +1367,16 @@ public class PropertyUtil extends PropertyUtils{
 		if(value != null && value.length() > 0 && instance != null){
 			Pattern pattern = Pattern.compile("\\#\\{(.*?)(\\((.*?)\\))?\\}");
 			Matcher matcher = pattern.matcher(value);
-			PropertyInfo propertyInfo = null;
-			String propertyExpression = null;
-			String propertyExpressionBuffer = null;
-			String propertyName = null;
-			String propertyPattern = null;
-			Object propertyValue = null;
 			ExpressionProcessor expressionProcessor = new ExpressionProcessor(instance, language);
 
 			if(language == null)
 				language = LanguageUtil.getDefaultLanguage();
 
 			while(matcher.find()){
-				propertyExpression = matcher.group();
-				propertyName = matcher.group(1);
-				propertyPattern = matcher.group(3);
+				String propertyExpression = matcher.group();
+				String propertyName = matcher.group(1);
+				String propertyPattern = matcher.group(3);
+				String propertyExpressionBuffer;
 
 				if(propertyPattern != null && propertyPattern.length() > 0){
 					propertyExpressionBuffer = StringUtil.replaceAll(propertyExpression, propertyPattern, "");
@@ -1418,28 +1387,28 @@ public class PropertyUtil extends PropertyUtils{
 					propertyExpressionBuffer = propertyExpression;
 
 				try{
-					propertyValue = expressionProcessor.evaluate(propertyExpressionBuffer);
+					Object propertyValue = expressionProcessor.evaluate(propertyExpressionBuffer);
 
-					if((propertyValue == null && replaceNotFoundMatches) || propertyValue != null){
-						Boolean useAdditionalFormatting = null;
-						Integer precision = null;
+					if(propertyValue != null || replaceNotFoundMatches){
+						boolean useAdditionalFormatting = false;
+						int precision = 0;
 
 						if(propertyPattern == null || propertyPattern.length() == 0){
 							try{
-								propertyInfo = getInfo(instance.getClass(), propertyName);
+								PropertyInfo propertyInfo = getInfo(instance.getClass(), propertyName);
 	
 								if(propertyInfo != null){
 									propertyPattern = propertyInfo.getPattern();
 	
-									if(propertyInfo.isDate() != null && propertyInfo.isDate())
+									if(propertyInfo.isDate())
 										useAdditionalFormatting = propertyInfo.isTime();
-									else if(propertyInfo.isNumber() != null && propertyInfo.isNumber()){
+									else if(propertyInfo.isNumber()){
 										useAdditionalFormatting = propertyInfo.useGroupSeparator();
 										precision = propertyInfo.getPrecision();
 									}
 								}
 							}
-							catch(NoSuchFieldException e){
+							catch(NoSuchFieldException ignored){
 							}
 						}
 
@@ -1458,7 +1427,7 @@ public class PropertyUtil extends PropertyUtils{
 						value = StringUtil.replaceAll(value, propertyExpression, buffer);
 					}
 				}
-				catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | InternalErrorException e){
+				catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | InternalErrorException ignored){
 				}
 			}
 		}
@@ -1480,14 +1449,12 @@ public class PropertyUtil extends PropertyUtils{
 		if(value != null && value.length() > 0 && resources != null){
 			Pattern pattern = Pattern.compile("\\$\\{(.*?)\\}");
 			Matcher matcher = pattern.matcher(value);
-			String propertiesExpression = null;
-			String propertiesName = null;
-			String propertiesValue = null;
 
 			while(matcher.find()){
-				propertiesExpression = matcher.group();
-				propertiesName = matcher.group(1);
-				propertiesValue = resources.getProperty(propertiesName, false);
+				String propertiesExpression = matcher.group();
+				String propertiesName = matcher.group(1);
+				String propertiesValue = resources.getProperty(propertiesName, false);
+
 				buffer = StringUtil.replaceAll(buffer, propertiesExpression, propertiesValue);
 				buffer = fillResourcesInString(resources, buffer);
 			}
@@ -1497,7 +1464,7 @@ public class PropertyUtil extends PropertyUtils{
 	}
 
 	/**
-	 * Returns the generic type of a property of a class.
+	 * Returns the generic type of class property.
 	 *
 	 * @param instanceClass Class that will be used.
 	 * @param name String that contains the identifier of the property.
@@ -1515,7 +1482,7 @@ public class PropertyUtil extends PropertyUtils{
 	}
 
 	/**
-	 * Returns the generic type of a property of a class.
+	 * Returns the generic type of class property.
 	 *
 	 * @param field Instance that contains the property attributes.
 	 * @return Class that defines the generic type.
@@ -1527,7 +1494,7 @@ public class PropertyUtil extends PropertyUtils{
 		Type genericType = field.getGenericType();
 		Type type = field.getType();
 		String typeName = field.getType().getName();
-		Class<?> propertyClass = null;
+		Class<?> propertyClass;
 
 		if(!genericType.equals(type)){
 			String buffer = StringUtil.replaceAll(genericType.toString(), typeName, "");
@@ -1563,7 +1530,7 @@ public class PropertyUtil extends PropertyUtils{
 		if(instanceClass == null || name == null || name.length() == 0)
 			throw new NoSuchFieldException();
 
-		String names[] = StringUtil.split(name, ".");
+		String[] names = StringUtil.split(name, ".");
 		Class<?> clazz = instanceClass;
 		Field field = null;
 
@@ -1614,7 +1581,7 @@ public class PropertyUtil extends PropertyUtils{
 			return null;
 
 		Class<?> propertyClass = null;
-		Boolean isModel = isModel(instanceClass);
+		boolean isModel = isModel(instanceClass);
 
 		if(isModel){
 			Class<? extends BaseModel> modelClass = (Class<? extends BaseModel>)instanceClass;
@@ -1660,11 +1627,11 @@ public class PropertyUtil extends PropertyUtils{
 		if(instance == null || name == null || name.length() == 0)
 			return;
 
-		String propertyNames[] = StringUtil.split(name, ".");
-		String propertyName = null;
-		Class<?> propertyClass = null;
+		String[] propertyNames = StringUtil.split(name, ".");
+		String propertyName;
+		Class<?> propertyClass;
 		Object propertyValue = instance;
-		Object propertyValueBuffer = null;
+		Object propertyValueBuffer;
 
 		try{
 			for(int cont = 0 ; cont < (propertyNames.length - 1) ; cont++){
@@ -1721,7 +1688,7 @@ public class PropertyUtil extends PropertyUtils{
 		if(instance == null || name == null || name.length() == 0)
 			return null;
 
-		String propertyNames[] = StringUtil.split(name, ".");
+		String[] propertyNames = StringUtil.split(name, ".");
 		Object propertyValue = instance;
 
 		for(String propertyName : propertyNames){
@@ -1807,7 +1774,7 @@ public class PropertyUtil extends PropertyUtils{
 			Model modelAnnotation = superClass.getAnnotation(Model.class);
 			
 			if(modelAnnotation != null){
-				Property mappedProperties[] = modelAnnotation.mappedProperties();
+				Property[] mappedProperties = modelAnnotation.mappedProperties();
 				
 				if(mappedProperties != null && mappedProperties.length > 0){
 					for(Property mappedProperty : mappedProperties){
@@ -1834,13 +1801,13 @@ public class PropertyUtil extends PropertyUtils{
 				if(propertyInfo.getPropertyTypeId() == null || propertyInfo.getPropertyTypeId().length() == 0)
 					propertyInfo.setPropertyTypeId(mappedProperty.propertyTypeId());
 				
-				if(propertyInfo.isIdentity() == null || !propertyInfo.isIdentity())
+				if(!propertyInfo.isIdentity())
 					propertyInfo.setIsIdentity(mappedProperty.isIdentity());
 
-				if(propertyInfo.isUnique() == null || !propertyInfo.isUnique())
+				if(!propertyInfo.isUnique())
 					propertyInfo.setIsUnique(mappedProperty.isUnique());
 				
-				if(propertyInfo.isSerializable() == null || !propertyInfo.isSerializable())
+				if(!propertyInfo.isSerializable())
 					propertyInfo.setIsSerializable(mappedProperty.isSerializable());
 
 				if(propertyInfo.getSequenceId() == null || propertyInfo.getSequenceId().length() == 0)
@@ -1852,13 +1819,13 @@ public class PropertyUtil extends PropertyUtils{
 				if(propertyInfo.getForeignKeyId() == null || propertyInfo.getForeignKeyId().length() == 0)
 					propertyInfo.setForeignKeyId(mappedProperty.foreignKeyId());
 
-				if(propertyInfo.isConstrained() == null || !propertyInfo.isConstrained())
+				if(!propertyInfo.isConstrained())
 					propertyInfo.setConstrained(mappedProperty.constrained());
 
-				if(propertyInfo.isNullable() == null || !propertyInfo.isNullable())
+				if(!propertyInfo.isNullable())
 					propertyInfo.setNullable(mappedProperty.nullable());
 
-				if(propertyInfo.isForSearch() == null || !propertyInfo.isForSearch())
+				if(!propertyInfo.isForSearch())
 					propertyInfo.setIsForSearch(mappedProperty.isForSearch());
 
 				if(propertyInfo.getSearchCondition() == null || propertyInfo.getSearchCondition().equals(ConditionType.NONE))
@@ -1882,13 +1849,13 @@ public class PropertyUtil extends PropertyUtils{
 				if(propertyInfo.getCustomValidationId() == null || propertyInfo.getCustomValidationId().length() == 0)
 					propertyInfo.setCustomValidationId(mappedProperty.customValidationId());
 				
-				if(propertyInfo.getSize() == null || propertyInfo.getSize() == 0)
+				if(propertyInfo.getSize() == 0)
 					propertyInfo.setSize(mappedProperty.size());
 
-				if(propertyInfo.getMinimumLength() == null || propertyInfo.getMinimumLength() == 0)
+				if(propertyInfo.getMinimumLength() == 0)
 					propertyInfo.setMinimumLength(mappedProperty.minimumLength());
 
-				if(propertyInfo.getMaximumLength() == null || propertyInfo.getMaximumLength() == 0)
+				if(propertyInfo.getMaximumLength() == 0)
 					propertyInfo.setMaximumLength(mappedProperty.maximumLength());
 
 				if(propertyInfo.getMinimumValue() == null || propertyInfo.getMinimumValue().length() == 0)
@@ -1897,7 +1864,7 @@ public class PropertyUtil extends PropertyUtils{
 				if(propertyInfo.getMaximumValue() == null || propertyInfo.getMaximumValue().length() == 0)
 					propertyInfo.setMaximumValue(mappedProperty.maximumValue());
 
-				if(propertyInfo.getPrecision() == null || propertyInfo.getPrecision() == 0)
+				if(propertyInfo.getPrecision() == 0)
 					propertyInfo.setPrecision(mappedProperty.precision());
 
 				if(propertyInfo.getPattern() == null || propertyInfo.getPattern().length() == 0)
@@ -1906,7 +1873,7 @@ public class PropertyUtil extends PropertyUtils{
 				if(propertyInfo.getRegularExpression() == null || propertyInfo.getRegularExpression().length() == 0)
 					propertyInfo.setRegularExpression(mappedProperty.regularExpression());
 
-				if(propertyInfo.persistPattern() == null || !propertyInfo.persistPattern())
+				if(!propertyInfo.persistPattern())
 					propertyInfo.setPersistPattern(mappedProperty.persistPattern());
 
 				if(propertyInfo.getPhoneticPropertyId() == null || propertyInfo.getPhoneticPropertyId().length() == 0)
@@ -1936,13 +1903,13 @@ public class PropertyUtil extends PropertyUtils{
 				if(propertyInfo.getMappedRelationRepositoryId() == null || propertyInfo.getMappedRelationRepositoryId().length() == 0)
 					propertyInfo.setMappedRelationRepositoryId(mappedProperty.mappedRelationRepositoryId());
 
-				if(propertyInfo.cascadeOnSave() == null || !propertyInfo.cascadeOnSave())
+				if(!propertyInfo.cascadeOnSave())
 					propertyInfo.setCascadeOnSave(mappedProperty.cascadeOnSave());
 				
-				if(propertyInfo.cascadeOnDelete() == null || !propertyInfo.cascadeOnDelete())
+				if(!propertyInfo.cascadeOnDelete())
 					propertyInfo.setCascadeOnDelete(mappedProperty.cascadeOnDelete());
 
-				if(propertyInfo.useGroupSeparator() == null || !propertyInfo.useGroupSeparator())
+				if(!propertyInfo.useGroupSeparator())
 					propertyInfo.setUseGroupSeparator(mappedProperty.useGroupSeparator());
 
 				if(propertyInfo.getFormulaExpression() == null || propertyInfo.getFormulaExpression().length() == 0)
@@ -1963,7 +1930,7 @@ public class PropertyUtil extends PropertyUtils{
 				if(propertyInfo.getComparePropertyId() == null || propertyInfo.getComparePropertyId().length() == 0)
 					propertyInfo.setComparePropertyId(mappedProperty.comparePropertyId());
 				
-				if(propertyInfo.getWordCount() == null || propertyInfo.getWordCount() == 0)
+				if(propertyInfo.getWordCount() == 0)
 					propertyInfo.setWordCount(mappedProperty.wordCount());
 				
 				if(propertyInfo.getInputType() == null || propertyInfo.getInputType() == InputType.NONE)
@@ -2003,7 +1970,7 @@ public class PropertyUtil extends PropertyUtils{
 			}
 		}
 		
-		propertyInfo.setIsAuditable((propertyField.getAnnotation(Auditable.class) != null ? true : false));
+		propertyInfo.setIsAuditable((propertyField.getAnnotation(Auditable.class) != null));
 		
 		if(propertyInfo.getClazz() == null || propertyInfo.getClazz().equals(Object.class))
 			propertyInfo.setClazz(getClass(propertyField));
@@ -2023,37 +1990,37 @@ public class PropertyUtil extends PropertyUtils{
 		}
 
 		if(propertyInfo.getMappedPropertyType() == null || propertyInfo.getMappedPropertyType().length() == 0){
-			if(propertyInfo.isEnum() != null && propertyInfo.isEnum())
+			if(propertyInfo.isEnum())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_ENUM_TYPE_ID);
-			else if(propertyInfo.isBoolean() != null && propertyInfo.isBoolean())
+			else if(propertyInfo.isBoolean())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_BOOLEAN_TYPE_ID);
-			else if(propertyInfo.isByteArray() != null && propertyInfo.isByteArray())
+			else if(propertyInfo.isByteArray())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_BINARY_TYPE_ID);
-			else if(propertyInfo.isDate() != null && propertyInfo.isDate()){
-				if(propertyInfo.isTime() != null && propertyInfo.isTime())
+			else if(propertyInfo.isDate()){
+				if(propertyInfo.isTime())
 					propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_DATE_TIME_TYPE_ID);
 				else
 					propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_DATE_TYPE_ID);
 			}
-			else if(propertyInfo.isBigDecimal() != null && propertyInfo.isBigDecimal())
+			else if(propertyInfo.isBigDecimal())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_BIG_DECIMAL_TYPE_ID);
-			else if(propertyInfo.isBigInteger() != null && propertyInfo.isBigInteger())
+			else if(propertyInfo.isBigInteger())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_BIG_INTEGER_TYPE_ID);
-			else if(propertyInfo.isByte() != null && propertyInfo.isByte())
+			else if(propertyInfo.isByte())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_BYTE_TYPE_ID);
-			else if(propertyInfo.isCurrency() != null && propertyInfo.isCurrency())
+			else if(propertyInfo.isCurrency())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_CURRENCY_TYPE_ID);
-			else if(propertyInfo.isDouble() != null && propertyInfo.isDouble())
+			else if(propertyInfo.isDouble())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_DOUBLE_TYPE_ID);
-			else if(propertyInfo.isFloat() != null && propertyInfo.isFloat())
+			else if(propertyInfo.isFloat())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_FLOAT_TYPE_ID);
-			else if(propertyInfo.isInteger() != null && propertyInfo.isInteger())
+			else if(propertyInfo.isInteger())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_INTEGER_TYPE_ID);
-			else if(propertyInfo.isLong() != null && propertyInfo.isLong())
+			else if(propertyInfo.isLong())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_LONG_TYPE_ID);
-			else if(propertyInfo.isShort() != null && propertyInfo.isShort())
+			else if(propertyInfo.isShort())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_SHORT_TYPE_ID);
-			else if(propertyInfo.isString() != null && propertyInfo.isString())
+			else if(propertyInfo.isString())
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_STRING_TYPE_ID);
 			else
 				propertyInfo.setMappedPropertyType(PersistenceConstants.DEFAULT_OBJECT_TYPE_ID);
@@ -2084,11 +2051,10 @@ public class PropertyUtil extends PropertyUtils{
 			return null;
 
 		C propertiesInfo = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-		Field propertyFields[] = null;
 		Class<?> superClass = instanceClass;
 
 		while(superClass != null){
-			propertyFields = superClass.getDeclaredFields();
+			Field[] propertyFields = superClass.getDeclaredFields();
 
 			for(Field propertyField : propertyFields){
 				if(Modifier.isStatic(propertyField.getModifiers()))
@@ -2104,7 +2070,7 @@ public class PropertyUtil extends PropertyUtils{
 	}
 	
 	/**
-	 * Converts the type of a value into another type.
+	 * Converts a value into another type.
 	 * 
 	 * @param <O> Class that defines the value type.
 	 * @param value Instance to be converted.

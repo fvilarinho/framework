@@ -9,10 +9,10 @@ import br.com.concepting.framework.model.types.ConditionType;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.persistence.HibernatePersistence;
 import br.com.concepting.framework.persistence.constants.PersistenceConstants;
+import br.com.concepting.framework.persistence.helpers.Filter;
 import br.com.concepting.framework.persistence.types.QueryType;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.util.*;
-import br.com.concepting.framework.util.helpers.Filter;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.FormulaType;
 import br.com.concepting.framework.util.types.SearchType;
@@ -20,15 +20,15 @@ import br.com.concepting.framework.util.types.SortOrderType;
 import org.apache.commons.beanutils.ConstructorUtils;
 import org.hibernate.CacheMode;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -136,7 +136,7 @@ public abstract class HibernateQueryBuilder{
      * query.
      */
     @SuppressWarnings("unchecked")
-    public static <M extends BaseModel> void buildExpression(M model, Filter filter, String propertyPrefix, String propertyAlias, StringBuilder fieldsClause, StringBuilder fromClause, StringBuilder joinClause, StringBuilder whereClause, StringBuilder groupByClause, StringBuilder orderByClause, Map<String, Object> whereClauseParameters, Collection<String> processedRelations, Boolean considerConditions, Boolean relationIsComponent, Boolean relationHasModel) throws InternalErrorException{
+    public static <M extends BaseModel> void buildExpression(M model, Filter filter, String propertyPrefix, String propertyAlias, StringBuilder fieldsClause, StringBuilder fromClause, StringBuilder joinClause, StringBuilder whereClause, StringBuilder groupByClause, StringBuilder orderByClause, Map<String, Object> whereClauseParameters, Collection<String> processedRelations, boolean considerConditions, boolean relationIsComponent, boolean relationHasModel) throws InternalErrorException{
         try{
             Class<? extends BaseModel> modelClass = model.getClass();
             ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
@@ -166,36 +166,13 @@ public abstract class HibernateQueryBuilder{
             Collection<String> groupByProperties = (filter != null ? filter.getGroupByProperties() : null);
             Collection<PropertyInfo> propertiesInfo = modelInfo.getPropertiesInfo();
             Collection<PropertyInfo> identitiesPropertiesInfo = modelInfo.getIdentityPropertiesInfo();
-            Collection<PropertyInfo> identitiesPropertiesInfoBuffer = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            StringBuilder propertyIdBuffer = null;
-            StringBuilder propertyPrefixBuffer = null;
-            StringBuilder propertyParamBuffer = null;
-            Boolean propertyIsIdentity = false;
-            Boolean propertyIsForSearch = false;
-            Collection<ConditionType> propertyCondition = null;
-            ConditionOperationType propertyConditionOperation = null;
-            Collection<Object> propertyValue = null;
-            Object propertyValueBuffer = null;
-            SortOrderType propertySortOrder = null;
-            RelationJoinType relationJoinType = null;
-            Class<?> relationModelClass = null;
-            ModelInfo relationModelInfo = null;
-            Collection<PropertyInfo> relationModelIdentitiesInfo = null;
-            M relationModel = null;
-            Object relationModelIdentityValue = null;
-            Boolean relationModelHasIdentities = true;
-            Boolean processRelation = false;
-            Boolean processCondition = false;
-            
+            Collection<PropertyInfo> processedUdentitiesPropertiesInfo = null;
+
             for(PropertyInfo propertyInfo: propertiesInfo){
-                propertyIsIdentity = propertyInfo.isIdentity();
-                propertyIsForSearch = propertyInfo.isForSearch();
-                
-                if(propertyPrefixBuffer == null)
-                    propertyPrefixBuffer = new StringBuilder();
-                else
-                    propertyPrefixBuffer.delete(0, propertyPrefixBuffer.length());
-                
+                boolean propertyIsIdentity = propertyInfo.isIdentity();
+                boolean propertyIsForSearch = propertyInfo.isForSearch();
+                StringBuilder propertyPrefixBuffer = new StringBuilder();
+
                 if(propertyPrefix.length() > 0){
                     propertyPrefixBuffer.append(propertyPrefix);
                     propertyPrefixBuffer.append(".");
@@ -203,11 +180,8 @@ public abstract class HibernateQueryBuilder{
                 
                 propertyPrefixBuffer.append(propertyInfo.getId());
                 
-                if(propertyIdBuffer == null)
-                    propertyIdBuffer = new StringBuilder();
-                else
-                    propertyIdBuffer.delete(0, propertyIdBuffer.length());
-                
+                StringBuilder propertyIdBuffer = new StringBuilder();
+
                 if(propertyAlias.length() > 0){
                     propertyIdBuffer.append(propertyAlias);
                     propertyIdBuffer.append(".");
@@ -247,7 +221,7 @@ public abstract class HibernateQueryBuilder{
                     }
                 }
                 
-                if((groupByProperties != null && groupByProperties.contains(propertyPrefixBuffer.toString())) || (groupByProperties == null && propertiesFormulas == null && propertyPrefix.length() == 0 && propertyIsIdentity != null && propertyIsIdentity && propertyInfo.getMappedPropertyId() != null && propertyInfo.getMappedPropertyId().length() > 0)){
+                if((groupByProperties != null && groupByProperties.contains(propertyPrefixBuffer.toString())) || (groupByProperties == null && propertiesFormulas == null && propertyPrefix.length() == 0 && propertyIsIdentity && propertyInfo.getMappedPropertyId() != null && propertyInfo.getMappedPropertyId().length() > 0)){
                     if(groupByClause.length() == 0)
                         groupByClause.append("group by ");
                     else
@@ -256,8 +230,8 @@ public abstract class HibernateQueryBuilder{
                     groupByClause.append(propertyIdBuffer.toString());
                 }
                 
-                if(relationHasModel == null || !relationHasModel){
-                    propertySortOrder = (propertiesSortOrders != null ? propertiesSortOrders.get(propertyPrefixBuffer.toString()) : null);
+                if(!relationHasModel){
+                    SortOrderType propertySortOrder = (propertiesSortOrders != null ? propertiesSortOrders.get(propertyPrefixBuffer.toString()) : null);
                     
                     if(propertySortOrder == null && (propertiesSortOrders == null || !propertiesSortOrders.containsKey(propertyPrefixBuffer.toString())))
                         propertySortOrder = propertyInfo.getSortOrder();
@@ -274,22 +248,19 @@ public abstract class HibernateQueryBuilder{
                     }
                 }
                 
-                propertyValue = (propertiesValues != null ? propertiesValues.get(propertyPrefixBuffer.toString()) : null);
-                propertyCondition = (propertiesConditions != null ? propertiesConditions.get(propertyPrefixBuffer.toString()) : null);
-                relationJoinType = (propertiesRelationsJoins != null ? propertiesRelationsJoins.get(propertyPrefixBuffer.toString()) : null);
-                relationModelInfo = null;
-                relationModelIdentitiesInfo = null;
-                relationModelIdentityValue = null;
-                relationModelHasIdentities = true;
-                relationModelClass = null;
-                relationModel = null;
-                
-                if((propertyCondition != null && propertyCondition.size() > 0) || (propertyValue != null && propertyValue.size() > 0)){
+                Collection<Object> propertyValue = (propertiesValues != null ? propertiesValues.get(propertyPrefixBuffer.toString()) : null);
+                Collection<ConditionType> propertyCondition = (propertiesConditions != null ? propertiesConditions.get(propertyPrefixBuffer.toString()) : null);
+                RelationJoinType relationJoinType = (propertiesRelationsJoins != null ? propertiesRelationsJoins.get(propertyPrefixBuffer.toString()) : null);
+                Class<?> relationModelClass = null;
+                M relationModel = null;
+                boolean relationModelHasIdentities = true;
+                Object propertyValueBuffer = null;
+
+                if((propertyCondition != null && propertyCondition.size() > 0) || (propertyValue != null && propertyValue.size() > 0))
                     propertyIsForSearch = propertyCondition == null || propertyCondition.size() <= 0 || !propertyCondition.contains(ConditionType.NONE);
-                }
-                
+
                 if(propertyValue == null && (propertiesValues == null || !propertiesValues.containsKey(propertyPrefixBuffer.toString()))){
-                    if(propertyIsForSearch != null && propertyIsForSearch){
+                    if(propertyIsForSearch){
                         if(propertyInfo.getSearchPropertyId() != null && propertyInfo.getSearchPropertyId().length() > 0)
                             propertyValueBuffer = PropertyUtil.getValue(model, propertyInfo.getSearchPropertyId());
                         else
@@ -299,52 +270,52 @@ public abstract class HibernateQueryBuilder{
                         propertyValueBuffer = PropertyUtil.getValue(model, propertyInfo.getId());
                     
                     if(propertyValueBuffer != null)
-                        propertyValue = Arrays.asList(propertyValueBuffer);
+                        propertyValue = List.of(propertyValueBuffer);
                 }
                 
                 if(relationJoinType == null && (propertiesRelationsJoins == null || !propertiesRelationsJoins.containsKey(propertyPrefixBuffer.toString())))
                     relationJoinType = propertyInfo.getRelationJoinType();
                 
-                if((relationJoinType != RelationJoinType.NONE && ((propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0) || (propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0))) || ((propertyIsIdentity != null && propertyIsIdentity && (propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0) || (propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0)) || (propertyIsForSearch != null && propertyIsForSearch && (propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0) || (propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0)) || (propertyInfo.getPropertiesIds() != null && propertyInfo.getPropertiesIds().length > 0 && propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0))){
-                    processRelation = !processedRelations.contains(propertyPrefixBuffer.toString()) && !propertyPrefixBuffer.toString().contains("parent.parent");
+                if((relationJoinType != RelationJoinType.NONE && ((propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0) || (propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0))) || ((propertyIsIdentity && (propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0) || (propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0)) || (propertyIsForSearch && (propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0) || (propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0)) || (propertyInfo.getPropertiesIds() != null && propertyInfo.getPropertiesIds().length > 0 && propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0))){
+                    boolean processRelation = !processedRelations.contains(propertyPrefixBuffer.toString()) && !propertyPrefixBuffer.toString().contains("parent.parent");
                     
                     if(processRelation){
-                        if(propertyInfo.isModel() != null && propertyInfo.isModel())
+                        if(propertyInfo.isModel())
                             relationModelClass = propertyInfo.getClazz();
-                        else if(propertyInfo.hasModel() != null && propertyInfo.hasModel())
+                        else if(propertyInfo.hasModel())
                             relationModelClass = propertyInfo.getCollectionItemsClass();
                         
                         if(relationJoinType != RelationJoinType.NONE || (propertyInfo.getPropertiesIds() != null && propertyInfo.getPropertiesIds().length > 0)){
-                            if(propertyInfo.isModel() != null && propertyInfo.isModel()){
+                            if(propertyInfo.isModel()){
                                 if(propertyValueBuffer == null || PropertyUtil.isCollection(propertyValueBuffer))
                                     relationModel = (M) ConstructorUtils.invokeConstructor(relationModelClass, null);
                                 else
                                     relationModel = (M) propertyValueBuffer;
                             }
-                            else if(propertyInfo.hasModel() != null && propertyInfo.hasModel())
+                            else if(propertyInfo.hasModel())
                                 relationModel = (M) ConstructorUtils.invokeConstructor(relationModelClass, null);
                         }
-                        else if((propertyIsIdentity != null && propertyIsIdentity) || (propertyIsForSearch != null && propertyIsForSearch)){
+                        else if(propertyIsIdentity || propertyIsForSearch){
                             if(propertyInfo.getSearchPropertyId() != null && propertyInfo.getSearchPropertyId().length() > 0){
                                 PropertyInfo relationSearchPropertyInfo = modelInfo.getPropertyInfo(propertyInfo.getSearchPropertyId());
                                 
-                                if(relationSearchPropertyInfo.isModel() != null && relationSearchPropertyInfo.isModel()){
+                                if(relationSearchPropertyInfo.isModel()){
                                     relationModel = PropertyUtil.getValue(model, propertyInfo.getSearchPropertyId());
                                     
                                     if(relationModel != null){
-                                        relationModelInfo = ModelUtil.getInfo(relationModel.getClass());
-                                        relationModelIdentitiesInfo = relationModelInfo.getIdentityPropertiesInfo();
+                                        ModelInfo relationModelInfo = ModelUtil.getInfo(relationModel.getClass());
+                                        Collection<PropertyInfo> relationModelIdentitiesInfo = relationModelInfo.getIdentityPropertiesInfo();
                                         
                                         if(relationModelIdentitiesInfo != null && !relationModelIdentitiesInfo.isEmpty()){
                                             for(PropertyInfo relationModelIdentityInfo: relationModelIdentitiesInfo){
-                                                relationModelIdentityValue = PropertyUtil.getValue(relationModel, relationModelIdentityInfo.getId());
+                                                Object relationModelIdentityValue = PropertyUtil.getValue(relationModel, relationModelIdentityInfo.getId());
     
-                                                relationModelHasIdentities = relationModelIdentityValue != null;
+                                                relationModelHasIdentities = (relationModelIdentityValue != null);
                                             }
                                         }
                                     }
                                 }
-                                else if(relationSearchPropertyInfo.hasModel() != null && relationSearchPropertyInfo.hasModel()){
+                                else if(relationSearchPropertyInfo.hasModel()){
                                     relationModelClass = relationSearchPropertyInfo.getCollectionItemsClass();
                                     
                                     try{
@@ -356,7 +327,7 @@ public abstract class HibernateQueryBuilder{
                                 }
                             }
                             else{
-                                if(propertyInfo.isModel() != null && propertyInfo.isModel()){
+                                if(propertyInfo.isModel()){
                                     relationModel = (M) propertyValueBuffer;
                                     
                                     if(relationModel == null){
@@ -368,12 +339,12 @@ public abstract class HibernateQueryBuilder{
                                         }
                                     }
                                     
-                                    if(propertyIsIdentity != null && propertyIsIdentity)
+                                    if(propertyIsIdentity)
                                         relationJoinType = RelationJoinType.INNER_JOIN;
                                     else
                                         relationJoinType = RelationJoinType.LEFT_JOIN;
                                 }
-                                else if(propertyInfo.hasModel() != null && propertyInfo.hasModel()){
+                                else if(propertyInfo.hasModel()){
                                     try{
                                         relationModel = (M) ConstructorUtils.invokeConstructor(relationModelClass, null);
                                     }
@@ -407,7 +378,7 @@ public abstract class HibernateQueryBuilder{
                                 joinClause.append(" ");
                                 joinClause.append(propertyAliasBuffer);
                                 
-                                if(!((propertyIsForSearch != null && propertyIsForSearch) && relationModelHasIdentities)){
+                                if(!(propertyIsForSearch && relationModelHasIdentities)){
                                     buildExpression(relationModel, filter, propertyPrefixBuffer.toString(), propertyAliasBuffer.toString(), fieldsClause, fromClause, joinClause, whereClause, groupByClause, orderByClause, whereClauseParameters, processedRelations, considerConditions, false, propertyInfo.hasModel());
                                     
                                     continue;
@@ -423,8 +394,8 @@ public abstract class HibernateQueryBuilder{
                     }
                 }
                 
-                if(((propertyIsIdentity != null && propertyIsIdentity) || (propertyIsForSearch != null && propertyIsForSearch)) && ((propertyInfo.getMappedPropertyId() != null && propertyInfo.getMappedPropertyId().length() > 0) || (propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0) || (propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0) || relationIsComponent) && considerConditions){
-                    propertyConditionOperation = (propertiesConditionsOperations != null ? propertiesConditionsOperations.get(propertyPrefixBuffer.toString()) : null);
+                if((propertyIsIdentity || propertyIsForSearch) && ((propertyInfo.getMappedPropertyId() != null && propertyInfo.getMappedPropertyId().length() > 0) || (propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0) || (propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0) || relationIsComponent) && considerConditions){
+                    ConditionOperationType propertyConditionOperation = (propertiesConditionsOperations != null ? propertiesConditionsOperations.get(propertyPrefixBuffer.toString()) : null);
                     
                     if(propertyConditionOperation == null && (propertiesConditionsOperations == null || !propertiesConditionsOperations.containsKey(propertyPrefixBuffer.toString()))){
                         if(propertyInfo.getSearchConditionOperation() == ConditionOperationType.NONE)
@@ -435,9 +406,9 @@ public abstract class HibernateQueryBuilder{
                     
                     if(propertyCondition == null || propertyCondition.size() == 0){
                         if(propertyInfo.getSearchCondition() == ConditionType.NONE)
-                            propertyCondition = Arrays.asList(ConditionType.EQUAL);
+                            propertyCondition = List.of(ConditionType.EQUAL);
                         else
-                            propertyCondition = Arrays.asList(propertyInfo.getSearchCondition());
+                            propertyCondition = List.of(propertyInfo.getSearchCondition());
                     }
                     
                     Iterator<ConditionType> propertyConditionIterator = propertyCondition.iterator();
@@ -456,32 +427,11 @@ public abstract class HibernateQueryBuilder{
                             }
                         }
                         
-                        processCondition = true;
-                        
+                        boolean processCondition = true;
+
                         switch(propertyConditionItem){
-                            case IS_NULL:{
-                                if(whereClause.length() == 0)
-                                    whereClause.append("where (");
-                                else{
-                                    if(propertyConditionOperation == ConditionOperationType.AND)
-                                        whereClause.append(")");
-                                    
-                                    whereClause.append(" ");
-                                    whereClause.append(propertyConditionOperation.toString().toLowerCase());
-                                    
-                                    if(propertyConditionOperation == ConditionOperationType.AND)
-                                        whereClause.append(" (");
-                                    else
-                                        whereClause.append(" ");
-                                }
-                                
-                                whereClause.append(propertyIdBuffer);
-                                whereClause.append(" ");
-                                whereClause.append(propertyConditionItem.getOperator());
-                                
-                                break;
-                            }
-                            case IS_NOT_NULL:{
+                            case IS_NULL:
+                            case IS_NOT_NULL: {
                                 if(whereClause.length() == 0)
                                     whereClause.append("where (");
                                 else{
@@ -526,11 +476,8 @@ public abstract class HibernateQueryBuilder{
                                             whereClause.append(" ");
                                     }
                                     
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
+                                    StringBuilder propertyParamBuffer = new StringBuilder();
+
                                     propertyParamBuffer.append("param");
                                     propertyParamBuffer.append(whereClauseParameters.size());
                                     
@@ -567,7 +514,10 @@ public abstract class HibernateQueryBuilder{
                                 
                                 break;
                             }
-                            case GREATER_THAN_EQUAL:{
+                            case GREATER_THAN_EQUAL:
+                            case GREATER_THAN:
+                            case LESS_THAN_EQUAL:
+                            case LESS_THAN: {
                                 if(propertyValueItem == null)
                                     processCondition = false;
                                 
@@ -589,138 +539,9 @@ public abstract class HibernateQueryBuilder{
                                         else
                                             whereClause.append(" ");
                                     }
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
-                                    propertyParamBuffer.append("param");
-                                    propertyParamBuffer.append(whereClauseParameters.size());
-                                    
-                                    whereClauseParameters.put(propertyParamBuffer.toString(), propertyValueItem);
-                                    
-                                    whereClause.append(propertyIdBuffer);
-                                    whereClause.append(" ");
-                                    whereClause.append(propertyConditionItem.getOperator());
-                                    whereClause.append(" :");
-                                    whereClause.append(propertyParamBuffer);
-                                }
-                                
-                                break;
-                            }
-                            case GREATER_THAN:{
-                                if(propertyValueItem == null)
-                                    processCondition = false;
-                                
-                                if(processCondition){
-                                    if(whereClauseParameters == null)
-                                        whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-                                    
-                                    if(whereClause.length() == 0)
-                                        whereClause.append("where (");
-                                    else{
-                                        if(propertyConditionOperation == ConditionOperationType.AND)
-                                            whereClause.append(")");
-                                        
-                                        whereClause.append(" ");
-                                        whereClause.append(propertyConditionOperation.toString().toLowerCase());
-                                        
-                                        if(propertyConditionOperation == ConditionOperationType.AND)
-                                            whereClause.append(" (");
-                                        else
-                                            whereClause.append(" ");
-                                    }
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
-                                    propertyParamBuffer.append("param");
-                                    propertyParamBuffer.append(whereClauseParameters.size());
-                                    
-                                    whereClauseParameters.put(propertyParamBuffer.toString(), propertyValueItem);
-                                    
-                                    whereClause.append(propertyIdBuffer);
-                                    whereClause.append(" ");
-                                    whereClause.append(propertyConditionItem.getOperator());
-                                    whereClause.append(" :");
-                                    whereClause.append(propertyParamBuffer);
-                                }
-                                
-                                break;
-                            }
-                            case LESS_THAN_EQUAL:{
-                                if(propertyValueItem == null)
-                                    processCondition = false;
-                                
-                                if(processCondition){
-                                    if(whereClauseParameters == null)
-                                        whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-                                    
-                                    if(whereClause.length() == 0)
-                                        whereClause.append("where (");
-                                    else{
-                                        if(propertyConditionOperation == ConditionOperationType.AND)
-                                            whereClause.append(")");
-                                        
-                                        whereClause.append(" ");
-                                        whereClause.append(propertyConditionOperation.toString().toLowerCase());
-                                        
-                                        if(propertyConditionOperation == ConditionOperationType.AND)
-                                            whereClause.append(" (");
-                                        else
-                                            whereClause.append(" ");
-                                    }
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
-                                    propertyParamBuffer.append("param");
-                                    propertyParamBuffer.append(whereClauseParameters.size());
-                                    
-                                    whereClauseParameters.put(propertyParamBuffer.toString(), propertyValueItem);
-                                    
-                                    whereClause.append(propertyIdBuffer);
-                                    whereClause.append(" ");
-                                    whereClause.append(propertyConditionItem.getOperator());
-                                    whereClause.append(" :");
-                                    whereClause.append(propertyParamBuffer);
-                                }
-                                
-                                break;
-                            }
-                            case LESS_THAN:{
-                                if(propertyValueItem == null)
-                                    processCondition = false;
-                                
-                                if(processCondition){
-                                    if(whereClauseParameters == null)
-                                        whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-                                    
-                                    if(whereClause.length() == 0)
-                                        whereClause.append("where (");
-                                    else{
-                                        if(propertyConditionOperation == ConditionOperationType.AND)
-                                            whereClause.append(")");
-                                        
-                                        whereClause.append(" ");
-                                        whereClause.append(propertyConditionOperation.toString().toLowerCase());
-                                        
-                                        if(propertyConditionOperation == ConditionOperationType.AND)
-                                            whereClause.append(" (");
-                                        else
-                                            whereClause.append(" ");
-                                    }
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
+
+                                    StringBuilder propertyParamBuffer = new StringBuilder();
+
                                     propertyParamBuffer.append("param");
                                     propertyParamBuffer.append(whereClauseParameters.size());
                                     
@@ -777,12 +598,9 @@ public abstract class HibernateQueryBuilder{
                                     
                                     whereClause.append(propertyIdBuffer);
                                     whereClause.append(" ");
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
+
+                                    StringBuilder propertyParamBuffer = new StringBuilder();
+
                                     propertyParamBuffer.append("param");
                                     propertyParamBuffer.append(whereClauseParameters.size());
                                     
@@ -849,12 +667,9 @@ public abstract class HibernateQueryBuilder{
                                         else
                                             whereClause.append(" ");
                                     }
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
+
+                                    StringBuilder propertyParamBuffer = new StringBuilder();
+
                                     propertyParamBuffer.append("param");
                                     propertyParamBuffer.append(whereClauseParameters.size());
                                     
@@ -910,12 +725,9 @@ public abstract class HibernateQueryBuilder{
                                     propertyValueBuffer = new StringBuilder();
                                     ((StringBuilder) propertyValueBuffer).append(propertyValueItem);
                                     ((StringBuilder) propertyValueBuffer).append("%");
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
+
+                                    StringBuilder propertyParamBuffer = new StringBuilder();
+
                                     propertyParamBuffer.append("param");
                                     propertyParamBuffer.append(whereClauseParameters.size());
                                     
@@ -972,12 +784,9 @@ public abstract class HibernateQueryBuilder{
                                     propertyValueBuffer = new StringBuilder();
                                     ((StringBuilder) propertyValueBuffer).append("%");
                                     ((StringBuilder) propertyValueBuffer).append(propertyValueItem);
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
+
+                                    StringBuilder propertyParamBuffer = new StringBuilder();
+
                                     propertyParamBuffer.append("param");
                                     propertyParamBuffer.append(whereClauseParameters.size());
                                     
@@ -1004,14 +813,15 @@ public abstract class HibernateQueryBuilder{
                                 
                                 break;
                             }
-                            case NOT_IN:{
+                            case NOT_IN:
+                            case IN: {
                                 Collection<Object> propertyValueItems = null;
                                 
                                 if(propertyValueItem == null)
                                     processCondition = false;
                                 else{
                                     if(!PropertyUtil.isCollection(propertyValueItem))
-                                        propertyValueItems = Arrays.asList(propertyValueItem);
+                                        propertyValueItems = List.of(propertyValueItem);
                                     else{
                                         propertyValueItems = (Collection<Object>) propertyValueItem;
                                         
@@ -1038,66 +848,9 @@ public abstract class HibernateQueryBuilder{
                                         else
                                             whereClause.append(" ");
                                     }
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
-                                    propertyParamBuffer.append("param");
-                                    propertyParamBuffer.append(whereClauseParameters.size());
-                                    
-                                    whereClauseParameters.put(propertyParamBuffer.toString(), propertyValueItems);
-                                    
-                                    whereClause.append(propertyIdBuffer);
-                                    whereClause.append(" ");
-                                    whereClause.append(propertyConditionItem.getOperator());
-                                    whereClause.append(" :");
-                                    whereClause.append(propertyParamBuffer);
-                                }
-                                
-                                break;
-                            }
-                            case IN:{
-                                Collection<Object> propertyValueItems = null;
-                                
-                                if(propertyValueItem == null)
-                                    processCondition = false;
-                                else{
-                                    if(!PropertyUtil.isCollection(propertyValueItem))
-                                        propertyValueItems = Arrays.asList(propertyValueItem);
-                                    else{
-                                        propertyValueItems = (Collection<Object>) propertyValueItem;
-                                        
-                                        if(propertyValueItems.size() == 0)
-                                            processCondition = false;
-                                    }
-                                }
-                                
-                                if(processCondition){
-                                    if(whereClauseParameters == null)
-                                        whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-                                    
-                                    if(whereClause.length() == 0)
-                                        whereClause.append("where (");
-                                    else{
-                                        if(propertyConditionOperation == ConditionOperationType.AND)
-                                            whereClause.append(")");
-                                        
-                                        whereClause.append(" ");
-                                        whereClause.append(propertyConditionOperation.toString().toLowerCase());
-                                        
-                                        if(propertyConditionOperation == ConditionOperationType.AND)
-                                            whereClause.append(" (");
-                                        else
-                                            whereClause.append(" ");
-                                    }
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
+
+                                    StringBuilder propertyParamBuffer = new StringBuilder();
+
                                     propertyParamBuffer.append("param");
                                     propertyParamBuffer.append(whereClauseParameters.size());
                                     
@@ -1163,12 +916,9 @@ public abstract class HibernateQueryBuilder{
                                         ((StringBuilder) propertyValueBuffer).append("%");
                                         ((StringBuilder) propertyValueBuffer).append(propertyValueItem);
                                         ((StringBuilder) propertyValueBuffer).append("%");
-                                        
-                                        if(propertyParamBuffer == null)
-                                            propertyParamBuffer = new StringBuilder();
-                                        else
-                                            propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                        
+
+                                        StringBuilder propertyParamBuffer = new StringBuilder();
+
                                         propertyParamBuffer.append("param");
                                         propertyParamBuffer.append(whereClauseParameters.size());
                                         
@@ -1205,7 +955,7 @@ public abstract class HibernateQueryBuilder{
                                             }
                                             
                                             if(item != null){
-                                                if(propertyInfo.hasModel() != null && propertyInfo.hasModel()){
+                                                if(propertyInfo.hasModel()){
                                                     if(!item.getClass().equals(propertyInfo.getCollectionItemsClass()))
                                                         item = PropertyUtil.convertTo(item, propertyInfo.getCollectionItemsClass());
                                                 }
@@ -1219,11 +969,8 @@ public abstract class HibernateQueryBuilder{
                                             whereClause.append(" ");
                                             
                                             if(item != null){
-                                                if(propertyParamBuffer == null)
-                                                    propertyParamBuffer = new StringBuilder();
-                                                else
-                                                    propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                                
+                                                StringBuilder propertyParamBuffer = new StringBuilder();
+
                                                 propertyParamBuffer.append("param");
                                                 propertyParamBuffer.append(whereClauseParameters.size());
                                                 
@@ -1296,12 +1043,9 @@ public abstract class HibernateQueryBuilder{
                                         ((StringBuilder) propertyValueBuffer).append("%");
                                         ((StringBuilder) propertyValueBuffer).append(propertyValueItem);
                                         ((StringBuilder) propertyValueBuffer).append("%");
-                                        
-                                        if(propertyParamBuffer == null)
-                                            propertyParamBuffer = new StringBuilder();
-                                        else
-                                            propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                        
+
+                                        StringBuilder propertyParamBuffer = new StringBuilder();
+
                                         propertyParamBuffer.append("param");
                                         propertyParamBuffer.append(whereClauseParameters.size());
                                         
@@ -1338,7 +1082,7 @@ public abstract class HibernateQueryBuilder{
                                             }
                                             
                                             if(item != null){
-                                                if(propertyInfo.hasModel() != null && propertyInfo.hasModel()){
+                                                if(propertyInfo.hasModel()){
                                                     if(!item.getClass().equals(propertyInfo.getCollectionItemsClass()))
                                                         item = PropertyUtil.convertTo(item, propertyInfo.getCollectionItemsClass());
                                                 }
@@ -1352,11 +1096,8 @@ public abstract class HibernateQueryBuilder{
                                             whereClause.append(" ");
                                             
                                             if(item != null){
-                                                if(propertyParamBuffer == null)
-                                                    propertyParamBuffer = new StringBuilder();
-                                                else
-                                                    propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                                
+                                                StringBuilder propertyParamBuffer = new StringBuilder();
+
                                                 propertyParamBuffer.append("param");
                                                 propertyParamBuffer.append(whereClauseParameters.size());
                                                 
@@ -1410,12 +1151,9 @@ public abstract class HibernateQueryBuilder{
                                         else
                                             whereClause.append(" ");
                                     }
-                                    
-                                    if(propertyParamBuffer == null)
-                                        propertyParamBuffer = new StringBuilder();
-                                    else
-                                        propertyParamBuffer.delete(0, propertyParamBuffer.length());
-                                    
+
+                                    StringBuilder propertyParamBuffer = new StringBuilder();
+
                                     propertyParamBuffer.append("param");
                                     propertyParamBuffer.append(whereClauseParameters.size());
                                     
@@ -1448,11 +1186,14 @@ public abstract class HibernateQueryBuilder{
                                     whereClause.append(propertyConditionItem.getOperator());
                                     whereClause.append(" :");
                                     whereClause.append(propertyParamBuffer);
-                                    
+
                                     if(considerConditions){
-                                        identitiesPropertiesInfoBuffer.add(propertyInfo);
+                                        if(processedUdentitiesPropertiesInfo == null)
+                                            processedUdentitiesPropertiesInfo = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+
+                                        processedUdentitiesPropertiesInfo.add(propertyInfo);
                                         
-                                        if(identitiesPropertiesInfoBuffer.containsAll(identitiesPropertiesInfo))
+                                        if(processedUdentitiesPropertiesInfo.containsAll(identitiesPropertiesInfo))
                                             considerConditions = false;
                                     }
                                 }
@@ -1514,8 +1255,7 @@ public abstract class HibernateQueryBuilder{
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static <M extends BaseModel> Query build(QueryType queryType, M model, Filter filter, HibernatePersistence<M> persistence) throws InternalErrorException{
         try{
-            String expression = null;
-            Boolean modelIsNull = (model == null);
+            boolean modelIsNull = (model == null);
             Class<? extends BaseModel> modelClass = (modelIsNull ? PersistenceUtil.getModelClassByPersistence(persistence.getClass()) : model.getClass());
             ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
             
@@ -1525,14 +1265,12 @@ public abstract class HibernateQueryBuilder{
             Session connection = persistence.getConnection();
             String statementId = MethodUtil.getMethodFromStackTrace(3).getName();
             Map<String, Object> whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-            
-            expression = buildExpression(model, filter, whereClauseParameters);
-            
+            String expression = buildExpression(model, filter, whereClauseParameters);
             Query query = connection.createQuery(expression);
             
             query.setComment(statementId);
             
-            if(modelInfo.isCacheable() != null && modelInfo.isCacheable()){
+            if(modelInfo.isCacheable()){
                 query.setCacheable(true);
                 query.setCacheMode(CacheMode.NORMAL);
             }

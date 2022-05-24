@@ -67,14 +67,10 @@ public abstract class CryptoFactory{
      * execute the operation.
      */
     public static ICrypto getInstance(String algorithm) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_DES_ALGORITHM_ID))
-            return new CryptoDES(true);
-        else if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_3DES_ALGORITHM_ID))
-            return new Crypto3DES(true);
-        else if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID))
+        if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(true);
-        else
-            throw new NoSuchAlgorithmException(algorithm);
+
+        throw new NoSuchAlgorithmException(algorithm);
     }
     
     /**
@@ -94,7 +90,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getDefaultInstance(Boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    public static ICrypto getDefaultInstance(boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         return getInstance(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID, useBase64);
     }
     
@@ -116,15 +112,11 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getInstance(String algorithm, Boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_DES_ALGORITHM_ID))
-            return new CryptoDES(useBase64);
-        else if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_3DES_ALGORITHM_ID))
-            return new Crypto3DES(useBase64);
-        else if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID))
+    public static ICrypto getInstance(String algorithm, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+        if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(useBase64);
-        else
-            throw new NoSuchAlgorithmException(algorithm);
+
+        throw new NoSuchAlgorithmException(algorithm);
     }
     
     /**
@@ -147,7 +139,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getDefaultInstance(String passPhrase, Integer keySize, Boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    public static ICrypto getDefaultInstance(String passPhrase, Integer keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         return getInstance(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID, passPhrase, keySize, useBase64);
     }
     
@@ -172,15 +164,11 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getInstance(String algorithm, String passPhrase, Integer keySize, Boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_DES_ALGORITHM_ID))
-            return new CryptoDES(passPhrase, keySize, useBase64);
-        else if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_3DES_ALGORITHM_ID))
-            return new Crypto3DES(passPhrase, keySize, useBase64);
-        else if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID))
+    public static ICrypto getInstance(String algorithm, String passPhrase, Integer keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+        if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(passPhrase, keySize, useBase64);
-        else
-            throw new NoSuchAlgorithmException(algorithm);
+
+        throw new NoSuchAlgorithmException(algorithm);
     }
     
     /**
@@ -201,7 +189,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getDefaultInstance(String passPhrase, Boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    public static ICrypto getDefaultInstance(String passPhrase, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         return getInstance(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID, passPhrase, useBase64);
     }
     
@@ -224,15 +212,11 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getInstance(String algorithm, String passPhrase, Boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_DES_ALGORITHM_ID))
-            return new CryptoDES(passPhrase, useBase64);
-        else if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_3DES_ALGORITHM_ID))
-            return new Crypto3DES(passPhrase, useBase64);
-        else if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID))
+    public static ICrypto getInstance(String algorithm, String passPhrase, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+        if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(passPhrase, useBase64);
-        else
-            throw new NoSuchAlgorithmException(algorithm);
+
+        throw new NoSuchAlgorithmException(algorithm);
     }
     
     /**
@@ -273,13 +257,9 @@ public abstract class CryptoFactory{
      * execute the operation.
      */
     public static ICrypto getInstance(String algorithm, String passPhrase) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_DES_ALGORITHM_ID))
-            return new CryptoDES(passPhrase);
-        else if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_3DES_ALGORITHM_ID))
-            return new Crypto3DES(passPhrase);
-        else if(algorithm.equals(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID))
+        if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(passPhrase);
-        else
-            throw new NoSuchAlgorithmException(algorithm);
+
+        throw new NoSuchAlgorithmException(algorithm);
     }
 }

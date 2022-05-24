@@ -9,44 +9,44 @@
  * Style that defines the component.
  */
 .loginSessionBox{
-    border         : NONE;
-    border-spacing : 0px;
-	border-collapse: COLLAPSE;
     background     : WHITE;
     text-align     : LEFT;
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px;
 	color          : #666666;
+	border         : NONE;
+	border-spacing : 0;
+	border-collapse: COLLAPSE;
 }
 
 /**
  * Style that defines the component.
  */
 .loginSessionBox td{
-	padding: 0px;
 	height : 30px;
+	padding: 0;
 }
 
 /**
  * Style that defines the label of 'logged as' attribute.
  */
 .loginSessionBoxLoggedAsLabel{
-    border-collapse: COLLAPSE;
-	border-spacing : 0px;
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px;
 	color          : #666666;
+	border-collapse: COLLAPSE;
+	border-spacing : 0;
 }
 
 /**
  * Style that defines the 'logged as' attribute.
  */
 .loginSessionBoxLoggedAs{
-    border-collapse: COLLAPSE;
-	border-spacing : 0px;
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px;
 	color          : #1e8fad;
+	border-collapse: COLLAPSE;
+	border-spacing : 0;
 	cursor         : POINTER;
 }
 
@@ -54,7 +54,7 @@
  * Style that defines the 'logged as' attribute when the mouse is over it.
  */
 .loginSessionBoxLoggedAs:hover{
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px; 
 	color          : #1e8fad;
 	text-decoration: UNDERLINE;
@@ -64,38 +64,38 @@
  * Style that defines the full name.
  */
 .loginSessionBoxUserFullName{
-    border-collapse: COLLAPSE;
-	border-spacing : 0px;
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 16px;
-	color          : #666666;
 	font-weight    : BOLD;
+	color          : #666666;
+	border-collapse: COLLAPSE;
+	border-spacing : 0;
 }
 
 /**
  * Style that defines the label of 'logged in' attribute.
  */
 .loginSessionBoxLoggedInLabel{
-    border-collapse: COLLAPSE;
-	border-spacing : 0px;
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	width          : 100%;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px;
 	color          : #666666;
-	width          : 100%;
 	text-align     : CENTER;
+	border-collapse: COLLAPSE;
+	border-spacing : 0;
 }
 
 /**
  * Style that defines the 'logged in' attribute.
  */
 .loginSessionBoxLoggedIn{
-    border-collapse: COLLAPSE;
-	border-spacing : 0px;
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	width          : 100%;
+	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px;
 	color          : #666666;
-	width          : 100%;
 	text-align     : CENTER;
+	border-collapse: COLLAPSE;
+	border-spacing : 0;
 }
 
 /**
@@ -104,10 +104,10 @@
 .loginSessionBoxUserLogo{
 	width        : 75px;
 	height       : 75px;
-	border-radius: 50%;
+	background   : #efefef;
 	line-height  : 75px;
+	border-radius: 50%;
     border       : 1px SOLID #aaaaaa;
-    background   : #efefef;
 }
 
 /**
@@ -116,10 +116,10 @@
 .loginSessionBoxNoUserLogo{
 	width        : 75px;
 	height       : 75px;
-	border-radius: 50%;
+	background   : url(../images/noUserImage.gif) no-repeat;
 	line-height  : 75px;
+	border-radius: 50%;
     border       : 1px SOLID #aaaaaa;
-    background   : url(../images/noUserImage.gif) no-repeat;
 }
 
 /**
@@ -127,16 +127,14 @@
  */
 .loginSessionBoxContent{
 	position          : ABSOLUTE;
-    background        : WHITE;
-    border            : 1px SOLID #aaaaaa;
-	-moz-box-shadow   : 2px 3px 4px rgba(0, 0, 0, 0.3);
-	-webkit-box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
-	box-shadow        : 2px 3px 4px rgba(0, 0, 0, 0.3);	
-	-ms-filter        : "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa')";
-	filter            : progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa');
-	padding           : 2px;
 	width             : 182px;
 	height            : 250px;
+    background        : WHITE;
+	box-shadow        : 2px 3px 4px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow   : 2px 3px 4px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+	border            : 1px SOLID #aaaaaa;
+	padding           : 2px;
 	text-align        : CENTER;
 	visibility        : HIDDEN;
 }

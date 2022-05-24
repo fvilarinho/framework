@@ -8,8 +8,7 @@ import br.com.concepting.framework.model.MainConsoleModel;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.ui.constants.UIConstants;
-
-import javax.ws.rs.HttpMethod;
+import br.com.concepting.framework.util.types.MethodType;
 
 /**
  * Class that defines the skin selector component.
@@ -34,28 +33,22 @@ import javax.ws.rs.HttpMethod;
  */
 public class SkinSelectorComponent extends ListPropertyComponent{
     private static final long serialVersionUID = 8860130395588029708L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         setResourcesId(UIConstants.DEFAULT_COMMON_RESOURCES_ID);
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
         setName(SystemConstants.CURRENT_SKIN_ATTRIBUTE_ID);
         
         super.buildName();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         SystemResources systemResources = getSystemResources();
         
@@ -71,12 +64,12 @@ public class SkinSelectorComponent extends ListPropertyComponent{
                     
                     url.append(contextPath);
                     url.append(actionFormUrl);
-                    url.append(ActionFormConstants.DEFAULT_ACTION_SERVLET_FILE_EXTENSION);
+                    url.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
                     
                     StringBuilder onChange = new StringBuilder();
                     
                     onChange.append("submitRequest('");
-                    onChange.append(HttpMethod.POST);
+                    onChange.append(MethodType.POST);
                     onChange.append("', '");
                     onChange.append(url);
                     onChange.append("', '");
@@ -98,19 +91,15 @@ public class SkinSelectorComponent extends ListPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
         setShowFirstOption(false);
         
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ListPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         SystemResources systemResources = getSystemResources();
         

@@ -39,7 +39,7 @@ public class TimerComponent extends LabelComponent{
     private String onTriggerAction = null;
     private String onTriggerForward = null;
     private String onTriggerUpdateViews = null;
-    private Boolean onTriggerValidateModel = null;
+    private boolean onTriggerValidateModel = false;
     private String onTriggerValidateModelProperties = null;
     
     /**
@@ -115,7 +115,7 @@ public class TimerComponent extends LabelComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnTriggerValidateModel(){
+    public boolean getOnTriggerValidateModel(){
         return this.onTriggerValidateModel;
     }
     
@@ -125,7 +125,7 @@ public class TimerComponent extends LabelComponent{
      *
      * @param onTriggerValidateModel True/False.
      */
-    public void setOnTriggerValidateModel(Boolean onTriggerValidateModel){
+    public void setOnTriggerValidateModel(boolean onTriggerValidateModel){
         this.onTriggerValidateModel = onTriggerValidateModel;
     }
     
@@ -170,36 +170,30 @@ public class TimerComponent extends LabelComponent{
     public void setOnTriggerUpdateViews(String onTriggerUpdateViews){
         this.onTriggerUpdateViews = onTriggerUpdateViews;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         buildEvent(EventType.ON_TRIGGER);
         
         super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.TIMER);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
         PropertyInfo propertyInfo = getPropertyInfo();
         String actionFormName = getActionFormName();
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(propertyInfo != null && actionFormName != null && actionFormName.length() > 0 && (hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition)){
+        if(propertyInfo != null && actionFormName != null && actionFormName.length() > 0 && !hasInvalidPropertyDefinition){
             HiddenPropertyComponent propertyComponent = new HiddenPropertyComponent();
             
             propertyComponent.setPageContext(this.pageContext);
@@ -218,10 +212,8 @@ public class TimerComponent extends LabelComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderId()
-     */
+
+    @Override
     protected void renderId() throws InternalErrorException{
         String id = getId();
         
@@ -233,10 +225,8 @@ public class TimerComponent extends LabelComponent{
             print("\"");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderName()
-     */
+
+    @Override
     protected void renderName() throws InternalErrorException{
         String name = getName();
         
@@ -248,19 +238,17 @@ public class TimerComponent extends LabelComponent{
             print("\"");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         super.renderClose();
         
         String name = getName();
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if((hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition) && name != null && name.length() > 0){
+        if(!hasInvalidPropertyDefinition && name != null && name.length() > 0){
             Number value = getValue();
-            Integer compare = (value != null ? PropertyUtil.compareTo(value, 0) : 0);
+            int compare = (value != null ? PropertyUtil.compareTo(value, 0) : 0);
             
             if(compare > 0){
                 StringBuilder content = new StringBuilder();
@@ -351,17 +339,15 @@ public class TimerComponent extends LabelComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
         setOnTriggerAction(null);
         setOnTriggerForward(null);
         setOnTriggerUpdateViews(null);
-        setOnTriggerValidateModel(null);
+        setOnTriggerValidateModel(false);
         setOnTriggerValidateModelProperties(null);
     }
 }

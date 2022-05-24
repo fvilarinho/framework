@@ -46,7 +46,7 @@ public interface LoginSessionService<L extends LoginSessionModel, U extends User
      * invalid.
      * @throws PermissionDeniedException Occurs when the user doesn't have permission
      * to log in.
-     * @throws InternalErrorException Occurs when was no possible to execute the
+     * @throws InternalErrorException Occurs when was not possible to execute the
      * operation.
      */
     L logIn(U user) throws UserAlreadyLoggedInException, UserNotFoundException, UserBlockedException, InvalidPasswordException, PermissionDeniedException, InternalErrorException;
@@ -56,7 +56,7 @@ public interface LoginSessionService<L extends LoginSessionModel, U extends User
      *
      * @param user String that contains the token.
      * @throws InvalidMfaTokenException Occurs when the MFA token is invalid.
-     * @throws InternalErrorException Occurs when was no possible to execute the
+     * @throws InternalErrorException Occurs when was not possible to execute the
      * operation.
      */
     void validateMfaToken(U user) throws InvalidMfaTokenException, InternalErrorException;
@@ -68,7 +68,7 @@ public interface LoginSessionService<L extends LoginSessionModel, U extends User
      * @throws UserNotFoundException Occurs when the user was not found.
      * @throws UserBlockedException Occurs when the user is blocked.
      * to do it.
-     * @throws InternalErrorException Occurs when was no possible to execute the
+     * @throws InternalErrorException Occurs when was not possible to execute the
      * operation.
      */
     void sendForgottenPassword(U user) throws UserNotFoundException, UserBlockedException, InternalErrorException;
@@ -81,7 +81,7 @@ public interface LoginSessionService<L extends LoginSessionModel, U extends User
      * @throws PasswordIsNotStrongException Occurs when the password is not strong.
      * @throws PasswordsNotMatchException Occurs when the new password doesn't match with the confirmation.
      * @throws PasswordWithoutMinimumLengthException Occurs when the password doesn't have the minimum length.
-     * @throws InternalErrorException Occurs when was no possible to execute the
+     * @throws InternalErrorException Occurs when was not possible to execute the
      * operation.
      */
     U changePassword(U user) throws PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException;
@@ -89,7 +89,7 @@ public interface LoginSessionService<L extends LoginSessionModel, U extends User
     /**
      * Logs out the system.
      *
-     * @throws InternalErrorException Occurs when was no possible to execute the
+     * @throws InternalErrorException Occurs when was not possible to execute the
      * operation.
      */
     void logOut() throws InternalErrorException;
@@ -97,7 +97,7 @@ public interface LoginSessionService<L extends LoginSessionModel, U extends User
     /**
      * Logs out all session of the system.
      *
-     * @throws InternalErrorException Occurs when was no possible to execute the
+     * @throws InternalErrorException Occurs when was not possible to execute the
      * operation.
      */
     void logOutAll() throws InternalErrorException;

@@ -36,7 +36,7 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
     private String action = null;
     private String forward = null;
     private String updateViews = null;
-    private Boolean validateModel = null;
+    private boolean validateModel = false;
     private String validateModelProperties = null;
     
     /**
@@ -110,7 +110,7 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
      *
      * @return True/False.
      */
-    public Boolean validateModel(){
+    public boolean validateModel(){
         return this.validateModel;
     }
     
@@ -119,7 +119,7 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
      *
      * @return True/False.
      */
-    public Boolean getValidateModel(){
+    public boolean getValidateModel(){
         return validateModel();
     }
     
@@ -128,7 +128,7 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
      *
      * @param validateModel True/False.
      */
-    public void setValidateModel(Boolean validateModel){
+    public void setValidateModel(boolean validateModel){
         this.validateModel = validateModel;
     }
     
@@ -152,19 +152,15 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
     public void setValidateModelProperties(String validateModelProperties){
         this.validateModelProperties = validateModelProperties;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         setResourcesKey(UIConstants.DEFAULT_SEARCH_PROPERTIES_GROUP_ID);
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         String styleClass = getStyleClass();
         
@@ -184,10 +180,8 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         if(this.action == null || this.action.length() == 0)
             this.action = ActionType.SEARCH.getMethod();
@@ -196,10 +190,8 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         String actionFormName = getActionFormName();
         
@@ -264,16 +256,14 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
         
         println("</table>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
         setAction(null);
         setForward(null);
-        setValidateModel(null);
+        setValidateModel(false);
         setValidateModelProperties(null);
         setUpdateViews(null);
     }

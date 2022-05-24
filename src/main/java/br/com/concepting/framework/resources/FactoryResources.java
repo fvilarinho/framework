@@ -90,7 +90,7 @@ public class FactoryResources extends BaseResources<XmlNode>{
     }
     
     /**
-     * Adds an factory option.
+     * Adds a factory option.
      *
      * @param id String that contains the identifier of the option.
      * @param value String that contains the value of the option.

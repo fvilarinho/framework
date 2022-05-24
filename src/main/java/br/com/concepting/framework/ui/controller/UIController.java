@@ -36,7 +36,7 @@ import java.util.List;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class UIController{
-    private SystemController systemController = null;
+    private final SystemController systemController;
     
     /**
      * Constructor - Initialize the controller.
@@ -54,7 +54,7 @@ public class UIController{
      *
      * @return True/False.
      */
-    public Boolean hasPageImports(){
+    public boolean hasPageImports(){
         StringBuilder pageImportsId = new StringBuilder();
         
         pageImportsId.append(this.systemController.getRequestURL());
@@ -69,7 +69,7 @@ public class UIController{
      *
      * @param value True/False.
      */
-    public void hasPageImports(Boolean value){
+    public void hasPageImports(boolean value){
         StringBuilder pageImportsId = new StringBuilder();
         
         pageImportsId.append(this.systemController.getRequestURL());
@@ -84,7 +84,7 @@ public class UIController{
      *
      * @return True/False.
      */
-    public Boolean hasPageEvents(){
+    public boolean hasPageEvents(){
         return (this.systemController.getAttribute(UIConstants.PAGE_EVENTS_ATTRIBUTE_ID, ScopeType.REQUEST) != null);
     }
     
@@ -93,7 +93,7 @@ public class UIController{
      *
      * @param value True/False.
      */
-    public void hasPageEvents(Boolean value){
+    public void hasPageEvents(boolean value){
         this.systemController.setAttribute(UIConstants.PAGE_EVENTS_ATTRIBUTE_ID, value, ScopeType.REQUEST);
     }
     
@@ -102,7 +102,7 @@ public class UIController{
      *
      * @return True/False.
      */
-    public Boolean hasPageComponentInstance(){
+    public boolean hasPageComponentInstance(){
         return (this.systemController.getAttribute(UIConstants.PAGE_COMPONENT_ATTRIBUTE_ID, ScopeType.REQUEST) != null);
     }
     
@@ -111,7 +111,7 @@ public class UIController{
      *
      * @param hasPageComponent True/False.
      */
-    public void hasPageComponentInstance(Boolean hasPageComponent){
+    public void hasPageComponentInstance(boolean hasPageComponent){
         this.systemController.setAttribute(UIConstants.PAGE_COMPONENT_ATTRIBUTE_ID, hasPageComponent, ScopeType.REQUEST);
     }
     
@@ -167,7 +167,7 @@ public class UIController{
             key.append(".");
             key.append(UIConstants.CURRENT_GUIDE_ATTRIBUTE_ID);
             
-            return this.systemController.getRequestParameterValue(key.toString());
+            return this.systemController.getParameterValue(key.toString());
         }
         
         return null;
@@ -187,7 +187,7 @@ public class UIController{
             key.append(".");
             key.append(UIConstants.CURRENT_TREE_VIEW_NODE_ATTRIBUTE_ID);
             
-            return this.systemController.getRequestParameterValue(key.toString());
+            return this.systemController.getParameterValue(key.toString());
         }
         
         return null;
@@ -199,7 +199,7 @@ public class UIController{
      * @param name String that contains the identifier of the component.
      * @return True/False.
      */
-    public Boolean isTreeViewNodeExpanded(String name){
+    public boolean isTreeViewNodeExpanded(String name){
         if(name != null && name.length() > 0){
             StringBuilder key = new StringBuilder();
             
@@ -207,10 +207,10 @@ public class UIController{
             key.append(".");
             key.append(UIConstants.IS_TREE_VIEW_NODE_EXPANDED_ATTRIBUTE_ID);
             
-            return Boolean.valueOf(this.systemController.getRequestParameterValue(key.toString()));
+            return Boolean.parseBoolean(this.systemController.getParameterValue(key.toString()));
         }
         
-        return null;
+        return false;
     }
     
     /**
@@ -227,7 +227,7 @@ public class UIController{
             key.append(".");
             key.append(UIConstants.CURRENT_SECTIONS_ATTRIBUTE_ID);
             
-            String[] values = this.systemController.getRequestParameterValues(key.toString());
+            String[] values = this.systemController.getParameterValues(key.toString());
             
             if(values != null && values.length > 0){
                 List<String> result = null;
@@ -257,7 +257,9 @@ public class UIController{
      * default items per page.
      * @return Numeric value that contains the number of items per page.
      */
-    public Integer getPagerItemsPerPage(String actionFormName, String name, Integer defaultItemsPerPage){
+    public int getPagerItemsPerPage(String actionFormName, String name, int defaultItemsPerPage){
+        int itemsPerPage;
+
         if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
             StringBuilder key = new StringBuilder();
             
@@ -267,42 +269,36 @@ public class UIController{
             key.append(".");
             key.append(UIConstants.PAGER_ITEMS_PER_PAGE_ATTRIBUTE_ID);
             
-            String itemsPerPageBuffer = this.systemController.getRequestParameterValue(key.toString());
-            Integer itemsPerPage = null;
-            
+            String itemsPerPageBuffer = this.systemController.getParameterValue(key.toString());
+
             try{
                 itemsPerPage = NumberUtil.parseInt(itemsPerPageBuffer);
-                
-                if(itemsPerPage != null)
-                    this.systemController.addCookie(key.toString(), itemsPerPage.toString(), true);
+
+                if(itemsPerPage <= 0)
+                    itemsPerPage = UIConstants.DEFAULT_PAGER_ITEMS_PER_PAGE;
             }
-            catch(ParseException e){
-            }
-            
-            if(itemsPerPage == null){
+            catch(ParseException e1) {
                 Cookie cookie = this.systemController.getCookie(key.toString());
-                
-                try{
-                    if(cookie != null)
+
+                try {
+                    if (cookie != null)
                         itemsPerPage = NumberUtil.parseInt(cookie.getValue());
-                }
-                catch(ParseException e){
-                }
-                
-                if(itemsPerPage == null){
-                    if(defaultItemsPerPage == null)
-                        itemsPerPage = UIConstants.DEFAULT_PAGER_ITEMS_PER_PAGE;
                     else
-                        itemsPerPage = defaultItemsPerPage;
-                    
-                    this.systemController.addCookie(key.toString(), itemsPerPage.toString(), true);
+                        itemsPerPage = UIConstants.DEFAULT_PAGER_ITEMS_PER_PAGE;
+                }
+                catch (ParseException e2){
+                    itemsPerPage = UIConstants.DEFAULT_PAGER_ITEMS_PER_PAGE;
                 }
             }
-            
+
+            this.systemController.addCookie(key.toString(), String.valueOf(itemsPerPage), true);
+
             return itemsPerPage;
         }
+        else
+            itemsPerPage = UIConstants.DEFAULT_PAGER_ITEMS_PER_PAGE;
         
-        return UIConstants.DEFAULT_PAGER_ITEMS_PER_PAGE;
+        return itemsPerPage;
     }
     
     /**
@@ -323,7 +319,7 @@ public class UIController{
             key.append(UIConstants.PAGER_ACTION_ATTRIBUTE_ID);
             
             try{
-                String pagerActionType = this.systemController.getRequestParameterValue(key.toString());
+                String pagerActionType = this.systemController.getParameterValue(key.toString());
                 
                 if(pagerActionType == null || pagerActionType.length() == 0)
                     return PagerActionType.REFRESH_PAGE;
@@ -345,7 +341,9 @@ public class UIController{
      * @param name String that contains the identifier of the component.
      * @return Numeric value that contains the current page.
      */
-    public Integer getPagerCurrentPage(String actionFormName, String name){
+    public int getPagerCurrentPage(String actionFormName, String name){
+        int currentPage = 1;
+
         if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
             StringBuilder key = new StringBuilder();
             
@@ -356,13 +354,16 @@ public class UIController{
             key.append(UIConstants.PAGER_CURRENT_PAGE_ATTRIBUTE_ID);
             
             try{
-                return NumberUtil.parseInt(this.systemController.getRequestParameterValue(key.toString()));
+                currentPage = NumberUtil.parseInt(this.systemController.getParameterValue(key.toString()));
             }
-            catch(ParseException e){
+            catch(ParseException ignored){
             }
+
+            if(currentPage < 1)
+                currentPage = 1;
         }
         
-        return 1;
+        return currentPage;
     }
     
     /**
@@ -373,7 +374,7 @@ public class UIController{
      * @param defaultZoom Numeric value that contains the default zoom.
      * @return Numeric value that contains the zoom.
      */
-    public Integer getMapsZoom(String actionFormName, String name, Integer defaultZoom){
+    public int getMapsZoom(String actionFormName, String name, int defaultZoom){
         if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
             StringBuilder key = new StringBuilder();
             
@@ -384,13 +385,15 @@ public class UIController{
             key.append(UIConstants.MAPS_ZOOM_ATTRIBUTE_ID);
             
             try{
-                return NumberUtil.parseInt(this.systemController.getRequestParameterValue(key.toString()));
+                int zoom = NumberUtil.parseInt(this.systemController.getParameterValue(key.toString()));
+
+                if(zoom <= 0)
+                    zoom = UIConstants.DEFAULT_MAPS_ZOOM;
+
+                return zoom;
             }
             catch(ParseException e){
-                if(defaultZoom == null)
-                    return UIConstants.DEFAULT_MAPS_ZOOM;
-                
-                return defaultZoom;
+                return UIConstants.DEFAULT_MAPS_ZOOM;
             }
         }
         
@@ -411,7 +414,7 @@ public class UIController{
             key.append(".");
             key.append(UIConstants.SORT_PROPERTY_ATTRIBUTE_ID);
             
-            return this.systemController.getRequestParameterValue(key.toString());
+            return this.systemController.getParameterValue(key.toString());
         }
         
         return null;
@@ -432,12 +435,12 @@ public class UIController{
             key.append(UIConstants.SORT_ORDER_ATTRIBUTE_ID);
             
             try{
-                String sortOrder = this.systemController.getRequestParameterValue(key.toString());
+                String sortOrder = this.systemController.getParameterValue(key.toString());
                 
                 if(sortOrder != null && sortOrder.length() > 0)
                     return SortOrderType.valueOf(sortOrder.toUpperCase());
             }
-            catch(IllegalArgumentException e){
+            catch(IllegalArgumentException ignored){
             }
         }
         
@@ -458,7 +461,7 @@ public class UIController{
             key.append(".");
             key.append(UIConstants.RICH_TEXT_AREA_TOOLBAR_FONT_NAME_ATTRIBUTE_ID);
             
-            String result = this.systemController.getRequestParameterValue(key.toString());
+            String result = this.systemController.getParameterValue(key.toString());
             
             if(result != null && result.length() > 0)
                 return result;
@@ -473,27 +476,27 @@ public class UIController{
      * @param name String that contains the identifier of the component.
      * @return Numeric value that contains the font size.
      */
-    public Integer getRichTextAreaFontSize(String name){
+    public int getRichTextAreaFontSize(String name){
+        int result;
+
         if(name != null && name.length() > 0){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
             key.append(".");
             key.append(UIConstants.RICH_TEXT_AREA_TOOLBAR_FONT_SIZE_ATTRIBUTE_ID);
-            
-            Integer result = null;
-            
+
             try{
-                result = NumberUtil.parseInt(this.systemController.getRequestParameterValue(key.toString()));
+                result = NumberUtil.parseInt(this.systemController.getParameterValue(key.toString()));
             }
             catch(ParseException e){
                 result = UIConstants.DEFAULT_RICH_TEXT_AREA_FONT_SIZE;
             }
-            
-            return result;
         }
-        
-        return UIConstants.DEFAULT_RICH_TEXT_AREA_FONT_SIZE;
+        else
+            result = UIConstants.DEFAULT_RICH_TEXT_AREA_FONT_SIZE;
+
+        return result;
     }
     
     /**
@@ -510,7 +513,7 @@ public class UIController{
             key.append(".");
             key.append(UIConstants.RICH_TEXT_AREA_TOOLBAR_FONT_COLOR_ATTRIBUTE_ID);
             
-            String result = this.systemController.getRequestParameterValue(key.toString());
+            String result = this.systemController.getParameterValue(key.toString());
             
             if(result != null && result.length() > 0)
                 return result;
@@ -533,7 +536,7 @@ public class UIController{
             key.append(".");
             key.append(UIConstants.RICH_TEXT_AREA_TOOLBAR_BACKGROUND_COLOR_ATTRIBUTE_ID);
             
-            String result = this.systemController.getRequestParameterValue(key.toString());
+            String result = this.systemController.getParameterValue(key.toString());
             
             if(result != null && result.length() > 0)
                 return result;

@@ -221,7 +221,7 @@ public class XmlWriter{
     }
     
     /**
-     * Returns the stream that will used to write the content.
+     * Returns the stream that will be used to write the content.
      *
      * @return Instance that contains the stream.
      */
@@ -230,7 +230,7 @@ public class XmlWriter{
     }
     
     /**
-     * Defines the stream that will used to write the content.
+     * Defines the stream that will ge used to write the content.
      *
      * @param out Instance that contains the stream.
      */

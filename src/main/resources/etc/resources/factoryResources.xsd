@@ -1,33 +1,32 @@
-<xs:schema attributeFormDefault="unqualified" 
-           elementFormDefault="qualified" 
+<xs:schema elementFormDefault="qualified"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
  	<xs:element name="factory">
     	<xs:complexType>
       		<xs:sequence>
-        		<xs:element name="ldap" minOccurs="1" maxOccurs="1">
+        		<xs:element name="ldap">
           			<xs:complexType>
             			<xs:sequence>
-              				<xs:element name="resources" minOccurs="1" maxOccurs="unbounded">
+              				<xs:element name="resources" maxOccurs="unbounded">
                 				<xs:complexType>
                   					<xs:sequence>
-					                    <xs:element type="xs:string" name="class" minOccurs="1" maxOccurs="1"/>
-					                    <xs:element type="xs:string" name="uri" minOccurs="1" maxOccurs="1"/>
+					                    <xs:element type="xs:string" name="class"/>
+					                    <xs:element type="xs:string" name="uri"/>
 									</xs:sequence>
                   					<xs:attribute type="xs:string" name="id" use="required"/>
-                  					<xs:attribute type="xs:boolean" name="default" use="optional"/>
+                  					<xs:attribute type="xs:boolean" name="default"/>
                 				</xs:complexType>
               				</xs:element>
             			</xs:sequence>
           			</xs:complexType>
         		</xs:element>
-        		<xs:element name="persistence" minOccurs="1" maxOccurs="1">
+        		<xs:element name="persistence">
           			<xs:complexType>
             			<xs:sequence>
-              				<xs:element name="resources" minOccurs="1" maxOccurs="unbounded">
+              				<xs:element name="resources" maxOccurs="unbounded">
                 				<xs:complexType>
                   					<xs:sequence>
-                    					<xs:element type="xs:string" name="class" minOccurs="1" maxOccurs="1"/>
-                    					<xs:element type="xs:string" name="uri" minOccurs="1" maxOccurs="1"/>
+                    					<xs:element type="xs:string" name="class"/>
+                    					<xs:element type="xs:string" name="uri"/>
                   					</xs:sequence>
                   					<xs:attribute type="xs:string" name="id" use="required"/>
                   					<xs:attribute name="type" use="required">
@@ -44,7 +43,7 @@
 										    </xs:restriction>
 										</xs:simpleType>
                   					</xs:attribute>
-                  					<xs:attribute type="xs:boolean" name="default" use="optional"/>
+                  					<xs:attribute type="xs:boolean" name="default"/>
                 				</xs:complexType>
               				</xs:element>
             			</xs:sequence>

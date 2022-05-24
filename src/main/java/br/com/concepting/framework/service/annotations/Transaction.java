@@ -1,5 +1,8 @@
 package br.com.concepting.framework.service.annotations;
 
+import br.com.concepting.framework.util.types.ContentType;
+import br.com.concepting.framework.util.types.MethodType;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -43,4 +46,32 @@ public @interface Transaction{
      * @return List that contains the caught exceptions.
      */
     Class<? extends Throwable>[] rollbackFor() default Throwable.class;
+
+    /**
+     * Defines the path for API calls.
+     *
+     * @return String that contains the path.
+     */
+    String path() default "";
+
+    /**
+     * Defines the method accepted for API calls.
+     *
+     * @return Instance that contains the method type.
+     */
+    MethodType type() default MethodType.NONE;
+
+    /**
+     * Defines the mime-type accepted for API calls.
+     *
+     * @return Instance that contains the mime-type type.
+     */
+    ContentType accept() default ContentType.NONE;
+
+    /**
+     * Defines the mime-type of the API calls response.
+     *
+     * @return Instance that contains the mime-type type.
+     */
+    ContentType contentType() default ContentType.NONE;
 }

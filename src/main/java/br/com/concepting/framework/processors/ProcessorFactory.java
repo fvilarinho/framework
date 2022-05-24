@@ -58,7 +58,7 @@ public class ProcessorFactory{
     }
     
     /**
-     * Returns a logic processor based on a XML content.
+     * Returns a logic processor based on XML content.
      *
      * @param <L> Class that defines the logic processor.
      * @param declaration Instance that contains the object that will be
@@ -73,7 +73,7 @@ public class ProcessorFactory{
     }
     
     /**
-     * Returns a logic processor based on a XML content.
+     * Returns a logic processor based on XML content.
      *
      * @param <L> Class that defines the logic processor.
      * @param declaration Instance that contains the object that will be
@@ -88,7 +88,7 @@ public class ProcessorFactory{
     }
     
     /**
-     * Returns a logic processor based on a XML content.
+     * Returns a logic processor based on XML content.
      *
      * @param <L> Class that defines the logic processor.
      * @param domain String that contains the domain of the processing.
@@ -104,7 +104,7 @@ public class ProcessorFactory{
     }
     
     /**
-     * Returns a logic processor based on a XML content.
+     * Returns a logic processor based on XML content.
      *
      * @param <L> Class that defines the logic processor.
      * @param domain String that contains the domain of the processing.
@@ -120,7 +120,7 @@ public class ProcessorFactory{
     }
     
     /**
-     * Returns a logic processor based on a XML content.
+     * Returns a logic processor based on XML content.
      *
      * @param <L> Class that defines the logic processor.
      * @param declaration Instance that contains the object that will be
@@ -137,7 +137,7 @@ public class ProcessorFactory{
     }
     
     /**
-     * Returns a logic processor based on a XML content.
+     * Returns a logic processor based on XML content.
      *
      * @param <L> Class that defines the logic processor.
      * @param declaration Instance that contains the object that will be
@@ -154,7 +154,7 @@ public class ProcessorFactory{
     }
     
     /**
-     * Returns a logic processor based on a XML content.
+     * Returns a logic processor based on XML content.
      *
      * @param <L> Class that defines the logic processor.
      * @param domain String that contains the domain of the processing.
@@ -185,7 +185,7 @@ public class ProcessorFactory{
     }
     
     /**
-     * Returns a logic processor based on a XML content.
+     * Returns a logic processor based on XML content.
      *
      * @param <L> Class that defines the logic processor.
      * @param domain String that contains the domain of the processing.
@@ -201,44 +201,42 @@ public class ProcessorFactory{
     @SuppressWarnings("unchecked")
     public <L extends GenericProcessor> L getProcessor(String domain, Object declaration, XmlNode contentNode, Locale language) throws InternalErrorException{
         Class<?> clazz = ProcessorUtil.getClass(contentNode);
-        L processor = null;
-        
+
         try{
             if(domain == null)
                 domain = ExpressionProcessorUtil.class.getName();
             
-            processor = (L) clazz.newInstance();
+            L processor = (L) clazz.newInstance();
+
             processor.setDomain(domain);
             processor.setDeclaration(declaration);
             processor.setContent(contentNode);
             processor.setLanguage(language);
+
+            if(processor.hasLogic()){
+                Map<String, String> attributes = contentNode.getAttributes();
+
+                for(Entry<String, String> entry: attributes.entrySet()){
+                    String name = ProcessorUtil.getAttributeNameByAlias(entry.getKey());
+                    Object value = entry.getValue();
+
+                    try{
+                        clazz = processor.getClass();
+                        clazz = PropertyUtil.getClass(clazz, name);
+                        value = ConstructorUtils.invokeConstructor(clazz, value);
+
+                        PropertyUtil.setValue(processor, name, value);
+                    }
+                    catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | IllegalArgumentException | ClassNotFoundException | NoSuchFieldException e){
+                        throw new InternalErrorException(e);
+                    }
+                }
+            }
+
+            return processor;
         }
         catch(IllegalAccessException | InstantiationException e){
             throw new InternalErrorException(e);
         }
-        
-        if(processor.hasLogic()){
-            Map<String, String> attributes = contentNode.getAttributes();
-            String name = null;
-            Object value = null;
-            
-            for(Entry<String, String> entry: attributes.entrySet()){
-                value = entry.getValue();
-                name = ProcessorUtil.getAttributeNameByAlias(entry.getKey());
-                
-                try{
-                    clazz = processor.getClass();
-                    clazz = PropertyUtil.getClass(clazz, name);
-                    value = ConstructorUtils.invokeConstructor(clazz, value);
-                    
-                    PropertyUtil.setValue(processor, name, value);
-                }
-                catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | IllegalArgumentException | ClassNotFoundException | NoSuchFieldException e){
-                    throw new InternalErrorException(e);
-                }
-            }
-        }
-        
-        return processor;
     }
 }

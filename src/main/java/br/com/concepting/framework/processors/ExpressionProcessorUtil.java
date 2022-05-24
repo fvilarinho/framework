@@ -6,7 +6,6 @@ import br.com.concepting.framework.caching.CacherManager;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
-import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.StringUtil;
@@ -91,7 +90,7 @@ public class ExpressionProcessorUtil{
                     }
                 }
             }
-            catch(ItemNotFoundException e){
+            catch(ItemNotFoundException ignored){
             }
         }
         
@@ -122,7 +121,7 @@ public class ExpressionProcessorUtil{
         
         if(name != null && name.length() > 0){
             Cacher<Object> cacher = CacherManager.getInstance().getCacher(domain);
-            CachedObject<Object> cachedObject = new CachedObject<Object>();
+            CachedObject<Object> cachedObject = new CachedObject<>();
             
             cachedObject.setId(name);
             cachedObject.setContent(value);
@@ -134,7 +133,7 @@ public class ExpressionProcessorUtil{
                 try{
                     cacher.set(cachedObject);
                 }
-                catch(ItemNotFoundException e1){
+                catch(ItemNotFoundException ignored){
                 }
             }
         }
@@ -151,14 +150,12 @@ public class ExpressionProcessorUtil{
         if(value != null && value.length() > 0){
             Pattern pattern = Pattern.compile("\\$\\{(.*?)\\}");
             Matcher matcher = pattern.matcher(value);
-            String environmentExpression = null;
-            String environmentName = null;
-            String environmentValue = null;
-            
+
             while(matcher.find()){
-                environmentExpression = matcher.group();
-                environmentName = matcher.group(1);
-                environmentValue = StringUtil.trim(System.getenv(environmentName));
+                String environmentExpression = matcher.group();
+                String environmentName = matcher.group(1);
+                String environmentValue = StringUtil.trim(System.getenv(environmentName));
+
                 value = StringUtil.replaceAll(value, environmentExpression, environmentValue);
             }
         }
@@ -221,7 +218,7 @@ public class ExpressionProcessorUtil{
      * @param domain String that contains the identifier of the domain.
      * @param value String that will be processed.
      * @param replaceNotFoundMatches Indicates if the variables that were not
-     * found should be replaces with blank.
+     * found should be replaced with blank.
      * @param language Instance that contains the language.
      * @return String processed.
      */
@@ -236,28 +233,26 @@ public class ExpressionProcessorUtil{
      * @param domain String that contains the identifier of the domain.
      * @param value String that will be processed.
      * @param replaceNotFoundMatches Indicates if the variables that were not
-     * found should be replaces with blank.
+     * found should be replaced with blank.
      * @param escapeCrlf Indicates if it should escape CRLF in the replacements.
      * @param language Instance that contains the language.
      * @return String processed.
      */
-    public static String fillVariablesInString(String domain, String value, boolean replaceNotFoundMatches, Boolean escapeCrlf, Locale language){
+    public static String fillVariablesInString(String domain, String value, boolean replaceNotFoundMatches, boolean escapeCrlf, Locale language){
         if(domain == null)
             domain = ExpressionProcessorUtil.class.getName();
         
         if(value != null && value.length() > 0){
             Pattern pattern = Pattern.compile("\\@\\{(.*?)(\\((.*?)\\))?\\}");
             Matcher matcher = pattern.matcher(value);
-            String variableExpression = null;
-            String variableExpressionBuffer = null;
-            String variablePattern = null;
-            Object variableValue = null;
             ExpressionProcessor expressionProcessor = new ExpressionProcessor(domain, language);
             
             while(matcher.find()){
-                variableExpression = matcher.group();
-                variablePattern = matcher.group(3);
-                
+                String variableExpression = matcher.group();
+                String variablePattern = matcher.group(3);
+                String variableExpressionBuffer;
+                Object variableValue;
+
                 try{
                     if(variablePattern != null && variablePattern.length() > 0){
                         variableExpressionBuffer = StringUtil.replaceAll(variableExpression, variablePattern, "");

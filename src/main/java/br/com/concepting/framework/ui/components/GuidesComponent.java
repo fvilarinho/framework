@@ -38,7 +38,7 @@ public class GuidesComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = -4321693551104130259L;
     
     private List<GuideComponent> guidesComponents = null;
-    private Boolean showNavigation = null;
+    private boolean showNavigation = true;
     
     /**
      * Returns the instance that contains the list of guides.
@@ -63,7 +63,7 @@ public class GuidesComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean showNavigation(){
+    public boolean showNavigation(){
         return this.showNavigation;
     }
     
@@ -72,7 +72,7 @@ public class GuidesComponent extends BaseActionFormComponent{
      *
      * @param showNavigation True/False.
      */
-    public void setShowNavigation(Boolean showNavigation){
+    public void setShowNavigation(boolean showNavigation){
         this.showNavigation = showNavigation;
     }
     
@@ -89,53 +89,31 @@ public class GuidesComponent extends BaseActionFormComponent{
             this.guidesComponents.add(guideContent);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildLabel()
-     */
+
+    @Override
     protected void buildLabel() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildTooltip()
-     */
+
+    @Override
     protected void buildTooltip() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        super.buildRestrictions();
-        
-        if(this.showNavigation == null)
-            this.showNavigation = true;
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.GUIDES);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         print("<table class=\"");
         print(UIConstants.DEFAULT_GUIDES_STYLE_CLASS);
@@ -157,17 +135,15 @@ public class GuidesComponent extends BaseActionFormComponent{
         println("<tr>");
         println("<td>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         UIController uiController = getUIController();
         String actionFormName = getActionFormName();
         String name = getName();
-        Boolean enabled = isEnabled();
+        boolean enabled = isEnabled();
         
-        if(uiController != null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && enabled != null && enabled && this.guidesComponents != null && !this.guidesComponents.isEmpty()){
+        if(uiController != null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && enabled && this.guidesComponents != null && !this.guidesComponents.isEmpty()){
             String currentGuide = uiController.getCurrentGuide(name);
             
             if(this.guidesComponents.size() == 1){
@@ -184,13 +160,13 @@ public class GuidesComponent extends BaseActionFormComponent{
                         currentGuide = iterator.next().getName();
                 }
                 else{
-                    Boolean found = false;
+                    boolean found = false;
                     
                     for(GuideComponent guideComponent: this.guidesComponents){
-                        Boolean guideFocus = guideComponent.focus();
+                        boolean guideFocus = guideComponent.focus();
                         String guideName = guideComponent.getName();
                         
-                        if((guideFocus != null && guideFocus) || (currentGuide != null && guideName != null && currentGuide.equals(guideName))){
+                        if(guideFocus || (currentGuide != null && currentGuide.equals(guideName))){
                             found = true;
                             currentGuide = guideName;
                         }
@@ -204,16 +180,12 @@ public class GuidesComponent extends BaseActionFormComponent{
                     }
                 }
             }
-            
-            Integer guidesSize = this.guidesComponents.size();
-            Double guideWidthAmount = 100d;
-            String guideName = null;
-            String guideTooltip = null;
-            String guideWidth = null;
-            String guideOnSelect = null;
-            
+
+            int guidesSize = this.guidesComponents.size();
+            double guideWidthAmount = 100D;
+
             for(GuideComponent guideComponent: this.guidesComponents){
-                guideWidth = guideComponent.getWidth();
+                String guideWidth = guideComponent.getWidth();
                 
                 if(guideWidth != null && guideWidth.length() > 0){
                     guideWidthAmount -= Double.parseDouble(guideWidth);
@@ -252,8 +224,8 @@ public class GuidesComponent extends BaseActionFormComponent{
             println("<tr>");
             
             for(GuideComponent guideComponent: this.guidesComponents){
-                guideName = guideComponent.getName();
-                guideWidth = guideComponent.getWidth();
+                String guideName = guideComponent.getName();
+                String guideWidth = guideComponent.getWidth();
                 
                 print("<td valign=\"");
                 print(AlignmentType.BOTTOM);
@@ -301,7 +273,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                 print(UIConstants.DEFAULT_GUIDE_ID);
                 print("\" class=\"");
                 
-                if(guideName != null && currentGuide != null && guideName.equals(currentGuide))
+                if(guideName != null && guideName.equals(currentGuide))
                     print(UIConstants.DEFAULT_CURRENT_GUIDE_STYLE_CLASS);
                 else
                     print(UIConstants.DEFAULT_GUIDE_STYLE_CLASS);
@@ -315,7 +287,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                     print(name);
                     print("'");
                     
-                    guideOnSelect = guideComponent.getOnSelect();
+                    String guideOnSelect = guideComponent.getOnSelect();
                     
                     if(guideOnSelect != null && guideOnSelect.length() > 0){
                         print(", ");
@@ -325,7 +297,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                     print(");\"");
                 }
                 
-                guideTooltip = guideComponent.getTooltip();
+                String guideTooltip = guideComponent.getTooltip();
                 
                 if(guideTooltip != null && guideTooltip.length() > 0){
                     print(" title=\"");
@@ -352,16 +324,11 @@ public class GuidesComponent extends BaseActionFormComponent{
             println("<td>");
             
             String guidesHeight = getHeight();
-            String guideContent = null;
-            GuideComponent previousGuideComponent = null;
-            GuideComponent nextGuideComponent = null;
-            PreviousGuideButtonComponent previousGuideButtonComponent = null;
-            NextGuideButtonComponent nextGuideButtonComponent = null;
             int cont = 0;
             
             for(GuideComponent guideComponent: this.guidesComponents){
-                guideName = guideComponent.getName();
-                guideContent = guideComponent.getContent();
+                String guideName = guideComponent.getName();
+                String guideContent = guideComponent.getContent();
                 
                 print("<div id=\"");
                 print(name);
@@ -371,7 +338,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                 print(UIConstants.DEFAULT_GUIDE_CONTENT_ID);
                 print("\"");
                 
-                if(currentGuide == null || guideName == null || !guideName.equals(currentGuide)){
+                if(guideName == null || !guideName.equals(currentGuide)){
                     print(" style=\"display: ");
                     print(VisibilityType.NONE);
                     print(";\"");
@@ -403,7 +370,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                 println("</td>");
                 println("</tr>");
                 
-                if(this.showNavigation != null && this.showNavigation){
+                if(this.showNavigation){
                     if(guidesSize > 1){
                         println("<tr>");
                         print("<td class=\"");
@@ -411,11 +378,11 @@ public class GuidesComponent extends BaseActionFormComponent{
                         println("\">");
                         println("<hr size=\"1\"/>");
                         
-                        if(cont > 0 && enabled != null && enabled){
-                            previousGuideComponent = this.guidesComponents.get(cont - 1);
+                        if(cont > 0 && enabled){
+                            GuideComponent previousGuideComponent = this.guidesComponents.get(cont - 1);
                             
-                            if(previousGuideComponent.isEnabled() != null && previousGuideComponent.isEnabled()){
-                                previousGuideButtonComponent = new PreviousGuideButtonComponent(previousGuideComponent, this);
+                            if(previousGuideComponent.isEnabled()){
+                                PreviousGuideButtonComponent previousGuideButtonComponent = new PreviousGuideButtonComponent(previousGuideComponent, this);
                                 
                                 try{
                                     previousGuideButtonComponent.doStartTag();
@@ -427,11 +394,11 @@ public class GuidesComponent extends BaseActionFormComponent{
                             }
                         }
                         
-                        if(cont >= 0 && (cont != guidesSize - 1) && enabled != null && enabled){
-                            nextGuideComponent = this.guidesComponents.get(cont + 1);
+                        if(cont >= 0 && (cont != guidesSize - 1) && enabled){
+                            GuideComponent nextGuideComponent = this.guidesComponents.get(cont + 1);
                             
-                            if(nextGuideComponent.isEnabled() != null && nextGuideComponent.isEnabled()){
-                                nextGuideButtonComponent = new NextGuideButtonComponent(nextGuideComponent, this);
+                            if(nextGuideComponent.isEnabled()){
+                                NextGuideButtonComponent nextGuideButtonComponent = new NextGuideButtonComponent(nextGuideComponent, this);
                                 
                                 try{
                                     nextGuideButtonComponent.doStartTag();
@@ -456,23 +423,19 @@ public class GuidesComponent extends BaseActionFormComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         println("</td>");
         println("</tr>");
         println("</table>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setShowNavigation(null);
+        setShowNavigation(true);
         setGuidesComponents(null);
     }
     
@@ -482,7 +445,7 @@ public class GuidesComponent extends BaseActionFormComponent{
      * @author fvilarinho
      * @since 1.0.0
      */
-    private abstract class GuideButtonComponent extends ButtonComponent{
+    private abstract static class GuideButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = -9210783180699277267L;
         
         private GuideComponent guideComponent = null;
@@ -523,10 +486,8 @@ public class GuidesComponent extends BaseActionFormComponent{
         protected void setGuidesComponent(GuidesComponent guidesComponent){
             this.guidesComponent = guidesComponent;
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             if(this.guideComponent == null || this.guidesComponent == null)
                 return;
@@ -554,10 +515,8 @@ public class GuidesComponent extends BaseActionFormComponent{
             
             super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_GUIDES_RESOURCES_ID);
             
@@ -571,7 +530,7 @@ public class GuidesComponent extends BaseActionFormComponent{
      * @author fvilarinho
      * @since 1.0.0
      */
-    private class PreviousGuideButtonComponent extends GuideButtonComponent{
+    private static class PreviousGuideButtonComponent extends GuideButtonComponent{
         private static final long serialVersionUID = -2478586421393262793L;
         
         /**
@@ -583,20 +542,16 @@ public class GuidesComponent extends BaseActionFormComponent{
         public PreviousGuideButtonComponent(GuideComponent guideComponent, GuidesComponent guidesComponent){
             super(guideComponent, guidesComponent);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.GuidesComponent.GuideButtonComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_GUIDES_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_GUIDE_PREVIOUS_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_GUIDE_PREVIOUS_BUTTON_STYLE_CLASS);
             
@@ -610,7 +565,7 @@ public class GuidesComponent extends BaseActionFormComponent{
      * @author fvilarinho
      * @since 1.0.0
      */
-    private class NextGuideButtonComponent extends GuideButtonComponent{
+    private static class NextGuideButtonComponent extends GuideButtonComponent{
         private static final long serialVersionUID = -2197037654486956330L;
         
         /**
@@ -622,20 +577,16 @@ public class GuidesComponent extends BaseActionFormComponent{
         public NextGuideButtonComponent(GuideComponent guideComponent, GuidesComponent guidesComponent){
             super(guideComponent, guidesComponent);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.GuidesComponent.GuideButtonComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_GUIDES_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_GUIDE_NEXT_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_GUIDE_NEXT_BUTTON_STYLE_CLASS);
             

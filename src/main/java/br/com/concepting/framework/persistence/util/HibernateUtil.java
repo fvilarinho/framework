@@ -148,10 +148,8 @@ public class HibernateUtil{
             public void setConnection(Connection connection){
                 this.connection = connection;
             }
-            
-            /**
-             * @see org.hibernate.jdbc.Work#execute(java.sql.Connection)
-             */
+
+            @Override
             public void execute(Connection connection) throws SQLException{
                 setConnection(connection);
             }
@@ -186,9 +184,7 @@ public class HibernateUtil{
             return PostgresPlusDialect.class;
         else if(repositoryType == RepositoryType.DB2)
             return DB2Dialect.class;
-        else if(repositoryType == RepositoryType.FIREBIRD)
-            return FirebirdDialect.class;
-        
+
         return Dialect.class;
     }
     
@@ -224,7 +220,6 @@ public class HibernateUtil{
         
         hibernateSessionProperties.put(Environment.DATASOURCE, datasource);
         hibernateSessionProperties.put(Environment.GLOBALLY_QUOTED_IDENTIFIERS, true);
-        hibernateSessionProperties.put(Environment.WRAP_RESULT_SETS, true);
         hibernateSessionProperties.put(Environment.USE_REFLECTION_OPTIMIZER, true);
         hibernateSessionProperties.putAll(persistenceResources.getOptions());
         
@@ -242,8 +237,8 @@ public class HibernateUtil{
      */
     private static SessionFactory buildSessionFactory(PersistenceResources persistenceResources) throws InternalErrorException{
         Cacher<SessionFactory> cacher = CacherManager.getInstance().getCacher(HibernateUtil.class);
-        CachedObject<SessionFactory> object = null;
-        SessionFactory sessionFactory = null;
+        CachedObject<SessionFactory> object;
+        SessionFactory sessionFactory;
         
         try{
             object = cacher.get(persistenceResources.getId());
@@ -254,15 +249,12 @@ public class HibernateUtil{
             Collection<String> mappings = persistenceResources.getMappings();
             
             if(mappings != null && !mappings.isEmpty()){
-                Class<?> modelClass = null;
-                Model modelAnnotation = null;
-                InputStream persistenceMappingStream = null;
                 StringBuilder persistenceMappingName = null;
                 
                 for(String mapping: mappings){
                     try{
-                        modelClass = Class.forName(mapping);
-                        modelAnnotation = modelClass.getAnnotation(Model.class);
+                        Class<?> modelClass = Class.forName(mapping);
+                        Model modelAnnotation = modelClass.getAnnotation(Model.class);
                         
                         if(modelAnnotation.mappedRepositoryId() != null && modelAnnotation.mappedRepositoryId().length() > 0 && (modelAnnotation.persistenceResourcesId() == null || modelAnnotation.persistenceResourcesId().length() == 0 || modelAnnotation.persistenceResourcesId().equals(persistenceResources.getId()))){
                             if(persistenceMappingName == null)
@@ -273,14 +265,15 @@ public class HibernateUtil{
                             persistenceMappingName.append(PersistenceConstants.DEFAULT_MAPPINGS_DIR);
                             persistenceMappingName.append(modelClass.getName());
                             persistenceMappingName.append(PersistenceConstants.DEFAULT_MAPPING_FILE_EXTENSION);
-                            
-                            persistenceMappingStream = HibernateUtil.class.getClassLoader().getResourceAsStream(persistenceMappingName.toString());
+
+                            InputStream persistenceMappingStream = HibernateUtil.class.getClassLoader().getResourceAsStream(persistenceMappingName.toString());
                             
                             if(persistenceMappingStream != null)
                                 sources.addInputStream(persistenceMappingStream);
                         }
                     }
-                    catch(ClassNotFoundException e1){
+                    catch(Throwable e1){
+                        e1.printStackTrace();
                     }
                 }
             }
@@ -289,14 +282,14 @@ public class HibernateUtil{
             
             sessionFactory = metadata.getSessionFactoryBuilder().build();
             
-            object = new CachedObject<SessionFactory>();
+            object = new CachedObject<>();
             object.setId(persistenceResources.getId());
             object.setContent(sessionFactory);
             
             try{
                 cacher.add(object);
             }
-            catch(ItemAlreadyExistsException e1){
+            catch(ItemAlreadyExistsException ignored){
             }
         }
         

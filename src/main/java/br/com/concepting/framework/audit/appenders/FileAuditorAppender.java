@@ -2,7 +2,6 @@ package br.com.concepting.framework.audit.appenders;
 
 import br.com.concepting.framework.audit.Auditor;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -57,16 +56,14 @@ public class FileAuditorAppender extends ConsoleAuditorAppender{
     public void setFilename(String filename){
         this.filename = filename;
     }
-    
-    /**
-     * @see org.apache.log4j.spi.OptionHandler#activateOptions()
-     */
+
+    @Override
     public void activateOptions(){
         if(this.filename != null && this.filename.length() > 0){
             try{
-                setWriter(new PrintWriter(new FileOutputStream(new File(this.filename), true)));
+                setWriter(new PrintWriter(new FileOutputStream(this.filename, true)));
             }
-            catch(IOException e){
+            catch(IOException ignored){
             }
         }
     }

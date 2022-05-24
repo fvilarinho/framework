@@ -1,8 +1,5 @@
 package br.com.concepting.framework.exceptions;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 /**
  * Class that defines an expected exception.
  *
@@ -24,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "class")
-@JsonIgnoreProperties(value = {"cause", "stackTrace"})
 public class ExpectedException extends Exception{
     private static final long serialVersionUID = -2046392122293087621L;
     

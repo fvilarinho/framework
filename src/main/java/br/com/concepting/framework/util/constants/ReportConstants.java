@@ -25,15 +25,14 @@ import br.com.concepting.framework.util.types.ContentType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class ReportConstants{
     public static final String EXPORT_TYPE_ATTRIBUTE_ID = "exportType";
     public static final String TEXT_PAGE_WIDTH_ATTRIBUTE_ID = "textPageWidth";
     public static final String TEXT_PAGE_HEIGHT_ATTRIBUTE_ID = "textPageHeight";
     public static final String SUB_REPORT_ATTRIBUTE_ID = "SUBREPORT_DIR";
     public static final ContentType DEFAULT_EXPORT_TYPE = ContentType.PDF;
-    public static final Integer DEFAULT_TEXT_PAGE_WIDTH = 120;
-    public static final Integer DEFAULT_TEXT_PAGE_HEIGHT = 80;
+    public static final int DEFAULT_TEXT_PAGE_WIDTH = 120;
+    public static final int DEFAULT_TEXT_PAGE_HEIGHT = 80;
     public static final String DEFAULT_RESOURCES_DIR = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("reports/");
     public static final String DEFAULT_PROPERTIES_RESOURCES_DIR = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat("reports/");
     public static final String DEFAULT_COMPILED_REPORT_FILE_EXTENSION = ".jasper";

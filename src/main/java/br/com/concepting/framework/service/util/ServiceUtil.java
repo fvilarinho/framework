@@ -10,8 +10,6 @@ import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.webservice.constants.WebServiceConstants;
 
-import javax.ws.rs.Path;
-
 /**
  * Class responsible to manipulate services implementations.
  *
@@ -101,19 +99,7 @@ public class ServiceUtil{
         
         return null;
     }
-    
-    /**
-     * Indicates if a service implementation is a WebService.
-     *
-     * @param serviceClass Class of the service implementation.
-     * @return True/False.
-     */
-    public static Boolean isWebService(Class<? extends IService<? extends BaseModel>> serviceClass){
-        Path pathAnnotation = (serviceClass != null ? serviceClass.getAnnotation(Path.class) : null);
-        
-        return (pathAnnotation != null);
-    }
-    
+
     /**
      * Returns the class of a data model based on the service implementation.
      *
@@ -126,12 +112,9 @@ public class ServiceUtil{
     @SuppressWarnings("unchecked")
     public static <M extends BaseModel> Class<M> getModelClassByService(Class<?> serviceClass) throws ClassNotFoundException{
         if(serviceClass != null){
-            String modelClassId = StringUtil.replaceLast(serviceClass.getName(), StringUtil.capitalize(WebServiceConstants.DEFAULT_IMPLEMENTATION_ID), StringUtil.capitalize(ModelConstants.DEFAULT_ID));
-            
-            modelClassId = StringUtil.replaceLast(modelClassId, StringUtil.capitalize(ServiceConstants.DEFAULT_IMPLEMENTATION_ID), StringUtil.capitalize(ModelConstants.DEFAULT_ID));
-            modelClassId = StringUtil.replaceLast(modelClassId, StringUtil.capitalize(WebServiceConstants.DEFAULT_ID), StringUtil.capitalize(ModelConstants.DEFAULT_ID));
+            String modelClassId = StringUtil.replaceLast(serviceClass.getName(), StringUtil.capitalize(ServiceConstants.DEFAULT_IMPLEMENTATION_ID), StringUtil.capitalize(ModelConstants.DEFAULT_ID));
+
             modelClassId = StringUtil.replaceLast(modelClassId, StringUtil.capitalize(ServiceConstants.DEFAULT_ID), StringUtil.capitalize(ModelConstants.DEFAULT_ID));
-            modelClassId = StringUtil.replaceAll(modelClassId, ".".concat(WebServiceConstants.DEFAULT_ID.toLowerCase()), ".".concat(ModelConstants.DEFAULT_ID));
             modelClassId = StringUtil.replaceAll(modelClassId, ".".concat(ServiceConstants.DEFAULT_ID), ".".concat(ModelConstants.DEFAULT_ID));
             
             return (Class<M>) Class.forName(modelClassId);
@@ -158,23 +141,6 @@ public class ServiceUtil{
     }
     
     /**
-     * Returns the class of the web service implementation based on a data model.
-     *
-     * @param <S> Class of the web service implementation.
-     * @param modelClass Class that defines the data model.
-     * @return Class of the web service implementation.
-     * @throws ClassNotFoundException Occurs when was not possible to execute
-     * the operation.
-     */
-    @SuppressWarnings("unchecked")
-    public static <S extends IService<? extends BaseModel>> Class<S> getWebServiceClassByModel(Class<? extends BaseModel> modelClass) throws ClassNotFoundException{
-        if(modelClass != null)
-            return (Class<S>) Class.forName(getWebServiceClassNameByModel(modelClass));
-        
-        return null;
-    }
-    
-    /**
      * Returns the class name of the service implementation based on a data
      * model.
      *
@@ -195,26 +161,6 @@ public class ServiceUtil{
     }
     
     /**
-     * Returns the class name of the web service implementation based on a data
-     * model.
-     *
-     * @param modelClass Class that defines the data model.
-     * @return String that contains the class name of the WebService
-     * implementation.
-     */
-    public static String getWebServiceClassNameByModel(Class<? extends BaseModel> modelClass){
-        if(modelClass != null){
-            String webServiceClassId = StringUtil.replaceLast(modelClass.getName(), StringUtil.capitalize(ModelConstants.DEFAULT_ID), StringUtil.capitalize(WebServiceConstants.DEFAULT_IMPLEMENTATION_ID));
-            
-            webServiceClassId = StringUtil.replaceAll(webServiceClassId, ".".concat(ModelConstants.DEFAULT_ID), ".".concat(ServiceConstants.DEFAULT_ID));
-            
-            return webServiceClassId;
-        }
-        
-        return null;
-    }
-    
-    /**
      * Returns the identifier of the service implementation based on a data
      * model.
      *
@@ -225,21 +171,6 @@ public class ServiceUtil{
     public static String getServiceNameByModel(Class<? extends BaseModel> modelClass){
         if(modelClass != null)
             return StringUtil.replaceLast(modelClass.getSimpleName(), StringUtil.capitalize(ModelConstants.DEFAULT_ID), StringUtil.capitalize(ServiceConstants.DEFAULT_IMPLEMENTATION_ID));
-        
-        return null;
-    }
-    
-    /**
-     * Returns the identifier of the web service implementation based on a data
-     * model.
-     *
-     * @param modelClass Class that defines the data model.
-     * @return String that contains the identifier of the WebService
-     * implementation.
-     */
-    public static String getWebServiceNameByModel(Class<? extends BaseModel> modelClass){
-        if(modelClass != null)
-            return StringUtil.replaceLast(modelClass.getSimpleName(), StringUtil.capitalize(ModelConstants.DEFAULT_ID), StringUtil.capitalize(WebServiceConstants.DEFAULT_IMPLEMENTATION_ID));
         
         return null;
     }
@@ -315,7 +246,7 @@ public class ServiceUtil{
     }
     
     /**
-     * Returns a interface of the service implementation based on a data model.
+     * Returns an interface of the service implementation based on a data model.
      *
      * @param <S> Class that defines the service implementation.
      * @param modelClass Class that defines the data model.
@@ -332,7 +263,7 @@ public class ServiceUtil{
     }
     
     /**
-     * Returns a interface of the web service implementation based on a data
+     * Returns an interface of the web service implementation based on a data
      * model.
      *
      * @param <S> Class that defines the web service implementation.

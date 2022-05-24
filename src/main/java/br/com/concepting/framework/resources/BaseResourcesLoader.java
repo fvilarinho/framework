@@ -31,7 +31,8 @@ import br.com.concepting.framework.util.FileUtil;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public abstract class BaseResourcesLoader<O>{
-    private Cacher<O> contentCacher = null;
+    private final Cacher<O> contentCacher;
+
     private O content = null;
     private String resourcesDirname = null;
     private String resourcesId = null;
@@ -97,23 +98,24 @@ public abstract class BaseResourcesLoader<O>{
      * content.
      */
     protected void loadContent() throws InvalidResourcesException{
-        CachedObject<O> object = null;
+        CachedObject<O> object;
         
         try{
             object = this.contentCacher.get(getContentId());
+
             this.content = object.getContent();
         }
         catch(ItemNotFoundException e){
             this.content = parseContent();
             
-            object = new CachedObject<O>();
+            object = new CachedObject<>();
             object.setId(getContentId());
             object.setContent(this.content);
             
             try{
                 this.contentCacher.add(object);
             }
-            catch(ItemAlreadyExistsException e1){
+            catch(ItemAlreadyExistsException ignored){
             }
         }
     }

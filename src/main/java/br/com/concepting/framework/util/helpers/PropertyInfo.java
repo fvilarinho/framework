@@ -1,13 +1,16 @@
 package br.com.concepting.framework.util.helpers;
 
-import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.model.types.ConditionOperationType;
 import br.com.concepting.framework.model.types.ConditionType;
 import br.com.concepting.framework.model.types.ValidationType;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.persistence.types.RelationType;
+import br.com.concepting.framework.util.NumberUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.math.BigDecimal;
 
 /**
  * Class that stores the attributes of a property of a data model.
@@ -37,36 +40,36 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     private Class<?> clazz = null;
     private Class<?> collectionItemsClass = null;
     private String classPropertyId = null;
-    private Boolean isIdentity = null;
-    private Boolean fromClass = null;
+    private boolean isIdentity = false;
+    private boolean fromClass = false;
     private String sequenceId = null;
-    private Boolean isUnique = null;
-    private Boolean isSerializable = null;
-    private Boolean isForSearch = null;
-    private Boolean isAuditable = null;
-    private Boolean isEnum = null;
-    private Boolean hasEnum = null;
-    private Boolean isArray = null;
-    private Boolean isCollection = null;
-    private Boolean isDate = null;
-    private Boolean isTime = null;
-    private Boolean isBoolean = null;
-    private Boolean isNumber = null;
-    private Boolean isByte = null;
-    private Boolean isShort = null;
-    private Boolean isInteger = null;
-    private Boolean isLong = null;
-    private Boolean isBigInteger = null;
-    private Boolean isFloat = null;
-    private Boolean isDouble = null;
-    private Boolean isBigDecimal = null;
-    private Boolean isCurrency = null;
-    private Boolean isByteArray = null;
-    private Boolean isString = null;
-    private Boolean isModel = null;
-    private Boolean hasModel = null;
-    private Boolean constrained = null;
-    private Boolean nullable = null;
+    private boolean isUnique = false;
+    private boolean isSerializable = false;
+    private boolean isForSearch = false;
+    private boolean isAuditable = false;
+    private boolean isEnum = false;
+    private boolean hasEnum = false;
+    private boolean isArray = false;
+    private boolean isCollection = false;
+    private boolean isDate = false;
+    private boolean isTime = false;
+    private boolean isBoolean = false;
+    private boolean isNumber = false;
+    private boolean isByte = false;
+    private boolean isShort = false;
+    private boolean isInteger = false;
+    private boolean isLong = false;
+    private boolean isBigInteger = false;
+    private boolean isFloat = false;
+    private boolean isDouble = false;
+    private boolean isBigDecimal = false;
+    private boolean isCurrency = false;
+    private boolean isByteArray = false;
+    private boolean isString = false;
+    private boolean isModel = false;
+    private boolean hasModel = false;
+    private boolean constrained = false;
+    private boolean nullable = false;
     private ConditionType searchCondition = null;
     private ConditionOperationType searchConditionOperation = null;
     private String searchPropertyId = null;
@@ -75,8 +78,8 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     private RelationJoinType relationJoinType = null;
     private String keyId = null;
     private String foreignKeyId = null;
-    private Boolean cascadeOnSave = null;
-    private Boolean cascadeOnDelete = null;
+    private boolean cascadeOnSave = false;
+    private boolean cascadeOnDelete = false;
     private String[] propertiesIds = null;
     private String mappedPropertyId = null;
     private String mappedPropertyType = null;
@@ -90,25 +93,25 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     private String[] validationActions = null;
     private ConditionType compareCondition = null;
     private String comparePropertyId = null;
-    private Double phoneticAccuracy = null;
+    private double phoneticAccuracy = 0D;
     private String phoneticPropertyId = null;
     private String regularExpression = null;
-    private Integer wordCount = null;
-    private Boolean useGroupSeparator = null;
-    private Integer minimumLength = null;
-    private Integer maximumLength = null;
+    private int wordCount = 0;
+    private boolean useGroupSeparator = false;
+    private int minimumLength = 0;
+    private int maximumLength = 0;
     private String minimumValue = null;
     private String maximumValue = null;
-    private Integer size = null;
-    private Integer precision = null;
+    private int size = 0;
+    private int precision = 0;
     private String pattern = null;
     private ContentType[] contentTypes = null;
-    private Double contentSize = null;
+    private double contentSize = 0D;
     private ByteMetricType contentSizeUnit = null;
     private String contentTypePropertyId = null;
     private String contentFilenamePropertyId = null;
     private String customValidationId = null;
-    private Boolean persistPattern = null;
+    private boolean persistPattern = false;
     private InputType inputType = null;
     private String dataset = null;
     
@@ -117,7 +120,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getFromClass(){
+    public boolean getFromClass(){
         return fromClass;
     }
     
@@ -126,7 +129,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param fromClass True/False.
      */
-    public void setFromClass(Boolean fromClass){
+    public void setFromClass(boolean fromClass){
         this.fromClass = fromClass;
     }
     
@@ -153,7 +156,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isArray(){
+    public boolean isArray(){
         return this.isArray;
     }
     
@@ -162,7 +165,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsArray(){
+    public boolean getIsArray(){
         return isArray();
     }
     
@@ -171,7 +174,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isArray True/False.
      */
-    public void setIsArray(Boolean isArray){
+    public void setIsArray(boolean isArray){
         this.isArray = isArray;
     }
     
@@ -180,7 +183,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isFloat(){
+    public boolean isFloat(){
         return this.isFloat;
     }
     
@@ -189,7 +192,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsFloat(){
+    public boolean getIsFloat(){
         return isFloat();
     }
     
@@ -198,12 +201,12 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isFloat True/False.
      */
-    public void setIsFloat(Boolean isFloat){
+    public void setIsFloat(boolean isFloat){
         this.isFloat = isFloat;
         
-        if(isFloat != null && isFloat)
-            if(getPrecision() == null || getPrecision() == 0)
-                setPrecision(Constants.DEFAULT_DECIMAL_PRECISION);
+        if(isFloat)
+            if(getPrecision() == 0)
+                setPrecision(NumberUtil.getDefaultPrecision(Float.class));
     }
     
     /**
@@ -211,7 +214,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isDouble(){
+    public boolean isDouble(){
         return this.isDouble;
     }
     
@@ -220,7 +223,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsDouble(){
+    public boolean getIsDouble(){
         return isDouble();
     }
     
@@ -229,12 +232,12 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isDouble True/False.
      */
-    public void setIsDouble(Boolean isDouble){
+    public void setIsDouble(boolean isDouble){
         this.isDouble = isDouble;
         
-        if(isDouble != null && isDouble)
-            if(getPrecision() == null || getPrecision() == 0)
-                setPrecision(Constants.DEFAULT_DECIMAL_PRECISION);
+        if(isDouble)
+            if(getPrecision() == 0)
+                setPrecision(NumberUtil.getDefaultPrecision(Double.class));
     }
     
     /**
@@ -242,7 +245,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isByte(){
+    public boolean isByte(){
         return this.isByte;
     }
     
@@ -251,7 +254,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsByte(){
+    public boolean getIsByte(){
         return isByte();
     }
     
@@ -260,7 +263,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isByte True/False.
      */
-    public void setIsByte(Boolean isByte){
+    public void setIsByte(boolean isByte){
         this.isByte = isByte;
     }
     
@@ -269,7 +272,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isShort(){
+    public boolean isShort(){
         return this.isShort;
     }
     
@@ -278,7 +281,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsShort(){
+    public boolean getIsShort(){
         return isShort();
     }
     
@@ -287,34 +290,34 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isShort True/False.
      */
-    public void setIsShort(Boolean isShort){
+    public void setIsShort(boolean isShort){
         this.isShort = isShort;
     }
     
     /**
-     * Indicates if the property is an integer number.
+     * Indicates if the property is an int number.
      *
      * @return True/False.
      */
-    public Boolean isInteger(){
+    public boolean isInteger(){
         return this.isInteger;
     }
     
     /**
-     * Indicates if the property is an integer number.
+     * Indicates if the property is an int number.
      *
      * @return True/False.
      */
-    public Boolean getIsInteger(){
+    public boolean getIsInteger(){
         return isInteger();
     }
     
     /**
-     * Defines if the property is an integer number.
+     * Defines if the property is an int number.
      *
      * @param isInteger True/False.
      */
-    public void setIsInteger(Boolean isInteger){
+    public void setIsInteger(boolean isInteger){
         this.isInteger = isInteger;
     }
     
@@ -323,7 +326,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isLong(){
+    public boolean isLong(){
         return this.isLong;
     }
     
@@ -332,7 +335,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsLong(){
+    public boolean getIsLong(){
         return isLong();
     }
     
@@ -341,34 +344,34 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isLong True/False.
      */
-    public void setIsLong(Boolean isLong){
+    public void setIsLong(boolean isLong){
         this.isLong = isLong;
     }
     
     /**
-     * Indicates if the property is a big integer number.
+     * Indicates if the property is a big int number.
      *
      * @return True/False.
      */
-    public Boolean isBigInteger(){
+    public boolean isBigInteger(){
         return this.isBigInteger;
     }
     
     /**
-     * Indicates if the property is a big integer number.
+     * Indicates if the property is a big int number.
      *
      * @return True/False.
      */
-    public Boolean getIsBigInteger(){
+    public boolean getIsBigInteger(){
         return isBigInteger();
     }
     
     /**
-     * Defines if the property is a big integer number.
+     * Defines if the property is a big int number.
      *
      * @param isBigInteger True/False.
      */
-    public void setIsBigInteger(Boolean isBigInteger){
+    public void setIsBigInteger(boolean isBigInteger){
         this.isBigInteger = isBigInteger;
     }
     
@@ -377,7 +380,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isBigDecimal(){
+    public boolean isBigDecimal(){
         return this.isBigDecimal;
     }
     
@@ -386,7 +389,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsBigDecimal(){
+    public boolean getIsBigDecimal(){
         return isBigDecimal();
     }
     
@@ -395,12 +398,12 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isBigDecimal True/False.
      */
-    public void setIsBigDecimal(Boolean isBigDecimal){
+    public void setIsBigDecimal(boolean isBigDecimal){
         this.isBigDecimal = isBigDecimal;
         
-        if(isBigDecimal != null && isBigDecimal)
-            if(getPrecision() == null || getPrecision() == 0)
-                setPrecision(Constants.DEFAULT_DECIMAL_PRECISION);
+        if(isBigDecimal)
+            if(getPrecision() == 0)
+                setPrecision(NumberUtil.getDefaultPrecision(BigDecimal.class));
     }
     
     /**
@@ -552,7 +555,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return Numeric value that contains of the size.
      */
-    public Integer getSize(){
+    public int getSize(){
         return this.size;
     }
     
@@ -561,7 +564,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param size Numeric value that contains of the size.
      */
-    public void setSize(Integer size){
+    public void setSize(int size){
         this.size = size;
     }
     
@@ -662,7 +665,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isCurrency(){
+    public boolean isCurrency(){
         return this.isCurrency;
     }
     
@@ -671,7 +674,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsCurrency(){
+    public boolean getIsCurrency(){
         return isCurrency();
     }
     
@@ -680,7 +683,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isCurrency True/False.
      */
-    public void setIsCurrency(Boolean isCurrency){
+    public void setIsCurrency(boolean isCurrency){
         this.isCurrency = isCurrency;
     }
     
@@ -689,7 +692,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return Numeric value that contains the precision.
      */
-    public Integer getPrecision(){
+    public int getPrecision(){
         return this.precision;
     }
     
@@ -698,7 +701,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param precision Numeric value that contains the precision.
      */
-    public void setPrecision(Integer precision){
+    public void setPrecision(int precision){
         this.precision = precision;
     }
     
@@ -725,7 +728,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean useAdditionalFormatting(){
+    public boolean useAdditionalFormatting(){
         if(isDate())
             return isTime();
         else if(isNumber())
@@ -736,7 +739,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     
     /**
      * Returns the property of the data model that defines the class of the
-     * property..
+     * property.
      *
      * @return String that contains the identifier of the property.
      */
@@ -746,7 +749,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     
     /**
      * Defines the property of the data model that defines the class of the
-     * property..
+     * property.
      *
      * @param classPropertyId String that contains the identifier of the
      * property.
@@ -760,7 +763,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isNullable(){
+    public boolean isNullable(){
         return this.nullable;
     }
     
@@ -769,7 +772,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getNullable(){
+    public boolean getNullable(){
         return isNullable();
     }
     
@@ -778,7 +781,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param nullable True/False.
      */
-    public void setNullable(Boolean nullable){
+    public void setNullable(boolean nullable){
         this.nullable = nullable;
     }
     
@@ -787,7 +790,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isConstrained(){
+    public boolean isConstrained(){
         return this.constrained;
     }
     
@@ -796,7 +799,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getConstrained(){
+    public boolean getConstrained(){
         return isConstrained();
     }
     
@@ -805,7 +808,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param constrained True/False.
      */
-    public void setConstrained(Boolean constrained){
+    public void setConstrained(boolean constrained){
         this.constrained = constrained;
     }
     
@@ -866,56 +869,56 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Indicates if the relationship has cascade on save.
+     * Indicates if the relationship cascades on save.
      *
      * @return True/False.
      */
-    public Boolean cascadeOnSave(){
+    public boolean cascadeOnSave(){
         return this.cascadeOnSave;
     }
     
     /**
-     * Indicates if the relationship has cascade on save.
+     * Indicates if the relationship cascades on save.
      *
      * @return True/False.
      */
-    public Boolean getCascadeOnSave(){
+    public boolean getCascadeOnSave(){
         return cascadeOnSave();
     }
     
     /**
-     * Defines if the relationship has cascade on save.
+     * Defines if the relationship cascades on save.
      *
      * @param cascadeOnSave True/False.
      */
-    public void setCascadeOnSave(Boolean cascadeOnSave){
+    public void setCascadeOnSave(boolean cascadeOnSave){
         this.cascadeOnSave = cascadeOnSave;
     }
     
     /**
-     * Indicates if the relationship has cascade on delete.
+     * Indicates if the relationship cascades on delete.
      *
      * @return True/False.
      */
-    public Boolean cascadeOnDelete(){
+    public boolean cascadeOnDelete(){
         return this.cascadeOnDelete;
     }
     
     /**
-     * Indicates if the relationship has cascade on delete.
+     * Indicates if the relationship cascades on delete.
      *
      * @return True/False.
      */
-    public Boolean getCascadeOnDelete(){
+    public boolean getCascadeOnDelete(){
         return cascadeOnDelete();
     }
     
     /**
-     * Defines if the relationship has cascade on delete.
+     * Defines if the relationship cascades on delete.
      *
      * @param cascadeOnDelete True/False.
      */
-    public void setCascadeOnDelete(Boolean cascadeOnDelete){
+    public void setCascadeOnDelete(boolean cascadeOnDelete){
         this.cascadeOnDelete = cascadeOnDelete;
     }
     
@@ -965,7 +968,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getUseGroupSeparator(){
+    public boolean getUseGroupSeparator(){
         return useGroupSeparator();
     }
     
@@ -974,7 +977,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isUnique(){
+    public boolean isUnique(){
         return this.isUnique;
     }
     
@@ -983,7 +986,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsUnique(){
+    public boolean getIsUnique(){
         return isUnique();
     }
     
@@ -992,7 +995,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isUnique True/False.
      */
-    public void setIsUnique(Boolean isUnique){
+    public void setIsUnique(boolean isUnique){
         this.isUnique = isUnique;
     }
     
@@ -1001,7 +1004,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isSerializable(){
+    public boolean isSerializable(){
         return this.isSerializable;
     }
     
@@ -1010,7 +1013,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsSerializable(){
+    public boolean getIsSerializable(){
         return isSerializable();
     }
     
@@ -1019,7 +1022,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isSerializable True/False.
      */
-    public void setIsSerializable(Boolean isSerializable){
+    public void setIsSerializable(boolean isSerializable){
         this.isSerializable = isSerializable;
     }
     
@@ -1064,7 +1067,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isModel(){
+    public boolean isModel(){
         return this.isModel;
     }
     
@@ -1073,7 +1076,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsModel(){
+    public boolean getIsModel(){
         return isModel();
     }
     
@@ -1082,7 +1085,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isModel True/False.
      */
-    public void setIsModel(Boolean isModel){
+    public void setIsModel(boolean isModel){
         this.isModel = isModel;
     }
     
@@ -1091,7 +1094,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean hasModel(){
+    public boolean hasModel(){
         return this.hasModel;
     }
     
@@ -1100,7 +1103,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getHasModel(){
+    public boolean getHasModel(){
         return hasModel();
     }
     
@@ -1109,7 +1112,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param hasModel True/False.
      */
-    public void setHasModel(Boolean hasModel){
+    public void setHasModel(boolean hasModel){
         this.hasModel = hasModel;
     }
     
@@ -1118,7 +1121,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isDate(){
+    public boolean isDate(){
         return this.isDate;
     }
     
@@ -1127,7 +1130,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsDate(){
+    public boolean getIsDate(){
         return isDate();
     }
     
@@ -1136,7 +1139,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isTime(){
+    public boolean isTime(){
         return this.isTime;
     }
     
@@ -1145,7 +1148,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsTime(){
+    public boolean getIsTime(){
         return isTime();
     }
     
@@ -1154,7 +1157,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isBoolean(){
+    public boolean isBoolean(){
         return this.isBoolean;
     }
     
@@ -1163,7 +1166,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsBoolean(){
+    public boolean getIsBoolean(){
         return isBoolean();
     }
     
@@ -1172,7 +1175,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isNumber(){
+    public boolean isNumber(){
         return this.isNumber;
     }
     
@@ -1181,7 +1184,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsNumber(){
+    public boolean getIsNumber(){
         return isNumber();
     }
     
@@ -1267,7 +1270,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isIdentity(){
+    public boolean isIdentity(){
         return this.isIdentity;
     }
     
@@ -1276,7 +1279,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsIdentity(){
+    public boolean getIsIdentity(){
         return isIdentity();
     }
     
@@ -1285,7 +1288,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isIdentity True/False.
      */
-    public void setIsIdentity(Boolean isIdentity){
+    public void setIsIdentity(boolean isIdentity){
         this.isIdentity = isIdentity;
     }
     
@@ -1294,7 +1297,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isForSearch(){
+    public boolean isForSearch(){
         return this.isForSearch;
     }
     
@@ -1303,7 +1306,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsForSearch(){
+    public boolean getIsForSearch(){
         return isForSearch();
     }
     
@@ -1312,7 +1315,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isForSearch True/False.
      */
-    public void setIsForSearch(Boolean isForSearch){
+    public void setIsForSearch(boolean isForSearch){
         this.isForSearch = isForSearch;
     }
     
@@ -1321,7 +1324,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return Numeric value that contains the minimum length.
      */
-    public Integer getMinimumLength(){
+    public int getMinimumLength(){
         return this.minimumLength;
     }
     
@@ -1330,7 +1333,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param minimumLength Numeric value that contains the minimum length.
      */
-    public void setMinimumLength(Integer minimumLength){
+    public void setMinimumLength(int minimumLength){
         this.minimumLength = minimumLength;
     }
     
@@ -1339,7 +1342,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return Numeric value that contains the maximum length.
      */
-    public Integer getMaximumLength(){
+    public int getMaximumLength(){
         return this.maximumLength;
     }
     
@@ -1348,7 +1351,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param maximumLength Numeric value that contains the maximum length.
      */
-    public void setMaximumLength(Integer maximumLength){
+    public void setMaximumLength(int maximumLength){
         this.maximumLength = maximumLength;
     }
     
@@ -1396,7 +1399,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isAuditable(){
+    public boolean isAuditable(){
         return this.isAuditable;
     }
     
@@ -1405,7 +1408,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsAuditable(){
+    public boolean getIsAuditable(){
         return isAuditable();
     }
     
@@ -1414,7 +1417,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isAuditable True/False.
      */
-    public void setIsAuditable(Boolean isAuditable){
+    public void setIsAuditable(boolean isAuditable){
         this.isAuditable = isAuditable;
     }
     
@@ -1442,10 +1445,10 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      * @param validation Instance that contains the validation type.
      * @return True/False.
      */
-    public Boolean hasValidation(ValidationType validation){
+    public boolean hasValidation(ValidationType validation){
         if(this.validations != null)
-            for(int cont = 0; cont < this.validations.length; cont++)
-                if(this.validations[cont].equals(validation))
+            for (ValidationType validationType : this.validations)
+                if (validationType.equals(validation))
                     return true;
         
         return false;
@@ -1456,7 +1459,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isBoolean True/False.
      */
-    public void setIsBoolean(Boolean isBoolean){
+    public void setIsBoolean(boolean isBoolean){
         this.isBoolean = isBoolean;
     }
     
@@ -1465,7 +1468,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isDate True/False.
      */
-    public void setIsDate(Boolean isDate){
+    public void setIsDate(boolean isDate){
         this.isDate = isDate;
     }
     
@@ -1474,7 +1477,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isTime True/False.
      */
-    public void setIsTime(Boolean isTime){
+    public void setIsTime(boolean isTime){
         this.isTime = isTime;
     }
     
@@ -1483,7 +1486,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isNumber True/False.
      */
-    public void setIsNumber(Boolean isNumber){
+    public void setIsNumber(boolean isNumber){
         this.isNumber = isNumber;
     }
     
@@ -1510,7 +1513,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isCollection(){
+    public boolean isCollection(){
         return this.isCollection;
     }
     
@@ -1519,7 +1522,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsCollection(){
+    public boolean getIsCollection(){
         return isCollection();
     }
     
@@ -1528,7 +1531,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isCollection True/False.
      */
-    public void setIsCollection(Boolean isCollection){
+    public void setIsCollection(boolean isCollection){
         this.isCollection = isCollection;
     }
     
@@ -1537,7 +1540,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isByteArray(){
+    public boolean isByteArray(){
         return this.isByteArray;
     }
     
@@ -1546,7 +1549,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsByteArray(){
+    public boolean getIsByteArray(){
         return isByteArray();
     }
     
@@ -1555,7 +1558,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isByteArray True/False.
      */
-    public void setIsByteArray(Boolean isByteArray){
+    public void setIsByteArray(boolean isByteArray){
         this.isByteArray = isByteArray;
     }
     
@@ -1582,7 +1585,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isEnum(){
+    public boolean isEnum(){
         return this.isEnum;
     }
     
@@ -1591,7 +1594,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsEnum(){
+    public boolean getIsEnum(){
         return isEnum();
     }
     
@@ -1600,7 +1603,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isEnum True/False.
      */
-    public void setIsEnum(Boolean isEnum){
+    public void setIsEnum(boolean isEnum){
         this.isEnum = isEnum;
     }
     
@@ -1609,7 +1612,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean hasEnum(){
+    public boolean hasEnum(){
         return this.hasEnum;
     }
     
@@ -1618,7 +1621,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getHasEnum(){
+    public boolean getHasEnum(){
         return hasEnum();
     }
     
@@ -1627,7 +1630,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param hasEnum True/False.
      */
-    public void setHasEnum(Boolean hasEnum){
+    public void setHasEnum(boolean hasEnum){
         this.hasEnum = hasEnum;
     }
     
@@ -1691,7 +1694,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean useGroupSeparator(){
+    public boolean useGroupSeparator(){
         return this.useGroupSeparator;
     }
     
@@ -1700,7 +1703,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param useGroupSeparator True/False.
      */
-    public void setUseGroupSeparator(Boolean useGroupSeparator){
+    public void setUseGroupSeparator(boolean useGroupSeparator){
         this.useGroupSeparator = useGroupSeparator;
     }
     
@@ -1820,7 +1823,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean persistPattern(){
+    public boolean persistPattern(){
         return this.persistPattern;
     }
     
@@ -1829,7 +1832,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getPersistPattern(){
+    public boolean getPersistPattern(){
         return persistPattern();
     }
     
@@ -1838,7 +1841,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param persistPattern True/False.
      */
-    public void setPersistPattern(Boolean persistPattern){
+    public void setPersistPattern(boolean persistPattern){
         this.persistPattern = persistPattern;
     }
     
@@ -1884,7 +1887,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return Numeric value that contains the word count.
      */
-    public Integer getWordCount(){
+    public int getWordCount(){
         return this.wordCount;
     }
     
@@ -1893,7 +1896,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param wordCount Numeric value that contains the word count.
      */
-    public void setWordCount(Integer wordCount){
+    public void setWordCount(int wordCount){
         this.wordCount = wordCount;
     }
     
@@ -1902,7 +1905,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isString(){
+    public boolean isString(){
         return this.isString;
     }
     
@@ -1911,7 +1914,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getIsString(){
+    public boolean getIsString(){
         return isString();
     }
     
@@ -1920,13 +1923,11 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
      *
      * @param isString True/False.
      */
-    public void setIsString(Boolean isString){
+    public void setIsString(boolean isString){
         this.isString = isString;
     }
-    
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+
+    @Override
     public boolean equals(Object object){
         PropertyInfo comparePropertyInfo = (PropertyInfo) object;
         
@@ -1935,28 +1936,19 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
         
         return (this.id != null && this.id.equals(comparePropertyInfo.getId()));
     }
-    
-    /**
-     * @see java.lang.Object#clone()
-     */
+
+    @Override
     public Object clone() throws CloneNotSupportedException{
         return super.clone();
     }
-    
-    /**
-     * @see java.lang.Object#hashCode()
-     */
+
+    @Override
     public int hashCode(){
         return (this.id != null ? this.id.hashCode() : -1);
     }
-    
-    /**
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(PropertyInfo comparePropertyInfo){
-        if(comparePropertyInfo == null)
-            return -1;
-        
-        return (this.id != null ? this.id.compareTo(comparePropertyInfo.getId()) : -1);
+
+    @Override
+    public int compareTo(@NotNull PropertyInfo comparePropertyInfo){
+        return (comparePropertyInfo != null && this.id != null ? this.id.compareTo(comparePropertyInfo.getId()) : -1);
     }
 }

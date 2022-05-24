@@ -23,8 +23,7 @@ import br.com.concepting.framework.util.types.DateFieldType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class CacherConstants{
-    public static final Long DEFAULT_TIMEOUT = DateFieldType.MINUTES.getMilliseconds();
-    public static final DateFieldType DEFAULT_TIMEOUT_TYPE = DateFieldType.MILLISECONDS;
+    public static final long DEFAULT_TIMEOUT = 1;
+    public static final DateFieldType DEFAULT_TIMEOUT_TYPE = DateFieldType.HOURS;
 }

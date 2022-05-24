@@ -21,7 +21,6 @@ package br.com.concepting.framework.webservice.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class WebServiceConstants{
     public static final String ACCEPT_ATTRIBUTE_ID = "accept";
     public static final String METHOD_ATTRIBUTE_ID = "method";
@@ -30,6 +29,6 @@ public abstract class WebServiceConstants{
     public static final String HEADERS_ATTRIBUTE_ID = "headers";
     public static final String HEADER_ATTRIBUTE_ID = "header";
     public static final String DEFAULT_ID = "webService";
-    public static final String DEFAULT_IMPLEMENTATION_ID = "webServiceImpl";
     public static final String DEFAULT_URL_PATTERN = "/webServices/*";
+    public static final int DEFAULT_TIMEOUT = 60;
 }

@@ -66,7 +66,7 @@ public class ProcessLoader{
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    public String execute(Collection<String> commandParameters, Long timeout) throws IOException{
+    public String execute(Collection<String> commandParameters, int timeout) throws IOException{
         return execute(commandParameters, false, timeout);
     }
     
@@ -80,7 +80,7 @@ public class ProcessLoader{
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    public String execute(Collection<String> commandParameters, Boolean async, Long timeout) throws IOException{
+    public String execute(Collection<String> commandParameters, boolean async, int timeout) throws IOException{
         if(commandParameters != null && !commandParameters.isEmpty()){
             StringBuilder command = new StringBuilder();
             
@@ -129,7 +129,7 @@ public class ProcessLoader{
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    public String execute(String command, Long timeout) throws IOException{
+    public String execute(String command, int timeout) throws IOException{
         return execute(command, false, timeout);
     }
     
@@ -143,26 +143,26 @@ public class ProcessLoader{
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    private String execute(String command, Boolean async, Long timeout) throws IOException{
+    private String execute(String command, boolean async, int timeout) throws IOException{
         if(command != null && command.length() > 0){
             Process child = Runtime.getRuntime().exec(command);
             
-            if(async == null || !async){
+            if(!async){
                 Worker worker = new Worker(child);
                 
                 worker.start();
                 
                 try{
-                    if(timeout == null || timeout == 0)
+                    if(timeout == 0)
                         timeout = Constants.DEFAULT_PROCESS_TIMEOUT;
                     
-                    worker.join(timeout);
+                    worker.join(timeout * 1000L);
                     
                     if(worker.exit != null){
                         BufferedReader reader = new BufferedReader(new InputStreamReader(worker.in));
-                        String line = null;
                         StringBuilder result = new StringBuilder();
-                        
+                        String line;
+
                         while((line = reader.readLine()) != null){
                             if(result.length() > 0)
                                 result.append(StringUtil.getLineBreak());
@@ -173,7 +173,7 @@ public class ProcessLoader{
                         return result.toString();
                     }
                     
-                    throw new IOException(new TimeoutException(timeout.toString()));
+                    throw new IOException(new TimeoutException(String.valueOf(timeout)));
                 }
                 catch(InterruptedException e){
                     worker.interrupt();
@@ -221,8 +221,9 @@ public class ProcessLoader{
      * You should have received a copy of the GNU General Public License
      * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
      */
-    private class Worker extends Thread{
-        private Process process = null;
+    private static class Worker extends Thread{
+        private final Process process;
+
         private Integer exit = null;
         private InputStream in = null;
         
@@ -236,10 +237,8 @@ public class ProcessLoader{
             
             this.process = process;
         }
-        
-        /**
-         * @see java.lang.Thread#run()
-         */
+
+        @Override
         public void run(){
             try{
                 this.exit = this.process.waitFor();
@@ -251,8 +250,7 @@ public class ProcessLoader{
                         this.in = this.process.getErrorStream();
                 }
             }
-            catch(InterruptedException e){
-                return;
+            catch(InterruptedException ignored){
             }
         }
     }

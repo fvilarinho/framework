@@ -49,7 +49,7 @@ public class PropertiesResources extends BaseResources<ResourceBundle>{
      * the property is invalid.
      * @return String that contains the value of the property.
      */
-    public String getProperty(String propertyId, Object[] parameters, Boolean returnInvalidIdentifier){
+    public String getProperty(String propertyId, Object[] parameters, boolean returnInvalidIdentifier){
         String value = getProperty(propertyId, returnInvalidIdentifier);
         
         if(parameters != null && parameters.length > 0 && value != null && value.length() > 0){
@@ -89,7 +89,7 @@ public class PropertiesResources extends BaseResources<ResourceBundle>{
      * the property is invalid.
      * @return String that contains the value of the property.
      */
-    public String getProperty(String propertyId, Boolean returnInvalidIdentifier){
+    public String getProperty(String propertyId, boolean returnInvalidIdentifier){
         String value = null;
         
         if(propertyId != null && propertyId.length() > 0){
@@ -99,7 +99,7 @@ public class PropertiesResources extends BaseResources<ResourceBundle>{
                 value = properties.getString(propertyId);
             }
             catch(MissingResourceException e){
-                if(returnInvalidIdentifier != null && returnInvalidIdentifier){
+                if(returnInvalidIdentifier){
                     StringBuilder propertyIdBuffer = new StringBuilder();
                     
                     propertyIdBuffer.append("???");

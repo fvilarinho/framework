@@ -29,9 +29,7 @@ import javax.jms.MessageListener;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class MqListener implements MessageListener{
-    /**
-     * @see javax.jms.MessageListener#onMessage(javax.jms.Message)
-     */
+    @Override
     public void onMessage(Message m){
         try{
             MqMessage message = new MqMessage();
@@ -43,7 +41,7 @@ public class MqListener implements MessageListener{
             
             onReceive(message);
         }
-        catch(JMSException e){
+        catch(JMSException ignored){
         }
     }
     

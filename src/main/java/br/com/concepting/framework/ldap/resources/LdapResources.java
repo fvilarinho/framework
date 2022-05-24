@@ -1,5 +1,6 @@
 package br.com.concepting.framework.ldap.resources;
 
+import br.com.concepting.framework.ldap.constants.LdapConstants;
 import br.com.concepting.framework.resources.BaseResources;
 import br.com.concepting.framework.resources.FactoryResources;
 import br.com.concepting.framework.util.helpers.XmlNode;
@@ -29,13 +30,13 @@ public class LdapResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = 3052749946121399692L;
     
     private String serverName = null;
-    private Integer serverPort = null;
+    private int serverPort = LdapConstants.DEFAULT_PORT;
     private String authenticationType = null;
     private String userName = null;
     private String password = null;
     private String baseDn = null;
     private String userDn = null;
-    private Long timeout = null;
+    private int timeout = LdapConstants.DEFAULT_TIMEOUT;
     private FactoryResources factoryResources = null;
     
     /**
@@ -81,7 +82,7 @@ public class LdapResources extends BaseResources<XmlNode>{
      *
      * @return Numeric value that contains the timeout of communication.
      */
-    public Long getTimeout(){
+    public int getTimeout(){
         return this.timeout;
     }
     
@@ -90,7 +91,7 @@ public class LdapResources extends BaseResources<XmlNode>{
      *
      * @param timeout Numeric value that contains the timeout of communication.
      */
-    public void setTimeout(Long timeout){
+    public void setTimeout(int timeout){
         this.timeout = timeout;
     }
     
@@ -117,7 +118,7 @@ public class LdapResources extends BaseResources<XmlNode>{
      *
      * @return Numeric value that contains the port.
      */
-    public Integer getServerPort(){
+    public int getServerPort(){
         return this.serverPort;
     }
     
@@ -126,7 +127,7 @@ public class LdapResources extends BaseResources<XmlNode>{
      *
      * @param serverPort Numeric value that contains the port.
      */
-    public void setServerPort(Integer serverPort){
+    public void setServerPort(int serverPort){
         this.serverPort = serverPort;
     }
     
@@ -149,18 +150,18 @@ public class LdapResources extends BaseResources<XmlNode>{
     }
     
     /**
-     * Returns the user name of the LDAP service.
+     * Returns the username of the LDAP service.
      *
-     * @return String that contains the user name.
+     * @return String that contains the username.
      */
     public String getUserName(){
         return this.userName;
     }
     
     /**
-     * Defines the user name of the LDAP service.
+     * Defines the username of the LDAP service.
      *
-     * @param userName String that contains the user name.
+     * @param userName String that contains the username.
      */
     public void setUserName(String userName){
         this.userName = userName;

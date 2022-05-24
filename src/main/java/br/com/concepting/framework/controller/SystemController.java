@@ -1,29 +1,5 @@
 package br.com.concepting.framework.controller;
 
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.PageContext;
-import javax.ws.rs.core.Response;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.constants.SystemConstants;
 import br.com.concepting.framework.controller.form.ActionFormController;
@@ -41,7 +17,26 @@ import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.types.ContentType;
-import br.com.concepting.framework.webservice.constants.WebServiceConstants;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.http.HttpStatus;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.PageContext;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static br.com.concepting.framework.webservice.constants.WebServiceConstants.DEFAULT_URL_PATTERN;
 
 /**
  * Class responsible to control the requests of the system.
@@ -71,7 +66,7 @@ public class SystemController{
 	private Map<String, RequestParameterInfo> requestParameters    = null;
 	private Collection<Cookie>                cookies              = null;
 	private HttpSession                       session              = null;
-	private Boolean                           hasOutputContent     = null;
+	private boolean                           hasOutputContent     = false;
 	private ActionFormController              actionFormController = null;
 	private SecurityController                securityController   = null;
 	private UIController                      uiController         = null;
@@ -136,9 +131,8 @@ public class SystemController{
 		if(this.request != null){
 			if(this.request.getCookies() != null && this.request.getCookies().length > 0){
 				this.cookies = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-				
-				for(Cookie cookie : this.request.getCookies())
-					this.cookies.add(cookie);
+
+				Collections.addAll(this.cookies, this.request.getCookies());
 			}
 		}
 	}
@@ -152,9 +146,9 @@ public class SystemController{
 
 			if(this.requestParameters == null){
 				String encoding = getEncoding();
-				Boolean isUploadRequest = isUploadRequest();
+				boolean isUploadRequest = isUploadRequest();
 
-				if(isUploadRequest != null && isUploadRequest()){
+				if(isUploadRequest()){
 					ServletFileUpload uploader = new ServletFileUpload(new DiskFileItemFactory());
 
 					try{
@@ -193,7 +187,7 @@ public class SystemController{
 											try{
 												contentType = ContentType.toContentType(item.getContentType());
 											}
-											catch(IllegalArgumentException | NullPointerException e){
+											catch(IllegalArgumentException | NullPointerException ignored){
 											}
 
 											requestParameter.setContentType(contentType);
@@ -206,19 +200,20 @@ public class SystemController{
 											if(requestParameter.getValue() == null)
 												requestParameter.setValue(value);
 											
-											String values[] = requestParameter.getValues();
+											String[] values = requestParameter.getValues();
 											
 											if(values == null){
 												values = new String[1];
 												values[0] = value;
 											}
 											else{
-												String valuesBuffer[] = new String[values.length + 1];
+												String[] valuesBuffer = new String[values.length + 1];
 
-												for(int cont = 0 ; cont < values.length ; cont++)
-													valuesBuffer[cont] = values[cont];
+												System.arraycopy(values, 0, valuesBuffer, 0, values.length);
 
 												valuesBuffer[values.length] = value;
+
+												values = valuesBuffer;
 											}
 
 											requestParameter.setValues(values);
@@ -232,12 +227,12 @@ public class SystemController{
 
 									this.requestParameters.put(name, requestParameter);
 								}
-								catch(UnsupportedEncodingException e){
+								catch(UnsupportedEncodingException ignored){
 								}
 							}
 						}
 					}
-					catch(FileUploadException e){
+					catch(FileUploadException ignored){
 					}
 				}
 				else{
@@ -246,14 +241,14 @@ public class SystemController{
 					if(requestParametersNames != null && requestParametersNames.hasMoreElements()){
 						while(requestParametersNames.hasMoreElements()){
 							String requestParameterName = requestParametersNames.nextElement();
-							String requestParameterValue[] = this.request.getParameterValues(requestParameterName);
+							String[] requestParameterValue = this.request.getParameterValues(requestParameterName);
 
 							if(requestParameterValue != null && requestParameterValue.length > 0){
 								for(int cont = 0 ; cont < requestParameterValue.length ; cont++){
 									try{
 										requestParameterValue[cont] = new String(requestParameterValue[cont].getBytes(Constants.DEFAULT_ISO_ENCODING), encoding);
 									}
-									catch(UnsupportedEncodingException e){
+									catch(UnsupportedEncodingException ignored){
 									}
 								}
 							}
@@ -348,9 +343,9 @@ public class SystemController{
 	 * @return Instance that contains the exception.
 	 */
 	public Throwable getCurrentException(){
-		Boolean isWebServicesRequest = isWebServicesRequest();
+		boolean isWebServicesRequest = isWebServicesRequest();
 
-		return getAttribute(SystemConstants.CURRENT_EXCEPTION_ATTRIBUTE_ID, (isWebServicesRequest != null && isWebServicesRequest ? ScopeType.REQUEST : ScopeType.SESSION));
+		return getAttribute(SystemConstants.CURRENT_EXCEPTION_ATTRIBUTE_ID, (isWebServicesRequest ? ScopeType.REQUEST : ScopeType.SESSION));
 	}
 
 	/**
@@ -359,9 +354,9 @@ public class SystemController{
 	 * @param exception Instance that contains the exception.
 	 */
 	public void setCurrentException(Throwable exception){
-		Boolean isWebServicesRequest = isWebServicesRequest();
+		boolean isWebServicesRequest = isWebServicesRequest();
 
-		setAttribute(SystemConstants.CURRENT_EXCEPTION_ATTRIBUTE_ID, exception, (isWebServicesRequest != null && isWebServicesRequest ? ScopeType.REQUEST : ScopeType.SESSION));
+		setAttribute(SystemConstants.CURRENT_EXCEPTION_ATTRIBUTE_ID, exception, (isWebServicesRequest ? ScopeType.REQUEST : ScopeType.SESSION));
 	}
 
 	/**
@@ -413,20 +408,20 @@ public class SystemController{
 	}
 
 	/**
-	 * Indicates if is a upload request.
+	 * Indicates if is an upload request.
 	 * 
 	 * @return True/False.
 	 */
-	public Boolean isUploadRequest(){
-		return (this.request != null ? ServletFileUpload.isMultipartContent(this.request) : false);
+	public boolean isUploadRequest(){
+		return (this.request != null && ServletFileUpload.isMultipartContent(this.request));
 	}
 
 	/**
 	 * Indicates if is a request to a WebService.
-	 * 
+	 *
 	 * @return True/False.
 	 */
-	public Boolean isWebServicesRequest(){
+	public boolean isWebServicesRequest(){
 		String contextPath = getContextPath();
 		String requestUri = getRequestURI();
 
@@ -434,7 +429,7 @@ public class SystemController{
 			StringBuilder urlPattern = new StringBuilder();
 
 			urlPattern.append(contextPath);
-			urlPattern.append(StringUtil.toRegex(WebServiceConstants.DEFAULT_URL_PATTERN));
+			urlPattern.append(StringUtil.toRegex(DEFAULT_URL_PATTERN));
 
 			Pattern regex = Pattern.compile(urlPattern.toString());
 			Matcher matcher = regex.matcher(requestUri);
@@ -513,8 +508,8 @@ public class SystemController{
 	 * 
 	 * @return String that contains the user agent.
 	 */
-	public String getRequestUserAgent(){
-		return getRequestHeader(SystemConstants.REQUEST_USER_AGENT_ATTRIBUTE_ID);
+	public String getUserAgent(){
+		return getHeader(SystemConstants.USER_AGENT_ATTRIBUTE_ID);
 	}
 	
 	/**
@@ -522,17 +517,17 @@ public class SystemController{
 	 * 
 	 * @return String that contains the request method.
 	 */
-	public String getRequestMethod(){
+	public String getMethod(){
 		return this.request.getMethod();
 	}
 
 	/**
-	 * Returns the accept language of the request.
+	 * Returns the accept-language of the request.
 	 *
-	 * @return String that contains the accept language;
+	 * @return String that contains the accept-anguage;
 	 */
-	public String getRequestAcceptLanguage(){
-		String acceptLanguage = getRequestHeader(SystemConstants.REQUEST_ACCEPT_LANGUAGE_ATTRIBUTE_ID);
+	public String getAcceptLanguage(){
+		String acceptLanguage = getHeader(SystemConstants.ACCEPT_LANGUAGE_ATTRIBUTE_ID);
 
 		if(acceptLanguage != null && acceptLanguage.length() > 0)
 			acceptLanguage = StringUtil.replaceAll(acceptLanguage, "-", "_");
@@ -546,7 +541,7 @@ public class SystemController{
 	 * @param headerName String that contains the header name.
 	 * @return String that contains the request header value.
 	 */
-	public String getRequestHeader(String headerName){
+	public String getHeader(String headerName){
 		if(this.request != null)
 			return this.request.getHeader(headerName);
 
@@ -558,12 +553,12 @@ public class SystemController{
 	 *
 	 * @return String that contains the IP.
 	 */
-	public String getRequestIp(){
+	public String getIp(){
 		if(this.request != null){
-			String ip = this.request.getHeader(SystemConstants.REQUEST_TRUE_CLIENT_IP_ATTRIBUTE_ID);
+			String ip = this.request.getHeader(SystemConstants.TRUE_CLIENT_IP_ATTRIBUTE_ID);
 
 			if(ip == null || ip.length() == 0){
-				ip = this.request.getHeader(SystemConstants.REQUEST_CONNECTING_IP_ATTRIBUTE_ID);
+				ip = this.request.getHeader(SystemConstants.CONNECTING_IP_ATTRIBUTE_ID);
 
 				if(ip == null || ip.length() == 0)
 					ip = this.request.getRemoteAddr();
@@ -580,7 +575,7 @@ public class SystemController{
 	 *
 	 * @return String that contains the host name.
 	 */
-	public String getRequestHostName(){
+	public String getHostName(){
 		if(this.request != null)
 			return this.request.getRemoteHost();
 
@@ -592,7 +587,7 @@ public class SystemController{
 	 * 
 	 * @return Instance that contains the request parameters.
 	 */
-	public Map<String, RequestParameterInfo> getRequestParameters(){
+	public Map<String, RequestParameterInfo> getParameters(){
 		return this.requestParameters;
 	}
 
@@ -602,11 +597,11 @@ public class SystemController{
 	 * @param name String that contains the identifier of the request parameter.
 	 * @return Array that contains the request parameter values.
 	 */
-	public String[] getRequestParameterValues(String name){
+	public String[] getParameterValues(String name){
 		RequestParameterInfo requestParameter = (this.requestParameters != null ? this.requestParameters.get(name) : null);
 
 		if(requestParameter != null){
-			String values[] = requestParameter.getValues();
+			String[] values = requestParameter.getValues();
 
 			if(values != null && values.length > 0)
 				return values;
@@ -621,7 +616,7 @@ public class SystemController{
 	 * @param name String that contains the identifier of the request parameter.
 	 * @return String that contains the request parameter value.
 	 */
-	public String getRequestParameterValue(String name){
+	public String getParameterValue(String name){
 		String value = null;
 
 		if(name != null && name.length() > 0){
@@ -700,7 +695,7 @@ public class SystemController{
 	 *
 	 * @return True/False.
 	 */
-	public Boolean hasOutputContent(){
+	public boolean hasOutputContent(){
 		return this.hasOutputContent;
 	}
 
@@ -713,7 +708,7 @@ public class SystemController{
 		this.request = request;
 
 		if(this.request != null){
-			Cookie cookies[] = this.request.getCookies();
+			Cookie[] cookies = this.request.getCookies();
 
 			this.cookies = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
@@ -737,9 +732,9 @@ public class SystemController{
 	 * Loads the system session.
 	 */
 	private void loadSession(){
-		Boolean isWebServicesRequest = isWebServicesRequest();
+		boolean isWebServicesRequest = isWebServicesRequest();
 
-		if(this.request != null && (isWebServicesRequest == null || !isWebServicesRequest))
+		if(this.request != null && !isWebServicesRequest)
 			this.session = this.request.getSession();
 	}
 
@@ -769,7 +764,7 @@ public class SystemController{
 	 *
 	 * @param timeout Numeric value that contains the timeout.
 	 */
-	public void setSessionTimeout(Integer timeout){
+	public void setSessionTimeout(int timeout){
 		if(this.session != null)
 			this.session.setMaxInactiveInterval(timeout * 60);        
 	}
@@ -792,10 +787,10 @@ public class SystemController{
 	 * @param persistent Indicates if the cookie is persistent even that the
 	 * session expire.
 	 */
-	public void addCookie(String name, String value, Boolean persistent){
+	public void addCookie(String name, String value, boolean persistent){
 		if(name != null && name.length() > 0 && value != null && value.length() > 0){
-			if(persistent != null && persistent)
-				addCookie(name, value, 60 * 60 * 24 * 365 * 1000);
+			if(persistent)
+				addCookie(name, value, 60 * 60 * 24 * 365);
 			else
 				addCookie(name, value, -1);
 		}
@@ -808,7 +803,7 @@ public class SystemController{
 	 * @param value String that contains the value.
 	 * @param maxAge Numeric value contains the maximum age (in milliseconds).
 	 */
-	public void addCookie(String name, String value, Integer maxAge){
+	public void addCookie(String name, String value, int maxAge){
 		String path = getContextPath();
 		
 		if(name != null && name.length() > 0 && path != null && path.length() > 0 && value != null && value.length() > 0 && this.request != null && this.response != null){
@@ -821,17 +816,17 @@ public class SystemController{
 			cookie.setSecure((this.request != null && this.request.getScheme() != null && this.request.getScheme().equalsIgnoreCase("https")));
 			cookie.setPath(getContextPath());
 
-			if(maxAge != null && maxAge > 0)
+			if(maxAge > 0)
 				cookie.setMaxAge(maxAge);
 
 			cookie.setValue(value);
 
 			this.cookies.add(cookie);
-			
+
 			try{
 				this.response.addCookie(cookie);
 			}
-			catch(Throwable e){
+			catch(Throwable ignored){
 			}
 		}
 	}
@@ -856,7 +851,7 @@ public class SystemController{
 				try{
 					this.response.addCookie(cookie);
 				}
-				catch(Throwable e){
+				catch(Throwable ignored){
 				}
 			}
 		}
@@ -889,14 +884,14 @@ public class SystemController{
 
 			return new PrintWriter(this.response.getOutputStream());
 		}
-		catch(Throwable e){
+		catch(Throwable ignored){
 		}
 
 		return null;
 	}
 
 	/**
-	 * Returns the value of a attribute that is stored in a specific scope. The
+	 * Returns the value of an attribute that is stored in a specific scope. The
 	 * attribute identifier must be defined like following: {@code 
 	 * <attribute-name>.<child-attribute-name>.<child-attribute-name>} E.g.:
 	 * loginSession.user.name
@@ -932,7 +927,7 @@ public class SystemController{
 			if(instance == null){
 				try{
 					int pos = attributeId.indexOf(".");
-					String firstAttributeId = null;
+					String firstAttributeId;
 
 					if(pos >= 0){
 						firstAttributeId = attributeId.substring(0, pos);
@@ -941,11 +936,11 @@ public class SystemController{
 					else
 						firstAttributeId = attributeId;
 
-					Boolean isWebServicesRequest = isWebServicesRequest();
+					boolean isWebServicesRequest = isWebServicesRequest();
 
 					switch(scopeType){
 						case APPLICATION:{
-							if(isWebServicesRequest == null || !isWebServicesRequest)
+							if(!isWebServicesRequest)
 								instance = (this.session != null ? this.session.getServletContext().getAttribute(firstAttributeId) : null);
 	
 							break;
@@ -956,7 +951,7 @@ public class SystemController{
 							break;
 						}
 						default:{
-							if(isWebServicesRequest == null || !isWebServicesRequest)
+							if(!isWebServicesRequest)
 								instance = (this.session != null ? this.session.getAttribute(firstAttributeId) : null);
 	
 							break;
@@ -976,7 +971,7 @@ public class SystemController{
 	}
 
 	/**
-	 * Defines the value of a attribute that is stored in a specific scope. The
+	 * Defines the value of an attribute that is stored in a specific scope. The
 	 * attribute identifier must be defined like following: {@code 
 	 * <attribute-name>.<child-attribute-name>.<child-attribute-name>} E.g.:
 	 * loginSession.user.name
@@ -988,22 +983,22 @@ public class SystemController{
 	 */
 	public <T> void setAttribute(String attributeId, T attributeValue, ScopeType scopeType){
 		if(attributeId != null && attributeId.length() > 0){
-			Boolean isWebServicesRequest = isWebServicesRequest();
+			boolean isWebServicesRequest = isWebServicesRequest();
 
-			if(this.session != null && scopeType == ScopeType.APPLICATION && (isWebServicesRequest == null || !isWebServicesRequest))
+			if(this.session != null && scopeType == ScopeType.APPLICATION && !isWebServicesRequest)
 				this.session.getServletContext().setAttribute(attributeId, attributeValue);
-			else if(this.session != null && scopeType == ScopeType.SESSION && (isWebServicesRequest == null || !isWebServicesRequest))
+			else if(this.session != null && scopeType == ScopeType.SESSION && !isWebServicesRequest)
 				this.session.setAttribute(attributeId, attributeValue);
 			else if(this.request != null && scopeType == ScopeType.REQUEST)
 				this.request.setAttribute(attributeId, attributeValue);
-			else if(isWebServicesRequest == null || !isWebServicesRequest){
+			else if(!isWebServicesRequest){
 				if(this.session != null){
 					try{
 						int pos = attributeId.indexOf(".");
-						String firstAttributeId = null;
 
 						if(pos >= 0){
-							firstAttributeId = attributeId.substring(0, pos);
+							String firstAttributeId = attributeId.substring(0, pos);
+
 							attributeId = attributeId.substring(pos + 1);
 
 							Object instance = getAttribute(firstAttributeId, scopeType);
@@ -1014,7 +1009,7 @@ public class SystemController{
 							this.session.setAttribute(firstAttributeId, instance);
 						}
 					}
-					catch(InvocationTargetException e){
+					catch(InvocationTargetException ignored){
 					}
 				}
 			}
@@ -1038,7 +1033,7 @@ public class SystemController{
 			try{
 				this.response.sendRedirect(urlBuffer.toString());
 			}
-			catch(Throwable e){
+			catch(Throwable ignored){
 			}
 		}
 	}
@@ -1055,9 +1050,9 @@ public class SystemController{
 			}
 			catch(Throwable e){
 				try{
-					this.response.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), e.getMessage());
+					this.response.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 				} 
-				catch(Throwable e1){
+				catch(Throwable ignored){
 				}
 			}
 		}
@@ -1077,18 +1072,18 @@ public class SystemController{
 
 			if(this.response != null){
 				if(ExceptionUtil.isUserNotAuthorized(e))
-					this.response.sendError(Response.Status.UNAUTHORIZED.getStatusCode());
+					this.response.sendError(HttpStatus.SC_UNAUTHORIZED);
 				else if(ExceptionUtil.isPermissionDeniedException(e))
-					this.response.sendError(Response.Status.FORBIDDEN.getStatusCode());
+					this.response.sendError(HttpStatus.SC_FORBIDDEN);
 				else if(ExceptionUtil.isInvalidResourceException(e))
-					this.response.sendError(Response.Status.NOT_FOUND.getStatusCode(), e.getMessage());
+					this.response.sendError(HttpStatus.SC_NOT_FOUND, e.getMessage());
 				else if(ExceptionUtil.isInternalErrorException(e))
-					this.response.sendError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), e.getMessage());
+					this.response.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
 				else
-					this.response.sendError(Response.Status.PRECONDITION_FAILED.getStatusCode(), e.getMessage());
+					this.response.sendError(HttpStatus.SC_PRECONDITION_FAILED, e.getMessage());
 			}
 		}
-		catch(Throwable e1){
+		catch(Throwable ignored){
 		}
 	}
 
@@ -1098,7 +1093,7 @@ public class SystemController{
 	 * @param contentData Byte array of the content.
 	 * @param contentType Instance that contains the content type (mime type).
 	 */
-	public void outputContent(byte contentData[], ContentType contentType){
+	public void outputContent(byte[] contentData, ContentType contentType){
 		outputContent(contentData, contentType, null);
 	}
 
@@ -1108,7 +1103,7 @@ public class SystemController{
 	 * @param contentData Byte array of the content.
 	 * @param contentType String that contains the content type (mime type).
 	 */
-	public void outputContent(byte contentData[], String contentType){
+	public void outputContent(byte[] contentData, String contentType){
 		outputContent(contentData, contentType, null);
 	}
 
@@ -1119,7 +1114,7 @@ public class SystemController{
 	 * @param contentType Instance that contains the content type (mime type).
 	 * @param contentFilename String that contains the filename of the content.
 	 */
-	public void outputContent(byte contentData[], ContentType contentType, String contentFilename){
+	public void outputContent(byte[] contentData, ContentType contentType, String contentFilename){
 		outputContent(contentData, contentType.getMimeType(), contentFilename);
 	}
 
@@ -1130,7 +1125,7 @@ public class SystemController{
 	 * @param contentType String that contains the content type (mime type).
 	 * @param contentFilename String that contains the filename of the content.
 	 */
-	public void outputContent(byte contentData[], String contentType, String contentFilename){
+	public void outputContent(byte[] contentData, String contentType, String contentFilename){
 		if(this.response != null){
 			try{
 				if(contentFilename != null && contentFilename.length() > 0){

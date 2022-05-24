@@ -1,5 +1,7 @@
 package br.com.concepting.framework.util;
 
+import br.com.concepting.framework.constants.Constants;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -9,8 +11,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.Map;
-
-import br.com.concepting.framework.constants.Constants;
+import java.util.Objects;
 
 /**
  * Class responsible to manipulate numbers.
@@ -35,8 +36,7 @@ import br.com.concepting.framework.constants.Constants;
  */
 public class NumberUtil{
     private static final SecureRandom random = new SecureRandom();
-    
-    private static Map<Class<?>, Number[]> numberRange = null;
+    private static final Map<Class<?>, Number[]> numberRange;
     
     static{
         numberRange = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
@@ -49,33 +49,33 @@ public class NumberUtil{
         numberRange.put(Double.class, new Number[]{Double.MIN_VALUE, Double.MAX_VALUE});
         numberRange.put(BigDecimal.class, new Number[]{Double.MIN_VALUE, Double.MAX_VALUE});
     }
-    
+
     /**
      * Returns the default number precision.
      *
      * @param clazz Class that defines the number.
      * @return Numeric value that contains the precision.
      */
-    public static Integer getDefaultPrecision(Class<? extends Number> clazz){
+    public static int getDefaultPrecision(Class<? extends Number> clazz){
         if(PropertyUtil.isFloat(clazz) || PropertyUtil.isDouble(clazz) || PropertyUtil.isBigDecimal(clazz) || PropertyUtil.isCurrency(clazz))
             return Constants.DEFAULT_DECIMAL_PRECISION;
-        
-        return null;
+
+        return 0;
     }
-    
+
     /**
      * Returns the default number precision.
      *
      * @param value Instance that defines the number.
      * @return Numeric value that contains the precision.
      */
-    public static Integer getDefaultPrecision(Object value){
+    public static int getDefaultPrecision(Object value){
         if(PropertyUtil.isFloat(value) || PropertyUtil.isDouble(value) || PropertyUtil.isBigDecimal(value) || PropertyUtil.isCurrency(value))
             return Constants.DEFAULT_DECIMAL_PRECISION;
-        
-        return null;
+
+        return 0;
     }
-    
+
     /**
      * Returns the default formatting symbols of a numeric value.
      *
@@ -107,11 +107,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Float parseFloat(String value, Locale language) throws ParseException{
+    public static float parseFloat(String value, Locale language) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Float.class, value, language);
         
-        return null;
+        return 0F;
     }
     
     /**
@@ -122,11 +122,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Float parseFloat(String value) throws ParseException{
+    public static float parseFloat(String value) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Float.class, value);
         
-        return null;
+        return 0F;
     }
     
     /**
@@ -138,11 +138,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Double parseDouble(String value, Locale language) throws ParseException{
+    public static double parseDouble(String value, Locale language) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Double.class, value, language);
         
-        return null;
+        return 0D;
     }
     
     /**
@@ -153,11 +153,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Double parseDouble(String value) throws ParseException{
+    public static double parseDouble(String value) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Double.class, value);
         
-        return null;
+        return 0;
     }
     
     /**
@@ -173,7 +173,7 @@ public class NumberUtil{
         if(value != null && value.length() > 0)
             return parse(BigDecimal.class, value, language);
         
-        return null;
+        return BigDecimal.ZERO;
     }
     
     /**
@@ -188,7 +188,7 @@ public class NumberUtil{
         if(value != null && value.length() > 0)
             return parse(BigDecimal.class, value);
         
-        return null;
+        return BigDecimal.ZERO;
     }
     
     /**
@@ -200,11 +200,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Short parseShort(String value, Locale language) throws ParseException{
+    public static short parseShort(String value, Locale language) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Short.class, value, language);
         
-        return null;
+        return 0;
     }
     
     /**
@@ -215,11 +215,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Short parseShort(String value) throws ParseException{
+    public static short parseShort(String value) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Short.class, value);
         
-        return null;
+        return 0;
     }
     
     /**
@@ -230,11 +230,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Byte parseByte(String value) throws ParseException{
+    public static byte parseByte(String value) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Byte.class, value);
         
-        return null;
+        return 0;
     }
     
     /**
@@ -246,11 +246,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Long parseLong(String value, Locale language) throws ParseException{
+    public static long parseLong(String value, Locale language) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Long.class, value, language);
         
-        return null;
+        return 0L;
     }
     
     /**
@@ -261,11 +261,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Long parseLong(String value) throws ParseException{
+    public static long parseLong(String value) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Long.class, value);
         
-        return null;
+        return 0L;
     }
     
     /**
@@ -281,7 +281,7 @@ public class NumberUtil{
         if(value != null && value.length() > 0)
             return parse(BigInteger.class, value, language);
         
-        return null;
+        return BigInteger.ZERO;
     }
     
     /**
@@ -296,7 +296,7 @@ public class NumberUtil{
         if(value != null && value.length() > 0)
             return parse(BigInteger.class, value);
         
-        return null;
+        return BigInteger.ZERO;
     }
     
     /**
@@ -308,11 +308,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Integer parseInt(String value, Locale language) throws ParseException{
+    public static int parseInt(String value, Locale language) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Integer.class, value, language);
         
-        return null;
+        return 0;
     }
     
     /**
@@ -323,11 +323,11 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static Integer parseInt(String value) throws ParseException{
+    public static int parseInt(String value) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(Integer.class, value);
         
-        return null;
+        return 0;
     }
     
     /**
@@ -360,7 +360,7 @@ public class NumberUtil{
      */
     public static <N extends Number> N parse(Class<?> clazz, String value, Locale language) throws ParseException{
         if(clazz != null && value != null && value.length() > 0)
-            return parse(clazz, value, null, getDefaultPrecision(clazz), language);
+            return parse(clazz, value, false, getDefaultPrecision(clazz), language);
         
         return null;
     }
@@ -378,7 +378,7 @@ public class NumberUtil{
      * @throws ParseException Occurs when was not possible to execute the
      * operation.
      */
-    public static <N extends Number> N parse(Class<?> clazz, String value, Boolean useGroupSeparator, Integer precision) throws ParseException{
+    public static <N extends Number> N parse(Class<?> clazz, String value, boolean useGroupSeparator, int precision) throws ParseException{
         if(clazz != null && value != null && value.length() > 0)
             return parse(clazz, value, useGroupSeparator, precision, LanguageUtil.getDefaultLanguage());
         
@@ -400,21 +400,18 @@ public class NumberUtil{
      * operation.
      */
     @SuppressWarnings("unchecked")
-    public static <N extends Number> N parse(Class<?> clazz, String value, Boolean useGroupSeparator, Integer precision, Locale language) throws ParseException{
+    public static <N extends Number> N parse(Class<?> clazz, String value, boolean useGroupSeparator, int precision, Locale language) throws ParseException{
         if(clazz != null && value != null && value.length() > 0){
-            NumberFormat parser = null;
+            NumberFormat parser;
             
             if(PropertyUtil.isCurrency(clazz))
                 parser = NumberFormat.getCurrencyInstance(language);
             else
                 parser = NumberFormat.getInstance(language);
+
+            parser.setGroupingUsed(useGroupSeparator);
             
-            if(useGroupSeparator != null)
-                parser.setGroupingUsed(useGroupSeparator);
-            else
-                parser.setGroupingUsed(false);
-            
-            if(precision != null){
+            if(precision > 0){
                 parser.setMaximumFractionDigits(precision);
                 parser.setMinimumFractionDigits(precision);
             }
@@ -447,7 +444,7 @@ public class NumberUtil{
      */
     public static String format(Number value, Locale language){
         if(value != null)
-            return format(value, null, getDefaultPrecision(value), language);
+            return format(value, false, getDefaultPrecision(value), language);
         
         return null;
     }
@@ -459,7 +456,7 @@ public class NumberUtil{
      * @param precision Numeric value that contains the decimal precision.
      * @return String that contains the formatted numeric value.
      */
-    public static String format(Number value, Integer precision){
+    public static String format(Number value, int precision){
         if(value != null)
             return format(value, precision, LanguageUtil.getDefaultLanguage());
         
@@ -474,9 +471,9 @@ public class NumberUtil{
      * @param language Instance that contains the language that will be used.
      * @return String that contains the formatted numeric value.
      */
-    public static String format(Number value, Integer precision, Locale language){
+    public static String format(Number value, int precision, Locale language){
         if(value != null)
-            return format(value, null, precision, language);
+            return format(value, false, precision, language);
         
         return null;
     }
@@ -491,26 +488,23 @@ public class NumberUtil{
      * @param language Instance that contains the language that will be used.
      * @return String that contains the formatted numeric value.
      */
-    public static String format(Number value, Boolean useGroupSeparator, Integer precision, Locale language){
+    public static String format(Number value, boolean useGroupSeparator, int precision, Locale language){
         if(value == null)
             return null;
         
-        NumberFormat formatter = null;
+        NumberFormat formatter;
         
         if(PropertyUtil.isCurrency(value))
             formatter = NumberFormat.getCurrencyInstance(language);
         else
             formatter = NumberFormat.getInstance(language);
+
+        formatter.setGroupingUsed(Objects.requireNonNullElse(useGroupSeparator, false));
         
-        if(useGroupSeparator != null)
-            formatter.setGroupingUsed(useGroupSeparator);
-        else
-            formatter.setGroupingUsed(false);
-        
-        if(precision == null || precision == 0)
+        if(precision == 0)
             precision = getDefaultPrecision(value);
         
-        if(precision != null){
+        if(precision > 0){
             formatter.setMaximumFractionDigits(precision);
             formatter.setMinimumFractionDigits(precision);
         }
@@ -570,7 +564,7 @@ public class NumberUtil{
      */
     @SuppressWarnings("unchecked")
     public static <N extends Number> N[] getRange(Class<?> clazz){
-        N range[] = null;
+        N[] range = null;
         
         if(clazz != null){
             if(clazz.equals(Byte.class))
@@ -603,7 +597,7 @@ public class NumberUtil{
      */
     public static <N extends Number> N getMinimumRange(Class<N> clazz){
         if(clazz != null){
-            N range[] = getRange(clazz);
+            N[] range = getRange(clazz);
             
             if(range == null)
                 range = getRange(Double.class);
@@ -623,7 +617,7 @@ public class NumberUtil{
      */
     public static <N extends Number> N getMaximumRange(Class<N> clazz){
         if(clazz != null){
-            N range[] = getRange(clazz);
+            N[] range = getRange(clazz);
             
             if(range == null)
                 range = getRange(Double.class);
@@ -640,11 +634,8 @@ public class NumberUtil{
      * @param value Instance that contains the numeric value.
      * @return String that contains the hexadecimal value.
      */
-    public static String toHexadecimal(Long value){
-        if(value != null)
-            return Long.toHexString(value);
-        
-        return null;
+    public static String toHexadecimal(long value){
+        return Long.toHexString(value);
     }
     
     /**
@@ -653,16 +644,16 @@ public class NumberUtil{
      * @param value String that contains the hexadecimal value.
      * @return Instance that contains the numeric value.
      */
-    public static Long fromHexadecimal(String value){
+    public static long fromHexadecimal(String value){
         if(value != null && value.length() > 0){
             try{
-                return Long.valueOf(value, 16);
+                return Long.parseLong(value, 16);
             }
-            catch(IllegalArgumentException e){
+            catch(IllegalArgumentException ignored){
             }
         }
         
-        return null;
+        return 0L;
     }
     
     /**
@@ -803,19 +794,19 @@ public class NumberUtil{
     @SuppressWarnings("unchecked")
     public static <N extends Number> N random(Class<N> clazz){
         if(PropertyUtil.isByte(clazz))
-            return (N) new Byte(Integer.valueOf(random.nextInt()).byteValue());
+            return (N) Byte.valueOf(Integer.valueOf(random.nextInt()).byteValue());
         if(PropertyUtil.isShort(clazz))
-            return (N) new Short(Integer.valueOf(random.nextInt()).shortValue());
+            return (N) Short.valueOf(Integer.valueOf(random.nextInt()).shortValue());
         else if(PropertyUtil.isInteger(clazz))
-            return (N) new Integer(random.nextInt());
+            return (N) Integer.valueOf(random.nextInt());
         else if(PropertyUtil.isLong(clazz))
-            return (N) new Long(random.nextLong());
+            return (N) Long.valueOf(random.nextLong());
         else if(PropertyUtil.isBigInteger(clazz))
             return (N) BigInteger.valueOf(random.nextLong());
         else if(PropertyUtil.isFloat(clazz))
-            return (N) new Float(random.nextFloat());
+            return (N) Float.valueOf(random.nextFloat());
         else if(PropertyUtil.isDouble(clazz))
-            return (N) new Double(random.nextDouble());
+            return (N) Double.valueOf(random.nextDouble());
         
         return null;
     }

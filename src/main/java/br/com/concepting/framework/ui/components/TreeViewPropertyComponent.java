@@ -5,11 +5,8 @@ import br.com.concepting.framework.controller.SystemController;
 import br.com.concepting.framework.controller.action.types.ActionType;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
-import br.com.concepting.framework.model.SystemSessionModel;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.processors.ExpressionProcessorUtil;
-import br.com.concepting.framework.security.controller.SecurityController;
-import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.ui.components.types.EventType;
 import br.com.concepting.framework.ui.components.types.VisibilityType;
 import br.com.concepting.framework.ui.constants.UIConstants;
@@ -54,21 +51,21 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
     private static final long serialVersionUID = -5398943872124965129L;
     
     private String nodeLabelProperty = null;
-    private Integer expandLevel = null;
+    private int expandLevel = 0;
     private String onExpand = null;
     private String onExpandAction = null;
     private String onExpandForward = null;
     private String onExpandUpdateViews = null;
-    private Boolean onExpandValidateModel = null;
+    private boolean onExpandValidateModel = false;
     private String onExpandValidateModelProperties = null;
-    private Boolean selectUnselectParentsOrChildren = null;
+    private boolean selectUnselectParentsOrChildren = false;
     
     /**
      * Indicates if the parents and children should be selected or unselected.
      *
      * @return True/False.
      */
-    public Boolean selectUnselectParentsOrChildren(){
+    public boolean selectUnselectParentsOrChildren(){
         return this.selectUnselectParentsOrChildren;
     }
     
@@ -77,7 +74,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getSelectUnselectParentsOrChildren(){
+    public boolean getSelectUnselectParentsOrChildren(){
         return selectUnselectParentsOrChildren();
     }
     
@@ -86,7 +83,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
      *
      * @param selectUnselectParentsOrChildren True/False.
      */
-    public void setSelectUnselectParentsOrChildren(Boolean selectUnselectParentsOrChildren){
+    public void setSelectUnselectParentsOrChildren(boolean selectUnselectParentsOrChildren){
         this.selectUnselectParentsOrChildren = selectUnselectParentsOrChildren;
     }
     
@@ -208,7 +205,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnExpandValidateModel(){
+    public boolean getOnExpandValidateModel(){
         return this.onExpandValidateModel;
     }
     
@@ -217,7 +214,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
      *
      * @param onExpandValidateModel True/False.
      */
-    public void setOnExpandValidateModel(Boolean onExpandValidateModel){
+    public void setOnExpandValidateModel(boolean onExpandValidateModel){
         this.onExpandValidateModel = onExpandValidateModel;
     }
     
@@ -247,7 +244,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
      *
      * @return Numeric value that contains the identifier of the level.
      */
-    public Integer getExpandLevel(){
+    public int getExpandLevel(){
         return this.expandLevel;
     }
     
@@ -257,69 +254,45 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
      * @param expandLevel Numeric value that contains the identifier of the
      * level.
      */
-    public void setExpandLevel(Integer expandLevel){
+    public void setExpandLevel(int expandLevel){
         this.expandLevel = expandLevel;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#getOptionLabelIndentation(java.lang.Integer)
-     */
-    protected String getOptionLabelIndentation(Integer level) throws InternalErrorException{
+
+    @Override
+    protected String getOptionLabelIndentation(int level) throws InternalErrorException{
         return null;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        super.buildRestrictions();
-        
-        if(this.selectUnselectParentsOrChildren == null)
-            this.selectUnselectParentsOrChildren = false;
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         super.buildEvents();
         
         buildEvent(EventType.ON_EXPAND);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
         setAlignmentType(AlignmentType.LEFT);
         
         super.buildAlignment();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.TREE_VIEW);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderLabelAttribute()
-     */
+
+    @Override
     protected void renderLabelAttribute() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderPatternAttribute()
-     */
+
+    @Override
     protected void renderPatternAttribute() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         UIController uiController = getUIController();
         String actionFormName = getActionFormName();
@@ -328,9 +301,9 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
         if(uiController == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
             return;
         
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition){
+        if(!hasInvalidPropertyDefinition){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(name);
@@ -353,9 +326,9 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                 throw new InternalErrorException(e);
             }
             
-            Boolean multipleSelection = hasMultipleSelection();
+            boolean multipleSelection = hasMultipleSelection();
             
-            if(multipleSelection != null && multipleSelection){
+            if(multipleSelection){
                 ListPropertyComponent propertyComponent = new ListPropertyComponent();
                 
                 propertyComponent.setPageContext(this.pageContext);
@@ -442,14 +415,12 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
         
         println("\">");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition != null && hasInvalidPropertyDefinition)
+        if(hasInvalidPropertyDefinition)
             super.renderInvalidPropertyMessage();
         else{
             String name = getName();
@@ -469,10 +440,8 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         println("</div>");
         
@@ -504,7 +473,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
      * @param level Numeric value that contains the current expansion level.
      * @throws InternalErrorException Occurs when was not possible to render.
      */
-    protected <N extends Node, C extends Collection<N>> void renderNodes(C nodes, N parent, String index, Integer level) throws InternalErrorException{
+    protected <N extends Node, C extends Collection<N>> void renderNodes(C nodes, N parent, String index, int level) throws InternalErrorException{
         SystemController systemController = getSystemController();
         PropertyInfo propertyInfo = getPropertyInfo();
         String actionFormName = getActionFormName();
@@ -515,24 +484,15 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
         
         String domain = String.valueOf(System.currentTimeMillis());
         Locale currentLanguage = getCurrentLanguage();
-        Boolean multipleSelection = hasMultipleSelection();
-        Boolean enabled = isEnabled();
+        boolean hasMultipleSelection = hasMultipleSelection();
+        boolean enabled = isEnabled();
         Object value = getValue();
-        C nodeChildren = null;
         StringBuilder nodeIndex = null;
         StringBuilder nodeId = null;
         StringBuilder parentNodeId = null;
         StringBuilder nodeTrace = null;
-        String nodeIndentation = null;
-        Object nodeValue = null;
-        String nodeValueLabel = null;
         StringBuilder expandedNodeId = null;
-        HiddenPropertyComponent expandedNodePropertyComponent = null;
-        String nodeIsExpandedBuffer = null;
-        Boolean isExpandedNode = null;
-        Boolean isSelectedNode = null;
-        String onSelectNodeContent = null;
-        String onUnSelectNodeContent = null;
+        boolean isExpandedNode = false;
         int cont = 0;
         
         try{
@@ -545,11 +505,12 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                 if((parent == null && node.getParent() == null) || (parent != null && parent.equals(node.getParent()))){
                     ExpressionProcessorUtil.setVariable(domain, Constants.ITEM_ATTRIBUTE_ID, node);
                     
-                    onSelectNodeContent = ExpressionProcessorUtil.fillVariablesInString(domain, getOnSelect(), currentLanguage);
-                    onUnSelectNodeContent = ExpressionProcessorUtil.fillVariablesInString(domain, getOnUnSelect(), currentLanguage);
-                    nodeValueLabel = getOptionLabel(node, level);
-                    
-                    if((propertyInfo.isModel() != null && propertyInfo.isModel()) || (propertyInfo.hasModel() != null && propertyInfo.hasModel()))
+                    String onSelectNodeContent = ExpressionProcessorUtil.fillVariablesInString(domain, getOnSelect(), currentLanguage);
+                    String onUnSelectNodeContent = ExpressionProcessorUtil.fillVariablesInString(domain, getOnUnSelect(), currentLanguage);
+                    String nodeValueLabel = getOptionLabel(node, level);
+                    Object nodeValue;
+
+                    if(propertyInfo.isModel() || propertyInfo.hasModel())
                         nodeValue = node;
                     else{
                         try{
@@ -605,8 +566,10 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                     nodeTrace.append("<td class=\"");
                     nodeTrace.append(UIConstants.DEFAULT_TREE_VIEW_TRACE_STYLE_CLASS);
                     nodeTrace.append("\"></td>");
-                    
-                    if(level != null && level > 0)
+
+                    String nodeIndentation;
+
+                    if(level > 0)
                         nodeIndentation = StringUtil.replicate(nodeTrace.toString(), level);
                     else
                         nodeIndentation = null;
@@ -614,7 +577,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                     if(nodeIndentation != null && nodeIndentation.length() > 0)
                         println(nodeIndentation);
                     
-                    if((node.hasChildren() == null || !node.hasChildren()) && (this.onExpand == null || this.onExpand.length() == 0)){
+                    if(!node.hasChildren() && (this.onExpand == null || this.onExpand.length() == 0)){
                         print("<td class=\"");
                         print(UIConstants.DEFAULT_TREE_VIEW_TRACE_STYLE_CLASS);
                         println("\"></td>");
@@ -633,12 +596,12 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                         expandedNodeId.append(".");
                         expandedNodeId.append(UIConstants.IS_TREE_VIEW_NODE_EXPANDED_ATTRIBUTE_ID);
                         
-                        nodeIsExpandedBuffer = systemController.getRequestParameterValue(expandedNodeId.toString());
+                        String nodeIsExpandedBuffer = systemController.getParameterValue(expandedNodeId.toString());
                         
                         if(nodeIsExpandedBuffer == null || nodeIsExpandedBuffer.length() == 0)
-                            isExpandedNode = this.expandLevel == null || level == null || this.expandLevel > level;
+                            isExpandedNode = this.expandLevel > level;
                         else
-                            isExpandedNode = Boolean.valueOf(nodeIsExpandedBuffer);
+                            isExpandedNode = Boolean.parseBoolean(nodeIsExpandedBuffer);
                         
                         print("<td id=\"");
                         print(nodeId);
@@ -646,7 +609,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                         print(UIConstants.DEFAULT_TREE_VIEW_NODE_ICON_ID);
                         print("\" class=\"");
                         
-                        if(isExpandedNode != null && isExpandedNode)
+                        if(isExpandedNode)
                             print(UIConstants.DEFAULT_TREE_VIEW_NODE_EXPANDED_ICON_STYLE_CLASS);
                         else
                             print(UIConstants.DEFAULT_TREE_VIEW_NODE_COLLAPSED_ICON_STYLE_CLASS);
@@ -659,9 +622,9 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                             print("', '");
                             print(nodeId);
                             print("', ");
-                            print(multipleSelection != null ? multipleSelection : false);
+                            print(hasMultipleSelection);
                             print(", ");
-                            print(this.selectUnselectParentsOrChildren != null ? this.selectUnselectParentsOrChildren : false);
+                            print(this.selectUnselectParentsOrChildren);
                             print("); ");
                         }
                         
@@ -683,7 +646,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                         print(UIConstants.DEFAULT_TREE_VIEW_NODE_ID);
                         print("\" class=\"");
                         
-                        if(isExpandedNode == null || !isExpandedNode)
+                        if(!isExpandedNode)
                             print(UIConstants.DEFAULT_TREE_VIEW_NODE_CLOSED_ICON_STYLE_CLASS);
                         else
                             print(UIConstants.DEFAULT_TREE_VIEW_NODE_OPENED_ICON_STYLE_CLASS);
@@ -696,9 +659,11 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                     print(".");
                     print(Constants.LABEL_ATTRIBUTE_ID);
                     print("\" class=\"");
-                    
+
+                    boolean isSelectedNode;
+
                     if(value != null){
-                        if(propertyInfo.isCollection() != null && propertyInfo.isCollection()){
+                        if(propertyInfo.isCollection()){
                             try{
                                 isSelectedNode = (Boolean) MethodUtil.invokeMethod(value, "contains", nodeValue);
                             }
@@ -728,7 +693,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                     
                     print("\" value=\"");
                     
-                    if((propertyInfo.isModel() != null && propertyInfo.isModel()) || (propertyInfo.hasModel() != null && propertyInfo.hasModel())){
+                    if(propertyInfo.isModel() || propertyInfo.hasModel()){
                         BaseModel model = (BaseModel) node;
                         
                         try{
@@ -750,15 +715,15 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                         print("\"");
                     }
                     
-                    if(enabled != null && enabled){
+                    if(enabled){
                         print(" onClick=\"selectUnSelectTreeViewNode('");
                         print(name);
                         print("', '");
                         print(nodeId);
                         print("', ");
-                        print(multipleSelection != null ? multipleSelection : false);
+                        print(hasMultipleSelection);
                         print(", ");
-                        print(this.selectUnselectParentsOrChildren != null ? this.selectUnselectParentsOrChildren : false);
+                        print(this.selectUnselectParentsOrChildren);
                         
                         if((onSelectNodeContent != null && onSelectNodeContent.length() > 0) || (onUnSelectNodeContent == null || onUnSelectNodeContent.length() > 0)){
                             if(onSelectNodeContent != null && onSelectNodeContent.length() > 0){
@@ -792,7 +757,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                     println("</tr>");
                     println("</table>");
                     
-                    if(multipleSelection == null || !multipleSelection){
+                    if(!hasMultipleSelection){
                         if(isSelectedNode){
                             StringBuilder content = new StringBuilder();
                             
@@ -829,7 +794,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                     print(nodeId);
                     print("\"");
                     
-                    if(isExpandedNode == null || !isExpandedNode){
+                    if(!isExpandedNode){
                         print(" style=\"display: ");
                         print(VisibilityType.NONE);
                         print(";\"");
@@ -837,8 +802,9 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                     
                     println(">");
                     
-                    if((node.hasChildren() != null && node.hasChildren()) || (this.onExpand != null && this.onExpand.length() > 0)){
-                        expandedNodePropertyComponent = new HiddenPropertyComponent();
+                    if(node.hasChildren() || (this.onExpand != null && this.onExpand.length() > 0)){
+                        HiddenPropertyComponent expandedNodePropertyComponent = new HiddenPropertyComponent();
+
                         expandedNodePropertyComponent.setPageContext(this.pageContext);
                         expandedNodePropertyComponent.setOutputStream(getOutputStream());
                         expandedNodePropertyComponent.setActionFormName(actionFormName);
@@ -853,10 +819,10 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                             throw new InternalErrorException(e);
                         }
                         
-                        if(node.hasChildren() != null && node.hasChildren()){
-                            nodeChildren = (C) node.getChildren();
+                        if(node.hasChildren()){
+                            C nodeChildren = (C) node.getChildren();
                             
-                            renderNodes(nodeChildren, node, nodeIndex.toString(), (level != null ? level + 1 : 1));
+                            renderNodes(nodeChildren, node, nodeIndex.toString(), level + 1);
                         }
                     }
                     
@@ -873,10 +839,8 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
             ExpressionProcessorUtil.clearVariables(domain);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
@@ -885,9 +849,9 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
         setOnExpandAction(null);
         setOnExpandForward(null);
         setOnExpandUpdateViews(null);
-        setOnExpandValidateModel(null);
+        setOnExpandValidateModel(false);
         setOnExpandValidateModelProperties(null);
-        setExpandLevel(null);
-        setSelectUnselectParentsOrChildren(null);
+        setExpandLevel(0);
+        setSelectUnselectParentsOrChildren(false);
     }
 }

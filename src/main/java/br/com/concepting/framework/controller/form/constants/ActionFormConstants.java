@@ -23,7 +23,6 @@ import br.com.concepting.framework.controller.types.ScopeType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class ActionFormConstants{
     public static final String ACTION_FORMS_ATTRIBUTE_ID = "actionForms";
     public static final String ACTION_FORM_ATTRIBUTE_ID = "actionForm";
@@ -34,7 +33,9 @@ public abstract class ActionFormConstants{
     public static final String DATASET_END_INDEX_ATTRIBUTE_ID = "datasetEndIndex";
     public static final String FORWARDS_ATTRIBUTE_ID = "forwards";
     public static final String FORWARD_ATTRIBUTE_ID = "forward";
-    public static final String DEFAULT_ACTION_SERVLET_FILE_EXTENSION = ".ui";
+    public static final String DEFAULT_ID = "actionForm";
+    public static final String DEFAULT_URL_PATTERN = "*.ui";
+    public static final String DEFAULT_ACTION_FILE_EXTENSION = ".ui";
     public static final String DEFAULT_ROOT_FORWARD_ID = "root";
     public static final String DEFAULT_FORWARD_ID = "index";
     public static final ScopeType DEFAULT_DATASET_SCOPE_TYPE = ScopeType.MODEL;

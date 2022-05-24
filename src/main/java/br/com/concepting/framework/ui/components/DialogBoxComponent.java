@@ -35,9 +35,9 @@ public class DialogBoxComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = -3278696529902173481L;
     
     private String title = null;
-    private Boolean modal = null;
-    private Boolean showOnLoad = null;
-    private Boolean showButtons = null;
+    private boolean modal = false;
+    private boolean showOnLoad = false;
+    private boolean showButtons = true;
     
     /**
      * Returns the title of the component.
@@ -62,7 +62,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean showButtons(){
+    public boolean showButtons(){
         return this.showButtons;
     }
     
@@ -71,7 +71,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowButtons(){
+    public boolean getShowButtons(){
         return showButtons();
     }
     
@@ -80,7 +80,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      *
      * @param showButtons True/False.
      */
-    public void setShowButtons(Boolean showButtons){
+    public void setShowButtons(boolean showButtons){
         this.showButtons = showButtons;
     }
     
@@ -89,7 +89,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean showOnLoad(){
+    public boolean showOnLoad(){
         return this.showOnLoad;
     }
     
@@ -98,7 +98,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowOnLoad(){
+    public boolean getShowOnLoad(){
         return showOnLoad();
     }
     
@@ -107,7 +107,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      *
      * @param showOnLoad True/False.
      */
-    public void setShowOnLoad(Boolean showOnLoad){
+    public void setShowOnLoad(boolean showOnLoad){
         this.showOnLoad = showOnLoad;
     }
     
@@ -116,7 +116,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean isModal(){
+    public boolean isModal(){
         return this.modal;
     }
     
@@ -125,7 +125,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getModal(){
+    public boolean getModal(){
         return isModal();
     }
     
@@ -134,19 +134,15 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      *
      * @param modal True/False.
      */
-    public void setModal(Boolean modal){
+    public void setModal(boolean modal){
         this.modal = modal;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildLabel()
-     */
+
+    @Override
     protected void buildLabel() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildTooltip()
-     */
+
+    @Override
     protected void buildTooltip() throws InternalErrorException{
     }
     
@@ -174,19 +170,15 @@ public class DialogBoxComponent extends BaseActionFormComponent{
                 this.title = (defaultResources != null ? defaultResources.getProperty(propertyId.toString(), false) : null);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         super.buildResources();
         
         buildTitle();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         String styleClass = getStyleClass();
         
@@ -198,26 +190,8 @@ public class DialogBoxComponent extends BaseActionFormComponent{
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        if(this.showOnLoad == null)
-            this.showOnLoad = false;
-        
-        if(this.showButtons == null)
-            this.showButtons = true;
-        
-        if(this.modal == null)
-            this.modal = false;
-        
-        super.buildRestrictions();
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         ComponentType componentType = getComponentType();
         
@@ -229,10 +203,8 @@ public class DialogBoxComponent extends BaseActionFormComponent{
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderId()
-     */
+
+    @Override
     protected void renderId() throws InternalErrorException{
         String id = getId();
         
@@ -244,28 +216,20 @@ public class DialogBoxComponent extends BaseActionFormComponent{
             print("\"");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderName()
-     */
+
+    @Override
     protected void renderName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderType()
-     */
+
+    @Override
     protected void renderType() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderEnabled()
-     */
+
+    @Override
     protected void renderEnabled() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         print("<div");
         
@@ -296,10 +260,8 @@ public class DialogBoxComponent extends BaseActionFormComponent{
         println("<tr>");
         println("<td>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         print("<table class=\"");
         print(UIConstants.DEFAULT_CONTENT_PANEL_STYLE_CLASS);
@@ -341,15 +303,13 @@ public class DialogBoxComponent extends BaseActionFormComponent{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         println("</td>");
         println("</tr>");
         
-        if(this.showButtons != null && this.showButtons){
+        if(this.showButtons){
             println("<tr>");
             print("<td valign=\"");
             print(AlignmentType.BOTTOM);
@@ -373,18 +333,13 @@ public class DialogBoxComponent extends BaseActionFormComponent{
         
         String name = getName();
         
-        if(name != null && name.length() > 0 && this.showOnLoad != null && this.showOnLoad){
+        if(name != null && name.length() > 0 && this.showOnLoad){
             StringBuilder content = new StringBuilder();
             
             content.append("showDialogBox(\"");
             content.append(name);
-            content.append("\"");
-            
-            if(this.modal != null){
-                content.append(", ");
-                content.append(this.modal);
-            }
-            
+            content.append("\", ");
+            content.append(this.modal);
             content.append(");");
             
             ScriptComponent scriptComponent = new ScriptComponent();
@@ -402,16 +357,14 @@ public class DialogBoxComponent extends BaseActionFormComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setShowOnLoad(null);
-        setShowButtons(null);
-        setModal(null);
+        setShowOnLoad(false);
+        setShowButtons(true);
+        setModal(false);
         setTitle(null);
     }
     
@@ -421,7 +374,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      * @author fvilarinho
      * @since 3.0.0
      */
-    private class CloseButtonComponent extends ButtonComponent{
+    private static class CloseButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = -374340863206135380L;
         
         public CloseButtonComponent(DialogBoxComponent dialogBoxComponent){
@@ -434,10 +387,8 @@ public class DialogBoxComponent extends BaseActionFormComponent{
                 setParent(dialogBoxComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             DialogBoxComponent dialogComponent = (DialogBoxComponent) getParent();
             String name = (dialogComponent != null ? dialogComponent.getName() : null);
@@ -463,19 +414,15 @@ public class DialogBoxComponent extends BaseActionFormComponent{
                 super.buildEvents();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_CLOSE_BUTTON_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesKey(UIConstants.DEFAULT_CLOSE_BUTTON_ID);
             

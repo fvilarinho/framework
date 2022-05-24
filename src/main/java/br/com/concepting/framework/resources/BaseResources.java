@@ -27,14 +27,14 @@ import br.com.concepting.framework.caching.CachedObject;
 public abstract class BaseResources<O> extends CachedObject<O>{
     private static final long serialVersionUID = 8856089972323762812L;
     
-    private Boolean isDefault = false;
+    private boolean isDefault = false;
     
     /**
      * Defines if is the default resources.
      *
      * @param isDefault True/False.
      */
-    public void setDefault(Boolean isDefault){
+    public void setDefault(boolean isDefault){
         this.isDefault = isDefault;
     }
     
@@ -43,7 +43,7 @@ public abstract class BaseResources<O> extends CachedObject<O>{
      *
      * @return True/False.
      */
-    public Boolean isDefault(){
+    public boolean isDefault(){
         return this.isDefault;
     }
 }

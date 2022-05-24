@@ -4,12 +4,9 @@ import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.controller.action.types.ActionType;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.ObjectModel;
-import br.com.concepting.framework.model.SystemSessionModel;
 import br.com.concepting.framework.processors.ExpressionProcessor;
 import br.com.concepting.framework.processors.ExpressionProcessorUtil;
 import br.com.concepting.framework.resources.PropertiesResources;
-import br.com.concepting.framework.security.controller.SecurityController;
-import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.ui.components.types.EventType;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.PropertyUtil;
@@ -19,6 +16,7 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.jsp.JspException;
 import java.lang.reflect.InvocationTargetException;
@@ -51,7 +49,7 @@ import java.util.Locale;
 public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     private static final long serialVersionUID = 1340880138631153675L;
     
-    private Integer optionsPerRow = null;
+    private int optionsPerRow = UIConstants.DEFAULT_OPTIONS_PER_ROW;
     private String optionResourcesId = null;
     private String optionLabelProperty = null;
     private String optionTooltipProperty = null;
@@ -59,13 +57,13 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     private String onSelectAction = null;
     private String onSelectForward = null;
     private String onSelectUpdateViews = null;
-    private Boolean onSelectValidateModel = null;
+    private boolean onSelectValidateModel = false;
     private String onSelectValidateModelProperties = null;
     private String onUnSelect = null;
     private String onUnSelectAction = null;
     private String onUnSelectForward = null;
     private String onUnSelectUpdateViews = null;
-    private Boolean onUnSelectValidateModel = null;
+    private boolean onUnSelectValidateModel = false;
     private String onUnSelectValidateModelProperties = null;
     
     /**
@@ -164,7 +162,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnUnSelectValidateModel(){
+    public boolean getOnUnSelectValidateModel(){
         return this.onUnSelectValidateModel;
     }
     
@@ -173,7 +171,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      *
      * @param onUnSelectValidateModel True/False.
      */
-    public void setOnUnSelectValidateModel(Boolean onUnSelectValidateModel){
+    public void setOnUnSelectValidateModel(boolean onUnSelectValidateModel){
         this.onUnSelectValidateModel = onUnSelectValidateModel;
     }
     
@@ -274,7 +272,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnSelectValidateModel(){
+    public boolean getOnSelectValidateModel(){
         return this.onSelectValidateModel;
     }
     
@@ -283,7 +281,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      *
      * @param onSelectValidateModel True/False.
      */
-    public void setOnSelectValidateModel(Boolean onSelectValidateModel){
+    public void setOnSelectValidateModel(boolean onSelectValidateModel){
         this.onSelectValidateModel = onSelectValidateModel;
     }
     
@@ -313,7 +311,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      *
      * @return Numeric value that contains the number of options.
      */
-    public Integer getOptionsPerRow(){
+    public int getOptionsPerRow(){
         return this.optionsPerRow;
     }
     
@@ -322,7 +320,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      *
      * @param optionsPerRow Numeric value that contains the number of options.
      */
-    public void setOptionsPerRow(Integer optionsPerRow){
+    public void setOptionsPerRow(int optionsPerRow){
         this.optionsPerRow = optionsPerRow;
     }
     
@@ -409,9 +407,9 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
-    protected String getOptionLabel(Object option, Integer level) throws InternalErrorException{
+    protected String getOptionLabel(Object option, int level) throws InternalErrorException{
         if(option == null)
-            return null;
+            return StringUtils.EMPTY;
         
         Locale currentLanguage = getCurrentLanguage();
         PropertiesResources resources = getResources(getOptionResourcesId());
@@ -488,11 +486,8 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
-    protected String getOptionLabelIndentation(Integer level) throws InternalErrorException{
-        if(level != null && level > 0)
-            return StringUtil.replicate("&nbsp;", level * Constants.DEFAULT_INDENT_SIZE);
-        
-        return null;
+    protected String getOptionLabelIndentation(int level) throws InternalErrorException{
+        return StringUtil.replicate("&nbsp;", level * Constants.DEFAULT_INDENT_SIZE);
     }
     
     /**
@@ -512,8 +507,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         PropertiesResources mainConsoleResources = getMainConsoleResources();
         PropertiesResources defaultResources = getDefaultResources();
         String optionResourceTooltip = null;
-        String optionValueTooltip = null;
-        
+
         if(option instanceof ObjectModel){
             ObjectModel object = (ObjectModel) option;
             String name = object.getName();
@@ -534,11 +528,13 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
                     optionResourceTooltip = (defaultResources != null ? defaultResources.getProperty(propertyId.toString()) : null);
             }
         }
-        
+
+        String optionValueTooltip;
+
         try{
             if(this.optionTooltipProperty == null || this.optionTooltipProperty.length() == 0)
                 this.optionTooltipProperty = this.optionLabelProperty;
-            
+
             if(this.optionTooltipProperty != null && this.optionTooltipProperty.length() > 0){
                 PropertyInfo optionTooltipPropertyInfo = PropertyUtil.getInfo(option.getClass(), this.optionTooltipProperty);
                 
@@ -571,47 +567,31 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      * the operation.
      */
     protected BaseOptionPropertyComponent getOptionComponent() throws InternalErrorException{
-        Boolean multipleSelection = hasMultipleSelection();
+        boolean multipleSelection = hasMultipleSelection();
         
-        if(multipleSelection != null && multipleSelection)
+        if(multipleSelection)
             return new CheckPropertyComponent();
         
         return new RadioPropertyComponent();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         super.buildEvents();
         
         buildEvent(EventType.ON_SELECT);
         buildEvent(EventType.ON_UN_SELECT);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
         if(getAlignmentType() == null)
             setAlignmentType(AlignmentType.LEFT);
         
         super.buildAlignment();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        if(this.optionsPerRow == null || this.optionsPerRow == 0)
-            this.optionsPerRow = UIConstants.DEFAULT_OPTIONS_PER_ROW;
-        
-        super.buildRestrictions();
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         ComponentType componentType = getComponentType();
         
@@ -646,10 +626,10 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderGroupLabel() throws InternalErrorException{
-        Boolean showLabel = showLabel();
+        boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(getLabelPositionType() == PositionType.TOP && showLabel && showLabel && label != null && label.length() > 0){
+        if(getLabelPositionType() == PositionType.TOP && showLabel && label != null && label.length() > 0){
             renderGroupLabelOpen();
             renderGroupLabelBody();
             renderGroupLabelClose();
@@ -713,17 +693,15 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     protected void renderCloseGroup() throws InternalErrorException{
         println("</fieldset>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         renderDatasetAttributes();
         renderDatasetIndexesAttributes();
         
-        Boolean showLabel = showLabel();
+        boolean showLabel = showLabel();
         
-        if(showLabel != null && showLabel)
+        if(showLabel)
             if(getComponentType() == ComponentType.OPTIONS)
                 if(getLabelPositionType() == PositionType.TOP)
                     setShowLabel(false);
@@ -732,34 +710,30 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         
         setShowLabel(showLabel);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         renderOpenGroup();
         renderOptions();
         renderCloseGroup();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         super.renderClose();
         
         String id = getId();
         String name = getName();
-        Boolean multipleSelection = hasMultipleSelection();
+        boolean multipleSelection = hasMultipleSelection();
         BaseOptionsPropertyComponent optionsPropertyComponent = null;
         
         try{
             optionsPropertyComponent = (BaseOptionsPropertyComponent) getParent();
         }
-        catch(ClassCastException e){
+        catch(ClassCastException ignored){
         }
         
-        if(id != null && id.length() > 0 && name != null && name.length() > 0 && multipleSelection != null && multipleSelection && optionsPropertyComponent == null){
+        if(id != null && id.length() > 0 && name != null && name.length() > 0 && multipleSelection && optionsPropertyComponent == null){
             HiddenPropertyComponent propertyComponent = new HiddenPropertyComponent();
             
             propertyComponent.setPageContext(this.pageContext);
@@ -801,7 +775,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Renders the opening of the options panel row.
+     * Renders the opening of the options' panel row.
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
@@ -810,15 +784,15 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Renders the closing of the options panel row.
+     * Renders the closing of the options' panel row.
      *
      * @param row Numeric value that contains the row index.
      * @throws InternalErrorException Occurs when was not possible to render.
      */
-    protected void renderOptionPanelRowClose(Integer row) throws InternalErrorException{
+    protected void renderOptionPanelRowClose(int row) throws InternalErrorException{
         println("</td>");
         
-        if(this.optionsPerRow != null && (row % this.optionsPerRow) == 0){
+        if((row % this.optionsPerRow) == 0){
             println("</tr>");
             println("<tr>");
         }
@@ -847,7 +821,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     @SuppressWarnings("unchecked")
-    protected <N extends Node> void renderOptions(List<?> options, N parent, Integer level) throws InternalErrorException{
+    protected <N extends Node> void renderOptions(List<?> options, N parent, int level) throws InternalErrorException{
         if(options == null || options.size() == 0)
             return;
         
@@ -855,21 +829,19 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         
         try{
             ExpressionProcessor expressionProcessor = new ExpressionProcessor(domain, getCurrentLanguage());
-            String expression = null;
-            Boolean expressionResult = null;
             Object value = getValue();
-            List<?> optionChildren = null;
-            N optionChild = null;
-            BaseOptionPropertyComponent optionComponent = null;
             Collection<OptionStateComponent> optionsStatesComponents = getOptionStatesComponents();
             String optionStyleClass = getOptionLabelStyleClass();
             String optionStyle = getOptionLabelStyle();
-            Boolean remove = null;
             int cont = 0;
             
             renderOptionsPanelOpen();
             
             for(Object option: options){
+                N optionChild;
+                boolean remove;
+                boolean expressionResult;
+
                 if(option instanceof Node){
                     optionChild = (N) option;
                     
@@ -884,22 +856,22 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
                 if(optionChild == null || (optionChild.getParent() == null && parent == null) || (parent != null && parent.equals(optionChild.getParent()))){
                     ExpressionProcessorUtil.setVariable(domain, Constants.ITEM_ATTRIBUTE_ID, option);
                     
-                    expressionResult = true;
                     remove = false;
                     
                     if(optionsStatesComponents != null && !optionsStatesComponents.isEmpty()){
                         expressionProcessor.setDeclaration(option);
                         
                         for(OptionStateComponent optionStateComponent: optionsStatesComponents){
-                            expression = optionStateComponent.getExpression();
+                            String expression = optionStateComponent.getExpression();
                             
                             try{
                                 expressionResult = expressionProcessor.evaluate(expression);
                             }
-                            catch(InternalErrorException e){
+                            catch(Throwable ignored){
+                                expressionResult = false;
                             }
                             
-                            if(expressionResult != null && expressionResult){
+                            if(expressionResult){
                                 remove = optionStateComponent.remove();
                                 optionStyleClass = optionStateComponent.getStyleClass();
                                 optionStyle = optionStateComponent.getStyle();
@@ -909,13 +881,14 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
                         }
                     }
                     
-                    if(remove == null || !remove){
+                    if(!remove){
                         renderOptionPanelRowOpen();
                         
                         optionStyleClass = ExpressionProcessorUtil.fillVariablesInString(domain, optionStyleClass);
                         optionStyle = ExpressionProcessorUtil.fillVariablesInString(domain, optionStyle);
-                        
-                        optionComponent = getOptionComponent();
+
+                        BaseOptionPropertyComponent optionComponent = getOptionComponent();
+
                         optionComponent.setPageContext(this.pageContext);
                         optionComponent.setOutputStream(getOutputStream());
                         optionComponent.setPropertyInfo(getPropertyInfo());
@@ -944,9 +917,9 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
                         
                         if(optionChild != null){
                             if(optionChild.hasChildren()){
-                                optionChildren = optionChild.getChildren();
+                                List<?> optionChildren = optionChild.getChildren();
                                 
-                                renderOptions(optionChildren, optionChild, (level != null ? level + 1 : 1));
+                                renderOptions(optionChildren, optionChild, level + 1);
                             }
                         }
                         
@@ -966,27 +939,25 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
             ExpressionProcessorUtil.clearVariables(domain);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
         setOptionResourcesId(null);
-        setOptionsPerRow(null);
+        setOptionsPerRow(UIConstants.DEFAULT_OPTIONS_PER_ROW);
         setOptionLabelProperty(null);
         setOnSelect(null);
         setOnSelectAction(null);
         setOnSelectForward(null);
         setOnSelectUpdateViews(null);
-        setOnSelectValidateModel(null);
+        setOnSelectValidateModel(false);
         setOnSelectValidateModelProperties(null);
         setOnUnSelect(null);
         setOnUnSelectAction(null);
         setOnUnSelectForward(null);
         setOnUnSelectUpdateViews(null);
-        setOnUnSelectValidateModel(null);
+        setOnUnSelectValidateModel(false);
         setOnUnSelectValidateModelProperties(null);
     }
 }

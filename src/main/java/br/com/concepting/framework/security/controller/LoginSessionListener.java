@@ -69,7 +69,6 @@ public class LoginSessionListener implements HttpSessionListener{
      * @throws InternalErrorException Occurs when was not possible to
      * instantiate the service implementation.
      */
-    @SuppressWarnings("unchecked")
     protected <S extends LoginSessionService<? extends LoginSessionModel, ? extends UserModel, ? extends LoginParameterModel>> S getService() throws InternalErrorException{
         if(this.loginSession != null)
             return getService(this.loginSession.getClass());
@@ -91,17 +90,13 @@ public class LoginSessionListener implements HttpSessionListener{
             if(modelClass == null)
                 modelClass = this.loginSession.getClass();
             
-            S service = ServiceUtil.getByModelClass(modelClass, this.loginSession);
-            
-            return service;
+            return ServiceUtil.getByModelClass(modelClass, this.loginSession);
         }
         
         return null;
     }
-    
-    /**
-     * @see javax.servlet.http.HttpSessionListener#sessionCreated(javax.servlet.http.HttpSessionEvent)
-     */
+
+    @Override
     public void sessionCreated(HttpSessionEvent event){
         this.systemController = new SystemController(event.getSession());
         this.securityController = this.systemController.getSecurityController();
@@ -116,10 +111,8 @@ public class LoginSessionListener implements HttpSessionListener{
                 this.systemController.setCurrentException(e);
         }
     }
-    
-    /**
-     * @see javax.servlet.http.HttpSessionListener#sessionDestroyed(javax.servlet.http.HttpSessionEvent)
-     */
+
+    @Override
     public void sessionDestroyed(HttpSessionEvent event){
         try{
             if(this.securityController != null){
@@ -128,7 +121,7 @@ public class LoginSessionListener implements HttpSessionListener{
                 onDestroy();
             }
         }
-        catch(InternalErrorException e){
+        catch(InternalErrorException ignored){
         }
     }
     
@@ -157,7 +150,7 @@ public class LoginSessionListener implements HttpSessionListener{
     }
     
     /**
-     * Executed on the destroy of the login session.
+     * Executed to destroy the login session.
      *
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.

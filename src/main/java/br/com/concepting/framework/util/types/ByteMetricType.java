@@ -27,74 +27,58 @@ public enum ByteMetricType implements IMetric{
     /**
      * Byte metric.
      */
-    BYTE(1d, "byte"),
+    BYTE(1D, "byte"),
     
     /**
      * Kilobyte metric.
      */
-    KILO_BYTE(BYTE.getValue() * 1024d, "Kb"),
+    KILO_BYTE(BYTE.getValue() * 1024D, "Kb"),
     
     /**
      * Megabyte metric.
      */
-    MEGA_BYTE(KILO_BYTE.getValue() * 1024d, "Mb"),
+    MEGA_BYTE(KILO_BYTE.getValue() * 1024D, "Mb"),
     
     /**
      * Gigabyte metric.
      */
-    GIGA_BYTE(MEGA_BYTE.getValue() * 1024d, "Gb"),
+    GIGA_BYTE(MEGA_BYTE.getValue() * 1024D, "Gb"),
     
     /**
      * Constant for a Terabyte.
      */
-    TERA_BYTE(GIGA_BYTE.getValue() * 1024d, "Tb");
+    TERA_BYTE(GIGA_BYTE.getValue() * 1024D, "Tb");
     
-    private Double value = null;
-    private String unit = null;
-    
-    /**
-     * Constructor - Default metric.
-     */
-    ByteMetricType(){
-    }
-    
+    private double value;
+    private String unit;
+
     /**
      * Constructor - Defines the metric.
      *
      * @param value Defines the metric value.
      * @param unit Defines the metric unit.
      */
-    ByteMetricType(Double value, String unit){
-        this();
-        
+    ByteMetricType(double value, String unit){
         setValue(value);
         setUnit(unit);
     }
-    
-    /**
-     * @see br.com.concepting.framework.util.interfaces.IMetric#getValue()
-     */
-    public Double getValue(){
+
+    @Override
+    public double getValue(){
         return this.value;
     }
-    
-    /**
-     * @see br.com.concepting.framework.util.interfaces.IMetric#setValue(java.lang.Double)
-     */
-    public void setValue(Double metricValue){
+
+    @Override
+    public void setValue(double metricValue){
         this.value = metricValue;
     }
-    
-    /**
-     * @see br.com.concepting.framework.util.interfaces.IMetric#getUnit()
-     */
+
+    @Override
     public String getUnit(){
         return this.unit;
     }
     
-    /**
-     * @see br.com.concepting.framework.util.interfaces.IMetric#setUnit(java.lang.String)
-     */
+    @Override
     public void setUnit(String metricUnit){
         this.unit = metricUnit;
     }

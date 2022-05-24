@@ -114,7 +114,7 @@ public interface IService<M extends BaseModel> extends ICrud<M>{
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
-    Boolean isActive() throws InternalErrorException;
+    boolean isActive() throws InternalErrorException;
     
     /**
      * Returns the polling time of the service.

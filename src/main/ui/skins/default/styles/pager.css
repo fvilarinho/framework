@@ -9,9 +9,9 @@
  * Style that defines the first page button.
  */
 .firstPageButton{
-	background: url("../images/firstPageButton.png") NO-REPEAT;	
 	width     : 20px;
 	height    : 20px;
+	background: url("../images/firstPageButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -21,9 +21,9 @@
  * Style that defines the disabled first page button.
  */
 .firstPageButtonDisabled{
-	background: url("../images/firstPageButtonDisabled.png") NO-REPEAT;	
 	width     : 20px;
 	height    : 20px;
+	background: url("../images/firstPageButtonDisabled.png") NO-REPEAT;
 	border    : NONE;
 }
 
@@ -31,9 +31,9 @@
  * Style that defines the previous page button.
  */
 .previousPageButton{
-	background: url("../images/previousPageButton.png") NO-REPEAT;	
 	width     : 20px;
 	height    : 20px;
+	background: url("../images/previousPageButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -43,9 +43,9 @@
  * Style that defines the disabled previous page button.
  */
 .previousPageButtonDisabled{
-	background: url("../images/previousPageButtonDisabled.png") NO-REPEAT;	
 	width     : 20px;
 	height    : 20px;
+	background: url("../images/previousPageButtonDisabled.png") NO-REPEAT;
 	border    : NONE;
 }
 
@@ -53,9 +53,9 @@
  * Style that defines the next page button.
  */
 .nextPageButton{
-	background: url("../images/nextPageButton.png") NO-REPEAT;	
 	width     : 20px;
 	height    : 20px;
+	background: url("../images/nextPageButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -65,9 +65,9 @@
  * Style that defines the disabled next page button.
  */
 .nextPageButtonDisabled{
-	background: url("../images/nextPageButtonDisabled.png") NO-REPEAT;	
 	width     : 20px;
 	height    : 20px;
+	background: url("../images/nextPageButtonDisabled.png") NO-REPEAT;
 	border    : NONE;
 }
 
@@ -75,9 +75,9 @@
  * Style that defines the last page button.
  */
 .lastPageButton{
-	background: url("../images/lastPageButton.png") NO-REPEAT;	
 	width     : 20px;
 	height    : 20px;
+	background: url("../images/lastPageButton.png") NO-REPEAT;
 	border    : NONE;
 	outline   : NONE;
 	cursor    : POINTER;
@@ -87,9 +87,9 @@
  * Style that defines the disabled last page button.
  */
 .lastPageButtonDisabled{
-	background: url("../images/lastPageButtonDisabled.png") NO-REPEAT;	
 	width     : 20px;
 	height    : 20px;
+	background: url("../images/lastPageButtonDisabled.png") NO-REPEAT;
 	border    : NONE;
 }
 
@@ -97,23 +97,23 @@
  * Style that defines the component.
  */
 .pager{
+	border-spacing: 0;
 	padding       : 2px;
-	border-spacing: 0px;
 }
 
 /**
  * Style that defines the text of the component.
  */
 .pagerDisplay{
-	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	width                : 20px;
+	height               : 24px;
+	background           : WHITE;
+	font-family          : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size            : 14px;
 	font-weight          : BOLD;
 	color                : #1e8fad;
-	width                : 20px;
-	background           : WHITE;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
 	border               : 1px SOLID #aaaaaa;
-	height               : 24px;                 
 }

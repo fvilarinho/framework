@@ -15,7 +15,6 @@ import br.com.concepting.framework.security.resources.SecurityResources;
 import br.com.concepting.framework.security.resources.SecurityResourcesLoader;
 import br.com.concepting.framework.security.service.interfaces.LoginSessionService;
 import br.com.concepting.framework.security.util.SecurityUtil;
-import br.com.concepting.framework.service.annotations.Service;
 import br.com.concepting.framework.service.helpers.ServiceThread;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
@@ -61,14 +60,13 @@ import java.util.concurrent.TimeUnit;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 @WebListener
-@SuppressWarnings("unchecked")
 public class ServiceListener implements ServletContextListener{
     private static ScheduledExecutorService scheduledExecutor = null;
     private static ExecutorService executor = null;
     
     private LoginSessionModel loginSession = null;
     private ServletContextEvent event = null;
-    
+
     /**
      * Returns the instance of the event.
      *
@@ -102,10 +100,8 @@ public class ServiceListener implements ServletContextListener{
         
         return null;
     }
-    
-    /**
-     * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
-     */
+
+    @Override
     public void contextDestroyed(ServletContextEvent event){
         onDestroy(event);
     }
@@ -116,7 +112,7 @@ public class ServiceListener implements ServletContextListener{
         try{
             SecurityResourcesLoader loader = new SecurityResourcesLoader();
             SecurityResources resources = loader.getDefault();
-            Class<L> loginSessionClass = (Class<L>)resources.getLoginSessionClass();
+            Class<? extends LoginSessionModel> loginSessionClass = resources.getLoginSessionClass();
             LoginSessionService<L, U, LP> loginSessionService = getService(loginSessionClass);
             
             loginSessionService.logOutAll();
@@ -139,151 +135,139 @@ public class ServiceListener implements ServletContextListener{
             try{
                 DriverManager.deregisterDriver(driver);
             }
-            catch(SQLException e){
+            catch(SQLException ignored){
             }
         }
         
         AbandonedConnectionCleanupThread.checkedShutdown();
     }
-    
-    /**
-     * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
-     */
+
+    @Override
     public void contextInitialized(ServletContextEvent event){
         onInitialize(event);
     }
-    
+
+    @SuppressWarnings("unchecked")
     protected <L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel, SM extends SystemModuleModel, SS extends SystemSessionModel> void onInitialize(ServletContextEvent event){
         setEvent(event);
 
-        Runnable serviceListenerRunnable = new Runnable(){
-            /**
-             * @see java.lang.Runnable#run()
-             */
-            @SuppressWarnings("unchecked")
-            public void run(){
-                try{
-                    ServiceListener.this.loginSession = SecurityUtil.getLoginSession();
-                    ServiceListener.this.loginSession.setId(SecurityUtil.generateToken());
-                    ServiceListener.this.loginSession.setStartDateTime(new DateTime());
-                    ServiceListener.this.loginSession.setActive(true);
-                    
-                    U user = ServiceListener.this.loginSession.getUser();
-                    Class<U> userClass = (Class<U>)user.getClass();
-                    IService<U> userService = getService(userClass);
-                    
-                    user.setName(SecurityUtil.getSystemUserName());
-                    user.setActive(true);
-                    
-                    Collection<U> users = userService.search(user);
-                    
-                    if(users != null && !users.isEmpty()){
-                        user = users.iterator().next();
-                        
-                        ServiceListener.this.loginSession.setUser(user);
-                        
-                        SM systemModule = ServiceListener.this.loginSession.getSystemModule();
-                        Class<SM> systemModuleClass = (Class<SM>) systemModule.getClass();
-                        IService<SM> systemModuleService = getService(systemModuleClass);
-                        
-                        systemModule.setUrl(event.getServletContext().getContextPath());
-                        
-                        Collection<SM> systemModules = systemModuleService.search(systemModule);
-                        
-                        if(systemModules != null && !systemModules.isEmpty()){
-                            systemModule = systemModules.iterator().next();
-                            
-                            ServiceListener.this.loginSession.setSystemModule(systemModule);
-                            
-                            InetAddress localhost = InetAddress.getLocalHost();
-                            SS systemSession = ServiceListener.this.loginSession.getSystemSession();
-                            Class<SS> systemSessionClass = (Class<SS>) systemSession.getClass();
-                            IService<SS> systemSessionService = getService(systemSessionClass);
-                            
-                            systemSession.setId(ServiceListener.this.loginSession.getId());
-                            systemSession.setStartDateTime(ServiceListener.this.loginSession.getStartDateTime());
-                            systemSession.setIp(localhost.getHostAddress());
-                            systemSession.setHostName(localhost.getHostName());
-                            
-                            try{
-                                systemSession = systemSessionService.save(systemSession);
-                            }
-                            catch(ItemAlreadyExistsException e1){
-                            }
-                            
-                            ServiceListener.this.loginSession.setSystemSession(systemSession);
-                            
-                            Class<L> loginSessionClass = (Class<L>) ServiceListener.this.loginSession.getClass();
-                            LoginSessionService<L, U, LP> loginSessionService = getService(loginSessionClass);
-                            
-                            try{
-                                ServiceListener.this.loginSession = loginSessionService.save((L)ServiceListener.this.loginSession);
-                            }
-                            catch(ItemAlreadyExistsException e1){
-                            }
-                            
-                            SystemResourcesLoader systemResourcesLoader = new SystemResourcesLoader();
-                            SystemResources systemResources = systemResourcesLoader.getDefault();
-                            Collection<String> items = systemResources.getServices();
-                            
-                            if(items != null && !items.isEmpty()){
-                                Service serviceAnnotation = null;
-                                Collection<Class<? extends IService<? extends BaseModel>>> servicesClasses = null;
+        Runnable serviceListenerRunnable = () -> {
+            try{
+                ServiceListener.this.loginSession = SecurityUtil.getLoginSession();
+                ServiceListener.this.loginSession.setId(SecurityUtil.generateToken());
+                ServiceListener.this.loginSession.setStartDateTime(new DateTime());
+                ServiceListener.this.loginSession.setActive(true);
 
-                                for(String item: items){
-                                    Class<? extends IService<? extends BaseModel>> serviceClass = null;
-                                    
-                                    try{
-                                        serviceClass = (Class<? extends IService<? extends BaseModel>>) Class.forName(item);
+                U user = ServiceListener.this.loginSession.getUser();
+                Class<U> userClass = (Class<U>)user.getClass();
+                IService<U> userService = getService(userClass);
+
+                user.setName(SecurityUtil.getSystemUserName());
+                user.setActive(true);
+
+                Collection<U> users = userService.search(user);
+
+                if(users != null && !users.isEmpty()){
+                    user = users.iterator().next();
+
+                    ServiceListener.this.loginSession.setUser(user);
+
+                    SM systemModule = ServiceListener.this.loginSession.getSystemModule();
+                    Class<SM> systemModuleClass = (Class<SM>) systemModule.getClass();
+                    IService<SM> systemModuleService = getService(systemModuleClass);
+
+                    systemModule.setUrl(event.getServletContext().getContextPath());
+
+                    Collection<SM> systemModules = systemModuleService.search(systemModule);
+
+                    if(systemModules != null && !systemModules.isEmpty()){
+                        systemModule = systemModules.iterator().next();
+
+                        ServiceListener.this.loginSession.setSystemModule(systemModule);
+
+                        InetAddress localhost = InetAddress.getLocalHost();
+                        SS systemSession = ServiceListener.this.loginSession.getSystemSession();
+                        Class<SS> systemSessionClass = (Class<SS>) systemSession.getClass();
+                        IService<SS> systemSessionService = getService(systemSessionClass);
+
+                        systemSession.setId(ServiceListener.this.loginSession.getId());
+                        systemSession.setStartDateTime(ServiceListener.this.loginSession.getStartDateTime());
+                        systemSession.setIp(localhost.getHostAddress());
+                        systemSession.setHostName(localhost.getHostName());
+
+                        try{
+                            systemSession = systemSessionService.save(systemSession);
+                        }
+                        catch(ItemAlreadyExistsException ignored){
+                        }
+
+                        ServiceListener.this.loginSession.setSystemSession(systemSession);
+
+                        Class<L> loginSessionClass = (Class<L>) ServiceListener.this.loginSession.getClass();
+                        LoginSessionService<L, U, LP> loginSessionService = getService(loginSessionClass);
+
+                        try{
+                            ServiceListener.this.loginSession = loginSessionService.save((L)ServiceListener.this.loginSession);
+                        }
+                        catch(ItemAlreadyExistsException ignored){
+                        }
+
+                        SystemResourcesLoader systemResourcesLoader = new SystemResourcesLoader();
+                        SystemResources systemResources = systemResourcesLoader.getDefault();
+                        Collection<SystemResources.ServiceResources> servicesResources = systemResources.getServices();
+
+                        if(servicesResources != null && !servicesResources.isEmpty()){
+                            Collection<Class<? extends IService<? extends BaseModel>>> recurrentServicesClasses = null;
+
+                            for(SystemResources.ServiceResources serviceResources : servicesResources){
+                                Class<? extends IService<? extends BaseModel>> serviceClass = null;
+
+                                try{
+                                    serviceClass = (Class<? extends IService<? extends BaseModel>>)Class.forName(serviceResources.getClazz());
+                                }
+                                catch(ClassNotFoundException ignored){
+                                }
+
+                                if(serviceClass != null){
+                                    if(serviceResources.isRecurrent()){
+                                        if(recurrentServicesClasses == null)
+                                            recurrentServicesClasses = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+
+                                        recurrentServicesClasses.add(serviceClass);
                                     }
-                                    catch(ClassNotFoundException e){
-                                    }
-                                    
-                                    if(serviceClass != null){
-                                        serviceAnnotation = serviceClass.getAnnotation(Service.class);
-                                        
-                                        if(serviceAnnotation != null && serviceAnnotation.isDaemon()){
-                                            if(serviceAnnotation.isRecurrent()){
-                                                if(servicesClasses == null)
-                                                    servicesClasses = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+                                    else if(serviceResources.isDaemon()){
+                                        if(executor == null)
+                                            executor = Executors.newWorkStealingPool();
 
-                                                servicesClasses.add(serviceClass);
-                                            }
-                                            else{
-                                                if(executor == null)
-                                                    executor = Executors.newWorkStealingPool();
+                                        IService<? extends BaseModel> daemonService = ServiceUtil.getByServiceClass(serviceClass, ServiceListener.this.loginSession);
 
-                                                IService<? extends BaseModel> service = ServiceUtil.getByServiceClass(serviceClass, ServiceListener.this.loginSession);
-                                                
-                                                executor.submit(new ServiceThread(service));
-                                            }
-                                        }
+                                        executor.submit(new ServiceThread(daemonService));
                                     }
                                 }
-                                
-                                if(servicesClasses != null && !servicesClasses.isEmpty()){
-                                    Calendar now = Calendar.getInstance();
-                                    int initialDelay = (60 - now.get(Calendar.SECOND));
-                                    
-                                    if(initialDelay == 60)
-                                        initialDelay = 0;
-                                    
-                                    if(scheduledExecutor == null)
-                                        scheduledExecutor = Executors.newScheduledThreadPool(servicesClasses.size());
-                                    
-                                    for(Class<? extends IService<? extends BaseModel>> serviceClass: servicesClasses){
-                                        IService<? extends BaseModel> service = ServiceUtil.getByServiceClass(serviceClass, ServiceListener.this.loginSession);
+                            }
 
-                                        scheduledExecutor.scheduleAtFixedRate(new ServiceThread(service), initialDelay, 60, TimeUnit.SECONDS);
-                                    }
+                            if(recurrentServicesClasses != null && !recurrentServicesClasses.isEmpty()){
+                                Calendar now = Calendar.getInstance();
+                                int initialDelay = (60 - now.get(Calendar.SECOND));
+
+                                if(initialDelay == 60)
+                                    initialDelay = 0;
+
+                                if(scheduledExecutor == null)
+                                    scheduledExecutor = Executors.newScheduledThreadPool(recurrentServicesClasses.size());
+
+                                for(Class<? extends IService<? extends BaseModel>> recurrentServiceClass : recurrentServicesClasses){
+                                    IService<? extends BaseModel> recurrentService = ServiceUtil.getByServiceClass(recurrentServiceClass, ServiceListener.this.loginSession);
+
+                                    scheduledExecutor.scheduleAtFixedRate(new ServiceThread(recurrentService), initialDelay, 60, TimeUnit.SECONDS);
                                 }
                             }
                         }
                     }
                 }
-                catch(InternalErrorException | UnknownHostException e){
-                    event.getServletContext().log(null, e);
-                }
+            }
+            catch(InternalErrorException | UnknownHostException e){
+                ServiceListener.this.event.getServletContext().log(null, e);
             }
         };
         

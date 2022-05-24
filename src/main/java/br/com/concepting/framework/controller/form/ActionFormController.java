@@ -1,13 +1,5 @@
 package br.com.concepting.framework.controller.form;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URLDecoder;
-import java.text.ParseException;
-import java.util.Collection;
-
-import org.apache.commons.beanutils.ConstructorUtils;
-
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.constants.ProjectConstants;
 import br.com.concepting.framework.controller.SystemController;
@@ -24,14 +16,19 @@ import br.com.concepting.framework.model.constants.ModelConstants;
 import br.com.concepting.framework.model.types.ConditionType;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.SystemResourcesLoader;
-import br.com.concepting.framework.resources.helpers.ActionFormForwardResources;
-import br.com.concepting.framework.resources.helpers.ActionFormResources;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.NumberUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.types.ByteMetricType;
 import br.com.concepting.framework.util.types.ContentType;
+import org.apache.commons.beanutils.ConstructorUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URLDecoder;
+import java.text.ParseException;
+import java.util.Collection;
 
 /**
  * Class that defines the form controller.
@@ -55,9 +52,10 @@ import br.com.concepting.framework.util.types.ContentType;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ActionFormController{
+    private final SystemController systemController;
+
     private String actionFormName = null;
-    private SystemController systemController = null;
-    
+
     /**
      * Constructor - Initialize the controller.
      *
@@ -96,10 +94,10 @@ public class ActionFormController{
                 try{
                     SystemResourcesLoader loader = new SystemResourcesLoader();
                     SystemResources systemResources = loader.getDefault();
-                    Collection<ActionFormResources> actionFormsResources = (systemResources != null ? systemResources.getActionForms() : null);
+                    Collection<SystemResources.ActionFormResources> actionFormsResources = (systemResources != null ? systemResources.getActionForms() : null);
                     
                     if(actionFormsResources != null && !actionFormsResources.isEmpty()){
-                        for(ActionFormResources actionFormResources: actionFormsResources){
+                        for(SystemResources.ActionFormResources actionFormResources: actionFormsResources){
                             if(name.equals(actionFormResources.getName())){
                                 this.actionFormName = name;
                                 
@@ -139,10 +137,10 @@ public class ActionFormController{
             try{
                 SystemResourcesLoader loader = new SystemResourcesLoader();
                 SystemResources systemResources = loader.getDefault();
-                Collection<ActionFormResources> actionFormsResources = (systemResources != null ? systemResources.getActionForms() : null);
+                Collection<SystemResources.ActionFormResources> actionFormsResources = (systemResources != null ? systemResources.getActionForms() : null);
                 
                 if(actionFormsResources != null && !actionFormsResources.isEmpty()){
-                    for(ActionFormResources actionFormResources: actionFormsResources){
+                    for(SystemResources.ActionFormResources actionFormResources: actionFormsResources){
                         if(action.equals(actionFormResources.getAction())){
                             this.actionFormName = actionFormResources.getName();
                             
@@ -177,13 +175,13 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public BaseActionForm<? extends BaseModel> getActionFormInstance() throws InternalErrorException{
-        BaseActionForm<? extends BaseModel> actionFormInstance = null;
+        BaseActionForm<? extends BaseModel> actionFormInstance;
         
         if(this.actionFormName == null || this.actionFormName.length() == 0){
             String action = StringUtil.replaceAll(this.systemController.getRequestURI(), this.systemController.getContextPath(), "");
             
             action = StringUtil.replaceAll(action, ProjectConstants.DEFAULT_UI_PAGES_DIR, "");
-            action = StringUtil.replaceAll(action, ActionFormConstants.DEFAULT_ACTION_SERVLET_FILE_EXTENSION, "");
+            action = StringUtil.replaceAll(action, ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION, "");
             
             int pos = action.indexOf(UIConstants.DEFAULT_PAGE_FILE_EXTENSION);
             
@@ -217,7 +215,7 @@ public class ActionFormController{
             key.append(".");
             key.append(ActionFormConstants.DATASET_ATTRIBUTE_ID);
             
-            String keyValue = this.systemController.getRequestParameterValue(key.toString());
+            String keyValue = this.systemController.getParameterValue(key.toString());
             
             if(keyValue != null && keyValue.length() > 0){
                 StringBuilder result = new StringBuilder();
@@ -272,7 +270,7 @@ public class ActionFormController{
             key.append(ActionFormConstants.DATASET_SCOPE_ATTRIBUTE_ID);
             
             try{
-                String scopeType = this.systemController.getRequestParameterValue(key.toString());
+                String scopeType = this.systemController.getParameterValue(key.toString());
                 
                 if(scopeType != null)
                     return ScopeType.valueOf(scopeType.toUpperCase());
@@ -293,7 +291,9 @@ public class ActionFormController{
      * @param propertyName String that contains the identifier of the property.
      * @return Numeric value that contains the index.
      */
-    public Integer getPropertyDatasetStartIndex(String propertyName){
+    public int getPropertyDatasetStartIndex(String propertyName){
+        int propertyIndex = 0;
+
         if(propertyName != null && propertyName.length() > 0){
             StringBuilder key = new StringBuilder();
             
@@ -301,21 +301,18 @@ public class ActionFormController{
             key.append(".");
             key.append(ActionFormConstants.DATASET_START_INDEX_ATTRIBUTE_ID);
             
-            String value = this.systemController.getRequestParameterValue(key.toString());
-            Integer propertyIndex = null;
-            
+            String value = this.systemController.getParameterValue(key.toString());
+
             if(value != null && value.length() > 0){
                 try{
                     propertyIndex = NumberUtil.parseInt(value);
                 }
-                catch(ParseException e){
+                catch(ParseException ignored){
                 }
             }
-            
-            return propertyIndex;
         }
-        
-        return null;
+
+        return propertyIndex;
     }
     
     /**
@@ -324,7 +321,9 @@ public class ActionFormController{
      * @param propertyName String that contains the identifier of the property.
      * @return Numeric value that contains the index.
      */
-    public Integer getPropertyDatasetEndIndex(String propertyName){
+    public int getPropertyDatasetEndIndex(String propertyName){
+        int propertyIndex = 0;
+
         if(propertyName != null && propertyName.length() > 0){
             StringBuilder key = new StringBuilder();
             
@@ -332,21 +331,18 @@ public class ActionFormController{
             key.append(".");
             key.append(ActionFormConstants.DATASET_END_INDEX_ATTRIBUTE_ID);
             
-            String value = this.systemController.getRequestParameterValue(key.toString());
-            Integer propertyIndex = null;
-            
+            String value = this.systemController.getParameterValue(key.toString());
+
             if(value != null && value.length() > 0){
                 try{
                     propertyIndex = NumberUtil.parseInt(value);
                 }
-                catch(ParseException e){
+                catch(ParseException ignored){
                 }
             }
-            
-            return propertyIndex;
         }
-        
-        return null;
+
+        return propertyIndex;
     }
     
     /**
@@ -364,13 +360,13 @@ public class ActionFormController{
             key.append(Constants.PATTERN_ATTRIBUTE_ID);
             
             String encoding = this.systemController.getEncoding();
-            String value = this.systemController.getRequestParameterValue(key.toString());
+            String value = this.systemController.getParameterValue(key.toString());
             
             if(value != null && value.length() > 0){
                 try{
                     value = URLDecoder.decode(value, encoding);
                 }
-                catch(UnsupportedEncodingException e){
+                catch(UnsupportedEncodingException ignored){
                 }
             }
             
@@ -395,13 +391,13 @@ public class ActionFormController{
             key.append(Constants.LABEL_ATTRIBUTE_ID);
             
             String encoding = this.systemController.getEncoding();
-            String value = this.systemController.getRequestParameterValue(key.toString());
+            String value = this.systemController.getParameterValue(key.toString());
             
             if(value != null && value.length() > 0){
                 try{
                     value = URLDecoder.decode(value, encoding);
                 }
-                catch(UnsupportedEncodingException e){
+                catch(UnsupportedEncodingException ignored){
                 }
             }
             
@@ -468,14 +464,14 @@ public class ActionFormController{
      * @return True/False.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public Boolean hasValidationMessage(String propertyName) throws InternalErrorException{
+    public boolean hasValidationMessage(String propertyName) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0){
             Collection<ActionFormMessage> validationMessages = getValidationMessages(propertyName);
             
             return (validationMessages != null && validationMessages.size() > 0);
         }
         
-        return null;
+        return false;
     }
     
     /**
@@ -588,7 +584,7 @@ public class ActionFormController{
      * @param permittedContentTypes Array that contains the permitted content types.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public void addContentTypeValidationMessage(String propertyName, ContentType propertyContentType, ContentType permittedContentTypes[]) throws InternalErrorException{
+    public void addContentTypeValidationMessage(String propertyName, ContentType propertyContentType, ContentType[] permittedContentTypes) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyContentType != null && permittedContentTypes != null && permittedContentTypes.length > 0)
             addContentTypeValidationMessage(propertyName, getPropertyLabel(propertyName), propertyContentType, permittedContentTypes);
     }
@@ -602,7 +598,7 @@ public class ActionFormController{
      * @param permittedContentTypes Array that contains the permitted content types.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public void addContentTypeValidationMessage(String propertyName, String propertyLabel, ContentType propertyContentType, ContentType permittedContentTypes[]) throws InternalErrorException{
+    public void addContentTypeValidationMessage(String propertyName, String propertyLabel, ContentType propertyContentType, ContentType[] permittedContentTypes) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyContentType != null && permittedContentTypes != null && permittedContentTypes.length > 0)
             addMessage(ActionFormValidationMessageUtil.createContentTypeValidationMessage(propertyName, propertyLabel, propertyContentType, permittedContentTypes));
     }
@@ -744,8 +740,8 @@ public class ActionFormController{
      * @param propertyWordCount Numeric value that contains the word count.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public void addWordCountValidationMessage(String propertyName, Integer propertyWordCount) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyWordCount != null && propertyWordCount > 0)
+    public void addWordCountValidationMessage(String propertyName, int propertyWordCount) throws InternalErrorException{
+        if(propertyName != null && propertyName.length() > 0 && propertyWordCount > 0)
             addWordCountValidationMessage(propertyName, getPropertyLabel(propertyName), propertyWordCount);
     }
     
@@ -757,8 +753,8 @@ public class ActionFormController{
      * @param propertyWordCount Numeric value that contains the word count.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public void addWordCountValidationMessage(String propertyName, String propertyLabel, Integer propertyWordCount) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyWordCount != null && propertyWordCount > 0)
+    public void addWordCountValidationMessage(String propertyName, String propertyLabel, int propertyWordCount) throws InternalErrorException{
+        if(propertyName != null && propertyName.length() > 0 && propertyWordCount > 0)
             addMessage(ActionFormValidationMessageUtil.createWordCountValidationMessage(propertyName, propertyLabel, propertyWordCount));
     }
     
@@ -770,8 +766,8 @@ public class ActionFormController{
      * length.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public void addMinimumLengthValidationMessage(String propertyName, Integer propertyMinimumLength) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyMinimumLength != null && propertyMinimumLength > 0)
+    public void addMinimumLengthValidationMessage(String propertyName, int propertyMinimumLength) throws InternalErrorException{
+        if(propertyName != null && propertyName.length() > 0 && propertyMinimumLength > 0)
             addMinimumLengthValidationMessage(propertyName, getPropertyLabel(propertyName), propertyMinimumLength);
     }
     
@@ -784,8 +780,8 @@ public class ActionFormController{
      * length.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public void addMinimumLengthValidationMessage(String propertyName, String propertyLabel, Integer propertyMinimumLength) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyMinimumLength != null && propertyMinimumLength > 0)
+    public void addMinimumLengthValidationMessage(String propertyName, String propertyLabel, int propertyMinimumLength) throws InternalErrorException{
+        if(propertyName != null && propertyName.length() > 0 && propertyMinimumLength > 0)
             addMessage(ActionFormValidationMessageUtil.createMinimumLengthValidationMessage(propertyName, propertyLabel, propertyMinimumLength));
     }
     
@@ -797,8 +793,8 @@ public class ActionFormController{
      * length.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public void addMaximumLengthValidationMessage(String propertyName, Integer propertyMaximumLength) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyMaximumLength != null && propertyMaximumLength > 0)
+    public void addMaximumLengthValidationMessage(String propertyName, int propertyMaximumLength) throws InternalErrorException{
+        if(propertyName != null && propertyName.length() > 0 && propertyMaximumLength > 0)
             addMaximumLengthValidationMessage(propertyName, getPropertyLabel(propertyName), propertyMaximumLength);
     }
     
@@ -811,8 +807,8 @@ public class ActionFormController{
      * length.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public void addMaximumLengthValidationMessage(String propertyName, String propertyLabel, Integer propertyMaximumLength) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyMaximumLength != null && propertyMaximumLength > 0)
+    public void addMaximumLengthValidationMessage(String propertyName, String propertyLabel, int propertyMaximumLength) throws InternalErrorException{
+        if(propertyName != null && propertyName.length() > 0 && propertyMaximumLength > 0)
             addMessage(ActionFormValidationMessageUtil.createMaximumLengthValidationMessage(propertyName, propertyLabel, propertyMaximumLength));
     }
     
@@ -949,7 +945,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
-    public ActionFormForwardResources findForward() throws InternalErrorException{
+    public SystemResources.ActionFormResources.ActionFormForwardResources findForward() throws InternalErrorException{
         BaseActionForm<? extends BaseModel> actionForm = getActionFormInstance();
         
         if(actionForm != null){
@@ -962,10 +958,10 @@ public class ActionFormController{
             SystemResources systemResources = loader.getDefault();
             
             if(systemResources != null){
-                Collection<ActionFormResources> actionFormsResources = systemResources.getActionForms();
+                Collection<SystemResources.ActionFormResources> actionFormsResources = systemResources.getActionForms();
                 
                 if(actionFormsResources != null && actionFormsResources.size() > 0)
-                    for(ActionFormResources actionFormResources: actionFormsResources)
+                    for(SystemResources.ActionFormResources actionFormResources: actionFormsResources)
                         if(actionFormResources.getClazz().equals(actionForm.getClass().getName()))
                             return actionFormResources.getForward(actionFormForwardName);
             }

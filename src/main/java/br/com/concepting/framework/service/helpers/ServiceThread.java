@@ -38,7 +38,7 @@ import java.util.Calendar;
 public class ServiceThread implements Runnable{
     private IService<? extends BaseModel> service = null;
     private DateTime nextExecution = null;
-    private Boolean executing = null;
+    private boolean executing = false;
     
     /**
      * Default constructor.
@@ -65,7 +65,7 @@ public class ServiceThread implements Runnable{
      *
      * @return True/False.
      */
-    public Boolean isExecuting(){
+    public boolean isExecuting(){
         return getExecuting();
     }
     
@@ -74,7 +74,7 @@ public class ServiceThread implements Runnable{
      *
      * @return True/False.
      */
-    public Boolean getExecuting(){
+    public boolean getExecuting(){
         return this.executing;
     }
     
@@ -83,13 +83,11 @@ public class ServiceThread implements Runnable{
      *
      * @param executing True/False.
      */
-    protected void setExecuting(Boolean executing){
+    protected void setExecuting(boolean executing){
         this.executing = executing;
     }
-    
-    /**
-     * @see java.lang.Runnable#run()
-     */
+
+    @Override
     public void run(){
         try{
             LoginSessionModel loginSession = service.getLoginSession();
@@ -127,7 +125,7 @@ public class ServiceThread implements Runnable{
                                 
                                 this.nextExecution = new DateTime(calendar.getTimeInMillis());
                                 
-                                Long diff = DateTimeUtil.diff(this.nextExecution, now, DateFieldType.MINUTES);
+                                int diff = DateTimeUtil.diff(this.nextExecution, now, DateFieldType.MINUTES);
                                 
                                 if(diff < 0)
                                     this.nextExecution = DateTimeUtil.add(this.nextExecution, pollingTime, DateFieldType.MINUTES);

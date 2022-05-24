@@ -1,6 +1,5 @@
 package br.com.concepting.framework.util.helpers;
 
-@SuppressWarnings("javadoc")
 public class ProbeNetwork{
     private Integer latency = null;
     private Integer downloadKbps = null;

@@ -37,18 +37,19 @@ import java.util.Map;
  */
 public class Cacher<O> implements Serializable{
     private static final long serialVersionUID = -441305081843827888L;
-    
+
+    private final Map<String, CachedObject<O>> history;
+
     private String id = null;
-    private Map<String, CachedObject<O>> history = null;
-    private Long timeout = null;
-    private DateFieldType timeoutType = null;
+    private long timeout = CacherConstants.DEFAULT_TIMEOUT;
+    private DateFieldType timeoutType = CacherConstants.DEFAULT_TIMEOUT_TYPE;
     
     /**
      * Constructor - Initialize the cache.
      */
     private Cacher(){
         super();
-        
+
         this.history = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
     }
     
@@ -197,12 +198,12 @@ public class Cacher<O> implements Serializable{
      */
     @SuppressWarnings("unchecked")
     public synchronized <C extends CachedObject<O>> C get(String id) throws ItemNotFoundException{
-        Date timeoutDate = null;
+        Date timeoutDate;
         
         if(id != null && id.length() > 0){
             for(CachedObject<O> cachedObject: this.history.values()){
                 if(id.equals(cachedObject.getId())){
-                    if(this.timeout != null && this.timeout > 0){
+                    if(this.timeout > 0){
                         timeoutDate = cachedObject.getLastAccess();
                         
                         if(timeoutDate == null)
@@ -231,7 +232,7 @@ public class Cacher<O> implements Serializable{
      * @param object Instance that contains the content.
      * @return True/False.
      */
-    public Boolean contains(CachedObject<O> object){
+    public boolean contains(CachedObject<O> object){
         return (this.history != null && this.history.size() > 0 && this.history.containsKey(object.getId()));
     }
     
@@ -240,7 +241,7 @@ public class Cacher<O> implements Serializable{
      *
      * @return Numeric value containing the timeout.
      */
-    public Long getTimeout(){
+    public long getTimeout(){
         return this.timeout;
     }
     
@@ -249,7 +250,7 @@ public class Cacher<O> implements Serializable{
      *
      * @param timeout Numeric value containing the timeout.
      */
-    protected void setTimeout(Long timeout){
+    protected void setTimeout(long timeout){
         this.timeout = timeout;
     }
     
@@ -258,8 +259,8 @@ public class Cacher<O> implements Serializable{
      *
      * @return Numeric value containing the number of contents in cache.
      */
-    public Integer getSize(){
-        return (this.history != null ? this.history.size() : null);
+    public int getSize(){
+        return (this.history != null ? this.history.size() : 0);
     }
     
     /**

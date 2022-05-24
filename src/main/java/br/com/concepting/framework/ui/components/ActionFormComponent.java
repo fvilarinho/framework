@@ -7,13 +7,13 @@ import br.com.concepting.framework.controller.form.types.ActionFormMessageType;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.constants.ModelConstants;
 import br.com.concepting.framework.resources.PropertiesResources;
-import br.com.concepting.framework.resources.helpers.ActionFormResources;
+import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.ui.controller.UIController;
 import br.com.concepting.framework.util.types.ContentType;
+import br.com.concepting.framework.util.types.MethodType;
 
 import javax.servlet.jsp.JspException;
-import javax.ws.rs.HttpMethod;
 import java.util.Collection;
 
 /**
@@ -47,7 +47,7 @@ public class ActionFormComponent extends BaseComponent{
     private ActionFormController actionFormController = null;
     
     /**
-     * Returns the identifier of the submit target.
+     * Returns the identifier of the submission target.
      *
      * @return String that contains the identifier.
      */
@@ -56,7 +56,7 @@ public class ActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the submit target.
+     * Defines the identifier of the submission target.
      *
      * @param target String that contains the identifier.
      */
@@ -171,28 +171,20 @@ public class ActionFormComponent extends BaseComponent{
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildDimensions()
-     */
+
+    @Override
     protected void buildDimensions() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildStyle()
-     */
+
+    @Override
     protected void buildStyle() throws InternalErrorException{
     }
     
@@ -207,16 +199,15 @@ public class ActionFormComponent extends BaseComponent{
         
         UIController uiController = getUIController();
         String name = getName();
-        Collection<ActionFormResources> actionForms = getSystemResources().getActionForms();
+        Collection<SystemResources.ActionFormResources> actionForms = getSystemResources().getActionForms();
         
         if(actionForms != null && !actionForms.isEmpty()){
-            StringBuilder actionFormUrl = null;
-            
-            for(ActionFormResources actionForm: actionForms){
+            for(SystemResources.ActionFormResources actionForm: actionForms){
                 if(name.equals(actionForm.getName())){
-                    actionFormUrl = new StringBuilder();
+                    StringBuilder actionFormUrl = new StringBuilder();
+
                     actionFormUrl.append(actionForm.getAction());
-                    actionFormUrl.append(ActionFormConstants.DEFAULT_ACTION_SERVLET_FILE_EXTENSION);
+                    actionFormUrl.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
                     
                     this.action = actionFormUrl.toString();
                     
@@ -236,16 +227,12 @@ public class ActionFormComponent extends BaseComponent{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderStyle()
-     */
+
+    @Override
     protected void renderStyle() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderEvents()
-     */
+
+    @Override
     protected void renderEvents() throws InternalErrorException{
         super.renderEvents();
         
@@ -269,10 +256,10 @@ public class ActionFormComponent extends BaseComponent{
             return;
         
         UIController uiController = getUIController();
-        Boolean hasPageComponentInstance = (uiController != null ? uiController.hasPageComponentInstance() : null);
-        Boolean hasPageImports = (uiController != null ? uiController.hasPageImports() : null);
+        boolean hasPageComponentInstance = (uiController != null ? uiController.hasPageComponentInstance() : null);
+        boolean hasPageImports = (uiController != null ? uiController.hasPageImports() : null);
         
-        if((hasPageComponentInstance == null || !hasPageComponentInstance) && (hasPageImports == null || !hasPageImports)){
+        if(!hasPageComponentInstance && !hasPageImports){
             PageComponent.renderImports(systemController, getCurrentLanguage());
             PageComponent.renderLoadingBox(systemController, defaultResources);
             PageComponent.renderPageShade(systemController);
@@ -290,17 +277,15 @@ public class ActionFormComponent extends BaseComponent{
         
         renderDataAttributes();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderAttributes()
-     */
+
+    @Override
     protected void renderAttributes() throws InternalErrorException{
         super.renderAttributes();
         
         print(" method=\"");
-        print(HttpMethod.POST);
+        print(MethodType.POST);
         print("\"");
-        
+
         String contextPath = getContextPath();
         
         if(contextPath != null && contextPath.length() > 0 && this.action != null && this.action.length() > 0){
@@ -335,9 +320,9 @@ public class ActionFormComponent extends BaseComponent{
         println("</form>");
         
         UIController uiController = getUIController();
-        Boolean hasPageComponentInstance = (uiController != null ? uiController.hasPageComponentInstance() : null);
+        boolean hasPageComponentInstance = (uiController != null ? uiController.hasPageComponentInstance() : null);
         
-        if(hasPageComponentInstance == null || !hasPageComponentInstance){
+        if(!hasPageComponentInstance){
             PageComponent.renderMessageBoxes(systemController);
             PageComponent.renderEvents(systemController);
         }
@@ -460,7 +445,7 @@ public class ActionFormComponent extends BaseComponent{
         forwardPropertyComponent.setOutputStream(getOutputStream());
         forwardPropertyComponent.setActionFormName(actionFormName);
         forwardPropertyComponent.setName(ActionFormConstants.FORWARD_ATTRIBUTE_ID);
-        forwardPropertyComponent.setValue(getSystemController().getRequestParameterValue(ActionFormConstants.FORWARD_ATTRIBUTE_ID));
+        forwardPropertyComponent.setValue(getSystemController().getParameterValue(ActionFormConstants.FORWARD_ATTRIBUTE_ID));
         
         try{
             forwardPropertyComponent.doStartTag();
@@ -528,10 +513,8 @@ public class ActionFormComponent extends BaseComponent{
         if(pageComponent == null)
             PageComponent.renderPageShade(getSystemController());
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         

@@ -53,10 +53,10 @@ import java.util.regex.Pattern;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ActionFormValidator{
-    private SystemController systemController = null;
-    private ActionFormController actionFormController = null;
-    private SecurityController securityController = null;
-    private BaseActionForm<? extends BaseModel> actionForm = null;
+    private final SystemController systemController;
+    private final ActionFormController actionFormController;
+    private final SecurityController securityController;
+    private final BaseActionForm<? extends BaseModel> actionForm;
     
     /**
      * Constructor - Initializes the validation.
@@ -102,13 +102,13 @@ public class ActionFormValidator{
      * @throws InternalErrorException Occurs when was not possible to validate
      * the data model.
      */
-    public Boolean validateModel() throws InternalErrorException{
-        Boolean validateModel = this.actionForm.validateModel();
+    public boolean validateModel() throws InternalErrorException{
+        boolean validateModel = this.actionForm.validateModel();
         
-        if(validateModel == null || !this.actionForm.validateModel())
+        if(!this.actionForm.validateModel())
             return true;
         
-        Map<String, RequestParameterInfo> requestParameters = this.systemController.getRequestParameters();
+        Map<String, RequestParameterInfo> requestParameters = this.systemController.getParameters();
         
         if(requestParameters != null && !requestParameters.isEmpty()){
             for(Entry<String, RequestParameterInfo> entry: requestParameters.entrySet()){
@@ -150,9 +150,8 @@ public class ActionFormValidator{
             Class<? extends BaseModel> modelClass = model.getClass();
             ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
             String propertyName = requestParameterInfo.getName();
-            Boolean mainPropertyIsForSearch = null;
+            boolean mainPropertyIsForSearch = false;
             List<String> mainValidationActions = null;
-            String[] mainValidationActionsBuffer = null;
             int pos = propertyName.indexOf(".");
             
             if(pos >= 0){
@@ -160,7 +159,8 @@ public class ActionFormValidator{
                 
                 if(mainPropertyInfo != null){
                     mainPropertyIsForSearch = mainPropertyInfo.isForSearch();
-                    mainValidationActionsBuffer = mainPropertyInfo.getValidationActions();
+
+                    String[] mainValidationActionsBuffer = mainPropertyInfo.getValidationActions();
                     
                     if(mainValidationActionsBuffer != null && mainValidationActionsBuffer.length > 0)
                         mainValidationActions = Arrays.asList(mainValidationActionsBuffer);
@@ -173,27 +173,26 @@ public class ActionFormValidator{
             if(validateModelProperties == null || validateModelProperties.size() == 0 || validateModelProperties.contains(propertyName)){
                 PropertyInfo propertyInfo = modelInfo.getPropertyInfo(propertyName);
                 ValidationType[] validations = propertyInfo.getValidations();
-                List<String> validationActions = null;
-                String[] validationActionsBuffer = null;
-                
+
                 if(validations != null && validations.length > 0){
-                    validationActionsBuffer = propertyInfo.getValidationActions();
+                    List<String> validationActions;
+                    String[] validationActionsBuffer = propertyInfo.getValidationActions();
                     
                     if(validationActionsBuffer != null && validationActionsBuffer.length > 0)
                         validationActions = Arrays.asList(validationActionsBuffer);
                     else
                         validationActions = mainValidationActions;
                     
-                    if(mainPropertyIsForSearch != null && mainPropertyIsForSearch && (validationActions == null || validationActions.size() == 0) && this.actionForm.getAction().equals(ActionType.SEARCH.getMethod()))
+                    if(mainPropertyIsForSearch && (validationActions == null || validationActions.size() == 0) && this.actionForm.getAction().equals(ActionType.SEARCH.getMethod()))
                         validateProperty(requestParameterInfo, propertyInfo);
-                    else if((mainPropertyIsForSearch == null || !mainPropertyIsForSearch) && (validationActions == null || validationActions.size() == 0))
+                    else if(!mainPropertyIsForSearch && (validationActions == null || validationActions.size() == 0))
                         validateProperty(requestParameterInfo, propertyInfo);
                     else if(validationActions != null && validationActions.size() > 0 && this.actionForm.getAction() != null && validationActions.contains(this.actionForm.getAction()))
                         validateProperty(requestParameterInfo, propertyInfo);
                 }
             }
         }
-        catch(NoSuchFieldException | NoSuchMethodException e){
+        catch(NoSuchFieldException | NoSuchMethodException ignored){
         }
         catch(IllegalArgumentException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException e){
             throw new InternalErrorException(e);
@@ -224,7 +223,7 @@ public class ActionFormValidator{
                 String datasetPropertyName = datasetPropertyBuffer[0];
                 PropertyInfo datasetPropertyInfo = modelInfo.getPropertyInfo(datasetPropertyName);
                 
-                if((datasetPropertyInfo.isModel() == null || !datasetPropertyInfo.isModel()) && (datasetPropertyInfo.hasModel() == null || !datasetPropertyInfo.hasModel())){
+                if(!datasetPropertyInfo.isModel() && !datasetPropertyInfo.hasModel()){
                     int pos = datasetPropertyName.lastIndexOf(".");
                     
                     if(pos >= 0){
@@ -233,13 +232,12 @@ public class ActionFormValidator{
                     }
                 }
                 
-                if((datasetPropertyInfo.isModel() != null && datasetPropertyInfo.isModel()) || (datasetPropertyInfo.hasModel() != null && datasetPropertyInfo.hasModel())){
+                if(datasetPropertyInfo.isModel() || datasetPropertyInfo.hasModel()){
                     Class<? extends BaseModel> datasetModelClass = (datasetPropertyInfo.isModel() ? (Class<? extends BaseModel>) datasetPropertyInfo.getClazz() : (Class<? extends BaseModel>) datasetPropertyInfo.getCollectionItemsClass());
                     ModelInfo datasetModelInfo = ModelUtil.getInfo(datasetModelClass);
                     
                     datasetPropertyInfo = datasetModelInfo.getPropertyInfo(datasetPropertyBuffer[1]);
-                    datasetPropertyName = datasetPropertyInfo.getId();
-                    
+
                     validateProperty(requestParameterInfo, datasetPropertyInfo);
                 }
             }
@@ -273,7 +271,7 @@ public class ActionFormValidator{
                         
                         if(propertyInfo.isNumber()){
                             Class<?> propertyClass = propertyInfo.getClazz();
-                            Boolean useGroupSeparator = propertyInfo.useGroupSeparator();
+                            boolean useGroupSeparator = propertyInfo.useGroupSeparator();
                             Integer precision = propertyInfo.getPrecision();
                             
                             processNumberRequiredValidation(propertyClass, propertyName, propertyValue, useGroupSeparator, precision);
@@ -294,7 +292,7 @@ public class ActionFormValidator{
                     case NUMBER:{
                         Class<?> propertyClass = propertyInfo.getClazz();
                         String propertyValue = requestParameterInfo.getValue();
-                        Boolean useGroupSeparator = propertyInfo.useGroupSeparator();
+                        boolean useGroupSeparator = propertyInfo.useGroupSeparator();
                         Integer precision = propertyInfo.getPrecision();
                         
                         processNumberValidation(propertyClass, propertyName, propertyValue, useGroupSeparator, precision);
@@ -340,7 +338,7 @@ public class ActionFormValidator{
                         }
                         else{
                             Class<?> propertyClass = propertyInfo.getClazz();
-                            Boolean useGroupSeparator = propertyInfo.useGroupSeparator();
+                            boolean useGroupSeparator = propertyInfo.useGroupSeparator();
                             Integer precision = propertyInfo.getPrecision();
                             
                             processNumberCompareValidation(propertyClass, propertyName, propertyValue, useGroupSeparator, precision, comparePropertyId, comparePropertyCondition);
@@ -355,7 +353,7 @@ public class ActionFormValidator{
                         
                         if(propertyInfo.isNumber()){
                             Class<?> propertyClass = propertyInfo.getClazz();
-                            Boolean useGroupSeparator = propertyInfo.useGroupSeparator();
+                            boolean useGroupSeparator = propertyInfo.useGroupSeparator();
                             Integer precision = propertyInfo.getPrecision();
                             
                             processNumberRangeValidation(propertyClass, propertyName, propertyValue, useGroupSeparator, precision, propertyMinimumValue, propertyMaximumValue);
@@ -427,11 +425,11 @@ public class ActionFormValidator{
      * @param propertyName String that contains the identifier of the property.
      * @param propertyContentType Instance that contains the content type of the property.
      * @param permittedContentTypes Array that contains the permitted content types.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processContentTypeValidation(String propertyName, ContentType propertyContentType, ContentType[] permittedContentTypes) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyContentType != null && permittedContentTypes != null && permittedContentTypes.length > 0){
-            Boolean found = false;
+            boolean found = false;
             
             for(ContentType item: permittedContentTypes){
                 if(item.equals(propertyContentType)){
@@ -456,7 +454,7 @@ public class ActionFormValidator{
      * @param propertyContentSize String that contains the content size.
      * @param permittedContentSize Numeric value that contains the permitted content sizes.
      * @param propertyContentSizeUnit Instance that contains the content size unit.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processContentSizeValidation(String propertyName, Double propertyContentSize, Double permittedContentSize, ByteMetricType propertyContentSizeUnit) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyContentSize != null && permittedContentSize != null && permittedContentSize > 0 && propertyContentSize > permittedContentSize){
@@ -472,7 +470,7 @@ public class ActionFormValidator{
      * @param propertyName String that contains the identifier of the property.
      * @param propertyValue String that contains the property value.
      * @param propertyCustomValidationId String that contains the identifier of the validation.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processCustomValidation(String propertyName, String propertyValue, String propertyCustomValidationId) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0 && propertyCustomValidationId != null && propertyCustomValidationId.length() > 0){
@@ -483,7 +481,7 @@ public class ActionFormValidator{
                     if(method.getName().equals(propertyCustomValidationId)){
                         try{
                             String propertyLabel = this.actionFormController.getPropertyLabel(propertyName);
-                            Boolean result = (Boolean) method.invoke(this, propertyName, propertyValue);
+                            boolean result = (boolean) method.invoke(this, propertyName, propertyValue);
                             
                             if(!result)
                                 this.actionFormController.addCustomValidationMessage(propertyCustomValidationId, propertyName, propertyLabel);
@@ -509,7 +507,7 @@ public class ActionFormValidator{
      *
      * @param propertyName String that contains the identifier of the property.
      * @param propertyValue String that contains the property value.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processGeneralRequiredValidation(String propertyName, String propertyValue) throws InternalErrorException{
         if(propertyValue == null || propertyValue.length() == 0){
@@ -527,10 +525,10 @@ public class ActionFormValidator{
      * @param propertyValue String that contains the property value.
      * @param useGroupSeparator True/False.
      * @param precision Numeric value that contains the precision of the property.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
-    private void processNumberRequiredValidation(Class<?> propertyClass, String propertyName, String propertyValue, Boolean useGroupSeparator, Integer precision) throws InternalErrorException{
-        Boolean result = true;
+    private void processNumberRequiredValidation(Class<?> propertyClass, String propertyName, String propertyValue, boolean useGroupSeparator, Integer precision) throws InternalErrorException{
+        boolean result = true;
         
         try{
             Number propertyNumber = NumberUtil.parse(propertyClass, propertyValue, useGroupSeparator, precision, getCurrentLanguage());
@@ -555,7 +553,7 @@ public class ActionFormValidator{
      * @param propertyName String that contains the identifier of the property.
      * @param propertyValue String that contains the property value.
      * @param propertyPattern String that contains the property pattern.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processDateTimeValidation(String propertyName, String propertyValue, String propertyPattern) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0){
@@ -586,9 +584,9 @@ public class ActionFormValidator{
      * @param propertyValue String that contains the value of the property.
      * @param useGroupSeparator True/False.
      * @param precision Numeric value that contains the precision of the property.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
-    private void processNumberValidation(Class<?> propertyClass, String propertyName, String propertyValue, Boolean useGroupSeparator, Integer precision) throws InternalErrorException{
+    private void processNumberValidation(Class<?> propertyClass, String propertyName, String propertyValue, boolean useGroupSeparator, Integer precision) throws InternalErrorException{
         if(propertyClass != null && propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0){
             try{
                 NumberUtil.parse(propertyClass, propertyValue, useGroupSeparator, precision, getCurrentLanguage());
@@ -609,7 +607,7 @@ public class ActionFormValidator{
      * @param propertyPattern String that contains the pattern of the property.
      * @param comparePropertyId String that contains the identifier of the property that will be compared.
      * @param comparePropertyCondition Instance that contains the condition of comparison.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processDateTimeCompareValidation(String propertyName, String propertyValue, String propertyPattern, String comparePropertyId, ConditionType comparePropertyCondition) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0 && comparePropertyId != null && comparePropertyId.length() > 0 && comparePropertyCondition != null){
@@ -625,17 +623,17 @@ public class ActionFormValidator{
             
             comparePropertyId = comparePropertyIdBuffer.toString();
             
-            Boolean result = true;
+            boolean result;
             Locale currentLanguage = getCurrentLanguage();
-            String comparePropertyValue = this.systemController.getRequestParameterValue(comparePropertyIdBuffer.toString());
+            String comparePropertyValue = this.systemController.getParameterValue(comparePropertyIdBuffer.toString());
             String propertyPatternBuffer = this.actionFormController.getPropertyPattern(propertyName);
             
             if(propertyPatternBuffer != null && propertyPatternBuffer.length() > 0)
                 propertyPattern = propertyPatternBuffer;
             
             try{
-                Date propertyDateTime = null;
-                Date comparePropertyDateTime = null;
+                Date propertyDateTime;
+                Date comparePropertyDateTime;
                 
                 if(propertyPattern != null && propertyPattern.length() > 0){
                     propertyDateTime = DateTimeUtil.parse(propertyValue, propertyPattern);
@@ -646,7 +644,7 @@ public class ActionFormValidator{
                     comparePropertyDateTime = DateTimeUtil.parse(comparePropertyValue, currentLanguage);
                 }
                 
-                Integer compareFlag = (propertyDateTime.compareTo(comparePropertyDateTime));
+                int compareFlag = (propertyDateTime.compareTo(comparePropertyDateTime));
                 
                 switch(comparePropertyCondition){
                     case GREATER_THAN:{
@@ -694,9 +692,9 @@ public class ActionFormValidator{
      * @param precision Numeric value that contains the precision of the property.
      * @param comparePropertyId String that contains the identifier of the property that will be compared.
      * @param comparePropertyCondition Instance that contains the condition of comparison.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
-    private void processNumberCompareValidation(Class<?> propertyClass, String propertyName, String propertyValue, Boolean useGroupSeparator, Integer precision, String comparePropertyId, ConditionType comparePropertyCondition) throws InternalErrorException{
+    private void processNumberCompareValidation(Class<?> propertyClass, String propertyName, String propertyValue, boolean useGroupSeparator, Integer precision, String comparePropertyId, ConditionType comparePropertyCondition) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0 && comparePropertyId != null && comparePropertyId.length() > 0 && comparePropertyCondition != null){
             StringBuilder comparePropertyIdBuffer = new StringBuilder();
             int pos = propertyName.lastIndexOf(".");
@@ -710,14 +708,14 @@ public class ActionFormValidator{
             
             comparePropertyId = comparePropertyIdBuffer.toString();
             
-            Boolean result = true;
+            boolean result;
             Locale currentLanguage = getCurrentLanguage();
-            String comparePropertyValue = this.systemController.getRequestParameterValue(comparePropertyId);
+            String comparePropertyValue = this.systemController.getParameterValue(comparePropertyId);
             
             try{
                 Number propertyNumber = NumberUtil.parse(propertyClass, propertyValue, useGroupSeparator, precision, currentLanguage);
                 Number comparePropertyNumber = NumberUtil.parse(propertyClass, comparePropertyValue, useGroupSeparator, precision, currentLanguage);
-                Integer compareFlag = PropertyUtil.compareTo(propertyNumber, comparePropertyNumber);
+                int compareFlag = PropertyUtil.compareTo(propertyNumber, comparePropertyNumber);
                 
                 switch(comparePropertyCondition){
                     case GREATER_THAN:{
@@ -761,7 +759,7 @@ public class ActionFormValidator{
      * @param propertyName String that contains the identifier of the property.
      * @param propertyValue String that contains the value of the property.
      * @param propertyWordCount Numeric value that contains the word count of the property.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processWordCountValidation(String propertyName, String propertyValue, Integer propertyWordCount) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 & propertyValue != null && propertyValue.length() > 0 && propertyWordCount != null && propertyWordCount > 0){
@@ -781,7 +779,7 @@ public class ActionFormValidator{
      * @param propertyName String that contains the identifier of the property.
      * @param propertyValue String that contains the value of the property.
      * @param propertyMinimumLength Numeric value that contains the minimum length of the property.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processMinimumLengthValidation(String propertyName, String propertyValue, Integer propertyMinimumLength) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0 && propertyMinimumLength != null && propertyValue.length() < propertyMinimumLength){
@@ -797,7 +795,7 @@ public class ActionFormValidator{
      * @param propertyName String that contains the identifier of the property.
      * @param propertyValue String that contains the value of the property.
      * @param propertyMaximumLength Numeric value that contains the maximum length of the property.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processMaximumLengthValidation(String propertyName, String propertyValue, Integer propertyMaximumLength) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0 && propertyMaximumLength != null && propertyValue.length() > propertyMaximumLength){
@@ -815,7 +813,7 @@ public class ActionFormValidator{
      * @param propertyPattern String that contains the pattern of the property.
      * @param propertyMinimumValue Numeric value that contains the minimum value of the property.
      * @param propertyMaximumValue Numeric value that contains the maximum value of the property.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processDateTimeRangeValidation(String propertyName, String propertyValue, String propertyPattern, String propertyMinimumValue, String propertyMaximumValue) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0 && propertyMinimumValue != null && propertyMinimumValue.length() > 0 && propertyMaximumValue != null && propertyMaximumValue.length() > 0){
@@ -834,7 +832,7 @@ public class ActionFormValidator{
                 else
                     propertyDateTimeValue = DateTimeUtil.parse(propertyValue, currentLanguage);
             }
-            catch(ParseException e){
+            catch(ParseException ignored){
             }
             
             try{
@@ -843,7 +841,7 @@ public class ActionFormValidator{
                 else
                     propertyStartDateTime = DateTimeUtil.parse(propertyMinimumValue, currentLanguage);
             }
-            catch(ParseException e){
+            catch(ParseException ignored){
             }
             
             try{
@@ -852,12 +850,12 @@ public class ActionFormValidator{
                 else
                     propertyEndDateTime = DateTimeUtil.parse(propertyMaximumValue, currentLanguage);
             }
-            catch(ParseException e){
+            catch(ParseException ignored){
             }
             
             if(propertyDateTimeValue != null && propertyStartDateTime != null && propertyEndDateTime != null){
                 String propertyLabel = this.actionFormController.getPropertyLabel(propertyName);
-                Integer compareFlag = propertyStartDateTime.compareTo(propertyDateTimeValue);
+                int compareFlag = propertyStartDateTime.compareTo(propertyDateTimeValue);
                 
                 if(compareFlag <= 0){
                     compareFlag = propertyEndDateTime.compareTo(propertyDateTimeValue);
@@ -881,39 +879,39 @@ public class ActionFormValidator{
      * @param precision Numeric value that contains the precision of the property.
      * @param propertyMinimumValue Numeric value that contains the minimum value of the property.
      * @param propertyMaximumValue Numeric value that contains the maximum value of the property.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
-    private void processNumberRangeValidation(Class<?> propertyClass, String propertyName, String propertyValue, Boolean useGroupSeparator, Integer precision, String propertyMinimumValue, String propertyMaximumValue) throws InternalErrorException{
+    private void processNumberRangeValidation(Class<?> propertyClass, String propertyName, String propertyValue, boolean useGroupSeparator, Integer precision, String propertyMinimumValue, String propertyMaximumValue) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0 && propertyMinimumValue != null && propertyMinimumValue.length() > 0 && propertyMaximumValue != null && propertyMaximumValue.length() > 0){
             Locale currentLanguage = getCurrentLanguage();
             Number[] numberRange = NumberUtil.getRange(propertyClass);
-            Number propertyStartValue = null;
-            Number propertyEndValue = null;
+            Number propertyStartValue;
+            Number propertyEndValue;
             Number propertyCompareValue = null;
             
             try{
                 propertyCompareValue = NumberUtil.parse(propertyClass, propertyValue, useGroupSeparator, precision, currentLanguage);
             }
-            catch(ParseException e){
+            catch(ParseException ignored){
             }
             
             try{
                 propertyStartValue = NumberUtil.parse(propertyClass, propertyMinimumValue, useGroupSeparator, precision, currentLanguage);
             }
-            catch(ParseException e){
+            catch(ParseException ignored){
                 propertyStartValue = numberRange[0];
             }
             
             try{
                 propertyEndValue = NumberUtil.parse(propertyClass, propertyMaximumValue, useGroupSeparator, precision, currentLanguage);
             }
-            catch(ParseException e){
+            catch(ParseException ignored){
                 propertyEndValue = numberRange[1];
             }
             
             if(propertyCompareValue != null && propertyStartValue != null && propertyEndValue != null){
                 String propertyLabel = this.actionFormController.getPropertyLabel(propertyName);
-                Integer compareFlag = PropertyUtil.compareTo(propertyStartValue, propertyCompareValue);
+                int compareFlag = PropertyUtil.compareTo(propertyStartValue, propertyCompareValue);
                 
                 if(compareFlag <= 0){
                     compareFlag = PropertyUtil.compareTo(propertyEndValue, propertyCompareValue);
@@ -933,7 +931,7 @@ public class ActionFormValidator{
      * @param propertyName String that contains the identifier of the property.
      * @param propertyValue String that contains the value of the property.
      * @param propertyRegex String that contains the regular expression of the property.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processRegularExpressionValidation(String propertyName, String propertyValue, String propertyRegex) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0 && propertyRegex != null && propertyRegex.length() > 0){
@@ -953,7 +951,7 @@ public class ActionFormValidator{
      *
      * @param propertyName String that contains the identifier of the property.
      * @param propertyValue String that contains the value of the property.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processEmailValidation(String propertyName, String propertyValue) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0){
@@ -975,7 +973,7 @@ public class ActionFormValidator{
      * @param propertyName String that contains the identifier of the property.
      * @param propertyValue String that contains the value of the property.
      * @param propertyPattern String that contains the pattern of the property.
-     * @throws InternalErrorException
+     * @throws InternalErrorException Occurs when was not possible to execution the operation.
      */
     private void processPatternValidation(String propertyName, String propertyValue, String propertyPattern) throws InternalErrorException{
         if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0){
@@ -1038,16 +1036,12 @@ public class ActionFormValidator{
                     regex.append("([0-9]{1,");
                     regex.append(numberCount);
                     regex.append("})");
-                    
-                    numberCount = 0;
                 }
                 
                 if(characterCount > 0){
                     regex.append("([a-zA-Z0-9]{1,");
                     regex.append(characterCount);
                     regex.append("})");
-                    
-                    characterCount = 0;
                 }
                 
                 Pattern regexp = Pattern.compile(regex.toString());

@@ -33,7 +33,7 @@ import javax.servlet.jsp.JspException;
 public class ListPropertyComponent extends OptionsPropertyComponent{
     private static final long serialVersionUID = 1973970093371979505L;
     
-    private Boolean showFirstOption = null;
+    private boolean showFirstOption = true;
     private String firstOptionResourcesKey = null;
     private String firstOptionLabel = null;
     
@@ -79,7 +79,7 @@ public class ListPropertyComponent extends OptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean isShowFirstOption(){
+    public boolean isShowFirstOption(){
         return this.showFirstOption;
     }
     
@@ -88,7 +88,7 @@ public class ListPropertyComponent extends OptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowFirstOption(){
+    public boolean getShowFirstOption(){
         return isShowFirstOption();
     }
     
@@ -97,43 +97,35 @@ public class ListPropertyComponent extends OptionsPropertyComponent{
      *
      * @param showFirstOption True/False.
      */
-    public void setShowFirstOption(Boolean showFirstOption){
+    public void setShowFirstOption(boolean showFirstOption){
         this.showFirstOption = showFirstOption;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#getOptionComponent()
-     */
+
+    @Override
     protected BaseOptionPropertyComponent getOptionComponent(){
         return new ListOptionPropertyComponent();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
         super.buildRestrictions();
         
-        if(this.showFirstOption == null){
-            Integer size = getSize();
-            
-            this.showFirstOption = (size == null || size <= 1);
-            
-            if(this.showFirstOption){
-                Boolean hasMultipleSelection = hasMultipleSelection();
-                
-                this.showFirstOption = (hasMultipleSelection == null || !hasMultipleSelection);
-            }
+        int size = getSize();
+
+        this.showFirstOption = (size <= 1);
+
+        if(this.showFirstOption){
+            boolean hasMultipleSelection = hasMultipleSelection();
+
+            this.showFirstOption = !hasMultipleSelection;
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         super.buildResources();
         
-        if(this.showFirstOption != null && this.showFirstOption && (this.firstOptionLabel == null || this.firstOptionLabel.length() == 0)){
+        if(this.showFirstOption && (this.firstOptionLabel == null || this.firstOptionLabel.length() == 0)){
             if(this.firstOptionResourcesKey == null || this.firstOptionResourcesKey.length() == 0)
                 this.firstOptionResourcesKey = ActionFormMessageConstants.DEFAULT_SELECT_AN_ITEM_ID;
             
@@ -150,14 +142,12 @@ public class ListPropertyComponent extends OptionsPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildSize()
-     */
+
+    @Override
     protected void buildSize() throws InternalErrorException{
-        Integer size = getSize();
+        int size = getSize();
         
-        if(size == null || size == 0){
+        if(size == 0){
             PropertyInfo propertyInfo = getPropertyInfo();
             
             if(propertyInfo != null){
@@ -167,96 +157,72 @@ public class ListPropertyComponent extends OptionsPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildMaximumLength()
-     */
+
+    @Override
     protected void buildMaximumLength() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.LIST);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderType()
-     */
+
+    @Override
     protected void renderType() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderValue()
-     */
+
+    @Override
     protected void renderValue() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderAttributes()
-     */
+
+    @Override
     protected void renderAttributes() throws InternalErrorException{
         super.renderAttributes();
         
-        Boolean multipleSelection = hasMultipleSelection();
+        boolean multipleSelection = hasMultipleSelection();
         
-        if(multipleSelection != null && multipleSelection)
+        if(multipleSelection)
             print(" multiple");
         
-        Boolean enabled = isEnabled();
+        boolean enabled = isEnabled();
         
-        if(enabled != null && !enabled){
+        if(!enabled){
             print(" ");
             print(Constants.DISABLED_ATTRIBUTE_ID);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#renderOpenGroup()
-     */
+
+    @Override
     protected void renderOpenGroup() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#renderCloseGroup()
-     */
+
+    @Override
     protected void renderCloseGroup() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#renderOptionsPanelOpen()
-     */
+
+    @Override
     protected void renderOptionsPanelOpen() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#renderOptionsPanelClose()
-     */
+
+    @Override
     protected void renderOptionsPanelClose() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#renderOptionPanelRowOpen()
-     */
+
+    @Override
     protected void renderOptionPanelRowOpen() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#renderOptionPanelRowClose(java.lang.Integer)
-     */
-    protected void renderOptionPanelRowClose(Integer row) throws InternalErrorException{
+
+    @Override
+    protected void renderOptionPanelRowClose(int row) throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition != null && hasInvalidPropertyDefinition)
+        if(hasInvalidPropertyDefinition)
             super.renderInvalidPropertyMessage();
         else{
             print("<select");
@@ -270,14 +236,12 @@ public class ListPropertyComponent extends OptionsPropertyComponent{
             println("</select>");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#renderOptions()
-     */
+
+    @Override
     protected void renderOptions() throws InternalErrorException{
         String name = getName();
         
-        if(this.showFirstOption != null && this.showFirstOption && this.firstOptionLabel != null && this.firstOptionLabel.length() > 0 && name != null && name.length() > 0){
+        if(this.showFirstOption && this.firstOptionLabel != null && this.firstOptionLabel.length() > 0 && name != null && name.length() > 0){
             ListOptionPropertyComponent firstOptionComponent = new ListOptionPropertyComponent();
             
             firstOptionComponent.setPageContext(this.pageContext);
@@ -297,14 +261,12 @@ public class ListPropertyComponent extends OptionsPropertyComponent{
         
         super.renderOptions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setShowFirstOption(null);
+        setShowFirstOption(true);
         setFirstOptionResourcesKey(null);
         setFirstOptionLabel(null);
     }

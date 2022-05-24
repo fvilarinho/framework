@@ -4,6 +4,7 @@ import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.DateFieldType;
 import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
@@ -61,7 +62,7 @@ public class DateTimeUtil{
      *
      * @return True/False.
      */
-    public static Boolean isWeekend(){
+    public static boolean isWeekend(){
         return isWeekend(null);
     }
     
@@ -71,13 +72,13 @@ public class DateTimeUtil{
      * @param date Instance that contains the date/time.
      * @return True/False.
      */
-    public static Boolean isWeekend(Date date){
+    public static boolean isWeekend(Date date){
         Calendar calendar = Calendar.getInstance();
         
         if(date != null)
             calendar.setTime(date);
         
-        Integer dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         
         return (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
     }
@@ -124,10 +125,10 @@ public class DateTimeUtil{
             
             formatter.setLenient(false);
             
-            return formatter.format(date).toString();
+            return formatter.format(date);
         }
         
-        return null;
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -139,8 +140,8 @@ public class DateTimeUtil{
     public static String format(Date date){
         if(date != null)
             return format(date, LanguageUtil.getDefaultLanguage());
-        
-        return null;
+
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -154,10 +155,10 @@ public class DateTimeUtil{
         if(date != null){
             Class<?> dateClass = date.getClass();
             
-            return format(date, (dateClass != null && PropertyUtil.isTime(dateClass)), language);
+            return format(date, PropertyUtil.isTime(dateClass), language);
         }
-        
-        return null;
+
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -168,7 +169,7 @@ public class DateTimeUtil{
      * @param language Instance that contains the language that will be used.
      * @return Instance that contains the date/time.
      */
-    private static String format(Date date, Boolean isTime, Locale language){
+    private static String format(Date date, boolean isTime, Locale language){
         if(date != null){
             SimpleDateFormat formatter = new SimpleDateFormat(getDefaultPattern(isTime, language));
             
@@ -176,8 +177,8 @@ public class DateTimeUtil{
             
             return formatter.format(date);
         }
-        
-        return null;
+
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -192,7 +193,7 @@ public class DateTimeUtil{
     public static <D extends Date> D parse(String value) throws ParseException{
         if(value != null && value.length() > 0)
             return parse(value, LanguageUtil.getDefaultLanguage());
-        
+
         return null;
     }
     
@@ -219,42 +220,42 @@ public class DateTimeUtil{
             calendarBuffer.setTime(parser.parse(value));
             
             if(pattern.contains("d")){
-                Integer buffer = calendarBuffer.get(Calendar.DAY_OF_MONTH);
+                int buffer = calendarBuffer.get(Calendar.DAY_OF_MONTH);
                 
                 if(buffer > 0)
                     result.set(Calendar.DAY_OF_MONTH, buffer);
             }
             
             if(pattern.contains("M")){
-                Integer buffer = calendarBuffer.get(Calendar.MONTH);
+                int buffer = calendarBuffer.get(Calendar.MONTH);
                 
                 if(buffer >= 0)
                     result.set(Calendar.MONTH, buffer);
             }
             
             if(pattern.contains("y")){
-                Integer buffer = calendarBuffer.get(Calendar.YEAR);
+                int buffer = calendarBuffer.get(Calendar.YEAR);
                 
                 if(buffer != 1970 && buffer > 0)
                     result.set(Calendar.YEAR, buffer);
             }
             
             if(pattern.contains("H") || pattern.contains("h")){
-                Integer buffer = calendarBuffer.get(Calendar.HOUR_OF_DAY);
+                int buffer = calendarBuffer.get(Calendar.HOUR_OF_DAY);
                 
                 if(buffer >= 0)
                     result.set(Calendar.HOUR_OF_DAY, buffer);
             }
             
             if(pattern.contains("m")){
-                Integer buffer = calendarBuffer.get(Calendar.MINUTE);
+                int buffer = calendarBuffer.get(Calendar.MINUTE);
                 
                 if(buffer >= 0)
                     result.set(Calendar.MINUTE, buffer);
             }
             
             if(pattern.contains("s")){
-                Integer buffer = calendarBuffer.get(Calendar.SECOND);
+                int buffer = calendarBuffer.get(Calendar.SECOND);
                 
                 if(buffer >= 0)
                     result.set(Calendar.SECOND, buffer);
@@ -336,13 +337,13 @@ public class DateTimeUtil{
      * @param language Instance that contains the language that will be used.
      * @return String that contains a pattern.
      */
-    private static String getDefaultPattern(Boolean isTime, Locale language){
+    private static String getDefaultPattern(boolean isTime, Locale language){
         if(language == null)
             language = LanguageUtil.getDefaultLanguage();
         
-        DateFormat formatter = null;
+        DateFormat formatter;
         
-        if(isTime != null && isTime)
+        if(isTime)
             formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM, language);
         else
             formatter = DateFormat.getDateInstance(DateFormat.SHORT, language);
@@ -404,7 +405,7 @@ public class DateTimeUtil{
      *
      * @return True/False.
      */
-    public static Boolean isLeapYear(){
+    public static boolean isLeapYear(){
         return isLeapYear(null);
     }
     
@@ -414,7 +415,7 @@ public class DateTimeUtil{
      * @param date Instance that contains the date.
      * @return True/False.
      */
-    public static Boolean isLeapYear(Date date){
+    public static boolean isLeapYear(Date date){
         Calendar calendar = Calendar.getInstance();
         
         if(date != null)
@@ -428,7 +429,7 @@ public class DateTimeUtil{
      *
      * @return Numeric value that contains the last day of the month.
      */
-    public static Integer getLastDayOfMonth(){
+    public static int getLastDayOfMonth(){
         return getLastDayOfMonth(null);
     }
     
@@ -438,7 +439,7 @@ public class DateTimeUtil{
      * @param date Instance that contains the date/time.
      * @return Numeric value that contains the last day of the month.
      */
-    public static Integer getLastDayOfMonth(Date date){
+    public static int getLastDayOfMonth(Date date){
         Calendar calendar = Calendar.getInstance();
         
         if(date != null)
@@ -500,7 +501,7 @@ public class DateTimeUtil{
         if(date != null)
             calendar.setTime(date);
         
-        String monthsNames[] = getMonthsNames(language);
+        String[] monthsNames = getMonthsNames(language);
         
         return monthsNames[calendar.get(Calendar.MONTH)];
     }
@@ -513,9 +514,9 @@ public class DateTimeUtil{
      * @param dateField Instance that contains the field.
      * @return Numeric value that contains the difference.
      */
-    public static Long diff(Date date1, Date date2, DateFieldType dateField){
+    public static int diff(Date date1, Date date2, DateFieldType dateField){
         if(date1 == null || date2 == null || dateField == null)
-            return null;
+            return 0;
         
         Date dateBuffer1 = date1;
         Date dateBuffer2 = date2;
@@ -539,54 +540,54 @@ public class DateTimeUtil{
         }
         
         if(dateField == DateFieldType.MILLISECONDS)
-            return (dateBuffer1.getTime() - dateBuffer2.getTime());
+            return (int)(dateBuffer1.getTime() - dateBuffer2.getTime());
         
-        return ((dateBuffer1.getTime() - dateBuffer2.getTime()) / dateField.getMilliseconds());
+        return (int)((dateBuffer1.getTime() - dateBuffer2.getTime()) / dateField.getMilliseconds());
     }
     
     /**
-     * Calculates an age based on a birth date.
+     * Calculates an age based on a birthdate.
      *
-     * @param birthDate Instance that contains the birth date.
+     * @param birthDate Instance that contains the birthdate.
      * @return Numeric value that contains the age.
      */
-    public static Integer calculateAge(Date birthDate){
+    public static int calculateAge(Date birthDate){
         if(birthDate == null)
-            return null;
+            return 0;
         
         Calendar birthDateCalendar = Calendar.getInstance();
         Calendar nowCalendar = Calendar.getInstance();
         
         birthDateCalendar.setTime(birthDate);
         
-        Integer yearBirth = birthDateCalendar.get(Calendar.YEAR);
-        Integer monthBirth = birthDateCalendar.get(Calendar.MONTH);
-        Integer dateBirth = birthDateCalendar.get(Calendar.DATE);
-        Integer hoursBirth = birthDateCalendar.get(Calendar.HOUR_OF_DAY);
-        Integer minutesBirth = birthDateCalendar.get(Calendar.MINUTE);
-        Integer secondsBirth = birthDateCalendar.get(Calendar.SECOND);
+        int yearBirth = birthDateCalendar.get(Calendar.YEAR);
+        int monthBirth = birthDateCalendar.get(Calendar.MONTH);
+        int dateBirth = birthDateCalendar.get(Calendar.DATE);
+        int hoursBirth = birthDateCalendar.get(Calendar.HOUR_OF_DAY);
+        int minutesBirth = birthDateCalendar.get(Calendar.MINUTE);
+        int secondsBirth = birthDateCalendar.get(Calendar.SECOND);
         
-        Integer yearNow = nowCalendar.get(Calendar.YEAR);
-        Integer monthNow = nowCalendar.get(Calendar.MONTH);
-        Integer dateNow = nowCalendar.get(Calendar.DATE);
-        Integer hoursNow = nowCalendar.get(Calendar.HOUR_OF_DAY);
-        Integer minutesNow = nowCalendar.get(Calendar.MINUTE);
-        Integer secondsNow = nowCalendar.get(Calendar.SECOND);
+        int yearNow = nowCalendar.get(Calendar.YEAR);
+        int monthNow = nowCalendar.get(Calendar.MONTH);
+        int dateNow = nowCalendar.get(Calendar.DATE);
+        int hoursNow = nowCalendar.get(Calendar.HOUR_OF_DAY);
+        int minutesNow = nowCalendar.get(Calendar.MINUTE);
+        int secondsNow = nowCalendar.get(Calendar.SECOND);
         
-        Integer age = yearNow - yearBirth;
+        int age = yearNow - yearBirth;
         
-        if(monthNow.compareTo(monthBirth) < 0)
+        if(monthNow < monthBirth)
             age--;
-        else if(monthNow.equals(monthBirth)){
+        else if(monthNow == monthBirth){
             if(dateNow < dateBirth)
                 age--;
-            else if(dateNow.equals(dateBirth)){
+            else if(dateNow == dateBirth){
                 if(hoursNow < hoursBirth)
                     age--;
-                else if(hoursNow.equals(hoursBirth)){
+                else if(hoursNow == hoursBirth){
                     if(minutesNow < minutesBirth)
                         age--;
-                    else if(minutesNow.equals(minutesBirth)){
+                    else if(minutesNow == minutesBirth){
                         if(secondsNow < secondsBirth)
                             age--;
                     }
@@ -594,7 +595,7 @@ public class DateTimeUtil{
             }
         }
         
-        return age.intValue();
+        return age;
     }
     
     /**
@@ -608,8 +609,8 @@ public class DateTimeUtil{
      * @return Instance that contains the date/time after the adition.
      */
     @SuppressWarnings("unchecked")
-    public static <D extends Date> D add(Date date, Integer value, DateFieldType dateField){
-        if(date == null || value == null || dateField == null)
+    public static <D extends Date> D add(Date date, int value, DateFieldType dateField){
+        if(date == null || dateField == null)
             return null;
         
         Calendar calendar = Calendar.getInstance();
@@ -675,8 +676,8 @@ public class DateTimeUtil{
      * @param dateField Instance that contains the field.
      * @return Instance that contains the date/time after the subtraction.
      */
-    public static <D extends Date> D subtract(Date date, Integer value, DateFieldType dateField){
-        if(date == null || value == null || dateField == null)
+    public static <D extends Date> D subtract(Date date, int value, DateFieldType dateField){
+        if(date == null || dateField == null)
             return null;
         
         return add(date, -value, dateField);
@@ -688,40 +689,36 @@ public class DateTimeUtil{
      * @param milliseconds Numeric value that contains the milliseconds.
      * @return Valor formatado.
      */
-    public static String format(Long milliseconds){
-        if(milliseconds != null){
-            StringBuilder result = new StringBuilder();
-            Integer seconds = (int) (milliseconds / 1000);
-            Integer hours = 0;
-            Integer minutes = 0;
-            
-            if(milliseconds != 0){
-                hours = seconds / 3600;
-                seconds = seconds % 3600;
-                minutes = seconds / 60;
-                seconds = seconds % 60;
-            }
-            
-            if(hours < 10)
-                result.append("0");
-            
-            result.append(hours);
-            result.append(":");
-            
-            if(minutes < 10)
-                result.append("0");
-            
-            result.append(minutes);
-            result.append(":");
-            
-            if(seconds < 10)
-                result.append("0");
-            
-            result.append(seconds);
-            
-            return result.toString();
+    public static String format(long milliseconds){
+        StringBuilder result = new StringBuilder();
+        int seconds = (int) (milliseconds / 1000);
+        int hours = 0;
+        int minutes = 0;
+
+        if(milliseconds != 0){
+            hours = seconds / 3600;
+            seconds = seconds % 3600;
+            minutes = seconds / 60;
+            seconds = seconds % 60;
         }
-        
-        return null;
+
+        if(hours < 10)
+            result.append("0");
+
+        result.append(hours);
+        result.append(":");
+
+        if(minutes < 10)
+            result.append("0");
+
+        result.append(minutes);
+        result.append(":");
+
+        if(seconds < 10)
+            result.append("0");
+
+        result.append(seconds);
+
+        return result.toString();
     }
 }

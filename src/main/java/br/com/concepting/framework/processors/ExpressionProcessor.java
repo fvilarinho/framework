@@ -136,25 +136,21 @@ public class ExpressionProcessor extends EvaluateProcessor{
     public ExpressionProcessor(String domain, Object declaration, XmlNode content, Locale language){
         super(domain, declaration, content, language);
     }
-    
-    /**
-     * @see br.com.concepting.framework.processors.GenericProcessor#returnContent()
-     */
-    protected Boolean returnContent(){
+
+    @Override
+    protected boolean returnContent(){
         return true;
     }
-    
-    /**
-     * @see br.com.concepting.framework.processors.GenericProcessor#process()
-     */
+
+    @Override
     public String process() throws InternalErrorException{
         try{
-            Boolean result = super.evaluate();
+            boolean result = super.evaluate();
             
-            if(result != null && result)
+            if(result)
                 return super.process();
         }
-        catch(ClassCastException e){
+        catch(ClassCastException ignored){
         }
         
         return ProcessorConstants.DEFAULT_REMOVE_TAG_ID;

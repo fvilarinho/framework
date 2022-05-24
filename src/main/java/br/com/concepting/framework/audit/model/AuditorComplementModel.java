@@ -36,7 +36,7 @@ public class AuditorComplementModel extends BaseModel{
     private static final long serialVersionUID = -5973758121126490161L;
     
     @Property(isIdentity = true)
-    private Integer id = null;
+    private Long id = null;
     
     @Property(relationType = RelationType.ONE_TO_ONE, relationJoinType = RelationJoinType.INNER_JOIN)
     @JsonBackReference(value = "auditorBusinessComplement")
@@ -59,7 +59,7 @@ public class AuditorComplementModel extends BaseModel{
      *
      * @return Numeric value that contains the identifier.
      */
-    public Integer getId(){
+    public Long getId(){
         return this.id;
     }
     
@@ -68,7 +68,7 @@ public class AuditorComplementModel extends BaseModel{
      *
      * @param id Numeric value that contains the identifier.
      */
-    public void setId(Integer id){
+    public void setId(Long id){
         this.id = id;
     }
     

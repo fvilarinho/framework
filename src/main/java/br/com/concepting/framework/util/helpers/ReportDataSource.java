@@ -31,7 +31,8 @@ import java.util.Iterator;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class ReportDataSource implements JRRewindableDataSource{
-    private Collection<?> data = null;
+    private final Collection<?> data;
+
     private Iterator<?> iterator = null;
     private Object currentItem = null;
     
@@ -47,10 +48,8 @@ public class ReportDataSource implements JRRewindableDataSource{
         
         moveFirst();
     }
-    
-    /**
-     * @see net.sf.jasperreports.engine.JRDataSource#next()
-     */
+
+    @Override
     public boolean next(){
         boolean hasNext = false;
         
@@ -63,10 +62,8 @@ public class ReportDataSource implements JRRewindableDataSource{
         
         return hasNext;
     }
-    
-    /**
-     * @see net.sf.jasperreports.engine.JRDataSource#getFieldValue(net.sf.jasperreports.engine.JRField)
-     */
+
+    @Override
     public Object getFieldValue(JRField field) throws JRException{
         if(this.currentItem != null && field != null){
             String fieldName = field.getName();
@@ -87,12 +84,10 @@ public class ReportDataSource implements JRRewindableDataSource{
         
         return null;
     }
-    
-    /**
-     * @see net.sf.jasperreports.engine.JRRewindableDataSource#moveFirst()
-     */
+
+    @Override
     public void moveFirst(){
-        if(this.data != null && this.data.size() > 0)
+        if(this.data != null && !this.data.isEmpty())
             this.iterator = this.data.iterator();
     }
 }

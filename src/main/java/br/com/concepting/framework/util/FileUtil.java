@@ -41,9 +41,9 @@ public class FileUtil extends FileUtils{
     }
     
     /**
-     * Download a content from an URL and writes it in a file.
+     * Download a content from an url and writes it in a file.
      *
-     * @param url String that contains the URL.
+     * @param url String that contains the url.
      * @param filename String that contains the filename.
      * @throws IOException Occurs when was not possible to read the file.
      */
@@ -75,7 +75,7 @@ public class FileUtil extends FileUtils{
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    private static FileOutputStream createStream(String filename, Boolean append) throws IOException{
+    private static FileOutputStream createStream(String filename, boolean append) throws IOException{
         if(filename == null || filename.length() == 0)
             return null;
         
@@ -88,7 +88,7 @@ public class FileUtil extends FileUtils{
                 parentFile.mkdirs();
         }
         
-        return new FileOutputStream(file, (append != null && append));
+        return new FileOutputStream(file, append);
     }
     
     /**
@@ -137,7 +137,7 @@ public class FileUtil extends FileUtils{
      * @param append Indicates if the data should be appended.
      * @throws IOException Occurs when was not possible to write the file.
      */
-    public static void toTextFile(String filename, String value, Boolean append) throws IOException{
+    public static void toTextFile(String filename, String value, boolean append) throws IOException{
         if(filename != null && filename.length() > 0 && value != null)
             toTextFile(filename, value, getDefaultEncoding(), append);
     }
@@ -164,7 +164,7 @@ public class FileUtil extends FileUtils{
      * @param append Indicates if the data should be appended.
      * @throws IOException Occurs when was not possible to write the file.
      */
-    public static void toTextFile(String filename, String value, String encoding, Boolean append) throws IOException{
+    public static void toTextFile(String filename, String value, String encoding, boolean append) throws IOException{
         if(encoding == null || encoding.length() == 0)
             encoding = getDefaultEncoding();
         
@@ -280,19 +280,5 @@ public class FileUtil extends FileUtils{
             if(stream != null)
                 stream.close();
         }
-    }
-    
-    /**
-     * Reads a text file.
-     *
-     * @param filename String that contains the name of the file.
-     * @return String that contains the data of the file.
-     * @throws IOException Occurs when was not possible to read the file.
-     */
-    public static String fromTextFile(String filename) throws IOException{
-        if(filename != null && filename.length() > 0)
-            return fromTextFile(new File(filename));
-        
-        return null;
     }
 }

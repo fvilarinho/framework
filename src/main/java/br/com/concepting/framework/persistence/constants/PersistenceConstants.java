@@ -27,7 +27,6 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class PersistenceConstants{
     public static final String CACHEABLE_QUERY_ATTRIBUTE_ID = "org.hibernate.cacheable";
     public static final String CLOSE_QUOTE_ATTRIBUTE_ID = "closeQuote";
@@ -42,11 +41,12 @@ public abstract class PersistenceConstants{
     public static final String DEFAULT_FILE_EXTENSION = ".sql";
     public static final String DEFAULT_ID = "persistence";
     public static final String DEFAULT_IMPLEMENTATION_ID = "persistenceImpl";
-    public static final Integer DEFAULT_MAXIMUM_RESULTS = 512;
+    public static final int DEFAULT_MAXIMUM_RESULTS = 512;
     public static final String DEFAULT_MAPPINGS_DIR = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("mappings/");
     public static final String DEFAULT_MAPPING_FILE_EXTENSION = ".hbm.xml";
     public static final RepositoryType DEFAULT_REPOSITORY_TYPE = RepositoryType.MYSQL;
     public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("persistenceResources.xml");
+    public static final int DEFAULT_TIMEOUT = 60;
     public static final List<String> DEFAULT_COLLECTION_TYPES_IDS = Arrays.asList("org.hibernate.collection.internal.AbstractPersistentCollection", "org.hibernate.collection.spi.PersistentCollection", "org.hibernate.collection.internal.PersistentBag");
     public static final String DEFAULT_ENUM_TYPE_ID = "org.hibernate.type.EnumType";
     public static final String DEFAULT_BINARY_TYPE_ID = "binary";

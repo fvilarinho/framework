@@ -2,6 +2,8 @@ package br.com.concepting.framework.util.types;
 
 import br.com.concepting.framework.util.StringUtil;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Class that defines the types of the UI components.
  *
@@ -224,8 +226,8 @@ public enum ComponentType{
      */
     UPLOAD("FILE");
     
-    private String id = null;
-    private String type = null;
+    private String id;
+    private String type;
     
     /**
      * Constructor - Initializes the component.
@@ -243,7 +245,8 @@ public enum ComponentType{
      * @param componentType Instance that contains the component type.
      */
     ComponentType(ComponentType componentType){
-        this(componentType.getType());
+        setId(StringUtil.normalize(componentType.toString()));
+        setType(StringUtil.replaceAll(componentType.getType(), "_", ""));
     }
     
     /**

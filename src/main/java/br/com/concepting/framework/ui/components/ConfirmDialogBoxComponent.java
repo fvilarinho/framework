@@ -33,7 +33,7 @@ public class ConfirmDialogBoxComponent extends MessageBoxComponent{
     private String onConfirmAction = null;
     private String onConfirmForward = null;
     private String onConfirmUpdateViews = null;
-    private Boolean onConfirmValidateModel = null;
+    private boolean onConfirmValidateModel = false;
     private String onConfirmValidateModelProperties = null;
     
     /**
@@ -79,7 +79,7 @@ public class ConfirmDialogBoxComponent extends MessageBoxComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnConfirmValidateModel(){
+    public boolean getOnConfirmValidateModel(){
         return this.onConfirmValidateModel;
     }
     
@@ -88,7 +88,7 @@ public class ConfirmDialogBoxComponent extends MessageBoxComponent{
      *
      * @param onConfirmValidateModel True/False.
      */
-    public void setOnConfirmValidateModel(Boolean onConfirmValidateModel){
+    public void setOnConfirmValidateModel(boolean onConfirmValidateModel){
         this.onConfirmValidateModel = onConfirmValidateModel;
     }
     
@@ -158,10 +158,8 @@ public class ConfirmDialogBoxComponent extends MessageBoxComponent{
     public void setOnConfirm(String onConfirm){
         this.onConfirm = onConfirm;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         String name = getName();
         
@@ -186,23 +184,15 @@ public class ConfirmDialogBoxComponent extends MessageBoxComponent{
         
         super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildRestrictions()
-     */
+
+    @Override
     public void buildRestrictions() throws InternalErrorException{
-        if(showOnLoad() == null)
-            setShowOnLoad(false);
-        
-        if(isModal() == null)
-            setModal(true);
-        
+        setModal(true);
+
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.DialogBoxComponent#renderControls()
-     */
+
+    @Override
     protected void renderControls() throws InternalErrorException{
         String actionFormName = getActionFormName();
         
@@ -231,10 +221,8 @@ public class ConfirmDialogBoxComponent extends MessageBoxComponent{
             super.renderControls();
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.MessageBoxComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
@@ -243,6 +231,6 @@ public class ConfirmDialogBoxComponent extends MessageBoxComponent{
         setOnConfirmForward(null);
         setOnConfirmUpdateViews(null);
         setOnConfirmValidateModelProperties(null);
-        setOnConfirmValidateModel(null);
+        setOnConfirmValidateModel(false);
     }
 }

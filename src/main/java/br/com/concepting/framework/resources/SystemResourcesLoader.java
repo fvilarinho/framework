@@ -4,8 +4,6 @@ import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.constants.SystemConstants;
 import br.com.concepting.framework.controller.form.constants.ActionFormConstants;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
-import br.com.concepting.framework.resources.helpers.ActionFormForwardResources;
-import br.com.concepting.framework.resources.helpers.ActionFormResources;
 import br.com.concepting.framework.service.constants.ServiceConstants;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.PropertyUtil;
@@ -56,10 +54,8 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
     public SystemResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname, SystemConstants.DEFAULT_RESOURCES_ID);
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
-     */
+
+    @Override
     public SystemResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
@@ -98,14 +94,13 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             throw new InvalidResourcesException(resourcesDirname, resourcesId, skinsNode.getText());
         
         Collection<String> skins = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        String skin = null;
         String defaultSkin = null;
         
         for(XmlNode skinChildNode: skinsChildNodes){
-            skin = skinChildNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
+            String skin = skinChildNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
             
             if(skin != null && skin.length() > 0){
-                if(Boolean.valueOf(skinChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
+                if(Boolean.parseBoolean(skinChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
                     defaultSkin = skin;
                 
                 skins.add(skin);
@@ -132,17 +127,15 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             throw new InvalidResourcesException(resourcesDirname, resourcesId, languagesNode.getText());
         
         Collection<Locale> languages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        String languageBuffer = null;
-        Locale language = null;
         Locale defaultLanguage = null;
         
         for(XmlNode languageChildNode: languagesChildNodes){
-            languageBuffer = languageChildNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
+            String languageBuffer = languageChildNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
             
             if(languageBuffer != null && languageBuffer.length() > 0){
-                language = LanguageUtil.getLanguageByString(languageBuffer);
+                Locale language = LanguageUtil.getLanguageByString(languageBuffer);
                 
-                if(Boolean.valueOf(languageChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
+                if(Boolean.parseBoolean(languageChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
                     defaultLanguage = language;
                 
                 languages.add(language);
@@ -164,29 +157,26 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             List<XmlNode> actionFormNodes = actionFormsNode.getChildren();
             
             if(actionFormNodes != null && !actionFormNodes.isEmpty()){
-                List<XmlNode> forwardNodes = null;
-                XmlNode forwardsNode = null;
-                Collection<ActionFormForwardResources> forwards = null;
-                ActionFormForwardResources forward = null;
-                ActionFormResources actionForm = null;
-                Collection<ActionFormResources> actionForms = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+                Collection<SystemResources.ActionFormResources> actionForms = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
                 
                 for(XmlNode actionFormNode: actionFormNodes){
-                    actionForm = new ActionFormResources();
+                    SystemResources.ActionFormResources actionForm = new SystemResources.ActionFormResources();
+
                     actionForm.setName(actionFormNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     actionForm.setClazz(actionFormNode.getAttribute(Constants.CLASS_ATTRIBUTE_ID));
                     actionForm.setAction(actionFormNode.getAttribute(ActionFormConstants.ACTION_ATTRIBUTE_ID));
-                    
-                    forwardsNode = actionFormNode.getNode(ActionFormConstants.FORWARDS_ATTRIBUTE_ID);
+
+                    XmlNode forwardsNode = actionFormNode.getNode(ActionFormConstants.FORWARDS_ATTRIBUTE_ID);
                     
                     if(forwardsNode != null){
-                        forwardNodes = forwardsNode.getChildren();
+                        List<XmlNode> forwardNodes = forwardsNode.getChildren();
                         
                         if(forwardNodes != null && !forwardNodes.isEmpty()){
-                            forwards = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+                            Collection<SystemResources.ActionFormResources.ActionFormForwardResources> forwards = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
                             
                             for(XmlNode forwardNode: forwardNodes){
-                                forward = new ActionFormForwardResources();
+                                SystemResources.ActionFormResources.ActionFormForwardResources forward = new SystemResources.ActionFormResources.ActionFormForwardResources();
+
                                 forward.setName(forwardNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                                 forward.setUrl(forwardNode.getAttribute(SystemConstants.URL_ATTRIBUTE_ID));
                                 
@@ -210,8 +200,24 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             List<XmlNode> servicesNodes = servicesNode.getChildren();
             
             if(servicesNodes != null && servicesNodes.size() > 0)
-                for(XmlNode serviceNode: servicesNodes)
-                    resources.addService(serviceNode.getValue());
+                for(XmlNode serviceNode: servicesNodes){
+                    SystemResources.ServiceResources serviceResources = new SystemResources.ServiceResources();
+                    String isDaemon = serviceNode.getAttribute("isDaemon");
+                    String isRecurrent = serviceNode.getAttribute("isRecurrent");
+                    String path = serviceNode.getAttribute("path");
+
+                    if(isDaemon != null)
+                        serviceResources.setDaemon(Boolean.parseBoolean(isDaemon));
+
+                    if(isRecurrent != null)
+                        serviceResources.setRecurrent(Boolean.parseBoolean(isRecurrent));
+
+                    serviceResources.setPath(path);
+                    serviceResources.setClazz(serviceNode.getValue());
+
+                    resources.addService(serviceResources);
+                }
+
         }
         
         return resources;

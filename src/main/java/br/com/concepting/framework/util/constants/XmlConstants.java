@@ -23,7 +23,6 @@ import br.com.concepting.framework.util.types.ContentType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class XmlConstants{
     public static final String W3C_SCHEMA_NAMESPACE_ATTRIBUTE_ID = "xmlns";
     public static final String W3C_SCHEMA_INSTANCE_ATTRIBUTE_ID = W3C_SCHEMA_NAMESPACE_ATTRIBUTE_ID.concat(":xsi");
@@ -32,7 +31,7 @@ public abstract class XmlConstants{
     public static final String W3C_NO_NAMESPACE_SCHEMA_LOCATION_ATTRIBUTE_ID = "xsi:noNamespaceSchemaLocation";
     public static final String DEFAULT_FILE_EXTENSION = ContentType.XML.getExtension();
     public static final String DEFAULT_RESOURCES_NODE_ID = "resources";
-    public static final String DEFAULT_APACHE_VALIDATION_FEATURE_ID = "http://apache.org/xml/features/nonvalidating/load-external-dtd";
-    public static final String DEFAULT_SAX_VALIDATION_FEATURE_ID = "http://xml.org/sax/features/validation";
-    public static final String DEFAULT_W3C_SCHEMA_INSTANCE_NAMESPACE_ID = "http://www.w3.org/2001/XMLSchema-instance";
+    public static final String DEFAULT_APACHE_VALIDATION_FEATURE_ID = "https://apache.org/xml/features/nonvalidating/load-external-dtd";
+    public static final String DEFAULT_SAX_VALIDATION_FEATURE_ID = "https://xml.org/sax/features/validation";
+    public static final String DEFAULT_W3C_SCHEMA_INSTANCE_NAMESPACE_ID = "https://www.w3.org/2001/XMLSchema-instance";
 }

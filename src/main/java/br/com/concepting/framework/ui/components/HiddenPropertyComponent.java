@@ -26,88 +26,62 @@ import br.com.concepting.framework.util.types.ComponentType;
  */
 public class HiddenPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = 3128570106990502918L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildLabel()
-     */
+
+    @Override
     protected void buildLabel() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildTooltip()
-     */
+
+    @Override
     protected void buildTooltip() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildDimensions()
-     */
+
+    @Override
     protected void buildDimensions() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
         setShowLabel(false);
         
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildStyle()
-     */
+
+    @Override
     protected void buildStyle() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.HIDDEN);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderPlaceholder()
-     */
+
+    @Override
     protected void renderPlaceholder() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderLabel()
-     */
+
+    @Override
     protected void renderLabel() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderLabelAttribute()
-     */
+
+    @Override
     protected void renderLabelAttribute() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderTooltip()
-     */
+
+    @Override
     protected void renderTooltip() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderPatternAttribute()
-     */
+
+    @Override
     protected void renderPatternAttribute() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderStyle()
-     */
+
+    @Override
     protected void renderStyle() throws InternalErrorException{
     }
 }

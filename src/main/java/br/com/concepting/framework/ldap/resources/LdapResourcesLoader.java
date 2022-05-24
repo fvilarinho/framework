@@ -55,10 +55,8 @@ public class LdapResourcesLoader extends NetworkResourcesLoader<LdapResources>{
     public LdapResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname);
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
-     */
+
+    @Override
     public LdapResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
@@ -80,7 +78,7 @@ public class LdapResourcesLoader extends NetworkResourcesLoader<LdapResources>{
         
         if(serverPortNode != null){
             try{
-                Integer serverPort = NumberUtil.parseInt(serverPortNode.getValue());
+                int serverPort = NumberUtil.parseInt(serverPortNode.getValue());
                 
                 resources.setServerPort(serverPort);
             }
@@ -108,7 +106,7 @@ public class LdapResourcesLoader extends NetworkResourcesLoader<LdapResources>{
         
         if(timeoutNode != null){
             try{
-                Long timeout = NumberUtil.parseLong(timeoutNode.getValue());
+                int timeout = NumberUtil.parseInt(timeoutNode.getValue());
                 
                 resources.setTimeout(timeout);
             }
@@ -167,10 +165,8 @@ public class LdapResourcesLoader extends NetworkResourcesLoader<LdapResources>{
         
         return resources;
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.BaseResourcesLoader#parseContent()
-     */
+
+    @Override
     protected XmlNode parseContent() throws InvalidResourcesException{
         XmlNode contentNode = super.parseContent();
         XmlNode resourcesNode = contentNode.getNode(LdapConstants.DEFAULT_ID);

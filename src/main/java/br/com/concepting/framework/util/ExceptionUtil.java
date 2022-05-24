@@ -57,7 +57,7 @@ public class ExceptionUtil{
     }
     
     /**
-     * Returns the stack trace of a exception.
+     * Returns the stack trace of an exception.
      *
      * @param exception Instance that contains the exception.
      * @return String that contains the stack trace.
@@ -69,7 +69,7 @@ public class ExceptionUtil{
             
             exception.printStackTrace(stream);
             
-            return new String(buffer.toByteArray());
+            return buffer.toString();
         }
         
         return null;
@@ -82,7 +82,7 @@ public class ExceptionUtil{
      * @param parent Class that defines the exception parent.
      * @return True/False.
      */
-    public static Boolean belongsTo(Class<?> exception, Class<?> parent){
+    public static boolean belongsTo(Class<?> exception, Class<?> parent){
         if(exception != null && parent != null){
             if(exception.equals(parent))
                 return true;
@@ -104,7 +104,7 @@ public class ExceptionUtil{
      * @param exception Instance that contains the exception.
      * @return True/False.
      */
-    public static Boolean isExpectedException(Throwable exception){
+    public static boolean isExpectedException(Throwable exception){
         return (exception instanceof ExpectedException);
     }
     
@@ -114,7 +114,7 @@ public class ExceptionUtil{
      * @param exception Instance that contains the exception.
      * @return True/False.
      */
-    public static Boolean isExpectedWarningException(Throwable exception){
+    public static boolean isExpectedWarningException(Throwable exception){
         return (exception instanceof ExpectedWarningException);
     }
     
@@ -124,7 +124,7 @@ public class ExceptionUtil{
      * @param exception Instance that contains the exception.
      * @return True/False.
      */
-    public static Boolean isExpectedErrorException(Throwable exception){
+    public static boolean isExpectedErrorException(Throwable exception){
         return (exception instanceof ExpectedErrorException);
     }
     
@@ -134,17 +134,17 @@ public class ExceptionUtil{
      * @param exception Instance that contains the exception.
      * @return True/False.
      */
-    public static Boolean isInternalErrorException(Throwable exception){
+    public static boolean isInternalErrorException(Throwable exception){
         return (exception instanceof InternalErrorException);
     }
     
     /**
-     * Indicates if the instance is an invalid resources exception.
+     * Indicates if the instance is an invalid resource exception.
      *
      * @param exception Instance that contains the exception.
      * @return True/False.
      */
-    public static Boolean isInvalidResourceException(Throwable exception){
+    public static boolean isInvalidResourceException(Throwable exception){
         return (exception instanceof InvalidResourcesException || exception instanceof ItemNotFoundException);
     }
     
@@ -154,7 +154,7 @@ public class ExceptionUtil{
      * @param exception Instance that contains the exception.
      * @return True/False.
      */
-    public static Boolean isPermissionDeniedException(Throwable exception){
+    public static boolean isPermissionDeniedException(Throwable exception){
         return (exception instanceof PermissionDeniedException);
     }
     
@@ -164,7 +164,7 @@ public class ExceptionUtil{
      * @param exception Instance that contains the exception.
      * @return True/False.
      */
-    public static Boolean isUserNotAuthorized(Throwable exception){
+    public static boolean isUserNotAuthorized(Throwable exception){
         return (exception instanceof UserNotAuthorizedException);
     }
     

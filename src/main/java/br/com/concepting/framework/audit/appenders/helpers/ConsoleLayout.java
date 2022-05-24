@@ -3,6 +3,7 @@ package br.com.concepting.framework.audit.appenders.helpers;
 import br.com.concepting.framework.audit.model.AuditorModel;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.spi.LoggingEvent;
 
@@ -50,10 +51,8 @@ public class ConsoleLayout extends PatternLayout{
     public void setModel(AuditorModel model){
         this.model = model;
     }
-    
-    /**
-     * @see org.apache.log4j.PatternLayout#format(org.apache.log4j.spi.LoggingEvent)
-     */
+
+    @Override
     public String format(LoggingEvent event){
         if(event != null){
             try{
@@ -64,10 +63,10 @@ public class ConsoleLayout extends PatternLayout{
                 
                 return result.toString();
             }
-            catch(Throwable e){
+            catch(Throwable ignored){
             }
         }
         
-        return null;
+        return StringUtils.EMPTY;
     }
 }

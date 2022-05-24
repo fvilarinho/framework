@@ -3,10 +3,13 @@ package br.com.concepting.framework.util;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.util.types.BitMetricType;
 import br.com.concepting.framework.util.types.ByteMetricType;
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Base64;
 import java.util.Locale;
 
@@ -39,10 +42,10 @@ public class ByteUtil{
      * @return String that was converted to Hexadecimal.
      */
     public static String toHexadecimal(byte[] values){
-        if(values != null && values.length > 0)
-            return new String(Hex.encodeHex(values));
-        
-        return null;
+        if(values == null)
+            return StringUtils.EMPTY;
+
+        return new String(Hex.encodeHex(values));
     }
     
     /**
@@ -50,16 +53,14 @@ public class ByteUtil{
      *
      * @param value String that contains the value.
      * @return Byte array converted from Hexadecimal.
+     * @throws DecoderException Occurs when was not possible to
+     * execute the operation.
      */
-    public static byte[] fromHexadecimal(String value){
-        try{
-            if(value != null && value.length() > 0)
-                return Hex.decodeHex(value);
-        }
-        catch(Throwable e){
-        }
-        
-        return null;
+    public static byte[] fromHexadecimal(String value) throws DecoderException{
+        if(value == null)
+            return null;
+
+        return Hex.decodeHex(value);
     }
     
     /**
@@ -71,10 +72,10 @@ public class ByteUtil{
      * execute the operation.
      */
     public static String toBase64(byte[] value) throws UnsupportedEncodingException{
-        if(value != null && value.length > 0)
-            return new String(Base64.getMimeEncoder().encode(value), Constants.DEFAULT_UNICODE_ENCODING);
-        
-        return null;
+        if(value == null)
+            return StringUtils.EMPTY;
+
+        return new String(Base64.getMimeEncoder().encode(value), Constants.DEFAULT_UNICODE_ENCODING);
     }
     
     /**
@@ -86,10 +87,10 @@ public class ByteUtil{
      * execute the operation.
      */
     public static byte[] fromBase64(String value) throws UnsupportedEncodingException{
-        if(value != null && value.length() > 0)
-            return Base64.getMimeDecoder().decode(value.getBytes(Constants.DEFAULT_UNICODE_ENCODING));
-        
-        return null;
+        if(value == null)
+            return null;
+
+        return Base64.getMimeDecoder().decode(value.getBytes(Constants.DEFAULT_UNICODE_ENCODING));
     }
     
     /**
@@ -99,22 +100,18 @@ public class ByteUtil{
      * @return Byte array that contains the data.
      * @throws IOException Occurs when was not possible to read the data.
      */
-    public static byte[] fromBinaryStream(InputStream stream) throws IOException{
-        if(stream != null){
-            byte[] buffer = new byte[Constants.DEFAULT_BUFFER_SIZE];
-            Integer length = null;
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            
-            while((length = stream.read(buffer)) > 0)
-                out.write(buffer, 0, length);
-            
-            out.close();
-            stream.close();
-            
-            return out.toByteArray();
-        }
-        
-        return null;
+    public static byte[] fromBinaryStream( InputStream stream) throws IOException{
+        byte[] buffer = new byte[Constants.DEFAULT_BUFFER_SIZE];
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        int length;
+
+        while((length = stream.read(buffer)) > 0)
+            out.write(buffer, 0, length);
+
+        out.close();
+        stream.close();
+
+        return out.toByteArray();
     }
     
     /**
@@ -125,169 +122,143 @@ public class ByteUtil{
      * @throws IOException Occurs when was not possible to read the data.
      */
     public static byte[] fromTextStream(InputStream stream) throws IOException{
-        if(stream != null){
-            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-            ByteArrayOutputStream streamBuffer = new ByteArrayOutputStream();
-            String line = null;
-            PrintStream out = new PrintStream(streamBuffer);
-            
-            while((line = reader.readLine()) != null)
-                out.println(line);
-            
-            reader.close();
-            
-            return streamBuffer.toByteArray();
-        }
-        
-        return null;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        ByteArrayOutputStream streamBuffer = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(streamBuffer);
+        String line;
+
+        while((line = reader.readLine()) != null)
+            out.println(line);
+
+        reader.close();
+
+        return streamBuffer.toByteArray();
     }
     
     /**
-     * Transforms a byte representation into a bit representation.
+     * Transforms a byte representation into bit representation.
      *
      * @param value Numeric value.
      * @return Valor Numeric value transformed.
      */
-    public static Long bytesToBits(Long value){
-        if(value != null)
-            return value * 8;
-        
-        return null;
+    public static long bytesToBits(long value){
+        return value * 8;
     }
     
     /**
-     * Transforms a bit representation into an byte representation.
+     * Transforms the bit representation into byte representation.
      *
      * @param value Numeric value.
      * @return Valor Numeric value transformed.
      */
-    public static Long bitsToBytes(Long value){
-        if(value != null)
-            return value / 8;
-        
-        return null;
+    public static long bitsToBytes(long value){
+        return value / 8;
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @return Formatted string.
      */
-    public static String formatBits(Long value){
-        if(value != null)
-            return formatBits(value.doubleValue());
-        
-        return null;
+    public static String formatBits(long value){
+        return formatBits(value, LanguageUtil.getDefaultLanguage());
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @return Formatted string.
      */
-    public static String formatBits(Double value){
-        if(value != null)
-            return formatBits(value, LanguageUtil.getDefaultLanguage());
-        
-        return null;
+    public static String formatBits(double value){
+        return formatBits(value, LanguageUtil.getDefaultLanguage());
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @return Formatted string.
      */
-    public static String formatBits(BigDecimal value){
-        if(value != null)
-            return formatBits(value.longValue());
-        
-        return null;
+    public static String formatBits(BigInteger value){
+        return formatBits(value.longValue());
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
-    public static String formatBits(Long value, Locale language){
-        if(value != null)
-            return formatBits(value.doubleValue(), language);
-        
-        return null;
+    public static String formatBits(long value, Locale language){
+        BitMetricType currentMetric = null;
+
+        for(BitMetricType metric: BitMetricType.values())
+            if(value >= metric.getValue())
+                currentMetric = metric;
+
+        return formatBits(value, currentMetric, language);
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
-    public static String formatBits(Double value, Locale language){
-        if(value != null){
-            BitMetricType currentMetric = null;
-            
-            for(BitMetricType metric: BitMetricType.values())
-                if(value >= metric.getValue())
-                    currentMetric = metric;
-            
-            return formatBits(value, currentMetric, language);
-        }
-        
-        return null;
+    public static String formatBits(double value, Locale language){
+        BitMetricType currentMetric = null;
+
+        for(BitMetricType metric: BitMetricType.values())
+            if(value >= metric.getValue())
+                currentMetric = metric;
+
+        return formatBits(value, currentMetric, language);
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
     public static String formatBits(BigDecimal value, Locale language){
-        if(value != null)
-            return formatBits(value.doubleValue(), language);
-        
-        return null;
+        if(value == null)
+            return StringUtils.EMPTY;
+
+        return formatBits(value.doubleValue(), language);
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
      * mega, giga, etc).
      * @return Formatted string.
      */
-    public static String formatBits(Long value, BitMetricType metric){
-        if(value != null && metric != null)
-            return formatBits(value.doubleValue(), metric);
-        
-        return null;
+    public static String formatBits(long value, BitMetricType metric){
+        return formatBits(value, metric, LanguageUtil.getDefaultLanguage());
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
      * mega, giga, etc).
      * @return Formatted string.
      */
-    public static String formatBits(Double value, BitMetricType metric){
-        if(value != null && metric != null)
-            return formatBits(value, metric, LanguageUtil.getDefaultLanguage());
-        
-        return null;
+    public static String formatBits(double value, BitMetricType metric){
+        return formatBits(value, metric, LanguageUtil.getDefaultLanguage());
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
@@ -298,11 +269,11 @@ public class ByteUtil{
         if(value != null && metric != null)
             return formatBits(value.doubleValue(), metric);
         
-        return null;
+        return StringUtils.EMPTY;
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
@@ -310,15 +281,15 @@ public class ByteUtil{
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
-    public static String formatBits(Long value, BitMetricType metric, Locale language){
-        if(value != null && metric != null)
-            return formatBits(value.doubleValue(), metric, language);
-        
-        return null;
+    public static String formatBits(long value, BitMetricType metric, Locale language){
+        if(metric != null)
+            return formatBits(Long.valueOf(value).doubleValue(), metric, language);
+
+        return StringUtils.EMPTY;
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
@@ -326,35 +297,34 @@ public class ByteUtil{
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
-    public static String formatBits(Double value, BitMetricType metric, Locale language){
-        if(value != null && metric != null){
-            StringBuilder buffer = new StringBuilder();
-            Double metricValue = metric.getValue();
-            String metricUnit = metric.getUnit();
-            Double valueBuffer = value / metricValue;
-            Double modBuffer = value % metricValue;
-            
-            if(modBuffer == 0)
-                valueBuffer = (double) Math.round(valueBuffer);
-            
-            buffer.append(NumberUtil.format(valueBuffer, (modBuffer > 0 ? 2 : 0), language));
-            
-            if(metricUnit != null && metricUnit.length() > 0){
-                buffer.append(" ");
-                buffer.append(metricUnit);
-                
-                if(valueBuffer != 1)
-                    buffer.append("s");
-            }
-            
-            return buffer.toString();
+    public static String formatBits(double value, BitMetricType metric, Locale language){
+        if(metric == null)
+            return StringUtils.EMPTY;
+
+        StringBuilder buffer = new StringBuilder();
+        double metricValue = metric.getValue();
+        String metricUnit = metric.getUnit();
+        double valueBuffer = value / metricValue;
+        double modBuffer = value % metricValue;
+
+        if(modBuffer == 0)
+            valueBuffer = (double) Math.round(valueBuffer);
+
+        buffer.append(NumberUtil.format(valueBuffer, (modBuffer > 0 ? 2 : 0), language));
+
+        if(metricUnit != null && metricUnit.length() > 0){
+            buffer.append(" ");
+            buffer.append(metricUnit);
+
+            if(valueBuffer != 1)
+                buffer.append("s");
         }
-        
-        return null;
+
+        return buffer.toString();
     }
     
     /**
-     * Formats a numeric value using a bit representation.
+     * Formats a numeric value using bit representation.
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
@@ -366,7 +336,7 @@ public class ByteUtil{
         if(value != null && metric != null)
             return formatBits(value.doubleValue(), metric, language);
         
-        return null;
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -376,11 +346,8 @@ public class ByteUtil{
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
-    public static String formatBytes(Long value, Locale language){
-        if(value != null)
-            return formatBytes(value.doubleValue(), language);
-        
-        return null;
+    public static String formatBytes(long value, Locale language){
+        return formatBytes(Long.valueOf(value).doubleValue(), language);
     }
     
     /**
@@ -390,18 +357,14 @@ public class ByteUtil{
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
-    public static String formatBytes(Double value, Locale language){
-        if(value != null){
-            ByteMetricType currentMetric = null;
-            
-            for(ByteMetricType metric: ByteMetricType.values())
-                if(value >= metric.getValue())
-                    currentMetric = metric;
-            
-            return formatBytes(value, currentMetric, language);
-        }
-        
-        return null;
+    public static String formatBytes(double value, Locale language){
+        ByteMetricType currentMetric = null;
+
+        for(ByteMetricType metric: ByteMetricType.values())
+            if(value >= metric.getValue())
+                currentMetric = metric;
+
+        return formatBytes(value, currentMetric, language);
     }
     
     /**
@@ -414,8 +377,8 @@ public class ByteUtil{
     public static String formatBytes(BigDecimal value, Locale language){
         if(value != null)
             return formatBytes(value.doubleValue(), language);
-        
-        return null;
+
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -426,11 +389,8 @@ public class ByteUtil{
      * mega, giga, etc).
      * @return Formatted string.
      */
-    public static String formatBytes(Long value, ByteMetricType metric){
-        if(value != null)
-            return formatBytes(value.doubleValue(), metric);
-        
-        return null;
+    public static String formatBytes(long value, ByteMetricType metric){
+        return formatBytes(Long.valueOf(value).doubleValue(), metric);
     }
     
     /**
@@ -441,11 +401,11 @@ public class ByteUtil{
      * mega, giga, etc).
      * @return Formatted string.
      */
-    public static String formatBytes(Double value, ByteMetricType metric){
-        if(value != null && metric != null)
+    public static String formatBytes(double value, ByteMetricType metric){
+        if(metric != null)
             return formatBytes(value, metric, LanguageUtil.getDefaultLanguage());
         
-        return null;
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -460,7 +420,7 @@ public class ByteUtil{
         if(value != null && metric != null)
             return formatBytes(value.doubleValue(), metric);
         
-        return null;
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -472,11 +432,11 @@ public class ByteUtil{
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
-    public static String formatBytes(Long value, ByteMetricType metric, Locale language){
-        if(value != null && metric != null)
-            return formatBytes(value.doubleValue(), metric, language);
-        
-        return null;
+    public static String formatBytes(long value, ByteMetricType metric, Locale language){
+        if(metric == null)
+            return StringUtils.EMPTY;
+
+        return formatBytes(Long.valueOf(value).doubleValue(), metric, language);
     }
     
     /**
@@ -488,31 +448,27 @@ public class ByteUtil{
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
-    public static String formatBytes(Double value, ByteMetricType metric, Locale language){
-        if(value != null && metric != null){
-            StringBuilder buffer = new StringBuilder();
-            Double metricValue = metric.getValue();
-            String metricUnit = metric.getUnit();
-            Double valueBuffer = value / metricValue;
-            Double modBuffer = value % metricValue;
-            
-            if(modBuffer == 0)
-                valueBuffer = (double) Math.round(valueBuffer);
-            
-            buffer.append(NumberUtil.format(valueBuffer, (modBuffer > 0 ? 2 : 0), language));
-            
-            if(metricUnit != null && metricUnit.length() > 0){
-                buffer.append(" ");
-                buffer.append(metricUnit);
-                
-                if(metric == ByteMetricType.BYTE && valueBuffer != 1)
-                    buffer.append("s");
-            }
-            
-            return buffer.toString();
+    public static String formatBytes(double value, ByteMetricType metric, Locale language){
+        StringBuilder buffer = new StringBuilder();
+        double metricValue = metric.getValue();
+        String metricUnit = metric.getUnit();
+        double valueBuffer = value / metricValue;
+        double modBuffer = value % metricValue;
+
+        if(modBuffer == 0)
+            valueBuffer = (double) Math.round(valueBuffer);
+
+        buffer.append(NumberUtil.format(valueBuffer, (modBuffer > 0 ? 2 : 0), language));
+
+        if(metricUnit != null && metricUnit.length() > 0){
+            buffer.append(" ");
+            buffer.append(metricUnit);
+
+            if(metric == ByteMetricType.BYTE && valueBuffer != 1)
+                buffer.append("s");
         }
-        
-        return null;
+
+        return buffer.toString();
     }
     
     /**
@@ -525,10 +481,10 @@ public class ByteUtil{
      * @return Formatted string.
      */
     public static String formatBytes(BigDecimal value, ByteMetricType metric, Locale language){
-        if(value != null && metric != null)
-            return formatBytes(value.doubleValue(), metric, language);
-        
-        return null;
+        if(value == null)
+            return StringUtils.EMPTY;
+
+        return formatBytes(value.doubleValue(), metric, language);
     }
     
     /**
@@ -537,11 +493,8 @@ public class ByteUtil{
      * @param value Numeric value.
      * @return String formatada.
      */
-    public static String formatBytes(Long value){
-        if(value != null)
-            return formatBytes(value.doubleValue());
-        
-        return null;
+    public static String formatBytes(long value){
+        return formatBytes(value, LanguageUtil.getDefaultLanguage());
     }
     
     /**
@@ -550,11 +503,8 @@ public class ByteUtil{
      * @param value Numeric value.
      * @return String formatada.
      */
-    public static String formatBytes(Double value){
-        if(value != null)
-            return formatBytes(value, LanguageUtil.getDefaultLanguage());
-        
-        return null;
+    public static String formatBytes(double value){
+        return formatBytes(value, LanguageUtil.getDefaultLanguage());
     }
     
     /**
@@ -564,9 +514,9 @@ public class ByteUtil{
      * @return String formatada.
      */
     public static String formatBytes(BigDecimal value){
-        if(value != null)
-            return formatBytes(value.doubleValue());
-        
-        return null;
+        if(value == null)
+            return StringUtils.EMPTY;
+
+        return formatBytes(value.doubleValue());
     }
 }

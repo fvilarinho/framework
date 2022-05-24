@@ -1,8 +1,9 @@
-package br.com.concepting.framework.util.helpers;
+package br.com.concepting.framework.persistence.helpers;
 
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.model.types.ConditionOperationType;
 import br.com.concepting.framework.model.types.ConditionType;
+import br.com.concepting.framework.persistence.constants.PersistenceConstants;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.FormulaType;
@@ -46,7 +47,7 @@ public class Filter implements Serializable{
     private Map<String, Collection<Object>> propertiesValues = null;
     private Map<String, SortOrderType> propertiesSortOrders = null;
     private Collection<String> groupByProperties = null;
-    private Integer maximumResults = null;
+    private int maximumResults = PersistenceConstants.DEFAULT_MAXIMUM_RESULTS;
     
     /**
      * Returns the group by properties.
@@ -177,7 +178,7 @@ public class Filter implements Serializable{
      *
      * @return Numeric value that contains the maximum number.
      */
-    public Integer getMaximumResults(){
+    public int getMaximumResults(){
         return this.maximumResults;
     }
     
@@ -186,7 +187,7 @@ public class Filter implements Serializable{
      *
      * @param maximumResults Numeric value that contains the maximum number.
      */
-    public void setMaximumResults(Integer maximumResults){
+    public void setMaximumResults(int maximumResults){
         this.maximumResults = maximumResults;
     }
     

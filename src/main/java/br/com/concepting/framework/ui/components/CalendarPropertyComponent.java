@@ -35,14 +35,14 @@ import java.util.Calendar;
 public class CalendarPropertyComponent extends TextPropertyComponent{
     private static final long serialVersionUID = -2047638037702135816L;
     
-    private Boolean showButton = null;
+    private boolean showButton = true;
     
     /**
      * Indicates if the calendar button should be shown.
      *
      * @return True/False.
      */
-    protected Boolean showButton(){
+    protected boolean showButton(){
         return this.showButton;
     }
     
@@ -51,7 +51,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      *
      * @return True/False.
      */
-    protected Boolean getShowButton(){
+    protected boolean getShowButton(){
         return showButton();
     }
     
@@ -60,35 +60,26 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      *
      * @param showButton True/False.
      */
-    public void setShowButton(Boolean showButton){
+    public void setShowButton(boolean showButton){
         this.showButton = showButton;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
         if(getAlignmentType() == null)
             setAlignmentType(AlignmentType.CENTER);
         
         super.buildAlignment();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
-        if(this.showButton == null)
-            this.showButton = true;
-        
         setIsDate(true);
         
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         String name = getName();
         
@@ -114,27 +105,23 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
         
         super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.CALENDAR);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
-        Boolean enabled = isEnabled();
-        Boolean readOnly = isReadOnly();
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean enabled = isEnabled();
+        boolean readOnly = isReadOnly();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(enabled != null && enabled && (readOnly == null || !readOnly) && (hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition)){
+        if(enabled && !readOnly && !hasInvalidPropertyDefinition){
             PositionType labelPositionType = getLabelPositionType();
             
             if(labelPositionType == PositionType.TOP || labelPositionType == PositionType.BOTTOM){
@@ -152,16 +139,14 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             println("<td>");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
-        Boolean enabled = isEnabled();
-        Boolean readOnly = isReadOnly();
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean enabled = isEnabled();
+        boolean readOnly = isReadOnly();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(enabled != null && enabled && (readOnly == null || !readOnly) && (hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition)){
+        if(enabled && !readOnly && !hasInvalidPropertyDefinition){
             println("</td>");
             
             renderControls();
@@ -169,7 +154,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
         
         super.renderClose();
     }
-    
+
     /**
      * Renders the component controls.
      *
@@ -178,11 +163,11 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
     protected void renderControls() throws InternalErrorException{
         PropertyInfo propertyInfo = getPropertyInfo();
         String name = getName();
-        Boolean enabled = isEnabled();
-        Boolean readOnly = isReadOnly();
+        boolean enabled = isEnabled();
+        boolean readOnly = isReadOnly();
         
-        if(propertyInfo != null && name != null && name.length() > 0 && enabled != null && enabled && (readOnly == null || !readOnly)){
-            if(this.showButton != null && this.showButton){
+        if(propertyInfo != null && name != null && name.length() > 0 && enabled && !readOnly){
+            if(this.showButton){
                 println("<td width=\"5\"></td>");
                 
                 println("<td>");
@@ -405,14 +390,12 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             println("</div>");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setShowButton(null);
+        setShowButton(true);
     }
     
     /**
@@ -421,7 +404,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @author fvilarinho
      * @since 2.0.0
      */
-    private class ShowCalendarButtonComponent extends ButtonComponent{
+    private static class ShowCalendarButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = -7577282331598735497L;
         
         /**
@@ -439,10 +422,8 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -459,20 +440,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildEvents();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_SHOW_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_CALENDAR_SHOW_BUTTON_STYLE_CLASS);
             
@@ -486,7 +463,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @author fvilarinho
      * @since 2.0.0
      */
-    private class PreviousYearButtonComponent extends ButtonComponent{
+    private static class PreviousYearButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = 6998272659624256987L;
         
         /**
@@ -504,10 +481,8 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -524,20 +499,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildEvents();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_PREVIOUS_YEAR_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_CALENDAR_PREVIOUS_YEAR_BUTTON_STYLE_CLASS);
             
@@ -551,7 +522,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @author fvilarinho
      * @since 2.0.0
      */
-    private class PreviousMonthButtonComponent extends ButtonComponent{
+    private static class PreviousMonthButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = -3641327767947261579L;
         
         /**
@@ -569,10 +540,8 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -589,20 +558,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildEvents();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_PREVIOUS_MONTH_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_CALENDAR_PREVIOUS_MONTH_BUTTON_STYLE_CLASS);
             
@@ -616,7 +581,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @author fvilarinho
      * @since 2.0.0
      */
-    private class NextMonthButtonComponent extends ButtonComponent{
+    private static class NextMonthButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = 7443293371718716410L;
         
         /**
@@ -634,10 +599,8 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -654,20 +617,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildEvents();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_NEXT_MONTH_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_CALENDAR_NEXT_MONTH_BUTTON_STYLE_CLASS);
             
@@ -681,7 +640,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @author fvilarinho
      * @since 2.0.0
      */
-    private class NextYearButtonComponent extends ButtonComponent{
+    private static class NextYearButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = -3340079892458275397L;
         
         /**
@@ -699,10 +658,8 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -719,20 +676,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildEvents();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_NEXT_YEAR_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_CALENDAR_NEXT_YEAR_BUTTON_STYLE_CLASS);
             
@@ -746,7 +699,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @author fvilarinho
      * @since 3.3.0
      */
-    private class HoursPropertyComponent extends SliderBarComponent{
+    private static class HoursPropertyComponent extends SliderBarComponent{
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -764,20 +717,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_HOURS_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-         */
+
+        @Override
         protected void buildName() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -794,20 +743,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildName();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setLabelStyle("width: 40px;");
             setStyleClass(UIConstants.DEFAULT_CALENDAR_TIME_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             String currentOnChange = getOnChange();
             StringBuilder onChange = new StringBuilder();
@@ -826,24 +771,18 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildSize()
-         */
+
+        @Override
         protected void buildSize() throws InternalErrorException{
             setSize(2);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildMaximumLength()
-         */
+
+        @Override
         protected void buildMaximumLength() throws InternalErrorException{
             setMaximumLength(2);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.TextPropertyComponent#buildRestrictions()
-         */
+
+        @Override
         protected void buildRestrictions() throws InternalErrorException{
             setIsNumber(true);
             
@@ -853,26 +792,22 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 String pattern = calendarPropertyComponent.getPattern();
                 
                 if(pattern != null && pattern.contains("hh"))
-                    setMaximumValue(12l);
+                    setMaximumValue(12L);
                 else
-                    setMaximumValue(23l);
+                    setMaximumValue(23L);
                 
                 super.buildRestrictions();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-         */
+
+        @Override
         protected void buildAlignment() throws InternalErrorException{
             setAlignmentType(AlignmentType.RIGHT);
             
             super.buildAlignment();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             super.initialize();
             
@@ -892,7 +827,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @author fvilarinho
      * @since 3.3.0
      */
-    private class MinutesPropertyComponent extends SliderBarComponent{
+    private static class MinutesPropertyComponent extends SliderBarComponent{
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -910,20 +845,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_MINUTES_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-         */
+
+        @Override
         protected void buildName() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -940,20 +871,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildName();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setLabelStyle("width: 40px;");
             setStyleClass(UIConstants.DEFAULT_CALENDAR_TIME_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             String currentOnChange = getOnChange();
             StringBuilder onChange = new StringBuilder();
@@ -972,43 +899,33 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildSize()
-         */
+
+        @Override
         protected void buildSize() throws InternalErrorException{
             setSize(2);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildMaximumLength()
-         */
+
+        @Override
         protected void buildMaximumLength() throws InternalErrorException{
             setMaximumLength(2);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.TextPropertyComponent#buildRestrictions()
-         */
+
+        @Override
         protected void buildRestrictions() throws InternalErrorException{
             setIsNumber(true);
             setMaximumValue(59);
             
             super.buildRestrictions();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-         */
+
+        @Override
         protected void buildAlignment() throws InternalErrorException{
             setAlignmentType(AlignmentType.RIGHT);
             
             super.buildAlignment();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             super.initialize();
             
@@ -1028,7 +945,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @author fvilarinho
      * @since 3.3.0
      */
-    private class SecondsPropertyComponent extends SliderBarComponent{
+    private static class SecondsPropertyComponent extends SliderBarComponent{
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -1046,20 +963,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_SECONDS_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-         */
+
+        @Override
         protected void buildName() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -1076,20 +989,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildName();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setLabelStyle("width: 40px;");
             setStyleClass(UIConstants.DEFAULT_CALENDAR_TIME_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             String currentOnChange = getOnChange();
             StringBuilder onChange = new StringBuilder();
@@ -1108,43 +1017,33 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildSize()
-         */
+
+        @Override
         protected void buildSize() throws InternalErrorException{
             setSize(2);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildMaximumLength()
-         */
+
+        @Override
         protected void buildMaximumLength() throws InternalErrorException{
             setMaximumLength(2);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.TextPropertyComponent#buildRestrictions()
-         */
+
+        @Override
         protected void buildRestrictions() throws InternalErrorException{
             setIsNumber(true);
             setMaximumValue(59);
             
             super.buildRestrictions();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-         */
+
+        @Override
         protected void buildAlignment() throws InternalErrorException{
             setAlignmentType(AlignmentType.RIGHT);
             
             super.buildAlignment();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             super.initialize();
             
@@ -1164,7 +1063,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @author fvilarinho
      * @since 3.3.0
      */
-    private class MillisecondsPropertyComponent extends SliderBarComponent{
+    private static class MillisecondsPropertyComponent extends SliderBarComponent{
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -1182,20 +1081,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_MILLISECONDS_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-         */
+
+        @Override
         protected void buildName() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -1212,20 +1107,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildName();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setLabelStyle("width: 40px;");
             setStyleClass(UIConstants.DEFAULT_CALENDAR_TIME_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             String currentOnChange = getOnChange();
             StringBuilder onChange = new StringBuilder();
@@ -1244,43 +1135,33 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildSize()
-         */
+
+        @Override
         protected void buildSize() throws InternalErrorException{
             setSize(3);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildMaximumLength()
-         */
+
+        @Override
         protected void buildMaximumLength() throws InternalErrorException{
             setMaximumLength(3);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.TextPropertyComponent#buildRestrictions()
-         */
+
+        @Override
         protected void buildRestrictions() throws InternalErrorException{
             setIsNumber(true);
             setMaximumValue(999);
             
             super.buildRestrictions();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-         */
+
+        @Override
         protected void buildAlignment() throws InternalErrorException{
             setAlignmentType(AlignmentType.RIGHT);
             
             super.buildAlignment();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             super.initialize();
             
@@ -1294,7 +1175,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
         }
     }
     
-    private class AmPropertyComponent extends RadioPropertyComponent{
+    private static class AmPropertyComponent extends RadioPropertyComponent{
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -1312,20 +1193,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_AM_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-         */
+
+        @Override
         protected void buildName() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -1342,20 +1219,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildName();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setLabelStyle("width: 40px;");
             setStyleClass(UIConstants.DEFAULT_CALENDAR_TIME_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             String currentOnChange = getOnChange();
             StringBuilder onChange = new StringBuilder();
@@ -1374,19 +1247,15 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-         */
+
+        @Override
         protected void buildAlignment() throws InternalErrorException{
             setAlignmentType(AlignmentType.RIGHT);
             
             super.buildAlignment();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             super.initialize();
             
@@ -1400,7 +1269,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
         }
     }
     
-    private class PmPropertyComponent extends RadioPropertyComponent{
+    private static class PmPropertyComponent extends RadioPropertyComponent{
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -1418,20 +1287,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 setParent(calendarPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_CALENDAR_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_CALENDAR_PM_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-         */
+
+        @Override
         protected void buildName() throws InternalErrorException{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
@@ -1448,20 +1313,16 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
                 super.buildName();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setLabelStyle("width: 40px;");
             setStyleClass(UIConstants.DEFAULT_CALENDAR_TIME_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             String currentOnChange = getOnChange();
             StringBuilder onChange = new StringBuilder();
@@ -1480,19 +1341,15 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-         */
+
+        @Override
         protected void buildAlignment() throws InternalErrorException{
             setAlignmentType(AlignmentType.RIGHT);
             
             super.buildAlignment();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.SliderBarComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             super.initialize();
             

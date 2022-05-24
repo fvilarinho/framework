@@ -24,10 +24,10 @@ import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
+import org.apache.http.HttpStatus;
 
 import javax.servlet.jsp.ErrorData;
 import javax.servlet.jsp.JspException;
-import javax.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -61,7 +61,7 @@ public class MessageBoxComponent extends DialogBoxComponent{
     private Throwable exception = null;
     
     /**
-     * Defines the exception of the component.
+     * Defines the component exception.
      *
      * @param exception Instance that contains the exception.
      */
@@ -97,7 +97,7 @@ public class MessageBoxComponent extends DialogBoxComponent{
             try{
                 return ActionFormMessageType.valueOf(this.type.toUpperCase());
             }
-            catch(IllegalArgumentException e){
+            catch(IllegalArgumentException ignored){
             }
         }
         
@@ -140,10 +140,8 @@ public class MessageBoxComponent extends DialogBoxComponent{
     public void setMessage(String message){
         this.message = message;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.DialogBoxComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         super.buildResources();
         
@@ -171,13 +169,13 @@ public class MessageBoxComponent extends DialogBoxComponent{
                 ErrorData errorData = this.pageContext.getErrorData();
                 
                 if(errorData != null && errorData.getStatusCode() > 0){
-                    if(errorData.getStatusCode() == Response.Status.UNAUTHORIZED.getStatusCode())
+                    if(errorData.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
                         this.exception = new UserNotAuthorizedException();
-                    else if(errorData.getStatusCode() == Response.Status.FORBIDDEN.getStatusCode())
+                    else if(errorData.getStatusCode() == HttpStatus.SC_FORBIDDEN)
                         this.exception = new PermissionDeniedException();
-                    else if(errorData.getStatusCode() == Response.Status.NOT_FOUND.getStatusCode())
+                    else if(errorData.getStatusCode() == HttpStatus.SC_NOT_FOUND || errorData.getStatusCode() == HttpStatus.SC_NOT_ACCEPTABLE || errorData.getStatusCode() == HttpStatus.SC_METHOD_NOT_ALLOWED)
                         this.exception = new InvalidResourcesException(errorData.getRequestURI());
-                    else if(errorData.getStatusCode() == Response.Status.INTERNAL_SERVER_ERROR.getStatusCode())
+                    else if(errorData.getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR)
                         this.exception = new InternalErrorException(errorData.getThrowable());
                 }
             }
@@ -219,10 +217,8 @@ public class MessageBoxComponent extends DialogBoxComponent{
         if(ExceptionUtil.isInvalidResourceException(this.exception) || ExceptionUtil.isExpectedException(this.exception))
             this.exception = null;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.DialogBoxComponent#buildTitle()
-     */
+
+    @Override
     protected void buildTitle() throws InternalErrorException{
         String title = getTitle();
         
@@ -293,8 +289,7 @@ public class MessageBoxComponent extends DialogBoxComponent{
                 PropertiesResources resources = getResources();
                 PropertiesResources defaultResources = getDefaultResources();
                 StringBuilder propertyId = null;
-                String message = null;
-                
+
                 for(ActionFormMessage actionFormMessage: actionFormMessages){
                     if(propertyId == null)
                         propertyId = new StringBuilder();
@@ -305,7 +300,7 @@ public class MessageBoxComponent extends DialogBoxComponent{
                     propertyId.append(".");
                     propertyId.append(actionFormMessage.getKey());
                     
-                    message = (resources != null ? resources.getProperty(propertyId.toString(), false) : null);
+                    String message = (resources != null ? resources.getProperty(propertyId.toString(), false) : null);
                     
                     if(message == null)
                         message = (defaultResources != null ? defaultResources.getProperty(propertyId.toString()) : null);
@@ -351,28 +346,22 @@ public class MessageBoxComponent extends DialogBoxComponent{
                 this.messages.add(this.message);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildPermissions()
-     */
+
+    @Override
     protected void buildPermissions() throws InternalErrorException{
         setRender(this.exception != null || (this.message != null && this.message.length() > 0) || (this.messages != null && this.messages.size() > 0));
         
         super.buildPermissions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.MESSAGE_BOX);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.DialogBoxComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         String name = getName();
         
@@ -528,10 +517,8 @@ public class MessageBoxComponent extends DialogBoxComponent{
             println("</table>");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         

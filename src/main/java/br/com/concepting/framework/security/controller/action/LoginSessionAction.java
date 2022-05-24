@@ -41,9 +41,7 @@ import br.com.concepting.framework.security.util.SecurityUtil;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public abstract class LoginSessionAction<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseAction<L>{
-    /**
-     * @see br.com.concepting.framework.controller.action.BaseAction#init()
-     */
+    @Override
     public void init() throws Throwable{
         super.init();
         
@@ -66,7 +64,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
     }
     
     /**
-     * Does the log in.
+     * Does the login.
      *
      * @throws Throwable Occurs when was not possible execute the operation.
      */
@@ -97,16 +95,12 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         
         try{
             loginSession = service.logIn(user);
-            
             user = loginSession.getUser();
             
             LP loginParameter = user.getLoginParameter();
             
             if(loginParameter.isPasswordWillExpire())
                 throw new PasswordWillExpireException(loginParameter.getDaysUntilExpire(), loginParameter.getHoursUntilExpire(), loginParameter.getMinutesUntilExpire(), loginParameter.getSecondsUntilExpire());
-        }
-        catch(Throwable e){
-            throw e;
         }
         finally{
             systemController.addCookie(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, loginSession.getId(), true);
@@ -193,7 +187,6 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
      *
      * @throws Throwable Occurs when was not possible to execute the operation.
      */
-    @SuppressWarnings("unchecked")
     public void validateMfaToken() throws Throwable{
         ActionFormController actionFormController = getActionFormController();
         
@@ -227,7 +220,6 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
      *
      * @throws Throwable Occurs when was not possible to execute the operation.
      */
-    @SuppressWarnings("unchecked")
     public void changePassword() throws Throwable{
         ActionFormController actionFormController = getActionFormController();
         
@@ -344,7 +336,6 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
      *
      * @throws Throwable Occurs when was not possible to execute the operation.
      */
-    @SuppressWarnings("unchecked")
     public void sendForgottenPassword() throws Throwable{
         ActionFormController actionFormController = getActionFormController();
         
@@ -374,7 +365,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
     }
     
     /**
-     * Does the log out.
+     * Does the log-out.
      *
      * @throws Throwable Occurs when was not possible to execute the operation.
      */

@@ -9,7 +9,7 @@
  * Style that defines the component.
  */
 .clock{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	white-space: NOWRAP;
 	color      : #666666;

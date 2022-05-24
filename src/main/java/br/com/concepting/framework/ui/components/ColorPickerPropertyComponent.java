@@ -35,7 +35,7 @@ import java.awt.*;
 public class ColorPickerPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -3503305568245070969L;
     
-    private Boolean showInDialog = null;
+    private boolean showInDialog = false;
     private String thumbnailWidth = null;
     private String thumbnailHeight = null;
     
@@ -80,7 +80,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean showInDialog(){
+    public boolean showInDialog(){
         return this.showInDialog;
     }
     
@@ -89,7 +89,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowInDialog(){
+    public boolean getShowInDialog(){
         return showInDialog();
     }
     
@@ -98,13 +98,11 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
      *
      * @param showInDialog True/False.
      */
-    public void setShowInDialog(Boolean showInDialog){
+    public void setShowInDialog(boolean showInDialog){
         this.showInDialog = showInDialog;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         String name = getName();
         
@@ -130,29 +128,15 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         
         super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        if(this.showInDialog == null)
-            this.showInDialog = false;
-        
-        super.buildRestrictions();
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.COLOR_PICKER);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
@@ -180,7 +164,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
             throw new InternalErrorException(e);
         }
         
-        if(this.showInDialog != null && this.showInDialog){
+        if(this.showInDialog){
             renderThumbnail();
             
             print("<div id=\"");
@@ -192,10 +176,8 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
             println("\">");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         String actionFormName = getActionFormName();
         String name = getName();
@@ -233,7 +215,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         redValuePropertyComponent.setOnChange(onChange);
         redValuePropertyComponent.setSize(3);
         redValuePropertyComponent.setMaximumLength(3);
-        redValuePropertyComponent.setMaximumValue(255l);
+        redValuePropertyComponent.setMaximumValue(255);
         redValuePropertyComponent.setValue(color.getRed());
         
         try{
@@ -262,7 +244,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         greenValuePropertyComponent.setOnChange(onChange);
         greenValuePropertyComponent.setSize(3);
         greenValuePropertyComponent.setMaximumLength(3);
-        greenValuePropertyComponent.setMaximumValue(255l);
+        greenValuePropertyComponent.setMaximumValue(255);
         greenValuePropertyComponent.setValue(color.getGreen());
         
         try{
@@ -291,7 +273,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         blueValuePropertyComponent.setOnChange(onChange);
         blueValuePropertyComponent.setSize(3);
         blueValuePropertyComponent.setMaximumLength(3);
-        blueValuePropertyComponent.setMaximumValue(255l);
+        blueValuePropertyComponent.setMaximumValue(255);
         blueValuePropertyComponent.setValue(color.getBlue());
         
         try{
@@ -304,7 +286,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         
         println("</td>");
         
-        if(this.showInDialog == null || !this.showInDialog){
+        if(!this.showInDialog){
             println("<td width=\"5\"></td>");
             
             println("<td>");
@@ -365,7 +347,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
             print("\"");
         }
         
-        if(this.showInDialog != null && this.showInDialog){
+        if(this.showInDialog){
             print(" onClick=\"showHideColorPickerDialog('");
             print(name);
             print("');\"");
@@ -373,14 +355,12 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         
         println("></div>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         super.renderClose();
         
-        if(this.showInDialog != null && this.showInDialog)
+        if(this.showInDialog)
             println("</div>");
         
         String onChange = getOnChange();
@@ -401,14 +381,12 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setShowInDialog(null);
+        setShowInDialog(false);
         setThumbnailWidth(null);
         setThumbnailHeight(null);
     }

@@ -41,7 +41,7 @@ import javax.servlet.http.Cookie;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class SecurityController{
-    private SystemController systemController = null;
+    private final SystemController systemController;
     
     /**
      * Constructor - Initialize the controller.
@@ -59,7 +59,7 @@ public class SecurityController{
      *
      * @return True/False.
      */
-    public Boolean isLoginSessionAuthenticated(){
+    public boolean isLoginSessionAuthenticated(){
         try{
             LoginSessionModel loginSession = getLoginSession();
             
@@ -75,7 +75,7 @@ public class SecurityController{
      *
      * @return True/False.
      */
-    public Boolean isLoginSessionExpired(){
+    public boolean isLoginSessionExpired(){
         if(!isLoginSessionAuthenticated()){
             Cookie cookie = this.systemController.getCookie(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID);
             
@@ -98,16 +98,16 @@ public class SecurityController{
         if(this.systemController == null)
             return null;
         
-        Boolean isWebServicesRequest = this.systemController.isWebServicesRequest();
-        LoginSessionModel loginSession = this.systemController.getAttribute(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, (isWebServicesRequest != null && isWebServicesRequest ? ScopeType.REQUEST : ScopeType.SESSION));
+        boolean isWebServicesRequest = this.systemController.isWebServicesRequest();
+        LoginSessionModel loginSession = this.systemController.getAttribute(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID,  (isWebServicesRequest ? ScopeType.REQUEST : ScopeType.SESSION));
         
         loginSession = SecurityUtil.getLoginSession(loginSession);
         
         setLoginSession(loginSession);
         
-        String loginSessionId = this.systemController.getRequestHeader(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID);
+        String loginSessionId = this.systemController.getHeader(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID);
         
-        if(loginSessionId != null && loginSessionId.length() > 0 && isWebServicesRequest != null && isWebServicesRequest)
+        if(loginSessionId != null && loginSessionId.length() > 0 && isWebServicesRequest)
             loginSession.setId(loginSessionId);
         else{
             SystemSessionModel systemSession = loginSession.getSystemSession();
@@ -116,7 +116,7 @@ public class SecurityController{
                 String currentSystemSessionId = systemSession.getId();
                 
                 if(currentSystemSessionId == null || currentSystemSessionId.length() == 0){
-                    if(isWebServicesRequest != null && isWebServicesRequest)
+                    if(isWebServicesRequest)
                         systemSession.setId(SecurityUtil.generateToken());
                     else
                         systemSession.setId(this.systemController.getSessionId());
@@ -127,14 +127,14 @@ public class SecurityController{
                         systemModule.setUrl(this.systemController.getContextPath());
                 }
                 
-                String ip = this.systemController.getRequestIp();
+                String ip = this.systemController.getIp();
                 
                 if(ip != null && ip.length() > 0){
                     String currentIp = systemSession.getIp();
                     
                     if(currentIp == null || !currentIp.equals(ip)){
                         systemSession.setIp(ip);
-                        systemSession.setHostName(this.systemController.getRequestHostName());
+                        systemSession.setHostName(this.systemController.getHostName());
                     }
                 }
             }
@@ -150,7 +150,7 @@ public class SecurityController{
                         String language = loginParameter.getLanguage();
                         
                         if(language == null || language.length() == 0){
-                            String acceptLanguage = this.systemController.getRequestAcceptLanguage();
+                            String acceptLanguage = this.systemController.getAcceptLanguage();
                             
                             if(acceptLanguage != null && acceptLanguage.length() > 0){
                                 int pos = acceptLanguage.indexOf(Constants.DEFAULT_DELIMITER);
@@ -203,9 +203,9 @@ public class SecurityController{
      * @param loginSession Instance that contains the login session data model.
      */
     public void setLoginSession(LoginSessionModel loginSession){
-        Boolean isWebServicesRequest = (this.systemController != null ? this.systemController.isWebServicesRequest() : null);
+        boolean isWebServicesRequest = (this.systemController != null ? this.systemController.isWebServicesRequest() : null);
         
-        this.systemController.setAttribute(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, loginSession, (isWebServicesRequest != null && isWebServicesRequest ? ScopeType.REQUEST : ScopeType.SESSION));
+        this.systemController.setAttribute(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, loginSession, (isWebServicesRequest ? ScopeType.REQUEST : ScopeType.SESSION));
     }
     
     /**
@@ -247,7 +247,7 @@ public class SecurityController{
     }
     
     /**
-     * Stores the user name and password in cookie to be remembered later.
+     * Stores the username and password in cookie to be remembered later.
      *
      * @param user Instance that contains the user data model.
      */
@@ -262,7 +262,7 @@ public class SecurityController{
     }
     
     /**
-     * Clears the remembered user name and password.
+     * Clears the remembered username and password.
      */
     public void forgetUserAndPassword(){
         this.systemController.removeCookie(SecurityConstants.REMEMBER_USER_AND_PASSWORD_ATTRIBUTE_ID);

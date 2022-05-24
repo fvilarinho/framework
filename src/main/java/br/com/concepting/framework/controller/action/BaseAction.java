@@ -1,5 +1,6 @@
 package br.com.concepting.framework.controller.action;
 
+import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.constants.SystemConstants;
 import br.com.concepting.framework.controller.SystemController;
 import br.com.concepting.framework.controller.form.ActionFormController;
@@ -18,6 +19,7 @@ import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
 import br.com.concepting.framework.util.PropertyUtil;
+import br.com.concepting.framework.util.types.ContentType;
 import org.apache.commons.beanutils.ConstructorUtils;
 import org.apache.commons.beanutils.MethodUtils;
 
@@ -213,7 +215,7 @@ public abstract class BaseAction<M extends BaseModel>{
                 try{
                     formService = getService(formClass);
                 }
-                catch(InternalErrorException e){
+                catch(InternalErrorException ignored){
                 }
                 
                 if(formService != null){
@@ -272,6 +274,31 @@ public abstract class BaseAction<M extends BaseModel>{
      */
     public <F extends BaseActionForm<M>> void refresh() throws Throwable{
         back();
+    }
+
+    /**
+     * Action to download a content.
+     *
+     * @param <F> Class that defines the form.
+     * @throws Throwable Occurs when was not possible to execute the action.
+     */
+    public <F extends BaseActionForm<M>> void download() throws Throwable{
+        String contentId = this.systemController.getParameterValue(Constants.CONTENT_ATTRIBUTE_ID);
+
+        if(contentId != null && contentId.length() > 0){
+            byte[] content = this.systemController.getAttribute(contentId, ScopeType.SESSION);
+
+            if(content != null){
+                String contentType = this.systemController.getParameterValue(Constants.CONTENT_TYPE_ATTRIBUTE_ID);
+
+                if(contentType == null || contentType.length() == 0)
+                    contentType = ContentType.BINARY.getMimeType();
+
+                String contentFilename = this.systemController.getParameterValue(Constants.CONTENT_FILENAME_ATTRIBUTE_ID);
+
+                this.systemController.outputContent(content, contentType, contentFilename);
+            }
+        }
     }
     
     /**

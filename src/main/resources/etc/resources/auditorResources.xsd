@@ -1,22 +1,21 @@
-<xs:schema attributeFormDefault="unqualified"
-	       elementFormDefault="qualified" 
-	       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   elementFormDefault="qualified">
 	<xs:element name="auditor">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="resources" minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="resources" maxOccurs="unbounded">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="appenders" minOccurs="1" maxOccurs="1">
+							<xs:element name="appenders">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="appender" minOccurs="1" maxOccurs="unbounded">
+										<xs:element name="appender" maxOccurs="unbounded">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="options" minOccurs="0" maxOccurs="1">
+													<xs:element name="options" minOccurs="0">
 														<xs:complexType>
 															<xs:sequence>
-																<xs:element name="option" minOccurs="1" maxOccurs="unbounded">
+																<xs:element name="option" maxOccurs="unbounded">
 																	<xs:complexType>
 																		<xs:simpleContent>
 																			<xs:extension base="xs:string">
@@ -52,7 +51,7 @@
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
-						<xs:attribute type="xs:boolean" name="default" use="optional"/>
+						<xs:attribute type="xs:boolean" name="default"/>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>

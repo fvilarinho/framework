@@ -13,6 +13,7 @@ import javax.servlet.jsp.JspException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class that defines the accordion component.
@@ -38,7 +39,7 @@ import java.util.List;
 public class AccordionComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = 1642597166746306289L;
     
-    private Boolean multipleSelection = null;
+    private boolean multipleSelection = false;
     private List<SectionComponent> sectionsComponents = null;
     private List<String> currentSections = null;
     
@@ -66,7 +67,7 @@ public class AccordionComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean hasMultipleSelection(){
+    public boolean hasMultipleSelection(){
         return this.multipleSelection;
     }
     
@@ -75,7 +76,7 @@ public class AccordionComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getMultipleSelection(){
+    public boolean getMultipleSelection(){
         return hasMultipleSelection();
     }
     
@@ -84,7 +85,7 @@ public class AccordionComponent extends BaseActionFormComponent{
      *
      * @param multipleSelection True/False.
      */
-    public void setMultipleSelection(Boolean multipleSelection){
+    public void setMultipleSelection(boolean multipleSelection){
         this.multipleSelection = multipleSelection;
     }
     
@@ -120,49 +121,35 @@ public class AccordionComponent extends BaseActionFormComponent{
             this.sectionsComponents.add(sectionComponent);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildLabel()
-     */
+
+    @Override
     protected void buildLabel() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildTooltip()
-     */
+
+    @Override
     protected void buildTooltip() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.ACCORDION);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         UIController uiController = getUIController();
         String actionFormName = getActionFormName();
@@ -188,7 +175,7 @@ public class AccordionComponent extends BaseActionFormComponent{
             if(this.currentSections != null && !this.currentSections.isEmpty()){
                 for(int cont = 0; cont < this.currentSections.size(); cont++){
                     String currentSectionName = this.currentSections.get(cont);
-                    Boolean found = false;
+                    boolean found = false;
                     
                     for(SectionComponent sectionComponent: this.sectionsComponents){
                         String sectionName = sectionComponent.getName();
@@ -215,14 +202,14 @@ public class AccordionComponent extends BaseActionFormComponent{
                 for(SectionComponent sectionComponent: this.sectionsComponents){
                     String sectionName = sectionComponent.getName();
                     
-                    if((sectionComponent.focus() != null && sectionComponent.focus()) || (sectionName != null && this.currentSections != null && this.currentSections.size() > 0 && this.currentSections.contains(sectionName)))
+                    if(sectionComponent.focus() || (sectionName != null && this.currentSections != null && this.currentSections.size() > 0 && this.currentSections.contains(sectionName)))
                         lastSectionName = sectionName;
                 }
                 
                 for(SectionComponent sectionComponent: this.sectionsComponents){
                     String sectionName = sectionComponent.getName();
                     
-                    if((((sectionComponent.focus() != null && sectionComponent.focus()) || (sectionName != null && sectionName.length() > 0 && this.currentSections != null && this.currentSections.size() > 0 && this.currentSections.contains(sectionName))) && this.multipleSelection != null && this.multipleSelection) || (lastSectionName != null && lastSectionName.equals(sectionName))){
+                    if(((sectionComponent.focus() || (sectionName != null && sectionName.length() > 0 && this.currentSections != null && this.currentSections.size() > 0 && this.currentSections.contains(sectionName))) && this.multipleSelection) || (lastSectionName != null && lastSectionName.equals(sectionName))){
                         if(this.currentSections == null)
                             this.currentSections = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
                         
@@ -265,14 +252,12 @@ public class AccordionComponent extends BaseActionFormComponent{
         nameBuffer.append(".");
         nameBuffer.append(UIConstants.CURRENT_SECTIONS_ATTRIBUTE_ID);
         
-        if(this.multipleSelection != null && this.multipleSelection){
+        if(this.multipleSelection){
             Collection<String> sections = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
             
             if(this.sectionsComponents != null && !this.sectionsComponents.isEmpty()){
-                String sectionName = null;
-                
                 for(SectionComponent sectionComponent: this.sectionsComponents){
-                    sectionName = sectionComponent.getName();
+                    String sectionName = sectionComponent.getName();
                     
                     if(sectionName != null && sectionName.length() > 0)
                         sections.add(sectionName);
@@ -361,7 +346,7 @@ public class AccordionComponent extends BaseActionFormComponent{
         println("</tr>");
         println("</table>");
     }
-    
+
     /**
      * Renders as sections of the component.
      *
@@ -372,11 +357,9 @@ public class AccordionComponent extends BaseActionFormComponent{
             print("<table class=\"");
             print(UIConstants.DEFAULT_CONTENT_PANEL_STYLE_CLASS);
             println("\">");
-            
-            SectionComponent sectionComponent = null;
-            
+
             for(int cont = 0; cont < this.sectionsComponents.size(); cont++){
-                sectionComponent = this.sectionsComponents.get(cont);
+                SectionComponent sectionComponent = this.sectionsComponents.get(cont);
                 
                 println("<tr>");
                 println("<td>");
@@ -400,7 +383,7 @@ public class AccordionComponent extends BaseActionFormComponent{
      * @param index Numeric value that contains the index of the section.
      * @throws InternalErrorException Occurs when was not possible to render.
      */
-    protected void renderSectionHeader(SectionComponent sectionComponent, Integer index) throws InternalErrorException{
+    protected void renderSectionHeader(SectionComponent sectionComponent, int index) throws InternalErrorException{
         String actionFormName = getActionFormName();
         String id = getId();
         String name = getName();
@@ -437,12 +420,12 @@ public class AccordionComponent extends BaseActionFormComponent{
             print(UIConstants.DEFAULT_SECTION_HEADER_ID);
             print("\" class=\"");
             
-            if(index != null && index == 0){
+            if(index == 0){
                 print("first");
                 print(StringUtil.capitalize(UIConstants.DEFAULT_SECTION_HEADER_STYLE_CLASS));
             }
-            else if(index != null && index == this.sectionsComponents.size() - 1){
-                Boolean isCurrentSection = (this.currentSections != null && this.currentSections.size() > 0 && this.currentSections.contains(sectionName));
+            else if(index == this.sectionsComponents.size() - 1){
+                boolean isCurrentSection = (this.currentSections != null && this.currentSections.size() > 0 && this.currentSections.contains(sectionName));
                 
                 if(!isCurrentSection){
                     print("last");
@@ -455,19 +438,15 @@ public class AccordionComponent extends BaseActionFormComponent{
                 print(UIConstants.DEFAULT_SECTION_HEADER_STYLE_CLASS);
             
             print("\" firstSection=\"");
-            print(index != null && index == 0);
+            print(index == 0);
             print("\" lastSection=\"");
-            print(index != null && this.sectionsComponents != null && index == (this.sectionsComponents.size() - 1));
+            print(this.sectionsComponents != null && index == (this.sectionsComponents.size() - 1));
             print("\" onClick=\"setCurrentSections('");
             print(sectionName);
             print("', '");
             print(name);
             print("', ");
-            
-            if(this.multipleSelection != null)
-                print(this.multipleSelection);
-            else
-                print(Boolean.FALSE);
+            print(Objects.requireNonNullElse(this.multipleSelection, Boolean.FALSE));
             
             String onSelect = sectionComponent.getOnSelect();
             String onUnSelect = sectionComponent.getOnUnSelect();
@@ -532,7 +511,7 @@ public class AccordionComponent extends BaseActionFormComponent{
      * @param index Numeric value that contains the index of the section.
      * @throws InternalErrorException Occurs when was not possible to render.
      */
-    protected void renderSectionContent(SectionComponent sectionComponent, Integer index) throws InternalErrorException{
+    protected void renderSectionContent(SectionComponent sectionComponent, int index) throws InternalErrorException{
         if(sectionComponent == null)
             return;
         
@@ -550,11 +529,11 @@ public class AccordionComponent extends BaseActionFormComponent{
         print(UIConstants.DEFAULT_SECTION_CONTENT_ID);
         print("\" class=\"");
         
-        if(index != null && index == 0){
+        if(index == 0){
             print("first");
             print(StringUtil.capitalize(UIConstants.DEFAULT_SECTION_CONTENT_STYLE_CLASS));
         }
-        else if(index != null && this.sectionsComponents != null && index == this.sectionsComponents.size() - 1){
+        else if( this.sectionsComponents != null && index == this.sectionsComponents.size() - 1){
             print("last");
             print(StringUtil.capitalize(UIConstants.DEFAULT_SECTION_CONTENT_STYLE_CLASS));
         }
@@ -584,20 +563,16 @@ public class AccordionComponent extends BaseActionFormComponent{
         
         println("</div>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setMultipleSelection(null);
+        setMultipleSelection(false);
         setSectionsComponents(null);
         setCurrentSections(null);
     }

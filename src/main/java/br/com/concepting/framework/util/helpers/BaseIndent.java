@@ -24,11 +24,11 @@ import br.com.concepting.framework.constants.Constants;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public abstract class BaseIndent{
-    private String startChar = null;
-    private String endChar = null;
-    private Integer indentSize = null;
-    private String indentChar = null;
-    private Boolean backAfterEndChar = null;
+    private String startChar;
+    private String endChar;
+    private int indentSize;
+    private String indentChar;
+    private boolean backAfterEndChar;
     
     /**
      * Constructor - Defines the indentation rule.
@@ -62,7 +62,7 @@ public abstract class BaseIndent{
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.
      */
-    public BaseIndent(String startChar, String endChar, Integer indentSize, Boolean backAfterEndChar){
+    public BaseIndent(String startChar, String endChar, Integer indentSize, boolean backAfterEndChar){
         this(startChar, endChar, indentSize);
         
         setBackAfterEndChar(backAfterEndChar);
@@ -76,7 +76,7 @@ public abstract class BaseIndent{
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.
      */
-    public BaseIndent(String startChar, String endChar, Boolean backAfterEndChar){
+    public BaseIndent(String startChar, String endChar, boolean backAfterEndChar){
         this(startChar, endChar);
         
         setBackAfterEndChar(backAfterEndChar);
@@ -106,7 +106,7 @@ public abstract class BaseIndent{
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.
      */
-    public BaseIndent(String startChar, String endChar, Integer indentCount, String indentChar, Boolean backAfterEndChar){
+    public BaseIndent(String startChar, String endChar, Integer indentCount, String indentChar, boolean backAfterEndChar){
         super();
         
         setStartChar(startChar);
@@ -122,7 +122,7 @@ public abstract class BaseIndent{
      *
      * @return True/False
      */
-    public Boolean backAfterEndChar(){
+    public boolean backAfterEndChar(){
         return this.backAfterEndChar;
     }
     
@@ -132,7 +132,7 @@ public abstract class BaseIndent{
      *
      * @param backAfterEndChar True/False
      */
-    public void setBackAfterEndChar(Boolean backAfterEndChar){
+    protected void setBackAfterEndChar(boolean backAfterEndChar){
         this.backAfterEndChar = backAfterEndChar;
     }
     
@@ -150,7 +150,7 @@ public abstract class BaseIndent{
      *
      * @param endChar String that contains the character.
      */
-    public void setEndChar(String endChar){
+    protected void setEndChar(String endChar){
         this.endChar = endChar;
     }
     
@@ -168,7 +168,7 @@ public abstract class BaseIndent{
      *
      * @param startChar String that contains the character.
      */
-    public void setStartChar(String startChar){
+    protected void setStartChar(String startChar){
         this.startChar = startChar;
     }
     
@@ -188,7 +188,7 @@ public abstract class BaseIndent{
      * @param indentSize Numeric value that contains the amount of indentation
      * characters should be used.
      */
-    public void setIndentSize(Integer indentSize){
+    protected void setIndentSize(Integer indentSize){
         this.indentSize = indentSize;
     }
     
@@ -206,7 +206,7 @@ public abstract class BaseIndent{
      *
      * @param indentChar String that contains the character.
      */
-    public void setIndentChar(String indentChar){
+    protected void setIndentChar(String indentChar){
         this.indentChar = indentChar;
     }
 }

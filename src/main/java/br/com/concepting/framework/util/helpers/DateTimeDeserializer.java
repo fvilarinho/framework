@@ -5,7 +5,6 @@ import br.com.concepting.framework.util.DateTimeUtil;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.google.gson.JsonParseException;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -32,15 +31,13 @@ import java.text.ParseException;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class DateTimeDeserializer extends JsonDeserializer<DateTime>{
-    /**
-     * @see com.fasterxml.jackson.databind.JsonDeserializer#deserialize(com.fasterxml.jackson.core.JsonParser, com.fasterxml.jackson.databind.DeserializationContext)
-     */
+    @Override
     public DateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException{
         try{
             return DateTimeUtil.parse(parser.getText(), Constants.DEFAULT_DATE_TIME_PATTERN);
         }
         catch(ParseException e){
-            throw new JsonParseException(e);
+            throw new IOException(e);
         }
     }
 }

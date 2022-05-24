@@ -8,6 +8,7 @@ import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.util.ModelUtil;
+import br.com.concepting.framework.persistence.helpers.Filter;
 import br.com.concepting.framework.persistence.interfaces.IPersistence;
 import br.com.concepting.framework.persistence.resources.PersistenceResources;
 import br.com.concepting.framework.persistence.resources.PersistenceResourcesLoader;
@@ -17,7 +18,6 @@ import br.com.concepting.framework.service.annotations.Service;
 import br.com.concepting.framework.service.annotations.Transaction;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
-import br.com.concepting.framework.util.helpers.Filter;
 import org.apache.commons.beanutils.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -52,50 +52,32 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
     private Integer timeout = null;
     private IPersistence<? extends BaseModel> currentPersistence = null;
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#getAuditor()
-     */
     @Override
     public Auditor getAuditor(){
         return this.auditor;
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#setAuditor(br.com.concepting.framework.audit.Auditor)
-     */
     @Override
     public void setAuditor(Auditor auditor){
         this.auditor = auditor;
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#getLoginSession()
-     */
     @Override
     @SuppressWarnings("unchecked")
     public <L extends LoginSessionModel> L getLoginSession() throws InternalErrorException{
         return (L) this.loginSession;
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#setLoginSession(br.com.concepting.framework.security.model.LoginSessionModel)
-     */
     @Override
     public void setLoginSession(LoginSessionModel loginSession){
         this.loginSession = loginSession;
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#getTimeout()
-     */
     @Override
     public Integer getTimeout(){
         return this.timeout;
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#setTimeout(java.lang.Integer)
-     */
     @Override
     public void setTimeout(Integer timeout){
         this.timeout = timeout;
@@ -139,16 +121,10 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         return ServiceUtil.getByModelClass(modelClass, loginSession);
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#begin()
-     */
     @Override
     public void begin() throws InternalErrorException{
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#commit()
-     */
     @Override
     public void commit() throws InternalErrorException{
         if(this.currentPersistence != null)
@@ -158,9 +134,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         this.timeout = null;
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#rollback()
-     */
     @Override
     public void rollback() throws InternalErrorException{
         if(this.currentPersistence != null)
@@ -241,9 +214,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         }
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#list()
-     */
     @Override
     public Collection<M> list() throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();
@@ -251,9 +221,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         return persistence.list();
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#search(br.com.concepting.framework.model.BaseModel)
-     */
     @Override
     public Collection<M> search(M model) throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();
@@ -261,17 +228,11 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         return persistence.search(model);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#filter(br.com.concepting.framework.util.helpers.Filter)
-     */
     @Override
     public Collection<M> filter(Filter filter) throws InternalErrorException{
         return filter(null, filter);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#filter(br.com.concepting.framework.model.BaseModel, br.com.concepting.framework.util.helpers.Filter)
-     */
     @Override
     public Collection<M> filter(M model, Filter filter) throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();
@@ -279,9 +240,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         return persistence.filter(model, filter);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#find(br.com.concepting.framework.model.BaseModel)
-     */
     @Override
     public M find(M model) throws ItemNotFoundException, InternalErrorException{
         IPersistence<M> persistence = getPersistence();
@@ -289,9 +247,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         return persistence.find(model);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#delete(br.com.concepting.framework.model.BaseModel)
-     */
     @Auditable
     @Transaction
     @Override
@@ -301,9 +256,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         persistence.delete(model);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#deleteAll(java.util.Collection)
-     */
     @Auditable
     @Transaction
     @Override
@@ -314,9 +266,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         }
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#save(br.com.concepting.framework.model.BaseModel)
-     */
     @Auditable
     @Transaction
     @Override
@@ -326,9 +275,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         return persistence.save(model);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#saveAll(java.util.Collection)
-     */
     @Auditable
     @Transaction
     @Override
@@ -341,9 +287,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         }
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#insert(br.com.concepting.framework.model.BaseModel)
-     */
     @Auditable
     @Transaction
     @Override
@@ -353,9 +296,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         return persistence.insert(model);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#insertAll(java.util.Collection)
-     */
     @Auditable
     @Transaction
     @Override
@@ -368,9 +308,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         }
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#update(br.com.concepting.framework.model.BaseModel)
-     */
     @Auditable
     @Transaction
     @Override
@@ -380,9 +317,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         persistence.update(model);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#updateAll(java.util.Collection)
-     */
     @Auditable
     @Transaction
     @Override
@@ -395,10 +329,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         }
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#loadReference(br.com.concepting.framework.model.BaseModel,
-     * java.lang.String)
-     */
     @Transaction
     @Override
     public <R extends BaseModel> M loadReference(M model, String referencePropertyId) throws InternalErrorException{
@@ -407,25 +337,17 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         return persistence.loadReference(model, referencePropertyId);
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#execute()
-     */
     @Auditable
     @Transaction
     @Override
     public void execute() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#isActive()
-     */
-    public Boolean isActive() throws InternalErrorException{
+
+    @Override
+    public boolean isActive() throws InternalErrorException{
         return true;
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#getPollingTime()
-     */
     @Override
     public Integer getPollingTime() throws InternalErrorException{
         Service serviceAnnotation = getClass().getAnnotation(Service.class);
@@ -436,9 +358,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         return null;
     }
     
-    /**
-     * @see br.com.concepting.framework.service.interfaces.IService#getStartTime()
-     */
     @Override
     public String getStartTime() throws InternalErrorException{
         Service serviceAnnotation = getClass().getAnnotation(Service.class);
@@ -449,9 +368,6 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         return null;
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#saveReference(br.com.concepting.framework.model.BaseModel, java.lang.String)
-     */
     @Override
     public void saveReference(M model, String referenceId) throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();

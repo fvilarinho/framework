@@ -10,20 +10,18 @@
  */
 .suggestionBox{
 	position             : ABSOLUTE;
+	width                : 200px;
+	height               : 200px;
+	overflow-y           : auto;
+	background           : WHITE;
     -webkit-box-shadow   : 2px 3px 4px rgba(0, 0, 0, 0.3);
     -moz-box-shadow      : 2px 3px 4px rgba(0, 0, 0, 0.3);
 	box-shadow           : 2px 3px 4px rgba(0, 0, 0, 0.3);
-	-ms-filter           : "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa')";
-	filter               : progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
-	border               : 1px SOLID #aaaaaa;
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
-	background           : WHITE;
+	border               : 1px SOLID #aaaaaa;
 	text-align           : CENTER;
-	width                : 200px;
-	height               : 200px;
-	overflow-y           : auto; 
 	visibility           : HIDDEN;
 }
 
@@ -31,10 +29,10 @@
  * Style that defines the item of the suggestion box.
  */
 .suggestionBoxItem{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	height     : 20px;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	color      : #666666;
-	height     : 20px;
 	cursor     : pointer;
 }
 
@@ -42,10 +40,10 @@
  * Style that defines the item of the suggestion box when the mouse is over it.
  */
 .suggestionBoxItem:hover{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size  : 14px;
-	background : #1e8fad;
-	color      : WHITE;	
 	height     : 20px;
+	background : #1e8fad;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size  : 14px;
+	color      : WHITE;
 	cursor     : pointer;
 }

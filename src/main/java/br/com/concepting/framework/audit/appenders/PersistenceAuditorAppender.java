@@ -48,10 +48,8 @@ public class PersistenceAuditorAppender extends BaseAuditorAppender{
     public PersistenceAuditorAppender(Auditor auditor){
         super(auditor);
     }
-    
-    /**
-     * @see org.apache.log4j.Appender#requiresLayout()
-     */
+
+    @Override
     public boolean requiresLayout(){
         return false;
     }
@@ -72,10 +70,8 @@ public class PersistenceAuditorAppender extends BaseAuditorAppender{
         
         return ServiceUtil.getByModelClass(modelClass, loginSession);
     }
-    
-    /**
-     * @see br.com.concepting.framework.audit.appenders.BaseAuditorAppender#process(org.apache.log4j.spi.LoggingEvent)
-     */
+
+    @Override
     @SuppressWarnings("unchecked")
     protected void process(LoggingEvent event) throws InternalErrorException{
         AuditorModel model = getModel(event);
@@ -87,7 +83,7 @@ public class PersistenceAuditorAppender extends BaseAuditorAppender{
             try{
                 auditorService = getService(modelClass);
             }
-            catch(InternalErrorException e){
+            catch(InternalErrorException ignored){
             }
             
             if(auditorService != null){
@@ -97,7 +93,7 @@ public class PersistenceAuditorAppender extends BaseAuditorAppender{
                     ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
                     PropertyInfo propertyInfo = modelInfo.getPropertyInfo(AuditorConstants.BUSINESS_COMPLEMENT_ATTRIBUTE_ID);
                     
-                    if(propertyInfo != null && (propertyInfo.cascadeOnSave() == null || !propertyInfo.cascadeOnSave()) && propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0){
+                    if(propertyInfo != null && !propertyInfo.cascadeOnSave() && propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0){
                         Collection<AuditorComplementModel> auditorInfoComplement = model.getBusinessComplement();
                         
                         if(auditorInfoComplement != null && !auditorInfoComplement.isEmpty()){
@@ -107,7 +103,7 @@ public class PersistenceAuditorAppender extends BaseAuditorAppender{
                             try{
                                 auditorComplementService = getService(collectionItemsClass);
                             }
-                            catch(InternalErrorException e){
+                            catch(InternalErrorException ignored){
                             }
                             
                             if(auditorComplementService != null)
@@ -115,7 +111,7 @@ public class PersistenceAuditorAppender extends BaseAuditorAppender{
                         }
                     }
                 }
-                catch(ItemAlreadyExistsException | NoSuchFieldException | NoSuchMethodException e1){
+                catch(ItemAlreadyExistsException | NoSuchFieldException | NoSuchMethodException ignored){
                 }
                 catch(IllegalArgumentException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException e1){
                     throw new InternalErrorException(e1);

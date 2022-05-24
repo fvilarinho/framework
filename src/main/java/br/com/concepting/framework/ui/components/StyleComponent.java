@@ -46,16 +46,12 @@ public class StyleComponent extends BaseComponent{
     public void setUrl(String url){
         this.url = url;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         String contextPath = getContextPath();
         String currentSkin = getCurrentSkin();
@@ -88,10 +84,8 @@ public class StyleComponent extends BaseComponent{
         else
             println("<style type=\"text/css\">");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         if(this.url != null && this.url.length() > 0)
             println("/>");
@@ -100,10 +94,8 @@ public class StyleComponent extends BaseComponent{
         
         super.renderClose();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         

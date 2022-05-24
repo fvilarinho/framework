@@ -27,28 +27,22 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  */
 public class SearchButtonComponent extends ButtonComponent{
     private static final long serialVersionUID = 1736657244011675466L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         setResourcesKey(UIConstants.DEFAULT_SEARCH_BUTTON_ID);
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         setStyleClass(UIConstants.DEFAULT_SEARCH_BUTTON_STYLE_CLASS);
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         if(!hasAction())
             setActionType(ActionType.SEARCH);

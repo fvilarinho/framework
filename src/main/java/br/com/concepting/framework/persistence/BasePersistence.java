@@ -2,6 +2,7 @@ package br.com.concepting.framework.persistence;
 
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
+import br.com.concepting.framework.persistence.constants.PersistenceConstants;
 import br.com.concepting.framework.persistence.interfaces.IPersistence;
 import br.com.concepting.framework.persistence.resources.PersistenceResources;
 import br.com.concepting.framework.persistence.util.PersistenceUtil;
@@ -38,7 +39,7 @@ public abstract class BasePersistence<CN, T, M extends BaseModel> implements IPe
     private PersistenceResources resources = null;
     private CN connection = null;
     private T transaction = null;
-    private Integer timeout = null;
+    private int timeout = PersistenceConstants.DEFAULT_TIMEOUT;
     
     /**
      * Constructor - Initializes the persistence.
@@ -64,31 +65,21 @@ public abstract class BasePersistence<CN, T, M extends BaseModel> implements IPe
         
         setTransaction(null);
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.IPersistence#getTimeout()
-     */
-    public Integer getTimeout(){
+
+    public int getTimeout(){
         return this.timeout;
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.IPersistence#setTimeout(java.lang.Integer)
-     */
-    public void setTimeout(Integer timeout){
+
+    public void setTimeout(int timeout){
         this.timeout = timeout;
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.IPersistence#setResources(br.com.concepting.framework.persistence.resources.PersistenceResources)
-     */
+
+    @Override
     public void setResources(PersistenceResources resources){
         this.resources = resources;
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.IPersistence#getResources()
-     */
+
+    @Override
     public PersistenceResources getResources(){
         return this.resources;
     }
@@ -109,7 +100,7 @@ public abstract class BasePersistence<CN, T, M extends BaseModel> implements IPe
     protected void closeConnection() throws InternalErrorException{
         setTransaction(null);
         setConnection(null);
-        setTimeout(null);
+        setTimeout(PersistenceConstants.DEFAULT_TIMEOUT);
     }
     
     /**
@@ -161,12 +152,9 @@ public abstract class BasePersistence<CN, T, M extends BaseModel> implements IPe
         try{
             Class<D> persistenceClass = PersistenceUtil.getPersistenceClassByModel(modelClass);
             
-            if(persistenceClass != null){
-                D persistenceInstance = ConstructorUtils.invokeConstructor(persistenceClass, this);
-                
-                return persistenceInstance;
-            }
-            
+            if(persistenceClass != null)
+                return ConstructorUtils.invokeConstructor(persistenceClass, this);
+
             return null;
         }
         catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException e){

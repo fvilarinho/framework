@@ -36,12 +36,12 @@ public class ActionFormUtil{
      * @param propertyName String that contains the identifier of the property.
      * @return True/False.
      */
-    public static Boolean isDatasetProperty(String propertyName){
+    public static boolean isDatasetProperty(String propertyName){
         return (propertyName != null && propertyName.contains(":"));
     }
     
     /**
-     * Returns the identifier of an dataset property.
+     * Returns the identifier of a dataset property.
      *
      * @param propertyName String that contains the identifier of the dataset property.
      * @return String that contains the identifier of the data value.

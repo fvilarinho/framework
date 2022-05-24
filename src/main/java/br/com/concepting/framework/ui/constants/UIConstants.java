@@ -24,7 +24,6 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class UIConstants{
     public static final String ACTION_FORM_COMPONENT_ATTRIBUTE_ID = "actionFormComponent";
     public static final String CALENDAR_HOURS_ATTRIBUTE_ID = "calendarHours";
@@ -214,17 +213,17 @@ public abstract class UIConstants{
     public static final String DEFAULT_LOGIN_SESSION_BOX_USER_LOGO_STYLE_CLASS = DEFAULT_LOGIN_SESSION_BOX_USER_LOGO_ID;
     public static final String DEFAULT_MAPS_CONTENT_ID = "mapsContent";
     public static final String DEFAULT_MAPS_CONTENT_STYLE_CLASS = DEFAULT_MAPS_CONTENT_ID;
-    public static final String DEFAULT_MAPS_URL = "http://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDbUK1FX87hzIfo39v-1RBXEHFzLwlJTIE";
+    public static final String DEFAULT_MAPS_URL = "https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDbUK1FX87hzIfo39v-1RBXEHFzLwlJTIE";
     public static final String DEFAULT_MAPS_ID = "maps";
     public static final String DEFAULT_MAPS_INPUT_ID = "mapsInput";
     public static final String DEFAULT_MAPS_INPUT_STYLE_CLASS = DEFAULT_MAPS_INPUT_ID;
-    public static final Integer DEFAULT_MAPS_NO_ZOOM = 1;
+    public static final int DEFAULT_MAPS_NO_ZOOM = 1;
     public static final String DEFAULT_MAPS_HEIGHT = "480";
     public static final String DEFAULT_MAPS_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_MAPS_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_MAPS_STYLE_CLASS = DEFAULT_MAPS_ID;
     public static final String DEFAULT_MAPS_STYLE_RESOURCES_ID = "/".concat(DEFAULT_MAPS_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
-    public static final Integer DEFAULT_MAPS_ZOOM = 7;
-    public static final Integer DEFAULT_MAPS_ZOOM_FACTOR = 4;
+    public static final int DEFAULT_MAPS_ZOOM = 7;
+    public static final int DEFAULT_MAPS_ZOOM_FACTOR = 4;
     public static final String DEFAULT_MAPS_WIDTH = "520";
     public static final String DEFAULT_MENU_BAR_ID = "menuBar";
     public static final String DEFAULT_MENU_BAR_CONTENT_STYLE_CLASS = "menuBarContent";
@@ -246,7 +245,7 @@ public abstract class UIConstants{
     public static final String DEFAULT_MESSAGE_BOX_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_MESSAGE_BOX_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_MESSAGE_BOX_STYLE_RESOURCES_ID = "/".concat(DEFAULT_MESSAGE_BOX_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_OPTIONS_LABEL_STYLE_CLASS = "option";
-    public static final Integer DEFAULT_OPTIONS_PER_ROW = 1;
+    public static final int DEFAULT_OPTIONS_PER_ROW = 1;
     public static final String DEFAULT_OPTIONS_STYLE_CLASS = "options";
     public static final String DEFAULT_PAGE_FILE_EXTENSION = ".jsp";
     public static final String DEFAULT_PAGE_SHADE_ID = "pageShade";
@@ -258,7 +257,7 @@ public abstract class UIConstants{
     public static final String DEFAULT_PAGER_FIRST_PAGE_BUTTON_STYLE_CLASS = DEFAULT_PAGER_FIRST_PAGE_BUTTON_ID;
     public static final String DEFAULT_PAGER_ID = "pager";
     public static final String DEFAULT_PAGER_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_PAGER_ID);
-    public static final Integer DEFAULT_PAGER_ITEMS_PER_PAGE = 5;
+    public static final int DEFAULT_PAGER_ITEMS_PER_PAGE = 5;
     public static final String DEFAULT_PAGER_ITEMS_PER_PAGE_ID = "itemsPerPage";
     public static final String DEFAULT_PAGER_LAST_PAGE_BUTTON_ID = "lastPageButton";
     public static final String DEFAULT_PAGER_LAST_PAGE_BUTTON_STYLE_CLASS = DEFAULT_PAGER_LAST_PAGE_BUTTON_ID;
@@ -271,13 +270,15 @@ public abstract class UIConstants{
     public static final String DEFAULT_PAGER_STYLE_RESOURCES_ID = "/".concat(DEFAULT_PAGER_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_PRINT_BUTTON_ID = "printButton";
     public static final String DEFAULT_PRINT_BUTTON_STYLE_CLASS = DEFAULT_PRINT_BUTTON_ID;
+    public static final double DEFAULT_PROGRESS_BAR_CRITICAL_VALUE = 90;
+    public static final double DEFAULT_PROGERSS_BAR_WARNING_VALUE = 70;
     public static final String DEFAULT_PROGRESS_BAR_CRITICAL_STYLE_CLASS = "criticalProgressBar";
     public static final String DEFAULT_PROGRESS_BAR_EMPTY_STYLE_CLASS = "emptyProgressBar";
     public static final String DEFAULT_PROGRESS_BAR_GENERAL_STYLE_CLASS = "generalProgressBar";
     public static final String DEFAULT_PROGRESS_BAR_ID = "progressBar";
     public static final String DEFAULT_PROGRESS_BAR_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_PROGRESS_BAR_ID);
     public static final String DEFAULT_PROGRESS_BAR_LEFT_STYLE_CLASS = "leftProgressBar";
-    public static final Long DEFAULT_PROGRESS_BAR_MAXIMUM_VALUE = 100l;
+    public static final long DEFAULT_PROGRESS_BAR_MAXIMUM_VALUE = 100;
     public static final String DEFAULT_PROGRESS_BAR_NORMAL_STYLE_CLASS = "normalProgressBar";
     public static final String DEFAULT_PROGRESS_BAR_RIGHT_STYLE_CLASS = "rightProgressBar";
     public static final String DEFAULT_PROGRESS_BAR_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_PROGRESS_BAR_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
@@ -285,10 +286,10 @@ public abstract class UIConstants{
     public static final String DEFAULT_PROGRESS_BAR_STYLE_RESOURCES_ID = "/".concat(DEFAULT_PROGRESS_BAR_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_PROGRESS_BAR_TEXT_STYLE_CLASS = "progressBarText";
     public static final String DEFAULT_PROGRESS_BAR_WARNING_STYLE_CLASS = "warningProgressBar";
-    public static final Integer DEFAULT_PROGRESS_BAR_WIDTH = 100;
+    public static final int DEFAULT_PROGRESS_BAR_WIDTH = 100;
     public static final String DEFAULT_RICH_TEXT_AREA_BACKGROUND_COLOR = "rgb(255, 255, 255)";
     public static final String DEFAULT_RICH_TEXT_AREA_FONT_NAME = "Trebuchet MS";
-    public static final Integer DEFAULT_RICH_TEXT_AREA_FONT_SIZE = 12;
+    public static final int DEFAULT_RICH_TEXT_AREA_FONT_SIZE = 12;
     public static final String DEFAULT_RICH_TEXT_AREA_FONT_COLOR = "rgb(0, 0, 0)";
     public static final String DEFAULT_RICH_TEXT_AREA_ID = "richTextArea";
     public static final String DEFAULT_RICH_TEXT_AREA_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_RICH_TEXT_AREA_ID);
@@ -331,7 +332,7 @@ public abstract class UIConstants{
     public static final String DEFAULT_SLIDER_BAR_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_SLIDER_BAR_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_SLIDER_BAR_STYLE_RESOURCES_ID = "/".concat(DEFAULT_SLIDER_BAR_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_SLIDER_BAR_STYLE_CLASS = DEFAULT_SLIDER_BAR_ID;
-    public static final Integer DEFAULT_SLIDER_BAR_WIDTH = 100;
+    public static final int DEFAULT_SLIDER_BAR_WIDTH = 100;
     public static final String DEFAULT_SUGGESTION_BOX_ID = "suggestionBox";
     public static final String DEFAULT_SUGGESTION_BOX_ITEM_STYLE_CLASS = "suggestionBoxItem";
     public static final String DEFAULT_SUGGESTION_BOX_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_SUGGESTION_BOX_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);

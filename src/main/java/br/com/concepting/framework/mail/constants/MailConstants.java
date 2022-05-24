@@ -25,7 +25,6 @@ import br.com.concepting.framework.mail.types.MailTransportType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class MailConstants{
     public static final String FROM_ATTRIBUTE_ID = "from";
     public static final String STORAGE_ATTRIBUTE_ID = "storage";
@@ -34,7 +33,7 @@ public abstract class MailConstants{
     public static final String TRANSPORT_ATTRIBUTE_ID = "transport";
     public static final String DEFAULT_ID = "mail";
     public static final MailStorageType DEFAULT_STORAGE_TYPE = MailStorageType.IMAPS;
-    public static final Integer DEFAULT_STORAGE_PORT = 143;
+    public static final int DEFAULT_STORAGE_PORT = 143;
     public static final MailTransportType DEFAULT_TRANSPORT_TYPE = MailTransportType.SMTP;
-    public static final Integer DEFAULT_TRANSPORT_PORT = 25;
+    public static final int DEFAULT_TRANSPORT_PORT = 25;
 }

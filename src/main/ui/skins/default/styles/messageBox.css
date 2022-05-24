@@ -9,9 +9,9 @@
  * Style that defines the error trace.
  */
 .errorTrace{
+	width      : 500px;
 	height     : 250px;
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	border     : 1px SOLID SILVER;
-	width      : 500px;
 }

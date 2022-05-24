@@ -25,10 +25,8 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
  */
 public class GridRowStateComponent extends OptionStateComponent{
     private static final long serialVersionUID = -2939940944274909545L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         String expression = getExpression();
         
@@ -44,7 +42,7 @@ public class GridRowStateComponent extends OptionStateComponent{
             try{
                 gridComponent = (GridPropertyComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         

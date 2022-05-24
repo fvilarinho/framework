@@ -115,7 +115,7 @@ public abstract class BaseAuditorAppender extends WriterAppender{
      * @param lastIteration True/False.
      * @return String that contains the identifier.
      */
-    private String getEntityId(Class<?> entity, Boolean lastIteration){
+    private String getEntityId(Class<?> entity, boolean lastIteration){
         String entityId = null;
         
         if(entity != null){
@@ -140,7 +140,7 @@ public abstract class BaseAuditorAppender extends WriterAppender{
             if(auditableAnnotation != null)
                 entityId = auditableAnnotation.id();
             
-            if(lastIteration != null && lastIteration && (entityId == null || entityId.length() == 0))
+            if(lastIteration && (entityId == null || entityId.length() == 0))
                 entityId = entity.getName();
         }
         
@@ -258,7 +258,7 @@ public abstract class BaseAuditorAppender extends WriterAppender{
                             businessComplement.addAll(businessComplementItems);
                     }
                 }
-                catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException e){
+                catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException ignored){
                 }
             }
         }
@@ -303,7 +303,7 @@ public abstract class BaseAuditorAppender extends WriterAppender{
                             if(value == null)
                                 continue;
                             
-                            if(auditablePropertyInfo.isModel() != null && auditablePropertyInfo.isModel()){
+                            if(auditablePropertyInfo.isModel()){
                                 C items = buildBusinessComplement(auditor, name, type, value, businessComplementItemType);
                                 
                                 if(items != null && items.size() > 0)
@@ -350,32 +350,28 @@ public abstract class BaseAuditorAppender extends WriterAppender{
                     businessComplement.add(item);
                 }
             }
-            catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | IllegalArgumentException | ClassNotFoundException | NoSuchFieldException e){
+            catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | IllegalArgumentException | ClassNotFoundException | NoSuchFieldException ignored){
             }
         }
         
         return businessComplement;
     }
-    
-    /**
-     * @see org.apache.log4j.Appender#setLayout(org.apache.log4j.Layout)
-     */
+
+    @Override
     public void setLayout(Layout layout){
         super.setLayout(layout);
         
         activateOptions();
     }
-    
-    /**
-     * @see org.apache.log4j.AppenderSkeleton#append(org.apache.log4j.spi.LoggingEvent)
-     */
+
+    @Override
     public void append(LoggingEvent event){
         try{
             process(event);
-            
+
             flush();
         }
-        catch(InternalErrorException e){
+        catch(InternalErrorException ignored){
         }
     }
     

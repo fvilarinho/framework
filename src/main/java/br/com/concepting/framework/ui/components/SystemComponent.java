@@ -16,6 +16,8 @@ import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.security.resources.SecurityResources;
 import br.com.concepting.framework.ui.constants.UIConstants;
 
+import java.util.Objects;
+
 /**
  * Class that defines the component that renders the system.
  *
@@ -39,40 +41,28 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  */
 public class SystemComponent extends BaseComponent{
     private static final long serialVersionUID = 7420316295230472764L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildStyle()
-     */
+
+    @Override
     protected void buildStyle() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         SystemResources systemResources = getSystemResources();
         SecurityResources securityResources = getSecurityResources();
@@ -84,12 +74,12 @@ public class SystemComponent extends BaseComponent{
         if(systemModule != null && systemModule.getId() != null && systemModule.getId() > 0 && systemModule.getActive() != null && systemModule.getActive() && systemResources != null && securityResources != null && systemController != null && securityController != null){
             UserModel user = (loginSession != null ? loginSession.getUser() : null);
             LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
-            Class<? extends BaseModel> modelClass = null;
-            String action = systemController.getRequestParameterValue(ActionFormConstants.ACTION_ATTRIBUTE_ID);
-            String actionMethod = null;
+            String action = systemController.getParameterValue(ActionFormConstants.ACTION_ATTRIBUTE_ID);
+            Class<? extends BaseModel> modelClass;
+            String actionMethod;
             StringBuilder url = new StringBuilder();
             
-            if(securityController.isLoginSessionAuthenticated() != null && securityController.isLoginSessionAuthenticated()){
+            if(securityController.isLoginSessionAuthenticated()){
                 if(loginParameter != null){
                     if(loginParameter.hasMfa() != null && loginParameter.hasMfa() && (loginParameter.isMfaTokenValidated() == null || !loginParameter.isMfaTokenValidated())){
                         modelClass = securityResources.getLoginSessionClass();
@@ -124,19 +114,16 @@ public class SystemComponent extends BaseComponent{
                 String actionFormUrl = ModelUtil.getUrlByModel(modelClass);
                 
                 url.append(actionFormUrl);
-                url.append(ActionFormConstants.DEFAULT_ACTION_SERVLET_FILE_EXTENSION);
+                url.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
                 url.append("?");
                 url.append(ActionFormConstants.ACTION_ATTRIBUTE_ID);
                 url.append("=");
                 url.append(actionMethod);
-                
-                if(actionMethod != ActionType.REFRESH.getMethod()){
-                    url.append("&");
-                    url.append(ActionFormConstants.FORWARD_ATTRIBUTE_ID);
-                    url.append("=");
-                    url.append(ActionFormConstants.DEFAULT_FORWARD_ID);
-                }
-                
+                url.append("&");
+                url.append(ActionFormConstants.FORWARD_ATTRIBUTE_ID);
+                url.append("=");
+                url.append(ActionFormConstants.DEFAULT_FORWARD_ID);
+
                 systemController.forward(url.toString());
             }
         }

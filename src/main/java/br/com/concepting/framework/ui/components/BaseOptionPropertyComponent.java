@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 /**
- * Class that defines the basic implementation for a option component.
+ * Class that defines the basic implementation for an option component.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -35,7 +35,7 @@ import java.util.Collection;
 public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = 8280294646254910196L;
     
-    private Boolean selected = null;
+    private boolean selected = false;
     private Object optionValue = null;
     
     /**
@@ -61,7 +61,7 @@ public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
      *
      * @return True/False.
      */
-    protected Boolean isSelected(){
+    protected boolean isSelected(){
         return this.selected;
     }
     
@@ -70,25 +70,23 @@ public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
      *
      * @param selected True/False.
      */
-    protected void setSelected(Boolean selected){
+    protected void setSelected(boolean selected){
         this.selected = selected;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#getFormattedValue()
-     */
+
+    @Override
     protected String getFormattedValue() throws InternalErrorException{
         if(this.optionValue != null){
             PropertyInfo propertyInfo = getPropertyInfo();
             
             if(propertyInfo != null){
-                Boolean isModel = propertyInfo.isModel();
+                boolean isModel = propertyInfo.isModel();
                 
-                if(isModel == null || !isModel){
+                if(!isModel){
                     try{
                         this.optionValue = PropertyUtil.getValue(this.optionValue, propertyInfo.getId());
                     }
-                    catch(Throwable e){
+                    catch(Throwable ignored){
                     }
                 }
             }
@@ -101,7 +99,7 @@ public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
                 try{
                     return ModelUtil.toIdentifierString(model);
                 }
-                catch(Throwable e){
+                catch(Throwable ignored){
                 }
             }
             else if(PropertyUtil.isEnum(this.optionValue))
@@ -112,10 +110,8 @@ public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
         
         return super.getFormattedValue();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     @SuppressWarnings("unchecked")
     protected void initialize() throws InternalErrorException{
         ComponentType componentType = getComponentType();
@@ -161,16 +157,11 @@ public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
         }
         else if(this.optionValue != null)
             this.selected = (value != null && value.equals(this.optionValue));
-        else if(this.isBoolean() != null && this.isBoolean())
-            this.selected = (value != null && Boolean.valueOf(value.toString()));
-        
-        if(this.selected == null)
-            this.selected = false;
+        else if(this.isBoolean())
+            this.selected = (value != null && Boolean.parseBoolean(value.toString()));
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderAttributes()
-     */
+
+    @Override
     protected void renderAttributes() throws InternalErrorException{
         super.renderAttributes();
         
@@ -183,34 +174,30 @@ public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderSelectionAttribute() throws InternalErrorException{
-        Boolean selected = isSelected();
+        boolean selected = isSelected();
         
-        if(selected != null && selected)
+        if(selected)
             print(" checked");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderLabelBody()
-     */
+
+    @Override
     protected void renderLabelBody() throws InternalErrorException{
-        Boolean showLabel = showLabel();
+        boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(showLabel != null && showLabel && label != null && label.length() > 0){
+        if(showLabel && label != null && label.length() > 0){
             if(this.optionValue != null)
                 println(label);
             else
                 super.renderLabelBody();
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setSelected(null);
+        setSelected(false);
         setOptionValue(null);
     }
 }

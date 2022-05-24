@@ -95,14 +95,7 @@ public @interface Model{
      * @return True/False.
      */
     boolean generatePersistence() default false;
-    
-    /**
-     * Indicates if the web service should be generated.
-     *
-     * @return True/False.
-     */
-    boolean generateWebService() default false;
-    
+
     /**
      * Indicates if the service should be generated.
      *

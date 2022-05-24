@@ -11,8 +11,8 @@ import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.PropertyUtil;
+import br.com.concepting.framework.util.types.MethodType;
 
-import javax.ws.rs.HttpMethod;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -39,12 +39,9 @@ import java.util.Locale;
  */
 public class LanguageSelectorComponent extends ListPropertyComponent{
     private static final long serialVersionUID = -3260096810965124526L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#getOptionLabel(java.lang.Object,
-     * java.lang.Integer)
-     */
-    protected String getOptionLabel(Object option, Integer level) throws InternalErrorException{
+
+    @Override
+    protected String getOptionLabel(Object option, int level) throws InternalErrorException{
         if(option != null){
             Locale language = LanguageUtil.getLanguageByString(option.toString());
             
@@ -53,20 +50,16 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
         
         return null;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         setResourcesId(UIConstants.DEFAULT_COMMON_RESOURCES_ID);
         setResourcesKey(SystemConstants.CURRENT_LANGUAGE_ATTRIBUTE_ID);
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
         String name = getName();
         
@@ -75,12 +68,10 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
         
         super.buildName();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
-        if(hasInvalidPropertyDefinition() == null){
+        if(hasInvalidPropertyDefinition()){
             SystemResources systemResources = getSystemResources();
             
             if(systemResources != null){
@@ -95,12 +86,12 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
                         
                         url.append(contextPath);
                         url.append(actionFormUrl);
-                        url.append(ActionFormConstants.DEFAULT_ACTION_SERVLET_FILE_EXTENSION);
+                        url.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
                         
                         StringBuilder onChange = new StringBuilder();
-                        
+
                         onChange.append("submitRequest('");
-                        onChange.append(HttpMethod.POST);
+                        onChange.append(MethodType.POST);
                         onChange.append("', '");
                         onChange.append(url);
                         onChange.append("', '");
@@ -125,20 +116,8 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
         else
             super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        if(getShowFirstOption() == null)
-            setShowFirstOption(false);
-        
-        super.buildRestrictions();
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ListPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         SystemResources systemResources = getSystemResources();
         

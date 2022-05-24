@@ -100,10 +100,8 @@ public class PropertiesResourcesLoader extends BaseResourcesLoader<PropertiesRes
     public void setLanguage(Locale language){
         this.language = language;
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.BaseResourcesLoader#getContentId()
-     */
+
+    @Override
     protected String getContentId(){
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
@@ -121,16 +119,14 @@ public class PropertiesResourcesLoader extends BaseResourcesLoader<PropertiesRes
         
         return contentId.toString();
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.BaseResourcesLoader#parseContent()
-     */
+
+    @Override
     protected PropertiesResources parseContent() throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
         
         try{
-            ResourceBundle properties = null;
+            ResourceBundle properties;
             String contentId = StringUtil.replaceAll(resourcesId, ".", "/");
             
             if(resourcesDirname == null || resourcesDirname.length() == 0)

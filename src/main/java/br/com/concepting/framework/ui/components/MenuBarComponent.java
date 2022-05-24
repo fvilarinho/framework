@@ -16,9 +16,9 @@ import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
+import br.com.concepting.framework.util.types.MethodType;
 
 import javax.servlet.jsp.JspException;
-import javax.ws.rs.HttpMethod;
 import java.util.List;
 
 /**
@@ -45,14 +45,14 @@ import java.util.List;
 public class MenuBarComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = -1595323252569482926L;
     
-    private Boolean isFixed = null;
+    private boolean isFixed = false;
     
     /**
      * Indicates if the menu bar is fixed.
      *
      * @return True/False.
      */
-    public Boolean isFixed(){
+    public boolean isFixed(){
         return this.isFixed;
     }
     
@@ -61,7 +61,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getIsFixed(){
+    public boolean getIsFixed(){
         return isFixed();
     }
     
@@ -70,13 +70,11 @@ public class MenuBarComponent extends BaseActionFormComponent{
      *
      * @param isFixed True/False.
      */
-    public void setIsFixed(Boolean isFixed){
+    public void setIsFixed(boolean isFixed){
         this.isFixed = isFixed;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#getActionFormComponent()
-     */
+
+    @Override
     protected ActionFormComponent getActionFormComponent() throws InternalErrorException{
         String actionFormName = getActionFormName();
         
@@ -122,34 +120,24 @@ public class MenuBarComponent extends BaseActionFormComponent{
         
         return objects;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildLabel()
-     */
+
+    @Override
     protected void buildLabel() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildTooltip()
-     */
+
+    @Override
     protected void buildTooltip() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.MENU_BAR);
         
@@ -195,40 +183,33 @@ public class MenuBarComponent extends BaseActionFormComponent{
         println("<tr>");
         
         LoginSessionModel loginSession = securityController.getLoginSession();
-        Boolean authenticated = securityController.isLoginSessionAuthenticated();
+        boolean authenticated = securityController.isLoginSessionAuthenticated();
         UserModel user = (loginSession != null ? loginSession.getUser() : null);
-        Boolean superUser = (user != null && user.isSuperUser() != null ? user.isSuperUser() : null);
+        boolean superUser = (user != null && user.isSuperUser() != null ? user.isSuperUser() : false);
         PropertiesResources resources = getResources();
         PropertiesResources mainConsoleResources = getMainConsoleResources();
         PropertiesResources defaultResources = getDefaultResources();
-        Boolean hasPermission = null;
-        ObjectModel parentMenuItem = null;
-        String menuItemName = null;
-        String menuItemLabel = null;
-        String menuItemTooltip = null;
-        String menuItemAction = null;
-        String menuItemActionTarget = null;
-        Boolean hasSubmenuItems = null;
-        ComponentType menuItemType = null;
         StringBuilder propertyId = null;
         
         for(ObjectModel menuItem: menuItems){
-            menuItemName = menuItem.getName();
+            String menuItemName = menuItem.getName();
             
             if(menuItemName == null || menuItemName.length() == 0)
                 continue;
             
-            parentMenuItem = menuItem.getParent();
+            ObjectModel parentMenuItem = menuItem.getParent();
             
             if((parentMenu == null && parentMenuItem == null) || (parentMenu != null && parentMenu.equals(parentMenuItem))){
-                if(authenticated != null && authenticated)
-                    hasPermission = (superUser != null && superUser || user.hasPermission(menuItem));
+                boolean hasPermission;
+
+                if(authenticated)
+                    hasPermission = (superUser || user.hasPermission(menuItem));
                 else
                     hasPermission = false;
                 
                 if(hasPermission){
-                    hasSubmenuItems = menuItem.hasChildren();
-                    menuItemType = menuItem.getType();
+                    boolean hasSubmenuItems = menuItem.hasChildren();
+                    ComponentType menuItemType = menuItem.getType();
                     
                     if(menuItemType != ComponentType.MENU_ITEM && menuItemType != ComponentType.MENU_ITEM_SEPARATOR)
                         continue;
@@ -262,7 +243,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
                         print(UIConstants.DEFAULT_MENU_ITEM_STYLE_CLASS);
                         print("\"");
                         
-                        menuItemAction = menuItem.getAction();
+                        String menuItemAction = menuItem.getAction();
                         
                         if(menuItemAction != null && menuItemAction.length() > 0){
                             print(" onClick=\"");
@@ -271,13 +252,13 @@ public class MenuBarComponent extends BaseActionFormComponent{
                                 print(menuItemAction);
                             else{
                                 print("submitRequest('");
-                                print(HttpMethod.GET);
+                                print(MethodType.GET);
                                 print("', '");
                                 print(contextPath);
                                 print(menuItemAction);
                                 print("'");
                                 
-                                menuItemActionTarget = menuItem.getActionTarget();
+                               String  menuItemActionTarget = menuItem.getActionTarget();
                                 
                                 if(menuItemActionTarget != null && menuItemActionTarget.length() > 0){
                                     print(", null, null, null, '");
@@ -297,7 +278,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
                         print(UIConstants.DEFAULT_MENU_ITEM_STYLE_CLASS);
                         print("');\"");
                         
-                        menuItemTooltip = menuItem.getDescription();
+                        String menuItemTooltip = menuItem.getDescription();
                         
                         if(menuItemTooltip == null || menuItemTooltip.length() == 0){
                             if(propertyId == null)
@@ -326,7 +307,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
                         
                         print(">");
                         
-                        menuItemLabel = menuItem.getTitle();
+                        String menuItemLabel = menuItem.getTitle();
                         
                         if(menuItemLabel == null || menuItemLabel.length() == 0){
                             if(propertyId == null)
@@ -364,7 +345,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
                             print(AlignmentType.RIGHT);
                             print("\" width=\"1\">");
                             
-                            if(hasSubmenuItems != null && hasSubmenuItems)
+                            if(hasSubmenuItems)
                                 println("&raquo;</td>");
                         }
                     }
@@ -379,19 +360,16 @@ public class MenuBarComponent extends BaseActionFormComponent{
         
         println("</tr>");
         println("</table>");
-        
-        List<? extends ObjectModel> submenusItems = null;
-        Boolean hasSubmenusItems = null;
-        
+
         for(ObjectModel menuItem: menuItems){
-            menuItemName = menuItem.getName();
-            parentMenuItem = menuItem.getParent();
+            String menuItemName = menuItem.getName();
+            ObjectModel parentMenuItem = menuItem.getParent();
             
             if((parentMenu == null && parentMenuItem == null) || (parentMenu != null && parentMenu.equals(parentMenuItem))){
-                hasSubmenusItems = menuItem.hasChildren();
+                boolean hasSubmenusItems = menuItem.hasChildren();
                 
-                if(hasSubmenusItems != null && hasSubmenusItems){
-                    submenusItems = menuItem.getChildren();
+                if(hasSubmenusItems){
+                    List<? extends ObjectModel> submenusItems = menuItem.getChildren();
                     
                     print("<div id=\"");
                     print(menuItemName);
@@ -408,10 +386,8 @@ public class MenuBarComponent extends BaseActionFormComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         String name = getName();
         
@@ -425,24 +401,20 @@ public class MenuBarComponent extends BaseActionFormComponent{
             println("\">");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         renderMenuItems();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         String name = getName();
         
         if(name != null && name.length() > 0){
             println("</div>");
             
-            if(this.isFixed != null && this.isFixed){
+            if(this.isFixed){
                 StringBuilder content = new StringBuilder();
                 
                 content.append("addScrollEvent(renderFixedMenuBar(\"");
@@ -465,13 +437,11 @@ public class MenuBarComponent extends BaseActionFormComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setIsFixed(null);
+        setIsFixed(false);
     }
 }

@@ -33,17 +33,13 @@ import javax.servlet.jsp.JspException;
  */
 public class UploadPropertyComponent extends DownloadPropertyComponent{
     private static final long serialVersionUID = -1340422255244638637L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#asynchronousEvents()
-     */
-    protected Boolean asynchronousEvents(){
+
+    @Override
+    protected boolean asynchronousEvents(){
         return false;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         String actionFormName = getActionFormName();
         
@@ -71,10 +67,8 @@ public class UploadPropertyComponent extends DownloadPropertyComponent{
         
         super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.UPLOAD);
         
@@ -85,14 +79,12 @@ public class UploadPropertyComponent extends DownloadPropertyComponent{
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition != null && hasInvalidPropertyDefinition)
+        if(hasInvalidPropertyDefinition)
             super.renderInvalidPropertyMessage();
         else{
             ComponentType componentType = getComponentType();
@@ -184,10 +176,8 @@ public class UploadPropertyComponent extends DownloadPropertyComponent{
                 setParent(uploadPropertyComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             UploadPropertyComponent uploadPropertyComponent = (UploadPropertyComponent) getParent();
             String name = (uploadPropertyComponent != null ? uploadPropertyComponent.getName() : null);
@@ -204,28 +194,22 @@ public class UploadPropertyComponent extends DownloadPropertyComponent{
                 super.buildEvents();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesKey(UIConstants.DEFAULT_UPLOAD_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_UPLOAD_BUTTON_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             setOnChangeActionType(ActionType.UPLOAD);
             

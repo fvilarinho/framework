@@ -18,12 +18,12 @@
  * Style that defines the title of the component.
  */
 .dialogBoxTitle{
-	background : url(../images/dialogBoxTitle.gif) REPEAT-X;
-	color      : #666666;
 	height     : 25px;
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	background : url(../images/dialogBoxTitle.gif) REPEAT-X;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
 	font-weight: BOLD;
+	color      : #666666;
 	text-align : CENTER;
 	white-space: NOWRAP;
 }
@@ -32,72 +32,70 @@
  * Style that defines the content of the component.
  */
 .dialogBoxContent{
+	background           : #efefef;
+	box-shadow           : 2px 3px 4px rgba(0, 0, 0, 0.3);
 	-webkit-box-shadow   : 2px 3px 4px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow      : 2px 3px 4px rgba(0, 0, 0, 0.3);
-	box-shadow           : 2px 3px 4px rgba(0, 0, 0, 0.3);
-	-ms-filter           : "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa')";
-	filter               : progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa');
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
-	border               : 1px SOLID #aaaaaa;         
-	background           : #efefef;
-	border-spacing       : 0px;
+	border               : 1px SOLID #aaaaaa;
+	border-spacing       : 0;
 }
 
 /**
  * Style that defines the content of the component.
  */
 .dialogBoxContent td{
-	padding: 0px;
+	padding: 0;
 }
 
 /**
  * Style that defines the text of the content.
  */
 .dialogBoxText{
-	font-family   : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size     : 14px;
 	background    : #efefef;
+	font-family   : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size     : 14px;
 	color         : #666666;
-	border        : NONE;
-	border-spacing: 0px;
-	padding       : 10px;
 	word-wrap     : break-word;
+	border        : NONE;
+	border-spacing: 0;
+	padding       : 10px;
 }
 
 /**
  * Style that defines the information icon.
  */
 .infoIcon{
-	background: url(../images/infoIcon.png) NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url(../images/infoIcon.png) NO-REPEAT;
 }
 
 /**
  * Style that defines the error icon.
  */
 .errorIcon{
-	background: url(../images/errorIcon.png) NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url(../images/errorIcon.png) NO-REPEAT;
 }
 
 /**
  * Style that defines the warning icon.
  */
 .warningIcon{
-	background: url(../images/warningIcon.png) NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url(../images/warningIcon.png) NO-REPEAT;
 }
 
 /**
  * Style that defines the validation icon.
  */
 .validationIcon{
-	background: url(../images/warningIcon.png) NO-REPEAT;
 	width     : 50px;
 	height    : 50px;
+	background: url(../images/warningIcon.png) NO-REPEAT;
 }

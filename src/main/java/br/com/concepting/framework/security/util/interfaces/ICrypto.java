@@ -1,5 +1,7 @@
 package br.com.concepting.framework.security.util.interfaces;
 
+import org.apache.commons.codec.DecoderException;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import java.io.UnsupportedEncodingException;
@@ -50,5 +52,5 @@ public interface ICrypto{
      * @throws IllegalBlockSizeException Occurs when the cryptography key is
      * invalid.
      */
-    String decrypt(String message) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException;
+    String decrypt(String message) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, DecoderException;
 }

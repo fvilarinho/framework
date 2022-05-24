@@ -12,37 +12,36 @@
  * @param onExpand String that contains the expand event.
  */
 function showHideTreeViewNode(name, onExpand){
-	var node       = getObject(name);
-	var submitFlag = false;
-	
+	let node = getObject(name);
+
 	if(node){
-		if(node.style.display.toUpperCase() == "NONE")
+		if(node.style.display.toUpperCase() === "NONE")
 			node.style.display = "";
 		else
 			node.style.display = "NONE";
 	}
 	
-	var nodeExpandIcon = getObject(name + ".treeViewNodeIcon");
+	let nodeExpandIcon = getObject(name + ".treeViewNodeIcon");
 	
 	if(nodeExpandIcon){ 
-		if(nodeExpandIcon.className == "collapsedTreeViewNodeIcon")
+		if(nodeExpandIcon.className === "collapsedTreeViewNodeIcon")
 			nodeExpandIcon.className = "expandedTreeViewNodeIcon";
 		else
 			nodeExpandIcon.className = "collapsedTreeViewNodeIcon";
 	} 
  
-	var nodeIcon = getObject(name + ".treeViewNode");
+	let nodeIcon = getObject(name + ".treeViewNode");
 	
 	if(nodeIcon){
-		if(nodeIcon.className == "closedTreeViewNodeIcon")
+		if(nodeIcon.className === "closedTreeViewNodeIcon")
 			nodeIcon.className = "openedTreeViewNodeIcon";
 		else
 			nodeIcon.className = "closedTreeViewNodeIcon";
 	}
 	
-	var nodeExpanded = getObjectValue(name + ".isTreeViewNodeExpanded");
+	let nodeExpanded = getObjectValue(name + ".isTreeViewNodeExpanded");
 	
-	if(nodeExpanded == "false")
+	if(nodeExpanded === "false")
 		setObjectValue(name + ".isTreeViewNodeExpanded", true);
 	else
 		setObjectValue(name + ".isTreeViewNodeExpanded", false);
@@ -62,10 +61,10 @@ function showHideTreeViewNode(name, onExpand){
  * @param onUnSelect String that content the unselect event.
  */
 function selectUnSelectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselectParentsOrChildren, onSelect, onUnSelect){
-	var nodeLabel = getObject(nodeId + ".label");
+	let nodeLabel = getObject(nodeId + ".label");
 	
 	if(nodeLabel){	
-		if(nodeLabel.className == "treeViewNodeLabel")
+		if(nodeLabel.className === "treeViewNodeLabel")
 			selectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselectParentsOrChildren, false, onSelect);
 		else
 			unselectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselectParentsOrChildren, onUnSelect);
@@ -82,39 +81,38 @@ function selectUnSelectTreeViewNode(name, nodeId, hasMultipleSelection, selectUn
  * @param onUnSelect String that content the unselect event.
  */
 function unselectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselectParentsOrChildren, onUnSelect){
-	var nodeLabel = getObject(nodeId + ".label");
+	let nodeLabel = getObject(nodeId + ".label");
 		
 	if(nodeLabel){
 		nodeLabel.className = "treeViewNodeLabel";
 		
-		var nodeValue = nodeLabel.getAttribute("value");
+		let nodeValue = nodeLabel.getAttribute("value");
 		
 		if(hasMultipleSelection){
-			var options = getObject(name).options;
-			var cont    = 0;
-			
-			for(cont = 0 ; cont < options.length ; cont++){
-				if(options[cont].value == nodeValue && options[cont].selected){
+			let options = getObject(name).options;
+
+			for(let cont = 0 ; cont < options.length ; cont++){
+				if(options[cont].value === nodeValue && options[cont].selected){
 					options[cont].selected = false;
 					
 					break;
 				}
 			}
 			
-			if(selectUnselectParentsOrChildren != null && selectUnselectParentsOrChildren){
-				var parentNodeLabelId = nodeLabel.getAttribute("parent");
-				var node              = null;
+			if(selectUnselectParentsOrChildren !== null && selectUnselectParentsOrChildren){
+				let parentNodeLabelId = nodeLabel.getAttribute("parent");
+				let node              = null;
 				
 				if(parentNodeLabelId){
 					node = getObject(parentNodeLabelId);
 					
 					if(node){
-						var children       = node.childNodes;
-						var child          = null;
-						var childId        = null;
-						var unselectParent = true;
+						let children       = node.childNodes;
+						let child          = null;
+						let childId        = null;
+						let unselectParent = true;
 						
-						for(cont = 0 ; cont < children.length ; cont++){
+						for(let cont = 0 ; cont < children.length ; cont++){
 							child   = children[cont];
 							childId = child.id;
 							
@@ -123,7 +121,7 @@ function unselectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselect
 									child = getObject(childId + ".label");
 	
 									if(child){
-										if(nodeLabel.className != child.className){
+										if(nodeLabel.className !== child.className){
 											unselectParent = false;
 											
 											break;
@@ -141,11 +139,11 @@ function unselectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselect
 				node = getObject(nodeId);
 				
 				if(node){
-					var children = node.childNodes;
-					var child    = null;
-					var childId  = null;
+					let children = node.childNodes;
+					let child    = null;
+					let childId  = null;
 					
-					for(cont = 0 ; cont < children.length ; cont++){
+					for(let cont = 0 ; cont < children.length ; cont++){
 						child   = children[cont];
 						childId = child.id;
 						
@@ -154,7 +152,7 @@ function unselectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselect
 								child = getObject(childId + ".label");
 	
 								if(child)
-									if(nodeLabel.className != child.className)
+									if(nodeLabel.className !== child.className)
 										unselectTreeViewNode(name, childId, hasMultipleSelection, selectUnselectParentsOrChildren);
 							}
 						}
@@ -179,42 +177,42 @@ function unselectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselect
  * @param nodeId String that contains the identifier of the node.
  * @param hasMultipleSelection Indicates if the component has multiple selection.
  * @param selectUnselectParentsOrChildren Indicates if the parents and children should be selected.
+ * @param  dontSelectChildren Indicates if the children shouldn't be selected.
  * @param onSelect String that content the select event.
  */
 function selectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselectParentsOrChildren, dontSelectChildren, onSelect){
-	var nodeLabel = getObject(nodeId + ".label");
+	let nodeLabel = getObject(nodeId + ".label");
 	
 	if(nodeLabel){
 		nodeLabel.className = "selectedTreeViewNodeLabel";
 		
-		var nodeValue = nodeLabel.getAttribute("value");
+		let nodeValue = nodeLabel.getAttribute("value");
 		
 		if(hasMultipleSelection){
-			var options = getObject(name).options;
-			var cont    = 0;
-			
-			for(cont = 0 ; cont < options.length ; cont++){
-				if(options[cont].value == nodeValue && options[cont].selected == false){
+			let options = getObject(name).options;
+
+			for(let cont = 0 ; cont < options.length ; cont++){
+				if(options[cont].value === nodeValue && options[cont].selected === false){
 					options[cont].selected = true;
 					
 					break;
 				}
 			}
 			
-			if(selectUnselectParentsOrChildren != null && selectUnselectParentsOrChildren){
-				var parentNodeLabelId = nodeLabel.getAttribute("parent");
+			if(selectUnselectParentsOrChildren !== null && selectUnselectParentsOrChildren){
+				let parentNodeLabelId = nodeLabel.getAttribute("parent");
 			
 				selectTreeViewNode(name, parentNodeLabelId, hasMultipleSelection, selectUnselectParentsOrChildren, true);
 			
-				if(!dontSelectChildren || dontSelectChildren == false){
-					var node = getObject(nodeId);
+				if(!dontSelectChildren || !dontSelectChildren){
+					let node = getObject(nodeId);
 					
 					if(node){
-						var children = node.childNodes;
-						var child    = null;
-						var childId  = null;
+						let children = node.childNodes;
+						let child    = null;
+						let childId  = null;
 						
-						for(cont = 0 ; cont < children.length ; cont++){
+						for(let cont = 0 ; cont < children.length ; cont++){
 							child   = children[cont];
 							childId = child.id;
 							
@@ -223,7 +221,7 @@ function selectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselectPa
 									child = getObject(childId + ".label");
 		
 									if(child)
-										if(nodeLabel.className != child.className)
+										if(nodeLabel.className !== child.className)
 											selectTreeViewNode(name, childId, hasMultipleSelection, selectUnselectParentsOrChildren, false);
 								}
 							}
@@ -233,11 +231,11 @@ function selectTreeViewNode(name, nodeId, hasMultipleSelection, selectUnselectPa
 			}
 		}
 		else{
-			var currentNode = getObjectValue(name + ".currentTreeViewNode");
-			var nodeLabel   = getObject(currentNode + ".label");
+			let currentNode = getObjectValue(name + ".currentTreeViewNode");
+			let nodeLabel   = getObject(currentNode + ".label");
 			
 			if(nodeLabel)
-				if(currentNode != nodeId)
+				if(currentNode !== nodeId)
 					nodeLabel.className = "treeViewNodeLabel";
 	
 			setObjectValue(name + ".currentTreeViewNode", nodeId);

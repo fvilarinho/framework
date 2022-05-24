@@ -86,7 +86,7 @@ public class MailMessage extends Message<Object>{
             MimetypesFileTypeMap mimeTypes = new MimetypesFileTypeMap();
             String mimeType = mimeTypes.getContentType(new File(filename));
             
-            if(mimeType.indexOf("plain") < 0)
+            if(!mimeType.contains("plain"))
                 attach(filename, ByteUtil.fromBinaryStream(stream));
             else
                 attach(filename, ByteUtil.fromTextStream(stream));
@@ -205,7 +205,7 @@ public class MailMessage extends Message<Object>{
             try{
                 this.setFrom(new InternetAddress(from));
             }
-            catch(AddressException e){
+            catch(AddressException ignored){
             }
         }
     }
@@ -319,7 +319,7 @@ public class MailMessage extends Message<Object>{
             try{
                 this.addBccRecipient(new InternetAddress(recipient));
             }
-            catch(AddressException e){
+            catch(AddressException ignored){
             }
         }
     }
@@ -334,7 +334,7 @@ public class MailMessage extends Message<Object>{
             try{
                 this.addCcRecipient(new InternetAddress(recipient));
             }
-            catch(AddressException e){
+            catch(AddressException ignored){
             }
         }
     }
@@ -349,7 +349,7 @@ public class MailMessage extends Message<Object>{
             try{
                 this.addToRecipient(new InternetAddress(recipient));
             }
-            catch(AddressException e){
+            catch(AddressException ignored){
             }
         }
     }

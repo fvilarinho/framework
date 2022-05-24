@@ -27,35 +27,27 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  */
 public class SaveButtonComponent extends ConfirmButtonComponent{
     private static final long serialVersionUID = 2456308888340573819L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#showOnlyWithDataset()
-     */
-    public Boolean showOnlyWithDataset(){
+
+    @Override
+    public boolean showOnlyWithData(){
         return true;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ConfirmButtonComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         setResourcesKey(UIConstants.DEFAULT_SAVE_BUTTON_ID);
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ConfirmButtonComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         setStyleClass(UIConstants.DEFAULT_SAVE_BUTTON_STYLE_CLASS);
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ConfirmButtonComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         if(!hasAction())
             setActionType(ActionType.SAVE);

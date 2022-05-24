@@ -50,10 +50,8 @@ public class AuditorResourcesLoader extends XmlResourcesLoader<AuditorResources>
     public AuditorResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname, AuditorConstants.DEFAULT_RESOURCES_ID);
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
-     */
+
+    @Override
     public AuditorResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
@@ -70,12 +68,12 @@ public class AuditorResourcesLoader extends XmlResourcesLoader<AuditorResources>
         if(appendersNode == null)
             throw new InvalidResourcesException(resourcesDirname, resourcesId, resourcesNode.getText());
         
-        FactoryResources appender = null;
-        XmlNode appenderNode = null;
-        String appenderName = null;
-        String appenderClass = null;
+        FactoryResources appender;
+        XmlNode appenderNode;
+        String appenderName;
+        String appenderClass;
         int cont1 = 0;
-        int cont2 = 0;
+        int cont2;
         
         while(true){
             appenderNode = appendersNode.getNode(cont1);
@@ -97,9 +95,9 @@ public class AuditorResourcesLoader extends XmlResourcesLoader<AuditorResources>
                 XmlNode optionsNode = appenderNode.getNode(ResourcesConstants.OPTIONS_ATTRIBUTE_ID);
                 
                 if(optionsNode != null){
-                    XmlNode optionNode = null;
-                    String optionId = null;
-                    String optionValue = null;
+                    XmlNode optionNode;
+                    String optionId;
+                    String optionValue;
                     
                     cont2 = 0;
                     

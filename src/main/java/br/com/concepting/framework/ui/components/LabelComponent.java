@@ -27,17 +27,13 @@ import br.com.concepting.framework.util.types.ComponentType;
  */
 public class LabelComponent extends BasePropertyComponent{
     private static final long serialVersionUID = 4419772883440170233L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#getFormattedValue()
-     */
+
+    @Override
     protected String getFormattedValue() throws InternalErrorException{
         return PropertyUtil.format(getValue(), getPattern(), useAdditionalFormatting(), getPrecision(), getCurrentLanguage());
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
         String resourcesKey = getResourcesKey();
         String name = getName();
@@ -51,10 +47,8 @@ public class LabelComponent extends BasePropertyComponent{
         
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         ComponentType componentType = getComponentType();
         
@@ -69,63 +63,45 @@ public class LabelComponent extends BasePropertyComponent{
         if(getPropertyInfo() == null && getValue() == null)
             setValue(getLabel());
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderRequiredMark()
-     */
-    protected Boolean renderRequiredMark(){
+
+    @Override
+    protected boolean renderRequiredMark(){
         return false;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderValue()
-     */
+
+    @Override
     protected void renderValue() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderPlaceholder()
-     */
+
+    @Override
     protected void renderPlaceholder() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderName()
-     */
+
+    @Override
     protected void renderName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderType()
-     */
+
+    @Override
     protected void renderType() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderSize()
-     */
+
+    @Override
     protected void renderSize() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderEnabled()
-     */
+
+    @Override
     protected void renderEnabled() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderReadOnly()
-     */
+
+    @Override
     protected void renderReadOnly() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition != null && hasInvalidPropertyDefinition)
+        if(hasInvalidPropertyDefinition)
             super.renderInvalidPropertyMessage();
         else{
             print("<span");

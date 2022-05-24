@@ -53,11 +53,6 @@ public enum RepositoryType{
     POSTGRESQL("PostgreSQL", 5432, "\"", "\""),
     
     /**
-     * Firebird.
-     */
-    FIREBIRD("Firebird", 3050, "\"", "\""),
-    
-    /**
      * IBM Informix.
      */
     INFORMIX("Informix", 26437, "\"", "\"");

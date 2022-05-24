@@ -45,10 +45,8 @@ public class GridColumnStateComponent extends GridColumnComponent{
     public void setExpression(String expression){
         this.expression = expression;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         if(this.expression == null)
             this.expression = Boolean.TRUE.toString();
@@ -59,7 +57,7 @@ public class GridColumnStateComponent extends GridColumnComponent{
             try{
                 gridColumnComponent = (GridColumnComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
@@ -74,28 +72,20 @@ public class GridColumnStateComponent extends GridColumnComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         

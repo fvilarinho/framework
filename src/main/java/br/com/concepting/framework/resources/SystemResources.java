@@ -2,10 +2,10 @@ package br.com.concepting.framework.resources;
 
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.model.MainConsoleModel;
-import br.com.concepting.framework.resources.helpers.ActionFormResources;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -39,14 +39,14 @@ public class SystemResources extends BaseResources<XmlNode>{
     private Collection<String> skins = null;
     private String defaultSkin = null;
     private Collection<ActionFormResources> actionForms = null;
-    private Collection<String> services = null;
+    private Collection<ServiceResources> services = null;
     
     /**
      * Returns the system available services.
      *
      * @return List that contains the system available services.
      */
-    public Collection<String> getServices(){
+    public Collection<ServiceResources> getServices(){
         return this.services;
     }
     
@@ -55,7 +55,7 @@ public class SystemResources extends BaseResources<XmlNode>{
      *
      * @param services List that contains the system available services.
      */
-    public void setServices(Collection<String> services){
+    public void setServices(Collection<ServiceResources> services){
         this.services = services;
     }
     
@@ -64,8 +64,8 @@ public class SystemResources extends BaseResources<XmlNode>{
      *
      * @param service String that contain the identifier of the service implementation.
      */
-    public void addService(String service){
-        if(service != null && service.length() > 0){
+    public void addService(ServiceResources service){
+        if(service != null){
             if(this.services == null)
                 this.services = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
             
@@ -197,5 +197,193 @@ public class SystemResources extends BaseResources<XmlNode>{
      */
     public void setDefaultSkin(String defaultSkin){
         this.defaultSkin = defaultSkin;
+    }
+
+    public static class ActionFormResources implements Serializable {
+        private static final long serialVersionUID = 8287693656398359248L;
+
+        private String name = null;
+        private String clazz = null;
+        private String action = null;
+        private Collection<ActionFormResources.ActionFormForwardResources> forwards = null;
+
+        /**
+         * Returns the action identifier of the action form.
+         *
+         * @return String that contains the action identifier.
+         */
+        public String getAction () {
+            return this.action;
+        }
+
+        /**
+         * Defines the action identifier of the action form.
+         *
+         * @param action String that contains the action identifier.
+         */
+        public void setAction (String action){
+            this.action = action;
+        }
+
+        /**
+         * Returns the action form class.
+         *
+         * @return String that contains the action form class.
+         */
+        public String getClazz () {
+            return this.clazz;
+        }
+
+        /**
+         * Defines the action form class.
+         *
+         * @param clazz String that contains the action form class.
+         */
+        public void setClazz (String clazz){
+            this.clazz = clazz;
+        }
+
+        /**
+         * Returns the identifier of the action form.
+         *
+         * @return String that contains the identifier.
+         */
+        public String getName () {
+            return this.name;
+        }
+
+        /**
+         * Defines the identifier of the action form.
+         *
+         * @param name String that contains the identifier.
+         */
+        public void setName (String name){
+            this.name = name;
+        }
+
+        /**
+         * Returns the list of forwards of the action form.
+         *
+         * @param <C> Class that defines the list of forwards.
+         * @return Instance that contains the forwards of the action form.
+         */
+        @SuppressWarnings("unchecked")
+        public <C extends Collection<ActionFormResources.ActionFormForwardResources>>C getForwards () {
+            return (C) this.forwards;
+        }
+
+        /**
+         * Defines the list of forwards of the action form.
+         *
+         * @param forwards Instance that contains the forwards of the action form.
+         */
+        public void setForwards (Collection < ActionFormResources.ActionFormForwardResources > forwards) {
+            this.forwards = forwards;
+        }
+
+        /**
+         * Returns a specific forward of the action form.
+         *
+         * @param forwardName String that contains the identifier of the forward.
+         * @return String that contains the forward of the action form.
+         */
+        public ActionFormResources.ActionFormForwardResources getForward (String forwardName){
+            if (this.forwards != null && !this.forwards.isEmpty())
+                for(ActionFormResources.ActionFormForwardResources forward : this.forwards)
+                    if (forward.getName().equals(forwardName))
+                        return forward;
+
+            return null;
+        }
+
+        public static class ActionFormForwardResources implements Serializable {
+            private static final long serialVersionUID = 6106118252078337780L;
+
+            private String name = null;
+            private String url = null;
+
+            /**
+             * Returns the identifier of the forward.
+             *
+             * @return String that contains the identifier.
+             */
+            public String getName() {
+                return this.name;
+            }
+
+            /**
+             * Defines the identifier of the forward.
+             *
+             * @param name String that contains the identifier.
+             */
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            /**
+             * Returns the URL of the forward.
+             *
+             * @return String that contains the identifier.
+             */
+            public String getUrl() {
+                return this.url;
+            }
+
+            /**
+             * Defines the URL of the forward.
+             *
+             * @param url String that contains the identifier.
+             */
+            public void setUrl(String url) {
+                this.url = url;
+            }
+        }
+    }
+
+    public static class ServiceResources implements Serializable {
+        private String clazz = null;
+        private boolean isDaemon = false;
+        private boolean isRecurrent = false;
+        private String path = null;
+
+        public String getClazz() {
+            return this.clazz;
+        }
+
+        public void setClazz(String clazz) {
+            this.clazz = clazz;
+        }
+
+        public boolean isDaemon(){
+            return this.isDaemon;
+        }
+
+        public boolean getDaemon() {
+            return isDaemon();
+        }
+
+        public void setDaemon(boolean daemon) {
+            this.isDaemon = daemon;
+        }
+
+        public boolean isRecurrent(){
+            return this.isRecurrent;
+        }
+
+        public boolean getRecurrent() {
+            return isRecurrent();
+        }
+
+        public void setRecurrent(boolean recurrent) {
+            isRecurrent = recurrent;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
+        }
     }
 }

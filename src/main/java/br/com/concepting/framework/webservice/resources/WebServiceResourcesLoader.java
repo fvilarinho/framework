@@ -54,10 +54,8 @@ public class WebServiceResourcesLoader extends NetworkResourcesLoader<WebService
     public WebServiceResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname);
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
-     */
+
+    @Override
     public WebServiceResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
@@ -79,7 +77,7 @@ public class WebServiceResourcesLoader extends NetworkResourcesLoader<WebService
         
         if(timeoutNode != null){
             try{
-                Integer timeout = NumberUtil.parseInt(ExpressionProcessorUtil.fillEnvironmentInString(timeoutNode.getValue()));
+                int timeout = NumberUtil.parseInt(ExpressionProcessorUtil.fillEnvironmentInString(timeoutNode.getValue()));
                 
                 resources.setTimeout(timeout);
             }
@@ -137,10 +135,8 @@ public class WebServiceResourcesLoader extends NetworkResourcesLoader<WebService
         
         return resources;
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.BaseResourcesLoader#parseContent()
-     */
+
+    @Override
     protected XmlNode parseContent() throws InvalidResourcesException{
         XmlNode contentNode = super.parseContent();
         XmlNode resourcesNode = (contentNode != null ? contentNode.getNode(WebServiceConstants.DEFAULT_ID) : null);

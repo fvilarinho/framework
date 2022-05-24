@@ -5,6 +5,7 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.resources.PropertiesResources;
 import br.com.concepting.framework.resources.PropertiesResourcesLoader;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
+import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.constants.ReportConstants;
 import br.com.concepting.framework.util.helpers.ReportDataSource;
 import br.com.concepting.framework.util.types.ContentType;
@@ -206,7 +207,7 @@ public class ReportUtil{
                 reportParameters = prepareReportParameters(resourcesDirname, resourcesId, reportFileId, reportParameters, language);
                 
                 if(reportParameters != null && !reportParameters.isEmpty()){
-                    JasperPrint jasperPrint = null;
+                    JasperPrint jasperPrint;
                     
                     if(datasource instanceof Connection)
                         jasperPrint = JasperFillManager.fillReport(reportStream, reportParameters, (Connection) datasource);
@@ -302,7 +303,7 @@ public class ReportUtil{
                     if(reportStream != null)
                         reportStream.close();
                 }
-                catch(IOException e){
+                catch(IOException ignored){
                 }
             }
         }
@@ -334,7 +335,7 @@ public class ReportUtil{
      * @param compiled Indicates if the report is compiled or not.
      * @return String that contains the filename.
      */
-    private static String buildReportFilename(String resourcesDirname, String resourcesId, Boolean compiled){
+    private static String buildReportFilename(String resourcesDirname, String resourcesId, boolean compiled){
         if(resourcesId == null || resourcesId.length() == 0)
             return null;
         
@@ -347,7 +348,7 @@ public class ReportUtil{
         
         resourcesIdBuffer.append(resourcesId);
         
-        if(compiled != null && compiled)
+        if(compiled)
             resourcesIdBuffer.append(ReportConstants.DEFAULT_COMPILED_REPORT_FILE_EXTENSION);
         else
             resourcesIdBuffer.append(ReportConstants.DEFAULT_SOURCE_REPORT_FILE_EXTENSION);
@@ -410,19 +411,24 @@ public class ReportUtil{
             reportParameters.put(ReportConstants.EXPORT_TYPE_ATTRIBUTE_ID, ReportConstants.DEFAULT_EXPORT_TYPE);
         else{
             if(exportType == ContentType.TXT){
-                Integer pageWidth = null;
-                Integer pageHeight = null;
-                
-                pageWidth = (Integer) reportParameters.get(ReportConstants.TEXT_PAGE_WIDTH_ATTRIBUTE_ID);
-                
-                if(pageWidth == null)
+                int pageWidth;
+
+                try {
+                    pageWidth = (int) reportParameters.get(ReportConstants.TEXT_PAGE_WIDTH_ATTRIBUTE_ID);
+                }
+                catch(Throwable e){
                     pageWidth = ReportConstants.DEFAULT_TEXT_PAGE_WIDTH;
-                
-                pageHeight = (Integer) reportParameters.get(ReportConstants.TEXT_PAGE_HEIGHT_ATTRIBUTE_ID);
-                
-                if(pageHeight == null)
+                }
+
+                int pageHeight;
+
+                try{
+                    pageHeight = (int)reportParameters.get(ReportConstants.TEXT_PAGE_HEIGHT_ATTRIBUTE_ID);
+                }
+                catch(Throwable e){
                     pageHeight = ReportConstants.DEFAULT_TEXT_PAGE_HEIGHT;
-                
+                }
+
                 reportParameters.put(ReportConstants.TEXT_PAGE_WIDTH_ATTRIBUTE_ID, pageWidth);
                 reportParameters.put(ReportConstants.TEXT_PAGE_HEIGHT_ATTRIBUTE_ID, pageHeight);
             }

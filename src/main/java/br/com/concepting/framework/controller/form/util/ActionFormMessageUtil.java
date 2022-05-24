@@ -89,7 +89,7 @@ public class ActionFormMessageUtil{
         
         key = key.substring(0, 1).toLowerCase().concat(key.substring(1));
         
-        ActionFormMessageType messageType = null;
+        ActionFormMessageType messageType;
         
         if(ExceptionUtil.isExpectedWarningException(e))
             messageType = ActionFormMessageType.WARNING;
@@ -100,21 +100,18 @@ public class ActionFormMessageUtil{
         Field[] fields = e.getClass().getDeclaredFields();
         
         if(fields != null && fields.length > 0){
-            String name = null;
-            Object value = null;
-            
             for(Field field: fields){
                 if(Modifier.isStatic(field.getModifiers()))
                     continue;
                 
-                name = field.getName();
+                String name = field.getName();
                 
                 try{
-                    value = PropertyUtil.getValue(e, name);
+                    Object value = PropertyUtil.getValue(e, name);
                     
                     actionFormMessage.addAttribute(name, value);
                 }
-                catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e1){
+                catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored){
                 }
             }
         }
@@ -150,14 +147,12 @@ public class ActionFormMessageUtil{
         String buffer = value;
         Pattern pattern = Pattern.compile("\\#\\{(.*?)\\}");
         Matcher matcher = pattern.matcher(value);
-        String attributeExpression = null;
-        String attributeName = null;
-        String attributeValue = null;
-        
+
         while(matcher.find()){
-            attributeExpression = matcher.group();
-            attributeName = matcher.group(1);
-            attributeValue = PropertyUtil.format(instance.getAttribute(attributeName), language);
+            String attributeExpression = matcher.group();
+            String attributeName = matcher.group(1);
+            String attributeValue = PropertyUtil.format(instance.getAttribute(attributeName), language);
+
             buffer = StringUtil.replaceAll(buffer, attributeExpression, attributeValue);
         }
         

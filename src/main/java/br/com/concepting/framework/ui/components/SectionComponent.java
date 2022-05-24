@@ -36,13 +36,13 @@ public class SectionComponent extends BaseActionFormComponent{
     private String onSelectAction = null;
     private String onSelectForward = null;
     private String onSelectUpdateViews = null;
-    private Boolean onSelectValidateModel = null;
+    private boolean onSelectValidateModel = false;
     private String onSelectValidateModelProperties = null;
     private String onUnSelect = null;
     private String onUnSelectAction = null;
     private String onUnSelectForward = null;
     private String onUnSelectUpdateViews = null;
-    private Boolean onUnSelectValidateModel = null;
+    private boolean onUnSelectValidateModel = false;
     private String onUnSelectValidateModelProperties = null;
     
     /**
@@ -121,7 +121,7 @@ public class SectionComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnUnSelectValidateModel(){
+    public boolean getOnUnSelectValidateModel(){
         return this.onUnSelectValidateModel;
     }
     
@@ -130,7 +130,7 @@ public class SectionComponent extends BaseActionFormComponent{
      *
      * @param onUnSelectValidateModel True/False.
      */
-    public void setOnUnSelectValidateModel(Boolean onUnSelectValidateModel){
+    public void setOnUnSelectValidateModel(boolean onUnSelectValidateModel){
         this.onUnSelectValidateModel = onUnSelectValidateModel;
     }
     
@@ -230,7 +230,7 @@ public class SectionComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnSelectValidateModel(){
+    public boolean getOnSelectValidateModel(){
         return this.onSelectValidateModel;
     }
     
@@ -239,7 +239,7 @@ public class SectionComponent extends BaseActionFormComponent{
      *
      * @param onSelectValidateModel True/False.
      */
-    public void setOnSelectValidateModel(Boolean onSelectValidateModel){
+    public void setOnSelectValidateModel(boolean onSelectValidateModel){
         this.onSelectValidateModel = onSelectValidateModel;
     }
     
@@ -317,20 +317,16 @@ public class SectionComponent extends BaseActionFormComponent{
     public void setOnUnSelect(String onUnSelect){
         this.onUnSelect = onUnSelect;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         super.buildEvents();
         
         buildEvent(EventType.ON_SELECT);
         buildEvent(EventType.ON_UN_SELECT);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildDimensions()
-     */
+
+    @Override
     protected void buildDimensions() throws InternalErrorException{
         AccordionComponent accordionComponent = (AccordionComponent) findAncestorWithClass(this, AccordionComponent.class);
         
@@ -346,10 +342,8 @@ public class SectionComponent extends BaseActionFormComponent{
         
         super.buildDimensions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         AccordionComponent accordionComponent = (AccordionComponent) findAncestorWithClass(this, AccordionComponent.class);
         
@@ -357,7 +351,7 @@ public class SectionComponent extends BaseActionFormComponent{
             try{
                 accordionComponent = (AccordionComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
@@ -373,42 +367,34 @@ public class SectionComponent extends BaseActionFormComponent{
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.SECTION);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     public void renderOpen() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderClose()
-     */
+
+    @Override
     public void renderClose() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean render = render();
+        boolean render = render();
         
-        if(render != null && render){
+        if(render){
             AccordionComponent accordionComponent = (AccordionComponent) findAncestorWithClass(this, AccordionComponent.class);
             
             if(accordionComponent == null){
                 try{
                     accordionComponent = (AccordionComponent) getParent();
                 }
-                catch(ClassCastException e){
+                catch(ClassCastException ignored){
                 }
             }
             
@@ -432,10 +418,8 @@ public class SectionComponent extends BaseActionFormComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
@@ -443,13 +427,13 @@ public class SectionComponent extends BaseActionFormComponent{
         setOnSelectAction(null);
         setOnSelectForward(null);
         setOnSelectUpdateViews(null);
-        setOnSelectValidateModel(null);
+        setOnSelectValidateModel(false);
         setOnSelectValidateModelProperties(null);
         setOnUnSelect(null);
         setOnUnSelectActionType(null);
         setOnUnSelectForward(null);
         setOnUnSelectUpdateViews(null);
-        setOnUnSelectValidateModel(null);
+        setOnUnSelectValidateModel(false);
         setOnUnSelectValidateModelProperties(null);
         setContent(null);
     }

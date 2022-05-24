@@ -30,7 +30,7 @@ import java.util.Map;
 public class CacherManager{
     private static CacherManager instance = null;
     
-    private Map<String, Cacher<?>> cachers = null;
+    private final Map<String, Cacher<?>> cachers;
     
     /**
      * Constructor - Initialize the cache manager.
@@ -39,7 +39,7 @@ public class CacherManager{
      */
     private <O> CacherManager(){
         super();
-        
+
         this.cachers = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
     }
     
@@ -99,7 +99,7 @@ public class CacherManager{
      */
     @SuppressWarnings("unchecked")
     public <O> Cacher<O> getCacher(String id){
-        Cacher<O> cacher = null;
+        Cacher<O> cacher;
         
         if(id == null || id.length() == 0)
             id = Cacher.class.getName();
@@ -107,7 +107,7 @@ public class CacherManager{
         cacher = (Cacher<O>) this.cachers.get(id);
         
         if(cacher == null){
-            cacher = new Cacher<O>(id);
+            cacher = new Cacher<>(id);
             
             this.cachers.put(id, cacher);
         }

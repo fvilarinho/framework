@@ -53,43 +53,43 @@ import java.lang.reflect.InvocationTargetException;
 public abstract class BaseActionFormComponent extends BaseComponent{
     private static final long serialVersionUID = 1879613642083701618L;
     
-    private Integer size = null;
-    private Integer maximumLength = null;
+    private int size = 0;
+    private int maximumLength = 0;
     private String label = null;
     private String labelStyleClass = null;
     private String labelStyle = null;
     private String labelAlignment = null;
     private String labelVerticalAlignment = null;
     private String labelPosition = null;
-    private Boolean showLabel = null;
+    private boolean showLabel = true;
     private String tooltip = null;
     private String alignment = null;
     private String verticalAlignment = null;
-    private Boolean hasPermission = null;
+    private boolean hasPermission = true;
     private String onBlurAction = null;
     private String onBlurForward = null;
     private String onBlurUpdateViews = null;
-    private Boolean onBlurValidateModel = null;
+    private boolean onBlurValidateModel = false;
     private String onBlurValidateModelProperties = null;
     private String onFocusAction = null;
     private String onFocusForward = null;
     private String onFocusUpdateViews = null;
-    private Boolean onFocusValidateModel = null;
+    private boolean onFocusValidateModel = false;
     private String onFocusValidateModelProperties = null;
     private String onClickAction = null;
     private String onClickForward = null;
     private String onClickUpdateViews = null;
-    private Boolean onClickValidateModel = null;
+    private boolean onClickValidateModel = false;
     private String onClickValidateModelProperties = null;
     private String onMouseOverAction = null;
     private String onMouseOverForward = null;
     private String onMouseOverUpdateViews = null;
-    private Boolean onMouseOverValidateModel = null;
+    private boolean onMouseOverValidateModel = false;
     private String onMouseOverValidateModelProperties = null;
     private String onMouseOutAction = null;
     private String onMouseOutForward = null;
     private String onMouseOutUpdateViews = null;
-    private Boolean onMouseOutValidateModel = null;
+    private boolean onMouseOutValidateModel = false;
     private String onMouseOutValidateModelProperties = null;
     private String actionFormName = null;
     private PropertiesResources mainConsoleResources = null;
@@ -101,7 +101,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return Numeric value that contains the size.
      */
-    public Integer getSize(){
+    public int getSize(){
         return this.size;
     }
     
@@ -110,7 +110,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @param size Numeric value that contains the size.
      */
-    public void setSize(Integer size){
+    public void setSize(int size){
         this.size = size;
     }
     
@@ -119,7 +119,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return Numeric value that contains the maximum number of characters.
      */
-    public Integer getMaximumLength(){
+    public int getMaximumLength(){
         return this.maximumLength;
     }
     
@@ -129,7 +129,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      * @param maximumLength Numeric value that contains the maximum number of
      * characters.
      */
-    public void setMaximumLength(Integer maximumLength){
+    public void setMaximumLength(int maximumLength){
         this.maximumLength = maximumLength;
     }
     
@@ -172,7 +172,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return True/False.
      */
-    protected Boolean asynchronousEvents(){
+    protected boolean asynchronousEvents(){
         return true;
     }
     
@@ -196,7 +196,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             try{
                 return AlignmentType.valueOf(this.verticalAlignment.toUpperCase());
             }
-            catch(IllegalArgumentException e){
+            catch(IllegalArgumentException ignored){
             }
         }
         
@@ -231,7 +231,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnBlurValidateModel(){
+    public boolean getOnBlurValidateModel(){
         return this.onBlurValidateModel;
     }
     
@@ -241,7 +241,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @param onBlurValidateModel True/False.
      */
-    public void setOnBlurValidateModel(Boolean onBlurValidateModel){
+    public void setOnBlurValidateModel(boolean onBlurValidateModel){
         this.onBlurValidateModel = onBlurValidateModel;
     }
     
@@ -272,7 +272,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnFocusValidateModel(){
+    public boolean getOnFocusValidateModel(){
         return this.onFocusValidateModel;
     }
     
@@ -282,7 +282,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @param onFocusValidateModel True/False.
      */
-    public void setOnFocusValidateModel(Boolean onFocusValidateModel){
+    public void setOnFocusValidateModel(boolean onFocusValidateModel){
         this.onFocusValidateModel = onFocusValidateModel;
     }
     
@@ -313,7 +313,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnClickValidateModel(){
+    public boolean getOnClickValidateModel(){
         return this.onClickValidateModel;
     }
     
@@ -323,7 +323,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @param onClickValidateModel True/False.
      */
-    public void setOnClickValidateModel(Boolean onClickValidateModel){
+    public void setOnClickValidateModel(boolean onClickValidateModel){
         this.onClickValidateModel = onClickValidateModel;
     }
     
@@ -354,7 +354,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnMouseOverValidateModel(){
+    public boolean getOnMouseOverValidateModel(){
         return this.onMouseOverValidateModel;
     }
     
@@ -365,7 +365,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      * @param onMouseOverValidateModel String that contains the identifiers of
      * the properties.
      */
-    public void setOnMouseOverValidateModel(Boolean onMouseOverValidateModel){
+    public void setOnMouseOverValidateModel(boolean onMouseOverValidateModel){
         this.onMouseOverValidateModel = onMouseOverValidateModel;
     }
     
@@ -396,7 +396,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnMouseOutValidateModel(){
+    public boolean getOnMouseOutValidateModel(){
         return this.onMouseOutValidateModel;
     }
     
@@ -406,7 +406,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @param onMouseOutValidateModel True/False.
      */
-    public void setOnMouseOutValidateModel(Boolean onMouseOutValidateModel){
+    public void setOnMouseOutValidateModel(boolean onMouseOutValidateModel){
         this.onMouseOutValidateModel = onMouseOutValidateModel;
     }
     
@@ -802,7 +802,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             try{
                 return AlignmentType.valueOf(this.alignment.toUpperCase());
             }
-            catch(IllegalArgumentException e){
+            catch(IllegalArgumentException ignored){
             }
         }
         
@@ -849,7 +849,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             try{
                 return AlignmentType.valueOf(this.labelAlignment.toUpperCase());
             }
-            catch(IllegalArgumentException e){
+            catch(IllegalArgumentException ignored){
             }
         }
         
@@ -896,7 +896,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             try{
                 return AlignmentType.valueOf(this.labelVerticalAlignment.toUpperCase());
             }
-            catch(IllegalArgumentException e){
+            catch(IllegalArgumentException ignored){
             }
         }
         
@@ -963,7 +963,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             try{
                 return PositionType.valueOf(this.labelPosition.toUpperCase());
             }
-            catch(IllegalArgumentException e){
+            catch(IllegalArgumentException ignored){
             }
         }
         
@@ -1032,7 +1032,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return True/False.
      */
-    public Boolean showLabel(){
+    public boolean showLabel(){
         return this.showLabel;
     }
     
@@ -1041,7 +1041,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @param showLabel True/False.
      */
-    public void setShowLabel(Boolean showLabel){
+    public void setShowLabel(boolean showLabel){
         this.showLabel = showLabel;
     }
     
@@ -1086,7 +1086,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return True/False.
      */
-    protected Boolean hasPermission(){
+    protected boolean hasPermission(){
         return this.hasPermission;
     }
     
@@ -1095,7 +1095,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @param hasPermission True/False.
      */
-    protected void setHasPermission(Boolean hasPermission){
+    protected void setHasPermission(boolean hasPermission){
         this.hasPermission = hasPermission;
     }
     
@@ -1130,7 +1130,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 try{
                     this.actionFormComponent = (ActionFormComponent) getParent();
                 }
-                catch(ClassCastException e){
+                catch(ClassCastException ignored){
                 }
             }
             
@@ -1147,10 +1147,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         
         return this.actionFormComponent;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
         String name = getName();
         ComponentType componentType = getComponentType();
@@ -1309,10 +1307,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         else if(tooltipValue != null)
             this.tooltip = tooltipValue;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
         AlignmentType verticalAlignment = getVerticalAlignmentType();
         
@@ -1347,10 +1343,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         
         super.buildAlignment();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         buildLabelStyleClass();
         
@@ -1376,10 +1370,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         if(this.labelStyleClass == null || this.labelStyleClass.length() == 0)
             this.labelStyleClass = UIConstants.DEFAULT_LABEL_STYLE_CLASS;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         ActionFormComponent actionFormComponent = getActionFormComponent();
         
@@ -1398,10 +1390,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         buildLabel();
         buildTooltip();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         buildEvent(EventType.ON_BLUR);
         buildEvent(EventType.ON_FOCUS);
@@ -1457,9 +1447,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                     eventContent.append("';");
                 }
                 
-                Boolean eventValidate = PropertyUtil.getValue(this, eventId.concat(StringUtil.capitalize(ModelConstants.VALIDATE_MODEL_ATTRIBUTE_ID)));
+                boolean eventValidate = PropertyUtil.getValue(this, eventId.concat(StringUtil.capitalize(ModelConstants.VALIDATE_MODEL_ATTRIBUTE_ID)));
                 
-                if(eventValidate != null && eventValidate){
+                if(eventValidate){
                     if(eventContent == null)
                         eventContent = new StringBuilder();
                     else if(eventContent.length() > 0)
@@ -1539,14 +1529,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
-        if(this.showLabel == null)
-            this.showLabel = true;
-        
         buildMaximumLength();
         buildSize();
         
@@ -1568,10 +1553,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      */
     protected void buildMaximumLength() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildPermissions()
-     */
+
+    @Override
     protected void buildPermissions() throws InternalErrorException{
         String name = getName();
         
@@ -1586,7 +1569,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             if(object != null && object.getType() != null && componentType != null && componentType.equals(object.getType())){
                 this.hasPermission = securityController.isLoginSessionAuthenticated();
                 
-                if(this.hasPermission != null && this.hasPermission){
+                if(this.hasPermission){
                     UserModel user = loginSession.getUser();
                     Boolean superUser = user.isSuperUser();
                     
@@ -1595,10 +1578,10 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                     else
                         this.hasPermission = user.hasPermission(object);
                 }
-                
-                Boolean render = render();
-                
-                if((render == null || render) && this.hasPermission != null)
+
+                boolean render = render();
+
+                if(render)
                     setRender(this.hasPermission);
             }
         }
@@ -1614,9 +1597,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     protected void renderLabelAttribute() throws InternalErrorException{
         String id = getId();
         String name = getName();
-        Boolean enabled = isEnabled();
+        boolean enabled = isEnabled();
         
-        if(id != null && id.length() > 0 && name != null && name.length() > 0 && enabled != null && enabled){
+        if(id != null && id.length() > 0 && name != null && name.length() > 0 && enabled){
             StringBuilder idBuffer = new StringBuilder();
             
             idBuffer.append(id);
@@ -1656,7 +1639,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     protected void renderLabelOpen() throws InternalErrorException{
         PositionType labelPosition = getLabelPositionType();
         
-        if(this.showLabel != null && this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE){
+        if(this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE){
             print("<td class=\"");
             print(this.labelStyleClass);
             print("\"");
@@ -1697,7 +1680,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     protected void renderLabelBody() throws InternalErrorException{
         PositionType labelPosition = getLabelPositionType();
         
-        if(this.showLabel != null && this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE){
+        if(this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE){
             print(this.label);
             
             PositionType labelPositionType = getLabelPositionType();
@@ -1721,7 +1704,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     protected void renderLabelClose() throws InternalErrorException{
         PositionType labelPosition = getLabelPositionType();
         
-        if(this.showLabel != null && this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE)
+        if(this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE)
             println("</td>");
     }
     
@@ -1744,7 +1727,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderLabel() throws InternalErrorException{
-        if(this.showLabel != null && this.showLabel && this.label != null && this.label.length() > 0){
+        if(this.showLabel && this.label != null && this.label.length() > 0){
             renderLabelOpen();
             renderLabelBody();
             renderLabelClose();
@@ -1772,22 +1755,20 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderSize() throws InternalErrorException{
-        if(this.size != null && this.size > 0){
+        if(this.size > 0){
             print(" size=\"");
             print(this.size);
             print("\"");
         }
         
-        if(this.maximumLength != null && this.maximumLength > 0){
+        if(this.maximumLength > 0){
             print(" maxlength=\"");
             print(this.maximumLength);
             print("\"");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderAttributes()
-     */
+
+    @Override
     protected void renderAttributes() throws InternalErrorException{
         renderType();
         
@@ -1804,23 +1785,21 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderEnabled() throws InternalErrorException{
-        Boolean enabled = isEnabled();
+        boolean enabled = isEnabled();
         
-        if(enabled != null && !enabled){
+        if(!enabled){
             print(" ");
             print(Constants.DISABLED_ATTRIBUTE_ID);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
         PositionType labelPosition = getLabelPositionType();
         
-        if(this.showLabel != null && this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE){
+        if(this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE){
             println("<table>");
             println("<tr>");
             
@@ -1850,10 +1829,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             print(">");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         print("<input ");
         
@@ -1861,12 +1838,10 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         
         println(">");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
-        if(this.showLabel != null && this.showLabel && this.label != null && this.label.length() > 0){
+        if(this.showLabel && this.label != null && this.label.length() > 0){
             println("</td>");
             
             PositionType labelPosition = getLabelPositionType();
@@ -1886,10 +1861,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         
         super.renderClose();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
@@ -1899,36 +1872,36 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         setLabelPositionType(null);
         setLabelAlignmentType(null);
         setLabelVerticalAlignmentType(null);
-        setShowLabel(null);
+        setShowLabel(true);
         setTooltip(null);
         setAlignment(null);
         setAlignmentType(null);
         setVerticalAlignmentType(null);
-        setHasPermission(null);
+        setHasPermission(true);
         setOnBlurAction(null);
         setOnBlurForward(null);
         setOnBlurUpdateViews(null);
-        setOnBlurValidateModel(null);
+        setOnBlurValidateModel(false);
         setOnBlurValidateModelProperties(null);
         setOnFocusAction(null);
         setOnFocusForward(null);
         setOnFocusUpdateViews(null);
-        setOnFocusValidateModel(null);
+        setOnFocusValidateModel(false);
         setOnFocusValidateModelProperties(null);
         setOnClickAction(null);
         setOnClickForward(null);
         setOnClickUpdateViews(null);
-        setOnClickValidateModel(null);
+        setOnClickValidateModel(false);
         setOnClickValidateModelProperties(null);
         setOnMouseOverAction(null);
         setOnMouseOverForward(null);
         setOnMouseOverUpdateViews(null);
-        setOnMouseOverValidateModel(null);
+        setOnMouseOverValidateModel(false);
         setOnMouseOverValidateModelProperties(null);
         setOnMouseOutAction(null);
         setOnMouseOutForward(null);
         setOnMouseOutUpdateViews(null);
-        setOnMouseOutValidateModel(null);
+        setOnMouseOutValidateModel(false);
         setOnMouseOutValidateModelProperties(null);
         setMainConsoleResources(null);
         setActionFormName(null);

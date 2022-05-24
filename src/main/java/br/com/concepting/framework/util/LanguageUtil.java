@@ -37,7 +37,7 @@ public class LanguageUtil{
     public static Locale getLanguageByString(String value){
         if(value != null && value.length() > 0){
             Locale language = null;
-            String languageBuffer[] = StringUtil.split((String) value, "_");
+            String[] languageBuffer = StringUtil.split(value, "_");
             
             if(languageBuffer.length == 1)
                 language = new Locale(languageBuffer[0]);
@@ -71,7 +71,7 @@ public class LanguageUtil{
                 return language;
             }
         }
-        catch(InternalErrorException e){
+        catch(InternalErrorException ignored){
         }
         
         return Locale.getDefault();

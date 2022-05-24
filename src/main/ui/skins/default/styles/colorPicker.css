@@ -9,11 +9,11 @@
  * Style that defines the properties labels of the component.
  */
 .colorPickerLabel{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
-	font-size  : 14px; 
-	white-space: NOWRAP;
-	color      : #666666;
 	width      : 30px;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size  : 14px; 
+	color      : #666666;
+	white-space: NOWRAP;
 	overflow   : HIDDEN;
 }
 
@@ -21,13 +21,13 @@
  * Style that defines the thumbnail of the component.
  */
 .colorPickerThumbnail{
-	border               : 1px solid #aaaaaa;
-	-webkit-border-radius: 3px;
-	-moz-border-radius   : 3px;
-	border-radius        : 3px;
-	background           : WHITE;
 	width                : 50px;
 	height               : 50px;
+	background           : WHITE;
+	border-radius        : 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border               : 1px solid #aaaaaa;
 	cursor               : POINTER;
 }
 
@@ -36,18 +36,16 @@
  */
 .colorPickerDialog{
 	position             : ABSOLUTE;
-	-webkit-box-shadow   : 2px 3px 4px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow      : 2px 3px 4px rgba(0, 0, 0, 0.3);
-	box-shadow           : 2px 3px 4px rgba(0, 0, 0, 0.3);
-	-ms-filter           : "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#aaaaaa')";
-	filter               : progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#000000');
-	border               : 1px SOLID #aaaaaa;
-	-webkit-border-radius: 3px;
-	-moz-border-radius   : 3px;
-	border-radius        : 3px;
+	width                : 200px;
 	background           : WHITE;
 	text-align           : CENTER;
-	width                : 200px;
-	visibility           : HIDDEN;
+	box-shadow           : 2px 3px 4px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow   : 2px 3px 4px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow      : 2px 3px 4px rgba(0, 0, 0, 0.3);
+	border-radius        : 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border               : 1px SOLID #aaaaaa;
 	padding              : 10px;
+	visibility           : HIDDEN;
 }

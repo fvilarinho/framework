@@ -58,42 +58,42 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     
     private static String invalidPropertyMessage = null;
     
-    private Boolean isNumber = null;
-    private Boolean isBoolean = null;
-    private Boolean isDate = null;
-    private Boolean isTime = null;
+    private boolean isNumber = false;
+    private boolean isBoolean = false;
+    private boolean isDate = false;
+    private boolean isTime = false;
     private Number minimumValue = null;
     private Number maximumValue = null;
-    private Integer precision = null;
-    private Boolean useAdditionalFormatting = null;
+    private int precision = 0;
+    private boolean useAdditionalFormatting = false;
     private String onChange = null;
     private String onChangeAction = null;
     private String onChangeForward = null;
     private String onChangeUpdateViews = null;
-    private Boolean onChangeValidateModel = null;
+    private boolean onChangeValidateModel = false;
     private String onChangeValidateModelProperties = null;
     private String onKeyPress = null;
     private String onKeyPressAction = null;
     private String onKeyPressForward = null;
     private String onKeyPressUpdateViews = null;
-    private Boolean onKeyPressValidateModel = null;
+    private boolean onKeyPressValidateModel = false;
     private String onKeyPressValidateModelProperties = null;
     private String onKeyUp = null;
     private String onKeyUpAction = null;
     private String onKeyUpForward = null;
     private String onKeyUpUpdateViews = null;
-    private Boolean onKeyUpValidateModel = null;
+    private boolean onKeyUpValidateModel = false;
     private String onKeyUpValidateModelProperties = null;
     private String onKeyDown = null;
     private String onKeyDownAction = null;
     private String onKeyDownForward = null;
     private String onKeyDownUpdateViews = null;
-    private Boolean onKeyDownValidateModel = null;
+    private boolean onKeyDownValidateModel = false;
     private String onKeyDownValidateModelProperties = null;
     private String pattern = null;
     private Object value = null;
-    private Boolean readOnly = null;
-    private Boolean hasInvalidPropertyDefinition = null;
+    private boolean readOnly = false;
+    private boolean hasInvalidPropertyDefinition = false;
     private PropertyInfo propertyInfo = null;
     
     /**
@@ -101,7 +101,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    protected Boolean isBoolean(){
+    protected boolean isBoolean(){
         return this.isBoolean;
     }
     
@@ -110,7 +110,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param isBoolean True/False.
      */
-    protected void setIsBoolean(Boolean isBoolean){
+    protected void setIsBoolean(boolean isBoolean){
         this.isBoolean = isBoolean;
     }
     
@@ -119,7 +119,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    protected Boolean isDate(){
+    protected boolean isDate(){
         return this.isDate;
     }
     
@@ -128,7 +128,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param isDate True/False.
      */
-    protected void setIsDate(Boolean isDate){
+    protected void setIsDate(boolean isDate){
         this.isDate = isDate;
     }
     
@@ -137,7 +137,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    protected Boolean isTime(){
+    protected boolean isTime(){
         return this.isTime;
     }
     
@@ -146,7 +146,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param isTime True/False.
      */
-    protected void setIsTime(Boolean isTime){
+    protected void setIsTime(boolean isTime){
         this.isTime = isTime;
     }
     
@@ -155,7 +155,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    protected Boolean isNumber(){
+    protected boolean isNumber(){
         return this.isNumber;
     }
     
@@ -164,7 +164,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param isNumber True/False.
      */
-    protected void setIsNumber(Boolean isNumber){
+    protected void setIsNumber(boolean isNumber){
         this.isNumber = isNumber;
     }
     
@@ -187,7 +187,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean isReadOnly(){
+    public boolean isReadOnly(){
         return this.readOnly;
     }
     
@@ -196,7 +196,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getReadOnly(){
+    public boolean getReadOnly(){
         return isReadOnly();
     }
     
@@ -205,7 +205,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param readOnly True/False.
      */
-    public void setReadOnly(Boolean readOnly){
+    public void setReadOnly(boolean readOnly){
         this.readOnly = readOnly;
     }
     
@@ -226,16 +226,14 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     public void setMaximumValue(Number maximumValue){
         this.maximumValue = maximumValue;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildSize()
-     */
+
+    @Override
     protected void buildSize() throws InternalErrorException{
         super.buildSize();
         
-        Integer size = getSize();
+        int size = getSize();
         
-        if(size == null || size == 0){
+        if(size == 0){
             if(this.propertyInfo != null){
                 size = this.propertyInfo.getSize();
                 
@@ -243,19 +241,19 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
             }
         }
         
-        if(size == null || size == 0){
-            if(this.isNumber != null && this.isNumber){
+        if(size == 0){
+            if(this.isNumber){
                 Number minimumValue = getMinimumValue();
                 Number maximumValue = getMaximumValue();
                 
                 if(minimumValue != null && maximumValue != null){
-                    Boolean useGroupSeparator = useAdditionalFormatting();
-                    Integer precision = getPrecision();
+                    boolean useGroupSeparator = useAdditionalFormatting();
+                    int precision = getPrecision();
                     Locale currentLanguage = getCurrentLanguage();
-                    Integer minimumValueLength = NumberUtil.format(minimumValue, useGroupSeparator, precision, currentLanguage).length();
-                    Integer maximumValueLength = NumberUtil.format(maximumValue, useGroupSeparator, precision, currentLanguage).length();
+                    int minimumValueLength = NumberUtil.format(minimumValue, useGroupSeparator, precision, currentLanguage).length();
+                    int maximumValueLength = NumberUtil.format(maximumValue, useGroupSeparator, precision, currentLanguage).length();
                     
-                    size = (minimumValueLength < maximumValueLength ? maximumValueLength : minimumValueLength);
+                    size = (Math.max(minimumValueLength, maximumValueLength));
                     
                     setSize(size);
                 }
@@ -264,7 +262,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                 String pattern = getPattern();
                 
                 if(pattern != null && pattern.length() > 0){
-                    if(size == null || size == 0){
+                    if(size == 0){
                         size = pattern.length();
                         
                         if(pattern.contains("a"))
@@ -276,22 +274,20 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
             }
         }
         
-        Integer maximumLength = getMaximumLength();
+        int maximumLength = getMaximumLength();
         
-        if((size == null || size == 0) && maximumLength != null && maximumLength > 0){
+        if(size == 0 && maximumLength > 0){
             size = getMaximumLength();
             
             setSize(size);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildMaximumLength()
-     */
+
+    @Override
     protected void buildMaximumLength() throws InternalErrorException{
-        Integer maximumLength = getMaximumLength();
+        int maximumLength = getMaximumLength();
         
-        if(maximumLength == null || maximumLength == 0){
+        if(maximumLength == 0){
             if(this.propertyInfo != null){
                 maximumLength = this.propertyInfo.getMaximumLength();
                 
@@ -373,7 +369,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnChangeValidateModel(){
+    public boolean getOnChangeValidateModel(){
         return this.onChangeValidateModel;
     }
     
@@ -383,7 +379,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param onChangeValidateModel True/False.
      */
-    public void setOnChangeValidateModel(Boolean onChangeValidateModel){
+    public void setOnChangeValidateModel(boolean onChangeValidateModel){
         this.onChangeValidateModel = onChangeValidateModel;
     }
     
@@ -502,7 +498,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnKeyDownValidateModel(){
+    public boolean getOnKeyDownValidateModel(){
         return this.onKeyDownValidateModel;
     }
     
@@ -512,7 +508,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param onKeyDownValidateModel True/False.
      */
-    public void setOnKeyDownValidateModel(Boolean onKeyDownValidateModel){
+    public void setOnKeyDownValidateModel(boolean onKeyDownValidateModel){
         this.onKeyDownValidateModel = onKeyDownValidateModel;
     }
     
@@ -631,7 +627,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnKeyUpValidateModel(){
+    public boolean getOnKeyUpValidateModel(){
         return this.onKeyUpValidateModel;
     }
     
@@ -641,7 +637,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param onKeyUpValidateModel True/False.
      */
-    public void setOnKeyUpValidateModel(Boolean onKeyUpValidateModel){
+    public void setOnKeyUpValidateModel(boolean onKeyUpValidateModel){
         this.onKeyUpValidateModel = onKeyUpValidateModel;
     }
     
@@ -761,7 +757,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnKeyPressValidateModel(){
+    public boolean getOnKeyPressValidateModel(){
         return this.onKeyPressValidateModel;
     }
     
@@ -771,7 +767,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param onKeyPressValidateModel True/False.
      */
-    public void setOnKeyPressValidateModel(Boolean onKeyPressValidateModel){
+    public void setOnKeyPressValidateModel(boolean onKeyPressValidateModel){
         this.onKeyPressValidateModel = onKeyPressValidateModel;
     }
     
@@ -851,10 +847,10 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                 this.pattern = this.propertyInfo.getPattern();
         
         if(this.pattern == null || this.pattern.length() == 0){
-            if(this.isDate != null && this.isDate){
+            if(this.isDate){
                 Locale currentLanguage = getCurrentLanguage();
                 
-                if(this.isTime != null && this.isTime)
+                if(this.isTime)
                     this.pattern = DateTimeUtil.getDefaultDateTimePattern(currentLanguage);
                 else
                     this.pattern = DateTimeUtil.getDefaultDatePattern(currentLanguage);
@@ -897,9 +893,9 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     /**
      * Indicates if the component has an invalid property definition.
      *
-     * @return True/False.
+     * @return True/False
      */
-    protected Boolean hasInvalidPropertyDefinition(){
+    protected boolean hasInvalidPropertyDefinition(){
         return this.hasInvalidPropertyDefinition;
     }
     
@@ -908,7 +904,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param hasInvalidPropertyDefinition True/False.
      */
-    protected void setHasInvalidPropertyDefinition(Boolean hasInvalidPropertyDefinition){
+    protected void setHasInvalidPropertyDefinition(boolean hasInvalidPropertyDefinition){
         this.hasInvalidPropertyDefinition = hasInvalidPropertyDefinition;
     }
     
@@ -926,8 +922,8 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    protected Boolean useAdditionalFormatting(){
-        if(this.propertyInfo != null && this.useAdditionalFormatting == null)
+    protected boolean useAdditionalFormatting(){
+        if(this.propertyInfo != null && !this.useAdditionalFormatting)
             this.useAdditionalFormatting = this.propertyInfo.useAdditionalFormatting();
         
         return this.useAdditionalFormatting;
@@ -938,7 +934,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param useAdditionalFormatting True/False.
      */
-    protected void setUseAdditionalFormatting(Boolean useAdditionalFormatting){
+    protected void setUseAdditionalFormatting(boolean useAdditionalFormatting){
         this.useAdditionalFormatting = useAdditionalFormatting;
     }
     
@@ -947,8 +943,8 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return Numeric value that contains the precision.
      */
-    protected Integer getPrecision(){
-        if(this.propertyInfo != null && this.precision == null)
+    protected int getPrecision(){
+        if(this.propertyInfo != null && this.precision == 0)
             this.precision = this.propertyInfo.getPrecision();
         
         return this.precision;
@@ -959,7 +955,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @param precision Numeric value that contains the precision.
      */
-    protected void setPrecision(Integer precision){
+    protected void setPrecision(int precision){
         this.precision = precision;
     }
     
@@ -1005,7 +1001,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    protected Boolean isForSearch(){
+    protected boolean isForSearch(){
         return (getSearchPropertiesGroupComponent() != null);
     }
     
@@ -1022,16 +1018,14 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
             try{
                 searchPropertiesGroup = (SearchPropertiesGroupComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
         return searchPropertiesGroup;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildStyle()
-     */
+
+    @Override
     protected void buildStyle() throws InternalErrorException{
         super.buildStyle();
         
@@ -1081,18 +1075,16 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                 setStyle(style.toString());
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         String pattern = getPattern();
-        Boolean useAdditionalFormatting = useAdditionalFormatting();
-        Integer precision = getPrecision();
+        boolean useAdditionalFormatting = useAdditionalFormatting();
+        int precision = getPrecision();
         String currentOnKeyPressContent = getOnKeyPress();
         StringBuilder onKeyPressContent = null;
         
-        if(this.isNumber != null && this.isNumber){
+        if(this.isNumber){
             DecimalFormatSymbols symbols = NumberUtil.getFormatSymbols(getCurrentLanguage());
             
             onKeyPressContent = new StringBuilder();
@@ -1103,20 +1095,20 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                 onKeyPressContent.append(", ");
                 onKeyPressContent.append((this.maximumValue != null ? this.maximumValue.toString() : Constants.DEFAULT_NULL_ID));
                 onKeyPressContent.append(", ");
-                onKeyPressContent.append((useAdditionalFormatting != null ? useAdditionalFormatting : Constants.DEFAULT_NULL_ID));
+                onKeyPressContent.append(useAdditionalFormatting);
                 onKeyPressContent.append(", '");
-                onKeyPressContent.append((useAdditionalFormatting != null && useAdditionalFormatting ? symbols.getGroupingSeparator() : ""));
+                onKeyPressContent.append(symbols.getGroupingSeparator());
                 onKeyPressContent.append("', ");
-                onKeyPressContent.append((precision != null ? precision : Constants.DEFAULT_NULL_ID));
+                onKeyPressContent.append(precision);
                 onKeyPressContent.append(", '");
-                onKeyPressContent.append((precision != null && precision > 0 ? symbols.getDecimalSeparator() : ""));
+                onKeyPressContent.append(symbols.getDecimalSeparator());
                 onKeyPressContent.append("', event);");
             }
         }
         else if(pattern != null && pattern.length() > 0){
             onKeyPressContent = new StringBuilder();
             
-            if(this.isDate != null && this.isDate){
+            if(this.isDate){
                 if(currentOnKeyPressContent == null || !currentOnKeyPressContent.contains("applyDateTimeMask"))
                     onKeyPressContent.append("applyDateTimeMask(this, event);");
             }
@@ -1148,17 +1140,15 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         
         super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
         AlignmentType alignment = getAlignmentType();
         
         if(alignment == null){
-            if(this.isNumber != null && this.isNumber)
+            if(this.isNumber)
                 alignment = AlignmentType.RIGHT;
-            else if((this.isDate != null && this.isDate) || (this.isBoolean != null && this.isBoolean))
+            else if(this.isDate || this.isBoolean)
                 alignment = AlignmentType.CENTER;
             
             setAlignmentType(alignment);
@@ -1176,10 +1166,8 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         
         super.buildAlignment();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         if(invalidPropertyMessage == null){
             PropertiesResources resources = getDefaultResources();
@@ -1193,27 +1181,18 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildRestrictions()
-     */
+
+    @Override
     @SuppressWarnings("unchecked")
     protected void buildRestrictions() throws InternalErrorException{
         if(this.propertyInfo != null){
-            if(this.isNumber == null)
-                this.isNumber = this.propertyInfo.isNumber();
-            
-            if(this.isBoolean == null)
-                this.isBoolean = this.propertyInfo.isBoolean();
-            
-            if(this.isDate == null)
-                this.isDate = this.propertyInfo.isDate();
-            
-            if(this.isTime == null)
-                this.isTime = this.propertyInfo.isTime();
+            this.isNumber = this.propertyInfo.isNumber();
+            this.isBoolean = this.propertyInfo.isBoolean();
+            this.isDate = this.propertyInfo.isDate();
+            this.isTime = this.propertyInfo.isTime();
         }
         
-        if(this.isNumber != null && this.isNumber){
+        if(this.isNumber){
             if(this.propertyInfo != null){
                 if(this.minimumValue == null){
                     Class<? extends Number> propertyClass = (Class<? extends Number>) this.propertyInfo.getClazz();
@@ -1222,7 +1201,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                         try{
                             this.minimumValue = NumberUtil.parse(propertyClass, this.propertyInfo.getMinimumValue());
                         }
-                        catch(ParseException e){
+                        catch(ParseException ignored){
                         }
                     }
                 }
@@ -1234,7 +1213,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                         try{
                             this.maximumValue = NumberUtil.parse(propertyClass, this.propertyInfo.getMaximumValue());
                         }
-                        catch(ParseException e){
+                        catch(ParseException ignored){
                         }
                     }
                 }
@@ -1243,10 +1222,8 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         SystemController systemController = getSystemController();
         ActionFormController actionFormController = getActionFormController();
@@ -1269,7 +1246,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                         
                         if(this.propertyInfo != null){
                             if(actionFormController.hasValidationMessage(name))
-                                this.value = systemController.getRequestParameterValue(name);
+                                this.value = systemController.getParameterValue(name);
                             else{
                                 try{
                                     this.value = PropertyUtil.getValue(model, name);
@@ -1314,12 +1291,12 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         try{
             optionsPropertyComponent = (BaseOptionsPropertyComponent) getParent();
         }
-        catch(ClassCastException e){
+        catch(ClassCastException ignored){
         }
         
-        Boolean enabled = isEnabled();
+        boolean enabled = isEnabled();
         
-        if(enabled != null && enabled && this.propertyInfo != null && optionsPropertyComponent == null)
+        if(enabled && this.propertyInfo != null && optionsPropertyComponent == null)
             super.renderLabelAttribute();
     }
     
@@ -1333,17 +1310,17 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         String actionFormName = getActionFormName();
         String id = getId();
         String name = getName();
-        Boolean enabled = isEnabled();
+        boolean enabled = isEnabled();
         String pattern = getPattern();
         BaseOptionsPropertyComponent optionsPropertyComponent = null;
         
         try{
             optionsPropertyComponent = (BaseOptionsPropertyComponent) getParent();
         }
-        catch(ClassCastException e){
+        catch(ClassCastException ignored){
         }
         
-        if(actionFormName != null && actionFormName.length() > 0 && id != null && id.length() > 0 && name != null && name.length() > 0 && enabled != null && enabled && pattern != null && pattern.length() > 0 && this.propertyInfo != null && optionsPropertyComponent == null){
+        if(actionFormName != null && actionFormName.length() > 0 && id != null && id.length() > 0 && name != null && name.length() > 0 && pattern != null && pattern.length() > 0 && this.propertyInfo != null && optionsPropertyComponent == null && enabled){
             StringBuilder idBuffer = new StringBuilder();
             
             idBuffer.append(id);
@@ -1374,10 +1351,8 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         renderLabelAttribute();
         renderPatternAttribute();
@@ -1417,14 +1392,12 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         print(getInvalidPropertyMessage());
         println("</span>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition != null && hasInvalidPropertyDefinition)
+        if(hasInvalidPropertyDefinition)
             renderInvalidPropertyMessage();
         else
             super.renderBody();
@@ -1445,10 +1418,8 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         
         print("\"");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderAttributes()
-     */
+
+    @Override
     protected void renderAttributes() throws InternalErrorException{
         super.renderAttributes();
         
@@ -1463,7 +1434,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderReadOnly() throws InternalErrorException{
-        if(this.readOnly != null && this.readOnly)
+        if(this.readOnly)
             print(" readOnly");
     }
     
@@ -1474,19 +1445,17 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      */
     protected void renderPlaceholder() throws InternalErrorException{
         PositionType labelPosition = getLabelPositionType();
-        Boolean showLabel = showLabel();
+        boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(showLabel != null && showLabel && label != null && label.length() > 0 && labelPosition == PositionType.INSIDE){
+        if(showLabel && label != null && label.length() > 0 && labelPosition == PositionType.INSIDE){
             print(" placeholder=\"");
             print(label);
             print("\"");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderEvents()
-     */
+
+    @Override
     protected void renderEvents() throws InternalErrorException{
         super.renderEvents();
         
@@ -1516,26 +1485,24 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Indicates if the require mark should be render.
+     * Indicates if the required mark should be rendered.
      *
      * @return True/False
      */
-    protected Boolean renderRequiredMark(){
-        Boolean isEnabled = isEnabled();
-        Boolean isReadOnly = isReadOnly();
+    protected boolean renderRequiredMark(){
+        boolean isEnabled = isEnabled();
+        boolean isReadOnly = isReadOnly();
         
-        return (isEnabled != null && isEnabled && (isReadOnly == null || !isReadOnly));
+        return (isEnabled && !isReadOnly);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderLabelBody()
-     */
+
+    @Override
     protected void renderLabelBody() throws InternalErrorException{
         String name = getName();
-        Boolean showLabel = showLabel();
+        boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(name != null && name.length() > 0 && showLabel != null && showLabel && label != null && label.length() > 0 && renderRequiredMark()){
+        if(name != null && name.length() > 0 && showLabel && label != null && label.length() > 0 && renderRequiredMark()){
             SearchPropertiesGroupComponent searchPropertiesGroupComponent = getSearchPropertiesGroupComponent();
             String[] validationModelPropertiesBuffer = (searchPropertiesGroupComponent != null ? StringUtil.split(searchPropertiesGroupComponent.getValidateModelProperties()) : null);
             Collection<String> validationModelProperties = (validationModelPropertiesBuffer != null && validationModelPropertiesBuffer.length > 0 ? Arrays.asList(validationModelPropertiesBuffer) : null);
@@ -1554,51 +1521,49 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         
         super.renderLabelBody();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setIsNumber(null);
-        setIsBoolean(null);
-        setIsDate(null);
-        setIsTime(null);
-        setMaximumLength(null);
-        setSize(null);
+        setIsNumber(false);
+        setIsBoolean(false);
+        setIsDate(false);
+        setIsTime(false);
+        setMaximumLength(0);
+        setSize(0);
         setMinimumValue(null);
         setMaximumValue(null);
-        setUseAdditionalFormatting(null);
-        setPrecision(null);
+        setUseAdditionalFormatting(false);
+        setPrecision(0);
         setOnChange(null);
         setOnChangeAction(null);
         setOnChangeForward(null);
         setOnChangeUpdateViews(null);
-        setOnChangeValidateModel(null);
+        setOnChangeValidateModel(false);
         setOnChangeValidateModelProperties(null);
         setOnKeyPress(null);
         setOnKeyPressAction(null);
         setOnKeyPressForward(null);
         setOnKeyPressUpdateViews(null);
-        setOnKeyPressValidateModel(null);
+        setOnKeyPressValidateModel(false);
         setOnKeyPressValidateModelProperties(null);
         setOnKeyDown(null);
         setOnKeyDownAction(null);
         setOnKeyDownForward(null);
         setOnKeyDownUpdateViews(null);
-        setOnKeyDownValidateModel(null);
+        setOnKeyDownValidateModel(false);
         setOnKeyDownValidateModelProperties(null);
         setOnKeyUp(null);
         setOnKeyUpAction(null);
         setOnKeyUpForward(null);
         setOnKeyUpUpdateViews(null);
-        setOnKeyUpValidateModel(null);
+        setOnKeyUpValidateModel(false);
         setOnKeyUpValidateModelProperties(null);
         setPattern(null);
-        setFocus(null);
+        setFocus(false);
         setValue(null);
-        setHasInvalidPropertyDefinition(null);
+        setHasInvalidPropertyDefinition(false);
         setPropertyInfo(null);
     }
 }

@@ -25,12 +25,12 @@ public enum DateFieldType{
     /**
      * Milliseconds field.
      */
-    MILLISECONDS(1000l),
+    MILLISECONDS(1000L),
     
     /**
      * Seconds field.
      */
-    SECONDS(MILLISECONDS.getMilliseconds() * 1l),
+    SECONDS(MILLISECONDS.getMilliseconds()),
     
     /**
      * Minutes field.
@@ -57,35 +57,35 @@ public enum DateFieldType{
      */
     YEARS(MONTHS.getMilliseconds() * 12);
     
-    private Long milliseconds;
+    private long milliseconds;
     
     /**
      * Constructor - Defines the type.
      *
      * @param milliseconds Numeric value containing the milliseconds that
-     * defines the field.
+     * define the field.
      */
-    DateFieldType(Long milliseconds){
+    DateFieldType(long milliseconds){
         setMilliseconds(milliseconds);
     }
     
     /**
-     * Returns the milliseconds that defines the field.
+     * Returns the milliseconds that define the field.
      *
      * @return Numeric value that contains the milliseconds that defines the
      * field.
      */
-    public Long getMilliseconds(){
+    public long getMilliseconds(){
         return this.milliseconds;
     }
     
     /**
-     * Defines the milliseconds that defines the field.
+     * Defines the milliseconds that define the field.
      *
      * @param milliseconds Numeric value that contains the milliseconds that
      * defines the field.
      */
-    public void setMilliseconds(Long milliseconds){
+    public void setMilliseconds(long milliseconds){
         this.milliseconds = milliseconds;
     }
 }

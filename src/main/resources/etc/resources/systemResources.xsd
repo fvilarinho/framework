@@ -1,25 +1,24 @@
-<xs:schema attributeFormDefault="unqualified" 
-           elementFormDefault="qualified" 
+<xs:schema elementFormDefault="qualified"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
  	<xs:element name="resources">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="mainConsole" minOccurs="1" maxOccurs="1">
+				<xs:element name="mainConsole">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element type="xs:string" name="class" minOccurs="0" maxOccurs="1"/>
+							<xs:element type="xs:string" name="class" minOccurs="0"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="languages" minOccurs="1" maxOccurs="1">
+				<xs:element name="languages">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="language" minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="language" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:simpleContent>
 										<xs:extension base="xs:string">
 											<xs:attribute type="xs:string" name="id" use="required"/>
-											<xs:attribute type="xs:boolean" name="default" use="optional"/>
+											<xs:attribute type="xs:boolean" name="default"/>
 										</xs:extension>
 									</xs:simpleContent>
 								</xs:complexType>
@@ -27,15 +26,15 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="skins" minOccurs="1" maxOccurs="1">
+				<xs:element name="skins">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="skin" minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="skin" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:simpleContent>
 										<xs:extension base="xs:string">
 											<xs:attribute type="xs:string" name="id" use="required"/>
-											<xs:attribute type="xs:boolean" name="default" use="optional"/>
+											<xs:attribute type="xs:boolean" name="default"/>
 										</xs:extension>
 									</xs:simpleContent>
 								</xs:complexType>
@@ -43,16 +42,16 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="actionForms" minOccurs="0" maxOccurs="1">
+				<xs:element name="actionForms" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="actionForm" minOccurs="0" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="forwards" minOccurs="1" maxOccurs="1">
+										<xs:element name="forwards">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="forward" minOccurs="1" maxOccurs="unbounded">
+													<xs:element name="forward" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:simpleContent>
 																<xs:extension base="xs:string">
@@ -74,10 +73,20 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="services" minOccurs="0" maxOccurs="1">
+				<xs:element name="services" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element type="xs:string" name="service" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="service" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute type="xs:string" name="path"/>
+											<xs:attribute type="xs:boolean" name="isDaemon"/>
+											<xs:attribute type="xs:boolean" name="isRecurrent"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>

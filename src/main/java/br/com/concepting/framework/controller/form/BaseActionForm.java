@@ -13,7 +13,7 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.util.ModelUtil;
-import br.com.concepting.framework.resources.helpers.ActionFormForwardResources;
+import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.exceptions.PermissionDeniedException;
 import br.com.concepting.framework.security.model.LoginSessionModel;
@@ -57,24 +57,24 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
     private String action = null;
     private String forward = null;
     private String updateViews = null;
-    private Boolean validateModel = null;
+    private boolean validateModel = false;
     private String validateModelProperties = null;
     private BaseModel model = null;
     private Collection<ActionFormMessage> messages = null;
     
     /**
-     * Returns the actions history.
+     * Returns the actions' history.
      *
-     * @return List that contains the actions history.
+     * @return List that contains the actions' history.
      */
     public List<String> getActionsHistory(){
         return this.actionsHistory;
     }
     
     /**
-     * Defines the actions history.
+     * Defines the actions' history.
      *
-     * @param actionsHistory List that contains the actions history.
+     * @param actionsHistory List that contains the actions' history.
      */
     public void setActionsHistory(List<String> actionsHistory){
         this.actionsHistory = actionsHistory;
@@ -266,7 +266,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
      *
      * @return True/False.
      */
-    public Boolean validateModel(){
+    public boolean validateModel(){
         return this.validateModel;
     }
     
@@ -275,7 +275,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
      *
      * @return True/False.
      */
-    public Boolean getValidateModel(){
+    public boolean getValidateModel(){
         return validateModel();
     }
     
@@ -284,7 +284,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
      *
      * @param validateModel True/False.
      */
-    public void setValidateModel(Boolean validateModel){
+    public void setValidateModel(boolean validateModel){
         this.validateModel = validateModel;
     }
     
@@ -301,7 +301,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
                 
                 this.model = ConstructorUtils.invokeConstructor(modelClass, null);
             }
-            catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e){
+            catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException ignored){
             }
         }
         
@@ -350,18 +350,15 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
     public void processRequest(SystemController systemController, ActionFormController actionFormController, SecurityController securityController) throws Throwable{
         if(systemController == null || actionFormController == null || securityController == null)
             return;
-        
-        String url = null;
-        
+
+        ActionFormPopulator actionFormPopulator = new ActionFormPopulator(this, systemController, actionFormController, securityController);
+
+        actionFormPopulator.populateActionForm();
+
+        SystemResources.ActionFormResources.ActionFormForwardResources actionFormForward = actionFormController.findForward();
+        String url = (actionFormForward != null ? actionFormForward.getUrl() : "/");
+
         try{
-            ActionFormPopulator actionFormPopulator = new ActionFormPopulator(this, systemController, actionFormController, securityController);
-            
-            actionFormPopulator.populateActionForm();
-            
-            ActionFormForwardResources actionFormForward = actionFormController.findForward();
-            
-            url = (actionFormForward != null ? actionFormForward.getUrl() : "/");
-            
             if(securityController.isLoginSessionAuthenticated()){
                 LoginSessionModel loginSession = securityController.getLoginSession();
                 UserModel user = loginSession.getUser();
@@ -374,8 +371,8 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
             Class<M> modelClass = ActionFormUtil.getModelClassByActionForm(actionFormClass);
             ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
             Class<? extends ActionFormValidator> actionFormValidatorClass = modelInfo.getActionFormValidatorClass();
-            ActionFormValidator actionFormValidator = null;
-            Boolean validated = null;
+            ActionFormValidator actionFormValidator;
+            boolean validated = true;
             
             if(actionFormValidatorClass != null){
                 actionFormValidator = ConstructorUtils.invokeConstructor(actionFormValidatorClass, new Object[]{this, systemController, actionFormController, securityController});
@@ -385,7 +382,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
             
             actionFormPopulator.populateModel();
             
-            if(validated != null && validated){
+            if(validated){
                 Class<? extends BaseAction<M>> actionClass = ActionFormUtil.getActionClassByModel(modelClass);
                 
                 if(actionClass != null){

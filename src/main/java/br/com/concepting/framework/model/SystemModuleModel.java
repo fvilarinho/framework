@@ -193,7 +193,7 @@ public class SystemModuleModel extends BaseModel{
      *
      * @param <F> Class that defines the data model.
      * @param formName String that contains the identifier of the form.
-     * @return Instance that contains the the properties of the form.
+     * @return Instance that contains the properties of the form.
      */
     @SuppressWarnings("unchecked")
     public <F extends FormModel> F getForm(String formName){
@@ -257,7 +257,7 @@ public class SystemModuleModel extends BaseModel{
     }
     
     /**
-     * Returns o array bytes that contains the logo.
+     * Returns on array bytes that contain the logo.
      *
      * @return Byte array that contains the logo.
      */
@@ -266,7 +266,7 @@ public class SystemModuleModel extends BaseModel{
     }
     
     /**
-     * Defines o array bytes that contains the logo.
+     * Defines on array bytes that contain the logo.
      *
      * @param logo Byte array that contains the logo.
      */

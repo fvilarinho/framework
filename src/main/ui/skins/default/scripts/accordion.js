@@ -15,27 +15,27 @@
  * @param onUnSelect String that defines the unselect event.
  */
 function setCurrentSections(sectionName, accordionName, hasMultipleSelection, onSelect, onUnSelect){
-	var currentSections = getObject(accordionName + ".currentSections");
-	var sectionHeader   = null;
-	var sectionContent  = null;
+	let currentSections = getObject(accordionName + ".currentSections");
+	let sectionHeader   = null;
+	let sectionContent  = null;
 	
 	if(currentSections){
 		if(!hasMultipleSelection){
-			if(currentSections.value != "" && currentSections.value != sectionName){
+			if(currentSections.value !== "" && currentSections.value !== sectionName){
 				sectionHeader  = getObject(accordionName + "." + currentSections.value + ".sectionHeader");
 				sectionContent = getObject(accordionName + "." + currentSections.value + ".sectionContent");
 				
 				if(sectionHeader && sectionContent){
-					var firstSection = sectionHeader.getAttribute("firstSection");
-					var lastSection  = sectionHeader.getAttribute("lastSection");
+					let firstSection = sectionHeader.getAttribute("firstSection");
+					let lastSection  = sectionHeader.getAttribute("lastSection");
 					
-					if(lastSection == "true")
+					if(lastSection === "true")
 						sectionHeader.className = "lastSectionHeader";
 					
-					if(firstSection == "true")
+					if(firstSection === "true")
 						sectionHeader.className = "firstSectionHeader";
 					
-					if(lastSection == "false" && firstSection == "false")
+					if(lastSection === "false" && firstSection === "false")
 						sectionHeader.className = "sectionHeader";
 
 					sectionContent.style.display = "NONE";
@@ -43,18 +43,14 @@ function setCurrentSections(sectionName, accordionName, hasMultipleSelection, on
 			}
 		}
 		else{
-			var currentSectionOptions = currentSections.options;
+			let currentSectionOptions = currentSections.options;
 			
 			if(currentSectionOptions){
-				for(cont = 0 ; cont < currentSectionOptions.length ; cont++){
-					currentSectionOption = currentSectionOptions[cont];
+				for(let cont = 0 ; cont < currentSectionOptions.length ; cont++){
+					let currentSectionOption = currentSectionOptions[cont];
 					
-					if(currentSectionOption.value == sectionName){
-						if(currentSectionOption.selected == true)
-							currentSectionOption.selected = false;
-						else
-							currentSectionOption.selected = true;
-					}
+					if(currentSectionOption.value === sectionName)
+						currentSectionOption.selected = (currentSectionOption.selected !== true);
 				}
 			}
 		}
@@ -64,17 +60,17 @@ function setCurrentSections(sectionName, accordionName, hasMultipleSelection, on
 	sectionContent = getObject(accordionName + "." + sectionName + ".sectionContent");
 	
 	if(sectionContent){
-		if(sectionContent.style.display.toUpperCase() == "NONE"){
-			var firstSection = sectionHeader.getAttribute("firstSection");
-			var lastSection  = sectionHeader.getAttribute("lastSection");
+		if(sectionContent.style.display.toUpperCase() === "NONE"){
+			let firstSection = sectionHeader.getAttribute("firstSection");
+			let lastSection  = sectionHeader.getAttribute("lastSection");
 			
-			if(lastSection == "true")
+			if(lastSection === "true")
 				sectionHeader.className = "sectionHeader";
 			
-			if(firstSection == "true")
+			if(firstSection === "true")
 				sectionHeader.className = "firstSectionHeader";
 			
-			if(lastSection == "false" && firstSection == "false")
+			if(lastSection === "false" && firstSection === "false")
 				sectionHeader.className = "sectionHeader";
 
 			sectionContent.style.display = "";
@@ -86,16 +82,16 @@ function setCurrentSections(sectionName, accordionName, hasMultipleSelection, on
 				onSelect();
 		}
 		else{
-			var firstSection = sectionHeader.getAttribute("firstSection");
-			var lastSection  = sectionHeader.getAttribute("lastSection");
+			let firstSection = sectionHeader.getAttribute("firstSection");
+			let lastSection  = sectionHeader.getAttribute("lastSection");
 			
-			if(lastSection == "true")
+			if(lastSection === "true")
 				sectionHeader.className = "lastSectionHeader";
 			
-			if(firstSection == "true")
+			if(firstSection === "true")
 				sectionHeader.className = "firstSectionHeader";
 			
-			if(lastSection == "false" && firstSection == "false")
+			if(lastSection === "false" && firstSection === "false")
 				sectionHeader.className = "sectionHeader";
 
 			sectionContent.style.display = "NONE";

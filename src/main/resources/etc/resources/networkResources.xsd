@@ -1,22 +1,21 @@
-<xs:schema attributeFormDefault="unqualified" 
-           elementFormDefault="qualified" 
+<xs:schema elementFormDefault="qualified"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:element name="network">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="mail" minOccurs="0" maxOccurs="1">
+				<xs:element name="mail" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="resources" minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="resources" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="storage" minOccurs="0" maxOccurs="1">
+										<xs:element name="storage" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element type="xs:string" name="serverName" minOccurs="1" maxOccurs="1"/>
-													<xs:element type="xs:byte" name="serverPort" minOccurs="1" maxOccurs="1"/>
-													<xs:element type="xs:string" name="userName" minOccurs="0" maxOccurs="1"/>
-													<xs:element type="xs:string" name="password" minOccurs="0" maxOccurs="1"/>
+													<xs:element type="xs:string" name="serverName" minOccurs="0"/>
+													<xs:element type="xs:byte" name="serverPort" minOccurs="0"/>
+													<xs:element type="xs:string" name="userName" minOccurs="0"/>
+													<xs:element type="xs:string" name="password" minOccurs="0"/>
 												</xs:sequence>
 												<xs:attribute name="type" use="required">
 													<xs:simpleType>
@@ -31,14 +30,13 @@
 												<xs:attribute type="xs:boolean" name="useTls"/>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="transport" minOccurs="0"
-											maxOccurs="1">
+										<xs:element name="transport" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element type="xs:string" name="serverName" minOccurs="1" maxOccurs="1"/>
-													<xs:element type="xs:byte" name="serverPort" minOccurs="1" maxOccurs="1"/>
-													<xs:element type="xs:string" name="userName" minOccurs="0" maxOccurs="1"/>
-													<xs:element type="xs:string" name="password" minOccurs="0" maxOccurs="1"/>
+													<xs:element type="xs:string" name="serverName" minOccurs="0"/>
+													<xs:element type="xs:byte" name="serverPort" minOccurs="0"/>
+													<xs:element type="xs:string" name="userName" minOccurs="0"/>
+													<xs:element type="xs:string" name="password" minOccurs="0"/>
 												</xs:sequence>
 												<xs:attribute name="type" use="required">
 													<xs:simpleType>
@@ -60,48 +58,48 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="ldap" minOccurs="0" maxOccurs="1">
+				<xs:element name="ldap" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="resources" minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="resources" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element type="xs:string" name="serverName" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:short" name="serverPort" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:string" name="authenticationType" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:string" name="userName" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:string" name="password" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:string" name="baseDn" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:string" name="userDn" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:short" name="timeout" minOccurs="0" maxOccurs="1"/>
+										<xs:element type="xs:string" name="serverName" minOccurs="0"/>
+										<xs:element type="xs:short" name="serverPort" minOccurs="0"/>
+										<xs:element type="xs:string" name="authenticationType" minOccurs="0"/>
+										<xs:element type="xs:string" name="userName" minOccurs="0"/>
+										<xs:element type="xs:string" name="password" minOccurs="0"/>
+										<xs:element type="xs:string" name="baseDn" minOccurs="0"/>
+										<xs:element type="xs:string" name="userDn" minOccurs="0"/>
+										<xs:element type="xs:short" name="timeout" minOccurs="0"/>
 									</xs:sequence>
 									<xs:attribute type="xs:string" name="id" use="required"/>
-									<xs:attribute type="xs:string" name="factoryResourcesId" use="optional"/>
-									<xs:attribute type="xs:boolean" name="default" use="optional"/>
+									<xs:attribute type="xs:string" name="factoryResourcesId"/>
+									<xs:attribute type="xs:boolean" name="default"/>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="webService" minOccurs="0" maxOccurs="1">
+				<xs:element name="webService" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="resources" minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="resources" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element type="xs:string" name="method" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:short" name="timeout" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:string" name="url" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:string" name="data" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="headers" minOccurs="0" maxOccurs="1">
+										<xs:element type="xs:string" name="method" minOccurs="0"/>
+										<xs:element type="xs:short" name="timeout" minOccurs="0"/>
+										<xs:element type="xs:string" name="url"/>
+										<xs:element type="xs:string" name="data" minOccurs="0"/>
+										<xs:element name="headers" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="header" minOccurs="1" maxOccurs="unbounded">
+													<xs:element name="header" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:simpleContent>
 																<xs:extension base="xs:string">
 																	<xs:attribute type="xs:string" name="id" use="required"/>
-																	<xs:attribute type="xs:string" name="value" use="optional"/>
+																	<xs:attribute type="xs:string" name="value"/>
 																</xs:extension>
 															</xs:simpleContent>
 														</xs:complexType>
@@ -111,30 +109,30 @@
 										</xs:element>
 									</xs:sequence>
 									<xs:attribute type="xs:string" name="id" use="required"/>
-									<xs:attribute type="xs:boolean" name="default" use="optional"/>
+									<xs:attribute type="xs:boolean" name="default"/>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="mq" minOccurs="0" maxOccurs="1">
+				<xs:element name="mq" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="resources" minOccurs="1" maxOccurs="unbounded">
+							<xs:element name="resources" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element type="xs:string" name="serverName" minOccurs="0" maxOccurs="1"/>
-										<xs:element type="xs:short" name="serverPort" minOccurs="0" maxOccurs="1"/>
-										<xs:element name="queues" minOccurs="0" maxOccurs="1">
+										<xs:element type="xs:string" name="serverName" minOccurs="0"/>
+										<xs:element type="xs:short" name="serverPort" minOccurs="0"/>
+										<xs:element name="queues" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="queue" minOccurs="1" maxOccurs="unbounded">
+													<xs:element name="queue" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:simpleContent>
 																<xs:extension base="xs:string">
 																	<xs:attribute type="xs:string" name="id" use="required"/>
-																	<xs:attribute type="xs:string" name="listenerClass" use="optional"/>
-																	<xs:attribute type="xs:integer" name="size" use="optional"/>
+																	<xs:attribute type="xs:string" name="listenerClass"/>
+																	<xs:attribute type="xs:integer" name="size"/>
 																</xs:extension>
 															</xs:simpleContent>
 														</xs:complexType>
@@ -144,7 +142,7 @@
 										</xs:element>
 									</xs:sequence>
 									<xs:attribute type="xs:string" name="id" use="required"/>
-									<xs:attribute type="xs:boolean" name="default" use="optional"/>
+									<xs:attribute type="xs:boolean" name="default"/>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>

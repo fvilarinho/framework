@@ -28,8 +28,8 @@ public class RequestParameterInfo implements Comparable<RequestParameterInfo>{
 	private PropertyType type            = null;
 	private String       name            = null;
 	private String       value           = null;
-	private String       values[]        = null;
-	private byte         content[]       = null;
+	private String[]     values          = null;
+	private byte[]       content         = null;
 	private ContentType  contentType     = null;
 	private String       contentFilename = null;
 
@@ -70,7 +70,7 @@ public class RequestParameterInfo implements Comparable<RequestParameterInfo>{
 	}
 
 	/**
-	 * Returns the content of a upload.
+	 * Returns the content of an upload.
 	 * 
 	 * @return Array that contains the upload content.
 	 */
@@ -79,7 +79,7 @@ public class RequestParameterInfo implements Comparable<RequestParameterInfo>{
 	}
 
 	/**
-	 * Defines the content of a upload.
+	 * Defines the content of an upload.
 	 * 
 	 * @param content Array that contains the upload content.
 	 */
@@ -161,7 +161,7 @@ public class RequestParameterInfo implements Comparable<RequestParameterInfo>{
 
 	@Override
 	public int compareTo(RequestParameterInfo o){
-		Integer result = 0;
+		int result = 0;
 		String compareValue = o.getName();
 		String currentValue = getName();
 

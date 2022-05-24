@@ -2,7 +2,6 @@ package br.com.concepting.framework.mq.resources;
 
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.mq.constants.MqConstants;
-import br.com.concepting.framework.mq.resources.helpers.MqQueue;
 import br.com.concepting.framework.network.constants.NetworkConstants;
 import br.com.concepting.framework.network.resources.NetworkResourcesLoader;
 import br.com.concepting.framework.processors.ExpressionProcessorUtil;
@@ -56,10 +55,8 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
     public MqResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname);
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
-     */
+
+    @Override
     public MqResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
@@ -84,7 +81,7 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
                 throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText());
             
             try{
-                Integer serverPort = NumberUtil.parseInt(serverPortNode.getValue());
+                int serverPort = NumberUtil.parseInt(serverPortNode.getValue());
                 
                 resources.setServerPort(serverPort);
             }
@@ -123,21 +120,19 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
         
         if(queuesNode != null){
             List<XmlNode> queuesNodeList = queuesNode.getChildren();
-            String queueId = null;
-            String queueListenerClass = null;
-            
+
             if(queuesNodeList != null && !queuesNodeList.isEmpty()){
                 for(XmlNode queueNode: queuesNodeList){
-                    queueId = queueNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
+                    String queueId = queueNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
                     
                     if(queueId == null || queueId.length() == 0)
                         throw new InvalidResourcesException(resourcesDirname, resourcesId, queueNode.getText());
                     
-                    MqQueue queue = new MqQueue();
+                    MqResources.MqQueue queue = new MqResources.MqQueue();
                     
                     queue.setId(queueId);
                     
-                    queueListenerClass = queueNode.getAttribute(MqConstants.LISTENER_CLASS_ATTRIBUTE_ID);
+                    String queueListenerClass = queueNode.getAttribute(MqConstants.LISTENER_CLASS_ATTRIBUTE_ID);
                     
                     if(queueListenerClass != null && queueListenerClass.length() > 0)
                         queue.setListenerClass(queueListenerClass);
@@ -149,10 +144,8 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
         
         return resources;
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.BaseResourcesLoader#parseContent()
-     */
+
+    @Override
     protected XmlNode parseContent() throws InvalidResourcesException{
         XmlNode contentNode = super.parseContent();
         XmlNode resourcesNode = (contentNode != null ? contentNode.getNode(MqConstants.DEFAULT_ID) : null);

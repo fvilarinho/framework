@@ -49,7 +49,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
     private String onSelectAction = null;
     private String onSelectForward = null;
     private String onSelectUpdateViews = null;
-    private Boolean onSelectValidateModel = null;
+    private boolean onSelectValidateModel = false;
     private String onSelectValidateModelProperties = null;
     private String optionLabelProperty = null;
     private String optionTooltipProperty = null;
@@ -165,7 +165,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnSelectValidateModel(){
+    public boolean getOnSelectValidateModel(){
         return this.onSelectValidateModel;
     }
     
@@ -174,7 +174,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
      *
      * @param onSelectValidateModel True/False.
      */
-    public void setOnSelectValidateModel(Boolean onSelectValidateModel){
+    public void setOnSelectValidateModel(boolean onSelectValidateModel){
         this.onSelectValidateModel = onSelectValidateModel;
     }
     
@@ -234,10 +234,8 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
     public void setOptionTooltipProperty(String optionTooltipProperty){
         this.optionTooltipProperty = optionTooltipProperty;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         String actionFormName = getActionFormName();
         String name = getName();
@@ -283,10 +281,8 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         String styleClass = getStyleClass();
         
@@ -298,19 +294,15 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.SUGGESTION_BOX);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     @SuppressWarnings("unchecked")
     protected void renderBody() throws InternalErrorException{
         super.renderBody();
@@ -322,9 +314,9 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
         if(actionFormController == null || propertyInfo == null || name == null || name.length() == 0)
             return;
         
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition){
+        if(!hasInvalidPropertyDefinition){
             BaseActionForm<? extends BaseModel> actionForm = actionFormController.getActionFormInstance();
             Collection<?> propertyValues = (actionForm != null ? actionFormController.getPropertyDatasetValues(name) : null);
             
@@ -382,7 +374,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                         
                         propertiesInfo = (modelInfo != null ? modelInfo.getPropertiesInfo() : null);
                     }
-                    catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException e){
+                    catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException ignored){
                     }
                 }
                 
@@ -413,7 +405,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                                 
                                 objectValue = PropertyUtil.format(objectValue, item.getPattern(), item.useAdditionalFormatting(), item.getPrecision(), currentLanguage);
                             }
-                            catch(Throwable e){
+                            catch(Throwable ignored){
                             }
                             
                             if(objectValue != null && objectValue.length() > 0){
@@ -461,7 +453,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                             try{
                                 optionValueTooltip = PropertyUtil.format(PropertyUtil.getValue(propertyValue, propertyInfo.getId()), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
                             }
-                            catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e1){
+                            catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored){
                             }
                         }
                         
@@ -483,7 +475,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                             try{
                                 optionValueLabel = PropertyUtil.format(PropertyUtil.getValue(propertyValue, propertyInfo.getId()), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
                             }
-                            catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e1){
+                            catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored){
                             }
                         }
                         
@@ -500,7 +492,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                         try{
                             objectValue = PropertyUtil.format(PropertyUtil.getValue(propertyValue, propertyInfo.getId()), propertyInfo.getPattern(), propertyInfo.useAdditionalFormatting(), propertyInfo.getPrecision(), currentLanguage);
                         }
-                        catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
+                        catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored){
                         }
                         
                         if(objectValue != null && objectValue.length() > 0)
@@ -530,7 +522,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                             try{
                                 optionValueTooltip = PropertyUtil.format(PropertyUtil.getValue(propertyValue, propertyInfo.getId()), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
                             }
-                            catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e1){
+                            catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored){
                             }
                         }
                         
@@ -552,7 +544,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                             try{
                                 optionValueLabel = PropertyUtil.format(PropertyUtil.getValue(propertyValue, propertyInfo.getId()), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
                             }
-                            catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e1){
+                            catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored){
                             }
                         }
                         
@@ -572,20 +564,16 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
             println("</div>");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         super.renderClose();
         
         renderDatasetAttributes();
         renderDatasetIndexesAttributes();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
@@ -593,7 +581,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
         setOnSelect(null);
         setOnSelectAction(null);
         setOnSelectForward(null);
-        setOnSelectValidateModel(null);
+        setOnSelectValidateModel(false);
         setOnSelectValidateModelProperties(null);
         setOptionLabelProperty(null);
         setOptionTooltipProperty(null);

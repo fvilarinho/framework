@@ -34,7 +34,7 @@ import br.com.concepting.framework.util.types.SortOrderType;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 @Auditable
-@Model(ui = "Login Session", templateId = "loginSession", generateWebService = true)
+@Model(ui = "Login Session", templateId = "loginSession")
 public class LoginSessionModel extends BaseModel{
     private static final long serialVersionUID = -8507789965528582224L;
     

@@ -27,28 +27,22 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  */
 public class CancelButtonComponent extends ConfirmButtonComponent{
     private static final long serialVersionUID = 4400681451550484210L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         setResourcesKey(UIConstants.DEFAULT_CANCEL_BUTTON_ID);
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         setStyleClass(UIConstants.DEFAULT_CANCEL_BUTTON_STYLE_CLASS);
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         if(!hasAction())
             setActionType(ActionType.CANCEL);

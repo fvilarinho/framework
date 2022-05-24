@@ -4,7 +4,7 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.processors.interfaces.IAnnotationProcessor;
 
 /**
- * Class that defines the basic implementation of a annotation processor.
+ * Class that defines the basic implementation of an annotation processor.
  *
  * @author fvilarinho
  * @since 3.0.0
@@ -83,10 +83,8 @@ public abstract class BaseAnnotationProcessor implements IAnnotationProcessor{
     public void setAnnotationProcessorFactory(AnnotationProcessorFactory annotationProcessorFactory){
         this.annotationProcessorFactory = annotationProcessorFactory;
     }
-    
-    /**
-     * @see br.com.concepting.framework.processors.interfaces.IAnnotationProcessor#process()
-     */
+
+    @Override
     public void process() throws InternalErrorException{
     }
 }

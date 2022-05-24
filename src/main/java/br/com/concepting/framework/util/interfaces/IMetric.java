@@ -27,14 +27,14 @@ public interface IMetric{
      *
      * @return Numeric value.
      */
-    Double getValue();
+    double getValue();
     
     /**
      * Defines the value of the metric.
      *
      * @param value Numeric value.
      */
-    void setValue(Double value);
+    void setValue(double value);
     
     /**
      * Returns the unit of the metric.

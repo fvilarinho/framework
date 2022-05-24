@@ -59,8 +59,8 @@ public class ModelUtil{
      *
      * @return Numeric value that contains the serial number.
      */
-    public static Long generateSerialVersionUID(){
-        return (long) (Math.random() * NumberUtil.getMaximumRange(Long.class).longValue());
+    public static long generateSerialVersionUID(){
+        return (long) (Math.random() * NumberUtil.getMaximumRange(Long.class));
     }
     
     /**
@@ -88,20 +88,11 @@ public class ModelUtil{
      */
     public static <M extends BaseModel> M fromIdentifierString(String value) throws IOException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
         if(value != null && value.length() > 0){
-            ByteArrayInputStream in = null;
-            
-            try{
-                in = new ByteArrayInputStream(ByteUtil.fromBase64(value));
-                
-                return fromIdentifierMap(propertyMapper.readValue(in, new TypeReference<Map<String, Object>>(){
-                }));
-            }
-            finally{
-                if(in != null)
-                    in.close();
+            try (ByteArrayInputStream in = new ByteArrayInputStream(ByteUtil.fromBase64(value))){
+                return fromIdentifierMap(propertyMapper.readValue(in, new TypeReference<>(){}));
             }
         }
-        
+
         return null;
     }
     
@@ -145,8 +136,8 @@ public class ModelUtil{
             
             PropertyInfo propertyInfo = modelInfo.getPropertyInfo(entry.getKey());
             
-            if((propertyInfo.isIdentity() != null && propertyInfo.isIdentity()) || (propertyInfo.isUnique() != null && propertyInfo.isUnique()) || (propertyInfo.isSerializable() != null && propertyInfo.isSerializable())){
-                if(propertyInfo.isModel() != null && propertyInfo.isModel())
+            if(propertyInfo.isIdentity() || propertyInfo.isUnique() || propertyInfo.isSerializable()){
+                if(propertyInfo.isModel())
                     value = fromIdentifierMap((Map<String, Object>) value);
                 
                 if(propertyInfo.getClazz().equals(Class.class))
@@ -196,7 +187,7 @@ public class ModelUtil{
                 if(value == null)
                     continue;
                 
-                if(auditablePropertyInfo.isModel() != null && auditablePropertyInfo.isModel())
+                if(auditablePropertyInfo.isModel())
                     value = generateAuditableMap((M) value);
                 
                 if(value != null){
@@ -282,7 +273,7 @@ public class ModelUtil{
                 if(value == null)
                     continue;
                 
-                if(identityPropertyInfo.isModel() != null && identityPropertyInfo.isModel())
+                if(identityPropertyInfo.isModel())
                     value = generateIdentifierMap((M) value);
                 
                 if(value != null)
@@ -299,7 +290,7 @@ public class ModelUtil{
                 if(value == null)
                     continue;
                 
-                if(uniquePropertyInfo.isModel() != null && uniquePropertyInfo.isModel())
+                if(uniquePropertyInfo.isModel())
                     value = generateIdentifierMap((M) value);
                 
                 if(value != null)
@@ -316,7 +307,7 @@ public class ModelUtil{
                 if(value == null)
                     continue;
                 
-                if(serializablePropertyInfo.isModel() != null && serializablePropertyInfo.isModel())
+                if(serializablePropertyInfo.isModel())
                     value = generateIdentifierMap((M) value);
                 
                 if(value != null)
@@ -384,7 +375,6 @@ public class ModelUtil{
         if(!PropertyUtil.isModel(modelClass))
             throw new IllegalArgumentException(modelClass.getName());
         
-        ModelInfo modelInfo = new ModelInfo();
         String modelClassName = modelClass.getName();
         int pos = modelClassName.indexOf("_$");
         
@@ -394,8 +384,9 @@ public class ModelUtil{
         }
         
         Cacher<ModelInfo> cacher = CacherManager.getInstance().getCacher(ModelUtil.class);
-        CachedObject<ModelInfo> cachedObject = null;
-        
+        CachedObject<ModelInfo> cachedObject;
+        ModelInfo modelInfo;
+
         try{
             cachedObject = cacher.get(modelClassName);
             modelInfo = cachedObject.getContent();
@@ -413,8 +404,7 @@ public class ModelUtil{
             modelInfo.setTemplateId(modelAnnotation.templateId());
             modelInfo.setActionFormValidatorClass(modelAnnotation.actionFormValidatorClass());
             modelInfo.setGenerateUi((modelAnnotation.ui() != null && modelAnnotation.ui().length() > 0));
-            modelInfo.setGenerateActionsAndForm(modelInfo.generateUi());
-            
+
             if(modelAnnotation.generatePersistence())
                 modelInfo.setGeneratePersistence(true);
             else
@@ -424,9 +414,7 @@ public class ModelUtil{
                 modelInfo.setGenerateService(true);
             else
                 modelInfo.setGenerateService(modelAnnotation.generateService());
-            
-            modelInfo.setGenerateWebService(modelAnnotation.generateWebService());
-            
+
             Class<?> superClass = modelClass.getSuperclass();
             
             while(superClass != null && !superClass.equals(BaseModel.class)){
@@ -436,7 +424,7 @@ public class ModelUtil{
                     if(modelInfo.getMappedRepositoryId() == null || modelInfo.getMappedRepositoryId().length() == 0)
                         modelInfo.setMappedRepositoryId(modelAnnotation.mappedRepositoryId());
                     
-                    if(modelInfo.getCacheable() == null || !modelInfo.getCacheable())
+                    if(!modelInfo.getCacheable())
                         modelInfo.setCacheable(modelAnnotation.cacheable());
                     
                     if(modelInfo.getDescriptionPattern() == null || modelInfo.getDescriptionPattern().length() == 0)
@@ -451,19 +439,13 @@ public class ModelUtil{
                     if(modelInfo.getActionFormValidatorClass() == null || modelInfo.getActionFormValidatorClass().equals(ActionFormValidator.class))
                         modelInfo.setActionFormValidatorClass(modelAnnotation.actionFormValidatorClass());
                     
-                    if(modelInfo.getGenerateUi() == null || !modelInfo.getGenerateUi())
+                    if(!modelInfo.getGenerateUi())
                         modelInfo.setGenerateUi(modelAnnotation.ui() != null && modelAnnotation.ui().length() > 0);
-                    
-                    if(modelInfo.getGenerateActionsAndForm() == null || !modelInfo.getGenerateActionsAndForm())
-                        modelInfo.setGenerateActionsAndForm(modelAnnotation.ui() != null && modelAnnotation.ui().length() > 0);
-                    
-                    if(modelInfo.getGenerateWebService() == null || !modelInfo.getGenerateWebService())
-                        modelInfo.setGenerateWebService(modelAnnotation.generateWebService());
-                    
-                    if(modelInfo.getGenerateService() == null || !modelInfo.getGenerateService())
+
+                    if(!modelInfo.getGenerateService())
                         modelInfo.setGenerateService((modelAnnotation.ui() != null && modelAnnotation.ui().length() > 0) || (modelAnnotation.mappedRepositoryId() != null && modelAnnotation.mappedRepositoryId().length() > 0) || modelAnnotation.generateService());
                     
-                    if(modelInfo.getGeneratePersistence() == null || !modelInfo.getGeneratePersistence())
+                    if(!modelInfo.getGeneratePersistence())
                         modelInfo.setGeneratePersistence(modelAnnotation.mappedRepositoryId() != null && modelAnnotation.mappedRepositoryId().length() > 0);
                 }
                 
@@ -475,14 +457,14 @@ public class ModelUtil{
             
             modelInfo.setPropertiesInfo(PropertyUtil.getInfos(modelClass));
             
-            cachedObject = new CachedObject<ModelInfo>();
+            cachedObject = new CachedObject<>();
             cachedObject.setId(modelClassName);
             cachedObject.setContent(modelInfo);
             
             try{
                 cacher.add(cachedObject);
             }
-            catch(ItemAlreadyExistsException e1){
+            catch(ItemAlreadyExistsException ignored){
             }
         }
         
@@ -490,7 +472,7 @@ public class ModelUtil{
     }
     
     /**
-     * Returns a sublist of a of data models.
+     * Returns a sublist of data models.
      *
      * @param <M> Class that defines the data model.
      * @param list List that contains the data models.
@@ -511,22 +493,20 @@ public class ModelUtil{
     public static <M extends BaseModel> List<M> subList(List<M> list, String propertyId, Object propertyValue) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException{
         if(list == null || propertyId == null || propertyId.length() == 0)
             return null;
-        
-        List<M> resultList = list.parallelStream().filter(i -> {
+
+        return list.parallelStream().filter(i -> {
             try{
                 Object comparePropertyValue = PropertyUtil.getProperty(i, propertyId);
-                
+
                 if(propertyValue == null && comparePropertyValue == null)
                     return true;
-                
-                return (propertyValue != null && comparePropertyValue != null && propertyValue.equals(comparePropertyValue));
+
+                return (propertyValue != null && propertyValue.equals(comparePropertyValue));
             }
             catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
                 return false;
             }
         }).collect(Collectors.toList());
-        
-        return resultList;
     }
     
     /**
@@ -581,7 +561,7 @@ public class ModelUtil{
             Collections.sort(list);
         }
         else
-            Collections.sort(list, Collections.reverseOrder());
+            list.sort(Collections.reverseOrder());
     }
     
     /**
@@ -665,41 +645,35 @@ public class ModelUtil{
         if(list == null || list.size() == 0 || propertiesIds == null || propertiesIds.length == 0)
             return null;
         
-        String propertyId = null;
-        Object propertyValue = null;
-        String[] bufferPropertiesIds = null;
-        M bufferItem = null;
-        List<M> bufferSubList = null;
         List<M> resultList = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        
-        for(int cont1 = 0; cont1 < propertiesIds.length; cont1++){
-            propertyId = propertiesIds[cont1];
-            
+
+        for (String propertyId : propertiesIds) {
             sort(list, propertyId, SortOrderType.ASCEND);
-            
-            for(int cont2 = 0; cont2 < list.size(); cont2++){
-                bufferItem = list.get(cont2);
-                
-                if(bufferItem != null){
-                    propertyValue = PropertyUtil.getValue(bufferItem, propertyId);
-                    bufferSubList = subList(list, propertyId, propertyValue);
-                    
-                    if(propertiesIds.length > 1){
-                        bufferPropertiesIds = Arrays.copyOfRange(propertiesIds, 1, propertiesIds.length);
+
+            for (int cont = 0; cont < list.size(); cont++) {
+                M bufferItem = list.get(cont);
+
+                if (bufferItem != null) {
+                    Object propertyValue = PropertyUtil.getValue(bufferItem, propertyId);
+                    List<M> bufferSubList = subList(list, propertyId, propertyValue);
+
+                    if (propertiesIds.length > 1) {
+                        String[] bufferPropertiesIds = Arrays.copyOfRange(propertiesIds, 1, propertiesIds.length);
+
                         bufferSubList = aggregateAndSort(bufferSubList, bufferPropertiesIds, sortPropertyId, sortOrder);
                     }
-                    
-                    if(bufferSubList != null && !bufferSubList.isEmpty()){
-                        if(sortPropertyId != null && sortPropertyId.length() > 0){
-                            if(sortOrder == null)
+
+                    if (bufferSubList != null && !bufferSubList.isEmpty()) {
+                        if (sortPropertyId != null && sortPropertyId.length() > 0) {
+                            if (sortOrder == null)
                                 sortOrder = SortOrderType.ASCEND;
-                            
+
                             sort(bufferSubList, sortPropertyId, sortOrder);
                         }
-                        
+
                         resultList.addAll(bufferSubList);
-                        
-                        cont2 += bufferSubList.size() - 1;
+
+                        cont += bufferSubList.size() - 1;
                     }
                 }
             }
@@ -729,10 +703,9 @@ public class ModelUtil{
     public static <N extends Number, C extends List<M>, M extends BaseModel> N sum(C list, String propertyId) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
         if(list != null && list.size() > 0 && propertyId != null && propertyId.length() > 0){
             Number result = null;
-            Number buffer = null;
-            
+
             for(M item: list){
-                buffer = PropertyUtil.getValue(item, propertyId);
+                Number buffer = PropertyUtil.getValue(item, propertyId);
                 
                 if(result == null)
                     result = buffer;
@@ -891,15 +864,14 @@ public class ModelUtil{
         
         ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
         Collection<PropertyInfo> propertiesInfo = modelInfo.getPropertiesInfo();
-        Class<? extends BaseModel> relationModelClass = null;
-        
+
         if(propertiesInfo != null && !propertiesInfo.isEmpty()){
             if(phoneticMap == null)
                 phoneticMap = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
             
             for(PropertyInfo propertyInfo: propertiesInfo){
-                if(propertyInfo.isModel() != null && propertyInfo.isModel() && propertyInfo.getRelationJoinType() != RelationJoinType.NONE){
-                    relationModelClass = (Class<? extends BaseModel>) propertyInfo.getClazz();
+                if(propertyInfo.isModel() && propertyInfo.getRelationJoinType() != RelationJoinType.NONE){
+                    Class<? extends BaseModel> relationModelClass = (Class<? extends BaseModel>) propertyInfo.getClazz();
                     
                     if(relationModelClass != null && !relationModelClass.equals(modelClass)){
                         if(processedRelations == null || !processedRelations.contains(propertyInfo.getClazz())){
@@ -947,14 +919,10 @@ public class ModelUtil{
         Map<String, PropertyInfo> phoneticMap = buildPhoneticMap(modelClass);
         
         if(phoneticMap != null && !phoneticMap.isEmpty()){
-            PropertyInfo phoneticPropertyInfo = null;
-            String phoneticPropertyId = null;
-            String phoneticPropertyValue = null;
-            
             for(Entry<String, PropertyInfo> entry: phoneticMap.entrySet()){
-                phoneticPropertyInfo = entry.getValue();
-                phoneticPropertyId = phoneticPropertyInfo.getPhoneticPropertyId();
-                phoneticPropertyValue = PhoneticUtil.soundCode(PropertyUtil.getValue(model, entry.getKey()));
+                PropertyInfo phoneticPropertyInfo = entry.getValue();
+                String phoneticPropertyId = phoneticPropertyInfo.getPhoneticPropertyId();
+                String phoneticPropertyValue = PhoneticUtil.soundCode(PropertyUtil.getValue(model, entry.getKey()));
                 
                 PropertyUtil.setValue(model, phoneticPropertyId, phoneticPropertyValue);
             }
@@ -991,26 +959,17 @@ public class ModelUtil{
         Map<String, PropertyInfo> phoneticMap = buildPhoneticMap(model.getClass());
         
         if(phoneticMap != null && !phoneticMap.isEmpty()){
-            String comparePropertyValue = null;
-            String propertyValue = null;
-            Double comparePhoneticAccuracy = null;
-            Double phoneticAccuracy = null;
-            Integer phoneticAccuracyCount = null;
-            PropertyInfo phoneticPropertyInfo = null;
-            String phoneticPropertyId = null;
-            M modelListItem = null;
-            
             for(int cont = 0; cont < modelList.size(); cont++){
-                modelListItem = modelList.get(cont);
-                comparePhoneticAccuracy = 0d;
-                phoneticAccuracy = 0d;
-                phoneticAccuracyCount = 0;
+                M modelListItem = modelList.get(cont);
+                double comparePhoneticAccuracy = 0D;
+                double phoneticAccuracy = 0D;
+                int phoneticAccuracyCount = 0;
                 
                 for(Entry<String, PropertyInfo> entry: phoneticMap.entrySet()){
-                    phoneticPropertyInfo = entry.getValue();
-                    phoneticPropertyId = phoneticPropertyInfo.getPhoneticPropertyId();
-                    comparePropertyValue = PropertyUtil.getValue(modelListItem, phoneticPropertyId);
-                    propertyValue = PhoneticUtil.soundCode(PropertyUtil.getValue(model, entry.getKey()));
+                    PropertyInfo phoneticPropertyInfo = entry.getValue();
+                    String phoneticPropertyId = phoneticPropertyInfo.getPhoneticPropertyId();
+                    String comparePropertyValue = PropertyUtil.getValue(modelListItem, phoneticPropertyId);
+                    String propertyValue = PhoneticUtil.soundCode(PropertyUtil.getValue(model, entry.getKey()));
                     
                     if(propertyValue != null && propertyValue.length() > 0){
                         phoneticAccuracy += PhoneticUtil.getAccuracy(propertyValue, comparePropertyValue);
@@ -1076,10 +1035,8 @@ public class ModelUtil{
             
             packagePrefixBuffer.append(packageItems[cont]);
         }
-        
-        String packagePrefix = packagePrefixBuffer.toString();
-        
-        return packagePrefix;
+
+        return packagePrefixBuffer.toString();
     }
     
     /**

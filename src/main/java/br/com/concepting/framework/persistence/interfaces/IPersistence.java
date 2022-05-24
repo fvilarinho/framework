@@ -78,7 +78,7 @@ public interface IPersistence<M extends BaseModel> extends ICrud<M>{
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
-    void setTimeout(Integer timeout) throws InternalErrorException;
+    void setTimeout(int timeout) throws InternalErrorException;
     
     /**
      * Returns the timeout of the persistence service.
@@ -87,5 +87,5 @@ public interface IPersistence<M extends BaseModel> extends ICrud<M>{
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
-    Integer getTimeout() throws InternalErrorException;
+    int getTimeout() throws InternalErrorException;
 }

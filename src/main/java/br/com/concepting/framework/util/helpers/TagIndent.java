@@ -27,7 +27,7 @@ import java.util.Collection;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class TagIndent extends BaseIndent{
-    private static Collection<TagIndent> rules = null;
+    private static final Collection<TagIndent> rules;
     
     static{
         rules = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
@@ -68,7 +68,7 @@ public class TagIndent extends BaseIndent{
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.
      */
-    public TagIndent(String startChar, String endChar, Integer indentSize, Boolean backAfterEndChar){
+    public TagIndent(String startChar, String endChar, Integer indentSize, boolean backAfterEndChar){
         super(startChar, endChar, indentSize, backAfterEndChar);
     }
     
@@ -80,7 +80,7 @@ public class TagIndent extends BaseIndent{
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.
      */
-    public TagIndent(String startChar, String endChar, Boolean backAfterEndChar){
+    public TagIndent(String startChar, String endChar, boolean backAfterEndChar){
         super(startChar, endChar, backAfterEndChar);
     }
     
@@ -108,7 +108,7 @@ public class TagIndent extends BaseIndent{
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.
      */
-    public TagIndent(String startChar, String endChar, Integer indentSize, String indentChar, Boolean backAfterEndChar){
+    public TagIndent(String startChar, String endChar, Integer indentSize, String indentChar, boolean backAfterEndChar){
         super(startChar, endChar, indentSize, indentChar, backAfterEndChar);
     }
     

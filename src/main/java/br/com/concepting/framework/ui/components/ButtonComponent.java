@@ -38,18 +38,18 @@ public class ButtonComponent extends BaseActionFormComponent{
     private String iconStyle = null;
     private String action = null;
     private String forward = null;
-    private Boolean validateModel = null;
+    private boolean validateModel = false;
     private String validateModelProperties = null;
     private String updateViews = null;
     private String pagerAction = null;
-    private Boolean showActionFormMessages = null;
+    private boolean showActionFormMessages = false;
     
     /**
      * Indicates if validation messages should be shown.
      *
      * @return True/False.
      */
-    public Boolean showActionFormMessages(){
+    public boolean showActionFormMessages(){
         return this.showActionFormMessages;
     }
     
@@ -58,7 +58,7 @@ public class ButtonComponent extends BaseActionFormComponent{
      *
      * @param showActionFormMessages True/False.
      */
-    public void setShowActionFormMessages(Boolean showActionFormMessages){
+    public void setShowActionFormMessages(boolean showActionFormMessages){
         this.showActionFormMessages = showActionFormMessages;
     }
     
@@ -67,7 +67,7 @@ public class ButtonComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    protected Boolean hasAction(){
+    protected boolean hasAction(){
         return (this.action != null && this.action.length() > 0);
     }
     
@@ -92,11 +92,11 @@ public class ButtonComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Indicates if the component should be shown only when dataset is present.
+     * Indicates if the component should be shown only when data is present.
      *
      * @return True/False.
      */
-    public Boolean showOnlyWithDataset(){
+    public boolean showOnlyWithData(){
         return false;
     }
     
@@ -110,7 +110,7 @@ public class ButtonComponent extends BaseActionFormComponent{
             try{
                 return PagerActionType.valueOf(this.pagerAction.toUpperCase());
             }
-            catch(IllegalArgumentException e){
+            catch(IllegalArgumentException ignored){
             }
         }
         
@@ -200,7 +200,7 @@ public class ButtonComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean validateModel(){
+    public boolean validateModel(){
         return this.validateModel;
     }
     
@@ -209,7 +209,7 @@ public class ButtonComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getValidateModel(){
+    public boolean getValidateModel(){
         return validateModel();
     }
     
@@ -218,7 +218,7 @@ public class ButtonComponent extends BaseActionFormComponent{
      *
      * @param validateModel True/False.
      */
-    public void setValidateModel(Boolean validateModel){
+    public void setValidateModel(boolean validateModel){
         this.validateModel = validateModel;
     }
     
@@ -275,10 +275,8 @@ public class ButtonComponent extends BaseActionFormComponent{
     public void setValidateModelProperties(String validateModelProperties){
         this.validateModelProperties = validateModelProperties;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
         
@@ -286,7 +284,7 @@ public class ButtonComponent extends BaseActionFormComponent{
             try{
                 gridComponent = (GridPropertyComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
@@ -329,14 +327,12 @@ public class ButtonComponent extends BaseActionFormComponent{
         
         super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         ComponentType componentType = getComponentType();
         String resourcesKey = getResourcesKey();
-        Boolean enabled = isEnabled();
+        boolean enabled = isEnabled();
         String styleClass = getStyleClass();
         StringBuilder styleClassBuffer = new StringBuilder();
         
@@ -349,7 +345,7 @@ public class ButtonComponent extends BaseActionFormComponent{
                 styleClassBuffer.append(resourcesKey);
         }
         
-        if(enabled == null || !enabled)
+        if(!enabled)
             styleClassBuffer.append(StringUtil.capitalize(Constants.DISABLED_ATTRIBUTE_ID));
         
         setStyleClass(styleClassBuffer.toString());
@@ -367,7 +363,7 @@ public class ButtonComponent extends BaseActionFormComponent{
         
         styleClassBuffer.append(StringUtil.capitalize(UIConstants.DEFAULT_ICON_ID));
         
-        if(enabled == null || !enabled)
+        if(!enabled)
             styleClassBuffer.append(StringUtil.capitalize(Constants.DISABLED_ATTRIBUTE_ID));
         
         this.iconStyleClass = styleClassBuffer.toString();
@@ -387,17 +383,15 @@ public class ButtonComponent extends BaseActionFormComponent{
                 styleClassBuffer.append(Constants.LABEL_ATTRIBUTE_ID);
         }
         
-        if(enabled == null || !enabled)
+        if(!enabled)
             styleClassBuffer.append(StringUtil.capitalize(Constants.DISABLED_ATTRIBUTE_ID));
         
         setLabelStyleClass(styleClassBuffer.toString());
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
         PositionType labelPosition = getLabelPositionType();
         
@@ -422,17 +416,15 @@ public class ButtonComponent extends BaseActionFormComponent{
         
         super.buildAlignment();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         String resourcesKey = getResourcesKey();
         
         if(resourcesKey == null || resourcesKey.length() == 0){
             ComponentType componentType = getComponentType();
             
-            if(componentType != null && componentType == ComponentType.BUTTON){
+            if(componentType == ComponentType.BUTTON){
                 String name = getName();
                 
                 if(name != null && name.length() > 0)
@@ -446,23 +438,8 @@ public class ButtonComponent extends BaseActionFormComponent{
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        if(this.validateModel == null)
-            this.validateModel = false;
-        
-        if(this.showActionFormMessages == null)
-            this.showActionFormMessages = true;
-        
-        super.buildRestrictions();
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         PagerActionType pagerActionType = getPagerActionType();
         
@@ -482,16 +459,16 @@ public class ButtonComponent extends BaseActionFormComponent{
         
         super.initialize();
         
-        Boolean render = render();
+        boolean render = render();
         
-        if(render != null && render){
+        if(render){
             GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
             
             if(gridComponent == null){
                 try{
                     gridComponent = (GridPropertyComponent) getParent();
                 }
-                catch(ClassCastException e){
+                catch(ClassCastException ignored){
                 }
             }
             
@@ -547,22 +524,16 @@ public class ButtonComponent extends BaseActionFormComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderType()
-     */
+
+    @Override
     protected void renderType() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderSize()
-     */
+
+    @Override
     protected void renderSize() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderLabel()
-     */
+
+    @Override
     protected void renderLabel() throws InternalErrorException{
         super.renderLabel();
         
@@ -571,21 +542,17 @@ public class ButtonComponent extends BaseActionFormComponent{
             println("<tr>");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderLabelBody()
-     */
+
+    @Override
     protected void renderLabelBody() throws InternalErrorException{
-        Boolean showLabel = showLabel();
+        boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(showLabel != null && showLabel && label != null && label.length() > 0)
+        if(showLabel && label != null && label.length() > 0)
             println(label);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
         
@@ -593,7 +560,7 @@ public class ButtonComponent extends BaseActionFormComponent{
             try{
                 gridComponent = (GridPropertyComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
@@ -605,10 +572,8 @@ public class ButtonComponent extends BaseActionFormComponent{
             println(">");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
         
@@ -616,7 +581,7 @@ public class ButtonComponent extends BaseActionFormComponent{
             try{
                 gridComponent = (GridPropertyComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
@@ -641,10 +606,8 @@ public class ButtonComponent extends BaseActionFormComponent{
             println("</table>");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
         
@@ -652,17 +615,15 @@ public class ButtonComponent extends BaseActionFormComponent{
             try{
                 gridComponent = (GridPropertyComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
         if(gridComponent == null)
             println("</button>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
@@ -670,10 +631,10 @@ public class ButtonComponent extends BaseActionFormComponent{
         setIconStyleClass(null);
         setAction(null);
         setForward(null);
-        setValidateModel(null);
+        setValidateModel(false);
         setValidateModelProperties(null);
         setUpdateViews(null);
         setPagerAction(null);
-        setShowActionFormMessages(null);
+        setShowActionFormMessages(false);
     }
 }

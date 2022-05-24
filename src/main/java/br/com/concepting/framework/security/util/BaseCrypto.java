@@ -2,6 +2,7 @@ package br.com.concepting.framework.security.util;
 
 import br.com.concepting.framework.security.util.interfaces.ICrypto;
 import br.com.concepting.framework.util.ByteUtil;
+import org.apache.commons.codec.DecoderException;
 
 import javax.crypto.*;
 import java.io.UnsupportedEncodingException;
@@ -31,12 +32,12 @@ import java.security.spec.InvalidKeySpecException;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public abstract class BaseCrypto implements ICrypto{
-    protected Cipher encrypt = null;
-    protected Cipher decrypt = null;
-    protected String algorithm = null;
-    protected String passPhrase = null;
-    protected Boolean useBase64 = null;
-    protected Integer keySize = null;
+    protected final Cipher encrypt;
+    protected final Cipher decrypt;
+    protected final String algorithm;
+    protected final String passPhrase;
+    protected final boolean useBase64;
+    protected final int keySize;
     
     /**
      * Constructor - Defines the cryptography parameters of the cryptography.
@@ -58,7 +59,7 @@ public abstract class BaseCrypto implements ICrypto{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public BaseCrypto(String algorithm, String passPhrase, Integer keySize, Boolean useBase64) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException{
+    public BaseCrypto(String algorithm, String passPhrase, int keySize, boolean useBase64) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException{
         super();
         
         this.algorithm = algorithm;
@@ -91,29 +92,23 @@ public abstract class BaseCrypto implements ICrypto{
     protected SecretKey generateKey() throws InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException, UnsupportedEncodingException{
         KeyGenerator generator = KeyGenerator.getInstance(this.algorithm);
         
-        if(this.keySize != null && this.keySize > 0)
+        if(this.keySize > 0)
             generator.init(this.keySize);
         
-        SecretKey key = generator.generateKey();
-        
-        return key;
+        return generator.generateKey();
     }
-    
-    /**
-     * @see br.com.concepting.framework.security.util.interfaces.ICrypto#encrypt(java.lang.String)
-     */
+
+    @Override
     public String encrypt(String message) throws IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException{
         byte[] buffer = message.getBytes();
         byte[] enc = this.encrypt.doFinal(buffer);
         
-        return (this.useBase64 != null && this.useBase64 ? ByteUtil.toBase64(enc) : ByteUtil.toHexadecimal(enc));
+        return (this.useBase64 ? ByteUtil.toBase64(enc) : ByteUtil.toHexadecimal(enc));
     }
-    
-    /**
-     * @see br.com.concepting.framework.security.util.interfaces.ICrypto#decrypt(java.lang.String)
-     */
-    public String decrypt(String message) throws IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException{
-        byte[] dec = (this.useBase64 != null && this.useBase64 ? ByteUtil.fromBase64(message) : ByteUtil.fromHexadecimal(message));
+
+    @Override
+    public String decrypt(String message) throws IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, DecoderException {
+        byte[] dec = (this.useBase64 ? ByteUtil.fromBase64(message) : ByteUtil.fromHexadecimal(message));
         byte[] buffer = this.decrypt.doFinal(dec);
         
         return new String(buffer);

@@ -40,5 +40,5 @@ public enum ScopeType{
     /**
      * Model scope.
      */
-    MODEL;
+    MODEL
 }

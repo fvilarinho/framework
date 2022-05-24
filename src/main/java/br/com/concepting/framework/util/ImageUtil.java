@@ -101,7 +101,7 @@ public class ImageUtil{
     }
     
     /**
-     * Returns the content type of an image.
+     * Returns the content-type of an image.
      *
      * @param imageData Byte array of the image.
      * @return Instance that contains the content type.
@@ -123,7 +123,7 @@ public class ImageUtil{
     }
     
     /**
-     * Returns the content type of an image.
+     * Returns the content-type of an image.
      *
      * @param imageStream Byte array of the image.
      * @return Instance that contains the content type.
@@ -137,7 +137,7 @@ public class ImageUtil{
     }
     
     /**
-     * Returns the content type of an image.
+     * Returns the content-type of an image.
      *
      * @param imageFilename String that contains the image filename.
      * @return Instance that contains the content type.
@@ -151,7 +151,7 @@ public class ImageUtil{
     }
     
     /**
-     * Returns the content type of an image.
+     * Returns the content-type of an image.
      *
      * @param imageFile Instance that contains the image file.
      * @return Instance that contains the content type.

@@ -22,8 +22,7 @@ package br.com.concepting.framework.util.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class BarcodeConstants{
-    public static final Integer DEFAULT_QRCODE_WIDTH = 200;
-    public static final Integer DEFAULT_QRCODE_HEIGHT = 200;
+    public static final int DEFAULT_QRCODE_WIDTH = 200;
+    public static final int DEFAULT_QRCODE_HEIGHT = 200;
 }

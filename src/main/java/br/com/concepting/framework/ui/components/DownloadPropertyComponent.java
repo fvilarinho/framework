@@ -45,8 +45,8 @@ import java.lang.reflect.InvocationTargetException;
 public class DownloadPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -1340422255244638637L;
     
-    private Boolean showContentFilename = null;
-    private Boolean showContentSize = null;
+    private boolean showContentFilename = false;
+    private boolean showContentSize = false;
     private String contentWidth = null;
     private String contentHeight = null;
     
@@ -55,7 +55,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean showContentFilename(){
+    public boolean showContentFilename(){
         return this.showContentFilename;
     }
     
@@ -64,7 +64,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowContentFilename(){
+    public boolean getShowContentFilename(){
         return showContentFilename();
     }
     
@@ -73,7 +73,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
      *
      * @param showContentFilename True/False.
      */
-    public void setShowContentFilename(Boolean showContentFilename){
+    public void setShowContentFilename(boolean showContentFilename){
         this.showContentFilename = showContentFilename;
     }
     
@@ -82,7 +82,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean isShowContentSize(){
+    public boolean isShowContentSize(){
         return this.showContentSize;
     }
     
@@ -91,7 +91,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowContentSize(){
+    public boolean getShowContentSize(){
         return isShowContentSize();
     }
     
@@ -100,7 +100,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
      *
      * @param showContentSize True/False.
      */
-    public void setShowContentSize(Boolean showContentSize){
+    public void setShowContentSize(boolean showContentSize){
         this.showContentSize = showContentSize;
     }
     
@@ -139,23 +139,8 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
     public void setContentHeight(String contentHeight){
         this.contentHeight = contentHeight;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        if(this.showContentFilename == null)
-            this.showContentFilename = false;
-        
-        if(this.showContentSize == null)
-            this.showContentSize = false;
-        
-        super.buildRestrictions();
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         ComponentType componentType = getComponentType();
         
@@ -256,10 +241,8 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
         print(contentId);
         println("');\"></div>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         ActionFormController actionFormController = getActionFormController();
         PropertyInfo propertyInfo = getPropertyInfo();
@@ -327,7 +310,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
                 }
             }
             
-            if((contentType == ContentType.GIF || contentType == ContentType.JPG || contentType == ContentType.PNG) && (this.showContentFilename == null || !this.showContentFilename || contentFilename == null || contentFilename.length() == 0) && (this.showContentSize == null || !this.showContentSize)){
+            if((contentType == ContentType.GIF || contentType == ContentType.JPG || contentType == ContentType.PNG) && (!this.showContentFilename || contentFilename == null || contentFilename.length() == 0) && !this.showContentSize){
                 ImageComponent imageComponent = new ImageComponent();
                 
                 imageComponent.setPageContext(this.pageContext);
@@ -366,7 +349,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
                 println("</td>");
                 println("<td>");
                 
-                if(this.showContentFilename != null && this.showContentFilename && contentFilename != null && contentFilename.length() > 0){
+                if(this.showContentFilename && contentFilename != null && contentFilename.length() > 0){
                     LabelComponent filenameComponent = new LabelComponent();
                     
                     filenameComponent.setPageContext(this.pageContext);
@@ -386,13 +369,13 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
                     println("<br/>");
                 }
                 
-                if(this.showContentSize != null && this.showContentSize){
+                if(this.showContentSize){
                     LabelComponent contentSizeComponent = new LabelComponent();
                     
                     contentSizeComponent.setPageContext(this.pageContext);
                     contentSizeComponent.setOutputStream(getOutputStream());
                     contentSizeComponent.setShowLabel(false);
-                    contentSizeComponent.setValue(ByteUtil.formatBytes(new Long(content.length), getCurrentLanguage()));
+                    contentSizeComponent.setValue(ByteUtil.formatBytes(content.length, getCurrentLanguage()));
                     
                     try{
                         contentSizeComponent.doStartTag();
@@ -410,16 +393,14 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
         setContentWidth(null);
         setContentHeight(null);
-        setShowContentFilename(null);
-        setShowContentSize(null);
+        setShowContentFilename(false);
+        setShowContentSize(false);
     }
 }

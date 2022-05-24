@@ -32,8 +32,8 @@ public class Interceptor{
     private Object interceptableInstance = null;
     private Class<?> interceptableInterfaceClass = null;
     private Method interceptableMethod = null;
-    private String interceptableMethodArgumentsNames[] = null;
-    private Object interceptableMethodArgumentsValues[] = null;
+    private String[] interceptableMethodArgumentsNames = null;
+    private Object[] interceptableMethodArgumentsValues = null;
     private Auditor auditor = null;
     
     /**
@@ -125,7 +125,7 @@ public class Interceptor{
      *
      * @param interceptableMethodArgumentsValues List that contains the arguments values.
      */
-    protected void setInterceptableMethodArgumentsValues(Object interceptableMethodArgumentsValues[]){
+    protected void setInterceptableMethodArgumentsValues(Object[] interceptableMethodArgumentsValues){
         this.interceptableMethodArgumentsValues = interceptableMethodArgumentsValues;
     }
     
@@ -137,13 +137,13 @@ public class Interceptor{
      * the data model.
      */
     protected Auditor getAuditor() throws InternalErrorException{
-        Class<?> interceptableMethodArgumentsTypes[] = this.interceptableMethod.getParameterTypes();
+        Class<?>[] interceptableMethodArgumentsTypes = this.interceptableMethod.getParameterTypes();
         Class<?> interceptableInstanceClass = this.interceptableInstance.getClass();
         
         try{
             this.interceptableMethod = interceptableInstanceClass.getMethod(this.interceptableMethod.getName(), interceptableMethodArgumentsTypes);
         }
-        catch(NoSuchMethodException e){
+        catch(NoSuchMethodException ignored){
         }
         
         Auditable auditableAnnotation = this.interceptableMethod.getAnnotation(Auditable.class);
@@ -163,7 +163,7 @@ public class Interceptor{
     }
     
     /**
-     * Pre-execution of the interceptable method when a exception occurred.
+     * Pre-execution of the interceptable method when an exception occurred.
      *
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
@@ -189,7 +189,7 @@ public class Interceptor{
     }
     
     /**
-     * Post-execution of the interceptable method when a exception occurred.
+     * Post-execution of the interceptable method when an exception occurred.
      *
      * @param e Instance that contains the caught exception.
      * @throws InternalErrorException Occurs when was not possible to execute

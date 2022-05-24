@@ -6,78 +6,78 @@
  */
  
 .progressBar{
+	border-radius        : 3px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius   : 3px;
-	border-radius        : 3px;
 	border               : 1px SOLID #aaaaaa;
-	border-spacing       : 0px;
+	border-spacing       : 0;
 }
 
 .progressBar td{
-	padding: 0px;
+	padding: 0;
 }
 
 /**
  * Style that defines the empty bar.
  */
 .emptyProgressBar{
-	background    : url(../images/emptyProgressBar.png) REPEAT-X;
 	width         : 1px;
 	height        : 17px;
-	padding       : 0px;
-	border-spacing: 0px;
+	background    : url(../images/emptyProgressBar.png) REPEAT-X;
+	border-spacing: 0;
+	padding       : 0;
 }
 
 /**
  * Style that defines the general bar.
  */
 .generalProgressBar{
-	background    : url(../images/generalProgressBar.png) REPEAT-X;
 	width         : 1px;
 	height        : 17px;
-	padding       : 0px;
-	border-spacing: 0px;
+	background    : url(../images/generalProgressBar.png) REPEAT-X;
+	border-spacing: 0;
+	padding       : 0;
 }
 
 /**
  * Style that defines the normal bar.
  */
 .normalProgressBar{
-	background    : url(../images/normalProgressBar.png) REPEAT-X;
 	width         : 1px;
 	height        : 17px;
-	padding       : 0px;
-	border-spacing: 0px;
+	background    : url(../images/normalProgressBar.png) REPEAT-X;
+	border-spacing: 0;
+	padding       : 0;
 }
 
 /**
  * Style that defines the warning bar.
  */
 .warningProgressBar{
-	background    : url(../images/warningProgressBar.png) REPEAT-X;
 	width         : 1px;
 	height        : 17px;
-	padding       : 0px;
-	border-spacing: 0px;
+	background    : url(../images/warningProgressBar.png) REPEAT-X;
+	border-spacing: 0;
+	padding       : 0;
 }
 
 /**
  * Style that defines the critical bar.
  */
 .criticalProgressBar{
-	background    : url(../images/criticalProgressBar.png) REPEAT-X;
 	width         : 1px;
 	height        : 17px;
-	padding       : 0px;
-	border-spacing: 0px;
+	background    : url(../images/criticalProgressBar.png) REPEAT-X;
+	border-spacing: 0;
+	padding       : 0;
 }
 
 /**
  * Style that defines the text of the component.
  */
 .progressBarText{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px; 
-	white-space: NOWRAP;
 	color      : #666666;
+	white-space: NOWRAP;
 }

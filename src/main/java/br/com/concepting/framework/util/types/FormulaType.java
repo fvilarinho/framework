@@ -1,5 +1,7 @@
 package br.com.concepting.framework.util.types;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Class that defines the types of a formula.
  *
@@ -52,7 +54,7 @@ public enum FormulaType{
      */
     AVERAGE("avg");
     
-    private String id = null;
+    private String id;
     
     /**
      * Constructor - Defines the type.

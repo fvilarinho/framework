@@ -26,10 +26,8 @@ import br.com.concepting.framework.util.types.ComponentType;
  */
 public class TextPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = 950781708118352441L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         ComponentType componentType = getComponentType();
         

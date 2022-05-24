@@ -7,18 +7,15 @@ import br.com.concepting.framework.processors.GenericProcessor;
 import br.com.concepting.framework.processors.ProcessorFactory;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.PropertyUtil;
+import br.com.concepting.framework.util.types.ContentType;
 import br.com.concepting.framework.util.types.MethodType;
-import br.com.concepting.framework.webservice.constants.WebServiceConstants;
 import br.com.concepting.framework.webservice.resources.WebServiceResources;
 import br.com.concepting.framework.webservice.resources.WebServiceResourcesLoader;
 import br.com.concepting.framework.webservice.util.WebServiceUtil;
+import org.apache.http.client.methods.*;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -47,8 +44,9 @@ import java.util.Map.Entry;
 public class WebService{
     private static Map<String, WebService> instances = null;
     
-    private WebServiceResources resources = null;
-    private Client client = null;
+    private final WebServiceResources resources;
+
+    private CloseableHttpClient client = null;
     
     /**
      * Returns the instance to manipulate the web service.
@@ -145,7 +143,7 @@ public class WebService{
      * @return Instance that contains the response of the web service.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public Response process() throws InternalErrorException{
+    public CloseableHttpResponse process() throws InternalErrorException{
         return process(null);
     }
     
@@ -156,7 +154,7 @@ public class WebService{
      * @return Instance that contains the response of the web service.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public Response process(Object value) throws InternalErrorException{
+    public CloseableHttpResponse process(Object value) throws InternalErrorException{
         return process(WebService.class.getName(), value);
     }
     
@@ -168,7 +166,7 @@ public class WebService{
      * @return Instance that contains the response of the web service.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public Response process(Object value, String language) throws InternalErrorException{
+    public CloseableHttpResponse process(Object value, String language) throws InternalErrorException{
         return process(WebService.class.getName(), value, language);
     }
     
@@ -180,7 +178,7 @@ public class WebService{
      * @return Instance that contains the response of the web service.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public Response process(Object value, Locale language) throws InternalErrorException{
+    public CloseableHttpResponse process(Object value, Locale language) throws InternalErrorException{
         return process(WebService.class.getName(), value, language);
     }
     
@@ -192,7 +190,7 @@ public class WebService{
      * @return Instance that contains the response of the web service.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public Response process(String domain, Object value) throws InternalErrorException{
+    public CloseableHttpResponse process(String domain, Object value) throws InternalErrorException{
         return process(domain, value, LanguageUtil.getDefaultLanguage());
     }
     
@@ -205,7 +203,7 @@ public class WebService{
      * @return Instance that contains the response of the web service.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public Response process(String domain, Object value, String language) throws InternalErrorException{
+    public CloseableHttpResponse process(String domain, Object value, String language) throws InternalErrorException{
         if(language == null || language.length() == 0)
             return process(domain, value, LanguageUtil.getDefaultLanguage());
         
@@ -221,46 +219,52 @@ public class WebService{
      * @return Instance that contains the response of the web service.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    public Response process(String domain, Object value, Locale language) throws InternalErrorException{
+    public CloseableHttpResponse process(String domain, Object value, Locale language) throws InternalErrorException{
         try{
             if(language == null)
                 language = LanguageUtil.getDefaultLanguage();
             
             String url = PropertyUtil.fillPropertiesInString(value, ExpressionProcessorUtil.fillVariablesInString(domain, this.resources.getUrl(), false, true, language), false, true, language);
-            WebTarget target = this.client.target(url);
-            Builder request = target.request();
+            HttpUriRequest request = null;
+
+            if(this.resources.getMethod() == MethodType.POST)
+                request = new HttpPost(url);
+            else if(this.resources.getMethod() == MethodType.PUT)
+                request = new HttpPut(url);
+            else if(this.resources.getMethod() == MethodType.DELETE)
+                request = new HttpDelete(url);
+            else if(this.resources.getMethod() == MethodType.GET)
+                request = new HttpGet(url);
+            else if(this.resources.getMethod() == MethodType.HEAD)
+                request = new HttpHead(url);
+            else if(this.resources.getMethod() == MethodType.OPTIONS)
+                request = new HttpOptions(url);
+            else if(this.resources.getMethod() == MethodType.TRACE)
+                request = new HttpTrace(url);
+
             Map<String, String> headers = this.resources.getHeaders();
-            String accept = MediaType.TEXT_PLAIN;
+            String accept = ContentType.TXT.getMimeType();
             
             if(headers != null && !headers.isEmpty()){
                 for(Entry<String, String> header: headers.entrySet()){
                     String headerName = PropertyUtil.fillPropertiesInString(value, ExpressionProcessorUtil.fillVariablesInString(domain, header.getKey(), false, true, language), false, true, language);
                     String headerValue = PropertyUtil.fillPropertiesInString(value, ExpressionProcessorUtil.fillVariablesInString(domain, header.getValue(), false, true, language), false, true, language);
-                    
-                    if(headerName.equalsIgnoreCase(WebServiceConstants.ACCEPT_ATTRIBUTE_ID))
-                        accept = headerValue;
-                    
-                    request = request.header(headerName, headerValue);
+
+                    request.addHeader(headerName, headerValue);
                 }
             }
-            
-            Response response = null;
-            
+
             if(this.resources.getMethod() == MethodType.POST || this.resources.getMethod() == MethodType.PUT){
-                GenericProcessor processor = ProcessorFactory.getInstance().
-                        getProcessor(domain, value, PropertyUtil.fillPropertiesInString(value, ExpressionProcessorUtil.fillVariablesInString(domain, this.resources.getData(), false, true, language), false, true, language), language);
+                GenericProcessor processor = ProcessorFactory.getInstance().getProcessor(domain, value, PropertyUtil.fillPropertiesInString(value, ExpressionProcessorUtil.fillVariablesInString(domain, this.resources.getData(), false, true, language), false, true, language), language);
                 String contentData = processor.process();
-                
-                response = request.post(Entity.entity(contentData, accept));
+
+                if(this.resources.getMethod() == MethodType.POST)
+                    ((HttpPost)request).setEntity(new StringEntity(contentData));
+                else
+                    ((HttpPut)request).setEntity(new StringEntity(contentData));
             }
-            else if(this.resources.getMethod() == MethodType.GET)
-                response = request.get();
-            else if(this.resources.getMethod() == MethodType.DELETE)
-                response = request.delete();
-            else if(this.resources.getMethod() == MethodType.HEAD)
-                response = request.head();
-            
-            return response;
+
+            return client.execute(request);
         }
         catch(Throwable e){
             throw new InternalErrorException(e);

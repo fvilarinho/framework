@@ -1,6 +1,5 @@
 package br.com.concepting.framework.network.helpers;
 
-import br.com.concepting.framework.model.annotations.Property;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.ContentType;
 
@@ -34,11 +33,7 @@ public class Message<O> implements Serializable{
     
     private DateTime sentDateTime = null;
     private DateTime receivedDateTime = null;
-    
-    @Property
     private ContentType contentType = null;
-    
-    @Property
     private O content = null;
     
     /**

@@ -55,10 +55,8 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
     public MailResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname);
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
-     */
+
+    @Override
     public MailResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
@@ -86,7 +84,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText());
                 
                 try{
-                    Integer serverPort = NumberUtil.parseInt(serverPortNode.getValue());
+                    int serverPort = NumberUtil.parseInt(serverPortNode.getValue());
                     
                     resources.setStorageServerPort(serverPort);
                 }
@@ -128,11 +126,11 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
                     resources.setStoragePassword(password);
             }
             
-            Boolean useSsl = Boolean.valueOf(storageNode.getAttribute(NetworkConstants.USE_SSL_ATTRIBUTE_ID));
+            boolean useSsl = Boolean.parseBoolean(storageNode.getAttribute(NetworkConstants.USE_SSL_ATTRIBUTE_ID));
             
             resources.setStorageUseSsl(useSsl);
             
-            Boolean useTls = Boolean.valueOf(storageNode.getAttribute(NetworkConstants.USE_TLS_ATTRIBUTE_ID));
+            boolean useTls = Boolean.parseBoolean(storageNode.getAttribute(NetworkConstants.USE_TLS_ATTRIBUTE_ID));
             
             resources.setStorageUseTls(useTls);
         }
@@ -165,7 +163,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText());
                 
                 try{
-                    Integer serverPort = NumberUtil.parseInt(serverPortNode.getValue());
+                    int serverPort = NumberUtil.parseInt(serverPortNode.getValue());
                     
                     resources.setTransportServerPort(serverPort);
                 }
@@ -207,21 +205,19 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
                     resources.setTransportPassword(password);
             }
             
-            Boolean useSsl = Boolean.valueOf(transportNode.getAttribute(NetworkConstants.USE_SSL_ATTRIBUTE_ID));
+            boolean useSsl = Boolean.parseBoolean(transportNode.getAttribute(NetworkConstants.USE_SSL_ATTRIBUTE_ID));
             
             resources.setTransportUseSsl(useSsl);
             
-            Boolean useTls = Boolean.valueOf(transportNode.getAttribute(NetworkConstants.USE_TLS_ATTRIBUTE_ID));
+            boolean useTls = Boolean.parseBoolean(transportNode.getAttribute(NetworkConstants.USE_TLS_ATTRIBUTE_ID));
             
             resources.setTransportUseTls(useTls);
         }
         
         return resources;
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.BaseResourcesLoader#parseContent()
-     */
+
+    @Override
     protected XmlNode parseContent() throws InvalidResourcesException{
         XmlNode contentNode = super.parseContent();
         XmlNode resourcesNode = (contentNode != null ? contentNode.getNode(MailConstants.DEFAULT_ID) : null);

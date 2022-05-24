@@ -80,28 +80,20 @@ public class PageComponent extends BaseComponent{
     public void setEncoding(String encoding){
         this.encoding = encoding;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildStyle()
-     */
+
+    @Override
     protected void buildStyle() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         SystemController systemController = getSystemController();
         UIController uiController = getUIController();
@@ -123,10 +115,8 @@ public class PageComponent extends BaseComponent{
         
         uiController.hasPageComponentInstance(true);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         SystemController systemController = getSystemController();
         
@@ -168,10 +158,8 @@ public class PageComponent extends BaseComponent{
             super.renderOpen();
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         SystemController systemController = getSystemController();
         
@@ -325,9 +313,9 @@ public class PageComponent extends BaseComponent{
         if(uiController == null)
             return;
         
-        Boolean hasPageEvents = uiController.hasPageEvents();
+        boolean hasPageEvents = uiController.hasPageEvents();
         
-        if(hasPageEvents == null || !hasPageEvents){
+        if(!hasPageEvents){
             StringBuilder content = new StringBuilder();
             
             content.append("addMouseMoveEvent(slideIt);");
@@ -653,10 +641,8 @@ public class PageComponent extends BaseComponent{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         

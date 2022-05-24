@@ -9,8 +9,8 @@
  * Style that defines the component.
  */
 .timer{
-	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif;
+	font-family: Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size  : 14px;
-	white-space: NOWRAP;
 	color      : #666666;
+	white-space: NOWRAP;
 }

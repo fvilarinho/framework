@@ -34,14 +34,14 @@ import java.text.DecimalFormatSymbols;
 public class SpinnerComponent extends TextPropertyComponent{
     private static final long serialVersionUID = 2739899668872823020L;
     
-    private Integer step = null;
+    private int step = 1;
     
     /**
      * Returns the step of the component.
      *
      * @return Numeric value that defines the step.
      */
-    public Integer getStep(){
+    public int getStep(){
         return this.step;
     }
     
@@ -50,23 +50,11 @@ public class SpinnerComponent extends TextPropertyComponent{
      *
      * @param step Numeric value that defines the step.
      */
-    public void setStep(Integer step){
+    public void setStep(int step){
         this.step = step;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        if(this.step == null || this.step <= 0)
-            this.step = 1;
-        
-        super.buildRestrictions();
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.SPINNER);
         
@@ -106,16 +94,14 @@ public class SpinnerComponent extends TextPropertyComponent{
         
         println("</td>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition){
+        if(!hasInvalidPropertyDefinition){
             PositionType labelPositionType = getLabelPositionType();
             
             if(labelPositionType == PositionType.TOP || labelPositionType == PositionType.BOTTOM){
@@ -131,14 +117,12 @@ public class SpinnerComponent extends TextPropertyComponent{
             println("<td>");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition){
+        if(!hasInvalidPropertyDefinition){
             println("</td>");
             
             println("<td width=\"5\"></td>");
@@ -159,14 +143,12 @@ public class SpinnerComponent extends TextPropertyComponent{
         
         super.renderClose();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setStep(null);
+        setStep(1);
     }
     
     /**
@@ -202,10 +184,8 @@ public class SpinnerComponent extends TextPropertyComponent{
                 setParent(spinnerComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             SpinnerComponent spinnerComponent = (SpinnerComponent) getParent();
             String name = (spinnerComponent != null ? spinnerComponent.getName() : null);
@@ -213,10 +193,10 @@ public class SpinnerComponent extends TextPropertyComponent{
             if(name != null && name.length() > 0){
                 Number minimumValue = spinnerComponent.getMinimumValue();
                 Number maximumValue = spinnerComponent.getMaximumValue();
-                Integer step = spinnerComponent.getStep();
+                int step = spinnerComponent.getStep();
                 DecimalFormatSymbols symbols = NumberUtil.getFormatSymbols(getCurrentLanguage());
-                Boolean useGroupSeparator = spinnerComponent.useAdditionalFormatting();
-                Integer precision = spinnerComponent.getPrecision();
+                boolean useGroupSeparator = spinnerComponent.useAdditionalFormatting();
+                int precision = spinnerComponent.getPrecision();
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("addSpinnerValue('");
@@ -226,11 +206,11 @@ public class SpinnerComponent extends TextPropertyComponent{
                 onClick.append(", ");
                 onClick.append((maximumValue != null ? maximumValue.toString() : Constants.DEFAULT_NULL_ID));
                 onClick.append(", ");
-                onClick.append((useGroupSeparator != null ? useGroupSeparator : Constants.DEFAULT_NULL_ID));
+                onClick.append(useGroupSeparator);
                 onClick.append(", '");
                 onClick.append(symbols.getGroupingSeparator());
                 onClick.append("', ");
-                onClick.append((precision != null ? precision : Constants.DEFAULT_NULL_ID));
+                onClick.append(precision);
                 onClick.append(", '");
                 onClick.append(symbols.getDecimalSeparator());
                 onClick.append("', ");
@@ -242,20 +222,16 @@ public class SpinnerComponent extends TextPropertyComponent{
                 super.buildEvents();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_SPINNER_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_SPINNER_ADD_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_SPINNER_ADD_BUTTON_STYLE_CLASS);
             
@@ -296,10 +272,8 @@ public class SpinnerComponent extends TextPropertyComponent{
                 setParent(spinnerComponent);
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             SpinnerComponent spinnerComponent = (SpinnerComponent) getParent();
             String name = (spinnerComponent != null ? spinnerComponent.getName() : null);
@@ -307,10 +281,10 @@ public class SpinnerComponent extends TextPropertyComponent{
             if(name != null && name.length() > 0){
                 Number minimumValue = spinnerComponent.getMinimumValue();
                 Number maximumValue = spinnerComponent.getMaximumValue();
-                Integer step = spinnerComponent.getStep();
+                int step = spinnerComponent.getStep();
                 DecimalFormatSymbols symbols = NumberUtil.getFormatSymbols(getCurrentLanguage());
-                Boolean useGroupSeparator = spinnerComponent.useAdditionalFormatting();
-                Integer precision = spinnerComponent.getPrecision();
+                boolean useGroupSeparator = spinnerComponent.useAdditionalFormatting();
+                int precision = spinnerComponent.getPrecision();
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("subtractSpinnerValue('");
@@ -320,11 +294,11 @@ public class SpinnerComponent extends TextPropertyComponent{
                 onClick.append(", ");
                 onClick.append((maximumValue != null ? maximumValue.toString() : Constants.DEFAULT_NULL_ID));
                 onClick.append(", ");
-                onClick.append((useGroupSeparator != null ? useGroupSeparator : Constants.DEFAULT_NULL_ID));
+                onClick.append(useGroupSeparator);
                 onClick.append(", '");
                 onClick.append(symbols.getGroupingSeparator());
                 onClick.append("', ");
-                onClick.append((precision != null ? precision : Constants.DEFAULT_NULL_ID));
+                onClick.append(precision);
                 onClick.append(", '");
                 onClick.append(symbols.getDecimalSeparator());
                 onClick.append("', ");
@@ -336,20 +310,16 @@ public class SpinnerComponent extends TextPropertyComponent{
                 super.buildEvents();
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_SPINNER_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_SPINNER_SUBTRACT_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_SPINNER_SUBTRACT_BUTTON_STYLE_CLASS);
             

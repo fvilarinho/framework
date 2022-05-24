@@ -25,45 +25,33 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
  */
 public class ListOptionPropertyComponent extends BaseOptionPropertyComponent{
     private static final long serialVersionUID = 5718731968797128195L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionPropertyComponent#renderSelectionAttribute()
-     */
+
+    @Override
     protected void renderSelectionAttribute() throws InternalErrorException{
-        Boolean selected = isSelected();
+        boolean selected = isSelected();
         
-        if(selected != null && selected)
+        if(selected)
             print(" selected");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderLabel()
-     */
+
+    @Override
     protected void renderLabel() throws InternalErrorException{
         print(getLabel());
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderType()
-     */
+
+    @Override
     protected void renderType() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderName()
-     */
+
+    @Override
     protected void renderName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderId()
-     */
+
+    @Override
     protected void renderId() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         print("<option");
         
@@ -71,17 +59,13 @@ public class ListOptionPropertyComponent extends BaseOptionPropertyComponent{
         
         print(">");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         renderLabel();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         println("</option>");
     }

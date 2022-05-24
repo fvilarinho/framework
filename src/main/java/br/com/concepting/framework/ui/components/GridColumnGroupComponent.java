@@ -27,14 +27,14 @@ import br.com.concepting.framework.util.types.AlignmentType;
 public class GridColumnGroupComponent extends GridColumnComponent{
     private static final long serialVersionUID = 6723734982419563034L;
     
-    private Boolean aggregate = null;
+    private boolean aggregate = false;
     
     /**
      * Indicates if the column is for aggregation.
      *
      * @return True/False.
      */
-    public Boolean aggregate(){
+    public boolean aggregate(){
         return this.aggregate;
     }
     
@@ -43,24 +43,20 @@ public class GridColumnGroupComponent extends GridColumnComponent{
      *
      * @param aggregate True/False.
      */
-    public void setAggregate(Boolean aggregate){
+    public void setAggregate(boolean aggregate){
         this.aggregate = aggregate;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
         AlignmentType alignment = getAlignmentType();
         
         if(alignment == null){
-            if(this.aggregate == null || !this.aggregate)
+            if(!this.aggregate)
                 alignment = AlignmentType.CENTER;
             else
                 alignment = AlignmentType.LEFT;
@@ -68,13 +64,11 @@ public class GridColumnGroupComponent extends GridColumnComponent{
             setAlignmentType(alignment);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.GridColumnComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setAggregate(null);
+        setAggregate(false);
     }
 }

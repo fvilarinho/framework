@@ -189,11 +189,11 @@ public class GroupModel extends BaseModel{
      * @param compareObject Instance that contains the object.
      * @return True/False.
      */
-    public Boolean hasPermission(ObjectModel compareObject){
+    public boolean hasPermission(ObjectModel compareObject){
         try{
             return (this.objects.contains(compareObject));
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         return true;
@@ -204,11 +204,11 @@ public class GroupModel extends BaseModel{
      *
      * @return True/False.
      */
-    public Boolean hasPermissions(){
+    public boolean hasPermissions(){
         try{
             return ((this.objects != null && this.objects.size() > 0) || (this.accesses != null && this.accesses.size() > 0));
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         return true;
@@ -220,7 +220,7 @@ public class GroupModel extends BaseModel{
      * @param path String that contains the path.
      * @return True/False.
      */
-    public Boolean hasPermission(String path){
+    public boolean hasPermission(String path){
         if(this.accesses != null && !this.accesses.isEmpty()){
             for(AccessModel access: this.accesses){
                 UrlModel url = access.getUrl();
@@ -242,7 +242,7 @@ public class GroupModel extends BaseModel{
      * @param compareSystemModule Instance that contains the system module.
      * @return True/False.
      */
-    public Boolean hasPermission(SystemModuleModel compareSystemModule){
+    public boolean hasPermission(SystemModuleModel compareSystemModule){
         try{
             if(this.objects != null && !this.objects.isEmpty()){
                 for(ObjectModel object: this.objects){
@@ -259,7 +259,7 @@ public class GroupModel extends BaseModel{
                 return false;
             }
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         return true;

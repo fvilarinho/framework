@@ -4,16 +4,15 @@
  * @author fvilarinho
  * @version 3.0.0
  */
-
-var timers = new Array();
+let timers = [];
 
 /**
  * Clears all timers of the page.
  */
 function clearAllTimers(){
-	if(timers != null && timers.length){
-		for(var cont = 0 ; cont < timers.length ; cont++){
-			var timer = timers[cont];
+	if(timers !== null && timers.length){
+		for(let cont = 0 ; cont < timers.length ; cont++){
+			let timer = timers[cont];
 			
 			clearInterval(timer);
 		}

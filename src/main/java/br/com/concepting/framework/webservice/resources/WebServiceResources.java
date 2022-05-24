@@ -5,6 +5,7 @@ import br.com.concepting.framework.resources.BaseResources;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
 import br.com.concepting.framework.util.types.MethodType;
+import br.com.concepting.framework.webservice.constants.WebServiceConstants;
 
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class WebServiceResources extends BaseResources<XmlNode>{
     
     private MethodType method = null;
     private String url = null;
-    private Integer timeout = null;
+    private int timeout = WebServiceConstants.DEFAULT_TIMEOUT;
     private String data = null;
     private Map<String, String> headers = null;
     
@@ -43,7 +44,7 @@ public class WebServiceResources extends BaseResources<XmlNode>{
      *
      * @return Numeric value that contains the timeout.
      */
-    public Integer getTimeout(){
+    public int getTimeout(){
         return this.timeout;
     }
     
@@ -52,7 +53,7 @@ public class WebServiceResources extends BaseResources<XmlNode>{
      *
      * @param timeout Numeric value that contains the timeout.
      */
-    public void setTimeout(Integer timeout){
+    public void setTimeout(int timeout){
         this.timeout = timeout;
     }
     

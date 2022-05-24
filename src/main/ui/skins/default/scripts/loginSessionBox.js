@@ -9,10 +9,10 @@
  * Show/Hide the login session box component.
  */
  function showHideLoginSessionBoxContent(){
-	var object = getObject("loginSessionBoxContent");
+	let object = getObject("loginSessionBoxContent");
 	
 	if(object){
-		if(object.style.visibility.toUpperCase() == "HIDDEN" || object.style.visibility == "")
+		if(object.style.visibility.toUpperCase() === "HIDDEN" || object.style.visibility === "")
 			object.style.visibility = "VISIBLE";
 		else
 			object.style.visibility = "HIDDEN";

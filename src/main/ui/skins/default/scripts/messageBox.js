@@ -11,11 +11,11 @@
  * @param name String that contains the identifier of the message box component.
  */
 function showHideErrorTrace(name){
-	var messageBoxObject           = getObject(name + ".dialogBox");
-	var messageBoxErrorTraceObject = getObject(name + ".errorTrace");
+	let messageBoxObject           = getObject(name + ".dialogBox");
+	let messageBoxErrorTraceObject = getObject(name + ".errorTrace");
 
 	if(messageBoxObject && messageBoxErrorTraceObject){
-		if(messageBoxErrorTraceObject.style.display.toUpperCase() == "NONE")
+		if(messageBoxErrorTraceObject.style.display.toUpperCase() === "NONE")
 			messageBoxErrorTraceObject.style.display = "";
 		else
 			messageBoxErrorTraceObject.style.display = "NONE";

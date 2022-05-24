@@ -35,7 +35,7 @@ public abstract class Node implements Serializable, Cloneable{
     private static final long serialVersionUID = -9107989395547430445L;
     
     @Property
-    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "class")
+    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "class")
     private Node parent = null;
     
     @Property
@@ -101,13 +101,13 @@ public abstract class Node implements Serializable, Cloneable{
      * @param parent Instance that contains the parent.
      * @param sync Synchronize all children.
      */
-    protected void setParent(Node parent, Boolean sync){
+    protected void setParent(Node parent, boolean sync){
         this.parent = parent;
-        
-        if(parent == null)
+
+        if (parent == null)
             return;
-        
-        if(sync)
+
+        if (sync)
             parent.addChild(this);
     }
     
@@ -178,28 +178,24 @@ public abstract class Node implements Serializable, Cloneable{
      *
      * @return True/False.
      */
-    public Boolean hasChildren(){
+    public boolean hasChildren(){
         if(this.children != null && !this.children.isEmpty()){
-            Node childNodeParent = null;
-            
             for(Node childNode: this.children){
                 try{
-                    childNodeParent = childNode.getParent();
+                    Node childNodeParent = childNode.getParent();
                     
                     if(childNodeParent != null && childNodeParent.equals(this))
                         return true;
                 }
-                catch(Throwable e){
+                catch(Throwable ignored){
                 }
             }
         }
         
         return false;
     }
-    
-    /**
-     * @see java.lang.Object#clone()
-     */
+
+    @Override
     public Object clone() throws CloneNotSupportedException{
         return super.clone();
     }

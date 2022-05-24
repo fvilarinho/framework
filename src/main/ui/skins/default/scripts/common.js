@@ -5,19 +5,7 @@
  * @author fvilarinho
  * @version 1.0.0
  */
-var currentRequestHandler = null;
-
-/**
- * Indicates if the browser is the Microsoft Internet Explorer.
- * 
- * @return True/False.
- */
-function isIe(){
-	if(document.all)
-		return true;
-	
-	return false;
-}
+let currentRequestHandler = null;
 
 /**
  * Replicates a string.
@@ -27,10 +15,9 @@ function isIe(){
  * @return String after the processing.
  */
 function replicate(value, times){
-	var cont   = 0;
-	var result = "";
+	let result = "";
 	
-	for(cont = 0 ; cont < times ; cont++)
+	for(let cont = 0 ; cont < times ; cont++)
 		result += value;
 	
 	return result;
@@ -39,17 +26,15 @@ function replicate(value, times){
 /**
  * Replaces all occurrences of a string by another.
  *  
- * @param value String that will be used..
+ * @param value String that will be used.
  * @param searchValue Search string.
  * @param replaceValue Replace string.
  * @return String after the processing.
  */
 function replaceAll(value, searchValue, replaceValue){
-	var pos    = 0;
-	var result = "";
-	
-	pos = value.indexOf(searchValue);
-	
+	let pos    = value.indexOf(searchValue);
+	let result = "";
+
 	if(pos >= 0){
 		result  = value.substring(0, pos) + replaceValue;
 		result += value.substring(pos + searchValue.length);
@@ -86,49 +71,39 @@ function getCurrentSkin(){
  */
 function applyGenericMask(object, event){
 	if(!object || object.readOnly || object.disabled){
-		if(window.event)
-			window.event.returnValue = null;
-		else
-	       	event.preventDefault();
+		event.preventDefault();
 	       	
 	    return;
 	}
 	
-	var key = getKeyPressed(event);
+	let key = getKeyPressed(event);
 	
-	if(key == 8 || key == 13 || key == 0)
+	if(key === 8 || key === 13 || key === 0)
 		return;
 
-	var objectValue = object.value;
-	var pattern     = getObjectValue(object.name + ".pattern");
+	let objectValue = object.value;
+	let pattern     = getObjectValue(object.name + ".pattern");
 	
 	if(objectValue.length >= pattern.length){
-		if(window.event)
-			window.event.returnValue = null;
-		else
-	       	event.preventDefault();
+		event.preventDefault();
 
 		return;
 	}
 	
-	var cursorPosition = getObjectCursorPosition(object);
+	let cursorPosition = getObjectCursorPosition(object);
 	
 	if(cursorPosition < objectValue.length){
-		if(window.event)
-			window.event.returnValue = null;
-		else
-	       	event.preventDefault();
+		event.preventDefault();
 
 		return;
 	}
 	
-	var cont1           = 0;
-	var pos             = 0;
-	var delimitersPos   = "";
-	var delimitersChars = "";
+	let pos             = 0;
+	let delimitersPos   = "";
+	let delimitersChars = "";
 
-	for(cont1 = 0 ; cont1 < pattern.length ; cont1++){
-		if(pattern.charAt(cont1) != "9" && pattern.charAt(cont1) != "#"){
+	for(let cont1 = 0 ; cont1 < pattern.length ; cont1++){
+		if(pattern.charAt(cont1) !== "9" && pattern.charAt(cont1) !== "#"){
 			if(pos > 0){
 				delimitersPos += "|";
 				delimitersChars += "|";
@@ -141,36 +116,27 @@ function applyGenericMask(object, event){
 		}
 	}
 
-	var bufferChar = String.fromCharCode(key);
+	let bufferChar = String.fromCharCode(key);
 
-	if(pattern.charAt(objectValue.length) == "9"){
-		if(isNaN(bufferChar)){
-			if(window.event)
-				window.event.returnValue = null;
-			else
-		       	event.preventDefault();
+	if(pattern.charAt(objectValue.length) === "9"){
+		if(isNaN(parseInt(bufferChar))){
+			event.preventDefault();
 
 			return;
 		}
 	}
 	else{
-		if(bufferChar == pattern.charAt(objectValue.length)){
-			if(window.event)
-				window.event.returnValue = null;
-			else
-		       	event.preventDefault();
+		if(bufferChar === pattern.charAt(objectValue.length)){
+			event.preventDefault();
 		       	
 		    object.value = objectValue + bufferChar;
 		    
 		    return;
 		}
 		
-		if(pattern.charAt(objectValue.length + 1) == "9"){
-			if(isNaN(bufferChar)){
-				if(window.event)
-					window.event.returnValue = null;
-				else
-			       	event.preventDefault();
+		if(pattern.charAt(objectValue.length + 1) === "9"){
+			if(isNaN(parseInt(bufferChar))){
+				event.preventDefault();
 	
 				return;
 			}
@@ -178,15 +144,13 @@ function applyGenericMask(object, event){
 	}
 
 	if(delimitersPos.length > 0){
-		var delimitersPosArray   = delimitersPos.split("|");
-		var delimitersCharsArray = delimitersChars.split("|");
-		var cont2                = 0;
-		var cont3                = 0;
+		let delimitersPosArray   = delimitersPos.split("|");
+		let delimitersCharsArray = delimitersChars.split("|");
 		
-		for(cont1 = 0 ; cont1 <= delimitersPosArray.length ; cont1++)
-			for(cont2 = 0 ; cont2 <= objectValue.length ; cont2++)
+		for(let cont1 = 0 ; cont1 <= delimitersPosArray.length ; cont1++)
+			for(let cont2 = 0 ; cont2 <= objectValue.length ; cont2++)
 				if(cont2 == delimitersPosArray[cont1])
-	  				if(objectValue.substring(cont2, cont2 + 1) != delimitersCharsArray[cont1])
+	  				if(objectValue.substring(cont2, cont2 + 1) !== delimitersCharsArray[cont1])
 	  					objectValue = objectValue.substring(0, cont2) + delimitersCharsArray[cont1] + objectValue.substring(cont2 + 1, objectValue.length);
 		
 		object.value = objectValue;
@@ -196,54 +160,44 @@ function applyGenericMask(object, event){
 /**
  * Applies the date/time mask.
  * 
- * @param name String that contains the identifier of the input component.
+ * @param object String that contains the identifier of the input component.
  * @param event Instance that contains the event.
  */
 function applyDateTimeMask(object, event){
 	if(!object || object.readOnly || object.disabled){
-		if(window.event)
-			window.event.returnValue = null;
-		else
-	       	event.preventDefault();
+		event.preventDefault();
 	       	
 	    return;
 	}
 
-	var key = getKeyPressed(event);
+	let key = getKeyPressed(event);
 	
-	if(key == 8 || key == 13 || key == 0)
+	if(key === 8 || key === 13 || key === 0)
 		return;
 
-	var objectValue = object.value;
-	var pattern     = getObjectValue(object.name + ".pattern");
+	let objectValue = object.value;
+	let pattern     = getObjectValue(object.name + ".pattern");
 	
 	if(objectValue.length >= pattern.length){
-		if(window.event)
-			window.event.returnValue = null;
-		else
-	       	event.preventDefault();
+		event.preventDefault();
 
 		return;
 	}
 	
-	var cursorPosition = getObjectCursorPosition(object);
+	let cursorPosition = getObjectCursorPosition(object);
 	
 	if(cursorPosition < objectValue.length){
-		if(window.event)
-			window.event.returnValue = null;
-		else
-	       	event.preventDefault();
+		event.preventDefault();
 
 		return;
 	}
 
-	var cont1           = 0;
-	var pos             = 0;
-	var delimitersPos   = "";
-	var delimitersChars = "";
+	let pos             = 0;
+	let delimitersPos   = "";
+	let delimitersChars = "";
 	
-	for(cont1 = 0 ; cont1 < pattern.length ; cont1++){
-		if(pattern.charAt(cont1) != "d" && pattern.charAt(cont1) != "M" && pattern.charAt(cont1) != "m" && pattern.charAt(cont1) != "y" && pattern.charAt(cont1) != "H" && pattern.charAt(cont1) != "h" && pattern.charAt(cont1) != "s" && pattern.charAt(cont1) != "S" && pattern.charAt(cont1) != "a"){
+	for(let cont1 = 0 ; cont1 < pattern.length ; cont1++){
+		if(pattern.charAt(cont1) !== "d" && pattern.charAt(cont1) !== "M" && pattern.charAt(cont1) !== "m" && pattern.charAt(cont1) !== "y" && pattern.charAt(cont1) !== "H" && pattern.charAt(cont1) !== "h" && pattern.charAt(cont1) !== "s" && pattern.charAt(cont1) !== "S" && pattern.charAt(cont1) !== "a"){
 			if(pos > 0){
 				delimitersPos += "|";
 				delimitersChars += "|";
@@ -256,63 +210,51 @@ function applyDateTimeMask(object, event){
 		}
 	}
 
-	var bufferChar = String.fromCharCode(key);
+	let bufferChar = String.fromCharCode(key);
 
-	if(pattern.charAt(objectValue.length) == "d" || pattern.charAt(objectValue.length) == "M" || pattern.charAt(objectValue.length) == "m" || pattern.charAt(objectValue.length) == "y" || pattern.charAt(objectValue.length) == "H" || pattern.charAt(objectValue.length) == "h" || pattern.charAt(objectValue.length) == "s" || pattern.charAt(objectValue.length) == "S"){
-		if(isNaN(bufferChar)){
-			if(window.event)
-				window.event.returnValue = null;
-			else
-		       	event.preventDefault();
+	if(pattern.charAt(objectValue.length) === "d" || pattern.charAt(objectValue.length) === "M" || pattern.charAt(objectValue.length) === "m" || pattern.charAt(objectValue.length) === "y" || pattern.charAt(objectValue.length) === "H" || pattern.charAt(objectValue.length) === "h" || pattern.charAt(objectValue.length) === "s" || pattern.charAt(objectValue.length) === "S"){
+		if(isNaN(parseInt(bufferChar))){
+			event.preventDefault();
 
 			return;
 		}
 	}
 	else{
-		if(pattern.charAt(objectValue.length) == "a" || pattern.charAt(objectValue.length + 1) == "a"){
-			var delimiter = "";
+		if(pattern.charAt(objectValue.length) === "a" || pattern.charAt(objectValue.length + 1) === "a"){
+			let delimiter = "";
 			
-			if(pattern.charAt(objectValue.length) != "d" && pattern.charAt(objectValue.length) != "M" && pattern.charAt(objectValue.length) != "y" && pattern.charAt(objectValue.length) != "H" && pattern.charAt(objectValue.length) != "m" && pattern.charAt(objectValue.length) != "s" && pattern.charAt(objectValue.length) != "S" && pattern.charAt(objectValue.length) != "a")
+			if(pattern.charAt(objectValue.length) !== "d" && pattern.charAt(objectValue.length) !== "M" && pattern.charAt(objectValue.length) !== "y" && pattern.charAt(objectValue.length) !== "H" && pattern.charAt(objectValue.length) !== "m" && pattern.charAt(objectValue.length) !== "s" && pattern.charAt(objectValue.length) !== "S" && pattern.charAt(objectValue.length) !== "a")
 				delimiter = pattern.charAt(objectValue.length);
 			
-			if(bufferChar.toLowerCase() == "a")
+			if(bufferChar.toLowerCase() === "a")
 				bufferChar = "AM";
 			else
 				bufferChar = "PM";
 			
-			if(window.event)
-				window.event.returnValue = null;
-			else
-		       	event.preventDefault();
+			event.preventDefault();
 			
 		    object.value = objectValue + delimiter + bufferChar;
 		    
 		    if(object.onchange)
-		    		object.onchange();
+				object.onchange();
 		    
 		    return;
 		}
 		
-		if(bufferChar == pattern.charAt(objectValue.length)){
-			if(window.event)
-				window.event.returnValue = null;
-			else
-		       	event.preventDefault();
+		if(bufferChar === pattern.charAt(objectValue.length)){
+			event.preventDefault();
 		       	
 		    object.value = objectValue + bufferChar;
 		    
 		    if(object.onchange)
-		    		object.onchange();
+				object.onchange();
 
 		    return;
 		}
 		
-		if(pattern.charAt(objectValue.length + 1) == "d" || pattern.charAt(objectValue.length + 1) == "M" || pattern.charAt(objectValue.length + 1) == "m" || pattern.charAt(objectValue.length + 1) == "y" || pattern.charAt(objectValue.length + 1) == "H" || pattern.charAt(objectValue.length + 1) == "h" || pattern.charAt(objectValue.length + 1) == "s" || pattern.charAt(objectValue.length + 1) == "S"){
-			if(isNaN(bufferChar)){
-				if(window.event)
-					window.event.returnValue = null;
-				else
-			       	event.preventDefault();
+		if(pattern.charAt(objectValue.length + 1) === "d" || pattern.charAt(objectValue.length + 1) === "M" || pattern.charAt(objectValue.length + 1) === "m" || pattern.charAt(objectValue.length + 1) === "y" || pattern.charAt(objectValue.length + 1) === "H" || pattern.charAt(objectValue.length + 1) === "h" || pattern.charAt(objectValue.length + 1) === "s" || pattern.charAt(objectValue.length + 1) === "S"){
+			if(isNaN(parseInt(bufferChar))){
+				event.preventDefault();
 	
 				return;
 			}
@@ -320,15 +262,13 @@ function applyDateTimeMask(object, event){
 	}
 
 	if(delimitersPos.length > 0){
-		var delimitersPosArray   = delimitersPos.split("|");
-		var delimitersCharsArray = delimitersChars.split("|");
-		var cont2                = 0;
-		var cont3                = 0;
-		
-		for(cont1 = 0 ; cont1 <= delimitersPosArray.length ; cont1++)
-			for(cont2 = 0 ; cont2 <= objectValue.length ; cont2++)
+		let delimitersPosArray   = delimitersPos.split("|");
+		let delimitersCharsArray = delimitersChars.split("|");
+
+		for(let cont1 = 0 ; cont1 <= delimitersPosArray.length ; cont1++)
+			for(let cont2 = 0 ; cont2 <= objectValue.length ; cont2++)
 				if(cont2 == delimitersPosArray[cont1])
-	  				if(objectValue.substring(cont2, cont2 + 1) != delimitersCharsArray[cont1])
+	  				if(objectValue.substring(cont2, cont2 + 1) !== delimitersCharsArray[cont1])
 	  					objectValue = objectValue.substring(0, cont2) + delimitersCharsArray[cont1] + objectValue.substring(cont2 + 1, objectValue.length);
 		
 		object.value = objectValue;
@@ -344,7 +284,7 @@ function applyDateTimeMask(object, event){
  * @param object Instance that contains the input component.
  * @param minimumValue Numeric value that contains the minimum value permitted.
  * @param maximumValue Numeric value that contains the maximum value permitted.
- * @param useGroupSeparator Indicates the the mask should use the group separator.
+ * @param useGroupSeparator Indicates the mask should use the group separator.
  * @param groupSeparator String that contains the group separator.
  * @param precision Numeric value that contains the decimal precision.
  * @param decimalSeparator String that contains the decimal separator.
@@ -352,63 +292,57 @@ function applyDateTimeMask(object, event){
  */
 function applyNumericMask(object, minimumValue, maximumValue, useGroupSeparator, groupSeparator, precision, decimalSeparator, event){
 	if(!object || object.readOnly || object.disabled){
-		if(window.event)
-			window.event.returnValue = null;
-		else if(event)
-	       	event.preventDefault();
+		event.preventDefault();
 	       	
 	    return;
 	}
 	
-	var key = 0;
+	let key = 0;
 
 	if(event){
 		key = getKeyPressed(event);
 		
-		if(key == 8 || key == 13 || key == 0)
+		if(key === 8 || key === 13 || key === 0)
 			return;
 		
-		if(window.event)
-			window.event.returnValue = null;
-		else
-	       	event.preventDefault();
+		event.preventDefault();
 	}
 	
-	var objectValue = object.value;
-	var isNegative  = objectValue.startsWith("-");
-	var bufferChar  = (key != 0 ? String.fromCharCode(key) : "");
+	let objectValue = object.value;
+	let isNegative  = objectValue.startsWith("-");
+	let bufferChar  = (key !== 0 ? String.fromCharCode(key) : "");
 	
-    if(bufferChar == "-" && isNegative)
+    if(bufferChar === "-" && isNegative)
     	return;   	
 	
-	if(bufferChar == "+"){
+	if(bufferChar === "+"){
 		objectValue = replaceAll(objectValue, "-", "");
 		object.value = objectValue;
 	}
-	else if(bufferChar == "-"){
+	else if(bufferChar === "-"){
 		objectValue = bufferChar + objectValue;
 		object.value = objectValue;
 	}
     else{
-		if(isNaN(bufferChar))
+		if(isNaN(parseInt(bufferChar)))
 			return;
 		
 		objectValue = replaceAll(objectValue, "-", "");
 
-		if(useGroupSeparator && groupSeparator != "")
+		if(useGroupSeparator && groupSeparator !== "")
     		objectValue = replaceAll(objectValue, groupSeparator, "");
 
-		if(precision == null)
+		if(precision === null)
 			precision = 0;
 
-		if(precision > 0 && decimalSeparator != "" && decimalSeparator != ".")
+		if(precision > 0 && decimalSeparator !== "" && decimalSeparator !== ".")
     		objectValue = replaceAll(objectValue, decimalSeparator, "");
 
-		if(objectValue == ""){
+		if(objectValue === ""){
 			if(precision > 0){
 				objectValue = "0";
 
-				if(bufferChar == "0")
+				if(bufferChar === "0")
 					objectValue += replicate("0", precision);
 				else{
 					objectValue += replicate("0", precision - 1);
@@ -419,8 +353,8 @@ function applyNumericMask(object, minimumValue, maximumValue, useGroupSeparator,
 				objectValue = bufferChar;
 		}
 		else{
-			if(objectValue == "0"){
-				if(bufferChar == "" || bufferChar == "0")
+			if(objectValue === "0"){
+				if(bufferChar === "" || bufferChar === "0")
 					return;
 
 				objectValue = bufferChar;
@@ -429,18 +363,18 @@ function applyNumericMask(object, minimumValue, maximumValue, useGroupSeparator,
 				objectValue += bufferChar;
 			
 			if(precision > 0)
-				if(objectValue.charAt(0) == "0")
+				if(objectValue.charAt(0) === "0")
 					objectValue = objectValue.substring(1, objectValue.length)
 		}
 		
-		var groupBuffer   = objectValue.substring(0, (objectValue.length - precision));
-		var decimalBuffer = "";
+		let groupBuffer   = objectValue.substring(0, (objectValue.length - precision));
+		let decimalBuffer = "";
 		
-		if(precision > 0 && decimalSeparator != "")
+		if(precision > 0 && decimalSeparator !== "")
 			decimalBuffer = objectValue.substring((objectValue.length - precision), objectValue.length);
     
-		if(minimumValue != null && maximumValue != null){
-    		var objectValueBuffer = parseFloat((isNegative ? "-" : "") + groupBuffer + (precision > 0 ? "." : "") + decimalBuffer);
+		if(minimumValue !== null && maximumValue !== null){
+    		let objectValueBuffer = parseFloat((isNegative ? "-" : "") + groupBuffer + (precision > 0 ? "." : "") + decimalBuffer);
     	
     		if(objectValueBuffer < minimumValue)
     			return;
@@ -449,12 +383,12 @@ function applyNumericMask(object, minimumValue, maximumValue, useGroupSeparator,
     			return;
 		}
 
-		if(useGroupSeparator && groupSeparator != ""){
-			var pos    = 0;
-			var buffer = "";
+		if(useGroupSeparator && groupSeparator !== ""){
+			let pos    = 0;
+			let buffer = "";
 	    
-			for(cont = groupBuffer.length ; cont >= 0 ; cont--){
-				if(pos == 4){
+			for(let cont = groupBuffer.length ; cont >= 0 ; cont--){
+				if(pos === 4){
 					buffer = groupSeparator + buffer;
 		
 					pos = 1;
@@ -477,24 +411,13 @@ function applyNumericMask(object, minimumValue, maximumValue, useGroupSeparator,
 }
 
 /**
- * Returns the current cursor position of a input.
+ * Returns the current cursor position of an input.
  * 
  * @param object Instance that contains the input.
  * @return Numeric value that contains the cursor position.
  */
 function getObjectCursorPosition(object){
-	var range = null;
-	
-	if(typeof object.selectionStart == "number")
-		return object.selectionStart;
-	else if(document.selection){
-		range = document.selection.createRange();
-		
-		range.collapse(true);
-		range.moveStart("character", -object.value.length);
-
-		return range.text.length;
-	}
+	return object.selectionStart;
 }
 
 /**
@@ -504,9 +427,7 @@ function getObjectCursorPosition(object){
  * @returns Instance that contains the object.
  */
 function getObject(name){
-	var object = document.getElementById(name);
-	
-	return object;
+	return document.getElementById(name);
 }
 
 /**
@@ -516,7 +437,7 @@ function getObject(name){
  * @returns Instance that contains the value of the object.
  */
 function getObjectValue(name){
-	var object = getObject(name);
+	let object = getObject(name);
 	
 	if(object)
 		return object.value;
@@ -531,7 +452,7 @@ function getObjectValue(name){
  * @param value Instance that contains the value of the object.
  */
 function setObjectValue(name, value){
-	var object = getObject(name);
+	let object = getObject(name);
 	
 	try{
 		if(object)
@@ -542,13 +463,13 @@ function setObjectValue(name, value){
 }
 
 /**
- * Puts the focus in a object.
+ * Puts the focus in an object.
  * 
  * @param name String that contains the identifier of the object.
  */
 function focusObject(name){
 	try{
-		var object = getObject(name);
+		let object = getObject(name);
 		
 		if(object){
 			object.focus();
@@ -565,17 +486,11 @@ function focusObject(name){
  * @param object Instance that contains the object.
  */
 function centralizeObject(object){
-	var windowWidth  = null;
-	var windowHeight = null;
-	var objectWidth  = null;
-	var objectHeight = null;
-	var objectTop    = null;
-
-	objectWidth  = object.offsetWidth;
-	objectHeight = object.offsetHeight;
-	objectTop    = (isIe() ? document.body.offsetTop : window.pageYOffset);
-  	windowWidth  = (isIe() ? document.body.scrollWidth : window.innerWidth);
-	windowHeight = (isIe() ? document.body.scrollHeight : window.innerHeight);
+	let windowWidth  = window.innerWidth;
+	let windowHeight = window.innerHeight;
+	let objectWidth  = object.offsetWidth;
+	let objectHeight = object.offsetHeight;
+	let objectTop    = document.body.offsetTop;
 
 	object.style.left = ((windowWidth - objectWidth) / 2) + "px";
 	object.style.top  = (objectTop + (windowHeight - objectHeight) / 2) + "px";
@@ -588,14 +503,7 @@ function centralizeObject(object){
  * @return Numeric value that contains the ASCII code.
  */
 function getKeyPressed(event){
-	var key;
-  
-	if(window.event)
-		key = event.keyCode;
-	else
-     	key = event.which;
-        
-   	return key;
+	return event.which;
 }
 
 /**
@@ -604,9 +512,9 @@ function getKeyPressed(event){
  * @param functionId String that contains the function that will be executed.
  */
 function addLoadEvent(functionId){
-	var loadHistory = window.onload;
+	let loadHistory = window.onload;
 
-	if(typeof loadHistory != "function")
+	if(typeof loadHistory !== "function")
 		window.onload = functionId;
 	else{
 		window.onload = function(){
@@ -624,9 +532,9 @@ function addLoadEvent(functionId){
  * @param functionId String that contains the function that will be executed.
  */
 function addResizeEvent(functionId){
-	var resizeHistory = window.onresize;
+	let resizeHistory = window.onresize;
 
-	if(typeof resizeHistory != "function")
+	if(typeof resizeHistory !== "function")
 		window.onresize = functionId;
 	else{
 		window.onresize = function(){
@@ -644,9 +552,9 @@ function addResizeEvent(functionId){
  * @param functionId String that contains the function that will be executed.
  */
 function addMouseMoveEvent(functionId){
-	var mouseMoveHistory = window.onmousemove;
+	let mouseMoveHistory = window.onmousemove;
 
-	if(typeof mouseMoveHistory != "function")
+	if(typeof mouseMoveHistory !== "function")
 		window.onmousemove = functionId;
 	else{
 		window.onmousemove = function(){
@@ -664,9 +572,9 @@ function addMouseMoveEvent(functionId){
  * @param functionId String that contains the function that will be executed.
  */
 function addScrollEvent(functionId){
-	var scrollHistory = window.onscroll;
+	let scrollHistory = window.onscroll;
 
-	if(typeof scrollHistory != "function")
+	if(typeof scrollHistory !== "function")
 		window.onscroll = functionId;
 	else{
 		window.onscroll = function(){
@@ -684,9 +592,9 @@ function addScrollEvent(functionId){
  * @param functionId String that contains the function that will be executed.
  */
 function addClickEvent(functionId){
-	var clickHistory = document.onclick;
+	let clickHistory = document.onclick;
 
-	if(typeof clickHistory != "function")
+	if(typeof clickHistory !== "function")
 		document.onclick = functionId;
 	else{
 		document.onclick = function(){
@@ -702,12 +610,12 @@ function addClickEvent(functionId){
  * Shows the loading box.
  */
 function showLoadingBox(){
-	var loadingBoxObject = getObject("loadingBox");
+	let loadingBoxObject = getObject("loadingBox");
 		
 	if(loadingBoxObject){
 		loadingBoxObject.style.visibility = "VISIBLE";
 		loadingBoxObject.style.display = "";
-		loadingBoxObject.style.opacity = 1;
+		loadingBoxObject.style.opacity = "1";
 
 		centralizeObject(loadingBoxObject);
 	}
@@ -717,12 +625,12 @@ function showLoadingBox(){
  * Hides the loading box.
  */
 function hideLoadingBox(){
-	var loadingBoxObject = getObject("loadingBox");
+	let loadingBoxObject = getObject("loadingBox");
 		
 	if(loadingBoxObject){
 		loadingBoxObject.style.visibility = "HIDDEN";
 		loadingBoxObject.style.display = "NONE";
-		loadingBoxObject.style.opacity = 0;
+		loadingBoxObject.style.opacity = "0";
 	}
 }
 
@@ -732,37 +640,35 @@ function hideLoadingBox(){
  * @param actionForm Instance that contains the action form.
  */
 function buildActionFormRequest(actionForm){
-	var cont1           = 0;
-	var cont2           = 0;
-	var result          = "";
-	var elements        = actionForm.elements;
-	var element         = null;
-	var elementType     = null;
-	var elementName     = null;
-	var elementChecked  = null;
-	var elementDisabled = null;
-	var elementValue    = null;
-	var elementOptions  = null;
-	var elementOption   = null;
+	let result          = "";
+	let elements        = actionForm.elements;
+	let element         = null;
+	let elementType     = null;
+	let elementName     = null;
+	let elementChecked  = null;
+	let elementDisabled = null;
+	let elementValue    = null;
+	let elementOptions  = null;
+	let elementOption   = null;
 	
-	for(cont1 = 0 ; cont1 < elements.length ; cont1++){
+	for(let cont1 = 0 ; cont1 < elements.length ; cont1++){
 		element         = elements[cont1];
 		elementType     = element.type;
 		elementName     = element.name;
 		elementDisabled = element.disabled;
 		
-		if(elementType != null){
+		if(elementType !== null){
 			elementType = elementType.toUpperCase();
 			
 			if(elementType.indexOf("FILE") < 0){
-				if(elementDisabled == false && elementName != ""){
+				if(elementDisabled === false && elementName !== ""){
 					if(elementType.indexOf("SELECT-") >= 0){
 						elementOptions = element.options;
 						
-						for(cont2 = 0 ; cont2 < elementOptions.length ; cont2++){
+						for(let cont2 = 0 ; cont2 < elementOptions.length ; cont2++){
 							elementOption = elementOptions[cont2];
 							
-							if(elementOption.selected == true){
+							if(elementOption.selected === true){
 								elementValue = elementOption.value;
 								
 								if(result.length > 0)
@@ -771,27 +677,27 @@ function buildActionFormRequest(actionForm){
 								result += elementName;
 								result += "=";
 								
-								if(elementValue != null && elementValue.length > 0)
+								if(elementValue !== null && elementValue.length > 0)
 									result += encodeURIComponent(elementValue);
 							}
 						}
 					}
-					else if(elementType == "RADIO" || elementType == "CHECKBOX"){
+					else if(elementType === "RADIO" || elementType === "CHECKBOX"){
 						elementChecked = element.checked;
 						elementValue   = element.value;
 						
-						if(elementChecked == true){
+						if(elementChecked === true){
 							if(result.length > 0)
 								result += "&";
 								
 							result += elementName;
 							result += "=";
 							
-							if(elementValue != null && elementValue.length > 0)
+							if(elementValue !== null && elementValue.length > 0)
 								result += encodeURIComponent(elementValue);
 						}		
 					}
-					else if(elementType != "BUTTON" && elementType != "SUBMIT"){
+					else if(elementType !== "BUTTON" && elementType !== "SUBMIT"){
 						elementValue = element.value;
 						
 						if(result.length > 0)
@@ -800,7 +706,7 @@ function buildActionFormRequest(actionForm){
 						result += elementName;
 						result += "=";
 						
-						if(elementValue != null && elementValue.length > 0)
+						if(elementValue !== null && elementValue.length > 0)
 							result += encodeURIComponent(elementValue);
 					}	
 				}
@@ -819,12 +725,12 @@ function buildActionFormRequest(actionForm){
 function submitActionForm(actionForm){
 	showLoadingBox();
 	
-	var type        = "POST";
-	var url         = actionForm.attributes["action"].value;
-	var parameters  = buildActionFormRequest(actionForm);
-	var enctype     = (actionForm.attributes["enctype"] ? actionForm.attributes["enctype"].value : null);
-	var updateViews = actionForm.elements["updateViews"].value;
-	var target      = (actionForm.attributes["target"] ? actionForm.attributes["target"].value : null);
+	let type        = "POST";
+	let url         = actionForm.attributes["action"].value;
+	let parameters  = buildActionFormRequest(actionForm);
+	let enctype     = (actionForm.attributes["enctype"] ? actionForm.attributes["enctype"].value : null);
+	let updateViews = actionForm.elements["updateViews"].value;
+	let target      = (actionForm.attributes["target"] ? actionForm.attributes["target"].value : null);
 	
 	submitRequest(type, url, parameters, enctype, updateViews, target);
 }
@@ -838,13 +744,13 @@ function submitActionForm(actionForm){
  * @param enctype String that contains the mime type of the request.
  * @param updateViews String that contains the views that will be updated.
  * @param target String that contains the target of the request.
- * @returns True/False.
+ * @returns boolean
  */
 function submitRequest(type, url, parameters, enctype, updateViews, target){
-	if(currentRequestHandler != null)
+	if(currentRequestHandler !== null)
 		return false;
 
-	var requestHandler = null;
+	let requestHandler = null;
 	
 	if(window.XMLHttpRequest)
 		requestHandler = new XMLHttpRequest();
@@ -888,27 +794,26 @@ function submitRequest(type, url, parameters, enctype, updateViews, target){
 }
 
 /**
- * Process the submit response.
+ * Process the response of a submission.
  * 
  * @param requestHandler Instance that contains the request.
  * @param updateViews String that contains the views that will be updated.
  * @param target String that contains the target of the request.
  */
 function processSubmitResponse(requestHandler, updateViews, target){
-	if(requestHandler.readyState == 4){
-		var node            = null;
-		var responseText    = requestHandler.responseText;
-		var parser          = new DOMParser();
-		var newDocument     = parser.parseFromString(responseText, "text/html");
+	if(requestHandler.readyState === 4){
+		let responseText = requestHandler.responseText;
+		let parser       = new DOMParser();
+		let newDocument  = parser.parseFromString(responseText, "text/html");
 
 		if(updateViews && updateViews.length > 0){
 			updateViews = updateViews.split(",");
 			
-			var documentObject     = null;
-			var newDocumentObject  = null;
-			var updateView         = null;
+			let documentObject    = null;
+			let newDocumentObject = null;
+			let updateView        = null;
 			
-			for(cont = 0 ; cont < updateViews.length ; cont++){
+			for(let cont = 0 ; cont < updateViews.length ; cont++){
 				updateView = updateViews[cont];
 				documentObject = getObject(updateView);
 				newDocumentObject = newDocument.getElementById(updateView);
@@ -924,47 +829,47 @@ function processSubmitResponse(requestHandler, updateViews, target){
 			setObjectValue("updateViews", "");
 		}	
 		else{
-			var currentScripts  = document.head.getElementsByTagName("script");
-			var newScripts      = newDocument.head.getElementsByTagName("script");
-			var currentScript   = null;
-			var newScript       = null;
-			var scriptReference = null;
-			var currentLinks    = document.head.getElementsByTagName("link");
-			var newLinks        = newDocument.head.getElementsByTagName("link");
-			var currentLink     = null;
-			var newLink         = null;
-			var linkReference   = null;
-			var currentStyles   = document.head.getElementsByTagName("style");
-			var newStyles       = newDocument.head.getElementsByTagName("style");
-			var currentStyle    = null;
-			var newStyle        = null;
-			var styleReference  = null;
-			var found           = null;
+			let currentScripts  = document.head.getElementsByTagName("script");
+			let newScripts      = newDocument.head.getElementsByTagName("script");
+			let currentScript   = null;
+			let newScript       = null;
+			let scriptReference = null;
+			let currentLinks    = document.head.getElementsByTagName("link");
+			let newLinks        = newDocument.head.getElementsByTagName("link");
+			let currentLink     = null;
+			let newLink         = null;
+			let linkReference   = null;
+			let currentStyles   = document.head.getElementsByTagName("style");
+			let newStyles       = newDocument.head.getElementsByTagName("style");
+			let currentStyle    = null;
+			let newStyle        = null;
+			let styleReference  = null;
+			let found           = null;
 			
-			for(cont1 = 0 ; cont1 < currentScripts.length ; cont1++){
+			for(let cont1 = 0 ; cont1 < currentScripts.length ; cont1++){
 				currentScript = currentScripts[cont1];
 				found = false;
 				
-				if(currentScript != null){
-					for(cont2 = 0 ; cont2 < newScripts.length ; cont2++){
+				if(currentScript !== null){
+					for(let cont2 = 0 ; cont2 < newScripts.length ; cont2++){
 						newScript = newScripts[cont2];
 						
-						if(newScript != null && 
-						   newScript.src != null && 
+						if(newScript !== null && 
+						   newScript.src !== null && 
 						   newScript.src.trim().length > 0 && 
-						   currentScript.src != null && 
+						   currentScript.src !== null && 
 						   currentScript.src.trim().length > 0 &&
-						   newScript.src == currentScript.src){
+						   newScript.src === currentScript.src){
 							found = true;
 							
 							break;
 						} 
-						else if(newScript != null && 
-								newScript.innerHTML != null && 
+						else if(newScript !== null && 
+								newScript.innerHTML !== null && 
 								newScript.innerHTML.trim().length > 0 && 
-								currentScript.innerHTML != null && 
+								currentScript.innerHTML !== null && 
 								currentScript.innerHTML.trim().length > 0 &&
-								newScript.innerHTML == currentScript.innerHTML){
+								newScript.innerHTML === currentScript.innerHTML){
 							found = true;
 									
 							break;
@@ -976,30 +881,22 @@ function processSubmitResponse(requestHandler, updateViews, target){
 					document.head.removeChild(currentScript);
 			}
 			
-			for(cont1 = 0 ; cont1 < newScripts.length ; cont1++){
+			for(let cont1 = 0 ; cont1 < newScripts.length ; cont1++){
 				newScript = newScripts[cont1];
 				found = false;
 				
-				if(newScript != null){
-					for(cont2 = 0 ; cont2 < currentScripts.length ; cont2++){
+				if(newScript !== null){
+					for(let cont2 = 0 ; cont2 < currentScripts.length ; cont2++){
 						currentScript = currentScripts[cont2];
 						
-						if(newScript != null && 
-						   newScript.src != null && 
-						   newScript.src.trim().length > 0 && 
-						   currentScript.src != null && 
-						   currentScript.src.trim().length > 0 &&
-						   newScript.src == currentScript.src){
+						if(newScript.src !== null && newScript.src.trim().length > 0 && currentScript.src !== null && currentScript.src.trim().length > 0 &&
+						   newScript.src === currentScript.src){
 							found = true;
 							
 							break;
 						} 
-						else if(newScript != null && 
-								newScript.innerHTML != null && 
-								newScript.innerHTML.trim().length > 0 && 
-								currentScript.innerHTML != null && 
-								currentScript.innerHTML.trim().length > 0 &&
-								newScript.innerHTML == currentScript.innerHTML){
+						else if(newScript.innerHTML !== null && newScript.innerHTML.trim().length > 0 && currentScript.innerHTML !== null && currentScript.innerHTML.trim().length > 0 &&
+								newScript.innerHTML === currentScript.innerHTML){
 							found = true;
 									
 							break;
@@ -1007,11 +904,11 @@ function processSubmitResponse(requestHandler, updateViews, target){
 					}
 				}
 				
-				if(!found){
+				if(!found && newScript !== null){
 					scriptReference = document.createElement("script");
 					scriptReference.setAttribute("type", "text/javascript");
 					
-					if(newScript.src != null && newScript.src.trim().length > 0)
+					if(newScript.src !== null && newScript.src.trim().length > 0)
 						scriptReference.setAttribute("src", newScript.src);
 					else
 						scriptReference.innerHTML = newScript.innerHTML;
@@ -1020,20 +917,20 @@ function processSubmitResponse(requestHandler, updateViews, target){
 				}
 			}
 			
-			for(cont1 = 0 ; cont1 < currentLinks.length ; cont1++){
+			for(let cont1 = 0 ; cont1 < currentLinks.length ; cont1++){
 				currentLink = currentLinks[cont1];
 				found = false;
 				
-				if(currentLink != null){
-					for(cont2 = 0 ; cont2 < newLinks.length ; cont2++){
+				if(currentLink !== null){
+					for(let cont2 = 0 ; cont2 < newLinks.length ; cont2++){
 						newLink = newLinks[cont2];
 						
-						if(newLink != null && 
-						   newLink.href != null && 
+						if(newLink !== null && 
+						   newLink.href !== null && 
 						   newLink.href.trim().length > 0 && 
-						   currentLink.href != null && 
+						   currentLink.href !== null && 
 						   currentLink.href.trim().length > 0 &&
-						   newLink.href == currentLink.href){
+						   newLink.href === currentLink.href){
 							found = true;
 							
 							break;
@@ -1045,20 +942,16 @@ function processSubmitResponse(requestHandler, updateViews, target){
 					document.head.removeChild(currentLink);
 			}
 			
-			for(cont1 = 0 ; cont1 < newLinks.length ; cont1++){
+			for(let cont1 = 0 ; cont1 < newLinks.length ; cont1++){
 				newLink = newLinks[cont1];
 				found = false;
 				
-				if(newLink != null){
-					for(cont2 = 0 ; cont2 < currentLinks.length ; cont2++){
+				if(newLink !== null){
+					for(let cont2 = 0 ; cont2 < currentLinks.length ; cont2++){
 						currentLink = currentLinks[cont2];
 						
-						if(newLink != null && 
-						   newLink.href != null && 
-						   newLink.href.trim().length > 0 && 
-						   currentLink.href != null && 
-						   currentLink.href.trim().length > 0 &&
-						   newLink.href == currentLink.href){
+						if(newLink.href !== null && newLink.href.trim().length > 0 && currentLink.href !== null && currentLink.href.trim().length > 0 &&
+						   newLink.href === currentLink.href){
 							found = true;
 							
 							break;
@@ -1066,7 +959,7 @@ function processSubmitResponse(requestHandler, updateViews, target){
 					}
 				}
 				
-				if(!found){
+				if(!found && newLink !== null){
 					linkReference = document.createElement("link");
 					linkReference.setAttribute("type", "text/css");
 					linkReference.setAttribute("rel", "stylesheet");
@@ -1076,20 +969,20 @@ function processSubmitResponse(requestHandler, updateViews, target){
 				}
 			}
 			
-			for(cont1 = 0 ; cont1 < currentStyles.length ; cont1++){
+			for(let cont1 = 0 ; cont1 < currentStyles.length ; cont1++){
 				currentStyle = currentStyles[cont1];
 				found = false;
 				
-				if(currentStyle != null){
-					for(cont2 = 0 ; cont2 < newStyles.length ; cont2++){
+				if(currentStyle !== null){
+					for(let cont2 = 0 ; cont2 < newStyles.length ; cont2++){
 						newStyle = newStyles[cont2];
 						
-						if(newStyle != null && 
-						   newStyle.innerHTML != null && 
+						if(newStyle !== null && 
+						   newStyle.innerHTML !== null && 
 						   newStyle.innerHTML.trim().length > 0 && 
-						   currentStyle.innerHTML != null && 
+						   currentStyle.innerHTML !== null && 
 						   currentStyle.innerHTML.trim().length > 0 &&
-						   newStyle.innerHTML == currentStyle.innerHTML){
+						   newStyle.innerHTML === currentStyle.innerHTML){
 							found = true;
 									
 							break;
@@ -1101,20 +994,16 @@ function processSubmitResponse(requestHandler, updateViews, target){
 					document.head.removeChild(currentStyle);
 			}
 			
-			for(cont1 = 0 ; cont1 < newStyles.length ; cont1++){
+			for(let cont1 = 0 ; cont1 < newStyles.length ; cont1++){
 				newStyle = newStyles[cont1];
 				found = false;
 				
-				if(newStyle != null){
-					for(cont2 = 0 ; cont2 < currentStyles.length ; cont2++){
+				if(newStyle !== null){
+					for(let cont2 = 0 ; cont2 < currentStyles.length ; cont2++){
 						currentStyle = currentStyles[cont2];
 						
-						if(newStyle != null && 
-						   newStyle.innerHTML != null && 
-						   newStyle.innerHTML.trim().length > 0 && 
-						   currentStyle.innerHTML != null && 
-						   currentStyle.innerHTML.trim().length > 0 &&
-						   newStyle.innerHTML == currentStyle.innerHTML){
+						if(newStyle.innerHTML !== null && newStyle.innerHTML.trim().length > 0 && currentStyle.innerHTML !== null && currentStyle.innerHTML.trim().length > 0 &&
+						   newStyle.innerHTML === currentStyle.innerHTML){
 							found = true;
 									
 							break;
@@ -1122,7 +1011,7 @@ function processSubmitResponse(requestHandler, updateViews, target){
 					}
 				}
 				
-				if(!found){
+				if(!found && newStyle !== null){
 					styleReference = document.createElement("style");
 					styleReference.setAttribute("type", "text/css");
 					styleReference.innerHTML = newStyle.innerHTML;
@@ -1145,12 +1034,12 @@ function processSubmitResponse(requestHandler, updateViews, target){
 }
 
 /**
- * Process the submit response scripts.
+ * Process the response scripts of a submission.
  */
 function processSubmitResponseScripts(){
-	var childNodes = document.head.getElementsByTagName("script");
-	var childNode  = null;
-	var cont       = 0;
+	let childNodes = document.head.getElementsByTagName("script");
+	let childNode  = null;
+	let cont       = 0;
 	
 	if(childNodes){
 		for(cont = 0 ; cont < childNodes.length ; cont++){
@@ -1176,12 +1065,12 @@ function processSubmitResponseScripts(){
 }
 
 /**
- * Process a submit response script.
+ * Process a response script of a submission.
  * 
  * @param scriptCode Script to be processed.
  */
 function processSubmitResponseScript(scriptCode){
-	var object = new Function(scriptCode);
+	let object = new Function(scriptCode);
 	
 	setTimeout(object(), 0);
 }
@@ -1192,7 +1081,7 @@ function processSubmitResponseScript(scriptCode){
 (function(DOMParser){
     "use strict";
 
-    var proto = DOMParser.prototype, nativeParse = proto.parseFromString;
+    let proto = DOMParser.prototype, nativeParse = proto.parseFromString;
 
     try{
         if((new DOMParser()).parseFromString("", "text/html"))
@@ -1203,7 +1092,7 @@ function processSubmitResponseScript(scriptCode){
 
     proto.parseFromString = function(markup, type){
         if(/^\s*text\/html\s*(?:;|$)/i.test(type)){
-            var doc = document.implementation.createHTMLDocument("");
+            let doc = document.implementation.createHTMLDocument("");
                 
             if(markup.toLowerCase().indexOf('<!doctype') > -1)
             	doc.documentElement.innerHTML = markup;

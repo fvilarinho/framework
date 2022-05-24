@@ -4,6 +4,7 @@ import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.processors.constants.ProcessorConstants;
 import br.com.concepting.framework.util.helpers.BaseIndent;
 import br.com.concepting.framework.util.types.AlignmentType;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.text.MaskFormatter;
 import java.io.BufferedReader;
@@ -60,19 +61,19 @@ public class StringUtil{
             if(matcher.matches()){
                 String group = matcher.group(1);
                 
-                if(group.toLowerCase().equals("<i>") || group.toLowerCase().equals("</i>"))
+                if(group.equalsIgnoreCase("<i>") || group.equalsIgnoreCase("</i>"))
                     html = replaceAll(html, group, "_");
-                else if(group.toLowerCase().equals("<b>") || group.toLowerCase().equals("</b>"))
+                else if(group.equalsIgnoreCase("<b>") || group.equalsIgnoreCase("</b>"))
                     html = replaceAll(html, group, "*");
-                else if(group.toLowerCase().equals("<pre>") || group.toLowerCase().equals("</pre>"))
+                else if(group.equalsIgnoreCase("<pre>") || group.equalsIgnoreCase("</pre>"))
                     html = replaceAll(html, group, "```");
-                else if(group.toLowerCase().equals("<code>") || group.toLowerCase().equals("</code>"))
+                else if(group.equalsIgnoreCase("<code>") || group.equalsIgnoreCase("</code>"))
                     html = replaceAll(html, group, "`");
-                else if(group.toLowerCase().equals("<strike>") || group.toLowerCase().equals("</strike>"))
+                else if(group.equalsIgnoreCase("<strike>") || group.equalsIgnoreCase("</strike>"))
                     html = replaceAll(html, group, "~");
-                else if(group.toLowerCase().equals("<br>") || group.toLowerCase().equals("<br/>"))
+                else if(group.equalsIgnoreCase("<br>") || group.equalsIgnoreCase("<br/>"))
                     html = replaceAll(html, group, ProcessorConstants.DEFAULT_LINEBREAK_TAG_ID);
-                else if(group.toLowerCase().equals("<li>"))
+                else if(group.equalsIgnoreCase("<li>"))
                     html = replaceAll(html, group, " - ");
                 else
                     html = replaceAll(html, group, "");
@@ -109,7 +110,7 @@ public class StringUtil{
             if(delimiter == null || delimiter.length() == 0)
                 delimiter = Constants.DEFAULT_NORMALIZE_DELIMITER;
             
-            String parts[] = StringUtil.split(value.toLowerCase(), delimiter);
+            String[] parts = StringUtil.split(value.toLowerCase(), delimiter);
             
             if(parts != null && parts.length > 0){
                 StringBuilder normalized = new StringBuilder();
@@ -135,17 +136,11 @@ public class StringUtil{
      * @param times Numeric value that contains the number of replications.
      * @return String replicated.
      */
-    public static String replicate(String value, Integer times){
-        if(value != null && value.length() > 0 && times != null && times.doubleValue() > 0){
-            StringBuilder replicateBuffer = new StringBuilder();
-            
-            for(int cont = 0; cont < times; cont++)
-                replicateBuffer.append(value);
-            
-            return replicateBuffer.toString();
-        }
-        
-        return null;
+    public static String replicate(String value, int times){
+        if(value != null && value.length() > 0 && times > 0)
+            return value.repeat(Math.max(0, times));
+
+        return value;
     }
     
     /**
@@ -163,7 +158,7 @@ public class StringUtil{
             if(pos >= 0){
                 StringBuilder replaceBuffer = new StringBuilder();
                 
-                replaceBuffer.append(value.substring(0, pos));
+                replaceBuffer.append(value, 0, pos);
                 
                 if(replace != null && replace.length() > 0)
                     replaceBuffer.append(replace);
@@ -188,8 +183,8 @@ public class StringUtil{
     public static String replaceLast(String value, char search, String replace){
         if(value != null && value.length() > 0 && replace != null && replace.length() > 0)
             return replaceLast(value, String.valueOf(search), replace);
-        
-        return null;
+
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -207,7 +202,7 @@ public class StringUtil{
             if(pos >= 0){
                 StringBuilder replaceBuffer = new StringBuilder();
                 
-                replaceBuffer.append(value.substring(0, pos));
+                replaceBuffer.append(value, 0, pos);
                 
                 if(replace != null && replace.length() > 0)
                     replaceBuffer.append(replace);
@@ -217,7 +212,7 @@ public class StringUtil{
                 return replaceBuffer.toString();
             }
         }
-        
+
         return value;
     }
     
@@ -267,10 +262,10 @@ public class StringUtil{
      * @param value String that will be used.
      * @return Aligned string.
      */
-    public static String align(AlignmentType alignment, Integer maxChars, String value){
-        if(value != null && value.length() > 0 && maxChars != null){
+    public static String align(AlignmentType alignment, int maxChars, String value){
+        if(value != null && value.length() > 0 && maxChars > 0){
             StringBuilder align = new StringBuilder();
-            Integer length = value.length();
+            int length = value.length();
             
             if(length == 0)
                 return replicate(" ", maxChars);
@@ -340,7 +335,7 @@ public class StringUtil{
      * @param values List of objects that will be used.
      * @return Merged string.
      */
-    public static String merge(Object values[]){
+    public static String merge(Object[] values){
         if(values != null && values.length > 0)
             return merge(values, Constants.DEFAULT_DELIMITER);
         
@@ -354,7 +349,7 @@ public class StringUtil{
      * @param delimiter String that contains the delimiter.
      * @return Merged string.
      */
-    public static String merge(Object values[], String delimiter){
+    public static String merge(Object[] values, String delimiter){
         if(values != null && values.length > 0){
             if(delimiter == null || delimiter.length() == 0)
                 delimiter = Constants.DEFAULT_DELIMITER;
@@ -402,7 +397,7 @@ public class StringUtil{
                 delimiter = Constants.DEFAULT_DELIMITER;
             
             StringTokenizer tokenizer = new StringTokenizer(value, delimiter);
-            String tokens[] = new String[tokenizer.countTokens()];
+            String[] tokens = new String[tokenizer.countTokens()];
             
             for(int cont = 0; cont < tokens.length; cont++)
                 tokens[cont] = StringUtil.trim(tokenizer.nextToken());
@@ -421,7 +416,7 @@ public class StringUtil{
      * capitalized.
      * @return String capitalized.
      */
-    public static String capitalize(String value, Boolean onlyFirstWord){
+    public static String capitalize(String value, boolean onlyFirstWord){
         return capitalize(value, Constants.DEFAULT_CAPITALIZE_DELIMITER, onlyFirstWord);
     }
     
@@ -434,11 +429,11 @@ public class StringUtil{
      * capitalized.
      * @return String capitalized.
      */
-    public static String capitalize(String value, String delimiter, Boolean onlyFirstWord){
+    public static String capitalize(String value, String delimiter, boolean onlyFirstWord){
         if(value != null && value.length() > 0){
             StringBuilder result = new StringBuilder();
             
-            if(onlyFirstWord != null && onlyFirstWord){
+            if(onlyFirstWord){
                 result.append(value.substring(0, 1).toUpperCase());
                 result.append(value.substring(1));
             }
@@ -446,7 +441,7 @@ public class StringUtil{
                 if(delimiter == null || delimiter.length() == 0)
                     delimiter = Constants.DEFAULT_CAPITALIZE_DELIMITER;
                 
-                String values[] = StringUtil.split(value, delimiter);
+                String[] values = StringUtil.split(value, delimiter);
                 
                 if(values != null && values.length > 0){
                     for(String valueItem: values){
@@ -510,12 +505,13 @@ public class StringUtil{
             
             try{
                 MaskFormatter formatter = new MaskFormatter(pattern);
-                int cont = 0;
-                
+
                 formatter.setValueContainsLiteralCharacters(false);
                 
                 value = formatter.valueToString(value);
-                
+
+                int cont;
+
                 for(cont = 0; cont < pattern.length(); cont++)
                     if(pattern.charAt(cont) != ' ' && value.charAt(cont) == ' ')
                         break;
@@ -525,7 +521,7 @@ public class StringUtil{
                 else
                     value = value.substring(0, cont);
             }
-            catch(ParseException e){
+            catch(ParseException ignored){
             }
         }
         
@@ -574,12 +570,12 @@ public class StringUtil{
             ByteArrayInputStream in = new ByteArrayInputStream(value.getBytes());
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             LinkedList<BaseIndent> rulesQueue = null;
-            BaseIndent lastRule = null;
-            BaseIndent currentRule = null;
-            String line = null;
-            String indentation = null;
-            Integer currentIdentCount = 0;
-            int pos = 0;
+            BaseIndent lastRule;
+            BaseIndent currentRule;
+            String indentation;
+            int currentIdentCount = 0;
+            String line;
+            int pos;
             
             while((line = reader.readLine()) != null){
                 line = StringUtil.trim(line);
@@ -588,7 +584,7 @@ public class StringUtil{
                 if(rulesQueue != null && !rulesQueue.isEmpty()){
                     lastRule = rulesQueue.getLast();
                     
-                    if(lastRule.backAfterEndChar() == null || !lastRule.backAfterEndChar()){
+                    if(!lastRule.backAfterEndChar()){
                         if(lastRule.getEndChar() != null && lastRule.getEndChar().length() >= 0){
                             pos = line.indexOf(lastRule.getEndChar());
                             
@@ -661,7 +657,7 @@ public class StringUtil{
                 if(rulesQueue != null && !rulesQueue.isEmpty()){
                     lastRule = rulesQueue.getLast();
                     
-                    if(lastRule.backAfterEndChar() != null && lastRule.backAfterEndChar()){
+                    if(lastRule.backAfterEndChar()){
                         if(lastRule.getEndChar() != null && lastRule.getEndChar().length() > 0){
                             pos = line.indexOf(lastRule.getEndChar());
                             
@@ -697,7 +693,7 @@ public class StringUtil{
     /**
      * Converts a string with wildcards into a string with regular expressions.
      *
-     * @param expression String that will be used..
+     * @param expression String that will be used.
      * @return String that contains the regular expressions.
      */
     public static String toRegex(String expression){

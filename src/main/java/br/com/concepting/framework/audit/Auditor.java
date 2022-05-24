@@ -55,11 +55,11 @@ public class Auditor{
     private String[] businessComplementArgumentsIds = null;
     private Class<?>[] businessComplementArgumentsTypes = null;
     private Object[] businessComplementArgumentsValues = null;
-    private Boolean transactionEnded = null;
-    private Long transactionStartTime = null;
+    private boolean transactionEnded = false;
+    private long transactionStartTime = 0;
     private LoginSessionModel loginSession = null;
     private AuditorResources resources = null;
-    
+
     /**
      * Constructor - Defines the auditing's parameters.
      *
@@ -125,11 +125,11 @@ public class Auditor{
      *
      * @return Numeric value containing the response time in milliseconds.
      */
-    public Long getResponseTime(){
-        if(this.transactionEnded != null && this.transactionEnded && this.transactionStartTime != null)
+    public long getResponseTime(){
+        if(this.transactionEnded && this.transactionStartTime > 0)
             return (System.currentTimeMillis() - this.transactionStartTime);
         
-        return null;
+        return 0;
     }
     
     /**
@@ -266,7 +266,7 @@ public class Auditor{
                 this.businessComplementArgumentsTypes = new Class[business.getParameterCount()];
                 
                 int cont = 0;
-                Object businessComplementArgumentsValue = null;
+                Object businessComplementArgumentsValue;
                 
                 for(Parameter businessComplementArgument: business.getParameters()){
                     businessComplementArgumentsValue = businessComplementArgumentsValues[cont];
@@ -379,7 +379,7 @@ public class Auditor{
     private void updateAppenders(){
         if(this.logger != null){
             Enumeration<Appender> allAppenders = this.logger.getAllAppenders();
-            Appender appenderInstance = null;
+            Appender appenderInstance;
             
             while(allAppenders.hasMoreElements()){
                 appenderInstance = allAppenders.nextElement();
@@ -415,7 +415,7 @@ public class Auditor{
                             if(entity.equals(Auditor.this.entity))
                                 return -1;
                         }
-                        catch(Throwable e){
+                        catch(Throwable ignored){
                         }
                         
                         return 0;
@@ -429,10 +429,10 @@ public class Auditor{
             
             if(appendersResources != null){
                 Enumeration<Appender> allAppenders = this.logger.getAllAppenders();
-                Class<?> appenderClass = null;
-                Appender appenderInstance = null;
-                Map<String, String> appenderOptions = null;
-                Boolean hasAppender = null;
+                Class<?> appenderClass;
+                Appender appenderInstance;
+                Map<String, String> appenderOptions;
+                boolean hasAppender;
                 
                 for(FactoryResources appenderResources: appendersResources){
                     appenderOptions = appenderResources.getOptions();
@@ -542,7 +542,7 @@ public class Auditor{
         
         info(StatusType.PROCESSED);
         
-        this.transactionStartTime = null;
+        this.transactionStartTime = 0;
     }
     
     /**
@@ -557,6 +557,6 @@ public class Auditor{
         
         info(StatusType.PROCESSED_WITH_ERROR);
         
-        this.transactionStartTime = null;
+        this.transactionStartTime = 0;
     }
 }

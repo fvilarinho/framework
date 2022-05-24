@@ -41,14 +41,14 @@ import java.util.List;
 public class GridColumnComponent extends BaseOptionsPropertyComponent{
     private static final long serialVersionUID = 4958728620516766106L;
     
-    private Boolean showAsImage = null;
-    private Boolean showAsLanguage = null;
-    private Boolean showCalendarButton = null;
+    private boolean showAsImage = false;
+    private boolean showAsLanguage = false;
+    private boolean showCalendarButton = true;
     private String imageWidth = null;
     private String imageHeight = null;
-    private Boolean isEditable = null;
-    private Integer rows = null;
-    private Integer columns = null;
+    private boolean isEditable = false;
+    private int rows = 0;
+    private int columns = 0;
     private String headerStyleClass = null;
     private String headerStyle = null;
     private List<GridColumnStateComponent> columnStatesComponents = null;
@@ -58,7 +58,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean showAsLanguage(){
+    public boolean showAsLanguage(){
         return this.showAsLanguage;
     }
     
@@ -67,7 +67,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowAsLanguage(){
+    public boolean getShowAsLanguage(){
         return showAsLanguage();
     }
     
@@ -76,7 +76,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @param showAsLanguage True/False.
      */
-    public void setShowAsLanguage(Boolean showAsLanguage){
+    public void setShowAsLanguage(boolean showAsLanguage){
         this.showAsLanguage = showAsLanguage;
     }
     
@@ -85,7 +85,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean showCalendarButton(){
+    public boolean showCalendarButton(){
         return this.showCalendarButton;
     }
     
@@ -94,7 +94,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowCalendarButton(){
+    public boolean getShowCalendarButton(){
         return showCalendarButton();
     }
     
@@ -103,7 +103,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @param showCalendarButton True/False.
      */
-    public void setShowCalendarButton(Boolean showCalendarButton){
+    public void setShowCalendarButton(boolean showCalendarButton){
         this.showCalendarButton = showCalendarButton;
     }
     
@@ -184,7 +184,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean showAsImage(){
+    public boolean showAsImage(){
         return this.showAsImage;
     }
     
@@ -193,7 +193,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowAsImage(){
+    public boolean getShowAsImage(){
         return showAsImage();
     }
     
@@ -202,7 +202,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @param showAsImage True/False.
      */
-    public void setShowAsImage(Boolean showAsImage){
+    public void setShowAsImage(boolean showAsImage){
         this.showAsImage = showAsImage;
     }
     
@@ -211,7 +211,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @return Numeric value that contains the number of rows.
      */
-    public Integer getRows(){
+    public int getRows(){
         return this.rows;
     }
     
@@ -220,7 +220,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @param rows Numeric value that contains the number of rows.
      */
-    public void setRows(Integer rows){
+    public void setRows(int rows){
         this.rows = rows;
     }
     
@@ -229,7 +229,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @return Numeric value that contains the number of columns.
      */
-    public Integer getColumns(){
+    public int getColumns(){
         return this.columns;
     }
     
@@ -238,7 +238,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @param columns Numeric value that contains the number of columns.
      */
-    public void setColumns(Integer columns){
+    public void setColumns(int columns){
         this.columns = columns;
     }
     
@@ -280,7 +280,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean isEditable(){
+    public boolean isEditable(){
         return this.isEditable;
     }
     
@@ -289,7 +289,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getIsEditable(){
+    public boolean getIsEditable(){
         return isEditable();
     }
     
@@ -298,23 +298,11 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
      *
      * @param isEditable True/False.
      */
-    public void setIsEditable(Boolean isEditable){
+    public void setIsEditable(boolean isEditable){
         this.isEditable = isEditable;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        if(this.showCalendarButton == null)
-            this.showCalendarButton = true;
-        
-        super.buildRestrictions();
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
         
@@ -349,22 +337,16 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildStyle()
-     */
+
+    @Override
     protected void buildStyle() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#initialize()
-     */
+
+    @Override
     @SuppressWarnings("unchecked")
     protected void initialize() throws InternalErrorException{
         GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
@@ -373,7 +355,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
             try{
                 gridComponent = (GridPropertyComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
@@ -397,7 +379,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
                     String dataset = gridComponent.getDataset();
                     
                     if(dataset != null && dataset.length() > 0){
-                        Object instance = null;
+                        Object instance;
                         
                         if(datasetScope == ScopeType.MODEL){
                             BaseActionForm<? extends BaseModel> actionFormInstance = actionFormController.getActionFormInstance();
@@ -410,9 +392,9 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
                                 PropertyInfo propertyInfo = modelInfo.getPropertyInfo(dataset);
                                 
                                 if(propertyInfo != null){
-                                    Boolean hasModel = propertyInfo.hasModel();
+                                    boolean hasModel = propertyInfo.hasModel();
                                     
-                                    if(hasModel != null && hasModel){
+                                    if(hasModel){
                                         Class<? extends BaseModel> collectionItemsClass = (Class<? extends BaseModel>) propertyInfo.getCollectionItemsClass();
                                         
                                         if(collectionItemsClass != null){
@@ -468,27 +450,23 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
             super.initialize();
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean render = render();
+        boolean render = render();
         
-        if(render != null && render){
+        if(render){
             GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
             
             if(gridComponent == null){
                 try{
                     gridComponent = (GridPropertyComponent) getParent();
                 }
-                catch(ClassCastException e){
+                catch(ClassCastException ignored){
                 }
             }
             
@@ -501,7 +479,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
                             GridColumnGroupComponent gridColumnGroupComponent = (GridColumnGroupComponent) getParent();
                             
                             if(gridColumnGroupComponent != null)
-                                gridColumnComponent.setParent((GridColumnGroupComponent) gridColumnGroupComponent.clone());
+                                gridColumnComponent.setParent(gridColumnGroupComponent.clone());
                         }
                         
                         gridComponent.addColumnComponent(gridColumnComponent);
@@ -513,26 +491,23 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setShowAsImage(null);
-        setShowCalendarButton(null);
+        setShowAsImage(false);
+        setShowAsLanguage(false);
+        setShowCalendarButton(true);
         setImageWidth(null);
         setImageHeight(null);
-        setIsEditable(null);
-        setRows(null);
-        setColumns(null);
+        setIsEditable(false);
+        setRows(0);
+        setColumns(0);
         setHeaderStyleClass(null);
         setHeaderStyle(null);
         setColumnStatesComponents(null);

@@ -35,7 +35,7 @@ public class GuideComponent extends BaseActionFormComponent{
     private String onSelectAction = null;
     private String onSelectForward = null;
     private String onSelectUpdateViews = null;
-    private Boolean onSelectValidateModel = null;
+    private boolean onSelectValidateModel = false;
     private String onSelectValidateModelProperties = null;
     private String content = null;
     
@@ -112,7 +112,7 @@ public class GuideComponent extends BaseActionFormComponent{
      *
      * @return True/False.
      */
-    public Boolean getOnSelectValidateModel(){
+    public boolean getOnSelectValidateModel(){
         return this.onSelectValidateModel;
     }
     
@@ -121,7 +121,7 @@ public class GuideComponent extends BaseActionFormComponent{
      *
      * @param onSelectValidateModel True/False.
      */
-    public void setOnSelectValidateModel(Boolean onSelectValidateModel){
+    public void setOnSelectValidateModel(boolean onSelectValidateModel){
         this.onSelectValidateModel = onSelectValidateModel;
     }
     
@@ -181,19 +181,15 @@ public class GuideComponent extends BaseActionFormComponent{
     public void setOnSelect(String onSelect){
         this.onSelect = onSelect;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         super.buildEvents();
         
         buildEvent(EventType.ON_SELECT);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         GuidesComponent guidesComponent = (GuidesComponent) findAncestorWithClass(this, GuidesComponent.class);
         
@@ -201,7 +197,7 @@ public class GuideComponent extends BaseActionFormComponent{
             try{
                 guidesComponent = (GuidesComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
@@ -217,42 +213,34 @@ public class GuideComponent extends BaseActionFormComponent{
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.GUIDE);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean render = render();
+        boolean render = render();
         
-        if(render != null && render){
+        if(render){
             GuidesComponent guidesComponent = (GuidesComponent) findAncestorWithClass(this, GuidesComponent.class);
             
             if(guidesComponent == null){
                 try{
                     guidesComponent = (GuidesComponent) getParent();
                 }
-                catch(ClassCastException e){
+                catch(ClassCastException ignored){
                 }
             }
             
@@ -276,10 +264,8 @@ public class GuideComponent extends BaseActionFormComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
@@ -287,7 +273,7 @@ public class GuideComponent extends BaseActionFormComponent{
         setOnSelectAction(null);
         setOnSelectForward(null);
         setOnSelectUpdateViews(null);
-        setOnSelectValidateModel(null);
+        setOnSelectValidateModel(false);
         setOnSelectValidateModelProperties(null);
         setContent(null);
     }

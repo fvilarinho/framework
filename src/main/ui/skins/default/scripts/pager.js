@@ -65,7 +65,7 @@ function moveToPreviousPage(name, updateViews, actionFormName){
  * @param updateViews String that contains the identifier of the view that will be updated.
  * @param actionFormName String that contains the identifier of the action form.
  */
-function moveToNextPage(name, updateViews, actionFormName, value){
+function moveToNextPage(name, updateViews, actionFormName){
 	executePagerAction(name, "NEXT_PAGE", updateViews, actionFormName);
 }
 

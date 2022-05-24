@@ -28,10 +28,8 @@ import javax.servlet.jsp.tagext.Tag;
  */
 public class RadioPropertyComponent extends BaseOptionPropertyComponent{
     private static final long serialVersionUID = 7631291170352730770L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         Tag parent = findAncestorWithClass(this, OptionsPropertyComponent.class);
         
@@ -68,10 +66,8 @@ public class RadioPropertyComponent extends BaseOptionPropertyComponent{
         
         super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.RADIO);
         

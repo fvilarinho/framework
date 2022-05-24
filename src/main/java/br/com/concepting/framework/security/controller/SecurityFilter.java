@@ -34,7 +34,6 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.HttpMethod;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
@@ -150,12 +149,12 @@ public class SecurityFilter implements Filter{
             
             requestUriBuffer.append(requestUri);
             
-            Map<String, RequestParameterInfo> requestParameters = this.systemController.getRequestParameters();
+            Map<String, RequestParameterInfo> requestParameters = this.systemController.getParameters();
             
             if(requestParameters != null && !requestParameters.isEmpty()){
                 requestUriBuffer.append("?");
                 
-                int cont2 = 0;
+                int cont = 0;
                 
                 for(Entry<String, RequestParameterInfo> entry: requestParameters.entrySet()){
                     String requestParameterName = entry.getKey();
@@ -165,15 +164,15 @@ public class SecurityFilter implements Filter{
                         String[] requestParameterValues = requestParameterInfo.getValues();
                         
                         if(requestParameterValues != null && requestParameterValues.length > 0){
-                            for(int cont1 = 0; cont1 < requestParameterValues.length; cont1++){
-                                if(cont2 > 0)
+                            for (String requestParameterValue : requestParameterValues) {
+                                if (cont > 0)
                                     requestUriBuffer.append("&");
-                                
+
                                 requestUriBuffer.append(requestParameterName);
                                 requestUriBuffer.append("=");
-                                requestUriBuffer.append(requestParameterValues[cont1]);
-                                
-                                cont2++;
+                                requestUriBuffer.append(requestParameterValue);
+
+                                cont++;
                             }
                         }
                     }
@@ -186,7 +185,7 @@ public class SecurityFilter implements Filter{
         requestUri = StringUtil.replaceAll(requestUri, this.systemController.getContextPath(), "");
         
         UserModel user = loginSession.getUser();
-        Boolean excludeUrl = false;
+        boolean excludeUrl = false;
         
         if(exclusionUrls != null && !exclusionUrls.isEmpty()){
             for(UrlModel exclusionUrl: exclusionUrls){
@@ -239,9 +238,9 @@ public class SecurityFilter implements Filter{
         L loginSession = (this.securityController != null ? this.securityController.getLoginSession() : null);
         
         if(loginSession != null){
-            Boolean isWebServicesRequest = (this.systemController != null ? this.systemController.isWebServicesRequest() : null);
+            boolean isWebServicesRequest = (this.systemController != null ? this.systemController.isWebServicesRequest() : null);
             
-            if(isWebServicesRequest != null && isWebServicesRequest){
+            if(isWebServicesRequest){
                 if(loginSession.getId() != null && loginSession.getId().length() > 0){
                     Class<L> loginSessionClass = (Class<L>)loginSession.getClass();
                     LoginSessionService<L, U, LP> loginSessionService = null;
@@ -249,7 +248,7 @@ public class SecurityFilter implements Filter{
                     try{
                         loginSessionService = getService(loginSessionClass);
                     }
-                    catch(InternalErrorException e){
+                    catch(InternalErrorException ignored){
                     }
                     
                     if(loginSessionService != null){
@@ -268,9 +267,9 @@ public class SecurityFilter implements Filter{
                     
                     DateTime now = new DateTime();
                     DateTime startDateTime = loginSession.getStartDateTime();
-                    Long ttl = DateTimeUtil.diff(now, startDateTime, DateFieldType.MINUTES);
+                    int ttl = DateTimeUtil.diff(now, startDateTime, DateFieldType.MINUTES);
                     
-                    if(this.securityResources.getLoginSessionTimeout() == null || ttl >= this.securityResources.getLoginSessionTimeout()){
+                    if(ttl >= this.securityResources.getLoginSessionTimeout()){
                         if(loginSessionService != null)
                             loginSessionService.logOut();
                         
@@ -288,7 +287,7 @@ public class SecurityFilter implements Filter{
             try{
                 systemModuleService = getService(modelClass);
             }
-            catch(InternalErrorException e){
+            catch(InternalErrorException ignored){
             }
             
             if(systemModuleService != null){
@@ -305,7 +304,7 @@ public class SecurityFilter implements Filter{
             
             systemModule = systemModuleService.loadReference(systemModule, SystemConstants.EXCLUSION_URLS_ATTRIBUTE_ID);
             
-            if(isWebServicesRequest == null || !isWebServicesRequest){
+            if(!isWebServicesRequest){
                 systemModule = systemModuleService.loadReference(systemModule, SystemConstants.FORMS_ATTRIBUTE_ID);
                 
                 FormModel form = systemModule.getForm(ActionFormUtil.getActionFormIdByModel(this.systemResources.getMainConsoleClass()));
@@ -334,14 +333,14 @@ public class SecurityFilter implements Filter{
                     try{
                         systemSessionService = getService(systemSessionClass);
                     }
-                    catch(InternalErrorException e){
+                    catch(InternalErrorException ignored){
                     }
                     
                     if(systemSessionService != null){
                         try{
                             systemSession = systemSessionService.save(systemSession);
                         }
-                        catch(ItemAlreadyExistsException e){
+                        catch(ItemAlreadyExistsException ignored){
                         }
                     }
                     
@@ -356,16 +355,14 @@ public class SecurityFilter implements Filter{
         else
             throw new PermissionDeniedException();
     }
-    
-    /**
-     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
-     */
+
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException{
         ((HttpServletResponse) response).setHeader("Access-Control-Allow-Origin", "*");
         ((HttpServletResponse) response).setHeader("Access-Control-Allow-Methods", "HEAD, DELETE, PUT, POST, GET, OPTIONS");
         ((HttpServletResponse) response).setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, ".concat(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID));
         
-        if(((HttpServletRequest) request).getMethod().equals(HttpMethod.OPTIONS))
+        if(((HttpServletRequest) request).getMethod().equals("OPTIONS"))
             filterChain.doFilter(request, response);
         else{
             this.systemController = new SystemController((HttpServletRequest) request, (HttpServletResponse) response);
@@ -382,10 +379,8 @@ public class SecurityFilter implements Filter{
             }
         }
     }
-    
-    /**
-     * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-     */
+
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException{
         try{
             SystemResourcesLoader systemResourcesLoader = new SystemResourcesLoader();
@@ -400,10 +395,8 @@ public class SecurityFilter implements Filter{
             this.systemController.forward(e);
         }
     }
-    
-    /**
-     * @see javax.servlet.Filter#destroy()
-     */
+
+    @Override
     public void destroy(){
     }
 }

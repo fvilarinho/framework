@@ -6,12 +6,10 @@ import br.com.concepting.framework.controller.form.constants.ActionFormConstants
 import br.com.concepting.framework.controller.types.ScopeType;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
-import br.com.concepting.framework.model.SystemSessionModel;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.processors.ExpressionProcessor;
 import br.com.concepting.framework.processors.ExpressionProcessorUtil;
 import br.com.concepting.framework.security.controller.SecurityController;
-import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.ui.components.types.PagerActionType;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.ui.controller.UIController;
@@ -54,9 +52,9 @@ import java.util.Locale;
 public class GridPropertyComponent extends OptionsPropertyComponent{
     private static final long serialVersionUID = -5946996131314362186L;
     
-    private Boolean scrolling = null;
+    private boolean scrolling = false;
     private String scrollingWidth = null;
-    private Boolean showSelection = null;
+    private boolean showSelection = true;
     private String headerStyle = null;
     private String headerStyleClass = null;
     private List<GridColumnComponent> columnsComponents = null;
@@ -87,7 +85,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getScrolling(){
+    public boolean getScrolling(){
         return this.scrolling;
     }
     
@@ -96,7 +94,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
      *
      * @param scrolling True/False.
      */
-    public void setScrolling(Boolean scrolling){
+    public void setScrolling(boolean scrolling){
         this.scrolling = scrolling;
     }
     
@@ -195,7 +193,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
      *
      * @return True/False.
      */
-    protected Boolean showSelection(){
+    protected boolean showSelection(){
         return this.showSelection;
     }
     
@@ -204,7 +202,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
      *
      * @return True/False.
      */
-    protected Boolean isShowSelection(){
+    protected boolean isShowSelection(){
         return showSelection();
     }
     
@@ -213,7 +211,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
      *
      * @return True/False.
      */
-    protected Boolean getShowSelection(){
+    protected boolean getShowSelection(){
         return isShowSelection();
     }
     
@@ -222,7 +220,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
      *
      * @param showSelection True/False.
      */
-    protected void setShowSelection(Boolean showSelection){
+    protected void setShowSelection(boolean showSelection){
         this.showSelection = showSelection;
     }
     
@@ -296,10 +294,8 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             this.rowStatesComponents.add(rowStateComponent);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
         String name = getName();
         String dataset = getDataset();
@@ -312,40 +308,21 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         
         super.buildName();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.OptionsPropertyComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        String name = getName();
-        
-        if(name != null && name.length() > 0 && this.showSelection == null)
-            this.showSelection = true;
-        
-        if(this.scrolling == null)
-            this.scrolling = false;
-        
-        super.buildRestrictions();
-    }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.GRID);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#renderDatasetIndexesAttributes()
-     */
+
+    @Override
     protected void renderDatasetIndexesAttributes() throws InternalErrorException{
         String actionFormName = getActionFormName();
         String name = getName();
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && (hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition)){
+        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && !hasInvalidPropertyDefinition){
             super.renderDatasetIndexesAttributes();
             
             StringBuilder nameBuffer = new StringBuilder();
@@ -392,58 +369,40 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderName()
-     */
+
+    @Override
     protected void renderName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderId()
-     */
+
+    @Override
     protected void renderId() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderType()
-     */
+
+    @Override
     protected void renderType() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderSize()
-     */
+
+    @Override
     protected void renderSize() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderEnabled()
-     */
+
+    @Override
     protected void renderEnabled() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderReadOnly()
-     */
+
+    @Override
     protected void renderReadOnly() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderEvents()
-     */
+
+    @Override
     protected void renderEvents() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderValue()
-     */
+
+    @Override
     protected void renderValue() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         if(this.scrolling){
             print("<div style=\"overflow: auto;");
@@ -469,14 +428,12 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         println("<tr>");
         println("<td>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition != null && hasInvalidPropertyDefinition)
+        if(hasInvalidPropertyDefinition)
             super.renderInvalidPropertyMessage();
         else{
             renderHeader();
@@ -484,12 +441,10 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             renderFooter();
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#renderNoDatasetMessage()
-     */
-    public void renderNoDatasetMessage() throws InternalErrorException{
-        String message = getNoDatasetMessage();
+
+    @Override
+    public void renderNoDatatMessage() throws InternalErrorException{
+        String message = getNoDataMessage();
         
         if(message != null && message.length() > 0){
             println("<tr>");
@@ -501,7 +456,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             
             if(this.columnsComponents != null && !this.columnsComponents.isEmpty()){
                 print(" colspan=\"");
-                print(this.columnsComponents.size() + (this.showSelection != null && this.showSelection ? 1 : 0));
+                print(this.columnsComponents.size() + (this.showSelection ? 1 : 0));
                 print("\"");
             }
             
@@ -527,96 +482,38 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             return;
         
         String domain = String.valueOf(System.currentTimeMillis());
-        Boolean hasNodeDataset = hasNoDataset();
+        boolean hasData = hasNoData();
         
         try{
-            if(hasNodeDataset != null && hasNodeDataset)
-                renderNoDatasetMessage();
+            if(hasData)
+                renderNoDatatMessage();
             else{
                 PropertyInfo propertyInfo = getPropertyInfo();
                 Locale currentLanguage = getCurrentLanguage();
-                ExpressionProcessor expressionProcessor = new ExpressionProcessor(domain, currentLanguage);
-                StringBuilder nameBuffer = null;
-                Object value = getValue();
                 String sortPropertyId = getUIController().getSortProperty(name);
                 SortOrderType sortOrder = getUIController().getSortOrder(name);
-                BaseModel currentModel = null;
-                StringBuilder optionComponentId = null;
-                BaseOptionPropertyComponent optionComponent = null;
-                Object optionValue = null;
-                ImageComponent imageComponent = null;
-                BasePropertyComponent columnPropertyComponent = null;
-                GridColumnGroupComponent columnGroupComponent = null;
-                PropertyInfo columnPropertyInfo = null;
-                Boolean columnIsNumber = null;
-                Boolean columnIsBoolean = null;
-                Boolean columnIsDate = null;
-                Boolean columnIsTime = null;
-                String columnName = null;
-                String columnLabel = null;
-                String columnTooltip = null;
-                AlignmentType columnAlignment = null;
-                String columnWidth = null;
-                String columnStyleClass = null;
-                String columnStyle = null;
-                String columnPattern = null;
-                Boolean columnUseAdditionalFormatting = null;
-                Integer columnPrecision = null;
-                Integer columnSize = null;
-                Integer columnMaximumLength = null;
-                Number columnMinimumValue = null;
-                Number columnMaximumValue = null;
-                Integer columnRows = null;
-                Integer columnColumns = null;
-                Class<?> columnClass = null;
-                Object columnValue = null;
-                String columnValueLabel = null;
-                String columnDataset = null;
-                ScopeType columnDatasetScope = null;
-                Boolean columnEditable = null;
-                Boolean columnHasMultipleLines = null;
-                String columnOnSelect = null;
-                String columnOnBlur = null;
-                String columnOnClick = null;
-                String columnOnChange = null;
-                String columnOnFocus = null;
-                String columnOnKeyPress = null;
-                String columnOnKeyUp = null;
-                String columnOnKeyDown = null;
-                String columnOnMouseOver = null;
-                String columnOnMouseOut = null;
-                GridColumnStateComponent columnStateComponent = null;
-                List<GridColumnStateComponent> columnStatesComponents = null;
-                Boolean rowRemove = null;
-                GridRowStateComponent rowStateComponent = null;
-                Boolean expressionResult = null;
-                Integer aggregateColumnCount = null;
-                String aggregateStyleClass = null;
-                String aggregateStyle = null;
-                Object aggregatePropertValue = null;
+                ExpressionProcessor expressionProcessor = new ExpressionProcessor(domain, currentLanguage);
+                Object value = getValue();
+                int aggregateColumnCount = 0;
                 Object[] aggregatePropertiesValues = null;
-                Integer aggregatePropertiesValuesIndex = null;
                 Collection<String> aggregatePropertiesList = null;
-                String[] aggregateProperties = null;
-                Boolean found = null;
-                
+
                 if(this.columnsComponents != null && !this.columnsComponents.isEmpty()){
                     List<? extends BaseModel> datasetValues = getDatasetValues();
                     
                     if(datasetValues != null && !datasetValues.isEmpty()){
-                        for(GridColumnComponent columnComponent: this.columnsComponents){
-                            if(columnComponent.getParent() instanceof GridColumnGroupComponent)
-                                columnGroupComponent = (GridColumnGroupComponent) columnComponent.getParent();
+                        for(GridColumnComponent item: this.columnsComponents){
+                            GridColumnGroupComponent columnGroupComponent;
+
+                            if(item.getParent() instanceof GridColumnGroupComponent)
+                                columnGroupComponent = (GridColumnGroupComponent) item.getParent();
                             else
                                 columnGroupComponent = null;
                             
-                            columnName = columnComponent.getName();
+                            String columnName = item.getName();
                             
-                            if(columnName != null && columnName.length() > 0 && columnGroupComponent != null && columnGroupComponent.aggregate() != null && columnGroupComponent.aggregate()){
-                                if(aggregateColumnCount == null)
-                                    aggregateColumnCount = 1;
-                                else
-                                    aggregateColumnCount++;
+                            if(columnName != null && columnName.length() > 0 && columnGroupComponent != null && columnGroupComponent.aggregate()){
+                                aggregateColumnCount++;
                                 
                                 if(aggregatePropertiesList == null)
                                     aggregatePropertiesList = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
@@ -627,24 +524,26 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                         
                         try{
                             if(aggregatePropertiesList != null && !aggregatePropertiesList.isEmpty()){
+                                String[] aggregatePropertiesNames = new String[aggregatePropertiesList.size()];
+
+                                aggregatePropertiesNames = aggregatePropertiesList.toArray(aggregatePropertiesNames);
                                 aggregatePropertiesValues = new Object[aggregatePropertiesList.size()];
-                                aggregateProperties = new String[aggregatePropertiesList.size()];
-                                aggregateProperties = aggregatePropertiesList.toArray(aggregateProperties);
-                                datasetValues = ModelUtil.aggregateAndSort(datasetValues, aggregateProperties, sortPropertyId, sortOrder);
+
+                                datasetValues = ModelUtil.aggregateAndSort(datasetValues, aggregatePropertiesNames, sortPropertyId, sortOrder);
                             }
                             else{
                                 if(sortOrder != null && sortPropertyId != null && sortPropertyId.length() > 0)
                                     ModelUtil.sort(datasetValues, sortPropertyId, sortOrder);
                             }
                         }
-                        catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassCastException | IllegalArgumentException | UnsupportedEncodingException e){
+                        catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassCastException | IllegalArgumentException | UnsupportedEncodingException ignored){
                         }
                         
                         setDatasetValues(datasetValues);
                     }
                     
-                    Integer datasetStartIndex = getDatasetStartIndex();
-                    Integer datasetEndIndex = getDatasetEndIndex();
+                    int datasetStartIndex = getDatasetStartIndex();
+                    int datasetEndIndex = getDatasetEndIndex();
                     
                     if(this.pagerComponent != null){
                         datasetStartIndex = this.pagerComponent.getDatasetStartIndex();
@@ -655,7 +554,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     }
                     
                     for(int cont1 = datasetStartIndex; cont1 < datasetEndIndex; cont1++){
-                        currentModel = (cont1 < datasetValues.size() ? datasetValues.get(cont1) : null);
+                        BaseModel currentModel = (cont1 < datasetValues.size() ? datasetValues.get(cont1) : null);
                         
                         if(currentModel != null){
                             if(currentModel.getIndex() == null)
@@ -664,34 +563,32 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                             ExpressionProcessorUtil.setVariable(domain, Constants.ITEM_ATTRIBUTE_ID, currentModel);
                             
                             expressionProcessor.setDeclaration(currentModel);
-                            
-                            rowStateComponent = null;
-                            columnStyleClass = null;
-                            columnStyle = null;
-                            expressionResult = true;
-                            rowRemove = false;
-                            found = false;
-                            
+
+                            boolean expressionResult = true;
+                            boolean rowRemove = false;
+                            GridRowStateComponent rowStateComponent = null;
+
                             if(this.rowStatesComponents != null && !this.rowStatesComponents.isEmpty()){
-                                for(int cont2 = 0; cont2 < this.rowStatesComponents.size(); cont2++){
-                                    rowStateComponent = this.rowStatesComponents.get(cont2);
-                                    
-                                    try{
+                                for (GridRowStateComponent item : this.rowStatesComponents) {
+                                    rowStateComponent = item;
+
+                                    try {
                                         expressionResult = expressionProcessor.evaluate(rowStateComponent.getExpression());
                                     }
-                                    catch(InternalErrorException e){
+                                    catch (InternalErrorException ignored) {
                                     }
-                                    
-                                    if(expressionResult != null && expressionResult){
+
+                                    if (expressionResult) {
                                         rowRemove = rowStateComponent.remove();
-                                        found = true;
-                                        
+
                                         break;
                                     }
+
+                                    rowStateComponent = null;
                                 }
                             }
                             
-                            if(rowRemove != null && rowRemove){
+                            if(rowRemove){
                                 datasetValues.remove(cont1);
                                 
                                 if(this.pagerComponent != null){
@@ -708,23 +605,22 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                 continue;
                             }
                             
-                            if(!found)
-                                rowStateComponent = null;
-                            
                             if(aggregatePropertiesList != null && !aggregatePropertiesList.isEmpty()){
-                                aggregatePropertiesValuesIndex = 0;
+                                int aggregatePropertiesValuesIndex = 0;
                                 
                                 for(GridColumnComponent columnComponent: this.columnsComponents){
-                                    columnName = columnComponent.getName();
-                                    columnPattern = columnComponent.getPattern();
+                                    String columnName = columnComponent.getName();
+                                    String columnPattern = columnComponent.getPattern();
+                                    GridColumnGroupComponent columnGroupComponent;
                                     
                                     if(columnComponent.getParent() instanceof GridColumnGroupComponent)
                                         columnGroupComponent = (GridColumnGroupComponent) columnComponent.getParent();
                                     else
                                         columnGroupComponent = null;
                                     
-                                    if(columnGroupComponent != null && columnGroupComponent.aggregate() != null && columnGroupComponent.aggregate()){
-                                        aggregatePropertValue = aggregatePropertiesValues[aggregatePropertiesValuesIndex];
+                                    if(columnGroupComponent != null && columnGroupComponent.aggregate()){
+                                        Object aggregatePropertValue = aggregatePropertiesValues[aggregatePropertiesValuesIndex];
+                                        Object columnValue;
                                         
                                         try{
                                             if(columnName != null && columnName.length() > 0)
@@ -736,13 +632,13 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                             columnValue = columnComponent.getValue();
                                         }
                                         
-                                        columnUseAdditionalFormatting = columnComponent.useAdditionalFormatting();
-                                        columnPrecision = columnComponent.getPrecision();
-                                        columnValueLabel = PropertyUtil.format(columnValue, columnPattern, columnUseAdditionalFormatting, columnPrecision, currentLanguage);
+                                        boolean columnUseAdditionalFormatting = columnComponent.useAdditionalFormatting();
+                                        int columnPrecision = columnComponent.getPrecision();
+                                        String columnValueLabel = PropertyUtil.format(columnValue, columnPattern, columnUseAdditionalFormatting, columnPrecision, currentLanguage);
                                         
                                         if((aggregatePropertValue == null && columnValueLabel != null) || (aggregatePropertValue != null && columnValueLabel != null && !aggregatePropertValue.equals(columnValueLabel))){
-                                            aggregateStyleClass = columnGroupComponent.getStyleClass();
-                                            aggregateStyle = columnGroupComponent.getStyle();
+                                            String aggregateStyleClass = columnGroupComponent.getStyleClass();
+                                            String aggregateStyle = columnGroupComponent.getStyle();
                                             
                                             if(aggregateStyleClass == null || aggregateStyleClass.length() == 0)
                                                 aggregateStyleClass = UIConstants.DEFAULT_GRID_AGGREGATE_STYLE_CLASS;
@@ -763,7 +659,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                             }
                                             
                                             print(" colspan=\"");
-                                            print((this.columnsComponents.size() + (this.showSelection != null && this.showSelection ? 1 : 0)) - (aggregateColumnCount != null ? aggregateColumnCount : 0));
+                                            print((this.columnsComponents.size() + (this.showSelection ? 1 : 0)) - aggregateColumnCount);
                                             print("\">");
                                             
                                             if(columnValueLabel != null && columnValueLabel.length() > 0){
@@ -787,19 +683,21 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                             
                             println("<tr>");
                             
-                            if(this.showSelection != null && this.showSelection){
+                            if(this.showSelection){
+                                String columnStyleClass = null;
+                                String columnStyle = null;
+
                                 if(rowStateComponent != null){
                                     columnStyleClass = rowStateComponent.getStyleClass();
                                     columnStyle = rowStateComponent.getStyle();
                                 }
-                                
+
                                 if(columnStyleClass == null || columnStyleClass.length() == 0)
                                     columnStyleClass = UIConstants.DEFAULT_GRID_DETAIL_STYLE_CLASS;
                                 
                                 columnStyleClass = ExpressionProcessorUtil.fillVariablesInString(domain, columnStyleClass);
                                 columnStyle = ExpressionProcessorUtil.fillVariablesInString(domain, columnStyle);
-                                columnOnSelect = ExpressionProcessorUtil.fillVariablesInString(domain, columnOnSelect, currentLanguage);
-                                
+
                                 print("<td");
                                 
                                 if(columnStyleClass != null && columnStyleClass.length() > 0){
@@ -818,9 +716,9 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                 print(AlignmentType.CENTER);
                                 println("\" width=\"1\">");
                                 
-                                optionValue = currentModel;
+                                Object optionValue = currentModel;
                                 
-                                if((propertyInfo.isModel() == null || !propertyInfo.isModel()) && (propertyInfo.hasModel() == null || !propertyInfo.hasModel())){
+                                if(!propertyInfo.isModel() && !propertyInfo.hasModel()){
                                     try{
                                         optionValue = PropertyUtil.getValue(optionValue, propertyInfo.getId());
                                     }
@@ -828,16 +726,16 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                         throw new InternalErrorException(e);
                                     }
                                 }
-                                
-                                if(optionComponentId == null)
-                                    optionComponentId = new StringBuilder();
-                                else
-                                    optionComponentId.delete(0, optionComponentId.length());
-                                
+
+                                String columnOnSelect = ExpressionProcessorUtil.fillVariablesInString(domain, getOnSelect(), currentLanguage);
+                                StringBuilder optionComponentId = new StringBuilder();
+
                                 optionComponentId.append(name);
                                 optionComponentId.append(cont1);
+
+                                BaseOptionPropertyComponent optionComponent;
                                 
-                                if(propertyInfo.isCollection() != null && propertyInfo.isCollection())
+                                if(propertyInfo.isCollection())
                                     optionComponent = new CheckPropertyComponent();
                                 else
                                     optionComponent = new RadioPropertyComponent();
@@ -872,37 +770,37 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                             }
                             
                             for(GridColumnComponent columnComponent: this.columnsComponents){
-                                columnPropertyInfo = columnComponent.getPropertyInfo();
-                                columnName = columnComponent.getName();
-                                columnLabel = columnComponent.getLabel();
-                                columnTooltip = columnComponent.getTooltip();
-                                columnWidth = columnComponent.getWidth();
-                                columnSize = columnComponent.getSize();
-                                columnMaximumLength = columnComponent.getMaximumLength();
-                                columnMinimumValue = columnComponent.getMinimumValue();
-                                columnMaximumValue = columnComponent.getMaximumValue();
-                                columnRows = columnComponent.getRows();
-                                columnColumns = columnComponent.getColumns();
-                                columnDataset = columnComponent.getDataset();
-                                columnDatasetScope = columnComponent.getDatasetScopeType();
-                                columnOnBlur = columnComponent.getOnBlur();
-                                columnOnFocus = columnComponent.getOnFocus();
-                                columnOnChange = columnComponent.getOnChange();
-                                columnOnClick = columnComponent.getOnClick();
-                                columnOnKeyPress = columnComponent.getOnKeyPress();
-                                columnOnKeyUp = columnComponent.getOnKeyUp();
-                                columnOnKeyDown = columnComponent.getOnKeyDown();
-                                columnOnMouseOver = columnComponent.getOnMouseOver();
-                                columnOnMouseOut = columnComponent.getOnMouseOut();
-                                columnUseAdditionalFormatting = columnComponent.useAdditionalFormatting();
-                                columnPrecision = columnComponent.getPrecision();
-                                columnPattern = columnComponent.getPattern();
-                                columnStyleClass = (rowStateComponent != null ? rowStateComponent.getStyleClass() : columnComponent.getStyleClass());
-                                columnStyle = (rowStateComponent != null ? rowStateComponent.getStyle() : columnComponent.getStyle());
-                                columnEditable = columnComponent.isEditable();
-                                columnHasMultipleLines = (columnComponent.getRows() != null && columnComponent.getRows() > 0) || (columnComponent.getColumns() != null && columnComponent.getColumns() > 0);
-                                columnValue = columnComponent.getValue();
-                                
+                                PropertyInfo columnPropertyInfo = columnComponent.getPropertyInfo();
+                                String columnName = columnComponent.getName();
+                                String columnLabel = columnComponent.getLabel();
+                                String columnTooltip = columnComponent.getTooltip();
+                                String columnWidth = columnComponent.getWidth();
+                                int columnSize = columnComponent.getSize();
+                                int columnMaximumLength = columnComponent.getMaximumLength();
+                                Number columnMinimumValue = columnComponent.getMinimumValue();
+                                Number columnMaximumValue = columnComponent.getMaximumValue();
+                                int columnRows = columnComponent.getRows();
+                                int columnColumns = columnComponent.getColumns();
+                                String columnDataset = columnComponent.getDataset();
+                                ScopeType columnDatasetScope = columnComponent.getDatasetScopeType();
+                                String columnOnBlur = columnComponent.getOnBlur();
+                                String columnOnFocus = columnComponent.getOnFocus();
+                                String columnOnChange = columnComponent.getOnChange();
+                                String columnOnClick = columnComponent.getOnClick();
+                                String columnOnKeyPress = columnComponent.getOnKeyPress();
+                                String columnOnKeyUp = columnComponent.getOnKeyUp();
+                                String columnOnKeyDown = columnComponent.getOnKeyDown();
+                                String columnOnMouseOver = columnComponent.getOnMouseOver();
+                                String columnOnMouseOut = columnComponent.getOnMouseOut();
+                                boolean columnUseAdditionalFormatting = columnComponent.useAdditionalFormatting();
+                                int columnPrecision = columnComponent.getPrecision();
+                                String columnPattern = columnComponent.getPattern();
+                                String columnStyleClass = (rowStateComponent != null ? rowStateComponent.getStyleClass() : columnComponent.getStyleClass());
+                                String columnStyle = (rowStateComponent != null ? rowStateComponent.getStyle() : columnComponent.getStyle());
+                                boolean columnEditable = columnComponent.isEditable();
+                                boolean columnHasMultipleLines = (columnComponent.getRows() > 0 || columnComponent.getColumns() > 0);
+                                Object columnValue = columnComponent.getValue();
+
                                 try{
                                     if(columnValue == null)
                                         columnValue = PropertyUtil.getValue(currentModel, columnName);
@@ -913,60 +811,61 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                     columnValue = getInvalidPropertyMessage();
                                     columnPropertyInfo = null;
                                 }
-                                
+
+                                String columnValueLabel = PropertyUtil.format(columnValue, columnPattern, columnUseAdditionalFormatting, columnPrecision, currentLanguage);
+
+                                columnValueLabel = StringUtil.replaceAll(columnValueLabel, StringUtil.getLineBreak(), "");
+
+                                Class<?> columnClass;
+
                                 if(columnPropertyInfo != null && columnPropertyInfo.getPropertyTypeId() != null && columnPropertyInfo.getPropertyTypeId().length() > 0)
                                     columnClass = PropertyUtil.getValue(currentModel, columnPropertyInfo.getPropertyTypeId());
                                 else
                                     columnClass = (columnValue != null ? columnValue.getClass() : null);
                                 
-                                columnIsNumber = (PropertyUtil.isNumber(columnClass) || (columnComponent.isNumber() != null && columnComponent.isNumber()));
-                                columnIsBoolean = (PropertyUtil.isBoolean(columnClass) || (columnComponent.isBoolean() != null && columnComponent.isBoolean()));
-                                columnIsDate = (PropertyUtil.isDate(columnClass) || (columnComponent.isDate() != null && columnComponent.isDate()));
-                                columnIsTime = (PropertyUtil.isTime(columnClass) || (columnComponent.isTime() != null && columnComponent.isTime()));
+                                boolean columnIsNumber = (PropertyUtil.isNumber(columnClass) || columnComponent.isNumber());
+                                boolean columnIsBoolean = (PropertyUtil.isBoolean(columnClass) || columnComponent.isBoolean());
+                                boolean columnIsDate = (PropertyUtil.isDate(columnClass) || columnComponent.isDate());
+                                boolean columnIsTime = (PropertyUtil.isTime(columnClass) || columnComponent.isTime());
+                                GridColumnGroupComponent columnGroupComponent;
                                 
                                 if(columnComponent.getParent() instanceof GridColumnGroupComponent)
                                     columnGroupComponent = (GridColumnGroupComponent) columnComponent.getParent();
                                 else
                                     columnGroupComponent = null;
                                 
-                                if(columnGroupComponent == null || (columnGroupComponent.aggregate() == null || !columnGroupComponent.aggregate())){
-                                    columnStatesComponents = columnComponent.getColumnStatesComponents();
-                                    columnStateComponent = null;
+                                if(columnGroupComponent == null || !columnGroupComponent.aggregate()){
+                                    List<GridColumnStateComponent> columnStatesComponents = columnComponent.getColumnStatesComponents();
+                                    GridColumnStateComponent columnStateComponent = null;
                                     expressionResult = true;
-                                    found = false;
-                                    
+
                                     if(columnStatesComponents != null && !columnStatesComponents.isEmpty()){
-                                        for(int cont2 = 0; cont2 < columnStatesComponents.size(); cont2++){
-                                            columnStateComponent = columnStatesComponents.get(cont2);
-                                            
-                                            try{
+                                        for (GridColumnStateComponent item : columnStatesComponents) {
+                                            columnStateComponent = item;
+
+                                            try {
                                                 expressionResult = expressionProcessor.evaluate(columnStateComponent.getExpression());
                                             }
-                                            catch(InternalErrorException e){
+                                            catch (Throwable ignored) {
                                             }
-                                            
-                                            if(expressionResult != null && expressionResult){
-                                                found = true;
-                                                
+
+                                            if (expressionResult)
                                                 break;
-                                            }
+
+                                            columnStateComponent = null;
                                         }
                                     }
-                                    
-                                    if(!found)
-                                        columnStateComponent = null;
-                                    
+
                                     if(columnStateComponent != null){
-                                        if(columnStateComponent.isEditable() != null)
-                                            columnEditable = columnStateComponent.isEditable();
+                                        columnEditable = columnStateComponent.isEditable();
                                         
-                                        if((columnStateComponent.getRows() != null && columnStateComponent.getRows() > 0) || (columnStateComponent.getColumns() != null && columnStateComponent.getColumns() > 0))
+                                        if(columnStateComponent.getRows() > 0 || columnStateComponent.getColumns() > 0)
                                             columnHasMultipleLines = true;
                                         
-                                        if(columnStateComponent.getSize() != null && columnStateComponent.getSize() > 0)
+                                        if(columnStateComponent.getSize() > 0)
                                             columnSize = columnStateComponent.getSize();
                                         
-                                        if(columnStateComponent.getMaximumLength() != null && columnStateComponent.getMaximumLength() > 0)
+                                        if(columnStateComponent.getMaximumLength() > 0)
                                             columnMaximumLength = columnStateComponent.getMaximumLength();
                                         
                                         if(columnStateComponent.getMinimumValue() != null)
@@ -975,10 +874,10 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                         if(columnStateComponent.getMaximumValue() != null)
                                             columnMaximumValue = columnStateComponent.getMaximumValue();
                                         
-                                        if(columnStateComponent.getRows() != null && columnStateComponent.getRows() > 0)
+                                        if(columnStateComponent.getRows() > 0)
                                             columnRows = columnStateComponent.getRows();
                                         
-                                        if(columnStateComponent.getColumns() != null && columnStateComponent.getColumns() > 0)
+                                        if(columnStateComponent.getColumns() > 0)
                                             columnColumns = columnStateComponent.getColumns();
                                         
                                         if(columnStateComponent.getPattern() != null && columnStateComponent.getPattern().length() > 0)
@@ -1021,7 +920,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                             try{
                                                 columnValue = expressionProcessor.evaluate(columnStateComponent.getValue());
                                             }
-                                            catch(InternalErrorException e){
+                                            catch(Throwable ignored){
                                             }
                                         }
                                     }
@@ -1066,10 +965,9 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                     columnOnKeyDown = ExpressionProcessorUtil.fillVariablesInString(domain, columnOnKeyDown, currentLanguage);
                                     columnOnMouseOver = ExpressionProcessorUtil.fillVariablesInString(domain, columnOnMouseOver, currentLanguage);
                                     columnOnMouseOut = ExpressionProcessorUtil.fillVariablesInString(domain, columnOnMouseOut, currentLanguage);
-                                    columnValueLabel = PropertyUtil.format(columnValue, columnPattern, columnUseAdditionalFormatting, columnPrecision, currentLanguage);
-                                    columnValueLabel = StringUtil.replaceAll(columnValueLabel, StringUtil.getLineBreak(), "");
                                     columnTooltip = ExpressionProcessorUtil.fillVariablesInString(domain, columnTooltip, currentLanguage);
-                                    columnAlignment = columnComponent.getAlignmentType();
+
+                                    AlignmentType columnAlignment = columnComponent.getAlignmentType();
                                     
                                     if(columnAlignment != null){
                                         print(" align=\"");
@@ -1078,20 +976,19 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                     }
                                     
                                     println(">");
-                                    
-                                    if(nameBuffer == null)
-                                        nameBuffer = new StringBuilder();
-                                    else
-                                        nameBuffer.delete(0, nameBuffer.length());
-                                    
-                                    nameBuffer.append(name);
-                                    nameBuffer.append(":");
-                                    nameBuffer.append(columnName);
-                                    nameBuffer.append(":");
-                                    nameBuffer.append(cont1);
-                                    
-                                    if(columnComponent.showAsImage() == null || !columnComponent.showAsImage()){
-                                        if((columnEditable != null && columnEditable) || columnIsBoolean){
+
+                                    StringBuilder columnPropertyName = new StringBuilder();
+
+                                    columnPropertyName.append(name);
+                                    columnPropertyName.append(":");
+                                    columnPropertyName.append(columnName);
+                                    columnPropertyName.append(":");
+                                    columnPropertyName.append(cont1);
+
+                                    BasePropertyComponent columnPropertyComponent;
+
+                                    if(!columnComponent.showAsImage()){
+                                        if(columnEditable || columnIsBoolean){
                                             if(columnIsDate){
                                                 columnPropertyComponent = new CalendarPropertyComponent();
                                                 
@@ -1102,7 +999,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                                 columnPropertyComponent = new CheckPropertyComponent();
                                                 
                                                 columnPropertyComponent.setIsBoolean(true);
-                                                columnPropertyComponent.setEnabled((columnEditable != null && columnEditable));
+                                                columnPropertyComponent.setEnabled(columnEditable);
                                             }
                                             else if(columnDataset != null && columnDataset.length() > 0){
                                                 columnPropertyComponent = new ListPropertyComponent();
@@ -1112,7 +1009,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                                 ((ListPropertyComponent) columnPropertyComponent).setDatasetScopeType(columnDatasetScope);
                                                 columnPropertyComponent.setWidth("100%");
                                             }
-                                            else if(columnComponent.showAsLanguage() != null && columnComponent.showAsLanguage()){
+                                            else if(columnComponent.showAsLanguage()){
                                                 columnPropertyComponent = new LanguageSelectorComponent();
                                                 ((LanguageSelectorComponent) columnPropertyComponent).setOptionStatesComponents(columnComponent.getOptionStatesComponents());
                                             }
@@ -1122,10 +1019,10 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                                 else{
                                                     columnPropertyComponent = new TextAreaPropertyComponent();
                                                     
-                                                    if(columnRows != null && columnRows > 0)
+                                                    if(columnRows > 0)
                                                         ((TextAreaPropertyComponent) columnPropertyComponent).setRows(columnRows);
                                                     
-                                                    if(columnColumns != null && columnColumns > 0)
+                                                    if(columnColumns > 0)
                                                         ((TextAreaPropertyComponent) columnPropertyComponent).setColumns(columnColumns);
                                                 }
                                                 
@@ -1136,7 +1033,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                             columnPropertyComponent.setOutputStream(getOutputStream());
                                             columnPropertyComponent.setPropertyInfo(columnPropertyInfo);
                                             columnPropertyComponent.setActionFormName(actionFormName);
-                                            columnPropertyComponent.setName(nameBuffer.toString());
+                                            columnPropertyComponent.setName(columnPropertyName.toString());
                                             columnPropertyComponent.setLabel(columnLabel);
                                             columnPropertyComponent.setValue(columnValue);
                                             columnPropertyComponent.setShowLabel(false);
@@ -1171,23 +1068,25 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                         else{
                                             if(columnPropertyInfo == null && columnValue == null)
                                                 columnValueLabel = getInvalidPropertyMessage();
-                                            
-                                            if((columnMaximumLength != null && columnMaximumLength > 0 && columnValueLabel != null && columnValueLabel.length() > 0 && columnValueLabel.length() > columnMaximumLength) || (columnOnClick != null && columnOnClick.length() > 0) || (columnTooltip != null && columnTooltip.length() > 0)){
+
+                                            boolean renderLink = (columnMaximumLength > 0 && columnValueLabel != null && columnValueLabel.length() > 0 && columnValueLabel.length() > columnMaximumLength) || (columnOnClick != null && columnOnClick.length() > 0) || (columnTooltip != null && columnTooltip.length() > 0);
+
+                                            if(renderLink){
                                                 print("<a");
-                                                
+
                                                 if(columnStyle != null && columnStyle.length() > 0){
                                                     print(" style=\"");
                                                     print(columnStyle);
                                                     print("\"");
                                                 }
-                                                
+
                                                 if(columnOnClick != null && columnOnClick.length() > 0){
                                                     print(" onClick=\"");
                                                     print(columnOnClick);
                                                     print("\"");
                                                 }
-                                                
-                                                if((columnMaximumLength != null && columnMaximumLength > 0 && columnValueLabel != null && columnValueLabel.length() > columnMaximumLength)){
+
+                                                if((columnMaximumLength > 0 && columnValueLabel != null && columnValueLabel.length() > columnMaximumLength)){
                                                     print(" title=\"");
                                                     print(columnValueLabel);
                                                     println("\"");
@@ -1197,14 +1096,14 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                                     print(columnTooltip);
                                                     println("\"");
                                                 }
-                                                
+
                                                 print(">");
                                             }
-                                            
+
                                             if(columnValueLabel == null || columnValueLabel.length() == 0)
                                                 println("&nbsp;");
                                             else{
-                                                if(columnMaximumLength != null && columnMaximumLength > 0 && columnValueLabel.length() > columnMaximumLength){
+                                                if(columnMaximumLength > 0 && columnValueLabel.length() > columnMaximumLength){
                                                     print(columnValueLabel.substring(0, columnMaximumLength));
                                                     println("...");
                                                 }
@@ -1212,17 +1111,18 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                                     println(columnValueLabel);
                                             }
                                             
-                                            if((columnMaximumLength != null && columnMaximumLength > 0 && columnValueLabel != null && columnValueLabel.length() > 0 && columnValueLabel.length() > columnMaximumLength) || (columnOnClick != null && columnOnClick.length() > 0) || (columnTooltip != null && columnTooltip.length() > 0))
+                                            if(renderLink)
                                                 println("</a>");
                                         }
                                     }
                                     else{
-                                        imageComponent = new ImageComponent();
+                                        ImageComponent imageComponent = new ImageComponent();
+
                                         imageComponent.setPageContext(this.pageContext);
                                         imageComponent.setOutputStream(getOutputStream());
                                         imageComponent.setPropertyInfo(columnPropertyInfo);
                                         imageComponent.setActionFormName(actionFormName);
-                                        imageComponent.setName(nameBuffer.toString());
+                                        imageComponent.setName(columnPropertyName.toString());
                                         imageComponent.setValue(columnValue);
                                         imageComponent.setWidth(columnComponent.getImageWidth());
                                         imageComponent.setHeight(columnComponent.getImageHeight());
@@ -1292,7 +1192,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         println("\">");
         println("<tr>");
         
-        if(this.showSelection != null && this.showSelection){
+        if(this.showSelection){
             println("<td></td>");
             println("</tr>");
             println("<tr>");
@@ -1300,17 +1200,16 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         
         if(this.columnsComponents != null && !this.columnsComponents.isEmpty()){
             PropertyInfo propertyInfo = getPropertyInfo();
-            GridColumnGroupComponent columnGroupComponent = null;
             String columnGroupLabel = null;
             String columnGroupTooltip = null;
             AlignmentType columnGroupAlignment = null;
             String columnGroupHeaderStyleClass = null;
             String columnGroupHeaderStyle = null;
-            Integer columnsInGroup = 0;
-            Boolean hasColumnsInGroup = false;
+            int columnsInGroup = 0;
+            boolean hasColumnsInGroup = false;
             
-            for(GridColumnComponent columnComponent: this.columnsComponents){
-                if(columnComponent.getParent() instanceof GridColumnGroupComponent){
+            for(GridColumnComponent item: this.columnsComponents){
+                if(item.getParent() instanceof GridColumnGroupComponent){
                     hasColumnsInGroup = true;
                     
                     break;
@@ -1318,14 +1217,14 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             }
             
             if(hasColumnsInGroup){
-                if(this.showSelection != null && this.showSelection)
+                if(this.showSelection)
                     println("<td></td>");
                 
-                for(GridColumnComponent columnComponent: this.columnsComponents){
-                    if(columnComponent.getParent() instanceof GridColumnGroupComponent){
-                        columnGroupComponent = (GridColumnGroupComponent) columnComponent.getParent();
+                for(GridColumnComponent item: this.columnsComponents){
+                    if(item.getParent() instanceof GridColumnGroupComponent){
+                        GridColumnGroupComponent columnGroupComponent = (GridColumnGroupComponent) item.getParent();
                         
-                        if(columnGroupComponent.aggregate() == null || !columnGroupComponent.aggregate()){
+                        if(!columnGroupComponent.aggregate()){
                             columnGroupLabel = columnGroupComponent.getLabel();
                             columnGroupTooltip = columnGroupComponent.getTooltip();
                             columnGroupAlignment = columnGroupComponent.getAlignmentType();
@@ -1453,7 +1352,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             if(columnHeaderStyleClass == null || columnHeaderStyleClass.length() == 0)
                 columnHeaderStyleClass = UIConstants.DEFAULT_GRID_HEADER_STYLE_CLASS;
             
-            if(this.showSelection != null && this.showSelection){
+            if(this.showSelection){
                 print("<td class=\"");
                 print(columnHeaderStyleClass);
                 print("\"");
@@ -1472,7 +1371,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                 print(AlignmentType.CENTER);
                 println("\" width=\"1\">");
                 
-                if(propertyInfo != null && propertyInfo.isCollection() != null && propertyInfo.isCollection()){
+                if(propertyInfo != null && propertyInfo.isCollection()){
                     print("<a href=\"javascript:selectDeselectAllGridRows('");
                     print(name);
                     print("', ");
@@ -1482,7 +1381,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     print(");\">");
                 }
                 
-                if(propertyInfo != null && propertyInfo.isCollection() != null && propertyInfo.isCollection())
+                if(propertyInfo != null && propertyInfo.isCollection())
                     println("(*)</a>");
                 else
                     println("&nbsp;");
@@ -1490,22 +1389,22 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                 println("</td>");
             }
             
-            Double aggregatesWidth = 0d;
-            String columnWidth = null;
-            Double columnsWidth = 100d;
-            Integer columnsSize = this.columnsComponents.size();
+            double aggregatesWidth = 0D;
+            double columnsWidth = 100D;
+            int columnsSize = this.columnsComponents.size();
             SortOrderType sortOrder = uiController.getSortOrder(name);
             String sortOrderProperty = uiController.getSortProperty(name);
             
-            for(GridColumnComponent columnComponent: this.columnsComponents){
-                columnWidth = columnComponent.getWidth();
-                
-                if(columnComponent.getParent() instanceof GridColumnGroupComponent)
-                    columnGroupComponent = (GridColumnGroupComponent) columnComponent.getParent();
+            for(GridColumnComponent item: this.columnsComponents){
+                String columnWidth = item.getWidth();
+                GridColumnGroupComponent columnGroupComponent;
+
+                if(item.getParent() instanceof GridColumnGroupComponent)
+                    columnGroupComponent = (GridColumnGroupComponent) item.getParent();
                 else
                     columnGroupComponent = null;
                 
-                if(columnGroupComponent != null && columnGroupComponent.aggregate() != null && columnGroupComponent.aggregate()){
+                if(columnGroupComponent != null && columnGroupComponent.aggregate()){
                     columnsSize--;
                     
                     if(columnWidth != null && columnWidth.length() > 0){
@@ -1520,19 +1419,15 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     }
                 }
             }
-            
-            String columnName = null;
-            String columnLabel = null;
-            AlignmentType columnAlignment = null;
-            Double columnWidthValue = 0d;
-            
-            for(GridColumnComponent columnComponent: this.columnsComponents){
-                columnName = columnComponent.getName();
-                columnLabel = columnComponent.getLabel();
-                columnAlignment = columnComponent.getAlignmentType();
-                columnWidth = columnComponent.getWidth();
-                columnHeaderStyleClass = columnComponent.getHeaderStyleClass();
-                columnHeaderStyle = columnComponent.getHeaderStyle();
+
+            for(GridColumnComponent item: this.columnsComponents){
+                String columnName = item.getName();
+                String columnLabel = item.getLabel();
+                AlignmentType columnAlignment = item.getAlignmentType();
+                String columnWidth = item.getWidth();
+
+                columnHeaderStyleClass = item.getHeaderStyleClass();
+                columnHeaderStyle = item.getHeaderStyle();
                 
                 if(columnHeaderStyleClass == null || columnHeaderStyleClass.length() == 0)
                     columnHeaderStyleClass = this.headerStyleClass;
@@ -1542,13 +1437,15 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                 
                 if(columnHeaderStyle == null || columnHeaderStyle.length() == 0)
                     columnHeaderStyle = this.headerStyle;
+
+                GridColumnGroupComponent columnGroupComponent;
                 
-                if(columnComponent.getParent() instanceof GridColumnGroupComponent)
-                    columnGroupComponent = (GridColumnGroupComponent) columnComponent.getParent();
+                if(item.getParent() instanceof GridColumnGroupComponent)
+                    columnGroupComponent = (GridColumnGroupComponent) item.getParent();
                 else
                     columnGroupComponent = null;
                 
-                if(columnGroupComponent == null || columnGroupComponent.aggregate() == null || !columnGroupComponent.aggregate()){
+                if(columnGroupComponent == null || !columnGroupComponent.aggregate()){
                     print("<td class=\"");
                     print(columnHeaderStyleClass);
                     print("\"");
@@ -1564,7 +1461,9 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     }
                     
                     print(" width=\"");
-                    
+
+                    double columnWidthValue;
+
                     if(columnWidth != null && columnWidth.length() > 0){
                         columnWidthValue = Double.parseDouble(StringUtil.replaceAll(columnWidth, "%", ""));
                         columnWidthValue = (columnWidthValue + (aggregatesWidth / (columnsSize == 0 ? 1 : columnsSize)));
@@ -1656,7 +1555,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     
                     println("</a>");
                     
-                    if(columnName != null && columnName.length() > 0 && sortOrderProperty != null && columnName.equals(sortOrderProperty)){
+                    if(columnName != null && columnName.length() > 0 && columnName.equals(sortOrderProperty)){
                         println("</td>");
                         
                         print("<td align=\"");
@@ -1726,7 +1625,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             Collection<? extends BaseModel> datasetValues = getDatasetValues();
             
             for(ButtonComponent buttonComponent: this.buttonsComponents){
-                if(buttonComponent.showOnlyWithDataset() != null && buttonComponent.showOnlyWithDataset()){
+                if(buttonComponent.showOnlyWithData()){
                     if(datasetValues != null && !datasetValues.isEmpty()){
                         print("<td class=\"");
                         print(UIConstants.DEFAULT_GRID_BUTTONS_STYLE_CLASS);
@@ -1765,9 +1664,9 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             print("<td");
             
             if(this.columnsComponents != null && !this.columnsComponents.isEmpty()){
-                Integer columnsSize = this.columnsComponents.size();
+                int columnsSize = this.columnsComponents.size();
                 
-                if(this.showSelection != null && this.showSelection)
+                if(this.showSelection)
                     columnsSize++;
                 
                 print(" colspan=\"");
@@ -1786,10 +1685,8 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         println("</tr>");
         println("</table>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         println("</td>");
         println("</tr>");
@@ -1807,9 +1704,9 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         renderDatasetIndexesAttributes();
         
         PropertyInfo propertyInfo = getPropertyInfo();
-        Boolean multipleSelection = hasMultipleSelection();
+        boolean multipleSelection = hasMultipleSelection();
         
-        if(propertyInfo != null && multipleSelection != null && multipleSelection && this.showSelection != null && this.showSelection){
+        if(propertyInfo != null && multipleSelection && this.showSelection){
             HiddenPropertyComponent propertyComponent = new HiddenPropertyComponent();
             
             propertyComponent.setPageContext(this.pageContext);
@@ -1829,10 +1726,8 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
@@ -1840,10 +1735,10 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         setOnSelectAction(null);
         setOnSelectForward(null);
         setOnSelectUpdateViews(null);
-        setOnSelectValidateModel(null);
+        setOnSelectValidateModel(false);
         setOnSelectValidateModelProperties(null);
-        setShowSelection(null);
-        setScrolling(null);
+        setShowSelection(true);
+        setScrolling(false);
         setColumnsComponents(null);
         setButtonsComponents(null);
         setRowStatesComponents(null);

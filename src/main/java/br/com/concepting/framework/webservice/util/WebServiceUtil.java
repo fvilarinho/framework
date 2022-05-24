@@ -9,10 +9,11 @@ import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Utility class responsible to manipulate web services.
@@ -52,8 +52,8 @@ public class WebServiceUtil{
      *
      * @return Instance of the client.
      */
-    public static Client getClient(){
-        return ClientBuilder.newBuilder().register(MultiPartFeature.class).build();
+    public static CloseableHttpClient getClient(){
+        return HttpClients.createDefault();
     }
     
     /**
@@ -62,13 +62,12 @@ public class WebServiceUtil{
      * @param timeout Instance that contains the default timeout in seconds.
      * @return Instance of the client.
      */
-    public static Client getClient(Integer timeout){
-        ClientBuilder clientBuilder = ClientBuilder.newBuilder();
-        
-        clientBuilder.connectTimeout(timeout, TimeUnit.SECONDS);
-        clientBuilder.readTimeout(timeout, TimeUnit.SECONDS);
-        
-        return clientBuilder.build();
+    public static CloseableHttpClient getClient(int timeout){
+        RequestConfig config = RequestConfig.custom().
+                                             setConnectTimeout(timeout * 1000).
+                                             setConnectionRequestTimeout(timeout * 1000).
+                                             setSocketTimeout(timeout * 1000).build();
+        return HttpClientBuilder.create().setDefaultRequestConfig(config).build();
     }
     
     /**
@@ -111,8 +110,7 @@ public class WebServiceUtil{
      */
     public static <O> O deserialize(String content, Class<?> clazz) throws IOException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
         if(clazz != null){
-            Map<String, Object> contentMap = (Map<String, Object>) propertyMapper.readValue(content, new TypeReference<Map<String, Object>>(){
-            });
+            Map<String, Object> contentMap = propertyMapper.readValue(content, new TypeReference<>(){});
             
             if(contentMap != null)
                 return deserialize(contentMap, clazz);
@@ -135,7 +133,7 @@ public class WebServiceUtil{
                     result = (O) propertyMapper.convertValue(contentMap, clazz);
                     
                     for(PropertyInfo propertyInfo: propertiesInfos){
-                        if(propertyInfo.isModel() != null && propertyInfo.isModel()){
+                        if(propertyInfo.isModel()){
                             Map<String, Object> propertyMap = (Map<String, Object>) contentMap.get(propertyInfo.getId());
                             Class<? extends BaseModel> propertyClass = (Class<? extends BaseModel>) propertyInfo.getClazz();
                             O propertyValue = deserialize(propertyMap, propertyClass);
@@ -143,7 +141,7 @@ public class WebServiceUtil{
                             if(propertyValue != null)
                                 contentMap.put(propertyInfo.getId(), propertyValue);
                         }
-                        else if(propertyInfo.hasModel() != null && propertyInfo.hasModel()){
+                        else if(propertyInfo.hasModel()){
                             List<Map<String, Object>> propertyValuesMap = (List<Map<String, Object>>) contentMap.get(propertyInfo.getId());
                             
                             if(propertyValuesMap != null && !propertyValuesMap.isEmpty()){
@@ -189,6 +187,6 @@ public class WebServiceUtil{
         
         serialize(value, out);
         
-        return new String(out.toByteArray());
+        return out.toString();
     }
 }

@@ -1,11 +1,10 @@
 /**
- * Defines the UI routines to manipulate the clock component. 
- * 
+ * Defines the UI routines to manipulate the clock component.
+ *
  * @author fvilarinho
  * @version 3.0.0
  */
-
-var clockTimer = null;
+let clockTimer = null;
 
 /**
  * Shows the component.
@@ -14,17 +13,17 @@ function showClock(){
 	if(clockTimer)
 		clearTimeout(clockTimer);
 
-	var clockObject  = getObject("clock");
-	var clockPattern = getObject("clock.pattern");
+	let clockObject  = getObject("clock");
+	let clockPattern = getObject("clock.pattern");
 
 	if(clockObject && clockPattern){
-		var pattern      = clockPattern.value;
-		var now          = new Date();
-		var hours        = now.getHours();
-		var minutes      = now.getMinutes();
-		var seconds      = now.getSeconds();
-		var milliseconds = now.getMilliseconds();
-		var ampm         = (hours > 12 ? "PM" : "AM");
+		let pattern      = clockPattern.value;
+		let now          = new Date();
+		let hours        = now.getHours();
+		let minutes      = now.getMinutes();
+		let seconds      = now.getSeconds();
+		let milliseconds = now.getMilliseconds();
+		let ampm         = (hours > 12 ? "PM" : "AM");
 		
 		pattern = replaceAll(pattern, "HH", (hours < 10 ? ("0" + hours) : hours));
 		pattern = replaceAll(pattern, "hh", (hours > 12 ? ((hours - 12) < 10 ? ("0" + (hours - 12)) : (hours - 12)) : (hours < 10 ? ("0" + hours) : hours)));

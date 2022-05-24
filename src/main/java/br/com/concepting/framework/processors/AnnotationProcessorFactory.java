@@ -26,7 +26,7 @@ import java.lang.reflect.Modifier;
 import java.util.Set;
 
 /**
- * Class that defines a annotation processor factory.
+ * Class that defines an annotation processor factory.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -116,10 +116,8 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
             this.environment.getMessager().printMessage(Kind.ERROR, ExceptionUtil.getTrace(e));
         }
     }
-    
-    /**
-     * @see javax.annotation.processing.AbstractProcessor#getSupportedSourceVersion()
-     */
+
+    @Override
     public SourceVersion getSupportedSourceVersion(){
         return SourceVersion.latestSupported();
     }
@@ -143,7 +141,7 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
     }
     
     /**
-     * Returns the the directory of the project.
+     * Returns the directory of the project.
      *
      * @return String that contains the directory.
      */
@@ -175,10 +173,8 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
         
         return null;
     }
-    
-    /**
-     * @see javax.annotation.processing.AbstractProcessor#init(javax.annotation.processing.ProcessingEnvironment)
-     */
+
+    @Override
     public synchronized void init(ProcessingEnvironment environment){
         try{
             super.init(environment);
@@ -189,27 +185,22 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
             this.environment.getMessager().printMessage(Kind.ERROR, ExceptionUtil.getTrace(e));
         }
     }
-    
-    /**
-     * @see javax.annotation.processing.AbstractProcessor#process(java.util.Set,
-     * javax.annotation.processing.RoundEnvironment)
-     */
+
+    @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment environment){
         try{
-            Set<? extends Element> declarations = null;
-            IAnnotationProcessor annotationProcessor = null;
-            String declarationClassName = null;
-            
+            IAnnotationProcessor annotationProcessor;
+
             if(this.securityResources != null && this.systemResources != null && annotations != null && !annotations.isEmpty()){
                 for(TypeElement annotation: annotations){
-                    declarations = environment.getElementsAnnotatedWith(annotation);
+                    Set<? extends Element> declarations = environment.getElementsAnnotatedWith(annotation);
                     
                     if(declarations != null && !declarations.isEmpty()){
                         String loginSessionClassName = null;
                         String mainConsoleClassName = null;
                         
                         for(Element declaration: declarations){
-                            declarationClassName = declaration.toString();
+                            String declarationClassName = declaration.toString();
                             
                             if(this.securityResources.getLoginSessionClass() != null && declarationClassName.equals(this.securityResources.getLoginSessionClass().getName()))
                                 loginSessionClassName = declarationClassName;

@@ -1,5 +1,6 @@
 package br.com.concepting.framework.mail.resources;
 
+import br.com.concepting.framework.mail.constants.MailConstants;
 import br.com.concepting.framework.mail.types.MailStorageType;
 import br.com.concepting.framework.mail.types.MailTransportType;
 import br.com.concepting.framework.resources.BaseResources;
@@ -31,18 +32,18 @@ public class MailResources extends BaseResources<XmlNode>{
     
     private MailTransportType transport = null;
     private String transportServerName = null;
-    private Integer transportServerPort = null;
+    private int transportServerPort = MailConstants.DEFAULT_TRANSPORT_PORT;
     private String transportUserName = null;
     private String transportPassword = null;
-    private Boolean transportUseSsl = null;
-    private Boolean transportUseTls = null;
+    private boolean transportUseSsl = false;
+    private boolean transportUseTls = false;
     private MailStorageType storage = null;
     private String storageServerName = null;
-    private Integer storageServerPort = null;
+    private int storageServerPort = MailConstants.DEFAULT_STORAGE_PORT;
     private String storageUserName = null;
     private String storagePassword = null;
-    private Boolean storageUseSsl = null;
-    private Boolean storageUseTls = null;
+    private boolean storageUseSsl = false;
+    private boolean storageUseTls = false;
     
     /**
      * Returns the type of transport of messages.
@@ -103,7 +104,7 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @return Numeric value that contains the port.
      */
-    public Integer getTransportServerPort(){
+    public int getTransportServerPort(){
         return this.transportServerPort;
     }
     
@@ -112,23 +113,23 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @param transportServerPort Numeric value that contains the port.
      */
-    public void setTransportServerPort(Integer transportServerPort){
+    public void setTransportServerPort(int transportServerPort){
         this.transportServerPort = transportServerPort;
     }
     
     /**
-     * Returns the user name to be used in the mail transport server.
+     * Returns the username to be used in the mail transport server.
      *
-     * @return String that contains the user name.
+     * @return String that contains the username.
      */
     public String getTransportUserName(){
         return this.transportUserName;
     }
     
     /**
-     * Defines the user name to be used in the mail transport server.
+     * Defines the username to be used in the mail transport server.
      *
-     * @param transportUserName String that contains the user name.
+     * @param transportUserName String that contains the username.
      */
     public void setTransportUserName(String transportUserName){
         this.transportUserName = transportUserName;
@@ -157,7 +158,7 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @return True/False.
      */
-    public Boolean getTransportUseSsl(){
+    public boolean getTransportUseSsl(){
         return this.transportUseSsl;
     }
     
@@ -166,7 +167,7 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @param transportUseSsl True/False.
      */
-    public void setTransportUseSsl(Boolean transportUseSsl){
+    public void setTransportUseSsl(boolean transportUseSsl){
         this.transportUseSsl = transportUseSsl;
     }
     
@@ -175,7 +176,7 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @return True/False.
      */
-    public Boolean getTransportUseTls(){
+    public boolean getTransportUseTls(){
         return this.transportUseTls;
     }
     
@@ -184,7 +185,7 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @param transportUseTls True/False.
      */
-    public void setTransportUseTls(Boolean transportUseTls){
+    public void setTransportUseTls(boolean transportUseTls){
         this.transportUseTls = transportUseTls;
     }
     
@@ -211,7 +212,7 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @return Numeric value that contains the port.
      */
-    public Integer getStorageServerPort(){
+    public int getStorageServerPort(){
         return this.storageServerPort;
     }
     
@@ -220,23 +221,23 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @param storageServerPort Numeric value that contains the port.
      */
-    public void setStorageServerPort(Integer storageServerPort){
+    public void setStorageServerPort(int storageServerPort){
         this.storageServerPort = storageServerPort;
     }
     
     /**
-     * Returns the user name to be used in the mail storage server.
+     * Returns the username to be used in the mail storage server.
      *
-     * @return String that contains the user name.
+     * @return String that contains the username.
      */
     public String getStorageUserName(){
         return this.storageUserName;
     }
     
     /**
-     * Defines the user name to be used in the mail storage server.
+     * Defines the username to be used in the mail storage server.
      *
-     * @param storageUserName String that contains the user name.
+     * @param storageUserName String that contains the username.
      */
     public void setStorageUserName(String storageUserName){
         this.storageUserName = storageUserName;
@@ -265,7 +266,7 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @return True/False.
      */
-    public Boolean getStorageUseSsl(){
+    public boolean getStorageUseSsl(){
         return this.storageUseSsl;
     }
     
@@ -274,7 +275,7 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @param storageUseSsl True/False.
      */
-    public void setStorageUseSsl(Boolean storageUseSsl){
+    public void setStorageUseSsl(boolean storageUseSsl){
         this.storageUseSsl = storageUseSsl;
     }
     
@@ -283,7 +284,7 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @return True/False.
      */
-    public Boolean getStorageUseTls(){
+    public boolean getStorageUseTls(){
         return this.storageUseTls;
     }
     
@@ -292,7 +293,7 @@ public class MailResources extends BaseResources<XmlNode>{
      *
      * @param storageUseTls True/False.
      */
-    public void setStorageUseTls(Boolean storageUseTls){
+    public void setStorageUseTls(boolean storageUseTls){
         this.storageUseTls = storageUseTls;
     }
 }

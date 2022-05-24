@@ -33,8 +33,8 @@ import java.util.Locale;
 public class IterateProcessor extends EvaluateProcessor{
     private String name = null;
     private String index = null;
-    private Integer start = null;
-    private Integer end = null;
+    private int start = 0;
+    private int end = 0;
     
     /**
      * Constructor - Defines the logic processor.
@@ -62,7 +62,7 @@ public class IterateProcessor extends EvaluateProcessor{
      *
      * @return Numeric value that contains the start index.
      */
-    public Integer getStart(){
+    public int getStart(){
         return this.start;
     }
     
@@ -71,7 +71,7 @@ public class IterateProcessor extends EvaluateProcessor{
      *
      * @param start Numeric value that contains the start index.
      */
-    public void setStart(Integer start){
+    public void setStart(int start){
         this.start = start;
     }
     
@@ -80,7 +80,7 @@ public class IterateProcessor extends EvaluateProcessor{
      *
      * @return Numeric value that contains the start index.
      */
-    public Integer getEnd(){
+    public int getEnd(){
         return this.end;
     }
     
@@ -89,7 +89,7 @@ public class IterateProcessor extends EvaluateProcessor{
      *
      * @param end Numeric value that contains the start index.
      */
-    public void setEnd(Integer end){
+    public void setEnd(int end){
         this.end = end;
     }
     
@@ -128,22 +128,17 @@ public class IterateProcessor extends EvaluateProcessor{
     public void setIndex(String index){
         this.index = index;
     }
-    
-    /**
-     * @see br.com.concepting.framework.processors.EvaluateProcessor#returnContent()
-     */
-    protected Boolean returnContent(){
+
+    @Override
+    protected boolean returnContent(){
         return true;
     }
-    
-    /**
-     * @see br.com.concepting.framework.processors.GenericProcessor#process()
-     */
+
+    @Override
     public String process() throws InternalErrorException{
         Object value = evaluate();
         Object[] array = null;
-        Object item = null;
-        
+
         if(PropertyUtil.isCollection(value))
             array = ((Collection<?>) value).toArray();
         else if(PropertyUtil.isArray(value))
@@ -153,20 +148,15 @@ public class IterateProcessor extends EvaluateProcessor{
         
         if(array != null && array.length > 0){
             setValue(null);
-            
-            if(this.start == null)
-                this.start = 0;
-            
-            if(this.end == null)
+
+            if(this.end == 0)
                 this.end = array.length;
-            
-            String result = null;
-            
+
             for(int cont = this.start; cont < array.length; cont++){
                 if(cont > this.end)
                     break;
                 
-                item = array[cont];
+                Object item = array[cont];
                 
                 if(this.name != null && this.name.length() > 0)
                     setVariable(this.name, item);
@@ -176,7 +166,7 @@ public class IterateProcessor extends EvaluateProcessor{
                 
                 setDeclaration(item);
                 
-                result = StringUtil.trim(super.process());
+                String result = StringUtil.trim(super.process());
                 
                 if(result.length() > 0){
                     if(buffer.length() > 0)

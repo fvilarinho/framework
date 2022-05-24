@@ -8,7 +8,7 @@ import java.lang.reflect.*;
 import java.util.Collection;
 
 /**
- * Class responsible to observe the methods execution of a class.
+ * Class responsible to observe methods execution of a class.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -29,9 +29,9 @@ import java.util.Collection;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class Observer implements InvocationHandler{
-    private Object interceptableInstance = null;
-    private Class<?> interceptableInterfaceClass = null;
-    private Interceptor interceptor = null;
+    private final Object interceptableInstance;
+    private final Class<?> interceptableInterfaceClass;
+    private final Interceptor interceptor;
     
     /**
      * Returns the instance of the interceptable class.
@@ -108,7 +108,7 @@ public class Observer implements InvocationHandler{
             return;
         
         Class<?>[] instanceInterfaces = interceptableInstance.getInterfaces();
-        Boolean found = false;
+        boolean found = false;
         
         if(interceptableInterfaces != null && !interceptableInterfaces.isEmpty()){
             for(Class<?> item: interceptableInterfaces){
@@ -159,11 +159,8 @@ public class Observer implements InvocationHandler{
         this.interceptableInterfaceClass = interceptableInterfaceClass;
         this.interceptor = interceptor;
     }
-    
-    /**
-     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object,
-     * java.lang.reflect.Method, java.lang.Object[])
-     */
+
+    @Override
     public Object invoke(Object proxy, Method method, Object[] methodArgumentsValues) throws Throwable{
         this.interceptor.setInterceptableInstance(this.interceptableInstance);
         this.interceptor.setInterceptableInterfaceClass(this.interceptableInterfaceClass);

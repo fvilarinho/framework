@@ -11,7 +11,7 @@
  * @param name String that contains the identifier of the rich text area component.
  */
 function initializeRichTextArea(name){
-	var contentObject = getObject(name + ".content");
+	let contentObject = getObject(name + ".content");
 	
 	if(contentObject)
 		contentObject.addEventListener("keyup", updateRichTextArea, true);
@@ -25,7 +25,7 @@ function initializeRichTextArea(name){
  * @param args List that contains the command arguments.
  */
 function executeCommand(name, command, args){
-	var contentObject = getObject(name + ".content");
+	let contentObject = getObject(name + ".content");
 	
 	if(contentObject)
 		document.execCommand(command, false, args);
@@ -37,12 +37,12 @@ function executeCommand(name, command, args){
  * @param e Instance that contains the event.
  */
 function updateRichTextArea(e){
-	var divs = document.getElementsByTagName("div");
+	let divs = document.getElementsByTagName("div");
 
 	if(divs){
-		for(var i = 0 ; i < divs.length ; i++){
-			var div = divs[i];
-			var id  = div.id;
+		for(let i = 0 ; i < divs.length ; i++){
+			let div = divs[i];
+			let id  = div.id;
 			
 			if(id && id.indexOf(".content") >= 0){
 				id = replaceAll(id, ".content", "");

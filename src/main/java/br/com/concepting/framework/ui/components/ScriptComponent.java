@@ -67,22 +67,16 @@ public class ScriptComponent extends BaseComponent{
     public void setUrl(String url){
         this.url = url;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildStyle()
-     */
+
+    @Override
     protected void buildStyle() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         String contextPath = getContextPath();
         String currentSkin = getCurrentSkin();
@@ -120,10 +114,8 @@ public class ScriptComponent extends BaseComponent{
         else
             println(">");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         if(this.url == null || this.url.length() == 0){
             BodyContent bodyContent = getBodyContent();
@@ -139,19 +131,15 @@ public class ScriptComponent extends BaseComponent{
                 println(content);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         println("</script>");
         
         super.renderClose();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         

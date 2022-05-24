@@ -1,6 +1,7 @@
 package br.com.concepting.framework.persistence.resources;
 
 import br.com.concepting.framework.constants.Constants;
+import br.com.concepting.framework.persistence.constants.PersistenceConstants;
 import br.com.concepting.framework.resources.BaseResources;
 import br.com.concepting.framework.resources.FactoryResources;
 import br.com.concepting.framework.util.PropertyUtil;
@@ -34,7 +35,7 @@ public class PersistenceResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = 5519581642532631902L;
     
     private String serverName = null;
-    private Integer serverPort = null;
+    private int serverPort = PersistenceConstants.DEFAULT_REPOSITORY_TYPE.getDefaultPort();
     private String instanceId = null;
     private String repositoryId = null;
     private String userName = null;
@@ -171,7 +172,7 @@ public class PersistenceResources extends BaseResources<XmlNode>{
      *
      * @return Numeric value that contains the port.
      */
-    public Integer getServerPort(){
+    public int getServerPort(){
         return this.serverPort;
     }
     
@@ -180,23 +181,23 @@ public class PersistenceResources extends BaseResources<XmlNode>{
      *
      * @param serverPort Numeric value that contains the port.
      */
-    public void setServerPort(Integer serverPort){
+    public void setServerPort(int serverPort){
         this.serverPort = serverPort;
     }
     
     /**
-     * Returns the user name of the persistence service.
+     * Returns the username of the persistence service.
      *
-     * @return String that contains the user name.
+     * @return String that contains the username.
      */
     public String getUserName(){
         return this.userName;
     }
     
     /**
-     * Defines the user name of the persistence service.
+     * Defines the username of the persistence service.
      *
-     * @param userName String that contains the user name.
+     * @param userName String that contains the username.
      */
     public void setUserName(String userName){
         this.userName = userName;

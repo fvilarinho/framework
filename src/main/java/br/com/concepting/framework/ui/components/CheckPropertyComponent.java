@@ -8,7 +8,7 @@ import br.com.concepting.framework.util.types.ComponentType;
 import javax.servlet.jsp.JspException;
 
 /**
- * Class that defines the check box component.
+ * Class that defines the checkbox component.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -30,14 +30,12 @@ import javax.servlet.jsp.JspException;
  */
 public class CheckPropertyComponent extends BaseOptionPropertyComponent{
     private static final long serialVersionUID = 3956751502801574242L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
         String id = getId();
         
-        if(id != null && id.length() > 0 && isBoolean() != null && isBoolean()){
+        if(id != null && id.length() > 0 && isBoolean()){
             StringBuilder onClick = new StringBuilder();
             
             onClick.append("setObjectValue('");
@@ -59,10 +57,8 @@ public class CheckPropertyComponent extends BaseOptionPropertyComponent{
         
         super.buildEvents();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
         String id = getId();
         String name = getName();
@@ -78,19 +74,15 @@ public class CheckPropertyComponent extends BaseOptionPropertyComponent{
         
         super.buildName();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.CHECK_BOX);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionPropertyComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         BaseOptionsPropertyComponent optionsPropertyComponent = (BaseOptionsPropertyComponent) findAncestorWithClass(this, BaseOptionsPropertyComponent.class);
         
@@ -98,7 +90,7 @@ public class CheckPropertyComponent extends BaseOptionPropertyComponent{
             try{
                 optionsPropertyComponent = (BaseOptionsPropertyComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
@@ -106,9 +98,9 @@ public class CheckPropertyComponent extends BaseOptionPropertyComponent{
         String actionFormName = getActionFormName();
         String id = getId();
         String name = getName();
-        Boolean enabled = isEnabled();
+        boolean enabled = isEnabled();
         
-        if(optionsPropertyComponent == null && propertyInfo != null && actionFormName != null && actionFormName.length() > 0 && id != null && id.length() > 0 && name != null && name.length() > 0 && enabled != null && enabled){
+        if(optionsPropertyComponent == null && propertyInfo != null && actionFormName != null && actionFormName.length() > 0 && id != null && id.length() > 0 && name != null && name.length() > 0 && enabled){
             HiddenPropertyComponent propertyComponent = new HiddenPropertyComponent();
             
             propertyComponent.setPageContext(this.pageContext);

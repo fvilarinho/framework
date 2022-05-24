@@ -29,8 +29,8 @@ import java.security.NoSuchAlgorithmException;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class CryptoDigest{
-    private MessageDigest digest = null;
-    private Boolean useBase64 = null;
+    private final MessageDigest digest;
+    private final boolean useBase64;
     
     /**
      * Constructor - Defines the cryptography parameters.
@@ -50,7 +50,7 @@ public class CryptoDigest{
      * @throws NoSuchAlgorithmException Occurs when was not possible to execute
      * the operation.
      */
-    public CryptoDigest(Boolean useBase64) throws NoSuchAlgorithmException{
+    public CryptoDigest(boolean useBase64) throws NoSuchAlgorithmException{
         this(SecurityConstants.DEFAULT_DIGEST_ALGORITHM_ID, useBase64);
     }
     
@@ -74,7 +74,7 @@ public class CryptoDigest{
      * @throws NoSuchAlgorithmException Occurs when was not possible to execute
      * the operation.
      */
-    public CryptoDigest(String algorithm, Boolean useBase64) throws NoSuchAlgorithmException{
+    public CryptoDigest(String algorithm, boolean useBase64) throws NoSuchAlgorithmException{
         super();
         
         this.useBase64 = useBase64;
@@ -92,6 +92,6 @@ public class CryptoDigest{
     public String encrypt(String message) throws UnsupportedEncodingException{
         byte[] buffer = this.digest.digest(message.getBytes());
         
-        return (this.useBase64 != null && this.useBase64 ? ByteUtil.toBase64(buffer) : ByteUtil.toHexadecimal(buffer));
+        return (this.useBase64 ? ByteUtil.toBase64(buffer) : ByteUtil.toHexadecimal(buffer));
     }
 }

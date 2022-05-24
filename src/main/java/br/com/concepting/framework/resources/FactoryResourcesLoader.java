@@ -49,17 +49,13 @@ public abstract class FactoryResourcesLoader extends XmlResourcesLoader<FactoryR
     public FactoryResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname, FactoryConstants.DEFAULT_RESOURCES_ID);
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#getResourcesClass()
-     */
+
+    @Override
     protected Class<FactoryResources> getResourcesClass() throws ClassNotFoundException{
         return FactoryResources.class;
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
-     */
+
+    @Override
     public FactoryResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
@@ -101,16 +97,14 @@ public abstract class FactoryResourcesLoader extends XmlResourcesLoader<FactoryR
         
         if(optionsNode != null){
             List<XmlNode> childNodes = optionsNode.getChildren();
-            String optionId = null;
-            String optionValue = null;
-            
+
             for(XmlNode childNode: childNodes){
-                optionId = childNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
+                String optionId = childNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
                 
                 if(optionId == null || optionId.length() == 0)
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, childNode.getText());
                 
-                optionValue = childNode.getAttribute(Constants.VALUE_ATTRIBUTE_ID);
+                String optionValue = childNode.getAttribute(Constants.VALUE_ATTRIBUTE_ID);
                 
                 if(optionValue == null)
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, childNode.getText());

@@ -34,7 +34,7 @@ import java.util.Collection;
  */
 public class ModelInfo{
     private Class<? extends BaseModel> clazz = null;
-    private Boolean isAbstract = null;
+    private boolean isAbstract = false;
     private Collection<PropertyInfo> propertiesInfo = null;
     private Collection<PropertyInfo> identityPropertiesInfo = null;
     private Collection<PropertyInfo> uniquePropertiesInfo = null;
@@ -48,19 +48,17 @@ public class ModelInfo{
     private String ui = null;
     private String templateId = null;
     private String descriptionPattern = null;
-    private Boolean generateWebService = null;
-    private Boolean generateService = null;
-    private Boolean generatePersistence = null;
-    private Boolean generateActionsAndForm = null;
-    private Boolean generateUi = null;
-    private Boolean cacheable = null;
+    private boolean generateService = false;
+    private boolean generatePersistence = false;
+    private boolean generateUi = false;
+    private boolean cacheable = false;
 
     /**
      * Indicates if the data model is abstract.
      *
      * @return True/False.
      */
-    public Boolean isAbstract(){
+    public boolean isAbstract(){
         return this.isAbstract;
     }
 
@@ -69,7 +67,7 @@ public class ModelInfo{
      *
      * @return True/False.
      */
-    public Boolean getIsAbstract(){
+    public boolean getIsAbstract(){
         return this.isAbstract();
     }
 
@@ -78,7 +76,7 @@ public class ModelInfo{
      *
      * @param isAbstract True/False.
      */
-    public void setIsAbstract(Boolean isAbstract){
+    public void setIsAbstract(boolean isAbstract){
         this.isAbstract = isAbstract;
     }
 
@@ -87,7 +85,7 @@ public class ModelInfo{
      *
      * @return True/False.
      */
-    public Boolean isCacheable(){
+    public boolean isCacheable(){
         return this.cacheable;
     }
 
@@ -96,7 +94,7 @@ public class ModelInfo{
      *
      * @return True/False.
      */
-    public Boolean getCacheable(){
+    public boolean getCacheable(){
         return isCacheable();
     }
 
@@ -105,7 +103,7 @@ public class ModelInfo{
      *
      * @param cacheable True/False.
      */
-    public void setCacheable(Boolean cacheable){
+    public void setCacheable(boolean cacheable){
         this.cacheable = cacheable;
     }
 
@@ -114,7 +112,7 @@ public class ModelInfo{
      *
      * @return True/False.
      */
-    public Boolean generateUi(){
+    public boolean generateUi(){
         return this.generateUi;
     }
 
@@ -123,7 +121,7 @@ public class ModelInfo{
      *
      * @return True/False.
      */
-    public Boolean getGenerateUi(){
+    public boolean getGenerateUi(){
         return generateUi();
     }
 
@@ -132,38 +130,8 @@ public class ModelInfo{
      *
      * @param generateUi True/False.
      */
-    public void setGenerateUi(Boolean generateUi){
+    public void setGenerateUi(boolean generateUi){
         this.generateUi = generateUi;
-    }
-
-    /**
-     * Indicates if the web service implementation of the data model should be
-     * generated.
-     *
-     * @return True/False.
-     */
-    public Boolean generateWebService(){
-        return this.generateWebService;
-    }
-
-    /**
-     * Indicates if the web service implementation of the data model should be
-     * generated.
-     *
-     * @return True/False.
-     */
-    public Boolean getGenerateWebService(){
-        return generateWebService();
-    }
-
-    /**
-     * Defines if the web service implementation of the data model should be
-     * generated.
-     *
-     * @param generateWebService True/False.
-     */
-    public void setGenerateWebService(Boolean generateWebService){
-        this.generateWebService = generateWebService;
     }
 
     /**
@@ -172,7 +140,7 @@ public class ModelInfo{
      *
      * @return True/False.
      */
-    public Boolean generateService(){
+    public boolean generateService(){
         return this.generateService;
     }
 
@@ -182,7 +150,7 @@ public class ModelInfo{
      *
      * @return True/False.
      */
-    public Boolean getGenerateService(){
+    public boolean getGenerateService(){
         return generateService();
     }
 
@@ -192,7 +160,7 @@ public class ModelInfo{
      *
      * @param generateService True/False.
      */
-    public void setGenerateService(Boolean generateService){
+    public void setGenerateService(boolean generateService){
         this.generateService = generateService;
     }
 
@@ -202,7 +170,7 @@ public class ModelInfo{
      *
      * @return True/False.
      */
-    public Boolean generatePersistence(){
+    public boolean generatePersistence(){
         return this.generatePersistence;
     }
 
@@ -212,7 +180,7 @@ public class ModelInfo{
      *
      * @return True/False.
      */
-    public Boolean getGeneratePersistence(){
+    public boolean getGeneratePersistence(){
         return generatePersistence();
     }
 
@@ -222,35 +190,8 @@ public class ModelInfo{
      *
      * @param generatePersistence True/False.
      */
-    public void setGeneratePersistence(Boolean generatePersistence){
+    public void setGeneratePersistence(boolean generatePersistence){
         this.generatePersistence = generatePersistence;
-    }
-
-    /**
-     * Indicates if the actions and form of the data model should be generated.
-     *
-     * @return True/False.
-     */
-    public Boolean generateActionsAndForm(){
-        return this.generateActionsAndForm;
-    }
-
-    /**
-     * Indicates if the actions and form of the data model should be generated.
-     *
-     * @return True/False.
-     */
-    public Boolean getGenerateActionsAndForm(){
-        return generateActionsAndForm();
-    }
-
-    /**
-     * Defines if the actions and form of the data model should be generated.
-     *
-     * @param generateActionsAndForm True/False.
-     */
-    public void setGenerateActionsAndForm(Boolean generateActionsAndForm){
-        this.generateActionsAndForm = generateActionsAndForm;
     }
 
     /**
@@ -373,19 +314,19 @@ public class ModelInfo{
         this.auditablePropertiesInfo = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
         for(PropertyInfo propertyInfo: propertiesInfo){
-            if(propertyInfo.isIdentity() != null && propertyInfo.isIdentity())
+            if(propertyInfo.isIdentity())
                 this.identityPropertiesInfo.add(propertyInfo);
 
-            if(propertyInfo.isUnique() != null && propertyInfo.isUnique())
+            if(propertyInfo.isUnique())
                 this.uniquePropertiesInfo.add(propertyInfo);
 
-            if(propertyInfo.isSerializable() != null && propertyInfo.isSerializable())
+            if(propertyInfo.isSerializable())
                 this.serializablePropertiesInfo.add(propertyInfo);
 
-            if(propertyInfo.isForSearch() != null && propertyInfo.isForSearch())
+            if(propertyInfo.isForSearch())
                 this.searchPropertiesInfo.add(propertyInfo);
 
-            if(propertyInfo.isAuditable() != null && propertyInfo.isAuditable())
+            if(propertyInfo.isAuditable())
                 this.auditablePropertiesInfo.add(propertyInfo);
 
             if(propertyInfo.getValidations() != null && propertyInfo.getValidations().length > 0 && propertyInfo.getValidations()[0] == ValidationType.NONE)
@@ -494,8 +435,8 @@ public class ModelInfo{
     @SuppressWarnings("unchecked")
     public PropertyInfo getPropertyInfo(String propertyId) throws NoSuchFieldException{
         if(this.propertiesInfo != null && !this.propertiesInfo.isEmpty()){
-            Class<? extends BaseModel> modelClass = null;
-            ModelInfo modelInfo = null;
+            Class<? extends BaseModel> modelClass;
+            ModelInfo modelInfo;
             int pos = propertyId.indexOf(".");
             String propertyIdBuffer = (pos >= 0 ? propertyId.substring(0, pos) : propertyId);
 
@@ -546,7 +487,7 @@ public class ModelInfo{
      *
      * @return True/False.
      */
-    public Boolean hasPropertiesValidation(){
+    public boolean hasPropertiesValidation(){
         return (this.validationPropertiesInfo != null && this.validationPropertiesInfo.size() > 0);
     }
 

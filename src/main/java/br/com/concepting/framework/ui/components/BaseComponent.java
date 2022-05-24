@@ -17,7 +17,6 @@ import br.com.concepting.framework.security.resources.SecurityResourcesLoader;
 import br.com.concepting.framework.ui.components.types.EventType;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.ui.controller.UIController;
-import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.types.ComponentType;
 
@@ -59,7 +58,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     private String resourcesKey = null;
     private String styleClass = null;
     private String style = null;
-    private Boolean focus = null;
+    private boolean focus = false;
     private String onBlur = null;
     private String onFocus = null;
     private String onClick = null;
@@ -67,10 +66,10 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     private String onMouseOut = null;
     private String width = null;
     private String height = null;
-    private Boolean enabled = null;
-    private Boolean hasBody = null;
-    private Boolean render = null;
-    private Boolean renderWhenAuthenticated = null;
+    private boolean enabled = true;
+    private boolean hasBody = false;
+    private boolean render = true;
+    private boolean renderWhenAuthenticated = false;
     private SystemResources systemResources = null;
     private SecurityResources securityResources = null;
     private SystemController systemController = null;
@@ -83,7 +82,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @return True/False.
      */
-    protected Boolean focus(){
+    protected boolean focus(){
         return this.focus;
     }
     
@@ -92,7 +91,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @return True/False.
      */
-    protected Boolean getFocus(){
+    protected boolean getFocus(){
         return focus();
     }
     
@@ -101,7 +100,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @param focus True/False.
      */
-    public void setFocus(Boolean focus){
+    public void setFocus(boolean focus){
         this.focus = focus;
     }
     
@@ -110,7 +109,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @return True/False.
      */
-    protected Boolean hasBody(){
+    protected boolean hasBody(){
         return this.hasBody;
     }
     
@@ -119,7 +118,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @return True/False.
      */
-    protected Boolean getHasBody(){
+    protected boolean getHasBody(){
         return hasBody();
     }
     
@@ -128,7 +127,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @param hasBody True/False.
      */
-    private void setHasBody(Boolean hasBody){
+    private void setHasBody(boolean hasBody){
         this.hasBody = hasBody;
     }
     
@@ -233,9 +232,8 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             resourcesId = UIConstants.DEFAULT_COMMON_RESOURCES_ID;
         
         PropertiesResourcesLoader loader = new PropertiesResourcesLoader(resourcesId, getCurrentLanguage());
-        PropertiesResources resources = loader.getContent();
-        
-        return resources;
+
+        return loader.getContent();
     }
     
     /**
@@ -285,59 +283,59 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     }
     
     /**
-     * Indicates if the component will be render only if the user is
+     * Indicates if the component will be rendered only if the user is
      * authenticated.
      *
      * @return True/False.
      */
-    public Boolean renderWhenAuthenticated(){
+    public boolean renderWhenAuthenticated(){
         return this.renderWhenAuthenticated;
     }
     
     /**
-     * Indicates if the component will be render only if the user is
+     * Indicates if the component will be rendered only if the user is
      * authenticated.
      *
      * @return True/False.
      */
-    public Boolean getRenderWhenAuthenticated(){
+    public boolean getRenderWhenAuthenticated(){
         return renderWhenAuthenticated();
     }
     
     /**
-     * Defines if the component will be render only if the user is
+     * Defines if the component will be rendered only if the user is
      * authenticated.
      *
      * @param renderWhenAuthenticated True/False.
      */
-    public void setRenderWhenAuthenticated(Boolean renderWhenAuthenticated){
+    public void setRenderWhenAuthenticated(boolean renderWhenAuthenticated){
         this.renderWhenAuthenticated = renderWhenAuthenticated;
     }
     
     /**
-     * Indicates if the component will be render.
+     * Indicates if the component will be rendered.
      *
      * @return True/False.
      */
-    public Boolean render(){
+    public boolean render(){
         return this.render;
     }
     
     /**
-     * Indicates if the component will be render.
+     * Indicates if the component will be rendered.
      *
      * @return True/False.
      */
-    public Boolean getRender(){
+    public boolean getRender(){
         return render();
     }
     
     /**
-     * Defines if the component will be render.
+     * Defines if the component will be rendered.
      *
      * @param rendered True/False.
      */
-    public void setRender(Boolean rendered){
+    public void setRender(boolean rendered){
         this.render = rendered;
     }
     
@@ -544,7 +542,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @return True/False.
      */
-    public Boolean isEnabled(){
+    public boolean isEnabled(){
         return this.enabled;
     }
     
@@ -553,7 +551,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @return True/False.
      */
-    public Boolean getEnabled(){
+    public boolean getEnabled(){
         return isEnabled();
     }
     
@@ -562,7 +560,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @param enabled True/False.
      */
-    public void setEnabled(Boolean enabled){
+    public void setEnabled(boolean enabled){
         this.enabled = enabled;
     }
     
@@ -664,10 +662,8 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     protected PageContext getPageContext(){
         return this.pageContext;
     }
-    
-    /**
-     * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
-     */
+
+    @Override
     public void setPageContext(PageContext pageContext){
         super.setPageContext(pageContext);
         
@@ -756,10 +752,8 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      * the operation.
      */
     protected void buildDimensions() throws InternalErrorException{
-        StringBuilder styleContent = null;
-        
         if((this.width != null && this.width.length() > 0) || (this.height != null && this.height.length() > 0)){
-            styleContent = new StringBuilder();
+            StringBuilder styleContent = new StringBuilder();
             
             if(this.width != null && this.width.length() > 0){
                 if(this.style != null && this.style.length() > 0){
@@ -828,7 +822,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      */
     protected void buildEvents() throws InternalErrorException{
     }
-    
+
     /**
      * Builds the restrictions of the component.
      *
@@ -836,10 +830,8 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      * the operation.
      */
     protected void buildRestrictions() throws InternalErrorException{
-        if(this.enabled == null)
-            this.enabled = true;
     }
-    
+
     /**
      * Builds the permissions of the component.
      *
@@ -853,23 +845,16 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             try{
                 parentComponent = (BaseComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
-        if(parentComponent != null){
-            if(this.renderWhenAuthenticated != null && this.renderWhenAuthenticated)
-                this.renderWhenAuthenticated = parentComponent.renderWhenAuthenticated();
-            
-            if(this.render != null && this.render)
+        if(parentComponent != null)
+            if(this.render)
                 this.render = parentComponent.render();
-        }
-        
-        if(this.renderWhenAuthenticated != null && this.renderWhenAuthenticated)
+
+        if(this.renderWhenAuthenticated)
             this.render = this.securityController.isLoginSessionAuthenticated();
-        
-        if(this.render == null)
-            this.render = true;
     }
     
     /**
@@ -1029,9 +1014,9 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      */
     protected void renderClose() throws InternalErrorException{
         String name = getName();
-        Boolean focus = focus();
+        boolean focus = focus();
         
-        if(focus != null && focus && name != null && name.length() > 0){
+        if(focus && name != null && name.length() > 0){
             StringBuilder content = new StringBuilder();
             
             content.append("focusObject('");
@@ -1053,76 +1038,61 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             }
         }
     }
-    
-    /**
-     * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
-     */
+
+    @Override
     public int doStartTag() throws JspException{
         if(this.systemController != null){
             try{
                 initialize();
                 
-                if(this.render != null && this.render)
+                if(this.render)
                     renderOpen();
             }
             catch(Throwable e){
-                if(!ExceptionUtil.isExpectedException(e) && !ExceptionUtil.isInternalErrorException(e))
-                    e = new InternalErrorException(e);
-                
                 this.systemController.setCurrentException(e);
             }
         }
         
         return super.doStartTag();
     }
-    
-    /**
-     * @see javax.servlet.jsp.tagext.BodyTagSupport#doAfterBody()
-     */
+
+    @Override
     public int doAfterBody() throws JspException{
         if(this.systemController != null){
             try{
-                if(this.render != null && this.render){
+                if(this.render){
                     renderBody();
                     
                     this.hasBody = true;
                 }
             }
             catch(Throwable e){
-                if(!ExceptionUtil.isExpectedException(e) && !ExceptionUtil.isInternalErrorException(e))
-                    e = new InternalErrorException(e);
-                
                 this.systemController.setCurrentException(e);
             }
         }
         
         return super.doAfterBody();
     }
-    
-    /**
-     * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
-     */
+
+    @Override
     public int doEndTag() throws JspException{
         if(this.systemController != null){
             try{
-                if(this.render != null && this.render){
-                    if(this.hasBody == null || !this.hasBody)
+                if(this.render){
+                    if(!this.hasBody)
                         renderBody();
                     
                     renderClose();
                 }
             }
             catch(Throwable e){
-                if(!ExceptionUtil.isExpectedException(e) && !ExceptionUtil.isInternalErrorException(e))
-                    e = new InternalErrorException(e);
-                
                 this.systemController.setCurrentException(e);
-            }
+           }
             finally{
                 try{
                     clearAttributes();
                 }
-                catch(InternalErrorException e){
+                catch(InternalErrorException ignored){
                 }
             }
         }
@@ -1143,7 +1113,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
         setResourcesKey(null);
         setWidth(null);
         setHeight(null);
-        setFocus(null);
+        setFocus(false);
         setStyleClass(null);
         setStyle(null);
         setOnBlur(null);
@@ -1151,11 +1121,16 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
         setOnFocus(null);
         setOnMouseOut(null);
         setOnMouseOver(null);
-        setEnabled(null);
-        setRender(null);
-        setRenderWhenAuthenticated(null);
-        setHasBody(null);
+        setEnabled(true);
+        setRender(true);
+        setRenderWhenAuthenticated(false);
+        setHasBody(false);
         setSystemResources(null);
         setSecurityResources(null);
+    }
+
+    @Override
+    public BaseComponent clone() throws CloneNotSupportedException{
+        return (BaseComponent) super.clone();
     }
 }

@@ -13,12 +13,10 @@
  * @param endIndex Numeric value that contains the end index.
  */
 function selectDeselectAllGridRows(name, startIndex, endIndex){
-	var cont        = 0;
-	var object      = null;
-	var selectState = false;
+	let selectState = false;
 	
-	for(cont = startIndex ; cont <= endIndex ; cont++){
-		object = getObject(name + "" + cont);
+	for(let cont = startIndex ; cont <= endIndex ; cont++){
+		let object = getObject(name + "" + cont);
 		
 		if(object){
 			if(!object.checked){
@@ -29,11 +27,11 @@ function selectDeselectAllGridRows(name, startIndex, endIndex){
 		}
 	}
 
-	for(cont = startIndex ; cont <= endIndex ; cont++){
-		object = getObject(name + "" + cont);
+	for(let cont = startIndex ; cont <= endIndex ; cont++){
+		let object = getObject(name + "" + cont);
 		
 		if(object)
-			if(object.checked != selectState)
+			if(object.checked !== selectState)
 				object.checked = selectState;
 	}
 }

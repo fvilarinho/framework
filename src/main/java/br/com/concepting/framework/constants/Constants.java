@@ -25,7 +25,6 @@ import java.util.*;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class Constants{
     public static final String ACTIVE_ATTRIBUTE_ID = "active";
     public static final String CLASS_ATTRIBUTE_ID = "class";
@@ -56,7 +55,7 @@ public abstract class Constants{
     public static final String VALUE_ATTRIBUTE_ID = "value";
     public static final String VALUES_ATTRIBUTE_ID = "values";
     public static final String DEFAULT_ATTRIBUTE_ID = "default";
-    public static final Integer DEFAULT_BUFFER_SIZE = 4096;
+    public static final int DEFAULT_BUFFER_SIZE = 4096;
     public static final String DEFAULT_CAPITALIZE_DELIMITER = " ";
     public static final String DEFAULT_CONTENT_ID = "content";
     public static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
@@ -68,14 +67,14 @@ public abstract class Constants{
     public static final String DEFAULT_IMAGE_ID = "image";
     public static final String DEFAULT_INTERFACES_ID = "interfaces";
     public static final String DEFAULT_INDENT_CHARACTER = " ";
-    public static final Integer DEFAULT_INDENT_SIZE = 4;
+    public static final int DEFAULT_INDENT_SIZE = 4;
     public static final String DEFAULT_ISO_ENCODING = "iso-8859-1";
     public static final Class<?> DEFAULT_LIFO_QUEUE_CLASS = LinkedList.class;
     public static final Class<?> DEFAULT_LIST_CLASS = ArrayList.class;
     public static final Class<?> DEFAULT_MAP_CLASS = LinkedHashMap.class;
     public static final String DEFAULT_NORMALIZE_DELIMITER = "_";
     public static final String DEFAULT_NULL_ID = "null";
-    public static final Long DEFAULT_PROCESS_TIMEOUT = 60000l;
+    public static final int DEFAULT_PROCESS_TIMEOUT = 60;
     public static final Class<?> DEFAULT_SET_CLASS = HashSet.class;
     public static final SortOrderType DEFAULT_SORT_ORDER_TYPE = SortOrderType.ASCEND;
     public static final String DEFAULT_UNICODE_ENCODING = "utf-8";

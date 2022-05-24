@@ -10,18 +10,15 @@ import br.com.concepting.framework.model.MainConsoleModel;
 import br.com.concepting.framework.model.ObjectModel;
 import br.com.concepting.framework.model.SystemModuleModel;
 import br.com.concepting.framework.resources.SystemResources;
-import br.com.concepting.framework.resources.helpers.ActionFormForwardResources;
-import br.com.concepting.framework.resources.helpers.ActionFormResources;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.ComponentType;
+import br.com.concepting.framework.util.types.MethodType;
 
 import javax.servlet.jsp.JspException;
-import javax.ws.rs.HttpMethod;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -77,38 +74,38 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
                     if(pos >= 0)
                         action = action.substring(0, pos);
                     
-                    List<ActionFormResources> actionForms = systemResources.getActionForms();
-                    ActionFormResources actionForm = null;
+                    List<SystemResources.ActionFormResources> actionForms = systemResources.getActionForms();
+                    SystemResources.ActionFormResources actionForm = null;
                     
                     if(actionForms != null && !actionForms.isEmpty()){
-                        for(int cont = 0; cont < actionForms.size(); cont++){
-                            actionForm = actionForms.get(cont);
-                            
-                            if(action.equals(actionForm.getAction()))
+                        for (SystemResources.ActionFormResources item : actionForms) {
+                            actionForm = item;
+
+                            if (action.equals(actionForm.getAction()))
                                 break;
-                            
+
                             actionForm = null;
                         }
                     }
                     
                     if(actionForm != null){
-                        List<ActionFormForwardResources> actionFormForwards = actionForm.getForwards();
-                        ActionFormForwardResources actionFormForward = null;
+                        List<SystemResources.ActionFormResources.ActionFormForwardResources> actionFormForwards = actionForm.getForwards();
+                        SystemResources.ActionFormResources.ActionFormForwardResources actionFormForward = null;
                         
                         if(actionFormForwards != null && !actionFormForwards.isEmpty()){
-                            for(int cont = 0; cont < actionFormForwards.size(); cont++){
-                                actionFormForward = actionFormForwards.get(cont);
-                                
-                                if(path.equals(actionFormForward.getUrl()))
+                            for (SystemResources.ActionFormResources.ActionFormForwardResources item : actionFormForwards) {
+                                actionFormForward = item;
+
+                                if (path.equals(actionFormForward.getUrl()))
                                     break;
-                                
+
                                 actionFormForward = null;
                             }
                             
                             StringBuilder actionUrl = new StringBuilder();
                             
                             actionUrl.append(action);
-                            actionUrl.append(ActionFormConstants.DEFAULT_ACTION_SERVLET_FILE_EXTENSION);
+                            actionUrl.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
                             actionUrl.append(".*");
                             
                             if(actionFormForward != null && !actionFormForward.getName().equals(ActionFormConstants.DEFAULT_FORWARD_ID)){
@@ -117,16 +114,14 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
                                 actionUrl.append(actionFormForward.getName());
                                 actionUrl.append(".*");
                             }
-                            
-                            Iterator<? extends ObjectModel> iterator = objects.iterator();
-                            
-                            while(iterator.hasNext()){
-                                object = iterator.next();
-                                
-                                if(object != null && object.getType() != null && object.getType().equals(ComponentType.MENU_ITEM))
-                                    if(object.getAction() != null && object.getAction().matches(actionUrl.toString()))
+
+                            for (ObjectModel item : objects) {
+                                object = item;
+
+                                if (object != null && object.getType() != null && object.getType().equals(ComponentType.MENU_ITEM))
+                                    if (object.getAction() != null && object.getAction().matches(actionUrl.toString()))
                                         break;
-                                
+
                                 object = null;
                             }
                         }
@@ -140,10 +135,8 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
         
         return object;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#getActionFormComponent()
-     */
+
+    @Override
     protected ActionFormComponent getActionFormComponent() throws InternalErrorException{
         String actionFormName = getActionFormName();
         
@@ -163,52 +156,38 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
         
         return super.getActionFormComponent();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildLabel()
-     */
+
+    @Override
     protected void buildLabel() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildTooltip()
-     */
+
+    @Override
     protected void buildTooltip() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
         setShowLabel(false);
         
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.BREAD_CRUMB);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         print("<table");
         
@@ -235,19 +214,17 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
         println(">");
         println("<tr>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         println("<td>");
         
         SecurityController securityController = getSecurityController();
-        Boolean authenticated = (securityController != null ? securityController.isLoginSessionAuthenticated() : null);
+        boolean authenticated = (securityController != null && securityController.isLoginSessionAuthenticated());
         String contextPath = getContextPath();
         String actionFormName = getActionFormName();
         
-        if(contextPath != null && contextPath.length() > 0 && actionFormName != null && actionFormName.length() > 0 && authenticated != null && authenticated){
+        if(contextPath != null && contextPath.length() > 0 && actionFormName != null && actionFormName.length() > 0 && authenticated){
             LinkComponent linkComponent = new LinkComponent();
             
             linkComponent.setPageContext(this.pageContext);
@@ -257,9 +234,9 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
             linkComponent.setTooltip(UIConstants.DEFAULT_BREAD_CRUMB_HOME_ID);
             
             StringBuilder onClick = new StringBuilder();
-            
+
             onClick.append("submitRequest('");
-            onClick.append(HttpMethod.GET);
+            onClick.append(MethodType.GET);
             onClick.append("', '");
             onClick.append(contextPath);
             onClick.append("/');");
@@ -309,14 +286,10 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
                 }
                 while(parentObject != null);
                 
-                String action = null;
-                ObjectModel navigationHistoryItem = null;
-                
                 for(int cont = navigationHistory.size() - 1; cont >= 0; cont--){
                     println(" / ");
-                    
-                    navigationHistoryItem = navigationHistory.get(cont);
-                    
+
+                    ObjectModel navigationHistoryItem = navigationHistory.get(cont);
                     LinkComponent linkComponent = new LinkComponent();
                     
                     linkComponent.setPageContext(this.pageContext);
@@ -329,14 +302,14 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
                     linkComponent.setResourcesId(getResourcesId());
                     linkComponent.setResourcesKey(navigationHistoryItem.getName());
                     
-                    action = navigationHistoryItem.getAction();
+                    String action = navigationHistoryItem.getAction();
                     
                     if(action != null && action.length() > 0){
                         if(!action.toLowerCase().startsWith("javascript")){
                             StringBuilder onClick = new StringBuilder();
-                            
+
                             onClick.append("submitRequest('");
-                            onClick.append(HttpMethod.GET);
+                            onClick.append(MethodType.GET);
                             onClick.append("', '");
                             onClick.append(contextPath);
                             onClick.append(action);
@@ -367,10 +340,8 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         println("</tr>");
         println("</table>");

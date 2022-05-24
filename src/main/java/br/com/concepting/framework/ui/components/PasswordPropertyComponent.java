@@ -26,10 +26,8 @@ import br.com.concepting.framework.util.types.ComponentType;
  */
 public class PasswordPropertyComponent extends TextPropertyComponent{
     private static final long serialVersionUID = -4382381009281300936L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.PASSWORD);
         

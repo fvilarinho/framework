@@ -30,33 +30,25 @@ import java.sql.*;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class DateTimeType implements UserType{
-    /**
-     * @see org.hibernate.usertype.UserType#assemble(java.io.Serializable, java.lang.Object)
-     */
+    @Override
     public Object assemble(Serializable cached, Object owner) throws HibernateException{
         return disassemble(cached);
     }
-    
-    /**
-     * @see org.hibernate.usertype.UserType#deepCopy(java.lang.Object)
-     */
+
+    @Override
     public Object deepCopy(Object value) throws HibernateException{
         if(value != null)
             return ((DateTime) value).clone();
         
         return null;
     }
-    
-    /**
-     * @see org.hibernate.usertype.UserType#disassemble(java.lang.Object)
-     */
+
+    @Override
     public Serializable disassemble(Object value) throws HibernateException{
         return (DateTime) deepCopy(value);
     }
-    
-    /**
-     * @see org.hibernate.usertype.UserType#equals(java.lang.Object, java.lang.Object)
-     */
+
+    @Override
     public boolean equals(Object x, Object y) throws HibernateException{
         if(x == null && y == null)
             return true;
@@ -66,48 +58,36 @@ public class DateTimeType implements UserType{
         
         return x.equals(y);
     }
-    
-    /**
-     * @see org.hibernate.usertype.UserType#hashCode(java.lang.Object)
-     */
+
+    @Override
     public int hashCode(Object value) throws HibernateException{
         if(value != null)
             return value.hashCode();
         
         return 0;
     }
-    
-    /**
-     * @see org.hibernate.usertype.UserType#isMutable()
-     */
+
+    @Override
     public boolean isMutable(){
         return true;
     }
-    
-    /**
-     * @see org.hibernate.usertype.UserType#replace(java.lang.Object, java.lang.Object, java.lang.Object)
-     */
+
+    @Override
     public Object replace(Object original, Object target, Object owner) throws HibernateException{
         return disassemble(original);
     }
-    
-    /**
-     * @see org.hibernate.usertype.UserType#returnedClass()
-     */
+
+    @Override
     public Class<DateTime> returnedClass(){
         return DateTime.class;
     }
-    
-    /**
-     * @see org.hibernate.usertype.UserType#sqlTypes()
-     */
+
+    @Override
     public int[] sqlTypes(){
         return new int[]{Types.TIMESTAMP};
     }
-    
-    /**
-     * @see org.hibernate.usertype.UserType#nullSafeGet(java.sql.ResultSet, java.lang.String[], org.hibernate.engine.spi.SharedSessionContractImplementor, java.lang.Object)
-     */
+
+    @Override
     public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws HibernateException, SQLException{
         Timestamp timestamp = rs.getTimestamp(names[0]);
         
@@ -116,10 +96,8 @@ public class DateTimeType implements UserType{
         
         return null;
     }
-    
-    /**
-     * @see org.hibernate.usertype.UserType#nullSafeSet(java.sql.PreparedStatement, java.lang.Object, int, org.hibernate.engine.spi.SharedSessionContractImplementor)
-     */
+
+    @Override
     public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session) throws HibernateException, SQLException{
         if(value == null)
             st.setNull(index, Types.TIMESTAMP);

@@ -3,6 +3,7 @@ package br.com.concepting.framework.util;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.util.helpers.TagIndent;
 import br.com.concepting.framework.util.helpers.XmlNode;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -65,8 +66,8 @@ public class XmlUtil{
     public static String toString(XmlNode node) throws UnsupportedEncodingException{
         if(node != null)
             return toString(node, false);
-        
-        return null;
+
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -77,11 +78,11 @@ public class XmlUtil{
      * @return String that contains the XML content.
      * @throws UnsupportedEncodingException Occurs when was not possible to execute the operation.
      */
-    public static String toString(XmlNode node, Boolean encode) throws UnsupportedEncodingException{
+    public static String toString(XmlNode node, boolean encode) throws UnsupportedEncodingException{
         if(node != null)
             return toString(node, encode, LanguageUtil.getDefaultLanguage());
-        
-        return null;
+
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -95,8 +96,8 @@ public class XmlUtil{
     public static String toString(XmlNode node, Locale language) throws UnsupportedEncodingException{
         if(node != null)
             return toString(node, false, language);
-        
-        return null;
+
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -108,7 +109,7 @@ public class XmlUtil{
      * @return String that contains the XML content.
      * @throws UnsupportedEncodingException Occurs when was not possible to execute the operation.
      */
-    public static String toString(XmlNode node, Boolean encode, Locale language) throws UnsupportedEncodingException{
+    public static String toString(XmlNode node, boolean encode, Locale language) throws UnsupportedEncodingException{
         if(node != null){
             if(language == null)
                 return toString(node, encode);
@@ -127,16 +128,14 @@ public class XmlUtil{
             Map<String, String> attributes = node.getAttributes();
             
             if(attributes != null && !attributes.isEmpty()){
-                String value = null;
-                
                 for(Entry<String, String> entry: attributes.entrySet()){
                     buffer.append(" ");
                     buffer.append(entry.getKey());
                     buffer.append("=\"");
                     
-                    value = PropertyUtil.format(entry.getValue(), language);
+                    String value = PropertyUtil.format(entry.getValue(), language);
                     
-                    if(value != null && value.length() > 0 && encode != null && encode)
+                    if(value != null && value.length() > 0 && encode)
                         value = URLEncoder.encode(value, Constants.DEFAULT_UNICODE_ENCODING);
                     
                     if(value != null && value.length() > 0)
@@ -151,7 +150,7 @@ public class XmlUtil{
             
             String value = PropertyUtil.format(node.getValue(), language);
             
-            if(value != null && value.length() > 0 && encode != null && encode)
+            if(value != null && value.length() > 0 && encode)
                 value = URLEncoder.encode(value, Constants.DEFAULT_UNICODE_ENCODING);
             
             if(value != null && value.length() > 0){
@@ -163,10 +162,8 @@ public class XmlUtil{
             List<XmlNode> children = node.getChildren();
             
             if(children != null && !children.isEmpty()){
-                String childBuffer = null;
-                
                 for(XmlNode childNode: children){
-                    childBuffer = toString(childNode, encode, language);
+                    String childBuffer = toString(childNode, encode, language);
                     
                     if(childBuffer != null && childBuffer.length() > 0)
                         buffer.append(childBuffer);
@@ -187,11 +184,11 @@ public class XmlUtil{
             return buffer.toString();
         }
         
-        return null;
+        return StringUtils.EMPTY;
     }
     
     /**
-     * Transforms a string into a XML content.
+     * Transforms a string into XML content.
      *
      * @param value String that contains the XML.
      * @return Instance that contains the XML content.
@@ -205,7 +202,7 @@ public class XmlUtil{
     }
     
     /**
-     * Transforms a string into a XML content.
+     * Transforms a string into XML content.
      *
      * @param value String that contains the XML content.
      * @param encoding String that contains the content encoding.
@@ -242,6 +239,6 @@ public class XmlUtil{
         if(value != null && value.length() > 0)
             return StringUtil.indent(value, TagIndent.getRules());
         
-        return null;
+        return StringUtils.EMPTY;
     }
 }

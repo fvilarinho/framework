@@ -51,9 +51,10 @@ import java.util.Properties;
  */
 public class Mail{
     private static Map<String, Mail> instances = null;
-    
+
+    private final MailResources resources;
+
     private Properties properties = null;
-    private MailResources resources = null;
     private Collection<File> attachments = null;
     
     /**
@@ -149,29 +150,29 @@ public class Mail{
             this.properties.setProperty("mail.transport.protocol", MailTransportType.SMTP.toString().toLowerCase());
             this.properties.setProperty("mail.smtp.host", this.resources.getTransportServerName());
             this.properties.setProperty("mail.smtp.localhost", this.resources.getTransportServerName());
-            this.properties.setProperty("mail.smtp.port", this.resources.getTransportServerPort().toString());
+            this.properties.setProperty("mail.smtp.port", String.valueOf(this.resources.getTransportServerPort()));
             
             if(this.resources.getTransportUserName() != null && this.resources.getTransportUserName().length() > 0)
                 this.properties.setProperty("mail.smtp.auth", Boolean.TRUE.toString());
             
-            if(this.resources.getTransportUseTls() != null && this.resources.getTransportUseTls())
+            if(this.resources.getTransportUseTls())
                 this.properties.put("mail.smtp.starttls.enable", Boolean.TRUE.toString());
             
-            if(this.resources.getTransportUseSsl() != null && this.resources.getTransportUseSsl()){
+            if(this.resources.getTransportUseSsl()){
                 this.properties.put("mail.smtp.socketFactory.class", SSLSocketFactory.class.getName());
-                this.properties.put("mail.smtp.socketFactory.port", this.resources.getTransportServerPort().toString());
+                this.properties.put("mail.smtp.socketFactory.port", String.valueOf(this.resources.getTransportServerPort()));
             }
         }
         
         if(this.resources.getStorage() == MailStorageType.POP3){
             this.properties.setProperty("mail.store.protocol", MailStorageType.POP3.toString().toLowerCase());
             this.properties.setProperty("mail.pop3.host", this.resources.getStorageServerName());
-            this.properties.setProperty("mail.pop3.port", this.resources.getStorageServerPort().toString());
+            this.properties.setProperty("mail.pop3.port", String.valueOf(this.resources.getStorageServerPort()));
             
-            if(this.resources.getStorageUseTls() != null && this.resources.getStorageUseTls())
+            if(this.resources.getStorageUseTls())
                 this.properties.put("mail.pop3.starttls.enable", Boolean.TRUE.toString());
             
-            if(this.resources.getStorageUseSsl() != null && this.resources.getStorageUseSsl()){
+            if(this.resources.getStorageUseSsl()){
                 this.properties.put("mail.pop3.socketFactory.class", SSLSocketFactory.class.getName());
                 this.properties.put("mail.pop3.socketFactory.port", String.valueOf(this.resources.getStorageServerPort()));
             }
@@ -181,28 +182,28 @@ public class Mail{
             
             if(this.resources.getStorage() == MailStorageType.IMAP){
                 this.properties.setProperty("mail.imap.host", this.resources.getStorageServerName());
-                this.properties.setProperty("mail.imap.port", this.resources.getStorageServerPort().toString());
+                this.properties.setProperty("mail.imap.port", String.valueOf(this.resources.getStorageServerPort()));
     
-                if(this.resources.getStorageUseTls() != null && this.resources.getStorageUseTls())
+                if(this.resources.getStorageUseTls())
                     this.properties.put("mail.imap.starttls.enable", Boolean.TRUE.toString());
     
-                if(this.resources.getStorageUseSsl() != null && this.resources.getStorageUseSsl()){
+                if(this.resources.getStorageUseSsl()){
                     this.properties.put("mail.imap.ssl.enable", Boolean.TRUE.toString());
                     this.properties.put("mail.imap.socketFactory.class", SSLSocketFactory.class.getName());
-                    this.properties.put("mail.imap.socketFactory.port", this.resources.getStorageServerPort().toString());
+                    this.properties.put("mail.imap.socketFactory.port", String.valueOf(this.resources.getStorageServerPort()));
                 }
             }
             else{
                 this.properties.setProperty("mail.imaps.host", this.resources.getStorageServerName());
-                this.properties.setProperty("mail.imaps.port", this.resources.getStorageServerPort().toString());
+                this.properties.setProperty("mail.imaps.port", String.valueOf(this.resources.getStorageServerPort()));
     
-                if(this.resources.getStorageUseTls() != null && this.resources.getStorageUseTls())
+                if(this.resources.getStorageUseTls())
                     this.properties.put("mail.imaps.starttls.enable", Boolean.TRUE.toString());
     
-                if(this.resources.getStorageUseSsl() != null && this.resources.getStorageUseSsl()){
+                if(this.resources.getStorageUseSsl()){
                     this.properties.put("mail.imaps.ssl.enable", Boolean.TRUE.toString());
                     this.properties.put("mail.imaps.socketFactory.class", SSLSocketFactory.class.getName());
-                    this.properties.put("mail.imaps.socketFactory.port", this.resources.getStorageServerPort().toString());
+                    this.properties.put("mail.imaps.socketFactory.port", String.valueOf(this.resources.getStorageServerPort()));
                 }
             }
         }
@@ -213,7 +214,7 @@ public class Mail{
      *
      * @param message Instance that contains the message.
      * @param sendMessage Instance that contains the message.
-     * @throws MessagingException Occurs when was not possible possible to
+     * @throws MessagingException Occurs when was not possible to
      * build the message headers.
      */
     private void buildHeader(MailMessage message, Message sendMessage) throws MessagingException {
@@ -243,9 +244,9 @@ public class Mail{
      *
      * @param message Instance that contains the message.
      * @param sendMessage Instance that contains the message.
-     * @throws MessagingException Occurs when was not possible possible to
+     * @throws MessagingException Occurs when was not possible to
      * build the message body.
-     * @throws IOException Occurs when was not possible possible to
+     * @throws IOException Occurs when was not possible to
      * build the message body.
      */
     private void buildBody(MailMessage message, Message sendMessage) throws MessagingException, IOException{
@@ -268,9 +269,9 @@ public class Mail{
      * @param message Instance that contains the message.
      * @param sendMessage Instance that contains the message.
      * @param parts Instance that contains the attachments.
-     * @throws MessagingException Occurs when was not possible possible to
+     * @throws MessagingException Occurs when was not possible to
      * load the attachments.
-     * @throws IOException Occurs when was not possible possible to
+     * @throws IOException Occurs when was not possible to
      * load the attachments.
      */
     private void loadAttachments(MailMessage message, Message sendMessage, MimeMultipart parts) throws MessagingException, IOException{
@@ -280,12 +281,12 @@ public class Mail{
         if(message.getAttachments() != null && !message.getAttachments().isEmpty()){
             this.attachments = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
             
-            MimeBodyPart attachPart = null;
-            byte[] attachData = null;
-            String filename = null;
-            Object fileContent = null;
-            File file = null;
-            FileDataSource handler = null;
+            MimeBodyPart attachPart;
+            byte[] attachData;
+            String filename;
+            Object fileContent;
+            File file;
+            FileDataSource handler;
             int cont = 0;
             
             for(Map<String, Object> attach: message.getAttachments()){
@@ -341,13 +342,11 @@ public class Mail{
      * @return Instance that contains the transport session.
      */
     private Session getTransportSession(){
-        Session session = Session.getDefaultInstance(this.properties, new Authenticator(){
+        return Session.getDefaultInstance(this.properties, new Authenticator(){
             protected PasswordAuthentication getPasswordAuthentication(){
                 return new PasswordAuthentication(Mail.this.resources.getTransportUserName(), Mail.this.resources.getTransportPassword());
             }
         });
-        
-        return session;
     }
     
     /**
@@ -356,13 +355,11 @@ public class Mail{
      * @return Instance that contains the storage session.
      */
     private Session getStorageSession(){
-        Session session = Session.getDefaultInstance(this.properties, new Authenticator(){
+        return Session.getDefaultInstance(this.properties, new Authenticator(){
             protected PasswordAuthentication getPasswordAuthentication(){
                 return new PasswordAuthentication(Mail.this.resources.getStorageUserName(), Mail.this.resources.getStoragePassword());
             }
         });
-        
-        return session;
     }
     
     public MailResources getResources(){
@@ -403,26 +400,24 @@ public class Mail{
                 if(transport != null)
                     transport.close();
             }
-            catch(MessagingException e1){
+            catch(MessagingException ignored){
             }
         }
     }
     
     /**
-     * Sends a message in a assynchronous way.
+     * Sends a message in an assynchronous way.
      *
      * @param message Instance that contains the message.
      */
     public void asyncSend(final MailMessage message){
-        Thread thread = new Thread(){
-            public void run(){
+        Thread thread = new Thread(() -> {
             try{
                 send(message);
             }
-            catch(MessagingException | IOException e){
+            catch(MessagingException | IOException ignored){
             }
-            }
-        };
+        });
         
         thread.start();
     }
@@ -444,7 +439,7 @@ public class Mail{
             storage = session.getStore();
             
             if(storage != null){
-                Folder rootFolder = null;
+                Folder rootFolder;
                 
                 if(!storage.isConnected())
                     storage.connect(this.resources.getStorageServerName(), this.resources.getStorageUserName(), this.resources.getStoragePassword());
@@ -458,7 +453,7 @@ public class Mail{
                 if(storage != null)
                     storage.close();
             }
-            catch(MessagingException e){
+            catch(MessagingException ignored){
             }
         }
         
@@ -527,8 +522,8 @@ public class Mail{
         Store storage = null;
         
         try{
-            Folder folder = null;
-            Message message = null;
+            Folder folder;
+            Message message;
             Session session = getStorageSession();
             
             storage = session.getStore();
@@ -549,7 +544,7 @@ public class Mail{
                 if(storage != null)
                     storage.close();
             }
-            catch(MessagingException e){
+            catch(MessagingException ignored){
             }
         }
     }
@@ -587,14 +582,14 @@ public class Mail{
      * @throws MessagingException Occurs when was not possible to read/parse a message.
      * @throws IOException Occurs when was not possible to connect into the inbox.
      */
-    public Collection<MailMessage> retrieve(String folderName, Boolean onlyUnread) throws MessagingException, IOException{
+    public Collection<MailMessage> retrieve(String folderName, boolean onlyUnread) throws MessagingException, IOException{
         Store storage = null;
         
         try{
-            Folder folder = null;
-            Message[] messages = null;
+            Folder folder;
+            Message[] messages;
             Collection<MailMessage> mailMessages = null;
-            MailMessage mailMessage = null;
+            MailMessage mailMessage;
             Session session = getStorageSession();
             
             storage = session.getStore();
@@ -632,7 +627,7 @@ public class Mail{
                 if(storage != null)
                     storage.close();
             }
-            catch(MessagingException e){
+            catch(MessagingException ignored){
             }
         }
     }
@@ -659,8 +654,8 @@ public class Mail{
         }
         else if(part instanceof Multipart){
             Multipart parts = (Multipart) part;
-            Part subPart = null;
-            InputStream attach = null;
+            Part subPart;
+            InputStream attach;
             Object buffer = null;
             
             for(int cont = 0; cont < parts.getCount(); cont++){

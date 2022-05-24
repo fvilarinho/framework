@@ -52,16 +52,14 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
     public PersistenceResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname, PersistenceConstants.DEFAULT_RESOURCES_ID);
     }
-    
-    /**
-     * @see br.com.concepting.framework.resources.XmlResourcesLoader#parseResources(br.com.concepting.framework.util.helpers.XmlNode)
-     */
+
+    @Override
     public PersistenceResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
         PersistenceResources resources = super.parseResources(resourcesNode);
         XmlNode serverNameNode = resourcesNode.getNode(NetworkConstants.SERVER_NAME_ATTRIBUTE_ID);
-        String serverName = null;
+        String serverName;
         
         if(serverNameNode != null){
             serverName = serverNameNode.getValue();
@@ -88,7 +86,7 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
         
         RepositoryType repositoryType = RepositoryType.valueOf(factoryResources.getType().toUpperCase());
         XmlNode serverPortNode = resourcesNode.getNode(NetworkConstants.SERVER_PORT_ATTRIBUTE_ID);
-        String serverPort = null;
+        String serverPort;
         
         if(serverPortNode != null){
             serverPort = serverPortNode.getValue();
@@ -163,19 +161,17 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
             throw new InvalidResourcesException(resourcesDirname, resourcesId, resourcesNode.getText());
         
         XmlNode optionsNode = resourcesNode.getNode(ResourcesConstants.OPTIONS_ATTRIBUTE_ID);
-        String optionId = null;
-        String optionValue = null;
-        
+
         if(optionsNode != null){
             List<XmlNode> childNodes = optionsNode.getChildren();
             
             for(XmlNode childNode: childNodes){
-                optionId = childNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
+                String optionId = childNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
                 
                 if(optionId == null || optionId.length() == 0)
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, childNode.getText());
                 
-                optionValue = childNode.getAttribute(Constants.VALUE_ATTRIBUTE_ID);
+                String optionValue = childNode.getAttribute(Constants.VALUE_ATTRIBUTE_ID);
                 
                 if(optionValue == null)
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, childNode.getText());

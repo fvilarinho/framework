@@ -59,7 +59,7 @@ public class CachedObject<O> implements Serializable{
      *
      * @return True/False.
      */
-    public Boolean isCached(){
+    public boolean isCached(){
         return this.cacher != null;
     }
     

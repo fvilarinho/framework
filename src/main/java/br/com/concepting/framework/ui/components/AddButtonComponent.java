@@ -27,28 +27,22 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  */
 public class AddButtonComponent extends ButtonComponent{
     private static final long serialVersionUID = -5443454096406239821L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         setResourcesKey(UIConstants.DEFAULT_ADD_BUTTON_ID);
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         setStyleClass(UIConstants.DEFAULT_ADD_BUTTON_STYLE_CLASS);
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         if(!hasAction())
             setActionType(ActionType.ADD);

@@ -1,6 +1,7 @@
 package br.com.concepting.framework.security.resources;
 
 import br.com.concepting.framework.resources.BaseResources;
+import br.com.concepting.framework.security.constants.SecurityConstants;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
@@ -29,16 +30,16 @@ public class SecurityResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = -2135486169744118837L;
     
     private Class<? extends LoginSessionModel> loginSessionClass = null;
-    private Integer loginSessionTimeout = null;
+    private int loginSessionTimeout = SecurityConstants.DEFAULT_LOGIN_SESSION_TIMEOUT;
     private String criptographyAlgorithm = null;
-    private Integer criptographyKeySize = null;
+    private int criptographyKeySize = SecurityConstants.DEFAULT_CRYPTO_KEY_SIZE;
     
     /**
      * Returns the size of the cryptography key.
      *
      * @return Numeric value that contains the size of the key.
      */
-    public Integer getCriptographyKeySize(){
+    public int getCriptographyKeySize(){
         return this.criptographyKeySize;
     }
     
@@ -48,7 +49,7 @@ public class SecurityResources extends BaseResources<XmlNode>{
      * @param criptographyKeySize Numeric value that contains the size of the
      * key.
      */
-    public void setCriptographyKeySize(Integer criptographyKeySize){
+    public void setCriptographyKeySize(int criptographyKeySize){
         this.criptographyKeySize = criptographyKeySize;
     }
     
@@ -110,7 +111,7 @@ public class SecurityResources extends BaseResources<XmlNode>{
      *
      * @return Numeric value that contains the login session timeout.
      */
-    public Integer getLoginSessionTimeout(){
+    public int getLoginSessionTimeout(){
         return this.loginSessionTimeout;
     }
     
@@ -120,7 +121,7 @@ public class SecurityResources extends BaseResources<XmlNode>{
      * @param loginSessionTimeout Numeric value that contains the login session
      * timeout.
      */
-    public void setLoginSessionTimeout(Integer loginSessionTimeout){
+    public void setLoginSessionTimeout(int loginSessionTimeout){
         this.loginSessionTimeout = loginSessionTimeout;
     }
 }

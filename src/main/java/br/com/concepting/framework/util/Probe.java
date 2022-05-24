@@ -1,5 +1,6 @@
 package br.com.concepting.framework.util;
 
+import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.util.helpers.ProbeOptions;
 import br.com.concepting.framework.util.types.ProbeType;
@@ -21,6 +22,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -55,7 +57,7 @@ public class Probe extends WebDriverBackedSelenium{
      */
     public static Probe initialize(ProbeOptions options){
         ChromeOptions driverOptions = new ChromeOptions();
-        HashMap<String, Object> driverPrefs = new HashMap<String, Object>();
+        Map<String, Object> driverPrefs = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
         
         driverPrefs.put("profile.default_content_settings.popups", 0);
         driverPrefs.put("download.default_directory", options.getDownloadDir());
@@ -77,18 +79,17 @@ public class Probe extends WebDriverBackedSelenium{
         else{
             driverOptions.setAcceptInsecureCerts(true);
             
-            if(options.getHeadless() != null && options.getHeadless()){
+            if(options.getHeadless())
                 driverOptions.addArguments("--headless", "--disable-gpu");
-            }
-            
-            if(options.getKiosk() != null && options.getKiosk()){
+
+            if(options.getKiosk()){
                 driverOptions.addArguments("--kiosk");
                 driverOptions.addArguments("--window-position=0,0");
             }
             
             driverOptions.addArguments("--ignore-ssl-errors=yes", "--ignore-certificate-errors", "--disable-dev-shm-usage", "--no-sandbox");
             
-            if(options.getViewPortWidth() != null && options.getViewPortHeight() != null){
+            if(options.getViewPortWidth() >0 && options.getViewPortHeight() > 0){
                 Map<String, Object> mobileEmulation = PropertyUtil.instantiate(Map.class);
                 Map<String, Object> deviceMetrics = PropertyUtil.instantiate(Map.class);
                 
@@ -131,7 +132,7 @@ public class Probe extends WebDriverBackedSelenium{
     
     private ProbeOptions options = null;
     private String url = null;
-    private Boolean running = null;
+    private boolean running = false;
     private Collection<LogEntry> networkMetrics = null;
     
     private Probe(ProbeOptions options, ChromeDriver driver){
@@ -169,7 +170,7 @@ public class Probe extends WebDriverBackedSelenium{
      *
      * @param running True/False.
      */
-    private void setRunning(Boolean running){
+    private void setRunning(boolean running){
         this.running = running;
     }
     
@@ -178,7 +179,7 @@ public class Probe extends WebDriverBackedSelenium{
      *
      * @return True/False.
      */
-    public Boolean isRunning(){
+    public boolean isRunning(){
         return this.running;
     }
     
@@ -239,14 +240,12 @@ public class Probe extends WebDriverBackedSelenium{
                 
                 executor.execute(new Command(((ChromeDriver) driver).getSessionId(), "setNetworkConditions", map));
             }
-            catch(IOException e){
+            catch(IOException ignored){
             }
         }
     }
-    
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#deleteAllVisibleCookies()
-     */
+
+    @Override
     public void deleteAllVisibleCookies(){
         WebDriver driver = getWrappedDriver();
         
@@ -257,29 +256,25 @@ public class Probe extends WebDriverBackedSelenium{
      * Shows the probe.
      */
     private void show(){
-        if(isRunning() == null || !isRunning()){
+        if(!isRunning()){
             setRunning(true);
             deleteAllVisibleCookies();
             windowFocus();
         }
     }
-    
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#windowMaximize()
-     */
+
+    @Override
     public void windowMaximize(){
         try{
             WebDriver driver = getWrappedDriver();
             
             driver.manage().window().maximize();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
     }
-    
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#windowFocus()
-     */
+
+    @Override
     public void windowFocus(){
         executeScript("window.focus();");
     }
@@ -305,17 +300,13 @@ public class Probe extends WebDriverBackedSelenium{
         
         return driver.getTitle();
     }
-    
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#stop()
-     */
+
+    @Override
     public void stop(){
         close();
     }
-    
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#close()
-     */
+
+    @Override
     public void close(){
         setNetworkMetrics(null);
         setRunning(false);
@@ -325,13 +316,13 @@ public class Probe extends WebDriverBackedSelenium{
         try{
             driver.close();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         try{
             driver.quit();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
     }
     
@@ -352,12 +343,12 @@ public class Probe extends WebDriverBackedSelenium{
         try{
             Thread.sleep(value);
         }
-        catch(InterruptedException e){
+        catch(InterruptedException ignored){
         }
     }
     
     public WebElement lookupElement(String elementId) throws NoSuchElementException, TimeoutException{
-        WebElement element = null;
+        WebElement element;
         WebDriver driver = getWrappedDriver();
         
         if(elementId.startsWith("id="))
@@ -386,7 +377,7 @@ public class Probe extends WebDriverBackedSelenium{
     }
     
     public List<WebElement> lookupElements(WebElement parent, String elementId) throws NoSuchElementException, TimeoutException{
-        List<WebElement> elements = null;
+        List<WebElement> elements;
         WebDriver driver = getWrappedDriver();
         
         if(parent != null){
@@ -441,29 +432,25 @@ public class Probe extends WebDriverBackedSelenium{
     public Long waitForPageToLoad(Integer timeout) throws TimeoutException{
         WebDriver driver = getWrappedDriver();
         
-        new WebDriverWait(driver, timeout).until(new ExpectedCondition<Boolean>(){
-            public Boolean apply(WebDriver driver){
-                try{
-                    JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
-                    
-                    return (Boolean) javascriptExecutor.executeScript("return (jQuery.active == 0);");
-                }
-                catch(Throwable e){
-                    return true;
-                }
+        new WebDriverWait(driver, Duration.ofSeconds(timeout)).until((ExpectedCondition<Object>) d -> {
+            try{
+                JavascriptExecutor javascriptExecutor = (JavascriptExecutor) d;
+
+                return (Boolean) javascriptExecutor.executeScript("return (jQuery.active === 0);");
+            }
+            catch(Throwable e){
+                return true;
             }
         });
         
-        new WebDriverWait(driver, timeout).until(new ExpectedCondition<Boolean>(){
-            public Boolean apply(WebDriver driver){
-                try{
-                    JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
-                    
-                    return (Boolean) javascriptExecutor.executeScript("return (document.readyState == 'complete');");
-                }
-                catch(Throwable e){
-                    return true;
-                }
+        new WebDriverWait(driver, Duration.ofSeconds(timeout)).until((ExpectedCondition<Boolean>) d -> {
+            try{
+                JavascriptExecutor javascriptExecutor = (JavascriptExecutor) d;
+
+                return (Boolean) javascriptExecutor.executeScript("return (document.readyState === 'complete');");
+            }
+            catch(Throwable e){
+                return true;
             }
         });
         
@@ -486,7 +473,7 @@ public class Probe extends WebDriverBackedSelenium{
                 waitTime = 0;
             }
             
-            if(this.options.getCaptureNetworkMetrics() != null && this.options.getCaptureNetworkMetrics() && buffer != null && buffer.size() > 0){
+            if(this.options.getCaptureNetworkMetrics() && buffer != null && buffer.size() > 0){
                 if(this.networkMetrics == null)
                     this.networkMetrics = PropertyUtil.instantiate(Collection.class);
                 
@@ -505,7 +492,7 @@ public class Probe extends WebDriverBackedSelenium{
         }
         
         if(fullyLoadedTime == null)
-            fullyLoadedTime = (timeout * 1000l);
+            fullyLoadedTime = (timeout * 1000L);
         
         return fullyLoadedTime;
     }
@@ -515,9 +502,9 @@ public class Probe extends WebDriverBackedSelenium{
     }
 
     public void waitForElementPresent(String elementId, Integer timeout) throws NoSuchElementException, TimeoutException{
-        WebElement element = null;
         int count = 0;
-        
+        WebElement element;
+
         do{
             element = lookupElement(elementId);
             
@@ -568,9 +555,9 @@ public class Probe extends WebDriverBackedSelenium{
     }
     
     public void waitForElementVisible(String elementId, Integer timeout) throws NoSuchElementException, TimeoutException{
-        WebElement element = null;
         int count = 0;
-        
+        WebElement element;
+
         do{
             element = lookupElement(elementId);
             
@@ -596,9 +583,9 @@ public class Probe extends WebDriverBackedSelenium{
     }
 
     public void waitForElementEditable(String elementId, Integer timeout) throws NoSuchElementException, TimeoutException{
-        WebElement element = null;
         int count = 0;
-        
+        WebElement element;
+
         do{
             element = lookupElement(elementId);
             
@@ -618,10 +605,8 @@ public class Probe extends WebDriverBackedSelenium{
         
         throw new TimeoutException(timeout.toString());
     }
-    
-    /**
-     * @see com.thoughtworks.selenium.DefaultSelenium#isCookiePresent(java.lang.String)
-     */
+
+    @Override
     public boolean isCookiePresent(String name){
         WebDriver driver = getWrappedDriver();
         Cookie cookie = driver.manage().getCookieNamed(name);
@@ -667,7 +652,7 @@ public class Probe extends WebDriverBackedSelenium{
                 if(driver.switchTo().alert() != null)
                     return;
             }
-            catch(Throwable e){
+            catch(Throwable ignored){
             }
             
             try{
@@ -696,7 +681,7 @@ public class Probe extends WebDriverBackedSelenium{
                 if(title.equals(getPageTitle()))
                     return;
             }
-            catch(Throwable e){
+            catch(Throwable ignored){
             }
             
             try{
@@ -822,18 +807,17 @@ public class Probe extends WebDriverBackedSelenium{
         try{
             if(commands != null && commands.size() > 0){
                 for(Map<String, ?> command: commands){
-                    Collection<Map<String, ?>> arguments = (Collection<Map<String, ?>>) command.get("arguments");
-                    Method method = null;
                     String name = (String) command.get("name");
-                    
+                    Collection<Map<String, ?>> arguments = (Collection<Map<String, ?>>) command.get("arguments");
+                    Method method;
+
                     if(arguments != null && arguments.size() > 0){
                         Class<?>[] types = new Class<?>[arguments.size()];
                         Object[] values = new Object[arguments.size()];
-                        Object value = null;
                         int cont = 0;
                         
                         for(Map<String, ?> argument: arguments){
-                            value = argument.get("value");
+                            Object value = argument.get("value");
                             
                             if(value != null){
                                 types[cont] = value.getClass();

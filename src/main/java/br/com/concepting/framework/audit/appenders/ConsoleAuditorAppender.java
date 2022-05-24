@@ -37,25 +37,19 @@ public class ConsoleAuditorAppender extends BaseAuditorAppender{
         super(auditor);
     }
     
-    /**
-     * @see org.apache.log4j.WriterAppender#requiresLayout()
-     */
+    @Override
     public boolean requiresLayout(){
         return true;
     }
-    
-    /**
-     * @see br.com.concepting.framework.audit.appenders.BaseAuditorAppender#initializeLayout()
-     */
+
+    @Override
     public void initializeLayout() throws InternalErrorException{
         ConsoleLayout appenderLayout = new ConsoleLayout();
         
         setLayout(appenderLayout);
     }
-    
-    /**
-     * @see org.apache.log4j.spi.OptionHandler#activateOptions()
-     */
+
+    @Override
     public void activateOptions(){
         setWriter(new PrintWriter(System.out));
     }

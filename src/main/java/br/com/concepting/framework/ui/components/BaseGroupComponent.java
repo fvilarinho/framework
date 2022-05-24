@@ -26,10 +26,8 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  */
 public abstract class BaseGroupComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = 8751796595605205394L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         String styleClass = getStyleClass();
         
@@ -49,10 +47,8 @@ public abstract class BaseGroupComponent extends BaseActionFormComponent{
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderLabelOpen()
-     */
+
+    @Override
     protected void renderLabelOpen() throws InternalErrorException{
         print("<legend");
         
@@ -78,17 +74,13 @@ public abstract class BaseGroupComponent extends BaseActionFormComponent{
         
         println(">");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#renderLabelClose()
-     */
+
+    @Override
     protected void renderLabelClose() throws InternalErrorException{
         println("</legend>");
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         print("<fieldset");
         
@@ -116,16 +108,14 @@ public abstract class BaseGroupComponent extends BaseActionFormComponent{
         
         println(">");
         
-        Boolean showLabel = showLabel();
+        boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(showLabel != null && showLabel && label != null && label.length() > 0)
+        if(showLabel && label != null && label.length() > 0)
             super.renderLabel();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
         println("</fieldset>");
     }

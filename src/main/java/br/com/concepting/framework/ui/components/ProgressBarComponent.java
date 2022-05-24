@@ -1,6 +1,5 @@
 package br.com.concepting.framework.ui.components;
 
-import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.NumberUtil;
@@ -31,19 +30,19 @@ import br.com.concepting.framework.util.types.ComponentType;
  */
 public class ProgressBarComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -583105661110523140L;
-    
-    private Double warningValue = null;
-    private Double criticalValue = null;
-    private Double percentage = null;
-    private Integer currentWidth = null;
-    private Integer maximumWidth = null;
+
+    private int currentWidth = 0;
+    private double warningValue = UIConstants.DEFAULT_PROGERSS_BAR_WARNING_VALUE;
+    private double criticalValue = UIConstants.DEFAULT_PROGRESS_BAR_CRITICAL_VALUE;
+    private double percentage = UIConstants.DEFAULT_PROGRESS_BAR_MAXIMUM_VALUE;
+    private int maximumWidth = UIConstants.DEFAULT_PROGRESS_BAR_WIDTH;
     
     /**
      * Returns the percentage of the component.
      *
      * @return Numeric value that contains the percentage.
      */
-    public Double getPercentage(){
+    public double getPercentage(){
         return this.percentage;
     }
     
@@ -52,7 +51,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
      *
      * @param percentage Numeric value that contains the percentage.
      */
-    public void setPercentage(Double percentage){
+    public void setPercentage(double percentage){
         this.percentage = percentage;
     }
     
@@ -61,7 +60,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
      *
      * @return Numeric value that contains the current width.
      */
-    protected Integer getCurrentWidth(){
+    protected int getCurrentWidth(){
         return this.currentWidth;
     }
     
@@ -70,7 +69,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
      *
      * @param currentWidth Numeric value that contains the current width.
      */
-    protected void setCurrentWidth(Integer currentWidth){
+    protected void setCurrentWidth(int currentWidth){
         this.currentWidth = currentWidth;
     }
     
@@ -79,7 +78,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
      *
      * @return Numeric value that contains the maximum width.
      */
-    protected Integer getMaximumWidth(){
+    protected int getMaximumWidth(){
         return this.maximumWidth;
     }
     
@@ -88,7 +87,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
      *
      * @param maximumWidth Numeric value that contains the maximum width.
      */
-    protected void setMaximumWidth(Integer maximumWidth){
+    protected void setMaximumWidth(int maximumWidth){
         this.maximumWidth = maximumWidth;
     }
     
@@ -97,7 +96,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
      *
      * @return Numeric value that contains the value of the threshold.
      */
-    public Double getWarningValue(){
+    public double getWarningValue(){
         return this.warningValue;
     }
     
@@ -107,7 +106,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
      * @param warningValue Numeric value that contains the value of the
      * threshold.
      */
-    public void setWarningValue(Double warningValue){
+    public void setWarningValue(double warningValue){
         this.warningValue = warningValue;
     }
     
@@ -116,7 +115,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
      *
      * @return Numeric value that contains the value of the threshold.
      */
-    public Double getCriticalValue(){
+    public double getCriticalValue(){
         return this.criticalValue;
     }
     
@@ -126,33 +125,25 @@ public class ProgressBarComponent extends BasePropertyComponent{
      * @param criticalValue Numeric value that contains the value of the
      * threshold.
      */
-    public void setCriticalValue(Double criticalValue){
+    public void setCriticalValue(double criticalValue){
         this.criticalValue = criticalValue;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#getFormattedValue()
-     */
+
+    @Override
     protected String getFormattedValue() throws InternalErrorException{
-        if(this.percentage != null){
-            StringBuilder result = new StringBuilder();
-            
-            result.append(NumberUtil.format(this.percentage, Constants.DEFAULT_DECIMAL_PRECISION, getCurrentLanguage()));
-            result.append(" %");
-            
-            return result.toString();
-        }
-        
-        return null;
+        StringBuilder result = new StringBuilder();
+
+        result.append(NumberUtil.format(this.percentage, NumberUtil.getDefaultPrecision(this.percentage), getCurrentLanguage()));
+        result.append(" %");
+
+        return result.toString();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.TextPropertyComponent#buildRestrictions()
-     */
+
+    @Override
     protected void buildRestrictions() throws InternalErrorException{
         setMinimumValue(0);
         
-        Long maximumValue = getMaximumValue();
+        Number maximumValue = getMaximumValue();
         
         if(maximumValue == null){
             maximumValue = UIConstants.DEFAULT_PROGRESS_BAR_MAXIMUM_VALUE;
@@ -164,7 +155,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
         
         try{
             this.percentage = PropertyUtil.convertTo(numberValue, Double.class);
-            this.percentage = (this.percentage / maximumValue) * 100d;
+            this.percentage = (this.percentage / PropertyUtil.convertTo(maximumValue, Double.class)) * 100d;
         }
         catch(Throwable e){
             this.percentage = 0d;
@@ -177,20 +168,16 @@ public class ProgressBarComponent extends BasePropertyComponent{
         
         super.buildRestrictions();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         if(getStyleClass() == null || getStyleClass().length() == 0)
             setStyleClass(UIConstants.DEFAULT_PROGRESS_BAR_TEXT_STYLE_CLASS);
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#buildDimensions()
-     */
+
+    @Override
     protected void buildDimensions() throws InternalErrorException{
         String width = getWidth();
         
@@ -210,30 +197,24 @@ public class ProgressBarComponent extends BasePropertyComponent{
         
         this.currentWidth = (int) (this.maximumWidth * (this.percentage / 100));
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.PROGRESS_BAR);
         
         super.initialize();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderRequiredMark()
-     */
-    protected Boolean renderRequiredMark(){
+
+    @Override
+    protected boolean renderRequiredMark(){
         return false;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(hasInvalidPropertyDefinition != null && hasInvalidPropertyDefinition)
+        if( hasInvalidPropertyDefinition)
             super.renderInvalidPropertyMessage();
         else{
             print("<table class=\"");
@@ -248,18 +229,16 @@ public class ProgressBarComponent extends BasePropertyComponent{
             
             String width = getWidth();
             String symbol = (width != null && width.toLowerCase().contains("%") ? "%" : "px");
-            Double warningValue = getWarningValue();
-            Double criticalValue = getCriticalValue();
-            
-            if(this.percentage != null && this.percentage > 0){
+
+            if(this.percentage > 0){
                 print("<td class=\"");
                 
-                if(warningValue != null && warningValue > 0){
+                if(this.warningValue > 0){
                     if(this.percentage < warningValue)
                         print(UIConstants.DEFAULT_PROGRESS_BAR_NORMAL_STYLE_CLASS);
                     else{
-                        if(criticalValue != null && criticalValue > 0){
-                            if(this.percentage < criticalValue)
+                        if(this.criticalValue > 0){
+                            if(this.percentage < this.criticalValue)
                                 print(UIConstants.DEFAULT_PROGRESS_BAR_WARNING_STYLE_CLASS);
                             else
                                 print(UIConstants.DEFAULT_PROGRESS_BAR_CRITICAL_STYLE_CLASS);
@@ -269,8 +248,8 @@ public class ProgressBarComponent extends BasePropertyComponent{
                     }
                 }
                 else{
-                    if(criticalValue != null && criticalValue > 0){
-                        if(this.percentage < criticalValue)
+                    if(this.criticalValue > 0){
+                        if(this.percentage < this.criticalValue)
                             print(UIConstants.DEFAULT_PROGRESS_BAR_NORMAL_STYLE_CLASS);
                         else
                             print(UIConstants.DEFAULT_PROGRESS_BAR_CRITICAL_STYLE_CLASS);
@@ -285,7 +264,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
                 println(";\"></td>");
             }
             
-            if(this.percentage != null && this.percentage < 100){
+            if(this.percentage < 100){
                 print("<td class=\"");
                 print(UIConstants.DEFAULT_PROGRESS_BAR_EMPTY_STYLE_CLASS);
                 print("\" style=\"width: ");
@@ -321,17 +300,15 @@ public class ProgressBarComponent extends BasePropertyComponent{
             println("</table>");
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
-        
-        setWarningValue(null);
-        setCriticalValue(null);
-        setMaximumWidth(null);
-        setCurrentWidth(null);
-        setPercentage(null);
+
+        setCurrentWidth(0);
+        setWarningValue(UIConstants.DEFAULT_PROGERSS_BAR_WARNING_VALUE);
+        setCriticalValue(UIConstants.DEFAULT_PROGRESS_BAR_CRITICAL_VALUE);
+        setMaximumWidth(UIConstants.DEFAULT_PROGRESS_BAR_WIDTH);
+        setPercentage(UIConstants.DEFAULT_PROGRESS_BAR_MAXIMUM_VALUE);
     }
 }

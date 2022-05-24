@@ -36,10 +36,10 @@ import java.util.Collection;
 public class PagerComponent extends BaseOptionsPropertyComponent{
     private static final long serialVersionUID = 6880028362277325178L;
     
-    private Boolean showItemsPerPage = null;
-    private Integer itemsPerPage = null;
-    private Integer currentPage = null;
-    private Integer pages = null;
+    private boolean showItemsPerPage = true;
+    private int itemsPerPage = UIConstants.DEFAULT_PAGER_ITEMS_PER_PAGE;
+    private int currentPage = 1;
+    private int pages = 0;
     private String updateViews = null;
     
     /**
@@ -47,7 +47,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      *
      * @return Numeric value that defines the current page.
      */
-    protected Integer getCurrentPage(){
+    protected int getCurrentPage(){
         return this.currentPage;
     }
     
@@ -56,7 +56,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      *
      * @param currentPage Numeric value that defines the current page.
      */
-    protected void setCurrentPage(Integer currentPage){
+    protected void setCurrentPage(int currentPage){
         this.currentPage = currentPage;
     }
     
@@ -65,7 +65,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      *
      * @return Numeric value that contains the pages.
      */
-    protected Integer getPages(){
+    protected int getPages(){
         return this.pages;
     }
     
@@ -74,7 +74,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      *
      * @param pages Numeric value that contains the pages.
      */
-    protected void setPages(Integer pages){
+    protected void setPages(int pages){
         this.pages = pages;
     }
     
@@ -102,7 +102,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean getShowItemsPerPage(){
+    public boolean getShowItemsPerPage(){
         return this.showItemsPerPage;
     }
     
@@ -112,7 +112,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      *
      * @return True/False.
      */
-    public Boolean showItemsPerPage(){
+    public boolean showItemsPerPage(){
         return this.showItemsPerPage;
     }
     
@@ -122,7 +122,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      *
      * @param showItemsPerPage True/False.
      */
-    public void setShowItemsPerPage(Boolean showItemsPerPage){
+    public void setShowItemsPerPage(boolean showItemsPerPage){
         this.showItemsPerPage = showItemsPerPage;
     }
     
@@ -131,7 +131,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      *
      * @return Numeric value that contains the number of items per page.
      */
-    public Integer getItemsPerPage(){
+    public int getItemsPerPage(){
         return this.itemsPerPage;
     }
     
@@ -141,50 +141,30 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @param itemsPerPage Numeric value that contains the number of items per
      * page.
      */
-    public void setItemsPerPage(Integer itemsPerPage){
+    public void setItemsPerPage(int itemsPerPage){
         this.itemsPerPage = itemsPerPage;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-     */
+
+    @Override
     protected void buildName() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildLabel()
-     */
+
+    @Override
     protected void buildLabel() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildTooltip()
-     */
+
+    @Override
     protected void buildTooltip() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-     */
+
+    @Override
     protected void buildAlignment() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildEvents()
-     */
+
+    @Override
     protected void buildEvents() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseOptionsPropertyComponent#buildRestrictions()
-     */
-    protected void buildRestrictions() throws InternalErrorException{
-        if(this.showItemsPerPage == null)
-            this.showItemsPerPage = true;
-        
-        super.buildRestrictions();
-    }
-    
+
     /**
      * Refresh the page indexes.
      *
@@ -205,17 +185,13 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         this.currentPage = uiController.getPagerCurrentPage(actionFormName, name);
         
         Collection<? extends BaseModel> datasetValues = getDatasetValues();
-        Integer mod = (datasetValues != null && this.itemsPerPage != null ? (datasetValues.size() % this.itemsPerPage) : 0);
+        int mod = ((datasetValues != null && datasetValues.size() > 0 && this.itemsPerPage > 0) ? (datasetValues.size() % this.itemsPerPage) : 0);
         
-        this.pages = (datasetValues != null && datasetValues.size() > 0 ? (datasetValues.size() / this.itemsPerPage) : 1);
+        this.pages = ((datasetValues != null && datasetValues.size() > 0 && this.itemsPerPage > 0) ? (datasetValues.size() / this.itemsPerPage) : 1);
         
         if(mod > 0)
-            if(this.pages != null)
-                this.pages++;
-        
-        if(this.pages == null || this.pages == 0)
-            this.pages = 1;
-        
+            this.pages++;
+
         if(pagerAction == null)
             pagerAction = PagerActionType.REFRESH_PAGE;
         
@@ -228,14 +204,14 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         else if(pagerAction == PagerActionType.LAST_PAGE)
             this.currentPage = this.pages;
         
-        if(this.currentPage == null || this.currentPage < 1)
+        if(this.currentPage < 1)
             this.currentPage = 1;
         
         if(this.currentPage > this.pages)
             this.currentPage = this.pages;
         
-        Integer datasetStartIndex = (this.currentPage - 1) * this.itemsPerPage;
-        Integer datasetEndIndex = this.currentPage * this.itemsPerPage;
+        int datasetStartIndex = (this.currentPage - 1) * this.itemsPerPage;
+        int datasetEndIndex = this.currentPage * this.itemsPerPage;
         
         if(datasetValues != null && datasetValues.size() > 0)
             if(datasetEndIndex > datasetValues.size())
@@ -244,10 +220,8 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         setDatasetStartIndex(datasetStartIndex);
         setDatasetEndIndex(datasetEndIndex);
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.PAGER);
         
@@ -257,7 +231,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             try{
                 gridComponent = (GridPropertyComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
@@ -275,10 +249,10 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         if(gridComponent == null)
             setHasInvalidPropertyDefinition(true);
         
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
-        Boolean render = render();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean render = render();
         
-        if((hasInvalidPropertyDefinition == null || hasInvalidPropertyDefinition == false) && render != null && render){
+        if(!hasInvalidPropertyDefinition && render){
             refreshPageIndexes();
             
             try{
@@ -291,10 +265,8 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderOpen()
-     */
+
+    @Override
     protected void renderOpen() throws InternalErrorException{
         GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
         
@@ -302,16 +274,16 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             try{
                 gridComponent = (GridPropertyComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
         String actionFormName = getActionFormName();
         String name = getName();
-        Boolean render = render();
-        Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean render = render();
+        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
         
-        if(gridComponent == null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && render != null && render && (hasInvalidPropertyDefinition == null || !hasInvalidPropertyDefinition)){
+        if(gridComponent == null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && render && !hasInvalidPropertyDefinition){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(actionFormName);
@@ -360,10 +332,8 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseComponent#renderBody()
-     */
+
+    @Override
     protected void renderBody() throws InternalErrorException{
         GridPropertyComponent gridComponent = (GridPropertyComponent) findAncestorWithClass(this, GridPropertyComponent.class);
         
@@ -371,16 +341,16 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             try{
                 gridComponent = (GridPropertyComponent) getParent();
             }
-            catch(ClassCastException e){
+            catch(ClassCastException ignored){
             }
         }
         
-        Boolean render = render();
+        boolean render = render();
         
-        if(gridComponent == null && render != null && render){
-            Boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        if(gridComponent == null && render){
+            boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
             
-            if(hasInvalidPropertyDefinition != null && hasInvalidPropertyDefinition)
+            if(hasInvalidPropertyDefinition)
                 super.renderInvalidPropertyMessage();
             else{
                 String styleClass = getStyleClass();
@@ -408,7 +378,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
                 println(">");
                 println("<tr>");
                 
-                if(this.showItemsPerPage != null && this.showItemsPerPage){
+                if(this.showItemsPerPage){
                     print("<td align=\"");
                     print(AlignmentType.CENTER);
                     println("\">");
@@ -511,23 +481,19 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BasePropertyComponent#renderClose()
-     */
+
+    @Override
     protected void renderClose() throws InternalErrorException{
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#clearAttributes()
-     */
+
+    @Override
     protected void clearAttributes() throws InternalErrorException{
         super.clearAttributes();
         
-        setShowItemsPerPage(null);
-        setItemsPerPage(null);
-        setCurrentPage(null);
-        setPages(null);
+        setShowItemsPerPage(true);
+        setItemsPerPage(UIConstants.DEFAULT_PAGER_ITEMS_PER_PAGE);
+        setCurrentPage(1);
+        setPages(0);
         setUpdateViews(null);
     }
     
@@ -537,7 +503,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @author fvilarinho
      * @since 1.0.0
      */
-    private class FirstPageButtonComponent extends ButtonComponent{
+    private static class FirstPageButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = -7169801688944456509L;
         
         /**
@@ -550,50 +516,42 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         public FirstPageButtonComponent(PagerComponent pagerComponent) throws InternalErrorException{
             super();
             
-            if(pagerComponent != null){
-                setPageContext(pagerComponent.getPageContext());
-                setOutputStream(pagerComponent.getOutputStream());
-                setActionFormName(pagerComponent.getActionFormName());
-                setParent(pagerComponent);
-            }
+            setPageContext(pagerComponent.getPageContext());
+            setOutputStream(pagerComponent.getOutputStream());
+            setActionFormName(pagerComponent.getActionFormName());
+            setParent(pagerComponent);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_PAGER_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_PAGER_FIRST_PAGE_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_PAGER_FIRST_PAGE_BUTTON_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
-            String actionFormName = (pagerComponent != null ? pagerComponent.getActionFormName() : null);
-            String name = (pagerComponent != null ? pagerComponent.getName() : null);
-            Integer currentPage = (pagerComponent != null ? pagerComponent.getCurrentPage() : null);
+            String actionFormName = pagerComponent.getActionFormName();
+            String name = pagerComponent.getName();
+            int currentPage = pagerComponent.getCurrentPage();
             
-            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage != null && currentPage > 1){
+            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage > 1){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToFirstPage('");
                 onClick.append(name);
                 onClick.append("', ");
                 
-                String updateViews = (pagerComponent != null ? pagerComponent.getUpdateViews() : null);
+                String updateViews = pagerComponent.getUpdateViews();
                 
                 if(updateViews != null && updateViews.length() > 0){
                     onClick.append("'");
@@ -612,14 +570,12 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             
             super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
             
-            if(pagerComponent != null && (pagerComponent.getCurrentPage() == null || pagerComponent.getCurrentPage() <= 1))
+            if(pagerComponent.getCurrentPage() <= 1)
                 setEnabled(false);
             
             super.initialize();
@@ -632,7 +588,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @author fvilarinho
      * @since 1.0.0
      */
-    private class PreviousPageButtonComponent extends ButtonComponent{
+    private static class PreviousPageButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = -1949430040045196611L;
         
         /**
@@ -645,50 +601,42 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         public PreviousPageButtonComponent(PagerComponent pagerComponent) throws InternalErrorException{
             super();
             
-            if(pagerComponent != null){
-                setPageContext(pagerComponent.getPageContext());
-                setOutputStream(pagerComponent.getOutputStream());
-                setActionFormName(pagerComponent.getActionFormName());
-                setParent(pagerComponent);
-            }
+            setPageContext(pagerComponent.getPageContext());
+            setOutputStream(pagerComponent.getOutputStream());
+            setActionFormName(pagerComponent.getActionFormName());
+            setParent(pagerComponent);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_PAGER_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_PAGER_PREVIOUS_PAGE_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_PAGER_PREVIOUS_PAGE_BUTTON_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
-            String actionFormName = (pagerComponent != null ? pagerComponent.getActionFormName() : null);
-            String name = (pagerComponent != null ? pagerComponent.getName() : null);
-            Integer currentPage = (pagerComponent != null ? pagerComponent.getCurrentPage() : null);
+            String actionFormName =pagerComponent.getActionFormName();
+            String name = pagerComponent.getName();
+            int currentPage = pagerComponent.getCurrentPage();
             
-            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage != null && currentPage > 1){
+            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage > 1){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToPreviousPage('");
                 onClick.append(name);
                 onClick.append("', ");
                 
-                String updateViews = (pagerComponent != null ? pagerComponent.getUpdateViews() : null);
+                String updateViews = pagerComponent.getUpdateViews();
                 
                 if(updateViews != null && updateViews.length() > 0){
                     onClick.append("'");
@@ -707,14 +655,12 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             
             super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
             
-            if(pagerComponent != null && (pagerComponent.getCurrentPage() == null || pagerComponent.getCurrentPage() <= 1))
+            if(pagerComponent.getCurrentPage() <= 1)
                 setEnabled(false);
             
             super.initialize();
@@ -727,7 +673,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @author fvilarinho
      * @since 1.0.0
      */
-    private class NextPageButtonComponent extends ButtonComponent{
+    private static class NextPageButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = 2747901438645534966L;
         
         /**
@@ -740,51 +686,43 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         public NextPageButtonComponent(PagerComponent pagerComponent) throws InternalErrorException{
             super();
             
-            if(pagerComponent != null){
-                setPageContext(pagerComponent.getPageContext());
-                setOutputStream(pagerComponent.getOutputStream());
-                setActionFormName(pagerComponent.getActionFormName());
-                setParent(pagerComponent);
-            }
+            setPageContext(pagerComponent.getPageContext());
+            setOutputStream(pagerComponent.getOutputStream());
+            setActionFormName(pagerComponent.getActionFormName());
+            setParent(pagerComponent);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_PAGER_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_PAGER_NEXT_PAGE_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_PAGER_NEXT_PAGE_BUTTON_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
-            String actionFormName = (pagerComponent != null ? pagerComponent.getActionFormName() : null);
-            String name = (pagerComponent != null ? pagerComponent.getName() : null);
-            Integer currentPage = (pagerComponent != null ? pagerComponent.getCurrentPage() : null);
-            Integer pages = (pagerComponent != null ? pagerComponent.getPages() : null);
+            String actionFormName = pagerComponent.getActionFormName();
+            String name = pagerComponent.getName();
+            int currentPage = pagerComponent.getCurrentPage();
+            int pages = pagerComponent.getPages();
             
-            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage != null && pages != null && currentPage < pages){
+            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage < pages){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToNextPage('");
                 onClick.append(name);
                 onClick.append("', ");
                 
-                String updateViews = (pagerComponent != null ? pagerComponent.getUpdateViews() : null);
+                String updateViews = pagerComponent.getUpdateViews();
                 
                 if(updateViews != null && updateViews.length() > 0){
                     onClick.append("'");
@@ -803,14 +741,12 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             
             super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
             
-            if(pagerComponent != null && pagerComponent.getCurrentPage() != null && pagerComponent.getPages() != null && pagerComponent.getCurrentPage() >= pagerComponent.getPages())
+            if(pagerComponent.getCurrentPage() >= pagerComponent.getPages())
                 setEnabled(false);
             
             super.initialize();
@@ -823,7 +759,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @author fvilarinho
      * @since 1.0.0
      */
-    private class LastPageButtonComponent extends ButtonComponent{
+    private static class LastPageButtonComponent extends ButtonComponent{
         private static final long serialVersionUID = -574994133651394709L;
         
         /**
@@ -836,51 +772,43 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         public LastPageButtonComponent(PagerComponent pagerComponent) throws InternalErrorException{
             super();
             
-            if(pagerComponent != null){
-                setPageContext(pagerComponent.getPageContext());
-                setOutputStream(pagerComponent.getOutputStream());
-                setActionFormName(pagerComponent.getActionFormName());
-                setParent(pagerComponent);
-            }
+            setPageContext(pagerComponent.getPageContext());
+            setOutputStream(pagerComponent.getOutputStream());
+            setActionFormName(pagerComponent.getActionFormName());
+            setParent(pagerComponent);
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildResources()
-         */
+
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_PAGER_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_PAGER_LAST_PAGE_BUTTON_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-         */
+
+        @Override
         protected void buildStyleClass() throws InternalErrorException{
             setStyleClass(UIConstants.DEFAULT_PAGER_LAST_PAGE_BUTTON_STYLE_CLASS);
             
             super.buildStyleClass();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
-            String actionFormName = (pagerComponent != null ? pagerComponent.getActionFormName() : null);
-            String name = (pagerComponent != null ? pagerComponent.getName() : null);
-            Integer currentPage = (pagerComponent != null ? pagerComponent.getCurrentPage() : null);
-            Integer pages = (pagerComponent != null ? pagerComponent.getPages() : null);
+            String actionFormName = pagerComponent.getActionFormName();
+            String name = pagerComponent.getName();
+            int currentPage = pagerComponent.getCurrentPage();
+            int pages = pagerComponent.getPages();
             
-            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage != null && pages != null && currentPage < pages){
+            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage < pages){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToLastPage('");
                 onClick.append(name);
                 onClick.append("', ");
                 
-                String updateViews = (pagerComponent != null ? pagerComponent.getUpdateViews() : null);
+                String updateViews = pagerComponent.getUpdateViews();
                 
                 if(updateViews != null && updateViews.length() > 0){
                     onClick.append("'");
@@ -897,14 +825,12 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
                 setOnClick(onClick.toString());
             }
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.ButtonComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
             
-            if(pagerComponent != null && pagerComponent.getCurrentPage() != null && pagerComponent.getPages() != null && pagerComponent.getCurrentPage() >= pagerComponent.getPages())
+            if(pagerComponent.getCurrentPage() >= pagerComponent.getPages())
                 setEnabled(false);
             
             super.initialize();
@@ -917,7 +843,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @author fvilarinho
      * @since 1.0.0
      */
-    private class ItemsPerPagePropertyComponent extends TextPropertyComponent{
+    private static class ItemsPerPagePropertyComponent extends TextPropertyComponent{
         private static final long serialVersionUID = 7830360215475249040L;
         
         /**
@@ -930,64 +856,53 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         public ItemsPerPagePropertyComponent(PagerComponent pagerComponent) throws InternalErrorException{
             super();
             
-            if(pagerComponent != null){
-                setPageContext(pagerComponent.getPageContext());
-                setActionFormName(pagerComponent.getActionFormName());
-                setOutputStream(pagerComponent.getOutputStream());
-                setParent(pagerComponent);
-            }
+            setPageContext(pagerComponent.getPageContext());
+            setActionFormName(pagerComponent.getActionFormName());
+            setOutputStream(pagerComponent.getOutputStream());
+            setParent(pagerComponent);
         }
         
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildResources()
-         */
+        @Override
         protected void buildResources() throws InternalErrorException{
             setResourcesId(UIConstants.DEFAULT_PAGER_RESOURCES_ID);
             setResourcesKey(UIConstants.DEFAULT_PAGER_ITEMS_PER_PAGE_ID);
             
             super.buildResources();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.TextPropertyComponent#buildEvents()
-         */
+
+        @Override
         protected void buildEvents() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
-            
-            if(pagerComponent != null){
-                StringBuilder onKeyPressContent = new StringBuilder();
-                
-                onKeyPressContent.append("if(getKeyPressed(event) == 13){ refreshPage('");
-                onKeyPressContent.append(pagerComponent.getName());
-                onKeyPressContent.append("', ");
-                
-                String updateViews = pagerComponent.getUpdateViews();
-                
-                if(updateViews != null && updateViews.length() > 0){
-                    onKeyPressContent.append("'");
-                    onKeyPressContent.append(updateViews);
-                    onKeyPressContent.append("'");
-                }
-                else
-                    onKeyPressContent.append(Constants.DEFAULT_NULL_ID);
-                
-                onKeyPressContent.append(", '");
-                onKeyPressContent.append(pagerComponent.getActionFormName());
-                onKeyPressContent.append("'); }");
-                
-                setOnKeyPress(onKeyPressContent.toString());
-                
-                super.buildEvents();
+            StringBuilder onKeyPressContent = new StringBuilder();
+
+            onKeyPressContent.append("if(getKeyPressed(event) == 13){ refreshPage('");
+            onKeyPressContent.append(pagerComponent.getName());
+            onKeyPressContent.append("', ");
+
+            String updateViews = pagerComponent.getUpdateViews();
+
+            if(updateViews != null && updateViews.length() > 0){
+                onKeyPressContent.append("'");
+                onKeyPressContent.append(updateViews);
+                onKeyPressContent.append("'");
             }
+            else
+                onKeyPressContent.append(Constants.DEFAULT_NULL_ID);
+
+            onKeyPressContent.append(", '");
+            onKeyPressContent.append(pagerComponent.getActionFormName());
+            onKeyPressContent.append("'); }");
+
+            setOnKeyPress(onKeyPressContent.toString());
+
+            super.buildEvents();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BaseActionFormComponent#buildName()
-         */
+
+        @Override
         protected void buildName() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
-            String actionFormName = (pagerComponent != null ? pagerComponent.getActionFormName() : null);
-            String name = (pagerComponent != null ? pagerComponent.getName() : null);
+            String actionFormName = pagerComponent.getActionFormName();
+            String name = pagerComponent.getName();
             
             if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
                 StringBuilder nameBuffer = new StringBuilder();
@@ -1003,10 +918,8 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             
             super.buildName();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.TextPropertyComponent#buildRestrictions()
-         */
+
+        @Override
         protected void buildRestrictions() throws InternalErrorException{
             setSize(3);
             setMaximumLength(3);
@@ -1015,24 +928,19 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             
             super.buildRestrictions();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.BasePropertyComponent#buildAlignment()
-         */
+
+        @Override
         protected void buildAlignment() throws InternalErrorException{
             setAlignmentType(AlignmentType.RIGHT);
             
             super.buildAlignment();
         }
-        
-        /**
-         * @see br.com.concepting.framework.ui.components.TextPropertyComponent#initialize()
-         */
+
+        @Override
         protected void initialize() throws InternalErrorException{
             PagerComponent pagerComponent = (PagerComponent) getParent();
             
-            if(pagerComponent != null)
-                setValue(pagerComponent.getItemsPerPage());
+            setValue(pagerComponent.getItemsPerPage());
             
             super.initialize();
         }

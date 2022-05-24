@@ -67,17 +67,17 @@ public class NetworkUtil{
      * @param address Instance that contains the IP.
      * @return True/False.
      */
-    public static Boolean isLoopbackAddress(InetAddress address){
+    public static boolean isLoopbackAddress(InetAddress address){
         return (address != null && address.isLoopbackAddress());
     }
     
     /**
-     * Indicates it is an private IP.
+     * Indicates it is a private IP.
      *
      * @param address Instance that contains the IP.
      * @return True/False.
      */
-    public static Boolean isPrivateAddress(InetAddress address){
+    public static boolean isPrivateAddress(InetAddress address){
         return (address != null && (isLoopbackAddress(address) || address.isSiteLocalAddress()));
     }
     
@@ -89,8 +89,8 @@ public class NetworkUtil{
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    public static Boolean isLoopbackAddress(String address) throws IOException{
-        return (address != null && address.length() > 0 ? isLoopbackAddress(InetAddress.getByName(address)) : false);
+    public static boolean isLoopbackAddress(String address) throws IOException{
+        return (address != null && address.length() > 0 && isLoopbackAddress(InetAddress.getByName(address)));
     }
     
     /**
@@ -101,11 +101,11 @@ public class NetworkUtil{
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    public static Boolean isPrivateAddress(String address) throws IOException{
+    public static boolean isPrivateAddress(String address) throws IOException{
         if(address != null && address.length() > 0)
             return isPrivateAddress(InetAddress.getByName(address));
         
-        return null;
+        return true;
     }
     
     /**
@@ -115,7 +115,7 @@ public class NetworkUtil{
      * @param expression String that contains the network range.
      * @return True/False.
      */
-    public static Boolean isIpMatches(String ip, String expression){
+    public static boolean isIpMatches(String ip, String expression){
         if(ip == null || ip.length() == 0 || expression == null || expression.length() == 0)
             return false;
         
@@ -175,7 +175,7 @@ public class NetworkUtil{
      * @param value String that should be checked.
      * @return True/False.
      */
-    public static Boolean isIp(String value){
+    public static boolean isIp(String value){
         return DEFAULT_IP_CHECK_REGEX.matcher(value).matches();
     }
 }

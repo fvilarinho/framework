@@ -4,8 +4,8 @@
  * @author fvilarinho
  * @version 1.0.0
  */
-var weekNames  = null;
-var monthNames = null;
+let weekNames  = null;
+let monthNames = null;
  
 /**
  * Inicializes the list of month names.
@@ -27,7 +27,7 @@ function initializeCalendarWeekNames(){
  * @param name String that contains the identifier of the calendar component.
  */
 function moveToNextMonth(name){
-	var currentDate = parseCalendarInput(name);
+	let currentDate = parseCalendarInput(name);
 	
 	if(currentDate){
 		currentDate.setMonth(currentDate.getMonth() + 1);
@@ -43,8 +43,8 @@ function moveToNextMonth(name){
  * @param name String that contains the identifier of the calendar component.
  */
 function moveToNextYear(name){
-	var currentDate = parseCalendarInput(name);
-	
+	let currentDate = parseCalendarInput(name);
+
 	if(currentDate){
 		if(currentDate.getFullYear() < 1900)
 			currentDate.setYear((currentDate.getFullYear() + 1) + 1900);
@@ -62,7 +62,7 @@ function moveToNextYear(name){
  * @param name String that contains the identifier of the calendar component.
  */
 function moveToPreviousMonth(name){
-	var currentDate = parseCalendarInput(name);
+	let currentDate = parseCalendarInput(name);
 	
 	if(currentDate){
 		currentDate.setMonth(currentDate.getMonth() - 1);
@@ -78,7 +78,7 @@ function moveToPreviousMonth(name){
  * @param name String that contains the identifier of the calendar component.
  */
 function moveToPreviousYear(name){
-	var currentDate = parseCalendarInput(name);
+	let currentDate = parseCalendarInput(name);
 	
 	if(currentDate){
 		if(currentDate.getFullYear().toString().length <= 2)
@@ -97,7 +97,7 @@ function moveToPreviousYear(name){
  * @param day Instance that contains the day.
  */
 function selectCalendarDay(day){
-	if(day.className != "currentCalendarDay")
+	if(day.className !== "currentCalendarDay")
 		day.className = "selectedCalendarDay";
 }
 
@@ -107,7 +107,7 @@ function selectCalendarDay(day){
  * @param day Instance that contains the day.
  */
 function unselectCalendarDay(day){
-	if(day.className != "currentCalendarDay")
+	if(day.className !== "currentCalendarDay")
 		day.className = "calendarDay";
 }
 
@@ -117,11 +117,11 @@ function unselectCalendarDay(day){
  * @param object Instance that contains the calendar component.
  */
 function setCurrentCalendarHours(object){
-	var name        = replaceAll(object.id, ".calendarHours", "");
-	var currentDate = parseCalendarInput(name);
+	let name        = replaceAll(object.id, ".calendarHours", "");
+	let currentDate = parseCalendarInput(name);
 	
 	if(currentDate){
-		var hours = parseInt(object.value);
+		let hours = parseInt(object.value);
 		
 		if(isNaN(hours)){
 			hours = 0;
@@ -141,11 +141,11 @@ function setCurrentCalendarHours(object){
  * @param object Instance that contains the calendar component.
  */
 function setCurrentCalendarMinutes(object){
-	var name        = replaceAll(object.id, ".calendarMinutes", "");
-	var currentDate = parseCalendarInput(name);
+	let name        = replaceAll(object.id, ".calendarMinutes", "");
+	let currentDate = parseCalendarInput(name);
 	
 	if(currentDate){
-		var minutes = parseInt(object.value);
+		let minutes = parseInt(object.value);
 		
 		if(isNaN(minutes)){
 			minutes = 0;
@@ -165,11 +165,11 @@ function setCurrentCalendarMinutes(object){
  * @param object Instance that contains the calendar component.
  */
 function setCurrentCalendarSeconds(object){
-	var name        = replaceAll(object.id, ".calendarSeconds", "");
-	var currentDate = parseCalendarInput(name);
+	let name        = replaceAll(object.id, ".calendarSeconds", "");
+	let currentDate = parseCalendarInput(name);
 	
 	if(currentDate){
-		var seconds = parseInt(object.value);
+		let seconds = parseInt(object.value);
 		
 		if(isNaN(seconds)){
 			seconds = 0;
@@ -189,11 +189,11 @@ function setCurrentCalendarSeconds(object){
  * @param object Instance that contains the calendar component.
  */
 function setCurrentCalendarMilliseconds(object){
-	var name        = replaceAll(object.id, ".calendarMilliseconds", "");
-	var currentDate = parseCalendarInput(name);
+	let name        = replaceAll(object.id, ".calendarMilliseconds", "");
+	let currentDate = parseCalendarInput(name);
 	
 	if(currentDate){
-		var milliseconds = parseInt(object.value);
+		let milliseconds = parseInt(object.value);
 		
 		if(isNaN(milliseconds))
 			milliseconds = 0;
@@ -210,7 +210,7 @@ function setCurrentCalendarMilliseconds(object){
  * @param object Instance that contains the calendar component.
  */
 function setCurrentCalendarAm(object){
-	var name = replaceAll(object.id, ".calendarAmPm", "");
+	let name = replaceAll(object.id, ".calendarAmPm", "");
 	
 	object = getObject(name);
 	
@@ -224,7 +224,7 @@ function setCurrentCalendarAm(object){
  * @param object Instance that contains the calendar component.
  */
 function setCurrentCalendarPm(object){
-	var name = replaceAll(object.id, ".calendarAmPm", "");
+	let name = replaceAll(object.id, ".calendarAmPm", "");
 	
 	object = getObject(name);
 	
@@ -239,11 +239,11 @@ function setCurrentCalendarPm(object){
  * @param day Instance of the day.
  */
 function setCurrentCalendarDay(name, day){
-	var currentDate = parseCalendarInput(name);
+	let currentDate = parseCalendarInput(name);
 	
 	if(currentDate){
-		var dayValue  = day.innerHTML;
-		var dayObject = getObject(name + ".day" + currentDate.getDate());
+		let dayValue  = day.innerHTML;
+		let dayObject = getObject(name + ".day" + currentDate.getDate());
 	
 		if(dayObject && currentDate){
 			dayObject.className = "calendarDay";
@@ -270,18 +270,18 @@ function setCurrentCalendarDay(name, day){
  * @param currentDate Instance that contains the date/time. 
  */
 function updateCalendarInput(name, currentDate){
-	var calendar = getObject(name);
+	let calendar = getObject(name);
 	
 	if(calendar){
-		var objectValue  = getObjectValue(name);
-	    var pattern      = getObjectValue(name + ".pattern");
-		var date         = "" + currentDate.getDate();
-		var month        = "" + (currentDate.getMonth() + 1);
-		var year         = "" + currentDate.getFullYear();
-		var hours        = "" + (pattern.indexOf("hh") >= 0 ? (currentDate.getHours() > 12 ? currentDate.getHours() - 12 : currentDate.getHours()) : currentDate.getHours());
-		var minutes      = "" + currentDate.getMinutes();
-		var seconds      = "" + currentDate.getSeconds();
-		var milliseconds = "" + currentDate.getMilliseconds();
+		let objectValue  = getObjectValue(name);
+	    let pattern      = getObjectValue(name + ".pattern");
+		let date         = "" + currentDate.getDate();
+		let month        = "" + (currentDate.getMonth() + 1);
+		let year         = "" + currentDate.getFullYear();
+		let hours        = "" + (pattern.indexOf("hh") >= 0 ? (currentDate.getHours() > 12 ? currentDate.getHours() - 12 : currentDate.getHours()) : currentDate.getHours());
+		let minutes      = "" + currentDate.getMinutes();
+		let seconds      = "" + currentDate.getSeconds();
+		let milliseconds = "" + currentDate.getMilliseconds();
 		
 		if(date.length < 2)
 			date = replicate("0", 2 - date.length) + date;
@@ -329,7 +329,7 @@ function updateCalendarInput(name, currentDate){
  * @param name String that contains the identifier of the calendar component.
  */
 function renderCalendar(name){
-	var currentDate = parseCalendarInput(name);
+	let currentDate = parseCalendarInput(name);
 	
 	renderCalendarDate(name, currentDate);
 	renderCalendarTime(name, currentDate);
@@ -342,18 +342,17 @@ function renderCalendar(name){
  * @param currentDate Instance that contains the date/time. 
  */
 function renderCalendarDate(name, currentDate){
-	var calendar      = getObject(name + ".calendar");
-	var calendarDays  = getObject(name + ".calendarDays");
-	var calendarMonth = getObject(name + ".calendarMonth");
+	let calendar      = getObject(name + ".calendar");
+	let calendarDays  = getObject(name + ".calendarDays");
+	let calendarMonth = getObject(name + ".calendarMonth");
 	
 	if(calendar && calendarDays && calendarMonth && currentDate){
-		var firstDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-		var weekDay   = firstDate.getDay();
-		var rows      = 40;
-		var html      = "";
-		var date      = null;
-		var cont      = null;
-		
+		let firstDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+		let weekDay   = firstDate.getDay();
+		let rows      = 40;
+		let html      = "";
+		let date      = null;
+
 		html += monthNames[currentDate.getMonth()].substring(0, 3);
 		html += ", ";
 		html += currentDate.getFullYear();
@@ -364,7 +363,7 @@ function renderCalendarDate(name, currentDate){
 		html += "<table>";
 		html += "<tr>";
 
-		for(cont = 0 ; cont < 7 ; cont++){
+		for(let cont = 0 ; cont < 7 ; cont++){
 			html += "<td class=\"calendarWeek\">";
 			html += weekNames[cont].substring(0, 1).toUpperCase();
 			html += "</td>";
@@ -372,19 +371,20 @@ function renderCalendarDate(name, currentDate){
 
 		html += "</tr><tr>";	
 		
-		for(cont = 0 ; cont < weekDay ; cont++)
+		for(let cont = 0 ; cont < weekDay ; cont++)
 			html += "<td></td>";
 		
 		rows -= cont;
-		cont  = 1;	
+
+		let cont  = 1;
 		
 		while(cont <= rows){
 			date = new Date(currentDate.getFullYear(), currentDate.getMonth(), cont);
 
-			if(date.getMonth() == currentDate.getMonth()){
+			if(date.getMonth() === currentDate.getMonth()){
 				html += "<td class=\"";
 				
-				if(cont == currentDate.getDate())
+				if(cont === currentDate.getDate())
 					html += "currentCalendarDay";
 				else
 					html += "calendarDay";
@@ -400,7 +400,7 @@ function renderCalendarDate(name, currentDate){
 				html += date.getDate();
 				html += "</td>";
 
-				if(((cont + weekDay) % 7) == 0)
+				if(((cont + weekDay) % 7) === 0)
 					html += "</tr><tr>";
 			}
 			else
@@ -429,17 +429,17 @@ function renderCalendarDate(name, currentDate){
  * @param currentDate Instance that contains the date/time. 
  */
 function renderCalendarTime(name, currentDate){
-	var calendarHours = getObject(name + ".calendarHours");
+	let calendarHours = getObject(name + ".calendarHours");
 
 	if(calendarHours){
-		var pattern = getObjectValue(name + ".pattern");
+		let pattern = getObjectValue(name + ".pattern");
 		
 		calendarHours.value = (pattern.indexOf("hh") >= 0 ? (currentDate.getHours() > 12 ? currentDate.getHours() - 12 : currentDate.getHours()) : currentDate.getHours());
 
 		setSliderBarPosition(name + ".calendarHours");
 	}
 
-	var calendarMinutes = getObject(name + ".calendarMinutes");
+	let calendarMinutes = getObject(name + ".calendarMinutes");
 
 	if(calendarMinutes){
 		calendarMinutes.value = currentDate.getMinutes();
@@ -447,7 +447,7 @@ function renderCalendarTime(name, currentDate){
 		setSliderBarPosition(name + ".calendarMinutes");
 	}
 
-	var calendarSeconds = getObject(name + ".calendarSeconds");
+	let calendarSeconds = getObject(name + ".calendarSeconds");
 
 	if(calendarSeconds){
 		calendarSeconds.value = currentDate.getSeconds();
@@ -455,7 +455,7 @@ function renderCalendarTime(name, currentDate){
 		setSliderBarPosition(name + ".calendarSeconds");
 	}
 	
-	var calendarMilliseconds = getObject(name + ".calendarMilliseconds");
+	let calendarMilliseconds = getObject(name + ".calendarMilliseconds");
 
 	if(calendarMilliseconds){
 		calendarMilliseconds.value = currentDate.getMilliseconds();
@@ -470,21 +470,21 @@ function renderCalendarTime(name, currentDate){
  * @param name String that contains the identifier of the calendar component.
  */
 function showHideCalendar(name){
-	var divs   = document.getElementsByTagName("div");
-	var suffix = ".calendar";
+	let divs   = document.getElementsByTagName("div");
+	let suffix = ".calendar";
 	
-	for(var i = 0 ; i < divs.length ; i++){
-		var div = divs[i];
-		var id  = div.id;
+	for(let i = 0 ; i < divs.length ; i++){
+		let div = divs[i];
+		let id  = div.id;
 		
-		if(id && id.indexOf(suffix, id.length - suffix.length) >= 0 && id != (name + suffix))
+		if(id && id.indexOf(suffix, id.length - suffix.length) >= 0 && id !== (name + suffix))
 			div.style.visibility = "HIDDEN";
 	}
 
-	var calendar = getObject(name + suffix);
+	let calendar = getObject(name + suffix);
 	
 	if(calendar){
-		if(calendar.style.visibility.toUpperCase() == "HIDDEN" || calendar.style.visibility == ""){
+		if(calendar.style.visibility.toUpperCase() === "HIDDEN" || calendar.style.visibility === ""){
 			renderCalendar(name);
 	
 			calendar.style.visibility = "VISIBLE";
@@ -496,21 +496,21 @@ function showHideCalendar(name){
 
 /**
  * Parses the input of the calendar component.
- * 
- * @param String that contains the identifier of the calendar component.
+ *
+ * @param name String that contains the identifier of the calendar component.
  * @returns Instance that contains the date/time.
  */
 function parseCalendarInput(name){
-	var value        = getObjectValue(name);
-	var pattern      = getObjectValue(name + ".pattern");
-	var pos          = pattern.indexOf("dd");
-	var day          = null; 
-	var month        = null;
-	var year         = null;  
-	var hours        = null;
-	var minutes      = null;
-	var seconds      = null;
-	var milliseconds = null;
+	let value        = getObjectValue(name);
+	let pattern      = getObjectValue(name + ".pattern");
+	let pos          = pattern.indexOf("dd");
+	let day          = null; 
+	let month        = null;
+	let year         = null;  
+	let hours        = null;
+	let minutes      = null;
+	let seconds      = null;
+	let milliseconds = null;
 	
 	if(pos >= 0)
 		day = parseInt(value.substring(pos, pos + 2));
@@ -544,27 +544,27 @@ function parseCalendarInput(name){
 	if(pos >= 0)
 		milliseconds = parseInt(value.substring(pos, pos + 3));
 
-	var currentDate = new Date();
+	let currentDate = new Date();
 	
-	if(day != null && !isNaN(day))
+	if(day !== null && !isNaN(day))
 		currentDate.setDate(day);
 	
-	if(month != null && !isNaN(month))
+	if(month !== null && !isNaN(month))
 		currentDate.setMonth(month);
 	
-	if(year != null && !isNaN(year))
+	if(year !== null && !isNaN(year))
 		currentDate.setFullYear(year);
 	
-	if(hours != null && !isNaN(hours))
+	if(hours !== null && !isNaN(hours))
 		currentDate.setHours(hours);
 
-	if(minutes != null && !isNaN(minutes))
+	if(minutes !== null && !isNaN(minutes))
 		currentDate.setMinutes(minutes);
 	
-	if(seconds != null && !isNaN(seconds))
+	if(seconds !== null && !isNaN(seconds))
 		currentDate.setSeconds(seconds);
 	
-	if(milliseconds != null && !isNaN(milliseconds))
+	if(milliseconds !== null && !isNaN(milliseconds))
 		currentDate.setMilliseconds(milliseconds);
 	
 	return currentDate;

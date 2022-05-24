@@ -1,5 +1,7 @@
 package br.com.concepting.framework.util.types;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Class that defines the types of content.
  *
@@ -78,12 +80,12 @@ public enum ContentType{
     XLS("application/vnd.ms-excel", ".xls"),
     
     /**
-     * Microsoft Powerpoint 2003 or higher.
+     * Microsoft PowerPoint 2003 or higher.
      */
     PPTX("application/vnd.openxmlformats-officedocument.presentationml.presentation", ".pptx"),
     
     /**
-     * Microsoft Powerpoint 2000 or lower.
+     * Microsoft PowerPoint 2000 or lower.
      */
     PPT("application/vnd.ms-powerpoint", ".ppt"),
     
@@ -147,15 +149,15 @@ public enum ContentType{
      */
     MULTIPART_MIXED("multipart/mixed");
     
-    private String mimeType = null;
-    private String extension = null;
-    
+    private String mimeType;
+    private String extension;
+
     /**
-     * Constructor - Defualt constructor.
+     * Constructor - Defines the content type.
      */
     ContentType(){
     }
-    
+
     /**
      * Constructor - Defines the content type.
      *
@@ -163,7 +165,7 @@ public enum ContentType{
      */
     ContentType(String mimeType){
         this();
-        
+
         setMimeType(mimeType);
     }
     
@@ -225,7 +227,7 @@ public enum ContentType{
      */
     public static ContentType toContentType(String contentType) throws IllegalArgumentException{
         if(contentType == null)
-            return null;
+            return ContentType.NONE;
         
         int pos = contentType.indexOf(";");
         

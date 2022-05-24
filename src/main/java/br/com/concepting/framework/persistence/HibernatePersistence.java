@@ -6,6 +6,7 @@ import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.util.ModelUtil;
+import br.com.concepting.framework.persistence.helpers.Filter;
 import br.com.concepting.framework.persistence.interfaces.IPersistence;
 import br.com.concepting.framework.persistence.resources.PersistenceResources;
 import br.com.concepting.framework.persistence.types.QueryType;
@@ -13,24 +14,24 @@ import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.persistence.util.HibernateQueryBuilder;
 import br.com.concepting.framework.persistence.util.HibernateUtil;
 import br.com.concepting.framework.util.PropertyUtil;
-import br.com.concepting.framework.util.helpers.Filter;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import org.hibernate.*;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.query.Query;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import javax.persistence.NoResultException;
+import java.lang.InstantiationException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.lang.InstantiationException;
 
 /**
  * Class that defines the basic implementation of the persistence of data models
- * using the Hibernate.
+ * using Hibernate.
  *
  * @param <M> Class that defines the data model of the persistence.
  *
@@ -84,10 +85,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
                 connection.buildLockRequest(LockOptions.NONE).lock(model);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.IPersistence#begin()
-     */
+
     @Override
     public void begin() throws InternalErrorException{
         openConnection();
@@ -114,10 +112,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.IPersistence#commit()
-     */
+
     @Override
     public void commit() throws InternalErrorException{
         Transaction transaction = getTransaction();
@@ -126,7 +121,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             if(transaction != null)
                 transaction.commit();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         finally{
             if(transaction != null){
@@ -136,9 +131,6 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
         }
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.IPersistence#rollback()
-     */
     @Override
     public void rollback() throws InternalErrorException{
         Transaction transaction = getTransaction();
@@ -147,7 +139,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             if(transaction != null)
                 transaction.rollback();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         finally{
             if(transaction != null){
@@ -157,9 +149,6 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
         }
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.BasePersistence#openConnection()
-     */
     @Override
     protected void openConnection() throws InternalErrorException{
         super.openConnection();
@@ -175,9 +164,6 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
         }
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.BasePersistence#closeConnection()
-     */
     @Override
     protected void closeConnection() throws InternalErrorException{
         Session connection = getConnection();
@@ -186,22 +172,19 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             if(connection != null)
                 connection.clear();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         try{
             if(connection != null)
                 connection.close();
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         super.closeConnection();
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.BasePersistence#delete(br.com.concepting.framework.model.BaseModel)
-     */
     @Override
     public void delete(M model) throws InternalErrorException{
         if(model == null)
@@ -214,7 +197,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
                 try{
                     connection.delete(model);
                 }
-                catch(ObjectNotFoundException | ObjectDeletedException | StaleStateException | ConstraintViolationException e){
+                catch(ObjectNotFoundException | ObjectDeletedException | StaleStateException | ConstraintViolationException ignored){
                 }
                 
                 connection.flush();
@@ -225,9 +208,6 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
         }
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.BasePersistence#find(br.com.concepting.framework.model.BaseModel)
-     */
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public M find(M model) throws InternalErrorException, ItemNotFoundException{
@@ -250,34 +230,22 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#list()
-     */
+
     @Override
     public Collection<M> list() throws InternalErrorException{
         return search(null);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#search(br.com.concepting.framework.model.BaseModel)
-     */
     @Override
     public Collection<M> search(M model) throws InternalErrorException{
         return filter(model, null);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#filter(br.com.concepting.framework.util.helpers.Filter)
-     */
     @Override
     public Collection<M> filter(Filter filter) throws InternalErrorException{
         return filter(null, filter);
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#filter(br.com.concepting.framework.model.BaseModel, br.com.concepting.framework.util.helpers.Filter)
-     */
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
     public Collection<M> filter(M model, Filter filter) throws InternalErrorException{
@@ -310,9 +278,6 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
         return modelList;
     }
     
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#loadReference(br.com.concepting.framework.model.BaseModel, java.lang.String)
-     */
     @Override
     @SuppressWarnings("unchecked")
     public <R extends BaseModel> M loadReference(M model, String referencePropertyId) throws InternalErrorException{
@@ -322,7 +287,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
         try{
             reattachModel(model);
         }
-        catch(Throwable e){
+        catch(Throwable ignored){
         }
         
         try{
@@ -334,14 +299,16 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
                 Class<R> referenceModelClass = (Class<R>) referencePropertyInfo.getClazz();
                 Object referenceProperty = PropertyUtil.getValue(model, referencePropertyId);
                 
-                if(referencePropertyInfo.hasModel() != null && referencePropertyInfo.hasModel()){
+                if(referencePropertyInfo.hasModel()){
                     Collection<R> modelList = (Collection<R>) referenceProperty;
                     
                     if(modelList != null && !modelList.isEmpty()){
                         Iterator<R> iterator = modelList.iterator();
-                        
-                        while(iterator.hasNext())
-                            iterator.next();
+
+                        if (iterator.hasNext()) {
+                            do iterator.next();
+                            while (iterator.hasNext());
+                        }
                     }
                 }
                 else{
@@ -363,10 +330,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#saveReference(br.com.concepting.framework.model.BaseModel, java.lang.String)
-     */
+
     @Override
     public void saveReference(M model, String referencePropertyId) throws InternalErrorException{
         if(model == null || referencePropertyId == null || referencePropertyId.length() == 0)
@@ -378,7 +342,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             try{
                 reattachModel(model);
             }
-            catch(Throwable e){
+            catch(Throwable ignored){
             }
             
             PropertyUtil.setProperty(model, referencePropertyId, referenceProperty);
@@ -389,10 +353,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#deleteAll(java.util.Collection)
-     */
+
     @Override
     public void deleteAll(Collection<M> modelList) throws InternalErrorException{
         if(modelList == null || modelList.size() == 0)
@@ -408,7 +369,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
                     try{
                         connection.delete(iterator.next());
                     }
-                    catch(ObjectNotFoundException | ObjectDeletedException | StaleStateException | ConstraintViolationException e){
+                    catch(ObjectNotFoundException | ObjectDeletedException | StaleStateException | ConstraintViolationException ignored){
                     }
                 }
                 
@@ -419,10 +380,8 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#save(br.com.concepting.framework.model.BaseModel)
-     */
+
+    @Override
     public M save(M model) throws ItemAlreadyExistsException, InternalErrorException{
         if(model == null)
             return model;
@@ -436,7 +395,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
                 try{
                     connection.saveOrUpdate(model);
                 }
-                catch(NonUniqueObjectException | ObjectNotFoundException | StaleStateException e){
+                catch(NonUniqueObjectException | ObjectNotFoundException | StaleStateException ignored){
                 }
                 
                 connection.flush();
@@ -454,10 +413,8 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
         
         return model;
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#insert(br.com.concepting.framework.model.BaseModel)
-     */
+
+    @Override
     public M insert(M model) throws ItemAlreadyExistsException, InternalErrorException{
         if(model == null)
             return model;
@@ -471,7 +428,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
                 try{
                     connection.save(model);
                 }
-                catch(NonUniqueObjectException | ObjectNotFoundException | StaleStateException e){
+                catch(NonUniqueObjectException | ObjectNotFoundException | StaleStateException ignored){
                 }
                 
                 connection.flush();
@@ -489,10 +446,8 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
         
         return model;
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#update(br.com.concepting.framework.model.BaseModel)
-     */
+
+    @Override
     public void update(M model) throws InternalErrorException{
         if(model == null)
             return;
@@ -506,7 +461,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
                 try{
                     connection.merge(model);
                 }
-                catch(NonUniqueObjectException | StaleStateException | ObjectNotFoundException | ConstraintViolationException e){
+                catch(NonUniqueObjectException | StaleStateException | ObjectNotFoundException | ConstraintViolationException ignored){
                 }
                 
                 connection.flush();
@@ -516,27 +471,22 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#saveAll(java.util.Collection)
-     */
+
+    @Override
     public void saveAll(Collection<M> modelList) throws ItemAlreadyExistsException, InternalErrorException{
         if(modelList != null && !modelList.isEmpty()){
             try{
                 Session connection = getConnection();
                 
                 if(connection != null && connection.isOpen()){
-                    Iterator<M> iterator = modelList.iterator();
-                    
-                    while(iterator.hasNext()){
-                        M item = iterator.next();
-                        
+
+                    for (M item : modelList) {
                         ModelUtil.fillPhoneticProperties(item);
-                        
-                        try{
+
+                        try {
                             connection.saveOrUpdate(item);
                         }
-                        catch(NonUniqueObjectException | ObjectNotFoundException | StaleStateException e){
+                        catch (NonUniqueObjectException | ObjectNotFoundException | StaleStateException ignored) {
                         }
                     }
                     
@@ -554,10 +504,8 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#insertAll(java.util.Collection)
-     */
+
+    @Override
     public void insertAll(Collection<M> modelList) throws ItemAlreadyExistsException, InternalErrorException{
         if(modelList != null && !modelList.isEmpty()){
             try{
@@ -574,7 +522,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
                         try{
                             connection.save(iterator.next());
                         }
-                        catch(NonUniqueObjectException | ObjectNotFoundException | StaleStateException e){
+                        catch(NonUniqueObjectException | ObjectNotFoundException | StaleStateException ignored){
                         }
                     }
                     
@@ -592,10 +540,8 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             }
         }
     }
-    
-    /**
-     * @see br.com.concepting.framework.persistence.interfaces.ICrud#updateAll(java.util.Collection)
-     */
+
+    @Override
     public void updateAll(Collection<M> modelList) throws InternalErrorException{
         if(modelList != null && !modelList.isEmpty()){
             try{
@@ -612,7 +558,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
                         try{
                             connection.merge(iterator.next());
                         }
-                        catch(NonUniqueObjectException | StaleStateException | ObjectNotFoundException | ConstraintViolationException e){
+                        catch(NonUniqueObjectException | StaleStateException | ObjectNotFoundException | ConstraintViolationException ignored){
                         }
                     }
                     

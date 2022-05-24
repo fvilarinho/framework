@@ -21,7 +21,6 @@ package br.com.concepting.framework.model.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-@SuppressWarnings("javadoc")
 public abstract class ModelConstants{
     public static final String COMPARE_ACCURACY_ATTRIBUTE_ID = "compareAccuracy";
     public static final String VALIDATE_MODEL_ATTRIBUTE_ID = "validateModel";

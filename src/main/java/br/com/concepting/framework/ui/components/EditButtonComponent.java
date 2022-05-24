@@ -27,35 +27,27 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  */
 public class EditButtonComponent extends ButtonComponent{
     private static final long serialVersionUID = -2198954261786421929L;
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#showOnlyWithDataset()
-     */
-    public Boolean showOnlyWithDataset(){
+
+    @Override
+    public boolean showOnlyWithData(){
         return true;
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildResources()
-     */
+
+    @Override
     protected void buildResources() throws InternalErrorException{
         setResourcesKey(UIConstants.DEFAULT_EDIT_BUTTON_ID);
         
         super.buildResources();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#buildStyleClass()
-     */
+
+    @Override
     protected void buildStyleClass() throws InternalErrorException{
         setStyleClass(UIConstants.DEFAULT_EDIT_BUTTON_STYLE_CLASS);
         
         super.buildStyleClass();
     }
-    
-    /**
-     * @see br.com.concepting.framework.ui.components.ButtonComponent#initialize()
-     */
+
+    @Override
     protected void initialize() throws InternalErrorException{
         if(!hasAction())
             setActionType(ActionType.EDIT);
