@@ -13,10 +13,7 @@ import br.com.concepting.framework.model.constants.ModelConstants;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.ui.controller.UIController;
-import br.com.concepting.framework.util.ByteUtil;
-import br.com.concepting.framework.util.ExceptionUtil;
-import br.com.concepting.framework.util.PropertyUtil;
-import br.com.concepting.framework.util.StringUtil;
+import br.com.concepting.framework.util.*;
 import br.com.concepting.framework.util.types.ContentType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.fileupload.FileItem;
@@ -31,9 +28,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -339,6 +336,10 @@ public class SystemController{
 				}
 			}
 		}
+	}
+
+	public InputStream getInputStream() throws IOException {
+		return this.request.getInputStream();
 	}
 
 	/**
@@ -1068,9 +1069,9 @@ public class SystemController{
 			if(!ExceptionUtil.isExpectedException(e) && !ExceptionUtil.isInternalErrorException(e))
 				e = new InternalErrorException(e);
 
-			if(!isWebServicesRequest()) {
-				setCurrentException(e);
+			setCurrentException(e);
 
+			if(!isWebServicesRequest()) {
 				if (this.response != null) {
 					if (ExceptionUtil.isUserNotAuthorized(e))
 						this.response.sendError(HttpStatus.SC_UNAUTHORIZED);
@@ -1097,19 +1098,16 @@ public class SystemController{
 					else
 						this.response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
 
-					ContentType contentType = gettContentType();
-
-					this.response.setContentType(contentType.getMimeType());
+					ContentType contentType = this.getContentType();
 
 					if(contentType == ContentType.JSON)
-						outputContent(mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(e), contentType);
-					else if(contentType == ContentType.XML) {
-						//TODO
-					}
+						this.outputContent(PropertyUtil.serialize(e), contentType);
+					else if(contentType == ContentType.XML)
+						this.outputContent(XmlUtil.serialize(e), contentType);
 					else if(contentType == ContentType.BINARY)
-						outputContent(ByteUtil.toBytes(e), contentType);
+						this.outputContent(ByteUtil.serialize(e), contentType);
 					else
-						outputContent(StringUtil.trim(e.getMessage()).getBytes(), contentType);
+						this.outputContent(StringUtil.trim(e), contentType);
 				}
 			}
 		}
@@ -1117,7 +1115,12 @@ public class SystemController{
 		}
 	}
 
-	public ContentType gettContentType(){
+	/**
+	 * Returns the mime-tyoe of the response.
+	 *
+	 * @return Instance that contains the response.
+	 */
+	public ContentType getContentType(){
 		String contentType = StringUtil.trim(getHeader(SystemConstants.CONTENT_TYPE_ATTRIBUTE_ID));
 
 		try {
@@ -1128,7 +1131,12 @@ public class SystemController{
 		}
 	}
 
-	public ContentType gettAccept(){
+	/**
+	 * Returns the accepted mime-tyoe of the request.
+	 *
+	 * @return Instance that contains the mime-type.
+	 */
+	public ContentType getAccept(){
 		String accept = StringUtil.trim(getHeader(SystemConstants.ACCEPT_ATTRIBUTE_ID));
 
 		try {
@@ -1142,11 +1150,34 @@ public class SystemController{
 	/**
 	 * Flushes a content in the response.
 	 *
+	 * @param contentData String of the content.
+	 * @param contentType Instance that contains the content type (mime type).
+	 */
+	public void outputContent(String contentData, ContentType contentType){
+		if(contentData != null)
+			outputContent(contentData.getBytes(), contentType);
+	}
+
+	/**
+	 * Flushes a content in the response.
+	 *
 	 * @param contentData Byte array of the content.
 	 * @param contentType Instance that contains the content type (mime type).
 	 */
 	public void outputContent(byte[] contentData, ContentType contentType){
-		outputContent(contentData, contentType, null);
+		if(contentData != null)
+			outputContent(contentData, contentType, null);
+	}
+
+	/**
+	 * Flushes a content in the response.
+	 *
+	 * @param contentData String the content.
+	 * @param contentType String that contains the content type (mime type).
+	 */
+	public void outputContent(String contentData, String contentType){
+		if(contentData != null)
+			outputContent(contentData.getBytes(), contentType);
 	}
 
 	/**
@@ -1156,7 +1187,8 @@ public class SystemController{
 	 * @param contentType String that contains the content type (mime type).
 	 */
 	public void outputContent(byte[] contentData, String contentType){
-		outputContent(contentData, contentType, null);
+		if(contentData != null)
+			outputContent(contentData, contentType, null);
 	}
 
 	/**
@@ -1193,7 +1225,7 @@ public class SystemController{
 				if(contentType != null && contentType.length() > 0)
 					this.response.setContentType(contentType);
 
-				this.response.setContentLength((contentData != null ? contentData.length : 0));
+				this.response.setContentLength(contentData.length);
 
 				ServletOutputStream out = this.response.getOutputStream();
 

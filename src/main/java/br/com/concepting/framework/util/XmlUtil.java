@@ -3,6 +3,11 @@ package br.com.concepting.framework.util;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.util.helpers.TagIndent;
 import br.com.concepting.framework.util.helpers.XmlNode;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.dom4j.Document;
@@ -13,6 +18,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -40,6 +46,22 @@ import java.util.Map.Entry;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class XmlUtil{
+    private static XmlMapper mapper = null;
+
+    @SuppressWarnings("deprecation")
+    public static XmlMapper getMapper(){
+        if(mapper == null){
+            mapper = new XmlMapper();
+            mapper.registerModule(new Hibernate5Module());
+            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+            mapper.enable(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS);
+            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            mapper.setDateFormat(new SimpleDateFormat(Constants.DEFAULT_DATE_TIME_PATTERN));
+        }
+
+        return mapper;
+    }
+
     /**
      * Removes the default namespaces.
      *
@@ -240,5 +262,53 @@ public class XmlUtil{
             return StringUtil.indent(value, TagIndent.getRules());
         
         return StringUtils.EMPTY;
+    }
+
+    /**
+     * Serialize an object.
+     *
+     * @param object Instance of the object.
+     * @return String that contains the serialized object in XML format.
+     * @throws IOException Occurs when was not possible to deserialize.
+     */
+    public static String serialize(Object object) throws IOException {
+        if(object == null)
+            return StringUtils.EMPTY;
+
+        XmlMapper mapper = getMapper();
+
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+    }
+
+    /**
+     * Deserialize an object.
+     *
+     * @param value String that contains the serialized object in JSON format.
+     * @param clazz Class that defines the object.
+     * @return Instance of the object.
+     * @throws IOException Occurs when was not possible to deserialize.
+     */
+    public static <O> O deserialize(String value, Class<O> clazz) throws IOException{
+        if(value == null || value.length() == 0)
+            return null;
+
+        return deserialize(value.getBytes(), clazz);
+    }
+
+    /**
+     * Deserialize an object.
+     *
+     * @param value Byte array that contains the serialized object in JSON format.
+     * @param clazz Class that defines the object.
+     * @return Instance of the object.
+     * @throws IOException Occurs when was not possible to deserialize.
+     */
+    public static <O> O deserialize(byte[] value, Class<O> clazz) throws IOException{
+        if(value == null || value.length == 0 || clazz == null)
+            return null;
+
+        XmlMapper mapper = getMapper();
+
+        return mapper.readValue(value, clazz);
     }
 }

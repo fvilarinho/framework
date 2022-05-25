@@ -29,7 +29,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import org.apache.commons.beanutils.ConstructorUtils;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.*;
 import java.math.BigDecimal;
@@ -63,10 +65,10 @@ import java.util.regex.Pattern;
  */
 public class PropertyUtil extends PropertyUtils{
 	private static ObjectMapper mapper = null;
-	
+
 	/**
 	 * Returns the mapper instance.
-	 * 
+	 *
 	 * @return Instance of the mapper.
 	 */
 	@SuppressWarnings("deprecation")
@@ -2068,7 +2070,54 @@ public class PropertyUtil extends PropertyUtils{
 
 		return propertiesInfo;
 	}
-	
+
+	/**
+	 * Serialize an object.
+	 *
+	 * @param value Instance of the object.
+	 * @return String that contains the serialized object in JSON format.
+	 * @throws IOException Occurs when was not possible to serialize.
+	 */
+	public static String serialize(Object value) throws IOException{
+		if(value == null)
+			return StringUtils.EMPTY;
+
+		ObjectMapper mapper = getMapper();
+
+		return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(value);
+	}
+
+	/**
+	 * Deserialize an object.
+	 *
+	 * @param value String that contains the serialized object in JSON format.
+	 * @param clazz Class that defines the object.
+	 * @return Instance of the object.
+	 * @throws IOException Occurs when was not possible to deserialize.
+	 */
+	public static <O> O deserialize(String value, Class<O> clazz) throws IOException{
+		if(value == null || value.length() == 0)
+			return null;
+
+		return deserialize(value.getBytes(), clazz);
+	}
+
+	/**
+	 * Deserialize an object.
+	 *
+	 * @param value Byte array that contains the serialized object in JSON format.
+	 * @param clazz Class that defines the object.
+	 * @return Instance of the object.
+	 * @throws IOException Occurs when was not possible to deserialize.
+	 */
+	public static <O> O deserialize(byte[] value, Class<O> clazz) throws IOException{
+		if(value == null || value.length == 0 || clazz == null)
+			return null;
+
+		ObjectMapper mapper = getMapper();
+
+		return mapper.readValue(value, clazz);
+	}
 	/**
 	 * Converts a value into another type.
 	 * 
@@ -2078,8 +2127,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @return Converted instance.
 	 */
 	public static <O> O convertTo(Object value, Class<O> clazz){
-		if(mapper == null)
-			mapper = getMapper();
+		ObjectMapper mapper = getMapper();
 		
 		return mapper.convertValue(value, clazz);
 	}

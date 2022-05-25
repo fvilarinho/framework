@@ -520,7 +520,14 @@ public class ByteUtil{
         return formatBytes(value.doubleValue());
     }
 
-    public static byte[] toBytes(Object object) throws IOException{
+    /**
+     * Serializes an object.
+     *
+     * @param object Instance of the object.
+     * @return Byte array of the serialized object.
+     * @throws IOException Occurs when was not possible to serialize.
+     */
+    public static byte[] serialize(Object object) throws IOException{
         if(object != null) {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -534,7 +541,14 @@ public class ByteUtil{
         return null;
     }
 
-    public static Object fromBytes(byte[] value) throws ClassNotFoundException, IOException{
+    /**
+     * Deserializes an object.
+     *
+     * @param value Byte array of the serialized object.
+     * @return Instance of the object.
+     * @throws IOException Occurs when was not possible to deserialize.
+     */
+    public static Object deserialize(byte[] value) throws ClassNotFoundException, IOException{
         if(value == null)
             return null;
 

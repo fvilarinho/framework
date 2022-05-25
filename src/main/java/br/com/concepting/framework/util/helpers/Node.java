@@ -4,6 +4,7 @@ import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.model.annotations.Property;
 import br.com.concepting.framework.util.PropertyUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "class")
 public abstract class Node implements Serializable, Cloneable{
     private static final long serialVersionUID = -9107989395547430445L;
     

@@ -66,7 +66,7 @@ public @interface Transaction{
      *
      * @return Instance that contains the mime-type type.
      */
-    ContentType consumes() default ContentType.NONE;
+    ContentType[] consumes() default ContentType.NONE;
 
     /**
      * Defines the mime-type of the API calls response.
