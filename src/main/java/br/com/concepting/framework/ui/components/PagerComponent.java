@@ -247,12 +247,12 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         super.initialize();
         
         if(gridComponent == null)
-            setHasInvalidPropertyDefinition(true);
+            setHasInvalidDefinition(true);
         
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         boolean render = render();
         
-        if(!hasInvalidPropertyDefinition && render){
+        if(!hasInvalidDefinition && render){
             refreshPageIndexes();
             
             try{
@@ -281,9 +281,9 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         boolean render = render();
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(gridComponent == null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && render && !hasInvalidPropertyDefinition){
+        if(gridComponent == null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && render && !hasInvalidDefinition){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(actionFormName);
@@ -348,10 +348,10 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         boolean render = render();
         
         if(gridComponent == null && render){
-            boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+            boolean hasInvalidDefinition = hasInvalidDefinition();
             
-            if(hasInvalidPropertyDefinition)
-                super.renderInvalidPropertyMessage();
+            if(hasInvalidDefinition)
+                super.renderInvalidDefinitionMessage();
             else{
                 String styleClass = getStyleClass();
                 

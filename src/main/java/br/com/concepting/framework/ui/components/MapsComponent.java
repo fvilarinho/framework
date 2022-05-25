@@ -94,9 +94,9 @@ public class MapsComponent extends BasePropertyComponent{
         String width = getWidth();
         String height = getHeight();
         String value = getValue();
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition){
+        if(!hasInvalidDefinition){
             print("<table class=\"");
             print(UIConstants.DEFAULT_MAPS_CONTENT_STYLE_CLASS);
             println("\">");

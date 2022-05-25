@@ -320,9 +320,9 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     protected void renderDatasetIndexesAttributes() throws InternalErrorException{
         String actionFormName = getActionFormName();
         String name = getName();
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && !hasInvalidPropertyDefinition){
+        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && !hasInvalidDefinition){
             super.renderDatasetIndexesAttributes();
             
             StringBuilder nameBuffer = new StringBuilder();
@@ -431,10 +431,10 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
 
     @Override
     protected void renderBody() throws InternalErrorException{
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(hasInvalidPropertyDefinition)
-            super.renderInvalidPropertyMessage();
+        if(hasInvalidDefinition)
+            super.renderInvalidDefinitionMessage();
         else{
             renderHeader();
             renderDetails();
@@ -808,7 +808,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                         columnValue = expressionProcessor.evaluate(columnValue.toString());
                                 }
                                 catch(InternalErrorException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
-                                    columnValue = getInvalidPropertyMessage();
+                                    columnValue = getInvalidDefinitionMessage();
                                     columnPropertyInfo = null;
                                 }
 
@@ -1067,7 +1067,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                         }
                                         else{
                                             if(columnPropertyInfo == null && columnValue == null)
-                                                columnValueLabel = getInvalidPropertyMessage();
+                                                columnValueLabel = getInvalidDefinitionMessage();
 
                                             boolean renderLink = (columnMaximumLength > 0 && columnValueLabel != null && columnValueLabel.length() > 0 && columnValueLabel.length() > columnMaximumLength) || (columnOnClick != null && columnOnClick.length() > 0) || (columnTooltip != null && columnTooltip.length() > 0);
 

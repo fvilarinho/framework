@@ -142,12 +142,12 @@ public class SecurityFilter implements Filter{
         LoginSessionModel loginSession = this.securityController.getLoginSession();
         SystemModuleModel systemModule = loginSession.getSystemModule();
         Collection<? extends UrlModel> exclusionUrls = systemModule.getExclusionUrls();
-        String requestUri = this.systemController.getRequestURI();
+        String uri = this.systemController.getURI();
         
-        if(requestUri != null && requestUri.length() > 0){
+        if(uri != null && uri.length() > 0){
             StringBuilder requestUriBuffer = new StringBuilder();
             
-            requestUriBuffer.append(requestUri);
+            requestUriBuffer.append(uri);
             
             Map<String, RequestParameterInfo> requestParameters = this.systemController.getParameters();
             
@@ -179,10 +179,10 @@ public class SecurityFilter implements Filter{
                 }
             }
             
-            requestUri = requestUriBuffer.toString();
+            uri = requestUriBuffer.toString();
         }
         
-        requestUri = StringUtil.replaceAll(requestUri, this.systemController.getContextPath(), "");
+        uri = StringUtil.replaceAll(uri, this.systemController.getContextPath(), "");
         
         UserModel user = loginSession.getUser();
         boolean excludeUrl = false;
@@ -191,7 +191,7 @@ public class SecurityFilter implements Filter{
             for(UrlModel exclusionUrl: exclusionUrls){
                 String urlPattern = StringUtil.toRegex(exclusionUrl.getPath());
                 Pattern regex = Pattern.compile(urlPattern);
-                Matcher matcher = regex.matcher(requestUri);
+                Matcher matcher = regex.matcher(uri);
                 
                 if(matcher.matches()){
                     excludeUrl = true;
@@ -206,7 +206,7 @@ public class SecurityFilter implements Filter{
         }
         
         if(this.securityController.isLoginSessionAuthenticated())
-            if(!user.isSuperUser() && !user.hasPermission(requestUri))
+            if(!user.isSuperUser() && !user.hasPermission(uri))
                 throw new PermissionDeniedException();
         
         if(!excludeUrl){
@@ -238,7 +238,7 @@ public class SecurityFilter implements Filter{
         L loginSession = (this.securityController != null ? this.securityController.getLoginSession() : null);
         
         if(loginSession != null){
-            boolean isWebServicesRequest = (this.systemController != null ? this.systemController.isWebServicesRequest() : null);
+            boolean isWebServicesRequest = this.systemController.isWebServicesRequest();
             
             if(isWebServicesRequest){
                 if(loginSession.getId() != null && loginSession.getId().length() > 0){

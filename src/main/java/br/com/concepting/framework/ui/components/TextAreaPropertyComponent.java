@@ -106,9 +106,9 @@ public class TextAreaPropertyComponent extends TextPropertyComponent{
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition() || getValue() != null){
+        if(!hasInvalidDefinition() || getValue() != null){
             print("<textarea");
             
             renderAttributes();
@@ -120,9 +120,9 @@ public class TextAreaPropertyComponent extends TextPropertyComponent{
     @Override
     protected void renderBody() throws InternalErrorException{
         String formattedValue = getFormattedValue();
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition()){
+        if(!hasInvalidDefinition()){
             if(formattedValue != null && formattedValue.length() > 0)
                 println(formattedValue);
         }
@@ -132,9 +132,9 @@ public class TextAreaPropertyComponent extends TextPropertyComponent{
 
     @Override
     protected void renderClose() throws InternalErrorException{
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition() || getValue() != null)
+        if(!hasInvalidDefinition() || getValue() != null)
             println("</textarea>");
         
         super.renderClose();

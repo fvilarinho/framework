@@ -6,8 +6,6 @@ import com.wcohen.ss.MongeElkan;
 import org.apache.commons.codec.language.RefinedSoundex;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -111,7 +109,7 @@ public class PhoneticUtil{
      * @param value String that will be used.
      * @return String that contains the phonetic representation.
      */
-    public static String soundCode(@NotBlank String value){
+    public static String soundCode(String value){
         String[] tokens = StringUtil.split(value.toLowerCase(), StringUtils.SPACE);
 
         for(Entry<String, String> entry: firstSoundexMap.entrySet())
@@ -143,9 +141,9 @@ public class PhoneticUtil{
      * @param value2 String 2
      * @return Numeric value that contains the accuracy percentage.
      */
-    public static double getAccuracy(@NotBlank String value1, @NotBlank String value2){
-        String[] valueTokens1 = StringUtil.split(value1, StringUtils.SPACE);
-        String[] valueTokens2 = StringUtil.split(value2, StringUtils.SPACE);
+    public static double getAccuracy(String value1, String value2){
+        String[] valueTokens1 = StringUtil.split(StringUtil.trim(value1), StringUtils.SPACE);
+        String[] valueTokens2 = StringUtil.split(StringUtil.trim(value2), StringUtils.SPACE);
         StringBuilder valueBuffer1 = null;
         
         for(int cont = 0; cont < valueTokens1.length; cont++){

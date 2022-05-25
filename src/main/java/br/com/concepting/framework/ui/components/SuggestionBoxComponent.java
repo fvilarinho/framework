@@ -314,9 +314,9 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
         if(actionFormController == null || propertyInfo == null || name == null || name.length() == 0)
             return;
         
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition){
+        if(!hasInvalidDefinition){
             BaseActionForm<? extends BaseModel> actionForm = actionFormController.getActionFormInstance();
             Collection<?> propertyValues = (actionForm != null ? actionFormController.getPropertyDatasetValues(name) : null);
             

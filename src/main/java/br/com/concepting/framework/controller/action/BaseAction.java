@@ -12,9 +12,7 @@ import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.FormModel;
 import br.com.concepting.framework.model.SystemModuleModel;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
-import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.controller.SecurityController;
-import br.com.concepting.framework.security.exceptions.PermissionDeniedException;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
@@ -331,19 +329,9 @@ public abstract class BaseAction<M extends BaseModel>{
         this.actionFormController = actionFormController;
         this.securityController = securityController;
         
-        try{
-            String action = this.actionForm.getAction();
-            
-            if(action != null && action.length() > 0)
-                MethodUtils.invokeMethod(this, action, null);
-        }
-        catch(Throwable e){
-            if(e instanceof NoSuchMethodException)
-                throw new InvalidResourcesException(systemController.getRequestURI(), e);
-            else if(e instanceof IllegalAccessException)
-                throw new PermissionDeniedException(e);
-            
-            throw e;
-        }
+        String action = this.actionForm.getAction();
+
+        if(action != null && action.length() > 0)
+            MethodUtils.invokeMethod(this, action, null);
     }
 }

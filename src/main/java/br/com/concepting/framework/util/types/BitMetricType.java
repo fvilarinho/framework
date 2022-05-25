@@ -2,8 +2,6 @@ package br.com.concepting.framework.util.types;
 
 import br.com.concepting.framework.util.interfaces.IMetric;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Class that defines the metrics of bit ranges.
  *

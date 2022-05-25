@@ -28,12 +28,12 @@ public enum SearchType{
     NONE,
     
     /**
-     * Case sensitive search.
+     * Case-sensitive search.
      */
     CASE_SENSITIVE,
     
     /**
-     * Case insensitive search.
+     * Case-insensitive search.
      */
     CASE_INSENSITIVE
 }

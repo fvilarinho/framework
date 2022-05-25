@@ -1,5 +1,7 @@
 package br.com.concepting.framework.exceptions;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Class that defines an internal error.
  *
@@ -21,6 +23,7 @@ package br.com.concepting.framework.exceptions;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@JsonIgnoreProperties({"stackTrace", "suppressed"})
 public class InternalErrorException extends Exception{
     private static final long serialVersionUID = -8931105241132588446L;
     

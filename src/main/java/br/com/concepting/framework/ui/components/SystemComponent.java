@@ -16,8 +16,6 @@ import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.security.resources.SecurityResources;
 import br.com.concepting.framework.ui.constants.UIConstants;
 
-import java.util.Objects;
-
 /**
  * Class that defines the component that renders the system.
  *

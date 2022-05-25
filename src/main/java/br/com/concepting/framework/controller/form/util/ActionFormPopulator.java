@@ -432,7 +432,7 @@ public class ActionFormPopulator{
     private boolean populateBooleanProperty(String propertyValue){
         return Boolean.parseBoolean(propertyValue);
     }
-    
+
     /**
      * Populates a string property of the data model.
      *

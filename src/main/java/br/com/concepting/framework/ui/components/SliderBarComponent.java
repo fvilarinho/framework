@@ -135,9 +135,9 @@ public class SliderBarComponent extends TextPropertyComponent{
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition){
+        if(!hasInvalidDefinition){
             print("<table class=\"");
             print(UIConstants.DEFAULT_CONTENT_PANEL_STYLE_CLASS);
             println("\">");
@@ -156,9 +156,9 @@ public class SliderBarComponent extends TextPropertyComponent{
 
     @Override
     protected void renderClose() throws InternalErrorException{
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition){
+        if(!hasInvalidDefinition){
             println("</td>");
             println("</tr>");
             println("</table>");
@@ -166,7 +166,7 @@ public class SliderBarComponent extends TextPropertyComponent{
         
         super.renderClose();
         
-        if(!hasInvalidPropertyDefinition){
+        if(!hasInvalidDefinition){
             String name = getName();
             
             if(name != null && name.length() > 0){

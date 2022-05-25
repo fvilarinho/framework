@@ -250,7 +250,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
         String name = getName();
         
         if(actionFormController == null || propertyInfo == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
-            renderInvalidPropertyMessage();
+            renderInvalidDefinitionMessage();
         else{
             byte[] content = getValue();
             String contentTypePropertyId = propertyInfo.getContentTypePropertyId();

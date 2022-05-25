@@ -212,10 +212,10 @@ public class ProgressBarComponent extends BasePropertyComponent{
 
     @Override
     protected void renderBody() throws InternalErrorException{
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if( hasInvalidPropertyDefinition)
-            super.renderInvalidPropertyMessage();
+        if( hasInvalidDefinition)
+            super.renderInvalidDefinitionMessage();
         else{
             print("<table class=\"");
             print(UIConstants.DEFAULT_CONTENT_PANEL_STYLE_CLASS);

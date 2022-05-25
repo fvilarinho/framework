@@ -4,7 +4,6 @@ import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.model.annotations.Property;
 import br.com.concepting.framework.util.PropertyUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.io.Serializable;
 import java.util.List;
@@ -35,7 +34,6 @@ public abstract class Node implements Serializable, Cloneable{
     private static final long serialVersionUID = -9107989395547430445L;
     
     @Property
-    @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "class")
     private Node parent = null;
     
     @Property

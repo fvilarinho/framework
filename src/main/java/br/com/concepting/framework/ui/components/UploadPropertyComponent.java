@@ -82,10 +82,10 @@ public class UploadPropertyComponent extends DownloadPropertyComponent{
 
     @Override
     protected void renderBody() throws InternalErrorException{
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(hasInvalidPropertyDefinition)
-            super.renderInvalidPropertyMessage();
+        if(hasInvalidDefinition)
+            super.renderInvalidDefinitionMessage();
         else{
             ComponentType componentType = getComponentType();
             String name = getName();

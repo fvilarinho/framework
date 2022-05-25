@@ -519,4 +519,28 @@ public class ByteUtil{
 
         return formatBytes(value.doubleValue());
     }
+
+    public static byte[] toBytes(Object object) throws IOException{
+        if(object != null) {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+            oos.writeObject(object);
+            oos.flush();
+
+            return bos.toByteArray();
+        }
+
+        return null;
+    }
+
+    public static Object fromBytes(byte[] value) throws ClassNotFoundException, IOException{
+        if(value == null)
+            return null;
+
+        ByteArrayInputStream bis = new ByteArrayInputStream(value);
+        ObjectInputStream ois = new ObjectInputStream(bis);
+
+        return ois.readObject();
+    }
 }

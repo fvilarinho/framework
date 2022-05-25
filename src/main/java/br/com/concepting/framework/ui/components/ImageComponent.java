@@ -118,10 +118,10 @@ public class ImageComponent extends BasePropertyComponent{
 
     @Override
     protected void renderBody() throws InternalErrorException{
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(hasInvalidPropertyDefinition)
-            super.renderInvalidPropertyMessage();
+        if(hasInvalidDefinition)
+            super.renderInvalidDefinitionMessage();
         else{
             if(getValue() != null){
                 print("<img");

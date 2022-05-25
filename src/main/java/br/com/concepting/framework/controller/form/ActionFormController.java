@@ -178,7 +178,7 @@ public class ActionFormController{
         BaseActionForm<? extends BaseModel> actionFormInstance;
         
         if(this.actionFormName == null || this.actionFormName.length() == 0){
-            String action = StringUtil.replaceAll(this.systemController.getRequestURI(), this.systemController.getContextPath(), "");
+            String action = StringUtil.replaceAll(this.systemController.getURI(), this.systemController.getContextPath(), "");
             
             action = StringUtil.replaceAll(action, ProjectConstants.DEFAULT_UI_PAGES_DIR, "");
             action = StringUtil.replaceAll(action, ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION, "");

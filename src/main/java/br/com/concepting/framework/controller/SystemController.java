@@ -13,10 +13,12 @@ import br.com.concepting.framework.model.constants.ModelConstants;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.ui.controller.UIController;
+import br.com.concepting.framework.util.ByteUtil;
 import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.types.ContentType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -60,6 +62,8 @@ import static br.com.concepting.framework.webservice.constants.WebServiceConstan
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public class SystemController{
+	private static final ObjectMapper mapper = PropertyUtil.getMapper();
+
 	private PageContext                       pageContext          = null;
 	private HttpServletRequest                request              = null;
 	private HttpServletResponse               response             = null;
@@ -376,7 +380,7 @@ public class SystemController{
 	 *
 	 * @return String that contains the request URL.
 	 */
-	public String getRequestURL(){
+	public String getURL(){
 		if(this.request != null)
 			return this.request.getRequestURL().toString();
 
@@ -388,7 +392,7 @@ public class SystemController{
 	 *
 	 * @return String that contains the request URI.
 	 */
-	public String getRequestURI(){
+	public String getURI(){
 		if(this.request != null)
 			return this.request.getRequestURI();
 
@@ -423,16 +427,16 @@ public class SystemController{
 	 */
 	public boolean isWebServicesRequest(){
 		String contextPath = getContextPath();
-		String requestUri = getRequestURI();
+		String uri = getURI();
 
-		if(contextPath != null && contextPath.length() > 0 && requestUri != null && requestUri.length() > 0){
+		if(contextPath != null && contextPath.length() > 0 && uri != null && uri.length() > 0){
 			StringBuilder urlPattern = new StringBuilder();
 
 			urlPattern.append(contextPath);
 			urlPattern.append(StringUtil.toRegex(DEFAULT_URL_PATTERN));
 
 			Pattern regex = Pattern.compile(urlPattern.toString());
-			Matcher matcher = regex.matcher(requestUri);
+			Matcher matcher = regex.matcher(uri);
 
 			return matcher.matches();
 		}
@@ -1049,11 +1053,7 @@ public class SystemController{
 				this.request.getRequestDispatcher(url).forward(this.request, this.response);
 			}
 			catch(Throwable e){
-				try{
-					this.response.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-				} 
-				catch(Throwable ignored){
-				}
+				forward(e);
 			}
 		}
 	}
@@ -1068,22 +1068,74 @@ public class SystemController{
 			if(!ExceptionUtil.isExpectedException(e) && !ExceptionUtil.isInternalErrorException(e))
 				e = new InternalErrorException(e);
 
-			setCurrentException(e);
+			if(!isWebServicesRequest()) {
+				setCurrentException(e);
 
-			if(this.response != null){
-				if(ExceptionUtil.isUserNotAuthorized(e))
-					this.response.sendError(HttpStatus.SC_UNAUTHORIZED);
-				else if(ExceptionUtil.isPermissionDeniedException(e))
-					this.response.sendError(HttpStatus.SC_FORBIDDEN);
-				else if(ExceptionUtil.isInvalidResourceException(e))
-					this.response.sendError(HttpStatus.SC_NOT_FOUND, e.getMessage());
-				else if(ExceptionUtil.isInternalErrorException(e))
-					this.response.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-				else
-					this.response.sendError(HttpStatus.SC_PRECONDITION_FAILED, e.getMessage());
+				if (this.response != null) {
+					if (ExceptionUtil.isUserNotAuthorized(e))
+						this.response.sendError(HttpStatus.SC_UNAUTHORIZED);
+					else if (ExceptionUtil.isPermissionDeniedException(e))
+						this.response.sendError(HttpStatus.SC_FORBIDDEN);
+					else if (ExceptionUtil.isInvalidResourceException(e))
+						this.response.sendError(HttpStatus.SC_NOT_FOUND);
+					else if (ExceptionUtil.isInternalErrorException(e))
+						this.response.sendError(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+					else
+						this.response.sendError(HttpStatus.SC_PRECONDITION_FAILED);
+				}
+			}
+			else{
+				if (this.response != null) {
+					if (ExceptionUtil.isUserNotAuthorized(e))
+						this.response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+					else if (ExceptionUtil.isPermissionDeniedException(e))
+						this.response.setStatus(HttpStatus.SC_FORBIDDEN);
+					else if (ExceptionUtil.isInvalidResourceException(e))
+						this.response.setStatus(HttpStatus.SC_NOT_FOUND);
+					else if (ExceptionUtil.isInternalErrorException(e))
+						this.response.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+					else
+						this.response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
+
+					ContentType contentType = gettContentType();
+
+					this.response.setContentType(contentType.getMimeType());
+
+					if(contentType == ContentType.JSON)
+						outputContent(mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(e), contentType);
+					else if(contentType == ContentType.XML) {
+						//TODO
+					}
+					else if(contentType == ContentType.BINARY)
+						outputContent(ByteUtil.toBytes(e), contentType);
+					else
+						outputContent(StringUtil.trim(e.getMessage()).getBytes(), contentType);
+				}
 			}
 		}
 		catch(Throwable ignored){
+		}
+	}
+
+	public ContentType gettContentType(){
+		String contentType = StringUtil.trim(getHeader(SystemConstants.CONTENT_TYPE_ATTRIBUTE_ID));
+
+		try {
+			return ContentType.toContentType(contentType);
+		}
+		catch(Throwable e){
+			return ContentType.NONE;
+		}
+	}
+
+	public ContentType gettAccept(){
+		String accept = StringUtil.trim(getHeader(SystemConstants.ACCEPT_ATTRIBUTE_ID));
+
+		try {
+			return ContentType.toContentType(accept);
+		}
+		catch(Throwable e){
+			return ContentType.NONE;
 		}
 	}
 

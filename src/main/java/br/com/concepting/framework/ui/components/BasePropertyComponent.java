@@ -56,7 +56,7 @@ import java.util.Locale;
 public abstract class BasePropertyComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = -7479880433732396484L;
     
-    private static String invalidPropertyMessage = null;
+    private static String invalidDefinitionMessage = null;
     
     private boolean isNumber = false;
     private boolean isBoolean = false;
@@ -93,7 +93,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     private String pattern = null;
     private Object value = null;
     private boolean readOnly = false;
-    private boolean hasInvalidPropertyDefinition = false;
+    private boolean hasInvalidDefinition = false;
     private PropertyInfo propertyInfo = null;
     
     /**
@@ -891,21 +891,21 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Indicates if the component has an invalid property definition.
+     * Indicates if the component has an invalid definition.
      *
      * @return True/False
      */
-    protected boolean hasInvalidPropertyDefinition(){
-        return this.hasInvalidPropertyDefinition;
+    protected boolean hasInvalidDefinition(){
+        return this.hasInvalidDefinition;
     }
     
     /**
-     * Defines if the component has an invalid property definition.
+     * Defines if the component has an invalid definition.
      *
-     * @param hasInvalidPropertyDefinition True/False.
+     * @param hasInvalidDefinition True/False.
      */
-    protected void setHasInvalidPropertyDefinition(boolean hasInvalidPropertyDefinition){
-        this.hasInvalidPropertyDefinition = hasInvalidPropertyDefinition;
+    protected void setHasInvalidDefinition(boolean hasInvalidDefinition){
+        this.hasInvalidDefinition = hasInvalidDefinition;
     }
     
     /**
@@ -913,8 +913,8 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @return String that contains the message.
      */
-    protected static String getInvalidPropertyMessage(){
-        return invalidPropertyMessage;
+    protected static String getInvalidDefinitionMessage(){
+        return invalidDefinitionMessage;
     }
     
     /**
@@ -1169,13 +1169,13 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
 
     @Override
     protected void buildResources() throws InternalErrorException{
-        if(invalidPropertyMessage == null){
+        if(invalidDefinitionMessage == null){
             PropertiesResources resources = getDefaultResources();
             
             if(resources != null){
-                invalidPropertyMessage = resources.getProperty(ActionFormMessageConstants.DEFAULT_INVALID_PROPERTY_ID);
-                invalidPropertyMessage = PropertyUtil.fillPropertiesInString(this, invalidPropertyMessage);
-                invalidPropertyMessage = PropertyUtil.fillResourcesInString(resources, invalidPropertyMessage);
+                invalidDefinitionMessage = resources.getProperty(ActionFormMessageConstants.DEFAULT_INVALID_DEFINITION_ID);
+                invalidDefinitionMessage = PropertyUtil.fillPropertiesInString(this, invalidDefinitionMessage);
+                invalidDefinitionMessage = PropertyUtil.fillResourcesInString(resources, invalidDefinitionMessage);
             }
         }
         
@@ -1256,27 +1256,27 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                                 }
                             }
                             
-                            this.hasInvalidPropertyDefinition = false;
+                            this.hasInvalidDefinition = false;
                         }
                         else{
                             this.value = null;
-                            this.hasInvalidPropertyDefinition = true;
+                            this.hasInvalidDefinition = true;
                         }
                     }
                     catch(NoSuchFieldException | IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException e){
                         this.propertyInfo = null;
                         this.value = null;
-                        this.hasInvalidPropertyDefinition = true;
+                        this.hasInvalidDefinition = true;
                     }
                 }
                 else{
                     this.propertyInfo = null;
                     this.value = null;
-                    this.hasInvalidPropertyDefinition = true;
+                    this.hasInvalidDefinition = true;
                 }
             }
         }
-        
+
         super.initialize();
     }
     
@@ -1361,15 +1361,15 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Renders the invalid property message.
+     * Renders the invalid definition message.
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
-    protected void renderInvalidPropertyMessage() throws InternalErrorException{
+    protected void renderInvalidDefinitionMessage() throws InternalErrorException{
         String labelStyleClass = getLabelStyleClass();
-        
+
         print("<span");
-        
+
         if(labelStyleClass != null && labelStyleClass.length() > 0){
             print(" class=\"");
             print(labelStyleClass);
@@ -1389,16 +1389,16 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         }
         
         print(">");
-        print(getInvalidPropertyMessage());
+        print(getInvalidDefinitionMessage());
         println("</span>");
     }
 
     @Override
     protected void renderBody() throws InternalErrorException{
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(hasInvalidPropertyDefinition)
-            renderInvalidPropertyMessage();
+        if(hasInvalidDefinition)
+            renderInvalidDefinitionMessage();
         else
             super.renderBody();
     }
@@ -1563,7 +1563,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         setPattern(null);
         setFocus(false);
         setValue(null);
-        setHasInvalidPropertyDefinition(false);
+        setHasInvalidDefinition(false);
         setPropertyInfo(null);
     }
 }

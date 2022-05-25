@@ -1,7 +1,5 @@
 package br.com.concepting.framework.util.types;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Class that defines the types of a formula.
  *

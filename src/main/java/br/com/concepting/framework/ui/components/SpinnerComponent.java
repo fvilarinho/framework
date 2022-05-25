@@ -99,9 +99,9 @@ public class SpinnerComponent extends TextPropertyComponent{
     protected void renderOpen() throws InternalErrorException{
         super.renderOpen();
         
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition){
+        if(!hasInvalidDefinition){
             PositionType labelPositionType = getLabelPositionType();
             
             if(labelPositionType == PositionType.TOP || labelPositionType == PositionType.BOTTOM){
@@ -120,9 +120,9 @@ public class SpinnerComponent extends TextPropertyComponent{
 
     @Override
     protected void renderClose() throws InternalErrorException{
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition){
+        if(!hasInvalidDefinition){
             println("</td>");
             
             println("<td width=\"5\"></td>");

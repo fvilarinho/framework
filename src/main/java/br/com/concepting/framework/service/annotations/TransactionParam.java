@@ -1,10 +1,15 @@
-package br.com.concepting.framework.controller.form.constants;
+package br.com.concepting.framework.service.annotations;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Class that defines the constants used in form messages.
+ * Class that defines the annotation of a service transaction parameter.
  *
  * @author fvilarinho
- * @since 3.1.0
+ * @since 3.2.0
  *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
@@ -21,9 +26,9 @@ package br.com.concepting.framework.controller.form.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
-public abstract class ActionFormMessageConstants{
-    public static final String DEFAULT_INVALID_DEFINITION_ID = "invalidDefinition";
-    public static final String DEFAULT_NO_DATA_KEY_ID = "noData";
-    public static final String DEFAULT_SELECT_AN_ITEM_ID = "selectAnItem";
-    public static final String DEFAULT_SUCCESS_ID = "success";
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.PARAMETER})
+public @interface TransactionParam {
+    String name() default "";
+    boolean isBody() default false;
 }

@@ -57,7 +57,7 @@ public class UIController{
     public boolean hasPageImports(){
         StringBuilder pageImportsId = new StringBuilder();
         
-        pageImportsId.append(this.systemController.getRequestURL());
+        pageImportsId.append(this.systemController.getURL());
         pageImportsId.append("-");
         pageImportsId.append(UIConstants.PAGE_IMPORTS_ATTRIBUTE_ID);
         
@@ -72,7 +72,7 @@ public class UIController{
     public void hasPageImports(boolean value){
         StringBuilder pageImportsId = new StringBuilder();
         
-        pageImportsId.append(this.systemController.getRequestURL());
+        pageImportsId.append(this.systemController.getURL());
         pageImportsId.append("-");
         pageImportsId.append(UIConstants.PAGE_IMPORTS_ATTRIBUTE_ID);
         

@@ -191,9 +191,9 @@ public class TimerComponent extends LabelComponent{
         
         PropertyInfo propertyInfo = getPropertyInfo();
         String actionFormName = getActionFormName();
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(propertyInfo != null && actionFormName != null && actionFormName.length() > 0 && !hasInvalidPropertyDefinition){
+        if(propertyInfo != null && actionFormName != null && actionFormName.length() > 0 && !hasInvalidDefinition){
             HiddenPropertyComponent propertyComponent = new HiddenPropertyComponent();
             
             propertyComponent.setPageContext(this.pageContext);
@@ -244,9 +244,9 @@ public class TimerComponent extends LabelComponent{
         super.renderClose();
         
         String name = getName();
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition && name != null && name.length() > 0){
+        if(!hasInvalidDefinition && name != null && name.length() > 0){
             Number value = getValue();
             int compare = (value != null ? PropertyUtil.compareTo(value, 0) : 0);
             

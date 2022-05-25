@@ -301,9 +301,9 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
         if(uiController == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
             return;
         
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidPropertyDefinition){
+        if(!hasInvalidDefinition){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(name);
@@ -418,10 +418,10 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
 
     @Override
     protected void renderBody() throws InternalErrorException{
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(hasInvalidPropertyDefinition)
-            super.renderInvalidPropertyMessage();
+        if(hasInvalidDefinition)
+            super.renderInvalidDefinitionMessage();
         else{
             String name = getName();
             

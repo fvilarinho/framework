@@ -71,7 +71,7 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
 
     @Override
     protected void buildEvents() throws InternalErrorException{
-        if(hasInvalidPropertyDefinition()){
+        if(getPropertyInfo() == null){
             SystemResources systemResources = getSystemResources();
             
             if(systemResources != null){
@@ -124,25 +124,25 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
         if(systemResources != null){
             Collection<Locale> availableLanguages = systemResources.getLanguages();
             
-            if(availableLanguages != null && !availableLanguages.isEmpty()){
+            if(availableLanguages != null && !availableLanguages.isEmpty()) {
                 Collection<String> languages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                
-                for(Locale availableLanguage: availableLanguages)
+
+                for (Locale availableLanguage : availableLanguages)
                     languages.add(availableLanguage.toString());
-                
+
                 setDatasetValues(languages);
+            }
                 
-                String name = getName();
-                
-                if(name == null || name.length() == 0){
-                    Locale currentLanguage = getCurrentLanguage();
-                    
-                    if(currentLanguage != null)
-                        setValue(currentLanguage.toString());
-                }
+            String name = getName();
+
+            if(name == null || name.length() == 0){
+                Locale currentLanguage = getCurrentLanguage();
+
+                if(currentLanguage != null)
+                    setValue(currentLanguage.toString());
             }
         }
-        
+
         super.initialize();
     }
 }

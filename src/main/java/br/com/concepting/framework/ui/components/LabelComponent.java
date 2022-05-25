@@ -99,10 +99,10 @@ public class LabelComponent extends BasePropertyComponent{
 
     @Override
     protected void renderBody() throws InternalErrorException{
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(hasInvalidPropertyDefinition)
-            super.renderInvalidPropertyMessage();
+        if(hasInvalidDefinition)
+            super.renderInvalidDefinitionMessage();
         else{
             print("<span");
             

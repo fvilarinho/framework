@@ -339,21 +339,12 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
     @Override
     protected void initialize() throws InternalErrorException{
         super.initialize();
-        
-        String name = getName();
-        String dataset = getDataset();
-        
-        if(name != null && name.equals(dataset))
-            setHasInvalidPropertyDefinition(false);
-        
-        this.datasetStartIndex = 0;
-        this.datasetEndIndex = 0;
-        
+
         SystemController systemController = getSystemController();
         String actionFormName = getActionFormName();
         boolean render = render();
         
-        if(systemController != null && actionFormName != null && actionFormName.length() > 0 && dataset != null && dataset.length() > 0 && (this.datasetValues == null || this.datasetValues.size() == 0) && render){
+        if(systemController != null && actionFormName != null && actionFormName.length() > 0 && this.dataset != null && this.dataset.length() > 0 && (this.datasetValues == null || this.datasetValues.size() == 0) && render){
             ScopeType datasetScope = getDatasetScopeType();
             
             if(datasetScope == null){
@@ -371,7 +362,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
                 propertyId.append(".");
             }
             
-            propertyId.append(dataset);
+            propertyId.append(this.dataset);
             
             this.datasetValues = systemController.getAttribute(propertyId.toString(), datasetScope);
         }
@@ -427,7 +418,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         if(actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
             return;
         
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         BaseOptionsPropertyComponent optionsPropertyComponent = null;
         
         try{
@@ -436,7 +427,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         catch(ClassCastException ignored){
         }
         
-        if(!hasInvalidPropertyDefinition && this.dataset != null && this.dataset.length() > 0 && optionsPropertyComponent == null){
+        if(!hasInvalidDefinition && this.dataset != null && this.dataset.length() > 0 && optionsPropertyComponent == null){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(name);
@@ -494,7 +485,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         if(actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
             return;
         
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         boolean hasNoData = hasNoData();
         BaseOptionsPropertyComponent optionsPropertyComponent = null;
         
@@ -504,7 +495,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         catch(ClassCastException ignored){
         }
         
-        if(!hasInvalidPropertyDefinition && !hasNoData && optionsPropertyComponent == null){
+        if(!hasInvalidDefinition && !hasNoData && optionsPropertyComponent == null){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(name);

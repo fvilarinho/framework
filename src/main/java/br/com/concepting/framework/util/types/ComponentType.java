@@ -2,8 +2,6 @@ package br.com.concepting.framework.util.types;
 
 import br.com.concepting.framework.util.StringUtil;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * Class that defines the types of the UI components.
  *

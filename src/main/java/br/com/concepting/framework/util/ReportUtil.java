@@ -5,7 +5,6 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.resources.PropertiesResources;
 import br.com.concepting.framework.resources.PropertiesResourcesLoader;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
-import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.constants.ReportConstants;
 import br.com.concepting.framework.util.helpers.ReportDataSource;
 import br.com.concepting.framework.util.types.ContentType;

@@ -119,9 +119,9 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
         
         boolean enabled = isEnabled();
         boolean readOnly = isReadOnly();
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(enabled && !readOnly && !hasInvalidPropertyDefinition){
+        if(enabled && !readOnly && !hasInvalidDefinition){
             PositionType labelPositionType = getLabelPositionType();
             
             if(labelPositionType == PositionType.TOP || labelPositionType == PositionType.BOTTOM){
@@ -144,9 +144,9 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
     protected void renderClose() throws InternalErrorException{
         boolean enabled = isEnabled();
         boolean readOnly = isReadOnly();
-        boolean hasInvalidPropertyDefinition = hasInvalidPropertyDefinition();
+        boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(enabled && !readOnly && !hasInvalidPropertyDefinition){
+        if(enabled && !readOnly && !hasInvalidDefinition){
             println("</td>");
             
             renderControls();

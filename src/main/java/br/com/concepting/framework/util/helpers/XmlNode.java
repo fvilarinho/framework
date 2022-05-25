@@ -150,16 +150,14 @@ public class XmlNode extends Node{
             return;
         
         this.attributes = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        String namespaceUri = null;
-        String attributeName = null;
-        String attributeValue = null;
-        Integer pos = null;
-        
+
         for(Attribute attribute: attributes){
+            String attributeName;
+            String attributeValue;
+
             if(attribute.getNamespacePrefix() != null && attribute.getNamespacePrefix().length() > 0){
-                namespaceUri = attribute.getNamespace().asXML();
-                pos = namespaceUri.indexOf("=");
+                String namespaceUri = attribute.getNamespace().asXML();
+                int pos = namespaceUri.indexOf("=");
                 
                 if(pos >= 0){
                     attributeName = namespaceUri.substring(0, pos);
@@ -195,13 +193,12 @@ public class XmlNode extends Node{
             List<Element> nodes = node.elements();
             
             if(nodes != null && !nodes.isEmpty()){
-                XmlNode childNode = null;
                 Integer index = 0;
                 Integer level = getLevel();
                 
                 for(Element item: nodes){
                     if(item.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE){
-                        childNode = new XmlNode(item, index, level + 1);
+                        XmlNode childNode = new XmlNode(item, index, level + 1);
                         
                         addChild(childNode);
                         
@@ -314,17 +311,17 @@ public class XmlNode extends Node{
         XmlNode node = null;
         
         if(nodes != null && xpathParts != null && xpathParts.length > 0){
-            for(int cont = 0; cont < xpathParts.length; cont++){
-                for(XmlNode item: nodes){
+            for (String xpathPart : xpathParts) {
+                for (XmlNode item : nodes) {
                     node = item;
-                    
-                    if(item.getName() != null && item.getName().equals(xpathParts[cont])){
-                        if(item.hasChildren())
+
+                    if (item.getName() != null && item.getName().equals(xpathPart)) {
+                        if (item.hasChildren())
                             nodes = item.getChildren();
-                        
+
                         break;
                     }
-                    
+
                     node = null;
                 }
             }
