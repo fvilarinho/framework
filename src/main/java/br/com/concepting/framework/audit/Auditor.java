@@ -125,11 +125,11 @@ public class Auditor{
      *
      * @return Numeric value containing the response time in milliseconds.
      */
-    public long getResponseTime(){
+    public Long getResponseTime(){
         if(this.transactionEnded && this.transactionStartTime > 0)
             return (System.currentTimeMillis() - this.transactionStartTime);
         
-        return 0;
+        return null;
     }
     
     /**
