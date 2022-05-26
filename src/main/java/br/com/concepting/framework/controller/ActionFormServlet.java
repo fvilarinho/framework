@@ -7,7 +7,6 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.controller.SecurityController;
-import br.com.concepting.framework.util.ExceptionUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,34 +40,56 @@ import java.io.IOException;
 public class ActionFormServlet extends HttpServlet{
 	private static final long serialVersionUID = -6893835539662603177L;
 
+	private SystemController systemController = null;
+	private ActionFormController actionFormController = null;
+	private SecurityController securityController = null;
+
+	/**
+	 * Initializes the action processing.
+	 *
+	 * @param request Instance that contains the request attributes.
+	 * @param response Instance that contains the response attributes.
+	 */
+	protected void init(HttpServletRequest request, HttpServletResponse response) {
+		this.systemController = new SystemController(request, response);
+		this.actionFormController = this.systemController.getActionFormController();
+		this.securityController = this.systemController.getSecurityController();
+	}
+
+	/**
+	 * Execute the action processing.
+	 *
+	 * @param request Instance that contains the request attributes.
+	 * @param response Instance that contains the response attributes.
+	 */
+	protected void execute(HttpServletRequest request, HttpServletResponse response) {
+		this.init(request, response);
+
+		response.setCharacterEncoding(Constants.DEFAULT_UNICODE_ENCODING);
+
+		String uri = this.systemController.getURI();
+		BaseActionForm<? extends BaseModel> actionFormInstance;
+
+		try {
+			actionFormInstance = this.actionFormController.getActionFormInstance();
+
+			if (actionFormInstance == null)
+				throw new InvalidResourcesException(uri);
+
+			actionFormInstance.processRequest(this.systemController, this.actionFormController, this.securityController);
+		}
+		catch(InternalErrorException e) {
+			this.systemController.forward(e);
+		}
+	}
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		doPost(request, response);
+		execute(request, response);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		response.setCharacterEncoding(Constants.DEFAULT_UNICODE_ENCODING);
-
-		SystemController systemController = new SystemController(request, response);
-		SecurityController securityController = systemController.getSecurityController();
-		ActionFormController actionFormController = systemController.getActionFormController();
-
-		try{
-			BaseActionForm<? extends BaseModel> actionFormInstance = actionFormController.getActionFormInstance();
-
-			if(actionFormInstance == null)
-				throw new InvalidResourcesException(request.getRequestURI());
-
-			actionFormInstance.processRequest(systemController, actionFormController, securityController);
-		}
-		catch(Throwable e){
-			Throwable exception = ExceptionUtil.getCause(e);
-
-			if(!ExceptionUtil.isExpectedException(exception) && !ExceptionUtil.isInternalErrorException(exception))
-				exception = new InternalErrorException(exception);
-
-			systemController.forward(exception);
-		}
+		execute(request, response);
 	}
 }

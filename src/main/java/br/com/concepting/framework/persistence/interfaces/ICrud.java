@@ -58,19 +58,7 @@ public interface ICrud<M extends BaseModel>{
      * data models.
      */
     Collection<M> filter(Filter filter) throws InternalErrorException;
-    
-    /**
-     * Returns a list of data models the satisfies the filter criteria.
-     *
-     * @param model Instance that contains the data model that contains the search
-     * criteria.
-     * @param filter Instance that contains the customized search criteria.
-     * @return List that contains the data models.
-     * @throws InternalErrorException Occurs when was not possible to search
-     * data models.
-     */
-    Collection<M> filter(M model, Filter filter) throws InternalErrorException;
-    
+
     /**
      * Finds a data model.
      *

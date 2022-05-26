@@ -22,11 +22,14 @@ import br.com.concepting.framework.security.service.interfaces.LoginSessionServi
 import br.com.concepting.framework.security.util.SecurityUtil;
 import br.com.concepting.framework.service.BaseService;
 import br.com.concepting.framework.service.annotations.Transaction;
+import br.com.concepting.framework.service.annotations.TransactionParam;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.util.DateTimeUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
+import br.com.concepting.framework.util.types.ContentType;
 import br.com.concepting.framework.util.types.DateFieldType;
+import br.com.concepting.framework.util.types.MethodType;
 import org.apache.commons.beanutils.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -58,10 +61,13 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
+@Auditable
 public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseService<L> implements LoginSessionService<L, U, LP>{
-    @Override
+    @Transaction(path = "validateMfaToken", type = MethodType.POST, consumes = ContentType.JSON)
+    @Auditable
     @SuppressWarnings("unchecked")
-    public void validateMfaToken(U user) throws InvalidMfaTokenException, InternalErrorException{
+    @Override
+    public void validateMfaToken(@TransactionParam(isBody = true) U user) throws InvalidMfaTokenException, InternalErrorException{
         L currentLoginSession = getLoginSession();
         
         if(currentLoginSession == null || currentLoginSession.getId() == null || currentLoginSession.getId().length() == 0)
@@ -363,10 +369,10 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         return loginSession;
     }
 
-    @Override
-    @Transaction
+    @Transaction(path = "logIn", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Auditable
-    public L logIn(U user) throws UserNotFoundException, UserBlockedException, InvalidPasswordException, UserAlreadyLoggedInException, PermissionDeniedException, InternalErrorException{
+    @Override
+    public L logIn(@TransactionParam(isBody = true) U user) throws UserNotFoundException, UserBlockedException, InvalidPasswordException, UserAlreadyLoggedInException, PermissionDeniedException, InternalErrorException{
         if(user == null || user.getName() == null || user.getName().length() == 0)
             throw new UserNotFoundException();
         
@@ -380,11 +386,11 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         return authorize(user);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
-    @Transaction
+    @Transaction(path = "changePassword", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Auditable
-    public U changePassword(U user) throws PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException{
+    @Override
+    public U changePassword(@TransactionParam(isBody = true) U user) throws PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException{
         if(user == null || user.getId() == null || user.getId() == 0)
             return user;
         
@@ -456,10 +462,10 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         return user;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    @Transaction
+    @Transaction(path = "logOut", type = MethodType.POST)
     @Auditable
+    @SuppressWarnings("unchecked")
+    @Override
     public void logOut() throws InternalErrorException{
         L loginSession = getLoginSession();
         
@@ -496,10 +502,10 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
     @Transaction
     @Auditable
+    @SuppressWarnings("unchecked")
+    @Override
     public void logOutAll() throws InternalErrorException{
         Filter filter = new Filter();
         
@@ -525,11 +531,11 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    @Transaction
+    @Transaction(path = "sendForgottenPassword", type = MethodType.POST, consumes = ContentType.JSON)
     @Auditable
-    public void sendForgottenPassword(U user) throws UserNotFoundException, UserBlockedException, InternalErrorException{
+    @SuppressWarnings("unchecked")
+    @Override
+    public void sendForgottenPassword(@TransactionParam(isBody = true) U user) throws UserNotFoundException, UserBlockedException, InternalErrorException{
         if(user == null || user.getEmail() == null || user.getEmail().length() == 0)
             throw new UserNotFoundException();
         

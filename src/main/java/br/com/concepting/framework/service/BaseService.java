@@ -16,8 +16,11 @@ import br.com.concepting.framework.persistence.util.PersistenceUtil;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.service.annotations.Service;
 import br.com.concepting.framework.service.annotations.Transaction;
+import br.com.concepting.framework.service.annotations.TransactionParam;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
+import br.com.concepting.framework.util.types.ContentType;
+import br.com.concepting.framework.util.types.MethodType;
 import org.apache.commons.beanutils.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -213,72 +216,71 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
             throw new InternalErrorException(e);
         }
     }
-    
+
+    @Transaction(path = "list", type = MethodType.GET, produces = ContentType.JSON)
     @Override
     public Collection<M> list() throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();
         
         return persistence.list();
     }
-    
+
+    @Transaction(path = "search", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Override
-    public Collection<M> search(M model) throws InternalErrorException{
+    public Collection<M> search(@TransactionParam(isBody = true) M model) throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();
         
         return persistence.search(model);
     }
-    
+
+    @Transaction(path = "filter", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Override
-    public Collection<M> filter(Filter filter) throws InternalErrorException{
-        return filter(null, filter);
-    }
-    
-    @Override
-    public Collection<M> filter(M model, Filter filter) throws InternalErrorException{
+    public Collection<M> filter(@TransactionParam(isBody = true) Filter filter) throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();
-        
-        return persistence.filter(model, filter);
+
+        return persistence.filter(filter);
     }
-    
+
+    @Transaction(path = "find", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Override
-    public M find(M model) throws ItemNotFoundException, InternalErrorException{
+    public M find(@TransactionParam(isBody = true) M model) throws ItemNotFoundException, InternalErrorException{
         IPersistence<M> persistence = getPersistence();
         
         return persistence.find(model);
     }
-    
+
+    @Transaction(path = "delete", type = MethodType.DELETE, consumes = ContentType.JSON)
     @Auditable
-    @Transaction
     @Override
-    public void delete(M model) throws InternalErrorException{
+    public void delete(@TransactionParam(isBody = true) M model) throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();
         
         persistence.delete(model);
     }
-    
+
+    @Transaction(path = "deleteAll", type = MethodType.DELETE, consumes = ContentType.JSON)
     @Auditable
-    @Transaction
     @Override
-    public void deleteAll(Collection<M> modelList) throws InternalErrorException{
+    public void deleteAll(@TransactionParam(isBody = true) Collection<M> modelList) throws InternalErrorException{
         if(modelList != null && !modelList.isEmpty()){
             for(M item: modelList)
                 delete(item);
         }
     }
-    
+
+    @Transaction(path = "save", type = MethodType.PUT, produces = ContentType.JSON, consumes = ContentType.JSON)
     @Auditable
-    @Transaction
     @Override
-    public M save(M model) throws ItemAlreadyExistsException, InternalErrorException{
+    public M save(@TransactionParam(isBody = true) M model) throws ItemAlreadyExistsException, InternalErrorException{
         IPersistence<M> persistence = getPersistence();
         
         return persistence.save(model);
     }
-    
+
+    @Transaction(path = "saveAll", type = MethodType.PUT, consumes = ContentType.JSON)
     @Auditable
-    @Transaction
     @Override
-    public void saveAll(Collection<M> modelList) throws ItemAlreadyExistsException, InternalErrorException{
+    public void saveAll(@TransactionParam(isBody = true) Collection<M> modelList) throws ItemAlreadyExistsException, InternalErrorException{
         if(modelList != null && !modelList.isEmpty()){
             IPersistence<M> persistence = getPersistence();
             
@@ -286,20 +288,20 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
                 persistence.save(item);
         }
     }
-    
+
+    @Transaction(path = "insert", type = MethodType.PUT, produces = ContentType.JSON, consumes = ContentType.JSON)
     @Auditable
-    @Transaction
     @Override
-    public M insert(M model) throws ItemAlreadyExistsException, InternalErrorException{
+    public M insert(@TransactionParam(isBody = true) M model) throws ItemAlreadyExistsException, InternalErrorException{
         IPersistence<M> persistence = getPersistence();
         
         return persistence.insert(model);
     }
-    
+
+    @Transaction(path = "insertAll", type = MethodType.PUT, consumes = ContentType.JSON)
     @Auditable
-    @Transaction
     @Override
-    public void insertAll(Collection<M> modelList) throws ItemAlreadyExistsException, InternalErrorException{
+    public void insertAll(@TransactionParam(isBody = true) Collection<M> modelList) throws ItemAlreadyExistsException, InternalErrorException{
         if(modelList != null && !modelList.isEmpty()){
             IPersistence<M> persistence = getPersistence();
             
@@ -307,20 +309,20 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
                 persistence.insert(item);
         }
     }
-    
+
+    @Transaction(path = "update", type = MethodType.PUT, consumes = ContentType.JSON)
     @Auditable
-    @Transaction
     @Override
-    public void update(M model) throws InternalErrorException{
+    public void update(@TransactionParam(isBody = true) M model) throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();
         
         persistence.update(model);
     }
     
+    @Transaction(path = "updateAll", type = MethodType.PUT, consumes = ContentType.JSON)
     @Auditable
-    @Transaction
     @Override
-    public void updateAll(Collection<M> modelList) throws InternalErrorException{
+    public void updateAll(@TransactionParam(isBody = true) Collection<M> modelList) throws InternalErrorException{
         if(modelList != null && !modelList.isEmpty()){
             IPersistence<M> persistence = getPersistence();
             
@@ -329,16 +331,15 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         }
     }
     
-    @Transaction
     @Override
     public <R extends BaseModel> M loadReference(M model, String referencePropertyId) throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();
         
         return persistence.loadReference(model, referencePropertyId);
     }
-    
+
+    @Transaction(path = "execute", type = MethodType.GET)
     @Auditable
-    @Transaction
     @Override
     public void execute() throws InternalErrorException{
     }
@@ -367,7 +368,9 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         
         return null;
     }
-    
+
+    @Transaction
+    @Auditable
     @Override
     public void saveReference(M model, String referenceId) throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();

@@ -1,13 +1,16 @@
 package br.com.concepting.framework.webservice.controller;
 
+import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.controller.SystemController;
 import br.com.concepting.framework.controller.helpers.RequestParameterInfo;
+import br.com.concepting.framework.exceptions.ExpectedException;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.SystemResourcesLoader;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.controller.SecurityController;
+import br.com.concepting.framework.security.exceptions.PermissionDeniedException;
 import br.com.concepting.framework.security.model.LoginParameterModel;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.security.model.UserModel;
@@ -27,6 +30,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
@@ -102,18 +106,46 @@ public class WebServiceServlet extends HttpServlet {
             Object[] methodParameters = this.lookupMethodParameters(method);
             LoginSessionModel loginSession = this.securityController.getLoginSession();
             IService<? extends BaseModel> service = ServiceUtil.getByServiceClass(serviceClass, loginSession);
-            Object methodResult = MethodUtil.invokeMethod(service, methodName, methodParameters);
+            Object methodResult;
 
-            if(this.produces == ContentType.JSON)
-                this.systemController.outputContent(PropertyUtil.serialize(methodResult), this.produces);
-            else if(this.produces == ContentType.XML)
-                this.systemController.outputContent(XmlUtil.serialize(methodResult), this.produces);
-            else if(this.produces == ContentType.BINARY)
-                this.systemController.outputContent(ByteUtil.serialize(methodResult), this.produces);
-            else
-                this.systemController.outputContent(StringUtil.trim(methodResult), this.produces);
+            try {
+                methodResult = MethodUtil.invokeMethod(service, methodName, methodParameters);
+            }
+            catch(InvocationTargetException e){
+                Throwable exception = ExceptionUtil.getCause(e);
+
+                if(ExceptionUtil.isInternalErrorException(exception))
+                    throw (InternalErrorException)exception;
+                else if(ExceptionUtil.isExpectedException(exception))
+                    throw (ExpectedException)exception;
+                else
+                    throw new InternalErrorException(exception);
+            }
+            catch(IllegalAccessException e){
+                throw new PermissionDeniedException(e);
+            }
+            catch(IllegalArgumentException e){
+                throw new InternalErrorException(e);
+            }
+            catch(NoSuchMethodException e){
+                throw new InvalidResourcesException(this.uri, e);
+            }
+
+            try {
+                if (this.produces == ContentType.JSON)
+                    this.systemController.outputContent(PropertyUtil.serialize(methodResult), this.produces);
+                else if (this.produces == ContentType.XML)
+                    this.systemController.outputContent(XmlUtil.serialize(methodResult), this.produces);
+                else if (this.produces == ContentType.BINARY)
+                    this.systemController.outputContent(ByteUtil.serialize(methodResult), this.produces);
+                else if (this.produces == ContentType.TXT)
+                    this.systemController.outputContent(StringUtil.trim(methodResult), this.produces);
+            }
+            catch(IOException e){
+                throw new InternalErrorException(e);
+            }
         }
-        catch(Throwable e){
+        catch(InternalErrorException | ExpectedException e){
             this.systemController.forward(e);
         }
     }
@@ -219,7 +251,22 @@ public class WebServiceServlet extends HttpServlet {
      * @throws InvalidResourcesException Occurs when the method was not found.
      */
     private Method lookupMethod(Class<IService<? extends BaseModel>> serviceClass, MethodType methodType) throws InvalidResourcesException {
-        Collection<Method> methods = Arrays.asList(serviceClass.getMethods());
+        Collection<Method> methods = null;
+        Class<?> superClass = serviceClass;
+
+        do {
+            Collection<Method> methodsBuffer = Arrays.asList(superClass.getDeclaredMethods());
+
+            if (methodsBuffer != null && !methodsBuffer.isEmpty()) {
+                if (methods == null)
+                    methods = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+
+                methods.addAll(methodsBuffer);
+            }
+
+            superClass = superClass.getSuperclass();
+
+        } while (!superClass.equals(Object.class));
 
         if(methods != null && !methods.isEmpty()){
             methods = methods.parallelStream().filter(s-> s.getAnnotation(Transaction.class) != null).collect(Collectors.toList());

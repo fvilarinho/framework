@@ -240,15 +240,14 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
     public Collection<M> search(M model) throws InternalErrorException{
         return filter(model, null);
     }
-    
+
     @Override
     public Collection<M> filter(Filter filter) throws InternalErrorException{
         return filter(null, filter);
     }
-    
-    @Override
+
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public Collection<M> filter(M model, Filter filter) throws InternalErrorException{
+    private Collection<M> filter(M model, Filter filter) throws InternalErrorException{
         Query query = HibernateQueryBuilder.build(QueryType.SEARCH, model, filter, this);
         List<M> modelList = (List<M>) query.getResultList();
         

@@ -1,6 +1,7 @@
 package br.com.concepting.framework.service.controller;
 
 import br.com.concepting.framework.audit.Auditor;
+import br.com.concepting.framework.exceptions.ExpectedException;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.security.model.LoginSessionModel;
@@ -34,7 +35,7 @@ import java.lang.reflect.Method;
  */
 public class ServiceInterceptor extends Interceptor{
     @Override
-    public void before() throws InternalErrorException{
+    public void before() throws ExpectedException, InternalErrorException{
         IService<? extends BaseModel> service = getInterceptableInstance();
         LoginSessionModel loginSession = service.getLoginSession();
         Auditor auditor = getAuditor();
@@ -55,7 +56,7 @@ public class ServiceInterceptor extends Interceptor{
     }
 
     @Override
-    public void after() throws InternalErrorException{
+    public void after() throws ExpectedException, InternalErrorException{
         try{
             IService<? extends BaseModel> service = getInterceptableInstance();
             
@@ -67,7 +68,7 @@ public class ServiceInterceptor extends Interceptor{
     }
 
     @Override
-    public void beforeThrow(Throwable e) throws InternalErrorException{
+    public void beforeThrow(Throwable e) throws ExpectedException, InternalErrorException{
         try{
             IService<? extends BaseModel> service = getInterceptableInstance();
             Transaction transactionAnnotation = getInterceptableMethod().getAnnotation(Transaction.class);

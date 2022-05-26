@@ -99,7 +99,18 @@ public class XmlReader{
             }
         }
     }
-    
+
+    /**
+     * Constructor - Parses a content.
+     *
+     * @param value String of the content.
+     * @throws IOException Occurs when was not possible to parse the
+     * content.
+     */
+    public XmlReader(byte[] value) throws IOException{
+        this(new String(value));
+    }
+
     /**
      * Constructor - Parses a content.
      *

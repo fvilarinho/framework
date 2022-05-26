@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "class")
-@JsonIgnoreProperties({"stackTrace", "suppressed"})
+@JsonIgnoreProperties({"stackTrace", "suppressed", "cause"})
 public class ExpectedException extends Exception{
     private static final long serialVersionUID = -2046392122293087621L;
     

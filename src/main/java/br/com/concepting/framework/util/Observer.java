@@ -1,7 +1,6 @@
 package br.com.concepting.framework.util;
 
 import br.com.concepting.framework.constants.Constants;
-import br.com.concepting.framework.exceptions.InternalErrorException;
 
 import java.io.Serializable;
 import java.lang.reflect.*;
@@ -179,21 +178,18 @@ public class Observer implements InvocationHandler{
         
         this.interceptor.setInterceptableMethodArgumentsValues(methodArgumentsValues);
         this.interceptor.before();
-        
+
         Throwable exception = null;
-        
+
         try{
             return this.interceptor.execute();
         }
         catch(Throwable e){
-            exception = ExceptionUtil.getCause(e);
+            exception = e;
+
+            this.interceptor.beforeThrow(e);
             
-            if(!ExceptionUtil.isExpectedException(exception) && !ExceptionUtil.isInternalErrorException(exception))
-                throw new InternalErrorException(exception);
-            
-            this.interceptor.beforeThrow(exception);
-            
-            throw exception;
+            throw e;
         }
         finally{
             if(exception == null)

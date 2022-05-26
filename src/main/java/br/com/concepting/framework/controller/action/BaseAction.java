@@ -7,15 +7,19 @@ import br.com.concepting.framework.controller.form.ActionFormController;
 import br.com.concepting.framework.controller.form.BaseActionForm;
 import br.com.concepting.framework.controller.form.util.ActionFormUtil;
 import br.com.concepting.framework.controller.types.ScopeType;
+import br.com.concepting.framework.exceptions.ExpectedException;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.FormModel;
 import br.com.concepting.framework.model.SystemModuleModel;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
+import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.controller.SecurityController;
+import br.com.concepting.framework.security.exceptions.PermissionDeniedException;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
+import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.ContentType;
 import org.apache.commons.beanutils.ConstructorUtils;
@@ -317,10 +321,10 @@ public abstract class BaseAction<M extends BaseModel>{
      * @param actionFormController Instance that contains the action form
      * controller.
      * @param securityController Instance that contains the security controller.
-     * @throws Throwable Occurs when was not possible to execution the
-     * operation.
+     * @throws ExpectedException Occurs when an expected exception was caught.
+     * @throws InternalErrorException Occurs when an internal error exception was caught.
      */
-    public void processRequest(BaseActionForm<M> actionForm, SystemController systemController, ActionFormController actionFormController, SecurityController securityController) throws Throwable{
+    public void processRequest(BaseActionForm<M> actionForm, SystemController systemController, ActionFormController actionFormController, SecurityController securityController) throws ExpectedException, InternalErrorException{
         if(actionForm == null || systemController == null || actionFormController == null || securityController == null)
             return;
         
@@ -330,8 +334,28 @@ public abstract class BaseAction<M extends BaseModel>{
         this.securityController = securityController;
         
         String action = this.actionForm.getAction();
+        String uri = this.systemController.getURI();
 
-        if(action != null && action.length() > 0)
-            MethodUtils.invokeMethod(this, action, null);
+        if(action != null && action.length() > 0) {
+            try {
+                MethodUtils.invokeMethod(this, action, null);
+            }
+            catch (InvocationTargetException e) {
+                Throwable exception = ExceptionUtil.getCause(e);
+
+                if(ExceptionUtil.isInternalErrorException(exception))
+                    throw (InternalErrorException)exception;
+                else if(ExceptionUtil.isExpectedException(exception))
+                    throw (ExpectedException)exception;
+                else
+                    throw new InternalErrorException(e);
+            }
+            catch (NoSuchMethodException e) {
+                throw new InvalidResourcesException(uri);
+            }
+            catch (IllegalAccessException e) {
+                throw new PermissionDeniedException(e);
+            }
+        }
     }
 }

@@ -187,13 +187,9 @@ public class MessageBoxComponent extends DialogBoxComponent{
                     else
                         messageType = ActionFormMessageType.ERROR;
                 }
-                else{
-                    if(!ExceptionUtil.isInternalErrorException(this.exception))
-                        this.exception = new InternalErrorException(this.exception);
-                    
+                else
                     messageType = ActionFormMessageType.ERROR;
-                }
-                
+
                 setType(messageType.toString());
                 
                 if(ExceptionUtil.isInvalidResourceException(this.exception) || ExceptionUtil.isExpectedException(this.exception)){

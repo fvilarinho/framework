@@ -24,6 +24,7 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.*;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
@@ -2095,7 +2096,7 @@ public class PropertyUtil extends PropertyUtils{
 	 * @return Instance of the object.
 	 * @throws IOException Occurs when was not possible to deserialize.
 	 */
-	public static <O> O deserialize(String value, Class<O> clazz) throws IOException{
+	public static <O> O deserialize(String value, Class<O> clazz) throws ClassNotFoundException, IOException{
 		if(value == null || value.length() == 0)
 			return null;
 
@@ -2110,13 +2111,19 @@ public class PropertyUtil extends PropertyUtils{
 	 * @return Instance of the object.
 	 * @throws IOException Occurs when was not possible to deserialize.
 	 */
-	public static <O> O deserialize(byte[] value, Class<O> clazz) throws IOException{
+	@SuppressWarnings("unchecked")
+	public static <O> O deserialize(byte[] value, Class<O> clazz) throws ClassNotFoundException, IOException{
 		if(value == null || value.length == 0 || clazz == null)
 			return null;
 
 		ObjectMapper mapper = getMapper();
+		JsonNode jsonNode = mapper.readValue(value, JsonNode.class);
+		JsonNode rootClassName = jsonNode.get("class");
 
-		return mapper.readValue(value, clazz);
+		if(rootClassName != null)
+			clazz = (Class<O>)Class.forName(rootClassName.asText());
+
+		return convertTo(jsonNode, clazz);
 	}
 	/**
 	 * Converts a value into another type.

@@ -288,8 +288,8 @@ public class XmlUtil{
      * @return Instance of the object.
      * @throws IOException Occurs when was not possible to deserialize.
      */
-    public static <O> O deserialize(String value, Class<O> clazz) throws IOException{
-        if(value == null || value.length() == 0)
+    public static <O> O deserialize(String value, Class<O> clazz) throws ClassNotFoundException, IOException {
+        if (value == null || value.length() == 0)
             return null;
 
         return deserialize(value.getBytes(), clazz);
@@ -303,9 +303,17 @@ public class XmlUtil{
      * @return Instance of the object.
      * @throws IOException Occurs when was not possible to deserialize.
      */
-    public static <O> O deserialize(byte[] value, Class<O> clazz) throws IOException{
+    @SuppressWarnings("unchecked")
+    public static <O> O deserialize(byte[] value, Class<O> clazz) throws ClassNotFoundException, IOException{
         if(value == null || value.length == 0 || clazz == null)
             return null;
+
+        XmlReader reader = new XmlReader(value);
+        XmlNode rootNode = reader.getRoot();
+        String rootClassName = rootNode.getAttribute("class");
+
+        if(rootClassName != null && rootClassName.length() > 0)
+            clazz = (Class<O>)Class.forName(rootClassName);
 
         XmlMapper mapper = getMapper();
 

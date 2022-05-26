@@ -2,7 +2,9 @@ package br.com.concepting.framework.util;
 
 import br.com.concepting.framework.audit.Auditor;
 import br.com.concepting.framework.audit.annotations.Auditable;
+import br.com.concepting.framework.exceptions.ExpectedException;
 import br.com.concepting.framework.exceptions.InternalErrorException;
+import br.com.concepting.framework.security.exceptions.PermissionDeniedException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -165,10 +167,10 @@ public class Interceptor{
     /**
      * Pre-execution of the interceptable method when an exception occurred.
      *
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @throws ExpectedException Occurs when an expected exception was caught.
+     * @throws InternalErrorException Occurs when an internal error exception was caught.
      */
-    public void before() throws InternalErrorException{
+    public void before() throws ExpectedException, InternalErrorException{
         Auditor auditor = getAuditor();
         
         if(auditor != null)
@@ -178,10 +180,10 @@ public class Interceptor{
     /**
      * Post-execution of the interceptable method.
      *
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @throws ExpectedException Occurs when an expected exception was caught.
+     * @throws InternalErrorException Occurs when an internal error exception was caught.
      */
-    public void after() throws InternalErrorException{
+    public void after() throws ExpectedException, InternalErrorException{
         Auditor auditor = getAuditor();
         
         if(auditor != null)
@@ -192,10 +194,10 @@ public class Interceptor{
      * Post-execution of the interceptable method when an exception occurred.
      *
      * @param e Instance that contains the caught exception.
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @throws ExpectedException Occurs when an expected exception was caught.
+     * @throws InternalErrorException Occurs when an internal error exception was caught.
      */
-    public void beforeThrow(Throwable e) throws InternalErrorException{
+    public void beforeThrow(Throwable e) throws ExpectedException, InternalErrorException{
         Auditor auditor = getAuditor();
         
         if(auditor != null)
@@ -207,20 +209,29 @@ public class Interceptor{
      *
      * @param <O> Class that defines the execution result.
      * @return Instance that contains the execution result.
-     * @throws Throwable Occurs when was not possible to execute the operation.
+     * @throws ExpectedException Occurs when an expected exception was caught.
+     * @throws InternalErrorException Occurs when an internal error exception was caught.
      */
     @SuppressWarnings("unchecked")
-    public <O> O execute() throws Throwable{
+    public <O> O execute() throws ExpectedException, InternalErrorException {
         try{
             return (O) this.interceptableMethod.invoke(this.interceptableInstance, this.interceptableMethodArgumentsValues);
         }
-        catch(IllegalAccessException | IllegalArgumentException | InvocationTargetException e){
+        catch (InvocationTargetException e) {
             Throwable exception = ExceptionUtil.getCause(e);
-            
-            if(!ExceptionUtil.isExpectedException(exception) && !ExceptionUtil.isInternalErrorException(exception))
-                throw new InternalErrorException(exception);
-            
-            throw exception;
+
+            if(ExceptionUtil.isInternalErrorException(exception))
+                throw (InternalErrorException)exception;
+            else if(ExceptionUtil.isExpectedException(exception))
+                throw (ExpectedException)exception;
+            else
+                throw new InternalErrorException(e);
+        }
+        catch(IllegalAccessException e){
+            throw new PermissionDeniedException(e);
+        }
+        catch(IllegalArgumentException e){
+            throw new InternalErrorException(e);
         }
     }
 }

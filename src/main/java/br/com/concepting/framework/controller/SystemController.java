@@ -7,7 +7,6 @@ import br.com.concepting.framework.controller.form.BaseActionForm;
 import br.com.concepting.framework.controller.form.constants.ActionFormConstants;
 import br.com.concepting.framework.controller.helpers.RequestParameterInfo;
 import br.com.concepting.framework.controller.types.ScopeType;
-import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.constants.ModelConstants;
 import br.com.concepting.framework.security.controller.SecurityController;
@@ -28,9 +27,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1066,9 +1067,6 @@ public class SystemController{
 	 */
 	public void forward(Throwable e){
 		try{
-			if(!ExceptionUtil.isExpectedException(e) && !ExceptionUtil.isInternalErrorException(e))
-				e = new InternalErrorException(e);
-
 			setCurrentException(e);
 
 			if(!isWebServicesRequest()) {
@@ -1106,7 +1104,7 @@ public class SystemController{
 						this.outputContent(XmlUtil.serialize(e), contentType);
 					else if(contentType == ContentType.BINARY)
 						this.outputContent(ByteUtil.serialize(e), contentType);
-					else
+					else if(contentType == ContentType.TXT)
 						this.outputContent(StringUtil.trim(e), contentType);
 				}
 			}

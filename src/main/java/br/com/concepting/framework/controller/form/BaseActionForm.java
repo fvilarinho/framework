@@ -9,15 +9,15 @@ import br.com.concepting.framework.controller.form.types.ActionFormMessageType;
 import br.com.concepting.framework.controller.form.util.ActionFormPopulator;
 import br.com.concepting.framework.controller.form.util.ActionFormUtil;
 import br.com.concepting.framework.controller.form.util.ActionFormValidator;
+import br.com.concepting.framework.exceptions.ExpectedException;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.resources.SystemResources;
+import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.exceptions.PermissionDeniedException;
-import br.com.concepting.framework.security.model.LoginSessionModel;
-import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import org.apache.commons.beanutils.ConstructorUtils;
@@ -344,79 +344,112 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
      * @param actionFormController Instance that contains the action form
      * controller.
      * @param securityController Instance that contains the security controller.
-     * @throws Throwable Occurs when was not possible to execution the operation.
      */
     @SuppressWarnings("unchecked")
-    public void processRequest(SystemController systemController, ActionFormController actionFormController, SecurityController securityController) throws Throwable{
+    public void processRequest(SystemController systemController, ActionFormController actionFormController, SecurityController securityController){
         if(systemController == null || actionFormController == null || securityController == null)
             return;
 
+        String uri = systemController.getURI();
+        Class<? extends BaseActionForm<M>> actionFormClass = (Class<? extends BaseActionForm<M>>) getClass();
         ActionFormPopulator actionFormPopulator = new ActionFormPopulator(this, systemController, actionFormController, securityController);
 
         actionFormPopulator.populateActionForm();
 
-        SystemResources.ActionFormResources.ActionFormForwardResources actionFormForward = actionFormController.findForward();
-        String url = (actionFormForward != null ? actionFormForward.getUrl() : "/");
+        String forwardUrl = null;
 
         try{
-            if(securityController.isLoginSessionAuthenticated()){
-                LoginSessionModel loginSession = securityController.getLoginSession();
-                UserModel user = loginSession.getUser();
-                
-                if(!user.isSuperUser() && !user.hasPermission(url))
-                    throw new PermissionDeniedException();
+            SystemResources.ActionFormResources.ActionFormForwardResources actionFormForward = actionFormController.findForward();
+
+            forwardUrl = (actionFormForward != null ? actionFormForward.getUrl() : "/");
+
+            Class<M> modelClass;
+            ModelInfo modelInfo;
+
+            try {
+                modelClass = ActionFormUtil.getModelClassByActionForm(actionFormClass);
+                modelInfo = ModelUtil.getInfo(modelClass);
             }
-            
-            Class<? extends BaseActionForm<M>> actionFormClass = (Class<? extends BaseActionForm<M>>) getClass();
-            Class<M> modelClass = ActionFormUtil.getModelClassByActionForm(actionFormClass);
-            ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
+            catch(InvocationTargetException | InstantiationException e){
+                throw new InternalErrorException(e);
+            }
+            catch(ClassNotFoundException | NoSuchMethodException | NoSuchFieldException e) {
+                throw new InvalidResourcesException(uri, e);
+            }
+            catch(IllegalAccessException e){
+                throw new PermissionDeniedException(e);
+            }
+
             Class<? extends ActionFormValidator> actionFormValidatorClass = modelInfo.getActionFormValidatorClass();
             ActionFormValidator actionFormValidator;
             boolean validated = true;
-            
+
             if(actionFormValidatorClass != null){
-                actionFormValidator = ConstructorUtils.invokeConstructor(actionFormValidatorClass, new Object[]{this, systemController, actionFormController, securityController});
-                
-                validated = actionFormValidator.validateModel();
-            }
-            
-            actionFormPopulator.populateModel();
-            
-            if(validated){
-                Class<? extends BaseAction<M>> actionClass = ActionFormUtil.getActionClassByModel(modelClass);
-                
-                if(actionClass != null){
-                    BaseAction<M> actionInstance = ConstructorUtils.invokeConstructor(actionClass, null);
-                    
-                    actionInstance.processRequest(this, systemController, actionFormController, securityController);
+                try {
+                    actionFormValidator = ConstructorUtils.invokeConstructor(actionFormValidatorClass, new Object[]{this, systemController, actionFormController, securityController});
+
+                    validated = actionFormValidator.validateModel();
+                }
+                catch (Throwable  e) {
+                    throw new InternalErrorException(e);
                 }
             }
-            
+
+            actionFormPopulator.populateModel();
+
+            if(validated){
+                Class<? extends BaseAction<M>> actionClass;
+
+                try {
+                    actionClass = ActionFormUtil.getActionClassByModel(modelClass);
+                }
+                catch(ClassNotFoundException e){
+                    throw new InvalidResourcesException(uri, e);
+                }
+
+                if(actionClass != null){
+                    BaseAction<M> actionInstance;
+
+                    try {
+                        actionInstance = ConstructorUtils.invokeConstructor(actionClass, null);
+                        actionInstance.processRequest(this, systemController, actionFormController, securityController);
+                    }
+                    catch (InvocationTargetException | InstantiationException e) {
+                        throw new InternalErrorException(e);
+                    }
+                    catch (NoSuchMethodException e) {
+                        throw new InvalidResourcesException(uri, e);
+                    }
+                    catch (IllegalAccessException e) {
+                        throw new PermissionDeniedException(e);
+                    }
+                }
+            }
+
             Collection<ActionFormMessage> actionFormMessages = actionFormController.getMessages(ActionFormMessageType.VALIDATION);
-            
+
             if(actionFormMessages == null || actionFormMessages.isEmpty())
                 actionFormMessages = actionFormController.getMessages(ActionFormMessageType.WARNING);
-            
+
             if(actionFormMessages == null || actionFormMessages.isEmpty())
                 actionFormMessages = actionFormController.getMessages(ActionFormMessageType.ERROR);
-            
+
             if(actionFormMessages != null && !actionFormMessages.isEmpty())
                 removeActionHistory();
-            
-            systemController.forward(url);
+
+            systemController.forward(forwardUrl);
         }
-        catch(Throwable e){
+        catch(InternalErrorException | ExpectedException e){
             removeActionHistory();
-            
-            Throwable exception = ExceptionUtil.getCause(e);
-            
-            if(!ExceptionUtil.isExpectedException(exception) && !ExceptionUtil.isInternalErrorException(exception))
-                exception = new InternalErrorException(exception);
-            
-            systemController.setCurrentException(exception);
-            
-            if(ExceptionUtil.isExpectedException(exception))
-                systemController.forward(url);
+
+            if(ExceptionUtil.isExpectedException(e)) {
+                systemController.setCurrentException(e);
+
+                if(forwardUrl != null && forwardUrl.length() > 0)
+                    systemController.forward(forwardUrl);
+                else
+                    systemController.forward(e);
+            }
             else
                 systemController.forward(e);
         }
