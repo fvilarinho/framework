@@ -63,11 +63,11 @@ import java.util.List;
  */
 @Auditable
 public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseService<L> implements LoginSessionService<L, U, LP>{
-    @Transaction(path = "validateMfaToken", type = MethodType.POST, consumes = ContentType.JSON)
+    @Transaction(path = "validateMfaToken", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Auditable
     @SuppressWarnings("unchecked")
     @Override
-    public void validateMfaToken(@TransactionParam(isBody = true) U user) throws InvalidMfaTokenException, InternalErrorException{
+    public void validateMfaToken(@TransactionParam(fromBody = true) U user) throws InvalidMfaTokenException, InternalErrorException{
         L currentLoginSession = getLoginSession();
         
         if(currentLoginSession == null || currentLoginSession.getId() == null || currentLoginSession.getId().length() == 0)
@@ -372,7 +372,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
     @Transaction(path = "logIn", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Auditable
     @Override
-    public L logIn(@TransactionParam(isBody = true) U user) throws UserNotFoundException, UserBlockedException, InvalidPasswordException, UserAlreadyLoggedInException, PermissionDeniedException, InternalErrorException{
+    public L logIn(@TransactionParam(fromBody = true) U user) throws UserNotFoundException, UserBlockedException, InvalidPasswordException, UserAlreadyLoggedInException, PermissionDeniedException, InternalErrorException{
         if(user == null || user.getName() == null || user.getName().length() == 0)
             throw new UserNotFoundException();
         
@@ -390,7 +390,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
     @Transaction(path = "changePassword", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Auditable
     @Override
-    public U changePassword(@TransactionParam(isBody = true) U user) throws PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException{
+    public U changePassword(@TransactionParam(fromBody = true) U user) throws PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException{
         if(user == null || user.getId() == null || user.getId() == 0)
             return user;
         
@@ -462,7 +462,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         return user;
     }
 
-    @Transaction(path = "logOut", type = MethodType.POST)
+    @Transaction(path = "logOut", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Auditable
     @SuppressWarnings("unchecked")
     @Override
@@ -531,11 +531,11 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         }
     }
 
-    @Transaction(path = "sendForgottenPassword", type = MethodType.POST, consumes = ContentType.JSON)
+    @Transaction(path = "sendForgottenPassword", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Auditable
     @SuppressWarnings("unchecked")
     @Override
-    public void sendForgottenPassword(@TransactionParam(isBody = true) U user) throws UserNotFoundException, UserBlockedException, InternalErrorException{
+    public void sendForgottenPassword(@TransactionParam(fromBody = true) U user) throws UserNotFoundException, UserBlockedException, InternalErrorException{
         if(user == null || user.getEmail() == null || user.getEmail().length() == 0)
             throw new UserNotFoundException();
         

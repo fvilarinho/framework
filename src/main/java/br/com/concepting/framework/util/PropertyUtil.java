@@ -72,7 +72,6 @@ public class PropertyUtil extends PropertyUtils{
 	 *
 	 * @return Instance of the mapper.
 	 */
-	@SuppressWarnings("deprecation")
 	public static ObjectMapper getMapper(){
 		if(mapper == null){
 			mapper = new ObjectMapper();

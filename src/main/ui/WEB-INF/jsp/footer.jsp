@@ -6,7 +6,7 @@
 
 <table class="footer">
 	<tr>
-		<td align="CENTER">
+		<td style="text-align: CENTER;">
 			${loginSession.systemModule.copyright}
 		</td>
 	</tr>

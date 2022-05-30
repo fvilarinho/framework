@@ -29,6 +29,24 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER})
 public @interface TransactionParam {
+    /**
+     * Defines the parameter's name.
+     *
+     * @return String that contains the name.
+     */
     String name() default "";
-    boolean isBody() default false;
+
+    /**
+     * Indicates if the parameters is on the request path.
+     *
+     * @return True/False.
+     */
+    boolean fromPath() default false;
+
+    /**
+     * Indicates if the parameters is on the request body.
+     *
+     * @return True/False.
+     */
+    boolean fromBody() default false;
 }

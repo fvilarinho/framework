@@ -7,13 +7,13 @@
 
 <table class="header">
 	<tr>
-		<td width="25%" align="LEFT">
+		<td style="width: 25%; text-align: LEFT;">
 			<concepting:image value="${loginSession.systemModule.logo}" styleClass="logo"/>
 		</td>
-		<td align="CENTER">
+		<td style="text-align: CENTER;">
 			<concepting:label value="${loginSession.systemModule.title} ${loginSession.systemModule.version}" styleClass="title"/>
 		</td>
-		<td width="25%" align="RIGHT">
+		<td style="width: 25%; text-align: RIGHT;">
 			<concepting:languageSelector width="200"/>
 			<concepting:skinSelector width="200"/>
 		</td>
@@ -24,13 +24,13 @@
 		<td>
 			<concepting:menuBar/>
 		</td>
-		<td width="30%" align="RIGHT">
+		<td style="width: 30%; text-align: RIGHT;">
 			<fmt:setLocale value="${loginSession.user.loginParameter.language}" scope="session"/>
 			<fmt:formatDate value="<%=new Date()%>" dateStyle="full"/>&nbsp;
 			<concepting:clock/>&nbsp;
 		</td>
 		<c:if test="${loginSession != null && loginSession.id != '' && loginSession.active}">
-			<td width="15%" align="RIGHT">
+			<td style="width: 15%; text-align: RIGHT;">
 				<concepting:loginSessionBox/>
 			</td>
 		</c:if>

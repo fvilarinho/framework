@@ -301,6 +301,9 @@ public class WebServiceServlet extends HttpServlet {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Object[] lookupMethodParameters(Method method) throws InternalErrorException{
         try {
+            Transaction transaction = method.getAnnotation(Transaction.class);
+            String[] transactionPathParts = StringUtil.split(transaction.path(), "/");
+            String[]  methodPathParts = StringUtil.split(this.methodUrl, "/");
             Parameter[] parameters = method.getParameters();
             Object[] parametersValues = null;
 
@@ -320,70 +323,98 @@ public class WebServiceServlet extends HttpServlet {
                         String parameterName = transactionParam.name();
 
                         if (parameterName != null && parameterName.length() > 0) {
-                            RequestParameterInfo requestParameterInfo = requestParametersInfo.get(parameterName);
+                            if(transactionParam.fromPath()) {
 
-                            if (requestParameterInfo != null) {
-                                String value = requestParameterInfo.getValue();
-                                String[] values = requestParameterInfo.getValues();
+                                for(int pos = 0 ; cont < transactionPathParts.length ; cont++){
+                                    String transactionPathPart = transactionPathParts[cont];
 
-                                if (PropertyUtil.isCollection(parameterType)) {
-                                    if (values == null || values.length == 0)
-                                        parameterValue = null;
-                                    else {
-                                        parameterValue = PropertyUtil.instantiate(parameterType);
+                                    if(transactionPathPart.startsWith("#{")){
+                                        transactionPathPart = StringUtil.replaceAll(transactionPathPart, "#{", "");
+                                        transactionPathPart = StringUtil.replaceAll(transactionPathPart, "}", "");
 
-                                        String collectionType = parameter.toString();
-                                        int pos = collectionType.indexOf("<");
-
-                                        if (pos >= 0) {
-                                            collectionType = collectionType.substring(pos + 1);
-                                            pos = collectionType.indexOf(">");
-
-                                            if (pos >= 0)
-                                                collectionType = collectionType.substring(0, pos);
-                                        }
-
-                                        collectionType = StringUtil.replaceAll(collectionType, "? ", "");
-                                        collectionType = StringUtil.replaceAll(collectionType, "extends ", "");
-
-                                        Class<?> collectionParameterType = Class.forName(collectionType);
-
-                                        for (String collectionValue : values) {
-                                            Object collectionParameterValue = null;
-
-                                            if (PropertyUtil.isNumber(collectionParameterType))
-                                                collectionParameterValue = NumberUtil.parse(parameterType, value, currentLanguage);
+                                        if(transactionPathPart.equals(parameterName)){
+                                            if (PropertyUtil.isNumber(parameterType))
+                                                parameterValue = NumberUtil.parse(parameterType, methodPathParts[pos], currentLanguage);
                                             else if (PropertyUtil.isDate(parameterType))
-                                                collectionParameterValue = DateTimeUtil.parse(value, currentLanguage);
+                                                parameterValue = DateTimeUtil.parse(methodPathParts[pos], currentLanguage);
                                             else if (PropertyUtil.isBoolean(parameterType))
-                                                collectionParameterValue = Boolean.parseBoolean(value);
+                                                parameterValue = Boolean.parseBoolean(methodPathParts[pos]);
                                             else if (PropertyUtil.isEnum(parameterType))
-                                                collectionParameterValue = Enum.valueOf((Class) parameterType, value);
+                                                parameterValue = Enum.valueOf((Class) parameterType, methodPathParts[pos]);
                                             else if (PropertyUtil.isString(parameterType))
-                                                collectionParameterValue = collectionValue;
+                                                parameterValue = methodPathParts[pos];
 
-                                            if (collectionParameterValue != null)
-                                                ((Collection) parameterValue).add(collectionValue);
+                                            break;
                                         }
                                     }
-                                } else {
-                                    if (value != null) {
-                                        if (PropertyUtil.isNumber(parameterType))
-                                            parameterValue = NumberUtil.parse(parameterType, value, currentLanguage);
-                                        else if (PropertyUtil.isDate(parameterType))
-                                            parameterValue = DateTimeUtil.parse(value, currentLanguage);
-                                        else if (PropertyUtil.isBoolean(parameterType))
-                                            parameterValue = Boolean.parseBoolean(value);
-                                        else if (PropertyUtil.isEnum(parameterType))
-                                            parameterValue = Enum.valueOf((Class) parameterType, value);
-                                        else if (PropertyUtil.isString(parameterType))
-                                            parameterValue = value;
+                                }
+                            }
+                            else {
+                                RequestParameterInfo requestParameterInfo = requestParametersInfo.get(parameterName);
+
+                                if (requestParameterInfo != null) {
+                                    String value = requestParameterInfo.getValue();
+                                    String[] values = requestParameterInfo.getValues();
+
+                                    if (PropertyUtil.isCollection(parameterType)) {
+                                        if (values == null || values.length == 0)
+                                            parameterValue = null;
+                                        else {
+                                            parameterValue = PropertyUtil.instantiate(parameterType);
+
+                                            String collectionType = parameter.toString();
+                                            int pos = collectionType.indexOf("<");
+
+                                            if (pos >= 0) {
+                                                collectionType = collectionType.substring(pos + 1);
+                                                pos = collectionType.indexOf(">");
+
+                                                if (pos >= 0)
+                                                    collectionType = collectionType.substring(0, pos);
+                                            }
+
+                                            collectionType = StringUtil.replaceAll(collectionType, "? ", "");
+                                            collectionType = StringUtil.replaceAll(collectionType, "extends ", "");
+
+                                            Class<?> collectionParameterType = Class.forName(collectionType);
+
+                                            for (String collectionValue : values) {
+                                                Object collectionParameterValue = null;
+
+                                                if (PropertyUtil.isNumber(collectionParameterType))
+                                                    collectionParameterValue = NumberUtil.parse(parameterType, value, currentLanguage);
+                                                else if (PropertyUtil.isDate(parameterType))
+                                                    collectionParameterValue = DateTimeUtil.parse(value, currentLanguage);
+                                                else if (PropertyUtil.isBoolean(parameterType))
+                                                    collectionParameterValue = Boolean.parseBoolean(value);
+                                                else if (PropertyUtil.isEnum(parameterType))
+                                                    collectionParameterValue = Enum.valueOf((Class) parameterType, value);
+                                                else if (PropertyUtil.isString(parameterType))
+                                                    collectionParameterValue = collectionValue;
+
+                                                if (collectionParameterValue != null)
+                                                    ((Collection) parameterValue).add(collectionValue);
+                                            }
+                                        }
+                                    } else {
+                                        if (value != null) {
+                                            if (PropertyUtil.isNumber(parameterType))
+                                                parameterValue = NumberUtil.parse(parameterType, value, currentLanguage);
+                                            else if (PropertyUtil.isDate(parameterType))
+                                                parameterValue = DateTimeUtil.parse(value, currentLanguage);
+                                            else if (PropertyUtil.isBoolean(parameterType))
+                                                parameterValue = Boolean.parseBoolean(value);
+                                            else if (PropertyUtil.isEnum(parameterType))
+                                                parameterValue = Enum.valueOf((Class) parameterType, value);
+                                            else if (PropertyUtil.isString(parameterType))
+                                                parameterValue = value;
+                                        }
                                     }
                                 }
                             }
                         }
                         else {
-                            if (transactionParam.isBody()) {
+                            if (transactionParam.fromBody()) {
                                 byte[] body = IOUtils.toByteArray(this.systemController.getInputStream());
 
                                 if (this.consumes == ContentType.JSON)
