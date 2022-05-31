@@ -28,7 +28,8 @@ If you want to contribute with us, just fork the project that is located in GitH
 Build Status
 ============
 
-* ![](https://github.com/fvilarinho/framework/workflows/CI/CD/badge.svg)
+
+[![CI/CD](https://github.com/fvilarinho/framework/actions/workflows/pipelines.yml/badge.svg?branch=master)](https://github.com/fvilarinho/framework/actions/workflows/pipelines.yml)
 
 
 Installation
@@ -36,7 +37,7 @@ Installation
 
 The pre-requisites to use the framework are:
 
-1. **Java Development Kit 11
+1. **Java Development Kit 11**
 2. **Gradle 6.8.x**
 
 To start using the framework, you should clone the project from BitBucket and then import it into your IDE.
