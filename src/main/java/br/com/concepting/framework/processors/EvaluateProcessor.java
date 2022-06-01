@@ -307,12 +307,9 @@ public class EvaluateProcessor extends GenericProcessor{
                 
                 do{
                     String tokenExpression = matcher.group();
-                    String tokenName = matcher.group(1);
+                    String tokenName = (tokenExpression.startsWith("#") ? matcher.group(1) : matcher.group(2));
                     Object tokenValue;
 
-                    if(tokenName == null)
-                        tokenName = matcher.group(2);
-                    
                     if(tokenName != null && tokenName.length() > 0){
                         if(tokenExpression.contains("#{")){
                             if(!tokenName.equals("declaration")){

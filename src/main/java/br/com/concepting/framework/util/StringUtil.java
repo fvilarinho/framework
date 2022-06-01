@@ -152,7 +152,7 @@ public class StringUtil{
      * @return String after replacement.
      */
     public static String replaceAll(String value, String search, String replace){
-        if(value != null && value.length() > 0 && search != null && search.length() > 0 && replace != null && !search.equals(replace)){
+        if(value != null && value.length() > 0 && search != null && search.length() > 0 && (replace == null || replace != null && !search.equals(replace))){
             int pos = value.indexOf(search);
             
             if(pos >= 0){
