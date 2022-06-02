@@ -125,7 +125,7 @@ task controllerJar(type: Jar){
     exclude "META-INF/**"
 	exclude "**/*.html"
     from(sourceSets.main.output){
-        include "br/com/innovativethinking/framework/**/controller/**" 
+        include "**/controller/**"
         project.ext.coreExcludes.addAll(includes)
     }  
 }
@@ -136,7 +136,7 @@ task persistenceJar(type: Jar){
     exclude "META-INF/**"
 	exclude "**/*.html"
     from(sourceSets.main.output){
-        include "br/com/innovativethinking/framework/**/persistence/**" 
+        include "**/persistence/**"
         project.ext.coreExcludes.addAll(includes)
     }  
 }
@@ -147,7 +147,7 @@ task serviceJar(type: Jar){
     exclude "META-INF/**"
 	exclude "**/*.html"
     from(sourceSets.main.output){
-        include "br/com/innovativethinking/framework/**/service/**" 
+        include "**/service/**"
         project.ext.coreExcludes.addAll(includes)
     }  
 }
@@ -158,7 +158,7 @@ task uiJar(type: Jar){
     exclude "META-INF/**"
 	exclude "**/*.html"
     from(sourceSets.main.output){
-        include "br/com/innovativethinking/framework/**/ui/**" 
+        include "**/ui/**"
         project.ext.coreExcludes.addAll(includes)
     }  
 }
