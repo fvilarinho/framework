@@ -114,7 +114,7 @@ task modelJar(type: Jar){
     exclude "META-INF/**"
 	exclude "**/*.html"
     from(sourceSets.main.output){
-        include "br/com/innovativethinking/framework/**/model/**" 
+        include "**/model/**"
         project.ext.coreExcludes.addAll(includes)
     }  
 }
