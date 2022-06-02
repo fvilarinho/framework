@@ -5,9 +5,6 @@ apply plugin: "maven-publish"
 group="${buildPackage}" 
 version="${buildVersion}"
 
-sourceCompatibility = "${buildCompatibility}" 
-targetCompatibility = "${buildCompatibility}"
-
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 }
