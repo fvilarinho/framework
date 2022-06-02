@@ -12,9 +12,6 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
-    env:
-      REPOSITORY_USER: ${{ secrets.REPOSITORY_USER }}
-      REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
