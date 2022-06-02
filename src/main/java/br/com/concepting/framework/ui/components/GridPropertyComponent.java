@@ -310,6 +310,14 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
 
     @Override
+    protected void buildRestrictions() throws InternalErrorException {
+        if(getPropertyInfo() == null)
+            this.showSelection = false;
+
+        super.buildRestrictions();
+    }
+
+    @Override
     protected void initialize() throws InternalErrorException{
         setComponentType(ComponentType.GRID);
         
@@ -717,12 +725,12 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                 println("\" width=\"1\">");
                                 
                                 Object optionValue = currentModel;
-                                
-                                if(!propertyInfo.isModel() && !propertyInfo.hasModel()){
-                                    try{
+
+                                if (!propertyInfo.isModel() && !propertyInfo.hasModel()) {
+                                    try {
                                         optionValue = PropertyUtil.getValue(optionValue, propertyInfo.getId());
                                     }
-                                    catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
+                                    catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                                         throw new InternalErrorException(e);
                                     }
                                 }
