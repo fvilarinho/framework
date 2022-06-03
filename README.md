@@ -52,7 +52,7 @@ To use the development version (Unstable), execute the command below:
 
 To use the last stable version, execute the command below:
 
-`git checkout tags/3.10.2 -b 3.10.2`
+`git checkout tags/3.10.8 -b 3.10.8`
 
 Or use the IDE to switch between the versions.
 
