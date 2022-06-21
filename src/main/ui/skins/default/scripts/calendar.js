@@ -363,7 +363,9 @@ function renderCalendarDate(name, currentDate){
 		html += "<table>";
 		html += "<tr>";
 
-		for(let cont = 0 ; cont < 7 ; cont++){
+		let cont;
+
+		for(cont = 0 ; cont < 7 ; cont++){
 			html += "<td class=\"calendarWeek\">";
 			html += weekNames[cont].substring(0, 1).toUpperCase();
 			html += "</td>";
@@ -371,12 +373,11 @@ function renderCalendarDate(name, currentDate){
 
 		html += "</tr><tr>";	
 		
-		for(let cont = 0 ; cont < weekDay ; cont++)
+		for(cont = 0 ; cont < weekDay ; cont++)
 			html += "<td></td>";
 		
 		rows -= cont;
-
-		let cont  = 1;
+		cont  = 1;
 		
 		while(cont <= rows){
 			date = new Date(currentDate.getFullYear(), currentDate.getMonth(), cont);
