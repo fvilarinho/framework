@@ -4,18 +4,14 @@ apply plugin: "maven-publish"
 
 group="${buildPackage}" 
 version="${buildVersion}"
-
-tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
-}
-
-javadoc.options.addStringOption("Xdoclint:none", "-quiet")
+sourceCompatibility=11
+targetCompatibility=11
 
 repositories{
     mavenLocal()
 	mavenCentral()
 	maven{
-		url System.getenv("REPOSITORY_URL")
+		url = "${repositoryUrl}"
 		credentials{
 			username = System.getenv("REPOSITORY_USER")
 			password = System.getenv("REPOSITORY_PASSWORD")
@@ -100,16 +96,31 @@ dependencies{
 	compile "javax.servlet.jsp:javax.servlet.jsp-api:2.3.3"
 	compile "javax.servlet:javax.servlet-api:4.0.1"
 	
-    testImplementation "junit:junit:4.13.2"
+    testCompile "junit:junit:4.13.2"
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = "UTF-8"
+}
+
+javadoc.options.addStringOption("Xdoclint:none", "-quiet")
+
+tasks.withType(Copy){
+	duplicatesStrategy = "exclude"
+	includeEmptyDirs = false
+}
+
+tasks.withType(Jar){
+	duplicatesStrategy = "exclude"
+	includeEmptyDirs = false
+	exclude "META-INF/**"
+	exclude "**/*.html"
 }
 
 ext.coreExcludes = []
 
 task modelJar(type: Jar){
 	archiveClassifier = "model"
-	duplicatesStrategy = "exclude"
-    exclude "META-INF/**"
-	exclude "**/*.html"
     from(sourceSets.main.output){
         include "**/model/**"
         project.ext.coreExcludes.addAll(includes)
@@ -118,9 +129,6 @@ task modelJar(type: Jar){
 
 task controllerJar(type: Jar){
 	archiveClassifier = "controller"
-	duplicatesStrategy = "exclude"
-    exclude "META-INF/**"
-	exclude "**/*.html"
     from(sourceSets.main.output){
         include "**/controller/**"
         project.ext.coreExcludes.addAll(includes)
@@ -129,9 +137,6 @@ task controllerJar(type: Jar){
 
 task persistenceJar(type: Jar){
 	archiveClassifier = "persistence"
-	duplicatesStrategy = "exclude"
-    exclude "META-INF/**"
-	exclude "**/*.html"
     from(sourceSets.main.output){
         include "**/persistence/**"
         project.ext.coreExcludes.addAll(includes)
@@ -140,9 +145,6 @@ task persistenceJar(type: Jar){
 
 task serviceJar(type: Jar){
 	archiveClassifier = "service"
-	duplicatesStrategy = "exclude"
-    exclude "META-INF/**"
-	exclude "**/*.html"
     from(sourceSets.main.output){
         include "**/service/**"
         project.ext.coreExcludes.addAll(includes)
@@ -151,9 +153,6 @@ task serviceJar(type: Jar){
 
 task uiJar(type: Jar){
 	archiveClassifier = "ui"
-	duplicatesStrategy = "exclude"
-    exclude "META-INF/**"
-	exclude "**/*.html"
     from(sourceSets.main.output){
         include "**/ui/**"
         project.ext.coreExcludes.addAll(includes)
@@ -162,9 +161,6 @@ task uiJar(type: Jar){
 
 task resourcesJar(type: Jar){
 	archiveClassifier = "resources"
-	duplicatesStrategy = "exclude"
-    exclude "META-INF/**"
-	exclude "**/*.html"
     from(sourceSets.main.output){
         include "etc/**/*.properties"
         include "etc/**/*.xml"
@@ -175,18 +171,9 @@ task resourcesJar(type: Jar){
 
 task coreJar(type: Jar){
 	archiveClassifier = "core"
-	duplicatesStrategy = "exclude"
-    exclude "META-INF/**"
-	exclude "**/*.html"
     from(sourceSets.main.output){
         exclude project.ext.coreExcludes
     }  
-}
-
-jar{
-    exclude "META-INF/**"
-	exclude "**/*.html"
-    duplicatesStrategy = "exclude"
 }
 
 task javadocJar(type: Jar){
@@ -202,6 +189,7 @@ artifacts{
 	archives uiJar
 	archives resourcesJar
 	archives coreJar
+	archives javadocJar
 }
 
 publishing{
@@ -223,7 +211,7 @@ publishing{
 uploadArchives{
     repositories{
         mavenDeployer{
-            repository(url: System.getenv("REPOSITORY_URL")){
+            repository(url: "${repositoryUrl}")x{
                 authentication(userName: System.getenv("REPOSITORY_USER"),
 						       password: System.getenv("REPOSITORY_PASSWORD"))
             }
