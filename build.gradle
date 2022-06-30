@@ -96,7 +96,7 @@ dependencies{
 	compile "javax.servlet.jsp:javax.servlet.jsp-api:2.3.3"
 	compile "javax.servlet:javax.servlet-api:4.0.1"
 	
-    testCompile "junit:junit:4.13.2"
+    testImplementation "junit:junit:4.13.2"
 }
 
 tasks.withType(JavaCompile) {
@@ -189,7 +189,6 @@ artifacts{
 	archives uiJar
 	archives resourcesJar
 	archives coreJar
-	archives javadocJar
 }
 
 publishing{
@@ -211,7 +210,7 @@ publishing{
 uploadArchives{
     repositories{
         mavenDeployer{
-            repository(url: "${repositoryUrl}")x{
+            repository(url: "${repositoryUrl}"){
                 authentication(userName: System.getenv("REPOSITORY_USER"),
 						       password: System.getenv("REPOSITORY_PASSWORD"))
             }

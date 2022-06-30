@@ -154,7 +154,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
         StringBuilder templateFilesDirname = new StringBuilder();
         
         templateFilesDirname.append(this.build.getBaseDirname());
-        templateFilesDirname.append(FileUtil.getDirectorySeparator());
         templateFilesDirname.append(ProjectConstants.DEFAULT_TEMPLATES_DIR);
         templateFilesDirname.append(this.modelInfo.getTemplateId());
         
@@ -372,7 +371,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     }
                     else{
                         actionFormClassFilename.append(this.build.getBaseDirname());
-                        actionFormClassFilename.append(FileUtil.getDirectorySeparator());
                         actionFormClassFilename.append(ProjectConstants.DEFAULT_JAVA_DIR);
                     }
                     
@@ -441,7 +439,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             StringBuilder systemResourcesFilename = new StringBuilder();
             
             systemResourcesFilename.append(this.build.getResourcesDirname());
-            systemResourcesFilename.append(FileUtil.getDirectorySeparator());
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
             
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
@@ -518,7 +515,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             StringBuilder systemResourcesFilename = new StringBuilder();
             
             systemResourcesFilename.append(this.build.getResourcesDirname());
-            systemResourcesFilename.append(FileUtil.getDirectorySeparator());
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
             
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
@@ -617,7 +613,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     }
                     else{
                         modelClassFilename.append(this.build.getBaseDirname());
-                        modelClassFilename.append(FileUtil.getDirectorySeparator());
                         modelClassFilename.append(ProjectConstants.DEFAULT_JAVA_DIR);
                     }
                     
@@ -714,7 +709,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     }
                     else{
                         modelClassTestFilename.append(this.build.getBaseDirname());
-                        modelClassTestFilename.append(FileUtil.getDirectorySeparator());
                         modelClassTestFilename.append(ProjectConstants.DEFAULT_TESTS_DIR);
                     }
                     
@@ -813,12 +807,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                     resourcesFilename.append(outputDir);
                                     resourcesFilename.append(FileUtil.getDirectorySeparator());
                                 }
-                                else{
-                                    resourcesFilename.append(this.build.getBaseDirname());
-                                    resourcesFilename.append(FileUtil.getDirectorySeparator());
-                                    resourcesFilename.append(ProjectConstants.DEFAULT_RESOURCES_DIR);
-                                }
-                                
+                                else
+                                    resourcesFilename.append(this.build.getResourcesDirname());
+
                                 resourcesFilename.append(StringUtil.replaceAll(resourcesName.toString(), ".", FileUtil.getDirectorySeparator()));
                                 resourcesFilename.append("_");
                                 resourcesFilename.append(availableLanguage);
@@ -918,7 +909,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     }
                     else{
                         persistenceClassFilename.append(this.build.getBaseDirname());
-                        persistenceClassFilename.append(FileUtil.getDirectorySeparator());
                         persistenceClassFilename.append(ProjectConstants.DEFAULT_JAVA_DIR);
                     }
                     
@@ -1017,7 +1007,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     }
                     else{
                         persistenceInterfaceFilename.append(this.build.getBaseDirname());
-                        persistenceInterfaceFilename.append(FileUtil.getDirectorySeparator());
                         persistenceInterfaceFilename.append(ProjectConstants.DEFAULT_JAVA_DIR);
                     }
                     
@@ -1114,9 +1103,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         persistenceMappingFilename.append(FileUtil.getDirectorySeparator());
                     }
                     else{
-                        persistenceMappingFilename.append(this.build.getBaseDirname());
-                        persistenceMappingFilename.append(FileUtil.getDirectorySeparator());
-                        persistenceMappingFilename.append(ProjectConstants.DEFAULT_RESOURCES_DIR);
+                        persistenceMappingFilename.append(this.build.getResourcesDirname());
                         persistenceMappingFilename.append(PersistenceConstants.DEFAULT_MAPPINGS_DIR);
                     }
                     
@@ -1279,7 +1266,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     }
                     else{
                         serviceClassFilename.append(this.build.getBaseDirname());
-                        serviceClassFilename.append(FileUtil.getDirectorySeparator());
                         serviceClassFilename.append(ProjectConstants.DEFAULT_JAVA_DIR);
                     }
                     
@@ -1396,7 +1382,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     }
                     else{
                         serviceInterfaceFilename.append(this.build.getBaseDirname());
-                        serviceInterfaceFilename.append(FileUtil.getDirectorySeparator());
                         serviceInterfaceFilename.append(ProjectConstants.DEFAULT_JAVA_DIR);
                     }
                     
@@ -1524,7 +1509,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             }
                             else{
                                 persistenceDataFilename.append(this.build.getBaseDirname());
-                                persistenceDataFilename.append(FileUtil.getDirectorySeparator());
                                 persistenceDataFilename.append(ProjectConstants.DEFAULT_PERSISTENCE_DIR);
                             }
                             
@@ -1613,8 +1597,11 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         uiPageDirname.append(outputDir);
                         uiPageDirname.append(FileUtil.getDirectorySeparator());
                     }
-                    
-                    uiPageDirname.append(ProjectConstants.DEFAULT_UI_DIR);
+                    else {
+                        uiPageDirname.append(this.build.getBaseDirname());
+                        uiPageDirname.append(ProjectConstants.DEFAULT_UI_DIR);
+                    }
+
                     uiPageDirname.append(actionFormUrl);
 
                     File uiPageDir = new File(uiPageDirname.toString());
@@ -1625,7 +1612,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     }
                     else{
                         uiPageFilename.append(this.build.getBaseDirname());
-                        uiPageFilename.append(FileUtil.getDirectorySeparator());
                         uiPageFilename.append(ProjectConstants.DEFAULT_UI_DIR);
                         uiPageFilename.append(ProjectConstants.DEFAULT_UI_PAGES_DIR);
                     }
@@ -1752,9 +1738,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     if (outputDir != null && outputDir.length() > 0) {
                         moduleMappingFilename.append(outputDir);
                         moduleMappingFilename.append(FileUtil.getDirectorySeparator());
-                    } else {
+                    }
+                    else {
                         moduleMappingFilename.append(this.build.getBaseDirname());
-                        moduleMappingFilename.append(FileUtil.getDirectorySeparator());
                         moduleMappingFilename.append(ProjectConstants.DEFAULT_UI_DIR);
                         moduleMappingFilename.append(ProjectConstants.DEFAULT_MODULE_DESCRIPTORS_DIR);
                         moduleMappingFilename.append("/");
@@ -1807,7 +1793,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                 StringBuilder securityResourcesFilename = new StringBuilder();
                 
                 securityResourcesFilename.append(this.build.getResourcesDirname());
-                securityResourcesFilename.append(FileUtil.getDirectorySeparator());
                 securityResourcesFilename.append(SecurityConstants.DEFAULT_RESOURCES_ID);
                 
                 XmlReader reader = new XmlReader(new File(securityResourcesFilename.toString()));
@@ -1872,8 +1857,8 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
         
         try{
             StringBuilder systemResourcesFilename = new StringBuilder();
-            
-            systemResourcesFilename.append(ProjectConstants.DEFAULT_RESOURCES_DIR);
+
+            systemResourcesFilename.append(this.build.getResourcesDirname());
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
             
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
@@ -1923,7 +1908,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
         try{
             StringBuilder systemResourcesFilename = new StringBuilder();
 
-            systemResourcesFilename.append(ProjectConstants.DEFAULT_RESOURCES_DIR);
+            systemResourcesFilename.append(this.build.getResourcesDirname());
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
 
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
@@ -1982,8 +1967,8 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
         
         try{
             StringBuilder systemResourcesFilename = new StringBuilder();
-            
-            systemResourcesFilename.append(ProjectConstants.DEFAULT_RESOURCES_DIR);
+
+            systemResourcesFilename.append(this.build.getResourcesDirname());
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
             
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
@@ -2031,8 +2016,8 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
         
         try{
             StringBuilder systemResourcesFilename = new StringBuilder();
-            
-            systemResourcesFilename.append(ProjectConstants.DEFAULT_RESOURCES_DIR);
+
+            systemResourcesFilename.append(this.build.getResourcesDirname());
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
             
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
