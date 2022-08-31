@@ -217,7 +217,7 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         }
     }
 
-    @Transaction(path = "list", type = MethodType.GET, consumes = ContentType.JSON, produces = ContentType.JSON)
+    @Transaction(path = "list", type = MethodType.GET, produces = ContentType.JSON)
     @Override
     public Collection<M> list() throws InternalErrorException{
         IPersistence<M> persistence = getPersistence();
