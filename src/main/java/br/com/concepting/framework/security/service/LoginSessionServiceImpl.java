@@ -63,7 +63,7 @@ import java.util.List;
  */
 @Auditable
 public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseService<L> implements LoginSessionService<L, U, LP>{
-    @Transaction(path = "validateMfaToken", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
+    @Transaction(path = "validateMfaToken", type = MethodType.POST, consumes = ContentType.JSON)
     @Auditable
     @SuppressWarnings("unchecked")
     @Override
@@ -462,7 +462,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         return user;
     }
 
-    @Transaction(path = "logOut", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
+    @Transaction(path = "logOut", type = MethodType.DELETE)
     @Auditable
     @SuppressWarnings("unchecked")
     @Override

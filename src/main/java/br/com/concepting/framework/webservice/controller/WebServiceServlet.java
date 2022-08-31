@@ -276,13 +276,25 @@ public class WebServiceServlet extends HttpServlet {
                     Transaction transaction = method.getAnnotation(Transaction.class);
 
                     if((transaction.path().equals(this.methodUrl) || transaction.path().equals("/".concat(this.methodUrl))) &&
-                       transaction.type().equals(methodType) &&
-                       transaction.produces().equals(this.produces)) {
-                        ContentType[] permittedConsumption = transaction.consumes();
+                       transaction.type().equals(methodType)) {
+                        ContentType[] permittedProduction = transaction.produces();
+                        boolean found = false;
 
-                        for (ContentType item : permittedConsumption)
-                            if (item.equals(this.consumes))
-                                return method;
+                        for (ContentType item : permittedProduction){
+                            if (item.equals(this.produces)) {
+                                found = true;
+
+                                break;
+                            }
+                        }
+
+                        if(found) {
+                            ContentType[] permittedConsumption = transaction.consumes();
+
+                            for (ContentType item : permittedConsumption)
+                                if (item.equals(this.consumes))
+                                    return method;
+                        }
                     }
                 }
             }
