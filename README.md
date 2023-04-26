@@ -28,7 +28,6 @@ If you want to contribute with us, just fork the project that is located in GitH
 Build Status
 ============
 
-
 [![CI/CD](https://github.com/fvilarinho/framework/actions/workflows/pipelines.yml/badge.svg?branch=master)](https://github.com/fvilarinho/framework/actions/workflows/pipelines.yml)
 
 
@@ -38,7 +37,7 @@ Installation
 The pre-requisites to use the framework are:
 
 1. **Java Development Kit 11**
-2. **Gradle 6.8.x**
+2. **Gradle 6.9.x**
 
 To start using the framework, you should clone the project from BitBucket and then import it into your IDE.
 Now I'm using Eclipse IDE for JEE Developers. This IDE already has an integration with GitHub but if you use another tool, and it doesn't have a GitHub integration, you should use the git client. To clone the repository just run the command below:
@@ -52,7 +51,7 @@ To use the development version (Unstable), execute the command below:
 
 To use the last stable version, execute the command below:
 
-`git checkout tags/3.10.8 -b 3.10.8`
+`git checkout tags/3.10.16 -b 3.10.16`
 
 Or use the IDE to switch between the versions.
 
