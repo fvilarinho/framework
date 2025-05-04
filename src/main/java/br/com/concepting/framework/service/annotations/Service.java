@@ -64,5 +64,10 @@ public @interface Service{
      */
     String url() default "";
 
+    /**
+     * Defines if the service accepts APIs calls.
+     *
+     * @return true/false.
+     */
     boolean isWeb() default false;
 }

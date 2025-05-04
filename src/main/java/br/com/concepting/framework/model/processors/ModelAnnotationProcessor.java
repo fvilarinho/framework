@@ -165,29 +165,30 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             AuditorResourcesLoader loader = new AuditorResourcesLoader(this.build.getResourcesDirname());
             AuditorResources auditorResources = loader.getDefault();
             Auditor auditor = null;
-            
-            for(File templateFile: templateFiles){
-                for(Method business: templateMethods){
-                    try{
-                        Tag methodTag = business.getAnnotation(Tag.class);
-                        
-                        if(methodTag != null && methodTag.value().equals(templateFile.getName())){
-                            if(auditorResources != null){
-                                Class<?> entity = getClass();
 
-                                auditor = new Auditor(entity, business, new Object[]{this.modelInfo.getClazz().getName()}, loginSession, auditorResources);
-                                auditor.start();
+            if (templateFiles != null) {
+                for (File templateFile : templateFiles) {
+                    for (Method business : templateMethods) {
+                        try {
+                            Tag methodTag = business.getAnnotation(Tag.class);
+
+                            if (methodTag != null && methodTag.value().equals(templateFile.getName())) {
+                                if (auditorResources != null) {
+                                    Class<?> entity = getClass();
+
+                                    auditor = new Auditor(entity, business, new Object[]{this.modelInfo.getClazz().getName()}, loginSession, auditorResources);
+                                    auditor.start();
+                                }
+
+                                business.invoke(this, templateFile.getAbsolutePath());
+
+                                if (auditor != null)
+                                    auditor.end();
                             }
-                            
-                            business.invoke(this, templateFile.getAbsolutePath());
-                            
-                            if(auditor != null)
-                                auditor.end();
+                        } catch (Throwable e) {
+                            if (auditor != null)
+                                auditor.end(e);
                         }
-                    }
-                    catch(Throwable e){
-                        if(auditor != null)
-                            auditor.end(e);
                     }
                 }
             }
@@ -247,7 +248,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder actionClassName = new StringBuilder();
                     
-                    if(packageName != null && !packageName.isEmpty()){
+                    if(!packageName.isEmpty()){
                         actionClassName.append(packageName);
                         actionClassName.append(".");
                     }
@@ -256,7 +257,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder actionClassFilename = new StringBuilder();
                     
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         actionClassFilename.append(outputDir);
                         actionClassFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -281,7 +282,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, actionClassTemplateArtifactNode);
                             String actionClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
-                            if(actionClassContent != null && !actionClassContent.isEmpty())
+                            if(!actionClassContent.isEmpty())
                                 FileUtil.toTextFile(actionClassFilename.toString(), actionClassContent, encoding);
                         }
                     }
@@ -335,17 +336,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     String name = expressionProcessor.evaluate(actionFormClassTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder packageNameBuffer = new StringBuilder();
                     
-                    if(packagePrefix != null && packagePrefix.length() > 0)
+                    if(packagePrefix != null && !packagePrefix.isEmpty())
                         packageNameBuffer.append(packagePrefix);
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(packageName != null && !packageName.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
-                    if(packageSuffix != null && packageSuffix.length() > 0){
+                    if(packageSuffix != null && !packageSuffix.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
@@ -356,7 +357,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder actionFormClassName = new StringBuilder();
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(!packageName.isEmpty()){
                         actionFormClassName.append(packageName);
                         actionFormClassName.append(".");
                     }
@@ -389,7 +390,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, actionFormClassTemplateArtifactNode);
                             String actionFormClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
-                            if(actionFormClassContent != null && actionFormClassContent.length() > 0)
+                            if(!actionFormClassContent.isEmpty())
                                 FileUtil.toTextFile(actionFormClassFilename.toString(), actionFormClassContent, encoding);
                             
                             addActionFormMapping(actionFormClassName.toString());
@@ -433,7 +434,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
      */
     private void addActionFormMapping(String currentActionFormClassName) throws InternalErrorException{
         try{
-            if(currentActionFormClassName == null || currentActionFormClassName.length() == 0)
+            if(currentActionFormClassName == null || currentActionFormClassName.isEmpty())
                 return;
             
             StringBuilder systemResourcesFilename = new StringBuilder();
@@ -509,7 +510,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
      */
     private void removeActionFormMapping(String currentActionFormClassName) throws InternalErrorException{
         try{
-            if(currentActionFormClassName == null || currentActionFormClassName.length() == 0)
+            if(currentActionFormClassName == null || currentActionFormClassName.isEmpty())
                 return;
             
             StringBuilder systemResourcesFilename = new StringBuilder();
@@ -1934,17 +1935,19 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     Service serviceAnnotation = serviceClass.getAnnotation(Service.class);
 
                     if(serviceAnnotation != null){
-                        if(serviceAnnotation.isJob())
+                        if(serviceAnnotation.isJob()) {
                             serviceNode.addAttribute("isJob", String.valueOf(true));
 
-                        if(serviceAnnotation.pollingTime() > 0)
-                            serviceNode.addAttribute("isRecurrent", String.valueOf(true));
+                            if (serviceAnnotation.pollingTime() > 0)
+                                serviceNode.addAttribute("isRecurrent", String.valueOf(true));
+                        }
 
-                        if(serviceAnnotation.isWeb())
+                        if(serviceAnnotation.isWeb()) {
                             serviceNode.addAttribute("isWeb", String.valueOf(true));
 
-                        if(serviceAnnotation.url() != null && !serviceAnnotation.url().isEmpty())
-                            serviceNode.addAttribute("url", serviceAnnotation.url());
+                            if (serviceAnnotation.url() != null && !serviceAnnotation.url().isEmpty())
+                                serviceNode.addAttribute("url", serviceAnnotation.url());
+                        }
 
                         XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
 
