@@ -353,19 +353,19 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
     public Integer getPollingTime() throws InternalErrorException{
         Service serviceAnnotation = getClass().getAnnotation(Service.class);
         
-        if(serviceAnnotation != null && serviceAnnotation.isDaemon() && serviceAnnotation.isJob())
+        if(serviceAnnotation != null && serviceAnnotation.isJob())
             return serviceAnnotation.pollingTime();
         
         return null;
     }
-    
+
     @Override
     public String getStartTime() throws InternalErrorException{
         Service serviceAnnotation = getClass().getAnnotation(Service.class);
-        
-        if(serviceAnnotation != null && serviceAnnotation.isDaemon())
+
+        if(serviceAnnotation != null && getPollingTime() > 0)
             return serviceAnnotation.startTime();
-        
+
         return null;
     }
 

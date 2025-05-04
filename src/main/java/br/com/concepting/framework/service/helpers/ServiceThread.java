@@ -118,7 +118,7 @@ public class ServiceThread implements Runnable{
                         try{
                             String startTime = service.getStartTime();
                             
-                            if(startTime != null && startTime.length() > 0){
+                            if(startTime != null && !startTime.isEmpty()){
                                 calendar.setTime(DateTimeUtil.parse(startTime, "HH:mm"));
                                 calendar.set(Calendar.SECOND, 0);
                                 calendar.set(Calendar.MILLISECOND, 0);
