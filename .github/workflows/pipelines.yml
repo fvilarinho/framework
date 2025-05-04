@@ -7,13 +7,15 @@ on:
     paths-ignore:
       - 'LICENSE'
       - '*.md'
+      - 'src/templates/*'
+      - 'src/ui/*'
 
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
     - name: Download project files
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up JDK 11
       uses: actions/setup-java@v1
