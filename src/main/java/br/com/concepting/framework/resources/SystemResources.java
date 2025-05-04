@@ -342,7 +342,7 @@ public class SystemResources extends BaseResources<XmlNode>{
 
     public static class ServiceResources implements Serializable {
         private String clazz = null;
-        private boolean isDaemon = false;
+        private boolean isRecurrent = false;
         private boolean isJob = false;
         private boolean isWeb = false;
         private String url = null;
@@ -355,16 +355,16 @@ public class SystemResources extends BaseResources<XmlNode>{
             this.clazz = clazz;
         }
 
-        public boolean isDaemon(){
-            return this.isDaemon;
+        public boolean isRecurrent(){
+            return this.isRecurrent;
         }
 
-        public boolean getDaemon() {
-            return isDaemon();
+        public boolean getRecurrent() {
+            return isRecurrent();
         }
 
-        public void setDaemon(boolean isDaemon) {
-            this.isDaemon = isDaemon;
+        public void setRecurrent(boolean isRecurrent) {
+            this.isRecurrent = isRecurrent;
         }
 
         public boolean isJob(){

@@ -202,13 +202,13 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             if(servicesNodes != null && !servicesNodes.isEmpty())
                 for(XmlNode serviceNode: servicesNodes){
                     SystemResources.ServiceResources serviceResources = new SystemResources.ServiceResources();
-                    String isDaemon = serviceNode.getAttribute("isDaemon");
+                    String isRecurrent = serviceNode.getAttribute("isRecurrent");
                     String isJob = serviceNode.getAttribute("isJob");
                     String isWeb = serviceNode.getAttribute("isWeb");
                     String url = serviceNode.getAttribute("url");
 
-                    if(isDaemon != null)
-                        serviceResources.setDaemon(Boolean.parseBoolean(isDaemon));
+                    if(isRecurrent != null)
+                        serviceResources.setRecurrent(Boolean.parseBoolean(isRecurrent));
 
                     if(isJob != null)
                         serviceResources.setJob(Boolean.parseBoolean(isJob));

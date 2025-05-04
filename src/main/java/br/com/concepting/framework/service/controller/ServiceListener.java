@@ -230,18 +230,20 @@ public class ServiceListener implements ServletContextListener{
 
                                 if(serviceClass != null){
                                     if(serviceResources.isJob()){
-                                        if(jobServicesClasses == null)
-                                            jobServicesClasses = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+                                        if(serviceResources.isRecurrent()) {
+                                            if (jobServicesClasses == null)
+                                                jobServicesClasses = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-                                        jobServicesClasses.add(serviceClass);
-                                    }
-                                    else if(serviceResources.isDaemon()){
-                                        if(executor == null)
-                                            executor = Executors.newWorkStealingPool();
+                                            jobServicesClasses.add(serviceClass);
+                                        }
+                                        else {
+                                            if (executor == null)
+                                                executor = Executors.newWorkStealingPool();
 
-                                        IService<? extends BaseModel> daemonService = ServiceUtil.getByServiceClass(serviceClass, ServiceListener.this.loginSession);
+                                            IService<? extends BaseModel> daemonService = ServiceUtil.getByServiceClass(serviceClass, ServiceListener.this.loginSession);
 
-                                        executor.submit(new ServiceThread(daemonService));
+                                            executor.submit(new ServiceThread(daemonService));
+                                        }
                                     }
                                 }
                             }

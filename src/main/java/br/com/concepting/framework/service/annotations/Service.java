@@ -30,13 +30,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 public @interface Service{
     /**
-     * Indicates if the service is a daemon.
-     *
-     * @return True/False.
-     */
-    boolean isDaemon() default false;
-    
-    /**
      * Indicates if the service is a job.
      *
      * @return True/False.

@@ -1934,11 +1934,11 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     Service serviceAnnotation = serviceClass.getAnnotation(Service.class);
 
                     if(serviceAnnotation != null){
-                        if(serviceAnnotation.isDaemon())
-                            serviceNode.addAttribute("isDaemon", String.valueOf(true));
-
                         if(serviceAnnotation.isJob())
                             serviceNode.addAttribute("isJob", String.valueOf(true));
+
+                        if(serviceAnnotation.pollingTime() > 0)
+                            serviceNode.addAttribute("isRecurrent", String.valueOf(true));
 
                         if(serviceAnnotation.isWeb())
                             serviceNode.addAttribute("isWeb", String.valueOf(true));
