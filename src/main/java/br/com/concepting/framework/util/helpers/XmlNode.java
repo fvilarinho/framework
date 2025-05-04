@@ -92,7 +92,7 @@ public class XmlNode extends Node{
         
         List<Attribute> attributes = node.attributes();
         
-        if(attributes != null && attributes.size() > 0)
+        if(attributes != null && !attributes.isEmpty())
             buildAttributes(attributes);
         
         buildChildren(node);
@@ -110,7 +110,7 @@ public class XmlNode extends Node{
         if(node != null){
             text = XmlUtil.removeNamespaces(node.asXML());
             
-            if(text != null && text.length() > 0){
+            if(text != null && !text.isEmpty()){
                 int pos = text.indexOf(">");
                 
                 if(pos >= 0)
@@ -121,13 +121,13 @@ public class XmlNode extends Node{
                 if(pos >= 0)
                     text = text.substring(0, pos);
                 
-                if(text.length() > 0){
+                if(!text.isEmpty()){
                     int asc = text.charAt(0);
                     
                     if(asc == 10)
                         text = text.substring(1);
                     
-                    if(text.length() > 0){
+                    if(!text.isEmpty()){
                         asc = text.charAt(text.length() - 1);
                         
                         if(asc == 10)
@@ -146,7 +146,7 @@ public class XmlNode extends Node{
      * @param attributes List that contains the attributes mapping.
      */
     private void buildAttributes(List<Attribute> attributes){
-        if(attributes == null || attributes.size() == 0)
+        if(attributes == null || attributes.isEmpty())
             return;
         
         this.attributes = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
@@ -155,7 +155,7 @@ public class XmlNode extends Node{
             String attributeName;
             String attributeValue;
 
-            if(attribute.getNamespacePrefix() != null && attribute.getNamespacePrefix().length() > 0){
+            if(attribute.getNamespacePrefix() != null && !attribute.getNamespacePrefix().isEmpty()){
                 String namespaceUri = attribute.getNamespace().asXML();
                 int pos = namespaceUri.indexOf("=");
                 
@@ -310,7 +310,7 @@ public class XmlNode extends Node{
         List<XmlNode> nodes = getChildren();
         XmlNode node = null;
         
-        if(nodes != null && xpathParts != null && xpathParts.length > 0){
+        if(nodes != null && xpathParts != null){
             for (String xpathPart : xpathParts) {
                 for (XmlNode item : nodes) {
                     node = item;
@@ -339,7 +339,7 @@ public class XmlNode extends Node{
     public XmlNode getNode(Integer index){
         List<XmlNode> nodes = getChildren();
         
-        if(nodes != null && nodes.size() > 0 && index != null && (nodes.size() - 1) >= index)
+        if(nodes != null && !nodes.isEmpty() && index != null && (nodes.size() - 1) >= index)
             return nodes.get(index);
         
         return null;
@@ -352,7 +352,7 @@ public class XmlNode extends Node{
      * @return String that contains the value.
      */
     public String getAttribute(String name){
-        if(this.attributes == null || this.attributes.size() == 0)
+        if(this.attributes == null || this.attributes.isEmpty())
             return null;
         
         return this.attributes.get(name);
@@ -365,11 +365,25 @@ public class XmlNode extends Node{
      * @param value String that contains the value.
      */
     public void addAttribute(String name, String value){
-        if(name != null && name.length() > 0 && value != null){
+        if(name != null && !name.isEmpty() && value != null){
             if(this.attributes == null)
                 this.attributes = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
             
             this.attributes.put(name, value);
+        }
+    }
+
+    /**
+     * Removes an existing attribute.
+     *
+     * @param name String that contains the identifier of the attribute.
+     */
+    public void removeAttribute(String name) {
+        if(name != null && !name.isEmpty()){
+            if(this.attributes == null)
+                this.attributes = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
+
+            this.attributes.remove(name);
         }
     }
     

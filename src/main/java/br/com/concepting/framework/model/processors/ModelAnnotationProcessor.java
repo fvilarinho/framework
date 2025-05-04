@@ -1941,12 +1941,20 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             if (serviceAnnotation.pollingTime() > 0)
                                 serviceNode.addAttribute("isRecurrent", String.valueOf(true));
                         }
+                        else {
+                            serviceNode.removeAttribute("isJob");
+                            serviceNode.removeAttribute("isRecurrent");
+                        }
 
                         if(serviceAnnotation.isWeb()) {
                             serviceNode.addAttribute("isWeb", String.valueOf(true));
 
                             if (serviceAnnotation.url() != null && !serviceAnnotation.url().isEmpty())
                                 serviceNode.addAttribute("url", serviceAnnotation.url());
+                        }
+                        else {
+                            serviceNode.removeAttribute("isWeb");
+                            serviceNode.removeAttribute("url");
                         }
 
                         XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
