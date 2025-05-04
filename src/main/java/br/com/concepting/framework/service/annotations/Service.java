@@ -37,11 +37,11 @@ public @interface Service{
     boolean isDaemon() default false;
     
     /**
-     * Indicates if the service is recurrent.
+     * Indicates if the service is a job.
      *
      * @return True/False.
      */
-    boolean isRecurrent() default false;
+    boolean isJob() default false;
     
     /**
      * Indicates the polling time (minutes) of the daemon.
@@ -69,5 +69,7 @@ public @interface Service{
      *
      * @return String that contains the path.
      */
-    String path() default "";
+    String url() default "";
+
+    boolean isWeb() default false;
 }

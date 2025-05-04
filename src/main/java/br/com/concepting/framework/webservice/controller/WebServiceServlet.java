@@ -203,12 +203,12 @@ public class WebServiceServlet extends HttpServlet {
 
         this.serviceUrl = this.uri.substring(1, pos);
 
-        if(this.serviceUrl.length() == 0)
+        if(this.serviceUrl.isEmpty())
             throw new InvalidResourcesException(this.uri);
 
         this.methodUrl = this.uri.substring(pos + 1);
 
-        if(this.methodUrl.length() == 0)
+        if(this.methodUrl.isEmpty())
             this.methodUrl = "execute";
     }
 
@@ -224,7 +224,7 @@ public class WebServiceServlet extends HttpServlet {
 
         if(servicesResources != null && !servicesResources.isEmpty()){
             try {
-                Optional<SystemResources.ServiceResources> result = servicesResources.parallelStream().filter(s -> s.getPath() != null && (s.getPath().equals(this.serviceUrl) || s.getPath().equals("/".concat(this.serviceUrl)))).findAny();
+                Optional<SystemResources.ServiceResources> result = servicesResources.parallelStream().filter(s -> s.getUrl() != null && (s.getUrl().equals(this.serviceUrl) || s.getUrl().equals("/".concat(this.serviceUrl)))).findAny();
                 SystemResources.ServiceResources serviceResource;
 
                 if(result.isEmpty())
@@ -257,7 +257,7 @@ public class WebServiceServlet extends HttpServlet {
         do {
             Collection<Method> methodsBuffer = Arrays.asList(superClass.getDeclaredMethods());
 
-            if (methodsBuffer != null && !methodsBuffer.isEmpty()) {
+            if (!methodsBuffer.isEmpty()) {
                 if (methods == null)
                     methods = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
@@ -271,11 +271,11 @@ public class WebServiceServlet extends HttpServlet {
         if(methods != null && !methods.isEmpty()){
             methods = methods.parallelStream().filter(s-> s.getAnnotation(Transaction.class) != null).collect(Collectors.toList());
 
-            if(methods != null && !methods.isEmpty()){
+            if(!methods.isEmpty()){
                 for(Method method : methods){
                     Transaction transaction = method.getAnnotation(Transaction.class);
 
-                    if((transaction.path().equals(this.methodUrl) || transaction.path().equals("/".concat(this.methodUrl))) &&
+                    if((transaction.url().equals(this.methodUrl) || transaction.url().equals("/".concat(this.methodUrl))) &&
                        transaction.type().equals(methodType)) {
                         ContentType[] permittedProduction = transaction.produces();
                         boolean found = false;
@@ -314,7 +314,7 @@ public class WebServiceServlet extends HttpServlet {
     private Object[] lookupMethodParameters(Method method) throws InternalErrorException{
         try {
             Transaction transaction = method.getAnnotation(Transaction.class);
-            String[] transactionPathParts = StringUtil.split(transaction.path(), "/");
+            String[] transactionPathParts = StringUtil.split(transaction.url(), "/");
             String[]  methodPathParts = StringUtil.split(this.methodUrl, "/");
             Parameter[] parameters = method.getParameters();
             Object[] parametersValues = null;
@@ -334,7 +334,7 @@ public class WebServiceServlet extends HttpServlet {
                     if (transactionParam != null) {
                         String parameterName = transactionParam.name();
 
-                        if (parameterName != null && parameterName.length() > 0) {
+                        if (parameterName != null && !parameterName.isEmpty()) {
                             if(transactionParam.fromPath()) {
 
                                 for(int pos = 0 ; cont < transactionPathParts.length ; cont++){
@@ -464,7 +464,7 @@ public class WebServiceServlet extends HttpServlet {
             UserModel user = (loginSession != null ? loginSession.getUser() : null);
             LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
 
-            if(loginParameter != null && loginParameter.getLanguage() != null && loginParameter.getLanguage().length() > 0)
+            if(loginParameter != null && loginParameter.getLanguage() != null && !loginParameter.getLanguage().isEmpty())
                 return LanguageUtil.getLanguageByString(loginParameter.getLanguage());
         }
 

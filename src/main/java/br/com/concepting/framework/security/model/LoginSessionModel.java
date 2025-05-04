@@ -47,7 +47,7 @@ public class LoginSessionModel extends BaseModel{
     private DateTime startDateTime = null;
     
     @Auditable
-    @Property(relationType = RelationType.ONE_TO_ONE, relationJoinType = RelationJoinType.INNER_JOIN)
+    @Property(relationType = RelationType.ONE_TO_ONE, relationJoinType = RelationJoinType.INNER_JOIN, cascadeOnSave = true)
     private SystemSessionModel systemSession = null;
     
     @Auditable

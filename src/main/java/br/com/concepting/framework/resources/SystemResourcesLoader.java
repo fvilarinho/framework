@@ -72,7 +72,7 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             if(classNode != null){
                 String value = classNode.getValue();
                 
-                if(value != null && value.length() > 0){
+                if(value != null && !value.isEmpty()){
                     try{
                         resources.setMainConsoleClass(classNode.getValue());
                     }
@@ -90,7 +90,7 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
         
         List<XmlNode> skinsChildNodes = skinsNode.getChildren();
         
-        if(skinsChildNodes == null || skinsChildNodes.size() == 0)
+        if(skinsChildNodes == null || skinsChildNodes.isEmpty())
             throw new InvalidResourcesException(resourcesDirname, resourcesId, skinsNode.getText());
         
         Collection<String> skins = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
@@ -99,7 +99,7 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
         for(XmlNode skinChildNode: skinsChildNodes){
             String skin = skinChildNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
             
-            if(skin != null && skin.length() > 0){
+            if(skin != null && !skin.isEmpty()){
                 if(Boolean.parseBoolean(skinChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
                     defaultSkin = skin;
                 
@@ -107,10 +107,10 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             }
         }
         
-        if(skins == null || skins.size() == 0)
+        if(skins == null || skins.isEmpty())
             throw new InvalidResourcesException(resourcesDirname, resourcesId, skinsNode.getText());
         
-        if(defaultSkin == null || defaultSkin.length() == 0)
+        if(defaultSkin == null || defaultSkin.isEmpty())
             defaultSkin = skins.iterator().next();
         
         resources.setSkins(skins);
@@ -123,7 +123,7 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
         
         List<XmlNode> languagesChildNodes = languagesNode.getChildren();
         
-        if(languagesChildNodes == null || languagesChildNodes.size() == 0)
+        if(languagesChildNodes == null || languagesChildNodes.isEmpty())
             throw new InvalidResourcesException(resourcesDirname, resourcesId, languagesNode.getText());
         
         Collection<Locale> languages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
@@ -132,7 +132,7 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
         for(XmlNode languageChildNode: languagesChildNodes){
             String languageBuffer = languageChildNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
             
-            if(languageBuffer != null && languageBuffer.length() > 0){
+            if(languageBuffer != null && !languageBuffer.isEmpty()){
                 Locale language = LanguageUtil.getLanguageByString(languageBuffer);
                 
                 if(Boolean.parseBoolean(languageChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
@@ -142,7 +142,7 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             }
         }
         
-        if(languages == null || languages.size() == 0)
+        if(languages == null || languages.isEmpty())
             throw new InvalidResourcesException(resourcesDirname, resourcesId, languagesNode.getText());
         
         if(defaultLanguage == null)
@@ -199,20 +199,24 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
         if(servicesNode != null){
             List<XmlNode> servicesNodes = servicesNode.getChildren();
             
-            if(servicesNodes != null && servicesNodes.size() > 0)
+            if(servicesNodes != null && !servicesNodes.isEmpty())
                 for(XmlNode serviceNode: servicesNodes){
                     SystemResources.ServiceResources serviceResources = new SystemResources.ServiceResources();
                     String isDaemon = serviceNode.getAttribute("isDaemon");
-                    String isRecurrent = serviceNode.getAttribute("isRecurrent");
-                    String path = serviceNode.getAttribute("path");
+                    String isJob = serviceNode.getAttribute("isJob");
+                    String isWeb = serviceNode.getAttribute("isWeb");
+                    String url = serviceNode.getAttribute("url");
 
                     if(isDaemon != null)
                         serviceResources.setDaemon(Boolean.parseBoolean(isDaemon));
 
-                    if(isRecurrent != null)
-                        serviceResources.setRecurrent(Boolean.parseBoolean(isRecurrent));
+                    if(isJob != null)
+                        serviceResources.setJob(Boolean.parseBoolean(isJob));
 
-                    serviceResources.setPath(path);
+                    if(isWeb != null)
+                        serviceResources.setWeb(Boolean.parseBoolean(isWeb));
+
+                    serviceResources.setUrl(url);
                     serviceResources.setClazz(serviceNode.getValue());
 
                     resources.addService(serviceResources);

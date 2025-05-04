@@ -217,7 +217,7 @@ public class ServiceListener implements ServletContextListener{
                         Collection<SystemResources.ServiceResources> servicesResources = systemResources.getServices();
 
                         if(servicesResources != null && !servicesResources.isEmpty()){
-                            Collection<Class<? extends IService<? extends BaseModel>>> recurrentServicesClasses = null;
+                            Collection<Class<? extends IService<? extends BaseModel>>> jobServicesClasses = null;
 
                             for(SystemResources.ServiceResources serviceResources : servicesResources){
                                 Class<? extends IService<? extends BaseModel>> serviceClass = null;
@@ -229,11 +229,11 @@ public class ServiceListener implements ServletContextListener{
                                 }
 
                                 if(serviceClass != null){
-                                    if(serviceResources.isRecurrent()){
-                                        if(recurrentServicesClasses == null)
-                                            recurrentServicesClasses = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+                                    if(serviceResources.isJob()){
+                                        if(jobServicesClasses == null)
+                                            jobServicesClasses = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-                                        recurrentServicesClasses.add(serviceClass);
+                                        jobServicesClasses.add(serviceClass);
                                     }
                                     else if(serviceResources.isDaemon()){
                                         if(executor == null)
@@ -246,7 +246,7 @@ public class ServiceListener implements ServletContextListener{
                                 }
                             }
 
-                            if(recurrentServicesClasses != null && !recurrentServicesClasses.isEmpty()){
+                            if(jobServicesClasses != null && !jobServicesClasses.isEmpty()){
                                 Calendar now = Calendar.getInstance();
                                 int initialDelay = (60 - now.get(Calendar.SECOND));
 
@@ -254,9 +254,9 @@ public class ServiceListener implements ServletContextListener{
                                     initialDelay = 0;
 
                                 if(scheduledExecutor == null)
-                                    scheduledExecutor = Executors.newScheduledThreadPool(recurrentServicesClasses.size());
+                                    scheduledExecutor = Executors.newScheduledThreadPool(jobServicesClasses.size());
 
-                                for(Class<? extends IService<? extends BaseModel>> recurrentServiceClass : recurrentServicesClasses){
+                                for(Class<? extends IService<? extends BaseModel>> recurrentServiceClass : jobServicesClasses){
                                     IService<? extends BaseModel> recurrentService = ServiceUtil.getByServiceClass(recurrentServiceClass, ServiceListener.this.loginSession);
 
                                     scheduledExecutor.scheduleAtFixedRate(new ServiceThread(recurrentService), initialDelay, 60, TimeUnit.SECONDS);

@@ -3,7 +3,7 @@ name: CI/CD
 on:
   push:
     branches: 
-      - 'master'
+      - '*'
     paths-ignore:
       - 'LICENSE'
       - '*.md'
@@ -22,10 +22,14 @@ jobs:
 
     - name: Build and Test
       env:
+        REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
+        REPOSITORY_USER: ${{ secrets.REPOSITORY_USER }}
         REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
       run: ./build.sh
 
     - name: Publish
       env:
+        REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
+        REPOSITORY_USER: ${{ secrets.REPOSITORY_USER }}
         REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
       run: ./publish.sh

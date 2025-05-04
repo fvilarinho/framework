@@ -114,7 +114,7 @@ public class SystemResources extends BaseResources<XmlNode>{
      */
     @SuppressWarnings("unchecked")
     public void setMainConsoleClass(String mainConsoleClassName) throws ClassNotFoundException, ClassCastException{
-        if(mainConsoleClassName != null && mainConsoleClassName.length() > 0)
+        if(mainConsoleClassName != null && !mainConsoleClassName.isEmpty())
             setMainConsoleClass((Class<? extends MainConsoleModel>) Class.forName(mainConsoleClassName));
     }
     
@@ -343,8 +343,9 @@ public class SystemResources extends BaseResources<XmlNode>{
     public static class ServiceResources implements Serializable {
         private String clazz = null;
         private boolean isDaemon = false;
-        private boolean isRecurrent = false;
-        private String path = null;
+        private boolean isJob = false;
+        private boolean isWeb = false;
+        private String url = null;
 
         public String getClazz() {
             return this.clazz;
@@ -362,28 +363,30 @@ public class SystemResources extends BaseResources<XmlNode>{
             return isDaemon();
         }
 
-        public void setDaemon(boolean daemon) {
-            this.isDaemon = daemon;
+        public void setDaemon(boolean isDaemon) {
+            this.isDaemon = isDaemon;
         }
 
-        public boolean isRecurrent(){
-            return this.isRecurrent;
+        public boolean isJob(){
+            return this.isJob;
         }
 
-        public boolean getRecurrent() {
-            return isRecurrent();
+        public boolean isWeb() { return this.isWeb; }
+
+        public void setWeb(boolean isWeb) { this.isWeb = isWeb;}
+
+        public boolean getJob() { return isJob(); }
+
+        public void setJob(boolean isJob) {
+            this.isJob = isJob;
         }
 
-        public void setRecurrent(boolean recurrent) {
-            isRecurrent = recurrent;
+        public String getUrl() {
+            return this.url;
         }
 
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
+        public void setUrl(String url) {
+            this.url = url;
         }
     }
 }

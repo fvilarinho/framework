@@ -63,14 +63,14 @@ import java.util.List;
  */
 @Auditable
 public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseService<L> implements LoginSessionService<L, U, LP>{
-    @Transaction(path = "validateMfaToken", type = MethodType.POST, consumes = ContentType.JSON)
-    @Auditable
     @SuppressWarnings("unchecked")
+    @Transaction(url = "validateMfaToken", type = MethodType.POST, consumes = ContentType.JSON)
+    @Auditable
     @Override
     public void validateMfaToken(@TransactionParam(fromBody = true) U user) throws InvalidMfaTokenException, InternalErrorException{
         L currentLoginSession = getLoginSession();
         
-        if(currentLoginSession == null || currentLoginSession.getId() == null || currentLoginSession.getId().length() == 0)
+        if(currentLoginSession == null || currentLoginSession.getId() == null || currentLoginSession.getId().isEmpty())
             return;
         
         U currentUser = currentLoginSession.getUser();
@@ -83,7 +83,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         
         String token = user.getMfaToken();
         
-        if(loginParameter != null && loginParameter.getMfaToken() != null && loginParameter.getMfaToken().length() > 0 && token != null && token.length() > 0){
+        if(loginParameter != null && loginParameter.getMfaToken() != null && !loginParameter.getMfaToken().isEmpty() && token != null && !token.isEmpty()){
             String mfaToken = loginParameter.getMfaToken();
             
             if(token.contentEquals(mfaToken)){
@@ -115,7 +115,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
      */
     @SuppressWarnings("unchecked")
     protected U authenticate(U user) throws UserNotFoundException, InvalidPasswordException, UserBlockedException, InternalErrorException{
-        if(user == null || user.getName() == null || user.getName().length() == 0)
+        if(user == null || user.getName() == null || user.getName().isEmpty())
             throw new UserNotFoundException();
         
         user.setId(null);
@@ -128,12 +128,12 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         IService<U> userService = getService(userClass);
         Collection<U> users = userService.search(user);
         
-        if(users == null || users.size() == 0)
+        if(users == null || users.isEmpty())
             throw new UserNotFoundException();
         
         String password = user.getPassword();
         
-        if(password != null && password.length() > 0){
+        if(password != null && !password.isEmpty()){
             try{
                 password = SecurityUtil.encryptPassword(password);
             }
@@ -149,11 +149,11 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         
         boolean invalidPassword = false;
         
-        if((password == null || password.length() == 0) && user.getPassword() != null && user.getPassword().length() > 0)
+        if((password == null || password.isEmpty()) && user.getPassword() != null && !user.getPassword().isEmpty())
             invalidPassword = true;
-        else if(password != null && password.length() > 0 && (user.getPassword() == null || user.getPassword().length() == 0))
+        else if(password != null && !password.isEmpty() && (user.getPassword() == null || user.getPassword().isEmpty()))
             invalidPassword = true;
-        else if(password != null && password.length() > 0 && user.getPassword() != null && !password.equals(user.getPassword()))
+        else if(password != null && !password.isEmpty() && user.getPassword() != null && !password.equals(user.getPassword()))
             invalidPassword = true;
         
         LP loginParameter = user.getLoginParameter();
@@ -321,7 +321,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
                 
                 Collection<L> loginSessions = search(multipleLoginSession);
                 
-                if(loginSessions != null && loginSessions.size() > 0)
+                if(loginSessions != null && !loginSessions.isEmpty())
                     throw new UserAlreadyLoggedInException();
             }
         }
@@ -369,16 +369,16 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         return loginSession;
     }
 
-    @Transaction(path = "logIn", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
+    @Transaction(url = "logIn", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Auditable
     @Override
     public L logIn(@TransactionParam(fromBody = true) U user) throws UserNotFoundException, UserBlockedException, InvalidPasswordException, UserAlreadyLoggedInException, PermissionDeniedException, InternalErrorException{
-        if(user == null || user.getName() == null || user.getName().length() == 0)
+        if(user == null || user.getName() == null || user.getName().isEmpty())
             throw new UserNotFoundException();
         
         L currentLoginSession = getLoginSession();
         
-        if(currentLoginSession != null && currentLoginSession.getId() != null && currentLoginSession.getId().length() > 0)
+        if(currentLoginSession != null && currentLoginSession.getId() != null && !currentLoginSession.getId().isEmpty())
             return currentLoginSession;
         
         user = authenticate(user);
@@ -387,7 +387,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
     }
 
     @SuppressWarnings("unchecked")
-    @Transaction(path = "changePassword", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
+    @Transaction(url = "changePassword", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Auditable
     @Override
     public U changePassword(@TransactionParam(fromBody = true) U user) throws PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException{
@@ -406,7 +406,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             throw new PasswordsNotMatchException();
         }
         
-        if(password != null && password.length() > 0)
+        if(password != null && !password.isEmpty())
             password = SecurityUtil.encryptPassword(password);
         
         if(password != null && !password.equals(user.getPassword()))
@@ -419,7 +419,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         LP loginParameter = user.getLoginParameter();
         
         if(loginParameter != null){
-            if(loginParameter.getMinimumPasswordLength() != null && newPassword.length() < loginParameter.getMinimumPasswordLength())
+            if(loginParameter.getMinimumPasswordLength() != null && newPassword != null && newPassword.length() < loginParameter.getMinimumPasswordLength())
                 throw new PasswordWithoutMinimumLengthException(newPassword.length(), loginParameter.getMinimumPasswordLength());
             
             if(loginParameter.useStrongPassword() != null && loginParameter.useStrongPassword())
@@ -462,14 +462,14 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         return user;
     }
 
-    @Transaction(path = "logOut", type = MethodType.DELETE)
-    @Auditable
     @SuppressWarnings("unchecked")
+    @Transaction(url = "logOut", type = MethodType.DELETE)
+    @Auditable
     @Override
     public void logOut() throws InternalErrorException{
         L loginSession = getLoginSession();
         
-        if(loginSession == null || loginSession.getId() == null || loginSession.getId().length() == 0)
+        if(loginSession == null || loginSession.getId() == null || loginSession.getId().isEmpty())
             return;
         
         U user = loginSession.getUser();
@@ -531,12 +531,12 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         }
     }
 
-    @Transaction(path = "sendForgottenPassword", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
-    @Auditable
     @SuppressWarnings("unchecked")
+    @Transaction(url = "sendForgottenPassword", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
+    @Auditable
     @Override
     public void sendForgottenPassword(@TransactionParam(fromBody = true) U user) throws UserNotFoundException, UserBlockedException, InternalErrorException{
-        if(user == null || user.getEmail() == null || user.getEmail().length() == 0)
+        if(user == null || user.getEmail() == null || user.getEmail().isEmpty())
             throw new UserNotFoundException();
         
         user.setId(null);
@@ -547,7 +547,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         IPersistence<U> persistence = getPersistence(userClass);
         Collection<U> users = persistence.search(user);
         
-        if(users == null || users.size() == 0)
+        if(users == null || users.isEmpty())
             throw new UserNotFoundException();
         
         user = users.iterator().next();

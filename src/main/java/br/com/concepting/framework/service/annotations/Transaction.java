@@ -52,7 +52,7 @@ public @interface Transaction{
      *
      * @return String that contains the path.
      */
-    String path() default "";
+    String url() default "";
 
     /**
      * Defines the method accepted for API calls.

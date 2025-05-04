@@ -226,17 +226,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     String name = expressionProcessor.evaluate(actionClassTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder packageNameBuffer = new StringBuilder();
                     
-                    if(packagePrefix != null && packagePrefix.length() > 0)
+                    if(packagePrefix != null && !packagePrefix.isEmpty())
                         packageNameBuffer.append(packagePrefix);
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(packageName != null && !packageName.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
-                    if(packageSuffix != null && packageSuffix.length() > 0){
+                    if(packageSuffix != null && !packageSuffix.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
@@ -247,7 +247,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder actionClassName = new StringBuilder();
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(packageName != null && !packageName.isEmpty()){
                         actionClassName.append(packageName);
                         actionClassName.append(".");
                     }
@@ -281,7 +281,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, actionClassTemplateArtifactNode);
                             String actionClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
-                            if(actionClassContent != null && actionClassContent.length() > 0)
+                            if(actionClassContent != null && !actionClassContent.isEmpty())
                                 FileUtil.toTextFile(actionClassFilename.toString(), actionClassContent, encoding);
                         }
                     }
@@ -365,7 +365,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder actionFormClassFilename = new StringBuilder();
                     
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         actionFormClassFilename.append(outputDir);
                         actionFormClassFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -577,17 +577,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     String name = expressionProcessor.evaluate(modelClassTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder packageNameBuffer = new StringBuilder();
                     
-                    if(packagePrefix != null && packagePrefix.length() > 0)
+                    if(packagePrefix != null && !packagePrefix.isEmpty())
                         packageNameBuffer.append(packagePrefix);
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(packageName != null && !packageName.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
-                    if(packageSuffix != null && packageSuffix.length() > 0){
+                    if(packageSuffix != null && !packageSuffix.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
@@ -598,7 +598,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder modelClassName = new StringBuilder();
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(!packageName.isEmpty()){
                         modelClassName.append(packageName);
                         modelClassName.append(".");
                     }
@@ -607,7 +607,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder modelClassFilename = new StringBuilder();
                     
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         modelClassFilename.append(outputDir);
                         modelClassFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -631,7 +631,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, modelClassTemplateArtifactNode);
                             String modelClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
-                            if(modelClassContent != null && modelClassContent.length() > 0)
+                            if(!modelClassContent.isEmpty())
                                 FileUtil.toTextFile(modelClassFilename.toString(), modelClassContent, encoding);
                             
                             addCheckGeneratedCode(modelClassName.toString());
@@ -673,17 +673,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     String name = expressionProcessor.evaluate(modelClassTestTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder packageNameBuffer = new StringBuilder();
                     
-                    if(packagePrefix != null && packagePrefix.length() > 0)
+                    if(packagePrefix != null && !packagePrefix.isEmpty())
                         packageNameBuffer.append(packagePrefix);
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(packageName != null && !packageName.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
-                    if(packageSuffix != null && packageSuffix.length() > 0){
+                    if(packageSuffix != null && !packageSuffix.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
@@ -694,7 +694,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder modelClassName = new StringBuilder();
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(!packageName.isEmpty()){
                         modelClassName.append(packageName);
                         modelClassName.append(".");
                     }
@@ -703,7 +703,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder modelClassTestFilename = new StringBuilder();
                     
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         modelClassTestFilename.append(outputDir);
                         modelClassTestFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -726,7 +726,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, modelClassTestTemplateArtifactNode);
                         String modelClassTestContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                         
-                        if(modelClassTestContent != null && modelClassTestContent.length() > 0)
+                        if(!modelClassTestContent.isEmpty())
                             FileUtil.toTextFile(modelClassTestFilename.toString(), modelClassTestContent, encoding);
                     }
                 }
@@ -772,17 +772,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             String name = expressionProcessor.evaluate(resourcesTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                             StringBuilder packageNameBuffer = new StringBuilder();
                             
-                            if(packagePrefix != null && packagePrefix.length() > 0)
+                            if(packagePrefix != null && !packagePrefix.isEmpty())
                                 packageNameBuffer.append(packagePrefix);
                             
-                            if(packageName != null && packageName.length() > 0){
+                            if(packageName != null && !packageName.isEmpty()){
                                 if(packageNameBuffer.length() > 0)
                                     packageNameBuffer.append(".");
                                 
                                 packageNameBuffer.append(packageName);
                             }
                             
-                            if(packageSuffix != null && packageSuffix.length() > 0){
+                            if(packageSuffix != null && !packageSuffix.isEmpty()){
                                 if(packageNameBuffer.length() > 0)
                                     packageNameBuffer.append(".");
                                 
@@ -793,7 +793,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             
                             StringBuilder resourcesName = new StringBuilder();
                             
-                            if(packageName != null && packageName.length() > 0){
+                            if(!packageName.isEmpty()){
                                 resourcesName.append(packageName);
                                 resourcesName.append(".");
                             }
@@ -803,7 +803,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             for(Locale availableLanguage: availableLanguages){
                                 StringBuilder resourcesFilename = new StringBuilder();
                                 
-                                if(outputDir != null && outputDir.length() > 0){
+                                if(outputDir != null && !outputDir.isEmpty()){
                                     resourcesFilename.append(outputDir);
                                     resourcesFilename.append(FileUtil.getDirectorySeparator());
                                 }
@@ -873,17 +873,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     String name = expressionProcessor.evaluate(persistenceClassTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder packageNameBuffer = new StringBuilder();
                     
-                    if(packagePrefix != null && packagePrefix.length() > 0)
+                    if(packagePrefix != null && !packagePrefix.isEmpty())
                         packageNameBuffer.append(packagePrefix);
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(packageName != null && !packageName.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
-                    if(packageSuffix != null && packageSuffix.length() > 0){
+                    if(packageSuffix != null && !packageSuffix.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
@@ -894,7 +894,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder persistenceClassName = new StringBuilder();
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(!packageName.isEmpty()){
                         persistenceClassName.append(packageName);
                         persistenceClassName.append(".");
                     }
@@ -903,7 +903,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder persistenceClassFilename = new StringBuilder();
                     
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         persistenceClassFilename.append(outputDir);
                         persistenceClassFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -927,7 +927,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, persistenceClassTemplateArtifactNode);
                             String persistenceClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
-                            if(persistenceClassContent != null && persistenceClassContent.length() > 0)
+                            if(!persistenceClassContent.isEmpty())
                                 FileUtil.toTextFile(persistenceClassFilename.toString(), persistenceClassContent, encoding);
                         }
                     }
@@ -971,17 +971,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     String name = expressionProcessor.evaluate(persistenceInterfaceTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder packageNameBuffer = new StringBuilder();
                     
-                    if(packagePrefix != null && packagePrefix.length() > 0)
+                    if(packagePrefix != null && !packagePrefix.isEmpty())
                         packageNameBuffer.append(packagePrefix);
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(packageName != null && !packageName.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
-                    if(packageSuffix != null && packageSuffix.length() > 0){
+                    if(packageSuffix != null && !packageSuffix.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
@@ -992,7 +992,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder persistenceInterfaceName = new StringBuilder();
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(!packageName.isEmpty()){
                         persistenceInterfaceName.append(packageName);
                         persistenceInterfaceName.append(".");
                     }
@@ -1001,7 +1001,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder persistenceInterfaceFilename = new StringBuilder();
                     
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         persistenceInterfaceFilename.append(outputDir);
                         persistenceInterfaceFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -1025,7 +1025,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, persistenceInterfaceTemplateArtifactNode);
                             String persistenceInterfaceContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
-                            if(persistenceInterfaceContent != null && persistenceInterfaceContent.length() > 0)
+                            if(!persistenceInterfaceContent.isEmpty())
                                 FileUtil.toTextFile(persistenceInterfaceFilename.toString(), persistenceInterfaceContent, encoding);
                         }
                     }
@@ -1068,17 +1068,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     String name = expressionProcessor.evaluate(persistenceMappingTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder packageNameBuffer = new StringBuilder();
                     
-                    if(packagePrefix != null && packagePrefix.length() > 0)
+                    if(packagePrefix != null && !packagePrefix.isEmpty())
                         packageNameBuffer.append(packagePrefix);
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(packageName != null && !packageName.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
-                    if(packageSuffix != null && packageSuffix.length() > 0){
+                    if(packageSuffix != null && !packageSuffix.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
@@ -1089,7 +1089,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder persistenceMappingName = new StringBuilder();
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(!packageName.isEmpty()){
                         persistenceMappingName.append(packageName);
                         persistenceMappingName.append(".");
                     }
@@ -1098,7 +1098,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder persistenceMappingFilename = new StringBuilder();
                     
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         persistenceMappingFilename.append(outputDir);
                         persistenceMappingFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -1115,7 +1115,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     if(persistenceMappingFile.exists())
                         persistenceMappingFile.delete();
                     
-                    if(this.modelInfo.generatePersistence() && this.modelInfo.getMappedRepositoryId() != null && this.modelInfo.getMappedRepositoryId().length() > 0){
+                    if(this.modelInfo.generatePersistence() && this.modelInfo.getMappedRepositoryId() != null && !this.modelInfo.getMappedRepositoryId().isEmpty()){
                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -1124,7 +1124,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, persistenceMappingTemplateArtifactNode);
                         String persistenceMappingContent = processor.process();
                         
-                        if(persistenceMappingContent != null && persistenceMappingContent.length() > 0){
+                        if(persistenceMappingContent != null && !persistenceMappingContent.isEmpty()){
                             DocumentType persistenceMappingDocumentType = new DefaultDocumentType();
                             String persistenceMappingEncoding = persistenceMappingTemplateReader.getEncoding();
                             
@@ -1154,7 +1154,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
     private void updatePersistenceResources() throws InternalErrorException{
         try{
             StringBuilder persistenceResourcesFilename = new StringBuilder();
-            
+
             persistenceResourcesFilename.append(this.build.getResourcesDirname());
             persistenceResourcesFilename.append(FileUtil.getDirectorySeparator());
             persistenceResourcesFilename.append(PersistenceConstants.DEFAULT_RESOURCES_ID);
@@ -1230,17 +1230,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     String name = expressionProcessor.evaluate(serviceClassTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder packageNameBuffer = new StringBuilder();
                     
-                    if(packagePrefix != null && packagePrefix.length() > 0)
+                    if(packagePrefix != null && !packagePrefix.isEmpty())
                         packageNameBuffer.append(packagePrefix);
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(packageName != null && !packageName.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
-                    if(packageSuffix != null && packageSuffix.length() > 0){
+                    if(packageSuffix != null && !packageSuffix.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
@@ -1251,7 +1251,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder serviceClassName = new StringBuilder();
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(!packageName.isEmpty()){
                         serviceClassName.append(packageName);
                         serviceClassName.append(".");
                     }
@@ -1260,7 +1260,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder serviceClassFilename = new StringBuilder();
                     
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         serviceClassFilename.append(outputDir);
                         serviceClassFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -1284,7 +1284,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, serviceClassTemplateArtifactNode);
                             String serviceClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
-                            if(serviceClassContent != null && serviceClassContent.length() > 0)
+                            if(!serviceClassContent.isEmpty())
                                 FileUtil.toTextFile(serviceClassFilename.toString(), serviceClassContent, encoding);
                             
                             addServiceMapping(serviceClassName.toString());
@@ -1346,17 +1346,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     String name = expressionProcessor.evaluate(serviceInterfaceTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder packageNameBuffer = new StringBuilder();
                     
-                    if(packagePrefix != null && packagePrefix.length() > 0)
+                    if(packagePrefix != null && !packagePrefix.isEmpty())
                         packageNameBuffer.append(packagePrefix);
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(packageName != null && !packageName.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
-                    if(packageSuffix != null && packageSuffix.length() > 0){
+                    if(packageSuffix != null && !packageSuffix.isEmpty()){
                         if(packageNameBuffer.length() > 0)
                             packageNameBuffer.append(".");
                         
@@ -1367,7 +1367,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder serviceInterfaceName = new StringBuilder();
                     
-                    if(packageName != null && packageName.length() > 0){
+                    if(!packageName.isEmpty()){
                         serviceInterfaceName.append(packageName);
                         serviceInterfaceName.append(".");
                     }
@@ -1376,7 +1376,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     StringBuilder serviceInterfaceFilename = new StringBuilder();
                     
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         serviceInterfaceFilename.append(outputDir);
                         serviceInterfaceFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -1400,7 +1400,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, serviceInterfaceTemplateArtifactNode);
                             String serviceInterfaceContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
-                            if(serviceInterfaceContent != null && serviceInterfaceContent.length() > 0)
+                            if(!serviceInterfaceContent.isEmpty())
                                 FileUtil.toTextFile(serviceInterfaceFilename.toString(), serviceInterfaceContent, encoding);
                         }
                     }
@@ -1451,7 +1451,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     if(persistenceFactoryResources != null){
                         String repositoryTypeBuffer = persistenceFactoryResources.getType();
                         
-                        if(repositoryTypeBuffer != null && repositoryTypeBuffer.length() > 0){
+                        if(repositoryTypeBuffer != null && !repositoryTypeBuffer.isEmpty()){
                             RepositoryType repositoryType = RepositoryType.valueOf(repositoryTypeBuffer.toUpperCase());
                             String openQuote = repositoryType.getOpenQuote();
                             String closeQuote = repositoryType.getCloseQuote();
@@ -1473,17 +1473,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             String name = expressionProcessor.evaluate(persistenceDataTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                             StringBuilder packageNameBuffer = new StringBuilder();
                             
-                            if(packagePrefix != null && packagePrefix.length() > 0)
+                            if(packagePrefix != null && !packagePrefix.isEmpty())
                                 packageNameBuffer.append(packagePrefix);
                             
-                            if(packageName != null && packageName.length() > 0){
+                            if(packageName != null && !packageName.isEmpty()){
                                 if(packageNameBuffer.length() > 0)
                                     packageNameBuffer.append(".");
                                 
                                 packageNameBuffer.append(packageName);
                             }
                             
-                            if(packageSuffix != null && packageSuffix.length() > 0){
+                            if(packageSuffix != null && !packageSuffix.isEmpty()){
                                 if(packageNameBuffer.length() > 0)
                                     packageNameBuffer.append(".");
                                 
@@ -1494,7 +1494,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             
                             StringBuilder persistenceDataName = new StringBuilder();
                             
-                            if(packageName != null && packageName.length() > 0){
+                            if(!packageName.isEmpty()){
                                 persistenceDataName.append(packageName);
                                 persistenceDataName.append(".");
                             }
@@ -1503,7 +1503,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             
                             StringBuilder persistenceDataFilename = new StringBuilder();
                             
-                            if(outputDir != null && outputDir.length() > 0){
+                            if(outputDir != null && !outputDir.isEmpty()){
                                 persistenceDataFilename.append(outputDir);
                                 persistenceDataFilename.append(FileUtil.getDirectorySeparator());
                             }
@@ -1527,7 +1527,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                     GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, persistenceDataTemplateArtifactNode);
                                     String persistenceDataContent = processor.process();
                                     
-                                    if(persistenceDataContent != null && persistenceDataContent.length() > 0){
+                                    if(persistenceDataContent != null && !persistenceDataContent.isEmpty()){
                                         StringBuilder persistenceDataContentBuffer = new StringBuilder();
                                         BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(persistenceDataContent.getBytes())));
                                         String line;
@@ -1535,7 +1535,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                         while((line = reader.readLine()) != null){
                                             String indentation = StringUtil.replicate(Constants.DEFAULT_INDENT_CHARACTER, Constants.DEFAULT_INDENT_SIZE);
                                             
-                                            if(indentation != null && indentation.length() > 0)
+                                            if(indentation != null && !indentation.isEmpty())
                                                 persistenceDataContentBuffer.append(indentation);
                                             
                                             persistenceDataContentBuffer.append(StringUtil.trim(line));
@@ -1593,7 +1593,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     StringBuilder uiPageScriptFilename = new StringBuilder();
                     StringBuilder uiPageStyleFilename = new StringBuilder();
 
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         uiPageDirname.append(outputDir);
                         uiPageDirname.append(FileUtil.getDirectorySeparator());
                     }
@@ -1606,7 +1606,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
 
                     File uiPageDir = new File(uiPageDirname.toString());
                     
-                    if(outputDir != null && outputDir.length() > 0){
+                    if(outputDir != null && !outputDir.isEmpty()){
                         uiPageFilename.append(outputDir);
                         uiPageFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -1671,7 +1671,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, uiPageTemplateArtifactNode);
                                 String uiPageContent = StringUtil.indent(processor.process(), JspIndent.getRules());
                                 
-                                if(uiPageContent != null && uiPageContent.length() > 0)
+                                if(!uiPageContent.isEmpty())
                                     FileUtil.toTextFile(uiPageFilename.toString(), uiPageContent, encoding);
                             }
                         }
@@ -1735,7 +1735,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     String name = expressionProcessor.evaluate(moduleMappingTemplateArtifactNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                     StringBuilder moduleMappingFilename = new StringBuilder();
 
-                    if (outputDir != null && outputDir.length() > 0) {
+                    if (outputDir != null && !outputDir.isEmpty()) {
                         moduleMappingFilename.append(outputDir);
                         moduleMappingFilename.append(FileUtil.getDirectorySeparator());
                     }
@@ -1756,7 +1756,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, moduleMappingTemplateArtifactNode);
                             String moduleMappingContent = processor.process();
 
-                            if (moduleMappingContent != null && moduleMappingContent.length() > 0) {
+                            if (moduleMappingContent != null && !moduleMappingContent.isEmpty()) {
                                 String moduleMappingEncoding = moduleMappingTemplateReader.getEncoding();
                                 XmlWriter moduleMappingTemplateWriter = new XmlWriter(moduleMappingFile, moduleMappingEncoding);
 
@@ -1935,13 +1935,16 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
 
                     if(serviceAnnotation != null){
                         if(serviceAnnotation.isDaemon())
-                            serviceNode.addAttribute("isDaemon", String.valueOf(serviceAnnotation.isDaemon()));
+                            serviceNode.addAttribute("isDaemon", String.valueOf(true));
 
-                        if(serviceAnnotation.isRecurrent())
-                            serviceNode.addAttribute("isRecurrent", String.valueOf(serviceAnnotation.isRecurrent()));
+                        if(serviceAnnotation.isJob())
+                            serviceNode.addAttribute("isJob", String.valueOf(true));
 
-                        if(serviceAnnotation.path() != null && serviceAnnotation.path().length() > 0)
-                            serviceNode.addAttribute("path", serviceAnnotation.path());
+                        if(serviceAnnotation.isWeb())
+                            serviceNode.addAttribute("isWeb", String.valueOf(true));
+
+                        if(serviceAnnotation.url() != null && !serviceAnnotation.url().isEmpty())
+                            serviceNode.addAttribute("url", serviceAnnotation.url());
 
                         XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
 
@@ -2063,12 +2066,12 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
      * operation.
      */
     private void addCheckGeneratedCode(String className) throws IOException{
-        if(className == null || className.length() == 0)
+        if(className == null || className.isEmpty())
             return;
         
         ProjectBuild build = getAnnotationProcessorFactory().getBuild();
         StringBuilder checkGeneratedCodeFilename = new StringBuilder();
-        
+
         checkGeneratedCodeFilename.append(FileUtil.getTempDirectoryPath());
         checkGeneratedCodeFilename.append(build.getName());
         checkGeneratedCodeFilename.append("-");
