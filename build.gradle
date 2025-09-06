@@ -9,9 +9,9 @@ repositories{
     mavenLocal()
 	mavenCentral()
 	maven{
-		url = System.getenv("REPOSITORY_URL")
+		url = "${repositoryUrl}"
 		credentials{
-			username = System.getenv("REPOSITORY_USER")
+			username = "${repositoryUser}"
 			password = System.getenv("REPOSITORY_PASSWORD")
 		}
 	}
@@ -207,8 +207,8 @@ publishing{
 uploadArchives{
     repositories{
         mavenDeployer{
-            repository(url: System.getenv("REPOSITORY_URL")){
-                authentication(userName: System.getenv("REPOSITORY_USER"),
+            repository(url: "${repositoryUrl}"){
+                authentication(userName: "${repositoryUser}",
 						       password: System.getenv("REPOSITORY_PASSWORD"))
             }
         }
