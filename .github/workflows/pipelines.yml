@@ -4,15 +4,9 @@ on:
   push:
     branches: 
       - '*'
-    paths-ignore:
-      - 'LICENSE'
-      - '*.md'
-      - 'src/templates/*'
-      - 'src/ui/*'
 
 jobs:
   run:
-    name: Jobs
     runs-on: ubuntu-latest
     steps:
     - name: Download project files
