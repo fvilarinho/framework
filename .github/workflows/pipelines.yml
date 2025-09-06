@@ -12,6 +12,7 @@ on:
 
 jobs:
   run:
+    name: Jobs
     runs-on: ubuntu-latest
     steps:
     - name: Download project files
