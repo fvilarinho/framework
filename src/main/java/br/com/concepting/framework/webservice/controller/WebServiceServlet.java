@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -55,7 +55,7 @@ import java.util.stream.Collectors;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses">...</a>.</pre>
  */
 @WebServlet(name = "wenServices", urlPatterns = "/webServices/*")
 public class WebServiceServlet extends HttpServlet {
@@ -185,7 +185,7 @@ public class WebServiceServlet extends HttpServlet {
     }
 
     /**
-     * Parse the requet url.
+     * Parse the request url.
      *
      * @throws InvalidResourcesException Occurs when was not possible to execute the operation.
      */
@@ -261,7 +261,8 @@ public class WebServiceServlet extends HttpServlet {
                 if (methods == null)
                     methods = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-                methods.addAll(methodsBuffer);
+                if(methods != null)
+                    methods.addAll(methodsBuffer);
             }
 
             superClass = superClass.getSuperclass();
@@ -304,7 +305,7 @@ public class WebServiceServlet extends HttpServlet {
     }
 
     /**
-     * Instantiante all method parameters based on the request.
+     * Instantiate all method parameters based on the request.
      *
      * @param method Instance that defines the method.
      * @return Array that contains the method parameters.

@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -42,7 +42,7 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses">...</a>.</pre>
  */
 public class WebServiceUtil{
     private static final ObjectMapper propertyMapper = PropertyUtil.getMapper();
@@ -75,7 +75,7 @@ public class WebServiceUtil{
      *
      * @param <O> Class that defines the content.
      * @param in Stream that contains the content.
-     * @param clazz Class the defines the content.
+     * @param clazz Class that defines the content.
      * @return Instance that contains the content.
      * @throws IllegalArgumentException Occurs when was not possible to deserialize the content.
      * @throws NoSuchMethodException Occurs when was not possible to deserialize the content.
@@ -97,7 +97,7 @@ public class WebServiceUtil{
      *
      * @param <O> Class that defines the content.
      * @param content String that contains the content.
-     * @param clazz Class the defines the content.
+     * @param clazz Class that defines the content.
      * @return Instance that contains the content.
      * @throws IllegalArgumentException Occurs when was not possible to deserialize the content.
      * @throws NoSuchMethodException Occurs when was not possible to deserialize the content.
@@ -152,7 +152,8 @@ public class WebServiceUtil{
                                     Object propertyValue = deserialize(item, propertyClass);
                                     
                                     if(propertyValue != null)
-                                        propertyValues.add(propertyValue);
+                                        if(propertyValues != null)
+                                            propertyValues.add(propertyValue);
                                 }
                             }
                         }
