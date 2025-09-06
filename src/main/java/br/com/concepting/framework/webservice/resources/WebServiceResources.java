@@ -28,7 +28,7 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses">...</a>.</pre>
  */
 public class WebServiceResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = -4631808238382919312L;
@@ -37,8 +37,44 @@ public class WebServiceResources extends BaseResources<XmlNode>{
     private String url = null;
     private int timeout = WebServiceConstants.DEFAULT_TIMEOUT;
     private String data = null;
+    private String userName = null;
+    private String password = null;
+    private String token = null;
+    private Boolean escapeData = false;
     private Map<String, String> headers = null;
-    
+
+    public Boolean getEscapeData() {
+        return this.escapeData;
+    }
+
+    public void setEscapeData(Boolean escapeData) {
+        this.escapeData = escapeData;
+    }
+
+    public String getToken() {
+        return this.token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     /**
      * Returns the timeout (in seconds).
      *
@@ -114,7 +150,7 @@ public class WebServiceResources extends BaseResources<XmlNode>{
     /**
      * Returns the headers.
      *
-     * @return String that contains the headers.
+     * @return Map that contains the headers.
      */
     public Map<String, String> getHeaders(){
         return this.headers;
@@ -138,7 +174,8 @@ public class WebServiceResources extends BaseResources<XmlNode>{
     public void addHeader(String name, String value){
         if(this.headers == null)
             this.headers = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        this.headers.put(name, value);
+
+        if(this.headers != null)
+            this.headers.put(name, value);
     }
 }

@@ -187,6 +187,13 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         }
         else{
             if(loginParameter != null){
+                if(loginParameter.hasMfa() != null && loginParameter.hasMfa()){
+                    loginParameter.setMfaToken(SecurityUtil.generateToken().substring(0, SecurityConstants.DEFAULT_MINIMUM_PASSWORD_LENGTH));
+                    loginParameter.setMfaTokenValidated(false);
+
+                    sendMfaTokenMessage(user);
+                }
+
                 loginParameter.setCurrentLoginTries(0);
                 
                 Class<LoginParameterModel> loginParameterClass = (Class<LoginParameterModel>) loginParameter.getClass();
@@ -353,14 +360,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             loginParameter.setMinutesUntilExpire(minutesUntilExpire);
             loginParameter.setSecondsUntilExpire(secondsUntilExpire);
         }
-        
-        if(loginParameter.hasMfa() != null && loginParameter.hasMfa()){
-            loginParameter.setMfaToken(SecurityUtil.generateToken().substring(0, SecurityConstants.DEFAULT_MINIMUM_PASSWORD_LENGTH));
-            loginParameter.setMfaTokenValidated(false);
-            
-            sendMfaTokenMessage(user);
-        }
-        
+
         Class<LoginParameterModel> loginParameterClass = (Class<LoginParameterModel>) loginParameter.getClass();
         IService<LoginParameterModel> loginParameterService = getService(loginParameterClass);
         

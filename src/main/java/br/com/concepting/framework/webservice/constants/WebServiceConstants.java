@@ -22,12 +22,14 @@ package br.com.concepting.framework.webservice.constants;
  * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
  */
 public abstract class WebServiceConstants{
-    public static final String ACCEPT_ATTRIBUTE_ID = "accept";
     public static final String METHOD_ATTRIBUTE_ID = "method";
     public static final String URL_ATTRIBUTE_ID = "url";
+    public static final String TOKEN_ATTRIBUTE_ID = "token";
+    public static final String USERNAME_ATTRIBUTE_ID = "userName";
+    public static final String PASSWORD_ATTRIBUTE_ID = "password";
+    public static final String ESCAPE_ATTRIBUTE_ID = "escape";
     public static final String DATA_ATTRIBUTE_ID = "data";
     public static final String HEADERS_ATTRIBUTE_ID = "headers";
-    public static final String HEADER_ATTRIBUTE_ID = "header";
     public static final String DEFAULT_ID = "webService";
     public static final String DEFAULT_URL_ID = "/webServices";
     public static final String DEFAULT_URL_PATTERN = DEFAULT_URL_ID.concat("/*");

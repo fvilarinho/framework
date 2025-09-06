@@ -89,8 +89,19 @@
 									<xs:sequence>
 										<xs:element type="xs:string" name="method" minOccurs="0"/>
 										<xs:element type="xs:short" name="timeout" minOccurs="0"/>
-										<xs:element type="xs:string" name="url" minOccurs="0"/>
-										<xs:element type="xs:string" name="data" minOccurs="0"/>
+										<xs:element type="xs:string" name="token" minOccurs="0"/>
+                                        <xs:element type="xs:string" name="user" minOccurs="0"/>
+                                        <xs:element type="xs:string" name="password" minOccurs="0"/>
+                                        <xs:element type="xs:string" name="url" minOccurs="0"/>
+                                        <xs:element name="data" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:simpleContent>
+                                                    <xs:extension base="xs:string">
+                                                        <xs:attribute name="escape" type="xs:boolean" use="optional"/>
+                                                    </xs:extension>
+                                                </xs:simpleContent>
+                                            </xs:complexType>
+                                        </xs:element>
 										<xs:element name="headers" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
