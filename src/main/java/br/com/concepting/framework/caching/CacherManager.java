@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -25,7 +25,7 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class CacherManager{
     private static CacherManager instance = null;
@@ -34,10 +34,8 @@ public class CacherManager{
     
     /**
      * Constructor - Initialize the cache manager.
-     *
-     * @param <O> Class that defines the type of the content of the cache.
      */
-    private <O> CacherManager(){
+    private CacherManager(){
         super();
 
         this.cachers = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
@@ -58,7 +56,7 @@ public class CacherManager{
     /**
      * Returns the cache instance.
      *
-     * @param <O> Class that defines the type of the content of the cache.
+     * @param <O> Class that defines the type of the cache content.
      * @param id String that contains the identifier.
      * @param timeout Numeric value containing the timeout.
      * @return Instance that contains the cache.
@@ -75,7 +73,7 @@ public class CacherManager{
     /**
      * Returns the cache instance.
      *
-     * @param <O> Class that defines the type of the content of the cache.
+     * @param <O> Class that defines the type of the cache content.
      * @param id String that contains the identifier.
      * @param timeout Numeric value containing the timeout.
      * @param timeoutType Instance that contains the timeout unit
@@ -93,7 +91,7 @@ public class CacherManager{
     /**
      * Returns the cache instance.
      *
-     * @param <O> Class that defines the type of the content of the cache.
+     * @param <O> Class that defines the type of the cache content.
      * @param id String that contains the identifier.
      * @return Instance that contains the cache.
      */
@@ -101,7 +99,7 @@ public class CacherManager{
     public <O> Cacher<O> getCacher(String id){
         Cacher<O> cacher;
         
-        if(id == null || id.length() == 0)
+        if(id == null || id.isEmpty())
             id = Cacher.class.getName();
         
         cacher = (Cacher<O>) this.cachers.get(id);
@@ -118,7 +116,7 @@ public class CacherManager{
     /**
      * Returns the cache instance.
      *
-     * @param <O> Class that defines the type of the content of the cache.
+     * @param <O> Class that defines the type of the cache content.
      * @param clazz Class that contains the identifier.
      * @return Instance that contains the cache.
      */
@@ -132,7 +130,7 @@ public class CacherManager{
     /**
      * Returns the cache instance.
      *
-     * @param <O> Class that defines the type of the content of the cache.
+     * @param <O> Class that defines the type of the cache content.
      * @param clazz Class that contains the identifier.
      * @param timeout Numeric value containing the timeout.
      * @return Instance that contains the cache.
@@ -147,7 +145,7 @@ public class CacherManager{
     /**
      * Returns the cache instance.
      *
-     * @param <O> Class that defines the type of the content of the cache.
+     * @param <O> Class that defines the type of the cache content.
      * @param clazz String that contains the identifier.
      * @param timeout Numeric value containing the timeout.
      * @param timeoutType Instance that contains the timeout unit

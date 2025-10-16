@@ -24,7 +24,7 @@ import java.util.Map;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -33,7 +33,7 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class Cacher<O> implements Serializable{
     private static final long serialVersionUID = -441305081843827888L;
@@ -75,7 +75,7 @@ public class Cacher<O> implements Serializable{
     /**
      * Constructor - Initialize the cache.
      *
-     * @param id Strins that contains the identifier.
+     * @param id String that contains the identifier.
      * @param timeout Numeric value containing the timeout.
      * @param timeoutType Instance that contains the timeout unit
      */
@@ -127,7 +127,7 @@ public class Cacher<O> implements Serializable{
      * Expires all cache content.
      */
     public void expire(){
-        if(this.history != null && this.history.size() > 0)
+        if(this.history != null && !this.history.isEmpty())
             this.history.clear();
     }
     
@@ -136,7 +136,7 @@ public class Cacher<O> implements Serializable{
      *
      * @param object Instance that contains the content.
      * @throws ItemAlreadyExistsException Occurs when the content is already
-     * stored in cache.
+     * stored in a cache.
      */
     public synchronized void add(CachedObject<O> object) throws ItemAlreadyExistsException{
         if(object != null && this.history != null){
@@ -156,7 +156,7 @@ public class Cacher<O> implements Serializable{
      *
      * @param object Instance that contains the content.
      * @throws ItemNotFoundException Occurs when the content isn't stored in
-     * cache.
+     *  a cache.
      */
     public synchronized void set(CachedObject<O> object) throws ItemNotFoundException{
         if(object != null){
@@ -176,11 +176,11 @@ public class Cacher<O> implements Serializable{
      *
      * @param object Instance that contains the content.
      * @throws ItemNotFoundException Occurs when the content isn't stored in
-     * cache.
+     *  a cache.
      */
     public synchronized void remove(CachedObject<O> object) throws ItemNotFoundException{
         if(object != null){
-            if(contains(object) && this.history != null && this.history.size() > 0)
+            if(contains(object) && this.history != null && !this.history.isEmpty())
                 this.history.remove(object.getId());
             else
                 throw new ItemNotFoundException();
@@ -194,13 +194,13 @@ public class Cacher<O> implements Serializable{
      * @param id String that contains the identifier.
      * @return Instance that contains the content.
      * @throws ItemNotFoundException Occurs when the content isn't stored in
-     * cache.
+     *  a cache.
      */
     @SuppressWarnings("unchecked")
     public synchronized <C extends CachedObject<O>> C get(String id) throws ItemNotFoundException{
         Date timeoutDate;
         
-        if(id != null && id.length() > 0){
+        if(id != null && !id.isEmpty()){
             for(CachedObject<O> cachedObject: this.history.values()){
                 if(id.equals(cachedObject.getId())){
                     if(this.timeout > 0){
@@ -227,13 +227,13 @@ public class Cacher<O> implements Serializable{
     }
     
     /**
-     * Verifies if the content is in cache.
+     * Verifies if the content is in a cache.
      *
      * @param object Instance that contains the content.
      * @return True/False.
      */
     public boolean contains(CachedObject<O> object){
-        return (this.history != null && this.history.size() > 0 && this.history.containsKey(object.getId()));
+        return (this.history != null && !this.history.isEmpty() && this.history.containsKey(object.getId()));
     }
     
     /**
@@ -255,9 +255,9 @@ public class Cacher<O> implements Serializable{
     }
     
     /**
-     * Returns the number of contents in cache.
+     * Returns the number of contents in the cache.
      *
-     * @return Numeric value containing the number of contents in cache.
+     * @return Numeric value containing the number of contents in the cache.
      */
     public int getSize(){
         return (this.history != null ? this.history.size() : 0);

@@ -16,7 +16,7 @@ import java.util.Date;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -25,7 +25,7 @@ import java.util.Date;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class CachedObject<O> implements Serializable{
     private static final long serialVersionUID = 8165512408423991030L;
@@ -82,9 +82,9 @@ public class CachedObject<O> implements Serializable{
     }
     
     /**
-     * Returns the date/time when the content was stored in cache.
+     * Returns the date/time when the content was stored in the cache.
      *
-     * @return Date/time when the content was stored in cache.
+     * @return Date/time when the content was stored in the cache.
      */
     public Date getCacheDate(){
         return this.cacheDate;
@@ -93,25 +93,25 @@ public class CachedObject<O> implements Serializable{
     /**
      * Defines the date/time when the content was stored in cache.
      *
-     * @param cacheDate Date/time when the content was stored in cache.
+     * @param cacheDate Date/time when the content was stored in the cache.
      */
     public void setCacheDate(DateTime cacheDate){
         this.cacheDate = cacheDate;
     }
     
     /**
-     * Returns the date/time of the last access of the content.
+     * Returns the date/time of the content's last access.
      *
-     * @return Date/time of the last access of the content.
+     * @return Date/time of the content's last access.
      */
     public DateTime getLastAccess(){
         return this.lastAccess;
     }
     
     /**
-     * Defines the date/time of the last access of the content.
+     * Defines the date/time of the content's last access.
      *
-     * @param lastAccess Date/time of the last access of the content.
+     * @param lastAccess Date/time of the content's last access.
      */
     public void setLastAccess(DateTime lastAccess){
         this.lastAccess = lastAccess;
