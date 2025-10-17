@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Class that defines the annotation of a property of the data model.
+ * Class that defines the annotation of a data model property.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -44,9 +44,9 @@ public @interface Property{
     String propertyId() default "";
     
     /**
-     * Defines the properties mappings.
+     * Defines all properties identifiers.
      *
-     * @return List that contains the properties mappings.
+     * @return Array that contains all identifiers.
      */
     String[] propertiesIds() default {};
     
@@ -107,9 +107,9 @@ public @interface Property{
     String mappedPropertyId() default "";
     
     /**
-     * Defines the type of the mapping of the property.
+     * Defines the mapped property type.
      *
-     * @return String that contains the type of mapping.
+     * @return String that contains the mapped property type.
      */
     String mappedPropertyType() default "";
     
@@ -170,16 +170,16 @@ public @interface Property{
     Class<?> relationCollectionItemsClass() default Object.class;
     
     /**
-     * Defines the properties mappings.
+     * Defines all mapped properties.
      *
-     * @return List that contains the properties mappings.
+     * @return Array that contains the all mapped properties.
      */
     String[] mappedPropertiesIds() default {};
     
     /**
-     * Defines the relationship properties.
+     * Defines all mapped relationship properties.
      *
-     * @return List that contains the relationship properties.
+     * @return Array that contains all mapped relationship properties.
      */
     String[] mappedRelationPropertiesIds() default {};
     
@@ -191,22 +191,21 @@ public @interface Property{
     String mappedRelationRepositoryId() default "";
     
     /**
-     * Indicates if the cascade should the done on save operations.
+     * Indicates if the cascade should be done on save operations.
      *
      * @return True/False.
      */
     boolean cascadeOnSave() default false;
     
     /**
-     * Indicates if the cascade should the done on delete operations.
+     * Indicates if the cascade should be done on delete operations.
      *
      * @return True/False.
      */
     boolean cascadeOnDelete() default false;
     
     /**
-     * Indicates if the relationship of the property of the data model is
-     * constrained.
+     * Indicates if the relationship of the property is constrained.
      *
      * @return True/False.
      */
@@ -220,21 +219,21 @@ public @interface Property{
     boolean isForSearch() default false;
     
     /**
-     * Defines the type of the search condition of the property.
+     * Defines the type of the property search condition.
      *
-     * @return Instance that contains the type of the search condition.
+     * @return Instance that contains the type of the property search condition.
      */
     ConditionType searchCondition() default ConditionType.NONE;
     
     /**
-     * Defines the type of the search condition operation of the property.
+     * Defines the type of the property search condition.operation.
      *
-     * @return Instance that contains the type of the search condition operation.
+     * @return Instance that contains the type of the property search condition.operation.
      */
     ConditionOperationType searchConditionOperation() default ConditionOperationType.NONE;
     
     /**
-     * Indicates if the search will be done considering case-sensitive or insensitive.
+     * Indicates if the search should be done considering case-sensitive or insensitive.
      *
      * @return Instance that contains the search type.
      */
@@ -276,16 +275,16 @@ public @interface Property{
     ConditionType compareCondition() default ConditionType.NONE;
     
     /**
-     * Defines the types of the validations of the property.
+     * Defines all validations of the property.
      *
-     * @return List that contains the types of the validations.
+     * @return Array that contains all validations of the property.
      */
     ValidationType[] validations() default {ValidationType.NONE};
     
     /**
      * Defines the identifiers of the validation actions.
      *
-     * @return List that contains the identifiers.
+     * @return Array that contains the identifiers.
      */
     String[] validationActions() default {};
     
