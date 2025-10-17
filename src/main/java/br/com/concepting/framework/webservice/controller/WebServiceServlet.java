@@ -370,9 +370,7 @@ public class WebServiceServlet extends HttpServlet {
                                     String[] values = requestParameterInfo.getValues();
 
                                     if (PropertyUtil.isCollection(parameterType)) {
-                                        if (values == null || values.length == 0)
-                                            parameterValue = null;
-                                        else {
+                                        if (values != null && values.length > 0) {
                                             parameterValue = PropertyUtil.instantiate(parameterType);
 
                                             String collectionType = parameter.toString();
@@ -405,8 +403,8 @@ public class WebServiceServlet extends HttpServlet {
                                                 else if (PropertyUtil.isString(parameterType))
                                                     collectionParameterValue = collectionValue;
 
-                                                if (collectionParameterValue != null)
-                                                    ((Collection) parameterValue).add(collectionValue);
+                                                if (collectionParameterValue != null && parameterValue != null)
+                                                    ((Collection) parameterValue).add(collectionParameterValue);
                                             }
                                         }
                                     } else {

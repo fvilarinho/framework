@@ -16,6 +16,7 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Base64;
 import java.util.Locale;
@@ -235,22 +236,7 @@ public class WebService{
 
             url = PropertyUtil.fillPropertiesInString(value, url, false, escapeData, language);
 
-            HttpUriRequest request;
-
-            if(this.resources.getMethod() == MethodType.POST)
-                request = new HttpPost(url);
-            else if(this.resources.getMethod() == MethodType.PUT)
-                request = new HttpPut(url);
-            else if(this.resources.getMethod() == MethodType.DELETE)
-                request = new HttpDelete(url);
-            else if(this.resources.getMethod() == MethodType.HEAD)
-                request = new HttpHead(url);
-            else if(this.resources.getMethod() == MethodType.OPTIONS)
-                request = new HttpOptions(url);
-            else if(this.resources.getMethod() == MethodType.TRACE)
-                request = new HttpTrace(url);
-            else
-                request = new HttpGet(url);
+            HttpUriRequest request = getHttpUriRequest(url);
 
             request.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.TXT.getMimeType());
             request.setHeader(HttpHeaders.ACCEPT, ContentType.TXT.getMimeType());
@@ -316,5 +302,26 @@ public class WebService{
         catch(Throwable e){
             throw new InternalErrorException(e);
         }
+    }
+
+    @NotNull
+    private HttpUriRequest getHttpUriRequest(String url) {
+        HttpUriRequest request;
+
+        if(this.resources.getMethod() == MethodType.POST)
+            request = new HttpPost(url);
+        else if(this.resources.getMethod() == MethodType.PUT)
+            request = new HttpPut(url);
+        else if(this.resources.getMethod() == MethodType.DELETE)
+            request = new HttpDelete(url);
+        else if(this.resources.getMethod() == MethodType.HEAD)
+            request = new HttpHead(url);
+        else if(this.resources.getMethod() == MethodType.OPTIONS)
+            request = new HttpOptions(url);
+        else if(this.resources.getMethod() == MethodType.TRACE)
+            request = new HttpTrace(url);
+        else
+            request = new HttpGet(url);
+        return request;
     }
 }

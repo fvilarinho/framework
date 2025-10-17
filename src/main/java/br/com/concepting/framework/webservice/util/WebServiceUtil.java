@@ -120,7 +120,7 @@ public class WebServiceUtil{
     }
     
     @SuppressWarnings({"unchecked"})
-    private static <O> O deserialize(Map<String, Object> contentMap, Class<?> clazz) throws IOException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
+    private static <O> O deserialize(Map<String, Object> contentMap, Class<?> clazz) throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
         O result = null;
         
         if(clazz != null){
