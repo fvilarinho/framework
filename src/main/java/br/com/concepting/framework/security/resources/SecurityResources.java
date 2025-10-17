@@ -15,7 +15,7 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -24,33 +24,33 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SecurityResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = -2135486169744118837L;
     
     private Class<? extends LoginSessionModel> loginSessionClass = null;
     private int loginSessionTimeout = SecurityConstants.DEFAULT_LOGIN_SESSION_TIMEOUT;
-    private String criptographyAlgorithm = null;
-    private int criptographyKeySize = SecurityConstants.DEFAULT_CRYPTO_KEY_SIZE;
+    private String cryptographyAlgorithm = null;
+    private int cryptographyKeySize = SecurityConstants.DEFAULT_CRYPTO_KEY_SIZE;
     
     /**
      * Returns the size of the cryptography key.
      *
      * @return Numeric value that contains the size of the key.
      */
-    public int getCriptographyKeySize(){
-        return this.criptographyKeySize;
+    public int getCryptographyKeySize(){
+        return this.cryptographyKeySize;
     }
     
     /**
      * Defines the size of the cryptography key.
      *
-     * @param criptographyKeySize Numeric value that contains the size of the
+     * @param cryptographyKeySize Numeric value that contains the size of the
      * key.
      */
-    public void setCriptographyKeySize(int criptographyKeySize){
-        this.criptographyKeySize = criptographyKeySize;
+    public void setCryptographyKeySize(int cryptographyKeySize){
+        this.cryptographyKeySize = cryptographyKeySize;
     }
     
     /**
@@ -58,18 +58,18 @@ public class SecurityResources extends BaseResources<XmlNode>{
      *
      * @return String that contains the identifier of the algorithm.
      */
-    public String getCriptographyAlgorithm(){
-        return this.criptographyAlgorithm;
+    public String getCryptographyAlgorithm(){
+        return this.cryptographyAlgorithm;
     }
     
     /**
      * Defines the algorithm of the cryptography.
      *
-     * @param criptographyAlgorithm String that contains the identifier of the
+     * @param cryptographyAlgorithm String that contains the identifier of the
      * algorithm.
      */
-    public void setCriptographyAlgorithm(String criptographyAlgorithm){
-        this.criptographyAlgorithm = criptographyAlgorithm;
+    public void setCryptographyAlgorithm(String cryptographyAlgorithm){
+        this.cryptographyAlgorithm = cryptographyAlgorithm;
     }
     
     /**
@@ -93,7 +93,7 @@ public class SecurityResources extends BaseResources<XmlNode>{
      */
     @SuppressWarnings("unchecked")
     public void setLoginSessionClass(String loginSessionClassName) throws ClassNotFoundException, ClassCastException{
-        if(loginSessionClassName != null && loginSessionClassName.length() > 0)
+        if(loginSessionClassName != null && !loginSessionClassName.isEmpty())
             setLoginSessionClass((Class<? extends LoginSessionModel>) Class.forName(loginSessionClassName));
     }
     

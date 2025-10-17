@@ -19,7 +19,7 @@ import java.text.ParseException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import java.text.ParseException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SecurityResourcesLoader extends XmlResourcesLoader<SecurityResources>{
     /**
@@ -67,7 +67,7 @@ public class SecurityResourcesLoader extends XmlResourcesLoader<SecurityResource
             XmlNode classNode = loginSessionNode.getNode(Constants.CLASS_ATTRIBUTE_ID);
             
             if(classNode != null){
-                if(classNode.getValue() == null || classNode.getValue().length() == 0)
+                if(classNode.getValue() == null || classNode.getValue().isEmpty())
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, classNode.getText());
                 
                 try{
@@ -81,7 +81,7 @@ public class SecurityResourcesLoader extends XmlResourcesLoader<SecurityResource
             XmlNode timeoutNode = loginSessionNode.getNode(Constants.TIMEOUT_ATTRIBUTE_ID);
             
             if(timeoutNode != null){
-                if(timeoutNode.getValue() == null || timeoutNode.getValue().length() == 0)
+                if(timeoutNode.getValue() == null || timeoutNode.getValue().isEmpty())
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, timeoutNode.getText());
                 
                 try{
@@ -102,20 +102,20 @@ public class SecurityResourcesLoader extends XmlResourcesLoader<SecurityResource
         if(cryptographyNode != null){
             String cryptographyAlgorithm = cryptographyNode.getAttribute(SecurityConstants.CRYPTOGRAPHY_ALGORITHM_ATTRIBUTE_ID);
             
-            if(cryptographyAlgorithm != null && cryptographyAlgorithm.length() > 0)
-                resources.setCriptographyAlgorithm(cryptographyAlgorithm);
+            if(cryptographyAlgorithm != null && !cryptographyAlgorithm.isEmpty())
+                resources.setCryptographyAlgorithm(cryptographyAlgorithm);
             else
-                resources.setCriptographyAlgorithm(SecurityConstants.DEFAULT_CRYPTO_ALGORITHM_ID);
+                resources.setCryptographyAlgorithm(SecurityConstants.DEFAULT_CRYPTO_ALGORITHM_ID);
             
             String cryptographKeySizeBuffer = cryptographyNode.getAttribute(SecurityConstants.CRYPTOGRAPHY_KEY_SIZE_ATTRIBUTE_ID);
             
-            if(cryptographKeySizeBuffer == null || cryptographKeySizeBuffer.length() == 0)
+            if(cryptographKeySizeBuffer == null || cryptographKeySizeBuffer.isEmpty())
                 throw new InvalidResourcesException(resourcesDirname, resourcesId, cryptographyNode.getText());
             
             try{
                 int cryptographyKeySize = NumberUtil.parseInt(cryptographKeySizeBuffer);
                 
-                resources.setCriptographyKeySize(cryptographyKeySize);
+                resources.setCryptographyKeySize(cryptographyKeySize);
             }
             catch(ParseException e){
                 throw new InvalidResourcesException(resourcesDirname, resourcesId, cryptographyNode.getText(), e);
