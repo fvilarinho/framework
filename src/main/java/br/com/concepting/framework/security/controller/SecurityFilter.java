@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -60,7 +60,7 @@ import java.util.regex.Pattern;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @WebFilter(filterName = "securityFilter", urlPatterns = {"*.ui", "*.jsp", "/webServices/*"})
 public class SecurityFilter implements Filter{
@@ -144,26 +144,26 @@ public class SecurityFilter implements Filter{
         Collection<? extends UrlModel> exclusionUrls = systemModule.getExclusionUrls();
         String uri = this.systemController.getURI();
         
-        if(uri != null && uri.length() > 0){
+        if(uri != null && !uri.isEmpty()){
             StringBuilder requestUriBuffer = new StringBuilder();
-            
+
             requestUriBuffer.append(uri);
-            
+
             Map<String, RequestParameterInfo> requestParameters = this.systemController.getParameters();
-            
+
             if(requestParameters != null && !requestParameters.isEmpty()){
                 requestUriBuffer.append("?");
-                
+
                 int cont = 0;
-                
+
                 for(Entry<String, RequestParameterInfo> entry: requestParameters.entrySet()){
                     String requestParameterName = entry.getKey();
                     RequestParameterInfo requestParameterInfo = entry.getValue();
-                    
+
                     if(requestParameterInfo.getContent() == null){
                         String[] requestParameterValues = requestParameterInfo.getValues();
-                        
-                        if(requestParameterValues != null && requestParameterValues.length > 0){
+
+                        if(requestParameterValues != null){
                             for (String requestParameterValue : requestParameterValues) {
                                 if (cont > 0)
                                     requestUriBuffer.append("&");
@@ -178,7 +178,7 @@ public class SecurityFilter implements Filter{
                     }
                 }
             }
-            
+
             uri = requestUriBuffer.toString();
         }
         
@@ -187,7 +187,7 @@ public class SecurityFilter implements Filter{
         UserModel user = loginSession.getUser();
         boolean excludeUrl = false;
         
-        if(exclusionUrls != null && !exclusionUrls.isEmpty()){
+        if(exclusionUrls != null && !exclusionUrls.isEmpty() && uri != null && !uri.isEmpty()){
             for(UrlModel exclusionUrl: exclusionUrls){
                 String urlPattern = StringUtil.toRegex(exclusionUrl.getPath());
                 Pattern regex = Pattern.compile(urlPattern);
@@ -222,7 +222,7 @@ public class SecurityFilter implements Filter{
         
         ExpressionProcessorUtil.setVariable(domain, SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, loginSession);
     }
-    
+
     /**
      * Initializes the security filter.
      *
@@ -241,7 +241,7 @@ public class SecurityFilter implements Filter{
             boolean isWebServicesRequest = this.systemController.isWebServicesRequest();
             
             if(isWebServicesRequest){
-                if(loginSession.getId() != null && loginSession.getId().length() > 0){
+                if(loginSession.getId() != null && !loginSession.getId().isEmpty()){
                     Class<L> loginSessionClass = (Class<L>)loginSession.getClass();
                     LoginSessionService<L, U, LP> loginSessionService = null;
                     
@@ -290,22 +290,23 @@ public class SecurityFilter implements Filter{
             catch(InternalErrorException ignored){
             }
             
-            if(systemModuleService != null){
-                try{
+            if(systemModuleService != null) {
+                try {
                     systemModule = systemModuleService.find(systemModule);
-                    
-                    if(systemModule.isActive() == null || !systemModule.isActive())
+
+                    if (systemModule.isActive() == null || !systemModule.isActive())
                         throw new PermissionDeniedException();
                 }
-                catch(ItemNotFoundException e){
+                catch (ItemNotFoundException e) {
                     throw new PermissionDeniedException();
                 }
+
+                systemModule = systemModuleService.loadReference(systemModule, SystemConstants.EXCLUSION_URLS_ATTRIBUTE_ID);
             }
             
-            systemModule = systemModuleService.loadReference(systemModule, SystemConstants.EXCLUSION_URLS_ATTRIBUTE_ID);
-            
             if(!isWebServicesRequest){
-                systemModule = systemModuleService.loadReference(systemModule, SystemConstants.FORMS_ATTRIBUTE_ID);
+                if(systemModuleService != null)
+                    systemModule = systemModuleService.loadReference(systemModule, SystemConstants.FORMS_ATTRIBUTE_ID);
                 
                 FormModel form = systemModule.getForm(ActionFormUtil.getActionFormIdByModel(this.systemResources.getMainConsoleClass()));
                 
@@ -323,7 +324,7 @@ public class SecurityFilter implements Filter{
             
             SystemSessionModel systemSession = loginSession.getSystemSession();
             
-            if(systemSession != null && systemSession.getId() != null && systemSession.getId().length() > 0){
+            if(systemSession != null && systemSession.getId() != null && !systemSession.getId().isEmpty()){
                 if(systemSession.getStartDateTime() == null){
                     systemSession.setStartDateTime(new DateTime());
                     

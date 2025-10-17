@@ -16,8 +16,7 @@ import br.com.concepting.framework.security.service.interfaces.LoginSessionServi
 import br.com.concepting.framework.security.util.SecurityUtil;
 
 /**
- * Class that defines the basic implementation of the actions of the login
- * session form.
+ * Class that defines the basic implementation of login session form actions.
  *
  * @param <L> Class that defines the login session data model.
  * @param <U> Class that defines the user data model.
@@ -29,7 +28,7 @@ import br.com.concepting.framework.security.util.SecurityUtil;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -38,7 +37,7 @@ import br.com.concepting.framework.security.util.SecurityUtil;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class LoginSessionAction<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseAction<L>{
     @Override
@@ -66,7 +65,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
     /**
      * Does the login.
      *
-     * @throws Throwable Occurs when was not possible execute the operation.
+     * @throws Throwable Occurs when was not possible to execute the operation.
      */
     @SuppressWarnings("unchecked")
     public void logIn() throws Throwable{
@@ -122,11 +121,11 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
     }
     
     /**
-     * Loads tbe user data stored in cookie.
+     * Loads the user data stored in a cookie.
      *
      * @param loginSession Instance that contains the properties of the login
      * session.
-     * @throws Throwable Occurs when was not possible execute the operation.
+     * @throws Throwable Occurs when was not possible to execute the operation.
      */
     private void loadRememberedUserAndPassword(L loginSession) throws Throwable{
         SecurityController securityController = getSecurityController();
@@ -135,10 +134,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
             return;
         
         loginSession = SecurityUtil.getLoginSession(loginSession);
-        
-        if(loginSession == null)
-            return;
-        
+
         U user = loginSession.getUser();
         String rememberedUserName = securityController.getRememberedUserName();
         String rememberedPassword = securityController.getRememberedPassword();
@@ -146,7 +142,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         user.setName(rememberedUserName);
         user.setPassword(rememberedPassword);
         
-        loginSession.setRememberUserAndPassword(rememberedUserName != null && rememberedUserName.length() > 0);
+        loginSession.setRememberUserAndPassword(rememberedUserName != null && !rememberedUserName.isEmpty());
     }
     
     /**
@@ -284,7 +280,7 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
     }
     
     /**
-     * Stores the user data in cookie.
+     * Stores the user data in a cookie.
      *
      * @throws Throwable Occurs when was not possible to execute the operation.
      */
@@ -300,8 +296,8 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         if(loginSession != null && loginSession.rememberUserAndPassword()){
             U user = loginSession.getUser();
             
-            if(user != null && user.getName().length() > 0)
-                getSecurityController().rememberUserAndPasword(user);
+            if(user != null && !user.getName().isEmpty())
+                getSecurityController().rememberUserAndPassword(user);
             else{
                 loginSession.setRememberUserAndPassword(false);
                 
