@@ -20,7 +20,7 @@ import br.com.concepting.framework.webservice.constants.WebServiceConstants;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ import br.com.concepting.framework.webservice.constants.WebServiceConstants;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ServiceUtil{
     /**
@@ -300,10 +300,7 @@ public class ServiceUtil{
      * @return String that contains the package name.
      */
     public static String getWebServicePackageByModel(Class<? extends BaseModel> modelClass){
-        if(modelClass != null)
-            return StringUtil.replaceAll(modelClass.getPackage().getName(), ".".concat(ModelConstants.DEFAULT_ID), ".".concat(ServiceConstants.DEFAULT_ID));
-        
-        return null;
+        return getServicePackageByModel(modelClass);
     }
     
     /**
@@ -326,9 +323,6 @@ public class ServiceUtil{
      * @return String that contains the package name.
      */
     public static String getWebServiceInterfacePackageByModel(Class<? extends BaseModel> modelClass){
-        if(modelClass != null)
-            return StringUtil.replaceAll(modelClass.getPackage().getName(), ".".concat(ModelConstants.DEFAULT_ID), ".".concat(ServiceConstants.DEFAULT_ID).concat(".").concat(Constants.DEFAULT_INTERFACES_ID));
-        
-        return null;
+        return getServiceInterfacePackageByModel(modelClass);
     }
 }

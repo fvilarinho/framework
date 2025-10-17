@@ -22,7 +22,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -31,7 +31,7 @@ import java.lang.reflect.InvocationTargetException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ServiceLocator{
     private static ServiceLocator instance = null;
@@ -54,13 +54,13 @@ public class ServiceLocator{
     }
     
     /**
-     * Lookup the service by the model.
+     * Look up the service by the model.
      *
      * @param <S> Class that defines the service.
      * @param modelClass Class that defines the model.
      * @param loginSession Instance that contains the login session data model.
      * @return Instance that contains the services.
-     * @throws InternalErrorException Occues when was not possible to locate the service.
+     * @throws InternalErrorException Occurs when was not possible to locate the service.
      */
     public <S extends IService<? extends BaseModel>> S lookupByModelClass(Class<? extends BaseModel> modelClass, LoginSessionModel loginSession) throws InternalErrorException{
         if(modelClass == null)
@@ -86,13 +86,13 @@ public class ServiceLocator{
     }
     
     /**
-     * Lookup the service by the service class.
+     * Look up the service by the service class.
      *
      * @param <S> Class that defines the service.
      * @param serviceClass Class that defines the service.
      * @param loginSession Instance that contains the login session data model.
      * @return Instance that contains the services.
-     * @throws InternalErrorException Occues when was not possible to locate the service.
+     * @throws InternalErrorException Occurs when was not possible to locate the service.
      */
     public <S extends IService<? extends BaseModel>> S lookupByServiceClass(Class<S> serviceClass, LoginSessionModel loginSession) throws InternalErrorException{
         if(serviceClass == null)
