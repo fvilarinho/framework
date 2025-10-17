@@ -19,7 +19,7 @@ import java.util.concurrent.TimeoutException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeoutException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ProcessLoader{
     private static ProcessLoader instance = null;
@@ -49,7 +49,7 @@ public class ProcessLoader{
      * Executes a process with parameters.
      *
      * @param commandParameters List that contains the parameters.
-     * @return Instance that contains the stream of the result of the execution.
+     * @return Instance that contains the stream of the execution.
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
@@ -62,7 +62,7 @@ public class ProcessLoader{
      *
      * @param commandParameters List that contains the parameters.
      * @param timeout Numeric value that contains the timeout.
-     * @return Instance that contains the stream of the result of the execution.
+     * @return Instance that contains the stream of the execution.
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
@@ -76,7 +76,7 @@ public class ProcessLoader{
      * @param commandParameters List that contains the parameters.
      * @param async True/False.
      * @param timeout Numeric value that contains the timeout.
-     * @return Instance that contains the stream of the result of the execution.
+     * @return Instance that contains the stream of the execution.
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
@@ -112,7 +112,7 @@ public class ProcessLoader{
      * Executes a process with parameters.
      *
      * @param command List that contains the parameters.
-     * @return Instance that contains the stream of the result of the execution.
+     * @return Instance that contains the stream of the execution.
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
@@ -125,7 +125,7 @@ public class ProcessLoader{
      *
      * @param command List that contains the parameters.
      * @param timeout Numeric value that contains the timeout.
-     * @return Instance that contains the stream of the result of the execution.
+     * @return Instance that contains the stream of the execution.
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
@@ -139,12 +139,12 @@ public class ProcessLoader{
      * @param command List that contains the parameters.
      * @param async True/False.
      * @param timeout Numeric value that contains the timeout.
-     * @return Instance that contains the stream of the result of the execution.
+     * @return Instance that contains the stream of the execution.
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
     private String execute(String command, boolean async, int timeout) throws IOException{
-        if(command != null && command.length() > 0){
+        if(command != null && !command.isEmpty()){
             Process child = Runtime.getRuntime().exec(command);
             
             if(!async){
@@ -210,7 +210,7 @@ public class ProcessLoader{
      *
      * This program is free software: you can redistribute it and/or modify
      * it under the terms of the GNU General Public License as published by
-     * the Free Software Foundation, either version 3 of the License, or
+     * the Free Software Foundation, either version 3 of the License or
      * (at your option) any later version.
      *
      * This program is distributed in the hope that it will be useful,
@@ -219,7 +219,7 @@ public class ProcessLoader{
      * GNU General Public License for more details.
      *
      * You should have received a copy of the GNU General Public License
-     * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+     * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
      */
     private static class Worker extends Thread{
         private final Process process;
@@ -242,13 +242,11 @@ public class ProcessLoader{
         public void run(){
             try{
                 this.exit = this.process.waitFor();
-                
-                if(this.exit != null){
-                    if(this.exit == 0)
-                        this.in = this.process.getInputStream();
-                    else
-                        this.in = this.process.getErrorStream();
-                }
+
+                if (this.exit == 0)
+                    this.in = this.process.getInputStream();
+                else
+                    this.in = this.process.getErrorStream();
             }
             catch(InterruptedException ignored){
             }

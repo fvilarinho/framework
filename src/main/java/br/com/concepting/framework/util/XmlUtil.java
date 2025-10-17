@@ -34,7 +34,7 @@ import java.util.Map.Entry;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -43,7 +43,7 @@ import java.util.Map.Entry;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class XmlUtil{
     private static XmlMapper mapper = null;
@@ -69,7 +69,7 @@ public class XmlUtil{
      * @return String without default namespaces.
      */
     public static String removeNamespaces(String value){
-        if(value != null && value.length() > 0){
+        if(value != null && !value.isEmpty()){
             value = StringUtil.replaceAll(value, " xmlns:concepting=\"default namespace\"", "");
             value = StringUtil.replaceAll(value, " xmlns:c=\"default namespace\"", "");
             value = StringUtil.replaceAll(value, " xmlns:jsp=\"default namespace\"", "");
@@ -140,7 +140,7 @@ public class XmlUtil{
             
             buffer.append("<");
             
-            if(node.getNamespace() != null && node.getNamespace().length() > 0){
+            if(node.getNamespace() != null && !node.getNamespace().isEmpty()){
                 buffer.append(node.getNamespace());
                 buffer.append(":");
             }
@@ -157,10 +157,10 @@ public class XmlUtil{
                     
                     String value = PropertyUtil.format(entry.getValue(), language);
                     
-                    if(value != null && value.length() > 0 && encode)
+                    if(value != null && !value.isEmpty() && encode)
                         value = URLEncoder.encode(value, Constants.DEFAULT_UNICODE_ENCODING);
                     
-                    if(value != null && value.length() > 0)
+                    if(value != null && !value.isEmpty())
                         buffer.append(value);
                     
                     buffer.append("\"");
@@ -172,10 +172,10 @@ public class XmlUtil{
             
             String value = PropertyUtil.format(node.getValue(), language);
             
-            if(value != null && value.length() > 0 && encode)
+            if(value != null && !value.isEmpty() && encode)
                 value = URLEncoder.encode(value, Constants.DEFAULT_UNICODE_ENCODING);
             
-            if(value != null && value.length() > 0){
+            if(value != null && !value.isEmpty()){
                 buffer.append(value);
                 
                 buffer.append(StringUtil.getLineBreak());
@@ -187,14 +187,14 @@ public class XmlUtil{
                 for(XmlNode childNode: children){
                     String childBuffer = toString(childNode, encode, language);
                     
-                    if(childBuffer != null && childBuffer.length() > 0)
+                    if(childBuffer != null && !childBuffer.isEmpty())
                         buffer.append(childBuffer);
                 }
             }
             
             buffer.append("</");
             
-            if(node.getNamespace() != null && node.getNamespace().length() > 0){
+            if(node.getNamespace() != null && !node.getNamespace().isEmpty()){
                 buffer.append(node.getNamespace());
                 buffer.append(":");
             }
@@ -217,7 +217,7 @@ public class XmlUtil{
      * @throws DocumentException Occurs when was not possible to parse the content.
      */
     public static XmlNode parseString(String value) throws DocumentException{
-        if(value != null && value.length() > 0)
+        if(value != null && !value.isEmpty())
             return parseString(value, Constants.DEFAULT_UNICODE_ENCODING);
         
         return null;
@@ -232,10 +232,10 @@ public class XmlUtil{
      * @throws DocumentException Occurs when was not possible to parse the content.
      */
     public static XmlNode parseString(String value, String encoding) throws DocumentException{
-        if(value != null && value.length() > 0){
+        if(value != null && !value.isEmpty()){
             Document document = DocumentHelper.parseText(StringEscapeUtils.unescapeXml(value));
             
-            if(encoding == null || encoding.length() == 0)
+            if(encoding == null || encoding.isEmpty())
                 encoding = Constants.DEFAULT_UNICODE_ENCODING;
             
             document.setXMLEncoding(encoding);
@@ -258,7 +258,7 @@ public class XmlUtil{
      * @throws NoSuchMethodException Occurs when was not possible to execute the operation
      */
     public static String indent(String value) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, IOException{
-        if(value != null && value.length() > 0)
+        if(value != null && !value.isEmpty())
             return StringUtil.indent(value, TagIndent.getRules());
         
         return StringUtils.EMPTY;
@@ -289,7 +289,7 @@ public class XmlUtil{
      * @throws IOException Occurs when was not possible to deserialize.
      */
     public static <O> O deserialize(String value, Class<O> clazz) throws ClassNotFoundException, IOException {
-        if (value == null || value.length() == 0)
+        if (value == null || value.isEmpty())
             return null;
 
         return deserialize(value.getBytes(), clazz);
@@ -312,7 +312,7 @@ public class XmlUtil{
         XmlNode rootNode = reader.getRoot();
         String rootClassName = rootNode.getAttribute("class");
 
-        if(rootClassName != null && rootClassName.length() > 0)
+        if(rootClassName != null && !rootClassName.isEmpty())
             clazz = (Class<O>)Class.forName(rootClassName);
 
         XmlMapper mapper = getMapper();

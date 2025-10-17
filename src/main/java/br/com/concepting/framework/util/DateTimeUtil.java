@@ -23,7 +23,7 @@ import java.util.*;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -32,7 +32,7 @@ import java.util.*;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class DateTimeUtil{
     /**
@@ -84,7 +84,7 @@ public class DateTimeUtil{
     }
     
     /**
-     * Merges a date and time instances.
+     * Merges a date with a time.
      *
      * @param <D> Class that defines the date/time.
      * @param date Instance that contains the date.
@@ -120,7 +120,7 @@ public class DateTimeUtil{
      * @return Instance that contains the date/time.
      */
     public static String format(Date date, String pattern){
-        if(date != null && pattern != null && pattern.length() > 0){
+        if(date != null && pattern != null && !pattern.isEmpty()){
             SimpleDateFormat formatter = new SimpleDateFormat(pattern);
             
             formatter.setLenient(false);
@@ -191,7 +191,7 @@ public class DateTimeUtil{
      * operation.
      */
     public static <D extends Date> D parse(String value) throws ParseException{
-        if(value != null && value.length() > 0)
+        if(value != null && !value.isEmpty())
             return parse(value, LanguageUtil.getDefaultLanguage());
 
         return null;
@@ -209,7 +209,7 @@ public class DateTimeUtil{
      */
     @SuppressWarnings("unchecked")
     public static <D extends Date> D parse(String value, String pattern) throws ParseException{
-        if(value != null && value.length() > 0 && pattern != null && pattern.length() > 0){
+        if(value != null && !value.isEmpty() && pattern != null && !pattern.isEmpty()){
             SimpleDateFormat parser = new SimpleDateFormat(pattern);
             
             parser.setLenient(false);
@@ -221,16 +221,14 @@ public class DateTimeUtil{
             
             if(pattern.contains("d")){
                 int buffer = calendarBuffer.get(Calendar.DAY_OF_MONTH);
-                
-                if(buffer > 0)
-                    result.set(Calendar.DAY_OF_MONTH, buffer);
+
+                result.set(Calendar.DAY_OF_MONTH, buffer);
             }
             
             if(pattern.contains("M")){
                 int buffer = calendarBuffer.get(Calendar.MONTH);
-                
-                if(buffer >= 0)
-                    result.set(Calendar.MONTH, buffer);
+
+                result.set(Calendar.MONTH, buffer);
             }
             
             if(pattern.contains("y")){
@@ -243,27 +241,23 @@ public class DateTimeUtil{
             if(pattern.contains("H") || pattern.contains("h")){
                 int buffer = calendarBuffer.get(Calendar.HOUR_OF_DAY);
                 
-                if(buffer >= 0)
-                    result.set(Calendar.HOUR_OF_DAY, buffer);
+                result.set(Calendar.HOUR_OF_DAY, buffer);
             }
             
             if(pattern.contains("m")){
                 int buffer = calendarBuffer.get(Calendar.MINUTE);
                 
-                if(buffer >= 0)
-                    result.set(Calendar.MINUTE, buffer);
+                result.set(Calendar.MINUTE, buffer);
             }
             
             if(pattern.contains("s")){
                 int buffer = calendarBuffer.get(Calendar.SECOND);
                 
-                if(buffer >= 0)
-                    result.set(Calendar.SECOND, buffer);
+                result.set(Calendar.SECOND, buffer);
                 
                 buffer = calendarBuffer.get(Calendar.MILLISECOND);
                 
-                if(buffer >= 0)
-                    result.set(Calendar.MILLISECOND, buffer);
+                result.set(Calendar.MILLISECOND, buffer);
             }
             
             if(pattern.contains("HH") || pattern.contains("mm") || pattern.contains("ss") || pattern.contains("SSS"))
@@ -349,53 +343,56 @@ public class DateTimeUtil{
             formatter = DateFormat.getDateInstance(DateFormat.SHORT, language);
         
         String pattern = ((SimpleDateFormat) formatter).toPattern();
-        
         Collection<String> patternParts = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        String patternBuffer = String.valueOf(pattern.charAt(0));
-        StringBuilder currentPattern = new StringBuilder(patternBuffer);
-        
-        for(int cont = 1; cont < pattern.length(); cont++){
-            if(patternBuffer.equals(String.valueOf(pattern.charAt(cont))))
-                currentPattern.append(patternBuffer);
-            else{
+
+        if(patternParts != null) {
+            String patternBuffer = String.valueOf(pattern.charAt(0));
+            StringBuilder currentPattern = new StringBuilder(patternBuffer);
+
+            for (int cont = 1; cont < pattern.length(); cont++) {
+                if (patternBuffer.equals(String.valueOf(pattern.charAt(cont))))
+                    currentPattern.append(patternBuffer);
+                else {
+
+                    patternParts.add(currentPattern.toString());
+
+                    patternBuffer = String.valueOf(pattern.charAt(cont));
+                    currentPattern = new StringBuilder(patternBuffer);
+                }
+            }
+
+            if (!patternParts.contains(currentPattern.toString()))
                 patternParts.add(currentPattern.toString());
-                
-                patternBuffer = String.valueOf(pattern.charAt(cont));
-                currentPattern = new StringBuilder(patternBuffer);
+
+            currentPattern = new StringBuilder();
+
+            for (String patternPart : patternParts) {
+                if (patternPart.length() == 1)
+                    patternBuffer = patternPart;
+                else
+                    patternBuffer = patternPart.substring(0, 1);
+
+                if (patternPart.contains("y")) {
+                    patternBuffer = StringUtil.replicate(patternBuffer, 4 - patternPart.length());
+
+                    currentPattern.append(patternBuffer);
+                }
+                else if (patternPart.contains("S")) {
+                    patternBuffer = StringUtil.replicate(patternBuffer, 3 - patternPart.length());
+
+                    currentPattern.append(patternBuffer);
+                }
+                else if (patternPart.equals("d") || patternPart.equals("M") || patternPart.equals("H") || patternPart.equals("h") || patternPart.equals("m")) {
+                    patternBuffer = StringUtil.replicate(patternBuffer, 2 - patternPart.length());
+
+                    currentPattern.append(patternBuffer);
+                }
+
+                currentPattern.append(patternPart);
             }
+
+            pattern = currentPattern.toString();
         }
-        
-        if(!patternParts.contains(currentPattern.toString()))
-            patternParts.add(currentPattern.toString());
-        
-        currentPattern = new StringBuilder();
-        
-        for(String patternPart: patternParts){
-            if(patternPart.length() == 1)
-                patternBuffer = patternPart;
-            else
-                patternBuffer = patternPart.substring(0, 1);
-            
-            if(patternPart.contains("y")){
-                patternBuffer = StringUtil.replicate(patternBuffer, 4 - patternPart.length());
-                
-                currentPattern.append(patternBuffer);
-            }
-            else if(patternPart.contains("S")){
-                patternBuffer = StringUtil.replicate(patternBuffer, 3 - patternPart.length());
-                
-                currentPattern.append(patternBuffer);
-            }
-            else if(patternPart.equals("d") || patternPart.equals("M") || patternPart.equals("H") || patternPart.equals("h") || patternPart.equals("m")){
-                patternBuffer = StringUtil.replicate(patternBuffer, 2 - patternPart.length());
-                
-                currentPattern.append(patternBuffer);
-            }
-            
-            currentPattern.append(patternPart);
-        }
-        
-        pattern = currentPattern.toString();
         
         return pattern;
     }
@@ -451,14 +448,14 @@ public class DateTimeUtil{
     /**
      * Returns the month names list.
      *
-     * @return List that contains the month names.
+     * @return Array that contains the month names.
      */
     public static String[] getMonthsNames(){
         return getMonthsNames(LanguageUtil.getDefaultLanguage());
     }
     
     /**
-     * Returns um array that contains the names of the months.
+     * Returns an array that contains the names of the months.
      *
      * @param language Instance that contains the resources of the language.
      * @return Array that contains the names of the months.
@@ -606,7 +603,7 @@ public class DateTimeUtil{
      * @param value Numeric value that contains the value that will be
      * subtracted.
      * @param dateField Instance that contains the field.
-     * @return Instance that contains the date/time after the adition.
+     * @return Instance that contains the date/time after the addition.
      */
     @SuppressWarnings("unchecked")
     public static <D extends Date> D add(Date date, int value, DateFieldType dateField){
@@ -687,7 +684,7 @@ public class DateTimeUtil{
      * Formats a time based on its milliseconds. HH:mm:ss.
      *
      * @param milliseconds Numeric value that contains the milliseconds.
-     * @return Valor formatado.
+     * @return Formatted string.
      */
     public static String format(long milliseconds){
         StringBuilder result = new StringBuilder();

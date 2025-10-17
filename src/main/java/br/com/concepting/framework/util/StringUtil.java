@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class StringUtil{
     /**
@@ -53,7 +53,7 @@ public class StringUtil{
         html = replaceAll(html, "<br>".concat(StringUtil.getLineBreak()), ProcessorConstants.DEFAULT_LINEBREAK_TAG_ID);
         html = replaceAll(html, StringUtil.getLineBreak(), ProcessorConstants.DEFAULT_LINEBREAK_TAG_ID);
         
-        Pattern pattern = Pattern.compile(".*(\\<.*\\>).*");
+        Pattern pattern = Pattern.compile(".*(<.*>).*");
         
         while(true){
             Matcher matcher = pattern.matcher(html);
@@ -106,8 +106,8 @@ public class StringUtil{
      * @return String.
      */
     public static String normalize(String value, String delimiter){
-        if(value != null && value.length() > 0){
-            if(delimiter == null || delimiter.length() == 0)
+        if(value != null && !value.isEmpty()){
+            if(delimiter == null || delimiter.isEmpty())
                 delimiter = Constants.DEFAULT_NORMALIZE_DELIMITER;
             
             String[] parts = StringUtil.split(value.toLowerCase(), delimiter);
@@ -137,8 +137,8 @@ public class StringUtil{
      * @return String replicated.
      */
     public static String replicate(String value, int times){
-        if(value != null && value.length() > 0 && times > 0)
-            return value.repeat(Math.max(0, times));
+        if(value != null && !value.isEmpty() && times > 0)
+            return value.repeat(times);
 
         return value;
     }
@@ -152,7 +152,7 @@ public class StringUtil{
      * @return String after replacement.
      */
     public static String replaceAll(String value, String search, String replace){
-        if(value != null && value.length() > 0 && search != null && search.length() > 0 && (replace == null || replace != null && !search.equals(replace))){
+        if(value != null && !value.isEmpty() && search != null && !search.isEmpty() && !search.equals(replace)){
             int pos = value.indexOf(search);
             
             if(pos >= 0){
@@ -160,7 +160,7 @@ public class StringUtil{
                 
                 replaceBuffer.append(value, 0, pos);
                 
-                if(replace != null && replace.length() > 0)
+                if(replace != null && !replace.isEmpty())
                     replaceBuffer.append(replace);
                 
                 replaceBuffer.append(value.substring(pos + search.length()));
@@ -181,7 +181,7 @@ public class StringUtil{
      * @return String after replacement.
      */
     public static String replaceLast(String value, char search, String replace){
-        if(value != null && value.length() > 0 && replace != null && replace.length() > 0)
+        if(value != null && !value.isEmpty() && replace != null && !replace.isEmpty())
             return replaceLast(value, String.valueOf(search), replace);
 
         return StringUtils.EMPTY;
@@ -196,7 +196,7 @@ public class StringUtil{
      * @return String after replacement.
      */
     public static String replaceLast(String value, String search, String replace){
-        if(value != null && value.length() > 0 && search != null && search.length() > 0){
+        if(value != null && !value.isEmpty() && search != null && !search.isEmpty()){
             int pos = value.lastIndexOf(search);
             
             if(pos >= 0){
@@ -204,7 +204,7 @@ public class StringUtil{
                 
                 replaceBuffer.append(value, 0, pos);
                 
-                if(replace != null && replace.length() > 0)
+                if(replace != null && !replace.isEmpty())
                     replaceBuffer.append(replace);
                 
                 replaceBuffer.append(value.substring(pos + search.length()));
@@ -223,7 +223,7 @@ public class StringUtil{
      * @return Inverted string.
      */
     public static String reverse(String value){
-        if(value != null && value.length() > 0){
+        if(value != null && !value.isEmpty()){
             StringBuilder reverseBuffer = new StringBuilder(value);
             
             return reverseBuffer.reverse().toString();
@@ -263,13 +263,10 @@ public class StringUtil{
      * @return Aligned string.
      */
     public static String align(AlignmentType alignment, int maxChars, String value){
-        if(value != null && value.length() > 0 && maxChars > 0){
+        if(value != null && !value.isEmpty() && maxChars > 0){
             StringBuilder align = new StringBuilder();
             int length = value.length();
-            
-            if(length == 0)
-                return replicate(" ", maxChars);
-            
+
             if(maxChars > length){
                 switch(alignment){
                     case LEFT:{
@@ -326,7 +323,7 @@ public class StringUtil{
      * @return String that contains the character.
      */
     public static String getLineBreak(){
-        return System.getProperty("line.separator");
+        return System.lineSeparator();
     }
     
     /**
@@ -351,7 +348,7 @@ public class StringUtil{
      */
     public static String merge(Object[] values, String delimiter){
         if(values != null && values.length > 0){
-            if(delimiter == null || delimiter.length() == 0)
+            if(delimiter == null || delimiter.isEmpty())
                 delimiter = Constants.DEFAULT_DELIMITER;
             
             StringBuilder result = new StringBuilder();
@@ -377,7 +374,7 @@ public class StringUtil{
      * @return Array that contains the strings.
      */
     public static String[] split(String value){
-        if(value != null && value.length() > 0)
+        if(value != null && !value.isEmpty())
             return split(value, Constants.DEFAULT_DELIMITER);
         
         return null;
@@ -392,8 +389,8 @@ public class StringUtil{
      * @return Array that contains the strings.
      */
     public static String[] split(String value, String delimiter){
-        if(value != null && value.length() > 0){
-            if(delimiter == null || delimiter.length() == 0)
+        if(value != null && !value.isEmpty()){
+            if(delimiter == null || delimiter.isEmpty())
                 delimiter = Constants.DEFAULT_DELIMITER;
             
             StringTokenizer tokenizer = new StringTokenizer(value, delimiter);
@@ -430,7 +427,7 @@ public class StringUtil{
      * @return String capitalized.
      */
     public static String capitalize(String value, String delimiter, boolean onlyFirstWord){
-        if(value != null && value.length() > 0){
+        if(value != null && !value.isEmpty()){
             StringBuilder result = new StringBuilder();
             
             if(onlyFirstWord){
@@ -438,12 +435,12 @@ public class StringUtil{
                 result.append(value.substring(1));
             }
             else{
-                if(delimiter == null || delimiter.length() == 0)
+                if(delimiter == null || delimiter.isEmpty())
                     delimiter = Constants.DEFAULT_CAPITALIZE_DELIMITER;
                 
                 String[] values = StringUtil.split(value, delimiter);
                 
-                if(values != null && values.length > 0){
+                if(values != null){
                     for(String valueItem: values){
                         if(result.length() > 0)
                             result.append(delimiter);
@@ -468,7 +465,7 @@ public class StringUtil{
      * @return String capitalized.
      */
     public static String capitalize(String value, String delimiter){
-        if(value != null && value.length() > 0)
+        if(value != null && !value.isEmpty())
             return capitalize(value, delimiter, false);
         
         return null;
@@ -492,7 +489,7 @@ public class StringUtil{
      * @return Formatted string.
      */
     public static String format(String value, String pattern){
-        if(value != null && value.length() > 0 && pattern != null && pattern.length() > 0){
+        if(value != null && !value.isEmpty() && pattern != null && !pattern.isEmpty()){
             pattern = StringUtil.replaceAll(pattern, "#", "A");
             pattern = StringUtil.replaceAll(pattern, "9", "#");
             pattern = StringUtil.replaceAll(pattern, "d", "#");
@@ -536,7 +533,7 @@ public class StringUtil{
      * @return String without the formatting.
      */
     public static String unformat(String value, String pattern){
-        if(value != null && value.length() > 0 && pattern != null && pattern.length() > 0){
+        if(value != null && !value.isEmpty() && pattern != null && !pattern.isEmpty()){
             for(int cont = 0; cont < pattern.length(); cont++)
                 if(pattern.charAt(cont) != '9' && pattern.charAt(cont) != '#' && pattern.charAt(cont) != '0' && pattern.charAt(cont) != 'd' && pattern.charAt(cont) != 'M' && pattern.charAt(cont) != 'm' && pattern.charAt(cont) != 'y' && pattern.charAt(cont) != 'H' && pattern.charAt(cont) != 'h' && pattern.charAt(cont) != 's')
                     value = StringUtil.replaceAll(value, String.valueOf(pattern.charAt(cont)), "");
@@ -564,9 +561,9 @@ public class StringUtil{
      * operation.
      */
     public static <R extends BaseIndent> String indent(String value, Collection<R> rules) throws IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException{
-        StringBuilder result = null;
+        StringBuilder result = new StringBuilder();
         
-        if(value != null && value.length() > 0 && rules != null && !rules.isEmpty()){
+        if(value != null && !value.isEmpty() && rules != null && !rules.isEmpty()){
             ByteArrayInputStream in = new ByteArrayInputStream(value.getBytes());
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             LinkedList<BaseIndent> rulesQueue = null;
@@ -585,7 +582,7 @@ public class StringUtil{
                     lastRule = rulesQueue.getLast();
                     
                     if(!lastRule.backAfterEndChar()){
-                        if(lastRule.getEndChar() != null && lastRule.getEndChar().length() >= 0){
+                        if(lastRule.getEndChar() != null){
                             pos = line.indexOf(lastRule.getEndChar());
                             
                             if(pos >= 0){
@@ -597,7 +594,7 @@ public class StringUtil{
                                     }
                                 }
                                 else{
-                                    if(lastRule.getStartChar() != null && lastRule.getStartChar().length() > 0){
+                                    if(lastRule.getStartChar() != null && !lastRule.getStartChar().isEmpty()){
                                         pos = line.indexOf(lastRule.getStartChar());
                                         
                                         if(pos < 0){
@@ -611,13 +608,10 @@ public class StringUtil{
                         }
                     }
                 }
-                
-                if(result == null)
-                    result = new StringBuilder();
-                
+
                 indentation = StringUtil.replicate(" ", currentIdentCount);
                 
-                if(indentation != null && indentation.length() > 0)
+                if(indentation != null && !indentation.isEmpty())
                     result.append(indentation);
                 
                 result.append(line);
@@ -626,13 +620,13 @@ public class StringUtil{
                 currentRule = null;
                 
                 for(BaseIndent rule: rules){
-                    if(rule.getStartChar() != null && rule.getStartChar().length() > 0){
+                    if(rule.getStartChar() != null && !rule.getStartChar().isEmpty()){
                         pos = line.indexOf(rule.getStartChar());
                         
                         if(pos >= 0){
                             currentRule = rule;
                             
-                            if(rule.getEndChar() != null && rule.getEndChar().length() > 0){
+                            if(rule.getEndChar() != null && !rule.getEndChar().isEmpty()){
                                 pos = line.indexOf(rule.getEndChar());
                                 
                                 if(pos >= 0){
@@ -650,15 +644,16 @@ public class StringUtil{
                     
                     if(rulesQueue == null)
                         rulesQueue = PropertyUtil.instantiate(Constants.DEFAULT_LIFO_QUEUE_CLASS);
-                    
-                    rulesQueue.add(currentRule);
+
+                    if(rulesQueue != null)
+                        rulesQueue.add(currentRule);
                 }
                 
                 if(rulesQueue != null && !rulesQueue.isEmpty()){
                     lastRule = rulesQueue.getLast();
                     
                     if(lastRule.backAfterEndChar()){
-                        if(lastRule.getEndChar() != null && lastRule.getEndChar().length() > 0){
+                        if(lastRule.getEndChar() != null && !lastRule.getEndChar().isEmpty()){
                             pos = line.indexOf(lastRule.getEndChar());
                             
                             if(pos >= 0){
@@ -670,7 +665,7 @@ public class StringUtil{
                                     }
                                 }
                                 else{
-                                    if(lastRule.getStartChar() != null && lastRule.getStartChar().length() > 0){
+                                    if(lastRule.getStartChar() != null && !lastRule.getStartChar().isEmpty()){
                                         pos = line.indexOf(lastRule.getStartChar());
                                         
                                         if(pos < 0){
@@ -686,7 +681,7 @@ public class StringUtil{
                 }
             }
         }
-        
+
         return result.toString();
     }
     
@@ -697,7 +692,7 @@ public class StringUtil{
      * @return String that contains the regular expressions.
      */
     public static String toRegex(String expression){
-        if(expression != null && expression.length() > 0){
+        if(expression != null && !expression.isEmpty()){
             expression = StringUtil.replaceAll(expression, ".*", "\\.".concat(ProcessorConstants.DEFAULT_REMOVE_TAG_ID));
             expression = StringUtil.replaceAll(expression, "*.", ".".concat(ProcessorConstants.DEFAULT_REMOVE_TAG_ID).concat("\\."));
             expression = StringUtil.replaceAll(expression, "*", ".".concat(ProcessorConstants.DEFAULT_REMOVE_TAG_ID));

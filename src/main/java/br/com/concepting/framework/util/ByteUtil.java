@@ -23,7 +23,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -32,7 +32,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ByteUtil{
     /**
@@ -238,7 +238,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @return Formatted string.
      */
     public static String formatBits(long value, BitMetricType metric){
@@ -250,7 +250,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @return Formatted string.
      */
     public static String formatBits(double value, BitMetricType metric){
@@ -262,7 +262,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @return Formatted string.
      */
     public static String formatBits(BigDecimal value, BitMetricType metric){
@@ -277,7 +277,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
@@ -293,7 +293,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
@@ -312,7 +312,7 @@ public class ByteUtil{
 
         buffer.append(NumberUtil.format(valueBuffer, (modBuffer > 0 ? 2 : 0), language));
 
-        if(metricUnit != null && metricUnit.length() > 0){
+        if(metricUnit != null && !metricUnit.isEmpty()){
             buffer.append(" ");
             buffer.append(metricUnit);
 
@@ -328,7 +328,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
@@ -386,7 +386,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @return Formatted string.
      */
     public static String formatBytes(long value, ByteMetricType metric){
@@ -398,7 +398,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @return Formatted string.
      */
     public static String formatBytes(double value, ByteMetricType metric){
@@ -413,7 +413,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @return Formatted string.
      */
     public static String formatBytes(BigDecimal value, ByteMetricType metric){
@@ -428,7 +428,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
@@ -444,11 +444,14 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
     public static String formatBytes(double value, ByteMetricType metric, Locale language){
+        if(metric == null)
+            return null;
+
         StringBuilder buffer = new StringBuilder();
         double metricValue = metric.getValue();
         String metricUnit = metric.getUnit();
@@ -460,7 +463,7 @@ public class ByteUtil{
 
         buffer.append(NumberUtil.format(valueBuffer, (modBuffer > 0 ? 2 : 0), language));
 
-        if(metricUnit != null && metricUnit.length() > 0){
+        if(metricUnit != null && !metricUnit.isEmpty()){
             buffer.append(" ");
             buffer.append(metricUnit);
 
@@ -476,7 +479,7 @@ public class ByteUtil{
      *
      * @param value Numeric value.
      * @param metric Instance that contains the type of representation (kilo,
-     * mega, giga, etc).
+     * mega, giga, etc.).
      * @param language Instance that contains the language.
      * @return Formatted string.
      */
@@ -491,7 +494,7 @@ public class ByteUtil{
      * Formats a numeric value using a byte representation.
      *
      * @param value Numeric value.
-     * @return String formatada.
+     * @return Formatted string.
      */
     public static String formatBytes(long value){
         return formatBytes(value, LanguageUtil.getDefaultLanguage());
@@ -501,7 +504,7 @@ public class ByteUtil{
      * Formats a numeric value using a byte representation.
      *
      * @param value Numeric value.
-     * @return String formatada.
+     * @return Formatted string.
      */
     public static String formatBytes(double value){
         return formatBytes(value, LanguageUtil.getDefaultLanguage());
@@ -511,7 +514,7 @@ public class ByteUtil{
      * Formats a numeric value using a byte representation.
      *
      * @param value Numeric value.
-     * @return String formatada.
+     * @return Formatted string.
      */
     public static String formatBytes(BigDecimal value){
         if(value == null)

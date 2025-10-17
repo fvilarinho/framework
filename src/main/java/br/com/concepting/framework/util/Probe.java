@@ -37,7 +37,7 @@ import java.util.logging.Level;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -46,7 +46,7 @@ import java.util.logging.Level;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class Probe extends WebDriverBackedSelenium{
     /**
@@ -102,17 +102,17 @@ public class Probe extends WebDriverBackedSelenium{
             }
         }
         
-        if(options.getProxy() != null && options.getProxy().getUrl() != null && options.getProxy().getUrl().length() > 0){
+        if(options.getProxy() != null && options.getProxy().getUrl() != null && !options.getProxy().getUrl().isEmpty()){
             Proxy proxy = new Proxy();
             
             proxy.setHttpProxy(options.getProxy().getUrl());
             proxy.setSslProxy(options.getProxy().getUrl());
             proxy.setSocksProxy(options.getProxy().getUrl());
             
-            if(options.getProxy().getUser() != null && options.getProxy().getUser().length() > 0)
+            if(options.getProxy().getUser() != null && !options.getProxy().getUser().isEmpty())
                 proxy.setSocksUsername(options.getProxy().getUser());
             
-            if(options.getProxy().getPassword() != null && options.getProxy().getPassword().length() > 0)
+            if(options.getProxy().getPassword() != null && !options.getProxy().getPassword().isEmpty())
                 proxy.setSocksPassword(options.getProxy().getPassword());
             
             driverOptions.setProxy(proxy);
@@ -748,7 +748,7 @@ public class Probe extends WebDriverBackedSelenium{
      * @param value String that contains the text.
      */
     public void type(String value){
-        if(value != null && value.length() > 0){
+        if(value != null && !value.isEmpty()){
             Actions action = new Actions(getWrappedDriver());
             
             action.sendKeys(value).build().perform();
@@ -787,7 +787,7 @@ public class Probe extends WebDriverBackedSelenium{
     public void open(String url) throws TimeoutException{
         WebDriver driver = getWrappedDriver();
         
-        if(this.url == null || this.url.length() == 0){
+        if(this.url == null || this.url.isEmpty()){
             this.url = url;
             
             driver.navigate().to(url);
@@ -805,13 +805,13 @@ public class Probe extends WebDriverBackedSelenium{
     @SuppressWarnings("unchecked")
     public void execute(Collection<Map<String, Object>> commands) throws InternalErrorException{
         try{
-            if(commands != null && commands.size() > 0){
+            if(commands != null && !commands.isEmpty()){
                 for(Map<String, ?> command: commands){
                     String name = (String) command.get("name");
                     Collection<Map<String, ?>> arguments = (Collection<Map<String, ?>>) command.get("arguments");
                     Method method;
 
-                    if(arguments != null && arguments.size() > 0){
+                    if(arguments != null && !arguments.isEmpty()){
                         Class<?>[] types = new Class<?>[arguments.size()];
                         Object[] values = new Object[arguments.size()];
                         int cont = 0;

@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -45,7 +45,7 @@ import java.util.ResourceBundle;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ReportUtil{
     /**
@@ -58,7 +58,7 @@ public class ReportUtil{
      * the operation.
      */
     public static byte[] generateReport(String resourcesId, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && resourcesId.length() > 0 && datasource != null)
+        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
             return generateReport(null, resourcesId, LanguageUtil.getDefaultLanguage(), datasource);
         
         return null;
@@ -76,7 +76,7 @@ public class ReportUtil{
      * the operation.
      */
     public static byte[] generateReport(String resourcesDirname, String resourcesId, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && resourcesId.length() > 0 && datasource != null)
+        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
             return generateReport(resourcesDirname, resourcesId, LanguageUtil.getDefaultLanguage(), datasource);
         
         return null;
@@ -93,7 +93,7 @@ public class ReportUtil{
      * the operation.
      */
     public static byte[] generateReport(String resourcesId, Locale language, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && resourcesId.length() > 0 && datasource != null)
+        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
             return generateReport(null, resourcesId, null, language, datasource);
         
         return null;
@@ -112,7 +112,7 @@ public class ReportUtil{
      * the operation.
      */
     public static byte[] generateReport(String resourcesDirname, String resourcesId, Locale language, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && resourcesId.length() > 0 && datasource != null)
+        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
             return generateReport(resourcesDirname, resourcesId, null, language, datasource);
         
         return null;
@@ -130,7 +130,7 @@ public class ReportUtil{
      * the operation.
      */
     public static byte[] generateReport(String resourcesId, Map<String, Object> reportParameters, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && resourcesId.length() > 0 && datasource != null)
+        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
             return generateReport(null, resourcesId, reportParameters, LanguageUtil.getDefaultLanguage(), datasource);
         
         return null;
@@ -150,7 +150,7 @@ public class ReportUtil{
      * the operation.
      */
     public static byte[] generateReport(String resourcesDirname, String resourcesId, Map<String, Object> reportParameters, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && resourcesId.length() > 0 && datasource != null)
+        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
             return generateReport(resourcesDirname, resourcesId, reportParameters, LanguageUtil.getDefaultLanguage(), datasource);
         
         return null;
@@ -169,7 +169,7 @@ public class ReportUtil{
      * the operation.
      */
     public static byte[] generateReport(String resourcesId, Map<String, Object> reportParameters, Locale language, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && resourcesId.length() > 0 && datasource != null)
+        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
             return generateReport(null, resourcesId, reportParameters, language, datasource);
         
         return null;
@@ -190,12 +190,12 @@ public class ReportUtil{
      * the operation.
      */
     public static byte[] generateReport(String resourcesDirname, String resourcesId, Map<String, Object> reportParameters, Locale language, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && resourcesId.length() != 0 && datasource != null){
+        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null){
             String reportFileId = buildReportFilename(resourcesDirname, resourcesId);
             InputStream reportStream = null;
             
             try{
-                if(resourcesDirname != null && resourcesDirname.length() > 0)
+                if(resourcesDirname != null && !resourcesDirname.isEmpty())
                     reportStream = new FileInputStream(reportFileId);
                 else
                     reportStream = ReportUtil.class.getClassLoader().getResourceAsStream(reportFileId);
@@ -319,7 +319,7 @@ public class ReportUtil{
      * @return String that contains the filename.
      */
     private static String buildReportFilename(String resourcesDirname, String resourcesId){
-        if(resourcesId == null || resourcesId.length() == 0)
+        if(resourcesId == null || resourcesId.isEmpty())
             return null;
         
         return buildReportFilename(resourcesDirname, resourcesId, true);
@@ -335,12 +335,12 @@ public class ReportUtil{
      * @return String that contains the filename.
      */
     private static String buildReportFilename(String resourcesDirname, String resourcesId, boolean compiled){
-        if(resourcesId == null || resourcesId.length() == 0)
+        if(resourcesId == null || resourcesId.isEmpty())
             return null;
         
         StringBuilder resourcesIdBuffer = new StringBuilder();
         
-        if(resourcesDirname != null && resourcesDirname.length() == 0)
+        if(resourcesDirname != null && resourcesDirname.isEmpty())
             resourcesIdBuffer.append(ReportConstants.DEFAULT_RESOURCES_DIR);
         else
             resourcesIdBuffer.append(resourcesDirname);
@@ -370,66 +370,68 @@ public class ReportUtil{
      * the operation.
      */
     private static Map<String, Object> prepareReportParameters(String resourcesDirname, String resourcesId, String reportFilename, Map<String, Object> reportParameters, Locale language) throws InternalErrorException{
-        if(resourcesId == null || resourcesId.length() == 0 || reportFilename == null || reportFilename.length() == 0)
+        if(resourcesId == null || resourcesId.isEmpty() || reportFilename == null || reportFilename.isEmpty())
             return null;
         
         if(reportParameters == null)
             reportParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        reportParameters.put(JRParameter.REPORT_LOCALE, language);
-        
-        if(reportParameters.get(JRParameter.REPORT_RESOURCE_BUNDLE) == null){
-            StringBuilder resourceIdBuffer = new StringBuilder();
-            
-            resourceIdBuffer.append(ReportConstants.DEFAULT_PROPERTIES_RESOURCES_DIR);
-            resourceIdBuffer.append(resourcesId);
-            
-            PropertiesResourcesLoader loader = new PropertiesResourcesLoader(resourcesDirname, resourceIdBuffer.toString(), language);
-            PropertiesResources resources = loader.getContent();
-            ResourceBundle bundle = resources.getContent();
-            
-            reportParameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);
-        }
-        
-        URL url = ReportUtil.class.getClassLoader().getResource(reportFilename);
-        
-        if(url != null){
-            String subReportDirname = url.getFile().substring(1);
-            int pos = subReportDirname.lastIndexOf("/");
-            
-            if(pos >= 0){
-                subReportDirname = subReportDirname.substring(0, pos + 1);
-                
-                reportParameters.put(ReportConstants.SUB_REPORT_ATTRIBUTE_ID, subReportDirname);
+
+        if (reportParameters != null) {
+            reportParameters.put(JRParameter.REPORT_LOCALE, language);
+
+            if (reportParameters.get(JRParameter.REPORT_RESOURCE_BUNDLE) == null) {
+                StringBuilder resourceIdBuffer = new StringBuilder();
+
+                resourceIdBuffer.append(ReportConstants.DEFAULT_PROPERTIES_RESOURCES_DIR);
+                resourceIdBuffer.append(resourcesId);
+
+                PropertiesResourcesLoader loader = new PropertiesResourcesLoader(resourcesDirname, resourceIdBuffer.toString(), language);
+                PropertiesResources resources = loader.getContent();
+                ResourceBundle bundle = resources.getContent();
+
+                reportParameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);
             }
-        }
-        
-        ContentType exportType = (ContentType) reportParameters.get(ReportConstants.EXPORT_TYPE_ATTRIBUTE_ID);
-        
-        if(exportType == null)
-            reportParameters.put(ReportConstants.EXPORT_TYPE_ATTRIBUTE_ID, ReportConstants.DEFAULT_EXPORT_TYPE);
-        else{
-            if(exportType == ContentType.TXT){
-                int pageWidth;
 
-                try {
-                    pageWidth = (int) reportParameters.get(ReportConstants.TEXT_PAGE_WIDTH_ATTRIBUTE_ID);
-                }
-                catch(Throwable e){
-                    pageWidth = ReportConstants.DEFAULT_TEXT_PAGE_WIDTH;
-                }
+            URL url = ReportUtil.class.getClassLoader().getResource(reportFilename);
 
-                int pageHeight;
+            if (url != null) {
+                String subReportDirname = url.getFile().substring(1);
+                int pos = subReportDirname.lastIndexOf("/");
 
-                try{
-                    pageHeight = (int)reportParameters.get(ReportConstants.TEXT_PAGE_HEIGHT_ATTRIBUTE_ID);
-                }
-                catch(Throwable e){
-                    pageHeight = ReportConstants.DEFAULT_TEXT_PAGE_HEIGHT;
-                }
+                if (pos >= 0) {
+                    subReportDirname = subReportDirname.substring(0, pos + 1);
 
-                reportParameters.put(ReportConstants.TEXT_PAGE_WIDTH_ATTRIBUTE_ID, pageWidth);
-                reportParameters.put(ReportConstants.TEXT_PAGE_HEIGHT_ATTRIBUTE_ID, pageHeight);
+                    reportParameters.put(ReportConstants.SUB_REPORT_ATTRIBUTE_ID, subReportDirname);
+                }
+            }
+
+            ContentType exportType = (ContentType) reportParameters.get(ReportConstants.EXPORT_TYPE_ATTRIBUTE_ID);
+
+            if (exportType == null)
+                reportParameters.put(ReportConstants.EXPORT_TYPE_ATTRIBUTE_ID, ReportConstants.DEFAULT_EXPORT_TYPE);
+            else {
+                if (exportType == ContentType.TXT) {
+                    int pageWidth;
+
+                    try {
+                        pageWidth = (int) reportParameters.get(ReportConstants.TEXT_PAGE_WIDTH_ATTRIBUTE_ID);
+                    }
+                    catch (Throwable e) {
+                        pageWidth = ReportConstants.DEFAULT_TEXT_PAGE_WIDTH;
+                    }
+
+                    int pageHeight;
+
+                    try {
+                        pageHeight = (int) reportParameters.get(ReportConstants.TEXT_PAGE_HEIGHT_ATTRIBUTE_ID);
+                    }
+                    catch (Throwable e) {
+                        pageHeight = ReportConstants.DEFAULT_TEXT_PAGE_HEIGHT;
+                    }
+
+                    reportParameters.put(ReportConstants.TEXT_PAGE_WIDTH_ATTRIBUTE_ID, pageWidth);
+                    reportParameters.put(ReportConstants.TEXT_PAGE_HEIGHT_ATTRIBUTE_ID, pageHeight);
+                }
             }
         }
         

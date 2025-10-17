@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class Interceptor{
     private Object interceptableInstance = null;
@@ -96,36 +96,36 @@ public class Interceptor{
     }
     
     /**
-     * Returns the arguments names of the interceptable method.
+     * Returns the argument names of the interceptable method.
      *
-     * @return List that contains the arguments names.
+     * @return Array that contains the argument names.
      */
     protected String[] getInterceptableMethodArgumentsNames(){
         return this.interceptableMethodArgumentsNames;
     }
     
     /**
-     * Defines the arguments names of the interceptable method.
+     * Defines the argument names of the interceptable method.
      *
-     * @param interceptableMethodArgumentsNames List that contains the arguments name.
+     * @param interceptableMethodArgumentsNames Array that contains the argument name.
      */
     protected void setInterceptableMethodArgumentsNames(String[] interceptableMethodArgumentsNames){
         this.interceptableMethodArgumentsNames = interceptableMethodArgumentsNames;
     }
     
     /**
-     * Returns the arguments values of the interceptable method.
+     * Returns the argument values of the interceptable method.
      *
-     * @return List that contains the arguments values.
+     * @return Array that contains the argument values.
      */
     protected Object[] getInterceptableMethodArgumentsValues(){
         return this.interceptableMethodArgumentsValues;
     }
     
     /**
-     * Defines the arguments values of the interceptable method.
+     * Defines the argument values of the interceptable method.
      *
-     * @param interceptableMethodArgumentsValues List that contains the arguments values.
+     * @param interceptableMethodArgumentsValues Array that contains the argument values.
      */
     protected void setInterceptableMethodArgumentsValues(Object[] interceptableMethodArgumentsValues){
         this.interceptableMethodArgumentsValues = interceptableMethodArgumentsValues;
@@ -135,7 +135,7 @@ public class Interceptor{
      * Returns the instance that contains the auditing.
      *
      * @return Instance that contains the auditing.
-     * @throws InternalErrorException Occurs when was not possible instantiate
+     * @throws InternalErrorException Occurs when was not possible to instantiate
      * the data model.
      */
     protected Auditor getAuditor() throws InternalErrorException{

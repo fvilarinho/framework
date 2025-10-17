@@ -7,7 +7,7 @@ import java.lang.reflect.*;
 import java.util.Collection;
 
 /**
- * Class responsible to observe methods execution of a class.
+ * Class responsible to observe the execution of a class' methods.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -16,7 +16,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -25,7 +25,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class Observer implements InvocationHandler{
     private final Object interceptableInstance;
@@ -70,10 +70,10 @@ public class Observer implements InvocationHandler{
     }
     
     /**
-     * Returns the list of the interfaces of the interceptable class.
+     * Returns the list of the interceptable interfaces.
      *
      * @param interceptableInstance Instance that contains the interceptable class.
-     * @return List of the interfaces of the interceptable class.
+     * @return List of the interceptable interfaces.
      * @throws InstantiationException Occurs when was not possible to execute the
      * operation.
      * @throws InvocationTargetException Occurs when was not possible to execute the
@@ -99,8 +99,7 @@ public class Observer implements InvocationHandler{
      * Loads the interceptable interfaces of the instance.
      *
      * @param interceptableInstance Instance that contains the interceptable class.
-     * @param interceptableInterfaces List of the interfaces of the
-     * interceptable class.
+     * @param interceptableInterfaces List of the interceptable interfaces.
      */
     private static void loadInterceptableInstanceInterfaces(Class<?> interceptableInstance, Collection<Class<?>> interceptableInterfaces){
         if(interceptableInstance == null)
@@ -120,24 +119,25 @@ public class Observer implements InvocationHandler{
         }
         
         if(!found && interceptableInstance.isInterface())
-            interceptableInterfaces.add(interceptableInstance);
-        
-        if(instanceInterfaces != null && instanceInterfaces.length > 0){
+            if(interceptableInterfaces != null)
+                interceptableInterfaces.add(interceptableInstance);
+
+        if(interceptableInterfaces != null){
             for(Class<?> instanceInterface: instanceInterfaces){
                 if(!instanceInterface.getName().endsWith(Serializable.class.getSimpleName()) && !instanceInterface.getName().endsWith(Object.class.getSimpleName())){
                     found = false;
-                    
+
                     for(Class<?> item: interceptableInterfaces){
                         if(item.isInterface() && item.getName().equals(instanceInterface.getName())){
                             found = true;
-                            
+
                             break;
                         }
                     }
-                    
+
                     if(!found && instanceInterface.isInterface()){
                         interceptableInterfaces.add(instanceInterface);
-                        
+
                         loadInterceptableInstanceInterfaces(instanceInterface, interceptableInterfaces);
                     }
                 }

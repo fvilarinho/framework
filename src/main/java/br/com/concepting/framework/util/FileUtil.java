@@ -8,6 +8,8 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
 
 /**
  * Class responsible to manipulate files.
@@ -19,7 +21,7 @@ import java.nio.channels.ReadableByteChannel;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +30,7 @@ import java.nio.channels.ReadableByteChannel;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class FileUtil extends FileUtils{
     /**
@@ -37,18 +39,18 @@ public class FileUtil extends FileUtils{
      * @return String that contains the character.
      */
     public static String getDirectorySeparator(){
-        return System.getProperty("file.separator");
+        return FileSystems.getDefault().getSeparator();
     }
     
     /**
-     * Download a content from an url and writes it in a file.
+     * Download the content from the url and writes it in a file.
      *
      * @param url String that contains the url.
      * @param filename String that contains the filename.
      * @throws IOException Occurs when was not possible to read the file.
      */
     public static void fromUrlToFile(String url, String filename) throws IOException{
-        if(url == null || url.length() == 0 || filename == null || filename.length() == 0)
+        if(url == null || url.isEmpty() || filename == null || filename.isEmpty())
             return;
         
         File file = new File(filename);
@@ -76,7 +78,7 @@ public class FileUtil extends FileUtils{
      * operation.
      */
     private static FileOutputStream createStream(String filename, boolean append) throws IOException{
-        if(filename == null || filename.length() == 0)
+        if(filename == null || filename.isEmpty())
             return null;
         
         File file = new File(filename);
@@ -97,9 +99,9 @@ public class FileUtil extends FileUtils{
      * @return String that contains the encoding.
      */
     public static String getDefaultEncoding(){
-        String encoding = System.getProperty("file.encoding");
+        String encoding = Charset.defaultCharset().displayName();
         
-        if(encoding == null || encoding.length() == 0)
+        if(encoding == null || encoding.isEmpty())
             encoding = Constants.DEFAULT_UNICODE_ENCODING;
         
         return encoding;
@@ -113,7 +115,7 @@ public class FileUtil extends FileUtils{
      * @throws IOException Occurs when was not possible to write the file.
      */
     public static void toTextFile(String filename, String value) throws IOException{
-        if(filename != null && filename.length() > 0 && value != null)
+        if(filename != null && !filename.isEmpty() && value != null)
             toTextFile(filename, value, false);
     }
     
@@ -121,8 +123,8 @@ public class FileUtil extends FileUtils{
      * Writes to a text file.
      *
      * @param out Instance that contains the stream.
-     * @param value String of the content of the file.
-     * @throws IOException Occurs when was not possible write the file.
+     * @param value String that contains the content of the file.
+     * @throws IOException Occurs when was not possible to write the file.
      */
     public static void toTextFile(FileOutputStream out, String value) throws IOException{
         if(out != null && value != null)
@@ -138,7 +140,7 @@ public class FileUtil extends FileUtils{
      * @throws IOException Occurs when was not possible to write the file.
      */
     public static void toTextFile(String filename, String value, boolean append) throws IOException{
-        if(filename != null && filename.length() > 0 && value != null)
+        if(filename != null && !filename.isEmpty() && value != null)
             toTextFile(filename, value, getDefaultEncoding(), append);
     }
     
@@ -151,7 +153,7 @@ public class FileUtil extends FileUtils{
      * @throws IOException Occurs when was not possible to write the file.
      */
     public static void toTextFile(String filename, String value, String encoding) throws IOException{
-        if(filename != null && filename.length() > 0 && value != null)
+        if(filename != null && !filename.isEmpty() && value != null)
             toTextFile(filename, value, encoding, false);
     }
     
@@ -165,7 +167,7 @@ public class FileUtil extends FileUtils{
      * @throws IOException Occurs when was not possible to write the file.
      */
     public static void toTextFile(String filename, String value, String encoding, boolean append) throws IOException{
-        if(encoding == null || encoding.length() == 0)
+        if(encoding == null || encoding.isEmpty())
             encoding = getDefaultEncoding();
         
         toTextFile(createStream(filename, append), value, encoding);
@@ -183,7 +185,7 @@ public class FileUtil extends FileUtils{
         if(out == null || value == null)
             return;
         
-        if(encoding == null || encoding.length() == 0)
+        if(encoding == null || encoding.isEmpty())
             encoding = getDefaultEncoding();
         
         OutputStreamWriter writer = new OutputStreamWriter(out, encoding);
@@ -200,7 +202,7 @@ public class FileUtil extends FileUtils{
      * @throws IOException Occurs when was not possible to write the file.
      */
     public static void toBinaryFile(String filename, byte[] value) throws IOException{
-        if(filename != null && filename.length() > 0 && value != null)
+        if(filename != null && !filename.isEmpty() && value != null)
             toBinaryFile(createStream(filename, false), value);
     }
     
@@ -251,7 +253,7 @@ public class FileUtil extends FileUtils{
      * @throws IOException Occurs when was not possible to read the file.
      */
     public static byte[] fromBinaryFile(String filename) throws IOException{
-        if(filename != null && filename.length() > 0)
+        if(filename != null && !filename.isEmpty())
             return fromBinaryFile(new File(filename));
         
         return null;
