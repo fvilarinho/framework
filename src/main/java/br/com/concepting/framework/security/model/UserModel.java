@@ -30,7 +30,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -39,7 +39,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @Model(descriptionPattern = "#{name}")
 public class UserModel extends BaseModel{
@@ -168,18 +168,18 @@ public class UserModel extends BaseModel{
     }
     
     /**
-     * Returns the date/time of the last login of the user
+     * Returns the date/time of the user's last login.
      *
-     * @return Instance the date/time of the last login.
+     * @return Instance the date/time of the user's last login.
      */
     public DateTime getLastLogin(){
         return this.lastLogin;
     }
     
     /**
-     * Defines the date/time of the last login of the user
+     * Defines the date/time of the user's last login.
      *
-     * @param lastLogin Instance the date/time of the last login.
+     * @param lastLogin Instance the date/time of the user's last login.
      */
     public void setLastLogin(DateTime lastLogin){
         this.lastLogin = lastLogin;
@@ -231,18 +231,18 @@ public class UserModel extends BaseModel{
     }
     
     /**
-     * Returns the list of groups of the user.
+     * Returns the user's groups.
      *
-     * @return Instance that contains the list of groups.
+     * @return Instance that contains the user's groups.
      */
     public Collection<? extends GroupModel> getGroups(){
         return this.groups;
     }
     
     /**
-     * Defines the list of groups of the user.
+     * Defines the user's groups.
      *
-     * @param groups Instance that contains the list of groups.
+     * @param groups Instance that contains the user's groups.
      */
     public void setGroups(Collection<? extends GroupModel> groups){
         this.groups = groups;
@@ -321,38 +321,36 @@ public class UserModel extends BaseModel{
     }
     
     /**
-     * Returns the date/time of the creation of the user.
+     * Returns the date/time of the user's creation.
      *
-     * @return Instance that contains the date/time of the creation of the user.
+     * @return Instance that contains the date/time of the user's creation.
      */
     public DateTime getCreation(){
         return this.creation;
     }
     
     /**
-     * Defines the date/time of the creation of the user.
+     * Defines the date/time of the user's creation.
      *
-     * @param creation Instance that contains the date/time of the creation of
-     * the user.
+     * @param creation Instance that contains the date/time of the user's creation.
      */
     public void setCreation(DateTime creation){
         this.creation = creation;
     }
     
     /**
-     * Returns the date/time the last update of the user.
+     * Returns the date/time of the user's last update.
      *
-     * @return Instance that contains the date/time the last update of the user.
+     * @return Instance that contains the date/time of the user's last update.
      */
     public DateTime getLastUpdate(){
         return this.lastUpdate;
     }
     
     /**
-     * Defines the date/time the last update of the user.
+     * Defines the date/time of the user's last update.
      *
-     * @param lastUpdate Instance that contains the date/time the last update of
-     * the user.
+     * @param lastUpdate Instance that contains the date/time of the user's last update.
      */
     public void setLastUpdate(DateTime lastUpdate){
         this.lastUpdate = lastUpdate;
@@ -511,7 +509,7 @@ public class UserModel extends BaseModel{
      */
     public Boolean hasPermission(SystemModuleModel compareSystemModule){
         try{
-            if(this.groups != null && this.groups.size() > 0 && compareSystemModule != null){
+            if(this.groups != null && !this.groups.isEmpty() && compareSystemModule != null){
                 for(GroupModel group : this.groups)
                     if(group.hasPermission(compareSystemModule))
                         return true;
@@ -533,7 +531,7 @@ public class UserModel extends BaseModel{
      */
     public Boolean hasPermission(ObjectModel compareObject){
         try{
-            if(this.groups != null && this.groups.size() > 0 && compareObject != null){
+            if(this.groups != null && !this.groups.isEmpty() && compareObject != null){
                 for(GroupModel group : this.groups)
                     if(group.hasPermission(compareObject))
                         return true;

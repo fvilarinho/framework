@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @Model
 public class LoginParameterModel extends BaseModel{
@@ -242,7 +242,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Indicates if the user has multi-factor authentication.
+     * Indicates if the user has multifactor authentication.
      *
      * @return True/False.
      */
@@ -251,7 +251,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Indicates if the user has multi-factor authentication.
+     * Indicates if the user has multifactor authentication.
      *
      * @return True/False.
      */
@@ -260,7 +260,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Defines if the user has multi-factor authentication.
+     * Defines if the user has multifactor authentication.
      *
      * @param mfa True/False.
      */
@@ -341,7 +341,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Indicates if the password will expire soon.
+     * Indicates if the password expires soon.
      *
      * @return True/False.
      */
@@ -350,7 +350,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Indicates if the password will expire soon.
+     * Indicates if the password expires soon.
      *
      * @return True/False.
      */
@@ -359,7 +359,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Defines if the password will expire soon.
+     * Defines if the password expires soon.
      *
      * @param passwordWillExpire True/False.
      */
@@ -496,7 +496,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Returns the identifier of the parameters of login session.
+     * Returns the identifier of the login parameters.
      *
      * @return Numeric value that contains the identifier.
      */
@@ -505,7 +505,7 @@ public class LoginParameterModel extends BaseModel{
     }
     
     /**
-     * Defines the identifier of the parameters of login session.
+     * Defines the identifier of the login parameters.
      *
      * @param id Numeric value that contains the identifier.
      */
