@@ -23,7 +23,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -32,7 +32,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
     /**
@@ -102,15 +102,16 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             if(skin != null && !skin.isEmpty()){
                 if(Boolean.parseBoolean(skinChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
                     defaultSkin = skin;
-                
-                skins.add(skin);
+
+                if(skins != null)
+                    skins.add(skin);
             }
         }
         
         if(skins == null || skins.isEmpty())
             throw new InvalidResourcesException(resourcesDirname, resourcesId, skinsNode.getText());
         
-        if(defaultSkin == null || defaultSkin.isEmpty())
+        if(defaultSkin == null)
             defaultSkin = skins.iterator().next();
         
         resources.setSkins(skins);
@@ -137,8 +138,9 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
                 
                 if(Boolean.parseBoolean(languageChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
                     defaultLanguage = language;
-                
-                languages.add(language);
+
+                if(languages != null)
+                    languages.add(language);
             }
         }
         
@@ -179,15 +181,17 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
 
                                 forward.setName(forwardNode.getAttribute(Constants.NAME_ATTRIBUTE_ID));
                                 forward.setUrl(forwardNode.getAttribute(SystemConstants.URL_ATTRIBUTE_ID));
-                                
-                                forwards.add(forward);
+
+                                if(forwards != null)
+                                    forwards.add(forward);
                             }
                             
                             actionForm.setForwards(forwards);
                         }
                     }
-                    
-                    actionForms.add(actionForm);
+
+                    if(actionForms != null)
+                        actionForms.add(actionForm);
                 }
                 
                 resources.setActionForms(actionForms);

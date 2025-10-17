@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class PropertiesResources extends BaseResources<ResourceBundle>{
     private static final long serialVersionUID = -2809340386475717260L;
@@ -52,7 +52,7 @@ public class PropertiesResources extends BaseResources<ResourceBundle>{
     public String getProperty(String propertyId, Object[] parameters, boolean returnInvalidIdentifier){
         String value = getProperty(propertyId, returnInvalidIdentifier);
         
-        if(parameters != null && parameters.length > 0 && value != null && value.length() > 0){
+        if(parameters != null && parameters.length > 0 && value != null && !value.isEmpty()){
             StringBuilder replaceValueBuffer = new StringBuilder();
             
             for(int cont = 0; cont < parameters.length; cont++){
@@ -92,7 +92,7 @@ public class PropertiesResources extends BaseResources<ResourceBundle>{
     public String getProperty(String propertyId, boolean returnInvalidIdentifier){
         String value = null;
         
-        if(propertyId != null && propertyId.length() > 0){
+        if(propertyId != null && !propertyId.isEmpty()){
             ResourceBundle properties = getContent();
             
             try{

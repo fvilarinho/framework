@@ -32,7 +32,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -41,7 +41,7 @@ import java.lang.reflect.InvocationTargetException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> extends BaseResourcesLoader<XmlNode>{
     private final Cacher<R> resourcesCacher;
@@ -78,7 +78,7 @@ public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> exten
         try{
             InputStream contentStream;
             
-            if(resourcesDirname == null || resourcesDirname.length() == 0){
+            if(resourcesDirname == null || resourcesDirname.isEmpty()){
                 contentStream = getClass().getClassLoader().getResourceAsStream(resourcesId);
                 
                 if(contentStream == null)
@@ -143,7 +143,7 @@ public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> exten
     }
     
     /**
-     * Returns the instance of a specific resources.
+     * Returns the instance of a specific resource.
      *
      * @param id String that contains the identifier of the resource.
      * @return Instance that contains the resource.
@@ -200,7 +200,7 @@ public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> exten
                     
                     String idBuffer = resourcesNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
                     
-                    if(idBuffer == null || idBuffer.length() == 0)
+                    if(idBuffer == null || idBuffer.isEmpty())
                         throw new InvalidResourcesException(resourcesDirname, resourcesId, resourcesNode.getText());
                     
                     if(id.equals(idBuffer))

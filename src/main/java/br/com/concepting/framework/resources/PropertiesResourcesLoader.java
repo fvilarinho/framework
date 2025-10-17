@@ -14,8 +14,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Class that defines the basic implementation to manipulates
- * resources as properties.
+ * Class that defines the basic implementation to manipulate resources as properties.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -24,7 +23,7 @@ import java.util.ResourceBundle;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -33,7 +32,7 @@ import java.util.ResourceBundle;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class PropertiesResourcesLoader extends BaseResourcesLoader<PropertiesResources>{
     private Locale language = null;
@@ -108,7 +107,7 @@ public class PropertiesResourcesLoader extends BaseResourcesLoader<PropertiesRes
         
         StringBuilder contentId = new StringBuilder();
         
-        if(resourcesDirname != null && resourcesDirname.length() > 0){
+        if(resourcesDirname != null && !resourcesDirname.isEmpty()){
             contentId.append(resourcesDirname);
             contentId.append(FileUtil.getDirectorySeparator());
         }
@@ -129,7 +128,7 @@ public class PropertiesResourcesLoader extends BaseResourcesLoader<PropertiesRes
             ResourceBundle properties;
             String contentId = StringUtil.replaceAll(resourcesId, ".", "/");
             
-            if(resourcesDirname == null || resourcesDirname.length() == 0)
+            if(resourcesDirname == null || resourcesDirname.isEmpty())
                 properties = ResourceBundle.getBundle(contentId, this.language);
             else{
                 File resourcesDirnameFile = new File(resourcesDirname);

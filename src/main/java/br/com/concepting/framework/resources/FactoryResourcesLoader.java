@@ -18,7 +18,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -27,7 +27,7 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class FactoryResourcesLoader extends XmlResourcesLoader<FactoryResources>{
     /**
@@ -62,7 +62,7 @@ public abstract class FactoryResourcesLoader extends XmlResourcesLoader<FactoryR
         FactoryResources resources = super.parseResources(resourcesNode);
         String type = resourcesNode.getAttribute(Constants.TYPE_ATTRIBUTE_ID);
         
-        if(type == null || type.length() == 0)
+        if(type == null || type.isEmpty())
             throw new InvalidResourcesException(resourcesDirname, resourcesId, resourcesNode.getText());
         
         resources.setType(type);
@@ -72,7 +72,7 @@ public abstract class FactoryResourcesLoader extends XmlResourcesLoader<FactoryR
         if(classNode != null){
             String clazz = classNode.getValue();
             
-            if(clazz == null || clazz.length() == 0)
+            if(clazz == null || clazz.isEmpty())
                 throw new InvalidResourcesException(resourcesDirname, resourcesId, classNode.getText());
             
             resources.setClazz(clazz);
@@ -85,7 +85,7 @@ public abstract class FactoryResourcesLoader extends XmlResourcesLoader<FactoryR
         if(uriNode != null){
             String uri = uriNode.getValue();
             
-            if(uri == null || uri.length() == 0)
+            if(uri == null || uri.isEmpty())
                 throw new InvalidResourcesException(resourcesDirname, resourcesId, uriNode.getText());
             
             resources.setUri(uri);
@@ -101,7 +101,7 @@ public abstract class FactoryResourcesLoader extends XmlResourcesLoader<FactoryR
             for(XmlNode childNode: childNodes){
                 String optionId = childNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
                 
-                if(optionId == null || optionId.length() == 0)
+                if(optionId == null || optionId.isEmpty())
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, childNode.getText());
                 
                 String optionValue = childNode.getAttribute(Constants.VALUE_ATTRIBUTE_ID);

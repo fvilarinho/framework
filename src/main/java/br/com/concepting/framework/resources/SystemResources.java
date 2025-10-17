@@ -19,7 +19,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SystemResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = -1115220620296191917L;
@@ -42,18 +42,18 @@ public class SystemResources extends BaseResources<XmlNode>{
     private Collection<ServiceResources> services = null;
     
     /**
-     * Returns the system available services.
+     * Returns all system's available services.
      *
-     * @return List that contains the system available services.
+     * @return List that contains all system's available services.
      */
     public Collection<ServiceResources> getServices(){
         return this.services;
     }
     
     /**
-     * Defines the system available services.
+     * Defines all system's available services.
      *
-     * @param services List that contains the system available services.
+     * @param services List that contains all system's available services.
      */
     public void setServices(Collection<ServiceResources> services){
         this.services = services;
@@ -62,14 +62,15 @@ public class SystemResources extends BaseResources<XmlNode>{
     /**
      * Adds a service implementation.
      *
-     * @param service String that contain the identifier of the service implementation.
+     * @param service Instance that contains the identifier of the service implementation.
      */
     public void addService(ServiceResources service){
         if(service != null){
             if(this.services == null)
                 this.services = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.services.add(service);
+
+            if(this.services != null)
+                this.services.add(service);
         }
     }
     
@@ -184,7 +185,7 @@ public class SystemResources extends BaseResources<XmlNode>{
     /**
      * Returns the default skin.
      *
-     * @return String that contains default skin.
+     * @return String that contains the default skin.
      */
     public String getDefaultSkin(){
         return this.defaultSkin;
@@ -193,7 +194,7 @@ public class SystemResources extends BaseResources<XmlNode>{
     /**
      * Defines the default skin.
      *
-     * @param defaultSkin String that contains default skin.
+     * @param defaultSkin String that contains the default skin.
      */
     public void setDefaultSkin(String defaultSkin){
         this.defaultSkin = defaultSkin;
@@ -262,7 +263,7 @@ public class SystemResources extends BaseResources<XmlNode>{
         }
 
         /**
-         * Returns the list of forwards of the action form.
+         * Returns all forwards of the action form.
          *
          * @param <C> Class that defines the list of forwards.
          * @return Instance that contains the forwards of the action form.
@@ -273,7 +274,7 @@ public class SystemResources extends BaseResources<XmlNode>{
         }
 
         /**
-         * Defines the list of forwards of the action form.
+         * Defines all forwards of the action form.
          *
          * @param forwards Instance that contains the forwards of the action form.
          */
