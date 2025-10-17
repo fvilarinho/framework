@@ -50,7 +50,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -59,7 +59,7 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @Auditable
 public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseService<L> implements LoginSessionService<L, U, LP>{
@@ -146,43 +146,34 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         
         if(user.isActive() == null || !user.isActive())
             throw new UserBlockedException();
-        
-        boolean invalidPassword = false;
-        
-        if((password == null || password.isEmpty()) && user.getPassword() != null && !user.getPassword().isEmpty())
-            invalidPassword = true;
-        else if(password != null && !password.isEmpty() && (user.getPassword() == null || user.getPassword().isEmpty()))
-            invalidPassword = true;
-        else if(password != null && !password.isEmpty() && user.getPassword() != null && !password.equals(user.getPassword()))
-            invalidPassword = true;
-        
+
         LP loginParameter = user.getLoginParameter();
-        
-        if(invalidPassword){
+
+        if(isInvalidPassword(user, password)){
             loginParameter = user.getLoginParameter();
-            
+
             if(loginParameter != null){
                 Integer loginTries = loginParameter.getLoginTries();
                 Integer currentLoginTries = loginParameter.getCurrentLoginTries();
-                
+
                 if(currentLoginTries == null)
                     currentLoginTries = 1;
                 else
                     currentLoginTries++;
-                
+
                 loginParameter.setCurrentLoginTries(currentLoginTries);
-                
+
                 if(loginTries != null && loginTries > 0 && currentLoginTries >= loginTries){
                     user.setActive(false);
-                    
+
                     userService.update(user);
-                    
+
                     throw new UserBlockedException();
                 }
             }
-            
+
             userService.update(user);
-            
+
             throw new InvalidPasswordException();
         }
         else{
@@ -195,17 +186,29 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
                 }
 
                 loginParameter.setCurrentLoginTries(0);
-                
+
                 Class<LoginParameterModel> loginParameterClass = (Class<LoginParameterModel>) loginParameter.getClass();
                 IService<LoginParameterModel> loginParameterService = getService(loginParameterClass);
-                
+
                 loginParameterService.update(loginParameter);
             }
         }
-        
+
         return user;
     }
-    
+
+    private static <U extends UserModel> boolean isInvalidPassword(U user, String password) {
+        boolean invalidPassword = false;
+
+        if((password == null || password.isEmpty()) && user.getPassword() != null && !user.getPassword().isEmpty())
+            invalidPassword = true;
+        else if(password != null && !password.isEmpty() && (user.getPassword() == null || user.getPassword().isEmpty()))
+            invalidPassword = true;
+        else if(password != null && !password.isEmpty() && user.getPassword() != null && !password.equals(user.getPassword()))
+            invalidPassword = true;
+        return invalidPassword;
+    }
+
     /**
      * Check the user authorization.
      *

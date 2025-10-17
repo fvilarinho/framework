@@ -21,7 +21,7 @@ import br.com.concepting.framework.service.interfaces.IService;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ import br.com.concepting.framework.service.interfaces.IService;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public interface LoginSessionService<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends IService<L>{
     /**
@@ -67,7 +67,6 @@ public interface LoginSessionService<L extends LoginSessionModel, U extends User
      * @param user Instance that contains the user data model.
      * @throws UserNotFoundException Occurs when the user was not found.
      * @throws UserBlockedException Occurs when the user is blocked.
-     * to do it.
      * @throws InternalErrorException Occurs when was not possible to execute the
      * operation.
      */
@@ -95,7 +94,7 @@ public interface LoginSessionService<L extends LoginSessionModel, U extends User
     void logOut() throws InternalErrorException;
     
     /**
-     * Logs out all session of the system.
+     * Logs out all sessions of the system.
      *
      * @throws InternalErrorException Occurs when was not possible to execute the
      * operation.
