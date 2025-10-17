@@ -20,7 +20,7 @@ import java.security.spec.InvalidKeySpecException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ import java.security.spec.InvalidKeySpecException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class CryptoAES extends BaseCrypto{
     /**
@@ -73,7 +73,7 @@ public class CryptoAES extends BaseCrypto{
     /**
      * Constructor - Defines the cryptography parameters.
      *
-     * @param passPhrase String that contains cryptography key.
+     * @param passPhrase String that contains a cryptography key.
      * @throws InvalidKeyException Occurs when was not possible to execute the
      * operation.
      * @throws NoSuchAlgorithmException Occurs when was not possible to execute
@@ -92,7 +92,7 @@ public class CryptoAES extends BaseCrypto{
     /**
      * Constructor - Defines the cryptography parameters.
      *
-     * @param passPhrase String that contains cryptography key.
+     * @param passPhrase String that contains a cryptography key.
      * @param keySize Numeric value that contains the length of the cryptography
      * key.
      * @throws InvalidKeyException Occurs when was not possible to execute the
@@ -155,7 +155,7 @@ public class CryptoAES extends BaseCrypto{
     /**
      * Constructor - Defines the cryptography parameters.
      *
-     * @param passPhrase String that contains cryptography key.
+     * @param passPhrase String that contains a cryptography key.
      * @param useBase64 Indicates if the encrypted message should be encoded
      * using Base64.
      * @throws InvalidKeyException Occurs when was not possible to execute the
@@ -176,7 +176,7 @@ public class CryptoAES extends BaseCrypto{
     /**
      * Constructor - Defines the cryptography parameters.
      *
-     * @param passPhrase String that contains cryptography key.
+     * @param passPhrase String that contains a cryptography key.
      * @param keySize Numeric value that contains the length of the cryptography
      * key.
      * @param useBase64 Indicates if the encrypted message should be encoded
@@ -198,7 +198,7 @@ public class CryptoAES extends BaseCrypto{
 
     @Override
     protected SecretKey generateKey() throws InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException, UnsupportedEncodingException{
-        if(this.passPhrase == null || this.passPhrase.length() == 0)
+        if(this.passPhrase == null || this.passPhrase.isEmpty())
             return super.generateKey();
         
         return new SecretKeySpec(this.passPhrase.getBytes(), this.algorithm);
