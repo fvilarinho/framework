@@ -40,7 +40,7 @@ import java.util.Map;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -49,7 +49,7 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class HibernateUtil{
     /**
@@ -196,8 +196,9 @@ public class HibernateUtil{
      */
     public static Map<String, Object> buildSessionProperties(PersistenceResources persistenceResources){
         Map<String, Object> hibernateSessionProperties = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        hibernateSessionProperties.put(Environment.DIALECT, getSessionDialect(persistenceResources).getName());
+
+        if(hibernateSessionProperties != null)
+            hibernateSessionProperties.put(Environment.DIALECT, getSessionDialect(persistenceResources).getName());
         
         FactoryResources persistenceFactoryResources = persistenceResources.getFactoryResources();
         String persistenceFactoryClass = persistenceFactoryResources.getClazz();
@@ -212,16 +213,18 @@ public class HibernateUtil{
         datasource.setDriverClassName(persistenceFactoryClass);
         datasource.setUrl(persistenceFactoryUrl);
         
-        if(persistenceUserName != null && persistenceUserName.length() > 0)
+        if(persistenceUserName != null && !persistenceUserName.isEmpty())
             datasource.setUsername(persistenceUserName);
         
-        if(persistencePassword != null && persistencePassword.length() > 0)
+        if(persistencePassword != null && !persistencePassword.isEmpty())
             datasource.setPassword(persistencePassword);
-        
-        hibernateSessionProperties.put(Environment.DATASOURCE, datasource);
-        hibernateSessionProperties.put(Environment.GLOBALLY_QUOTED_IDENTIFIERS, true);
-        hibernateSessionProperties.put(Environment.USE_REFLECTION_OPTIMIZER, true);
-        hibernateSessionProperties.putAll(persistenceResources.getOptions());
+
+        if(hibernateSessionProperties != null) {
+            hibernateSessionProperties.put(Environment.DATASOURCE, datasource);
+            hibernateSessionProperties.put(Environment.GLOBALLY_QUOTED_IDENTIFIERS, true);
+            hibernateSessionProperties.put(Environment.USE_REFLECTION_OPTIMIZER, true);
+            hibernateSessionProperties.putAll(persistenceResources.getOptions());
+        }
         
         return hibernateSessionProperties;
     }
@@ -256,7 +259,7 @@ public class HibernateUtil{
                         Class<?> modelClass = Class.forName(mapping);
                         Model modelAnnotation = modelClass.getAnnotation(Model.class);
                         
-                        if(modelAnnotation.mappedRepositoryId() != null && modelAnnotation.mappedRepositoryId().length() > 0 && (modelAnnotation.persistenceResourcesId() == null || modelAnnotation.persistenceResourcesId().length() == 0 || modelAnnotation.persistenceResourcesId().equals(persistenceResources.getId()))){
+                        if(modelAnnotation.mappedRepositoryId() != null && !modelAnnotation.mappedRepositoryId().isEmpty() && (modelAnnotation.persistenceResourcesId() == null || modelAnnotation.persistenceResourcesId().isEmpty() || modelAnnotation.persistenceResourcesId().equals(persistenceResources.getId()))){
                             if(persistenceMappingName == null)
                                 persistenceMappingName = new StringBuilder();
                             else
@@ -273,7 +276,7 @@ public class HibernateUtil{
                         }
                     }
                     catch(Throwable e1){
-                        e1.printStackTrace();
+                        e1.printStackTrace(System.out);
                     }
                 }
             }

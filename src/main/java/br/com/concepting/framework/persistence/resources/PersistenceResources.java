@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class PersistenceResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = 5519581642532631902L;
@@ -70,8 +70,9 @@ public class PersistenceResources extends BaseResources<XmlNode>{
     public void addMapping(String mapping){
         if(this.mappings == null)
             this.mappings = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        
-        this.mappings.add(mapping);
+
+        if(this.mappings != null)
+            this.mappings.add(mapping);
     }
     
     /**
@@ -131,19 +132,19 @@ public class PersistenceResources extends BaseResources<XmlNode>{
     }
     
     /**
-     * Returns the identifier of the repository of persistence.
+     * Returns the identifier of the persistence repository.
      *
-     * @return String that contains the identifier of the repository.
+     * @return String that contains the identifier of the persistence repository.
      */
     public String getRepositoryId(){
         return this.repositoryId;
     }
     
     /**
-     * Defines the identifier of the repository of persistence.
+     * Defines the identifier of the persistence repository.
      *
      * @param repositoryId String that contains the identifier of the
-     * repository.
+     * persistence repository.
      */
     public void setRepositoryId(String repositoryId){
         this.repositoryId = repositoryId;
@@ -228,11 +229,12 @@ public class PersistenceResources extends BaseResources<XmlNode>{
      * @param value String that contains the value of the option.
      */
     public void addOption(String id, String value){
-        if(id != null && id.length() > 0 && value != null && value.length() > 0){
+        if(id != null && !id.isEmpty() && value != null && !value.isEmpty()){
             if(this.options == null)
                 this.options = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-            
-            this.options.put(id, value);
+
+            if(this.options != null)
+                this.options.put(id, value);
         }
     }
 }

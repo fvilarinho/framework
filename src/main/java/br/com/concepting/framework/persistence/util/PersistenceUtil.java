@@ -20,7 +20,7 @@ import br.com.concepting.framework.util.StringUtil;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,15 +29,14 @@ import br.com.concepting.framework.util.StringUtil;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class PersistenceUtil{
     /**
-     * Returns the default persistence resources.
+     * Returns the default persistence resource.
      *
      * @return Instance that contains the persistence resources.
-     * @throws InvalidResourcesException Occurs when was not load the persistence
-     * resources.
+     * @throws InvalidResourcesException Occur when the persistence resources weren't loaded.
      */
     public static PersistenceResources getDefaultPersistenceResources() throws InvalidResourcesException{
         PersistenceResourcesLoader loader = new PersistenceResourcesLoader();
@@ -46,13 +45,12 @@ public class PersistenceUtil{
     }
     
     /**
-     * Returns a specific persistence resources.
+     * Returns a specific persistence resource.
      *
      * @param persistenceResourcesId String that contains the identifier of the
      * persistence resources.
      * @return Instance that contains the persistence resources.
-     * @throws InvalidResourcesException Occurs when was not load the persistence
-     * resources.
+     * @throws InvalidResourcesException Occur when the persistence resources weren't loaded.
      */
     public static PersistenceResources getPersistenceResources(String persistenceResourcesId) throws InvalidResourcesException{
         PersistenceResourcesLoader loader = new PersistenceResourcesLoader();
@@ -84,7 +82,7 @@ public class PersistenceUtil{
     }
     
     /**
-     * Returns the class name of the persistence implementation of a data model.
+     * Returns the class name of the persistence implementation.
      *
      * @param modelClass Class that defines the data model.
      * @return String that contains the class name.
@@ -100,7 +98,7 @@ public class PersistenceUtil{
     }
     
     /**
-     * Returns the name of the persistence implementation of a data model.
+     * Returns the name of the persistence implementation.
      *
      * @param modelClass Class that defines the data model.
      * @return String that contains the identifier.
@@ -130,8 +128,7 @@ public class PersistenceUtil{
     }
     
     /**
-     * Returns the interface class name of the persistence implementation of a
-     * data model.
+     * Returns the interface class name of the persistence implementation.
      *
      * @param modelClass Class that defines the data model.
      * @return String that contains the interface class name.
@@ -147,8 +144,7 @@ public class PersistenceUtil{
     }
     
     /**
-     * Returns the interface name of the persistence implementation of a data
-     * model.
+     * Returns the interface name of the persistence implementation.
      *
      * @param modelClass Class that defines the data model.
      * @return String that contains the interface name.
@@ -179,8 +175,7 @@ public class PersistenceUtil{
     }
     
     /**
-     * Returns the package name of the persistence implementation of a data
-     * model.
+     * Returns the package name of the persistence implementation.
      *
      * @param modelClass Class that defines the data model.
      * @return String that contains the package name.
@@ -193,8 +188,7 @@ public class PersistenceUtil{
     }
     
     /**
-     * Returns the interface package name of the persistence implementation of a
-     * data model.
+     * Returns the interface package name of the persistence implementation.
      *
      * @param modelClass Class that defines the data model.
      * @return String that contains the interface package name.

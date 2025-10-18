@@ -42,7 +42,7 @@ import java.util.Map.Entry;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -51,7 +51,7 @@ import java.util.Map.Entry;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @SuppressWarnings("deprecation")
 public abstract class HibernateQueryBuilder{
@@ -117,7 +117,7 @@ public abstract class HibernateQueryBuilder{
      * @param <M> Class that defines the data model.
      * @param model Instance that contains the data model.
      * @param filter Instance that contains the search criteria.
-     * @param propertyPrefix String that contains the properties prefix.
+     * @param propertyPrefix String that contains the properties' prefixes.
      * @param propertyAlias String that contains the properties alias.
      * @param fieldsClause String that contains the return properties.
      * @param fromClause String that contains the FROM clause.
@@ -128,8 +128,7 @@ public abstract class HibernateQueryBuilder{
      * @param whereClauseParameters Map that contains the search criteria.
      * @param processedRelations List that contains the relationships already
      * processed.
-     * @param considerConditions Indicates if the search criteria will be
-     * considered.
+     * @param considerConditions Indicates if the search criteria is considered.
      * @param relationIsComponent Indicates if the relation is a data component.
      * @param relationHasModel Indicates if the relation has data models.
      * @throws InternalErrorException Occurs when was not possible to build the
@@ -166,14 +165,14 @@ public abstract class HibernateQueryBuilder{
             Collection<String> groupByProperties = (filter != null ? filter.getGroupByProperties() : null);
             Collection<PropertyInfo> propertiesInfo = modelInfo.getPropertiesInfo();
             Collection<PropertyInfo> identitiesPropertiesInfo = modelInfo.getIdentityPropertiesInfo();
-            Collection<PropertyInfo> processedUdentitiesPropertiesInfo = null;
+            Collection<PropertyInfo> processedIdentitiesPropertiesInfo = null;
 
             for(PropertyInfo propertyInfo: propertiesInfo){
                 boolean propertyIsIdentity = propertyInfo.isIdentity();
                 boolean propertyIsForSearch = propertyInfo.isForSearch();
                 StringBuilder propertyPrefixBuffer = new StringBuilder();
 
-                if(propertyPrefix.length() > 0){
+                if(!propertyPrefix.isEmpty()){
                     propertyPrefixBuffer.append(propertyPrefix);
                     propertyPrefixBuffer.append(".");
                 }
@@ -182,7 +181,7 @@ public abstract class HibernateQueryBuilder{
                 
                 StringBuilder propertyIdBuffer = new StringBuilder();
 
-                if(propertyAlias.length() > 0){
+                if(!propertyAlias.isEmpty()){
                     propertyIdBuffer.append(propertyAlias);
                     propertyIdBuffer.append(".");
                 }
@@ -221,7 +220,7 @@ public abstract class HibernateQueryBuilder{
                     }
                 }
                 
-                if((groupByProperties != null && groupByProperties.contains(propertyPrefixBuffer.toString())) || (groupByProperties == null && propertiesFormulas == null && propertyPrefix.length() == 0 && propertyIsIdentity && propertyInfo.getMappedPropertyId() != null && propertyInfo.getMappedPropertyId().length() > 0)){
+                if((groupByProperties != null && groupByProperties.contains(propertyPrefixBuffer.toString())) || (groupByProperties == null && propertiesFormulas == null && propertyPrefix.isEmpty() && propertyIsIdentity && propertyInfo.getMappedPropertyId() != null && !propertyInfo.getMappedPropertyId().isEmpty())){
                     if(groupByClause.length() == 0)
                         groupByClause.append("group by ");
                     else
@@ -236,7 +235,7 @@ public abstract class HibernateQueryBuilder{
                     if(propertySortOrder == null && (propertiesSortOrders == null || !propertiesSortOrders.containsKey(propertyPrefixBuffer.toString())))
                         propertySortOrder = propertyInfo.getSortOrder();
                     
-                    if(propertySortOrder != null && propertySortOrder != SortOrderType.NONE && propertyInfo.getMappedPropertyId() != null && propertyInfo.getMappedPropertyId().length() > 0){
+                    if(propertySortOrder != null && propertySortOrder != SortOrderType.NONE && propertyInfo.getMappedPropertyId() != null && !propertyInfo.getMappedPropertyId().isEmpty()){
                         if(orderByClause.length() == 0)
                             orderByClause.append("order by ");
                         else
@@ -256,12 +255,12 @@ public abstract class HibernateQueryBuilder{
                 boolean relationModelHasIdentities = true;
                 Object propertyValueBuffer = null;
 
-                if((propertyCondition != null && propertyCondition.size() > 0) || (propertyValue != null && propertyValue.size() > 0))
+                if((propertyCondition != null && !propertyCondition.isEmpty()) || (propertyValue != null && !propertyValue.isEmpty()))
                     propertyIsForSearch = propertyCondition == null || propertyCondition.size() <= 0 || !propertyCondition.contains(ConditionType.NONE);
 
                 if(propertyValue == null && (propertiesValues == null || !propertiesValues.containsKey(propertyPrefixBuffer.toString()))){
                     if(propertyIsForSearch){
-                        if(propertyInfo.getSearchPropertyId() != null && propertyInfo.getSearchPropertyId().length() > 0)
+                        if(propertyInfo.getSearchPropertyId() != null && !propertyInfo.getSearchPropertyId().isEmpty())
                             propertyValueBuffer = PropertyUtil.getValue(model, propertyInfo.getSearchPropertyId());
                         else
                             propertyValueBuffer = PropertyUtil.getValue(model, propertyInfo.getId());
@@ -296,7 +295,7 @@ public abstract class HibernateQueryBuilder{
                                 relationModel = (M) ConstructorUtils.invokeConstructor(relationModelClass, null);
                         }
                         else if(propertyIsIdentity || propertyIsForSearch){
-                            if(propertyInfo.getSearchPropertyId() != null && propertyInfo.getSearchPropertyId().length() > 0){
+                            if(propertyInfo.getSearchPropertyId() != null && !propertyInfo.getSearchPropertyId().isEmpty()){
                                 PropertyInfo relationSearchPropertyInfo = modelInfo.getPropertyInfo(propertyInfo.getSearchPropertyId());
                                 
                                 if(relationSearchPropertyInfo.isModel()){
@@ -394,7 +393,7 @@ public abstract class HibernateQueryBuilder{
                     }
                 }
                 
-                if((propertyIsIdentity || propertyIsForSearch) && ((propertyInfo.getMappedPropertyId() != null && propertyInfo.getMappedPropertyId().length() > 0) || (propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0) || (propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0) || relationIsComponent) && considerConditions){
+                if((propertyIsIdentity || propertyIsForSearch) && ((propertyInfo.getMappedPropertyId() != null && !propertyInfo.getMappedPropertyId().isEmpty()) || (propertyInfo.getMappedPropertiesIds() != null && propertyInfo.getMappedPropertiesIds().length > 0) || (propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0) || relationIsComponent) && considerConditions){
                     ConditionOperationType propertyConditionOperation = (propertiesConditionsOperations != null ? propertiesConditionsOperations.get(propertyPrefixBuffer.toString()) : null);
                     
                     if(propertyConditionOperation == null && (propertiesConditionsOperations == null || !propertiesConditionsOperations.containsKey(propertyPrefixBuffer.toString()))){
@@ -404,7 +403,7 @@ public abstract class HibernateQueryBuilder{
                             propertyConditionOperation = propertyInfo.getSearchConditionOperation();
                     }
                     
-                    if(propertyCondition == null || propertyCondition.size() == 0){
+                    if(propertyCondition == null || propertyCondition.isEmpty()){
                         if(propertyInfo.getSearchCondition() == ConditionType.NONE)
                             propertyCondition = List.of(ConditionType.EQUAL);
                         else
@@ -645,7 +644,7 @@ public abstract class HibernateQueryBuilder{
                                 if(propertyValueItem == null)
                                     processCondition = false;
                                 else{
-                                    if(((String) propertyValueItem).length() == 0 || propertyInfo.getPhoneticPropertyId() == null || propertyInfo.getPhoneticPropertyId().length() == 0)
+                                    if(((String) propertyValueItem).isEmpty() || propertyInfo.getPhoneticPropertyId() == null || propertyInfo.getPhoneticPropertyId().isEmpty())
                                         processCondition = false;
                                 }
                                 
@@ -681,7 +680,7 @@ public abstract class HibernateQueryBuilder{
                                     
                                     propertyIdBuffer.delete(0, propertyIdBuffer.length());
                                     
-                                    if(propertyAlias.length() > 0){
+                                    if(!propertyAlias.isEmpty()){
                                         propertyIdBuffer.append(propertyAlias);
                                         propertyIdBuffer.append(".");
                                     }
@@ -699,7 +698,7 @@ public abstract class HibernateQueryBuilder{
                                 if(propertyValueItem == null)
                                     processCondition = false;
                                 else{
-                                    if(((String) propertyValueItem).length() == 0)
+                                    if(((String) propertyValueItem).isEmpty())
                                         processCondition = false;
                                 }
                                 
@@ -758,7 +757,7 @@ public abstract class HibernateQueryBuilder{
                                 if(propertyValueItem == null)
                                     processCondition = false;
                                 else{
-                                    if(((String) propertyValueItem).length() == 0)
+                                    if(((String) propertyValueItem).isEmpty())
                                         processCondition = false;
                                 }
                                 
@@ -825,7 +824,7 @@ public abstract class HibernateQueryBuilder{
                                     else{
                                         propertyValueItems = (Collection<Object>) propertyValueItem;
                                         
-                                        if(propertyValueItems.size() == 0)
+                                        if(propertyValueItems.isEmpty())
                                             processCondition = false;
                                     }
                                 }
@@ -872,14 +871,14 @@ public abstract class HibernateQueryBuilder{
                                     processCondition = false;
                                 else{
                                     if(PropertyUtil.isString(propertyValueItem)){
-                                        if(((String) propertyValueItem).length() == 0)
+                                        if(((String) propertyValueItem).isEmpty())
                                             processCondition = false;
                                     }
                                     else if(PropertyUtil.isCollection(propertyValueItem)){
                                         try{
                                             propertyValueItems = (Collection<Object>) propertyValueItem;
                                             
-                                            if(propertyValueItems.size() == 0)
+                                            if(propertyValueItems.isEmpty())
                                                 processCondition = false;
                                         }
                                         catch(Throwable e){
@@ -999,14 +998,14 @@ public abstract class HibernateQueryBuilder{
                                     processCondition = false;
                                 else{
                                     if(PropertyUtil.isString(propertyValueItem)){
-                                        if(((String) propertyValueItem).length() == 0)
+                                        if(((String) propertyValueItem).isEmpty())
                                             processCondition = false;
                                     }
                                     else if(PropertyUtil.isCollection(propertyValueItem)){
                                         try{
                                             propertyValueItems = (Collection<Object>) propertyValueItem;
                                             
-                                            if(propertyValueItems.size() == 0)
+                                            if(propertyValueItems.isEmpty())
                                                 processCondition = false;
                                         }
                                         catch(Throwable e){
@@ -1129,7 +1128,7 @@ public abstract class HibernateQueryBuilder{
                                         if(PropertyUtil.compareTo(comparePropertyValue, 0d) == 0)
                                             processCondition = false;
                                     }
-                                    else if(PropertyUtil.isString(propertyValueItem) && ((String) propertyValueItem).length() == 0)
+                                    else if(PropertyUtil.isString(propertyValueItem) && ((String) propertyValueItem).isEmpty())
                                         processCondition = false;
                                 }
                                 
@@ -1188,12 +1187,12 @@ public abstract class HibernateQueryBuilder{
                                     whereClause.append(propertyParamBuffer);
 
                                     if(considerConditions){
-                                        if(processedUdentitiesPropertiesInfo == null)
-                                            processedUdentitiesPropertiesInfo = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+                                        if(processedIdentitiesPropertiesInfo == null)
+                                            processedIdentitiesPropertiesInfo = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-                                        processedUdentitiesPropertiesInfo.add(propertyInfo);
+                                        processedIdentitiesPropertiesInfo.add(propertyInfo);
                                         
-                                        if(processedUdentitiesPropertiesInfo.containsAll(identitiesPropertiesInfo))
+                                        if(processedIdentitiesPropertiesInfo.containsAll(identitiesPropertiesInfo))
                                             considerConditions = false;
                                     }
                                 }
@@ -1211,7 +1210,7 @@ public abstract class HibernateQueryBuilder{
     }
     
     /**
-     * Builds a query based on a persistence.
+     * Builds a query based on the persistence.
      *
      * @param queryType Instance that contains the query type.
      * @param persistence Instance that contains the persistence.
@@ -1275,7 +1274,7 @@ public abstract class HibernateQueryBuilder{
                 query.setCacheMode(CacheMode.NORMAL);
             }
             
-            if(filter != null && filter.getReturnProperties() != null && filter.getReturnProperties().size() > 0)
+            if(filter != null && filter.getReturnProperties() != null && !filter.getReturnProperties().isEmpty())
                 query.setResultTransformer(Transformers.aliasToBean(model.getClass()));
             
             for(Entry<String, Object> entry: whereClauseParameters.entrySet()){
@@ -1301,7 +1300,7 @@ public abstract class HibernateQueryBuilder{
                     try{
                         String queryMaxResultsBuffer = resourcesOptions.get(PersistenceConstants.QUERY_MAXIMUM_RESULTS_ATTRIBUTE_ID);
                         
-                        if(queryMaxResultsBuffer != null && queryMaxResultsBuffer.length() > 0)
+                        if(queryMaxResultsBuffer != null && !queryMaxResultsBuffer.isEmpty())
                             query.setMaxResults(NumberUtil.parseInt(queryMaxResultsBuffer));
                         else
                             query.setMaxResults(PersistenceConstants.DEFAULT_MAXIMUM_RESULTS);

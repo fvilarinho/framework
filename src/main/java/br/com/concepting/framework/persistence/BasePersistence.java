@@ -24,7 +24,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -33,7 +33,7 @@ import java.lang.reflect.InvocationTargetException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BasePersistence<CN, T, M extends BaseModel> implements IPersistence<M>{
     private PersistenceResources resources = null;
@@ -140,7 +140,7 @@ public abstract class BasePersistence<CN, T, M extends BaseModel> implements IPe
     }
     
     /**
-     * Returns the instance of a persistence based on a data model.
+     * Returns the instance of the persistence based on a data model.
      *
      * @param <D> Class that defines the persistence.
      * @param modelClass Class that defines the data model.

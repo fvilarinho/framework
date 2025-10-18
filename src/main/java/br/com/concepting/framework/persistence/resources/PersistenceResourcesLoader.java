@@ -23,13 +23,13 @@ import java.util.List;
  * @author fvilarinho
  * @since 1.0.0 This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at your
+ * the Free Software Foundation, either version 3 of the License or (at your
  * option) any later version. This program is distributed in the hope that it
  * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
  * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
  * Public License for more details. You should have received a copy of the GNU
  * General Public License along with this program. If not, see
- * http://www.gnu.org/licenses.
+ * <a href="http://www.gnu.org/licenses">...</a>.
  */
 public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceResources>{
     /**
@@ -64,7 +64,7 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
         if(serverNameNode != null){
             serverName = serverNameNode.getValue();
             
-            if(serverName == null || serverName.length() == 0)
+            if(serverName == null || serverName.isEmpty())
                 throw new InvalidResourcesException(resourcesDirname, resourcesId, serverNameNode.getText());
             
             serverName = ExpressionProcessorUtil.fillEnvironmentInString(serverName);
@@ -76,7 +76,7 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
         
         String factoryResourcesId = resourcesNode.getAttribute(FactoryConstants.RESOURCES_ATTRIBUTE_ID);
         
-        if(factoryResourcesId != null && factoryResourcesId.length() > 0)
+        if(factoryResourcesId != null && !factoryResourcesId.isEmpty())
             factoryResourcesId = ExpressionProcessorUtil.fillEnvironmentInString(factoryResourcesId);
         
         PersistenceFactoryResourcesLoader loader = new PersistenceFactoryResourcesLoader(resourcesDirname);
@@ -91,7 +91,7 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
         if(serverPortNode != null){
             serverPort = serverPortNode.getValue();
             
-            if(serverPort == null || serverPort.length() == 0)
+            if(serverPort == null || serverPort.isEmpty())
                 throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText());
             
             try{
@@ -111,7 +111,7 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
         if(userNameNode != null){
             String userName = userNameNode.getValue();
             
-            if(userName != null && userName.length() > 0){
+            if(userName != null && !userName.isEmpty()){
                 userName = ExpressionProcessorUtil.fillEnvironmentInString(userName);
                 
                 resources.setUserName(userName);
@@ -123,7 +123,7 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
         if(passwordNode != null){
             String password = passwordNode.getValue();
             
-            if(password != null && password.length() > 0){
+            if(password != null && !password.isEmpty()){
                 password = ExpressionProcessorUtil.fillEnvironmentInString(password);
                 
                 resources.setPassword(password);
@@ -135,7 +135,7 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
         if(instanceNode != null){
             String instanceId = instanceNode.getValue();
             
-            if(instanceId != null && instanceId.length() > 0){
+            if(instanceId != null && !instanceId.isEmpty()){
                 instanceId = ExpressionProcessorUtil.fillEnvironmentInString(instanceId);
                 
                 resources.setInstanceId(instanceId);
@@ -149,7 +149,7 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
         if(repositoryNode != null){
             String repositoryId = repositoryNode.getValue();
             
-            if(repositoryId != null && repositoryId.length() > 0){
+            if(repositoryId != null && !repositoryId.isEmpty()){
                 repositoryId = ExpressionProcessorUtil.fillEnvironmentInString(repositoryId);
                 
                 resources.setRepositoryId(repositoryId);
@@ -168,7 +168,7 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
             for(XmlNode childNode: childNodes){
                 String optionId = childNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
                 
-                if(optionId == null || optionId.length() == 0)
+                if(optionId == null || optionId.isEmpty())
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, childNode.getText());
                 
                 String optionValue = childNode.getAttribute(Constants.VALUE_ATTRIBUTE_ID);
@@ -187,7 +187,7 @@ public class PersistenceResourcesLoader extends XmlResourcesLoader<PersistenceRe
         if(resourcesNode != null){
             List<XmlNode> mappingsNodes = resourcesNode.getChildren();
             
-            if(mappingsNodes != null && mappingsNodes.size() > 0)
+            if(mappingsNodes != null && !mappingsNodes.isEmpty())
                 for(XmlNode mappingNode: mappingsNodes)
                     resources.addMapping(mappingNode.getValue());
         }

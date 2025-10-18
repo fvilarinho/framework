@@ -24,7 +24,7 @@ import java.util.Map;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -33,7 +33,7 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class Filter implements Serializable{
     private static final long serialVersionUID = -4835660120485569201L;
@@ -76,23 +76,23 @@ public class Filter implements Serializable{
         if(this.groupByProperties == null)
             this.groupByProperties = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
         
-        if(!this.groupByProperties.contains(propertyId))
+        if(this.groupByProperties != null && !this.groupByProperties.contains(propertyId))
             this.groupByProperties.add(propertyId);
     }
     
     /**
-     * Returns the properties aliases.
+     * Returns all properties' aliases.
      *
-     * @return Map that contains the properties aliases.
+     * @return Map that contains all properties' aliases.
      */
     public Map<String, String> getPropertiesAliases(){
         return this.propertiesAliases;
     }
     
     /**
-     * Defines the properties aliases.
+     * Defines all properties' aliases.
      *
-     * @param propertiesAliases Map that contains the properties aliases.
+     * @param propertiesAliases Map that contains all properties' aliases.
      */
     public void setPropertiesAliases(Map<String, String> propertiesAliases){
         this.propertiesAliases = propertiesAliases;
@@ -107,23 +107,24 @@ public class Filter implements Serializable{
     public void addPropertyAlias(String propertyId, String propertyAlias){
         if(propertiesAliases == null)
             propertiesAliases = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        propertiesAliases.put(propertyId, propertyAlias);
+
+        if(propertiesAliases != null)
+            propertiesAliases.put(propertyId, propertyAlias);
     }
     
     /**
-     * Returns the properties formulas.
+     * Returns all properties' formulas.
      *
-     * @return Map that contains the properties formulas.
+     * @return Map that contains all properties' formulas.
      */
     public Map<String, FormulaType> getPropertiesFormulas(){
         return this.propertiesFormulas;
     }
     
     /**
-     * Returns the properties formulas.
+     * Returns all properties' formulas.
      *
-     * @param propertiesFormulas Map that contains the properties formulas.
+     * @param propertiesFormulas Map that contains all properties' formulas.
      */
     public void setPropertiesFormulas(Map<String, FormulaType> propertiesFormulas){
         this.propertiesFormulas = propertiesFormulas;
@@ -156,8 +157,9 @@ public class Filter implements Serializable{
     public void addPropertyRelationJoin(String id, RelationJoinType relationJoinType){
         if(this.propertiesRelationsJoins == null)
             this.propertiesRelationsJoins = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        this.propertiesRelationsJoins.put(id, relationJoinType);
+
+        if(this.propertiesRelationsJoins != null)
+            this.propertiesRelationsJoins.put(id, relationJoinType);
     }
     
     /**
@@ -169,8 +171,9 @@ public class Filter implements Serializable{
     public void addPropertyFormula(String propertyId, FormulaType formulaType){
         if(this.propertiesFormulas == null)
             this.propertiesFormulas = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        this.propertiesFormulas.put(propertyId, formulaType);
+
+        if(propertiesFormulas != null)
+            this.propertiesFormulas.put(propertyId, formulaType);
     }
     
     /**
@@ -192,8 +195,7 @@ public class Filter implements Serializable{
     }
     
     /**
-     * Returns the list of properties of the data model that should return after
-     * the search query execution..
+     * Returns the list of properties that should return after the search query execution.
      *
      * @return List that contains the identifiers of the properties.
      */
@@ -202,8 +204,7 @@ public class Filter implements Serializable{
     }
     
     /**
-     * Defines the list of properties of the data model that should return after
-     * the search query execution..
+     * Defines the list of properties that should return after the search query execution.
      *
      * @param returnProperties List that contains the identifiers of the
      * properties.
@@ -218,27 +219,28 @@ public class Filter implements Serializable{
      * @param id String that contains the identifier of the property.
      */
     public void addReturnProperty(String id){
-        if(id != null && id.length() > 0){
+        if(id != null && !id.isEmpty()){
             if(this.returnProperties == null)
                 this.returnProperties = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.returnProperties.add(id);
+
+            if(this.returnProperties != null)
+                this.returnProperties.add(id);
         }
     }
     
     /**
-     * Returns the mapping of the properties conditions.
+     * Returns the mapping of the properties' conditions.
      *
-     * @return Instance that contains the mapping of the properties conditions.
+     * @return Instance that contains the mapping of the properties' conditions.
      */
     public Map<String, Collection<ConditionType>> getPropertiesConditions(){
         return this.propertiesConditions;
     }
     
     /**
-     * Defines the mapping of the properties conditions.
+     * Defines the mapping of the properties' conditions.
      *
-     * @param conditions Instance that contains the mapping of the properties conditions.
+     * @param conditions Instance that contains the mapping of the properties' conditions.
      */
     public void setPropertiesConditions(Map<String, Collection<ConditionType>> conditions){
         this.propertiesConditions = conditions;
@@ -251,18 +253,21 @@ public class Filter implements Serializable{
      * @param condition Instance that contains the condition.
      */
     public void addPropertyCondition(String id, ConditionType condition){
-        if(id != null && id.length() > 0 && condition != null){
+        if(id != null && !id.isEmpty() && condition != null){
             if(this.propertiesConditions == null)
                 this.propertiesConditions = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-            
-            Collection<ConditionType> conditions = this.propertiesConditions.get(id);
-            
-            if(conditions == null)
-                conditions = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            conditions.add(condition);
-            
-            this.propertiesConditions.put(id, conditions);
+
+            if(this.propertiesConditions != null) {
+                Collection<ConditionType> conditions = this.propertiesConditions.get(id);
+
+                if (conditions == null)
+                    conditions = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+
+                if (conditions != null)
+                    conditions.add(condition);
+
+                this.propertiesConditions.put(id, conditions);
+            }
         }
     }
     
@@ -291,28 +296,29 @@ public class Filter implements Serializable{
      * @param conditionOperation Instance that contains the condition operation.
      */
     public void addPropertyConditionOperation(String id, ConditionOperationType conditionOperation){
-        if(id != null && id.length() > 0 && conditionOperation != null){
+        if(id != null && !id.isEmpty() && conditionOperation != null){
             if(this.propertiesConditionsOperations == null)
                 this.propertiesConditionsOperations = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-            
-            this.propertiesConditionsOperations.put(id, conditionOperation);
+
+            if(this.propertiesConditionsOperations != null)
+                this.propertiesConditionsOperations.put(id, conditionOperation);
         }
     }
     
     /**
-     * Returns the properties values mapping.
+     * Returns the properties values mappings.
      *
-     * @return Instance that contains the properties values mapping.
+     * @return Instance that contains the properties values mappings.
      */
     public Map<String, Collection<Object>> getPropertiesValues(){
         return this.propertiesValues;
     }
     
     /**
-     * Defines the properties values mapping.
+     * Defines the properties values mappings.
      *
      * @param propertiesValues Instance that contains the properties values
-     * mapping.
+     * mappings.
      */
     public void setPropertiesValues(Map<String, Collection<Object>> propertiesValues){
         this.propertiesValues = propertiesValues;
@@ -325,35 +331,38 @@ public class Filter implements Serializable{
      * @param value Instance that contains the value.
      */
     public void addPropertyValue(String id, Object value){
-        if(id != null && id.length() > 0){
+        if(id != null && !id.isEmpty()){
             if(this.propertiesValues == null)
                 this.propertiesValues = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-            
-            Collection<Object> values = this.propertiesValues.get(id);
-            
-            if(values == null)
-                values = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            values.add(value);
-            
-            this.propertiesValues.put(id, values);
+
+            if(this.propertiesValues != null) {
+                Collection<Object> values = this.propertiesValues.get(id);
+
+                if (values == null)
+                    values = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+
+                if (values != null)
+                    values.add(value);
+
+                this.propertiesValues.put(id, values);
+            }
         }
     }
     
     /**
-     * Returns the properties sort order mapping.
+     * Returns all properties' sort order mappings.
      *
-     * @return Instance that contains the properties sort order mapping.
+     * @return Instance that contains all properties' sort order mappings.
      */
     public Map<String, SortOrderType> getPropertiesSortOrders(){
         return this.propertiesSortOrders;
     }
     
     /**
-     * Defines the properties sort order mapping.
+     * Defines all properties' sort order mappings.
      *
-     * @param propertiesSortOrders Instance that contains the properties sort
-     * order mapping.
+     * @param propertiesSortOrders Instance that contains all properties' sort
+     * order mappings.
      */
     public void setPropertiesSortOrders(Map<String, SortOrderType> propertiesSortOrders){
         this.propertiesSortOrders = propertiesSortOrders;
@@ -366,12 +375,12 @@ public class Filter implements Serializable{
      * @param sortOrder Instance that contains the sort order.
      */
     public void addPropertySortOrder(String id, SortOrderType sortOrder){
-        if(id != null && id.length() > 0 && sortOrder != null){
+        if(id != null && !id.isEmpty() && sortOrder != null){
             if(this.propertiesSortOrders == null)
                 this.propertiesSortOrders = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-            
-            this.propertiesSortOrders.put(id, sortOrder);
+
+            if(this.propertiesSortOrders != null)
+                this.propertiesSortOrders.put(id, sortOrder);
         }
     }
-    
 }

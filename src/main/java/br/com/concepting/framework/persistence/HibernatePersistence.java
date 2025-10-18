@@ -39,7 +39,7 @@ import java.util.Map.Entry;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -48,11 +48,10 @@ import java.util.Map.Entry;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  * @author fvilarinho
  * @since 1.0.0
  */
-@SuppressWarnings("deprecation")
 public abstract class HibernatePersistence<M extends BaseModel> extends BasePersistence<Session, Transaction, M>{
     /**
      * Constructor - Initializes the persistence.
@@ -96,11 +95,10 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             Transaction transaction = connection.getTransaction();
             
             if(transaction != null && transaction.getStatus() != TransactionStatus.ACTIVE){
-                Integer timeout = getTimeout();
-                
-                if(timeout != null && timeout > 0)
-                    transaction.setTimeout(timeout);
-                
+                int timeout = getTimeout();
+
+                transaction.setTimeout(timeout);
+
                 try{
                     transaction.begin();
                     
@@ -280,7 +278,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
     @Override
     @SuppressWarnings("unchecked")
     public <R extends BaseModel> M loadReference(M model, String referencePropertyId) throws InternalErrorException{
-        if(model == null || referencePropertyId == null || referencePropertyId.length() == 0)
+        if(model == null || referencePropertyId == null || referencePropertyId.isEmpty())
             return model;
         
         try{
@@ -332,7 +330,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
 
     @Override
     public void saveReference(M model, String referencePropertyId) throws InternalErrorException{
-        if(model == null || referencePropertyId == null || referencePropertyId.length() == 0)
+        if(model == null || referencePropertyId == null || referencePropertyId.isEmpty())
             return;
         
         try{
@@ -355,7 +353,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
 
     @Override
     public void deleteAll(Collection<M> modelList) throws InternalErrorException{
-        if(modelList == null || modelList.size() == 0)
+        if(modelList == null || modelList.isEmpty())
             return;
         
         Session connection = getConnection();
@@ -382,68 +380,72 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
 
     @Override
     public M save(M model) throws ItemAlreadyExistsException, InternalErrorException{
-        if(model == null)
-            return model;
-        
-        Session connection = getConnection();
-        
-        try{
-            if(connection != null && connection.isOpen()){
-                ModelUtil.fillPhoneticProperties(model);
-                
-                try{
-                    connection.saveOrUpdate(model);
+        if(model != null) {
+            Session connection = getConnection();
+
+            try {
+                if (connection != null && connection.isOpen()) {
+                    ModelUtil.fillPhoneticProperties(model);
+
+                    try {
+                        connection.saveOrUpdate(model);
+                    }
+                    catch (NonUniqueObjectException | ObjectNotFoundException | StaleStateException ignored) {
+                    }
+
+                    connection.flush();
                 }
-                catch(NonUniqueObjectException | ObjectNotFoundException | StaleStateException ignored){
-                }
-                
-                connection.flush();
             }
+            catch (ConstraintViolationException e) {
+                if (e.getMessage().toLowerCase().contains("duplicate") || e.getCause().getMessage().toLowerCase().contains("duplicate"))
+                    throw new ItemAlreadyExistsException();
+
+                throw new InternalErrorException(e);
+            }
+            catch (HibernateException | IllegalArgumentException | NoSuchMethodException | IllegalAccessException |
+                   InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException e) {
+                throw new InternalErrorException(e);
+            }
+
+            return model;
         }
-        catch(ConstraintViolationException e){
-            if(e.getMessage().toLowerCase().contains("duplicate") || e.getCause().getMessage().toLowerCase().contains("duplicate"))
-                throw new ItemAlreadyExistsException();
-            
-            throw new InternalErrorException(e);
-        }
-        catch(HibernateException | IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException e){
-            throw new InternalErrorException(e);
-        }
-        
-        return model;
+
+        return null;
     }
 
     @Override
     public M insert(M model) throws ItemAlreadyExistsException, InternalErrorException{
-        if(model == null)
-            return model;
-        
-        Session connection = getConnection();
-        
-        try{
-            if(connection != null && connection.isOpen()){
-                ModelUtil.fillPhoneticProperties(model);
-                
-                try{
-                    connection.save(model);
+        if(model != null) {
+            Session connection = getConnection();
+
+            try {
+                if (connection != null && connection.isOpen()) {
+                    ModelUtil.fillPhoneticProperties(model);
+
+                    try {
+                        connection.save(model);
+                    }
+                    catch (NonUniqueObjectException | ObjectNotFoundException | StaleStateException ignored) {
+                    }
+
+                    connection.flush();
                 }
-                catch(NonUniqueObjectException | ObjectNotFoundException | StaleStateException ignored){
-                }
-                
-                connection.flush();
             }
+            catch (ConstraintViolationException e) {
+                if (e.getMessage().toLowerCase().contains("duplicate") || e.getCause().getMessage().toLowerCase().contains("duplicate"))
+                    throw new ItemAlreadyExistsException();
+
+                throw new InternalErrorException(e);
+            }
+            catch (HibernateException | IllegalArgumentException | NoSuchMethodException | IllegalAccessException |
+                 InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException e) {
+                throw new InternalErrorException(e);
+            }
+
+            return model;
         }
-        catch(ConstraintViolationException e){
-            if(e.getMessage().toLowerCase().contains("duplicate") || e.getCause().getMessage().toLowerCase().contains("duplicate"))
-                throw new ItemAlreadyExistsException();
-            
-            throw new InternalErrorException(e);
-        }
-        catch(HibernateException | IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException e){
-            throw new InternalErrorException(e);
-        }
-        
-        return model;
+
+        return null;
     }
 
     @Override

@@ -15,9 +15,9 @@ import java.util.Collection;
  *
  * <pre>Copyright (C) 2007 Innovative Thinking.
  *
- * b * This program is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -26,7 +26,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  * @author fvilarinho
  * @since 1.0.0
  */
@@ -40,7 +40,7 @@ public interface ICrud<M extends BaseModel>{
     Collection<M> list() throws InternalErrorException;
     
     /**
-     * Returns a list of data models the satisfies the search criteria.
+     * Returns a list of data models that satisfies the search criteria.
      *
      * @param model Instance that contains the data model that contains the search
      * criteria.
@@ -50,7 +50,7 @@ public interface ICrud<M extends BaseModel>{
     Collection<M> search(M model) throws InternalErrorException;
     
     /**
-     * Returns a list of data models the satisfies the filter criteria.
+     * Returns a list of data models that satisfies the filter criteria.
      *
      * @param filter Instance that contains the customized search criteria.
      * @return List that contains the data models.
