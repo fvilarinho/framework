@@ -20,7 +20,7 @@ import javax.servlet.jsp.tagext.BodyContent;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ import javax.servlet.jsp.tagext.BodyContent;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class DialogBoxComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = -3278696529902173481L;
@@ -155,7 +155,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
     protected void buildTitle() throws InternalErrorException{
         String name = getName();
         
-        if((this.title == null || this.title.length() == 0) && name != null && name.length() > 0){
+        if((this.title == null || this.title.isEmpty()) && name != null && !name.isEmpty()){
             PropertiesResources resources = getResources();
             PropertiesResources defaultResources = getDefaultResources();
             StringBuilder propertyId = new StringBuilder();
@@ -182,7 +182,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
     protected void buildStyleClass() throws InternalErrorException{
         String styleClass = getStyleClass();
         
-        if(styleClass == null || styleClass.length() == 0){
+        if(styleClass == null || styleClass.isEmpty()){
             styleClass = UIConstants.DEFAULT_DIALOG_BOX_STYLE_CLASS;
             
             setStyleClass(styleClass);
@@ -208,7 +208,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
     protected void renderId() throws InternalErrorException{
         String id = getId();
         
-        if(id != null && id.length() > 0){
+        if(id != null && !id.isEmpty()){
             print(" id=\"");
             print(id);
             print(".");
@@ -243,7 +243,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
         
         String title = getTitle();
         
-        if(title != null && title.length() > 0){
+        if(title != null && !title.isEmpty()){
             println("<tr>");
             print("<td class=\"");
             print(UIConstants.DEFAULT_DIALOG_BOX_TITLE_STYLE_CLASS);
@@ -277,7 +277,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
         if(bodyContent != null){
             String content = bodyContent.getString();
             
-            if(content != null && content.length() > 0)
+            if(content != null && !content.isEmpty())
                 println(content);
         }
         
@@ -333,7 +333,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
         
         String name = getName();
         
-        if(name != null && name.length() > 0 && this.showOnLoad){
+        if(name != null && !name.isEmpty() && this.showOnLoad){
             StringBuilder content = new StringBuilder();
             
             content.append("showDialogBox(\"");
@@ -393,7 +393,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
             DialogBoxComponent dialogComponent = (DialogBoxComponent) getParent();
             String name = (dialogComponent != null ? dialogComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 String currentOnClick = getOnClick();
                 StringBuilder onClick = new StringBuilder();
                 
@@ -401,7 +401,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
                 onClick.append(name);
                 onClick.append("');");
                 
-                if(currentOnClick != null && currentOnClick.length() > 0){
+                if(currentOnClick != null && !currentOnClick.isEmpty()){
                     onClick.append(" ");
                     onClick.append(currentOnClick);
                     

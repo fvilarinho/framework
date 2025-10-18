@@ -31,7 +31,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -40,7 +40,7 @@ import java.lang.reflect.InvocationTargetException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class DownloadPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -1340422255244638637L;
@@ -166,13 +166,13 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(actionFormComponent == null || contentType == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(actionFormComponent == null || contentType == null || actionFormName == null || actionFormName.isEmpty() || name == null || name.isEmpty())
             return;
         
         String contextPath = getContextPath();
         String action = actionFormComponent.getAction();
         
-        if(contextPath == null || contextPath.length() == 0 || action == null || action.length() == 0)
+        if(contextPath == null || contextPath.isEmpty() || action == null || action.isEmpty())
             return;
         
         print("<div class=\"");
@@ -180,10 +180,10 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
         print(StringUtil.capitalize(UIConstants.DEFAULT_ICON_ID));
         print("\"");
         
-        if((this.contentWidth != null && this.contentWidth.length() > 0) || (this.contentHeight != null && this.contentHeight.length() > 0)){
+        if((this.contentWidth != null && !this.contentWidth.isEmpty()) || (this.contentHeight != null && !this.contentHeight.isEmpty())){
             print(" style=\"");
             
-            if(this.contentWidth != null && this.contentWidth.length() > 0){
+            if(this.contentWidth != null && !this.contentWidth.isEmpty()){
                 print("width: ");
                 print(this.contentWidth);
                 
@@ -191,8 +191,8 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
                     print(";");
             }
             
-            if(this.contentHeight != null && this.contentHeight.length() > 0){
-                if(this.contentWidth != null && this.contentWidth.length() > 0)
+            if(this.contentHeight != null && !this.contentHeight.isEmpty()){
+                if(this.contentWidth != null && !this.contentWidth.isEmpty())
                     print(" ");
                 
                 print("height: ");
@@ -226,7 +226,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
         
         print(contentId);
         
-        if(contentFilename != null && contentFilename.length() > 0){
+        if(contentFilename != null && !contentFilename.isEmpty()){
             print("&");
             print(Constants.CONTENT_FILENAME_ATTRIBUTE_ID);
             print("=");
@@ -249,7 +249,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(actionFormController == null || propertyInfo == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(actionFormController == null || propertyInfo == null || actionFormName == null || actionFormName.isEmpty() || name == null || name.isEmpty())
             renderInvalidDefinitionMessage();
         else{
             byte[] content = getValue();
@@ -260,7 +260,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
             
             if(content != null){
                 try{
-                    if((contentTypePropertyId != null && contentTypePropertyId.length() > 0) || (contentFilenamePropertyId != null && contentFilenamePropertyId.length() > 0)){
+                    if((contentTypePropertyId != null && !contentTypePropertyId.isEmpty()) || (contentFilenamePropertyId != null && !contentFilenamePropertyId.isEmpty())){
                         int pos = name.lastIndexOf(".");
                         String prefix = null;
                         
@@ -270,10 +270,10 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
                         BaseActionForm<? extends BaseModel> actionFormInstance = actionFormController.getActionFormInstance();
                         BaseModel model = (actionFormInstance != null ? actionFormInstance.getModel() : null);
                         
-                        if(contentTypePropertyId != null && contentTypePropertyId.length() > 0){
+                        if(contentTypePropertyId != null && !contentTypePropertyId.isEmpty()){
                             StringBuilder contentTypePropertyIdBuffer = new StringBuilder();
                             
-                            if(prefix != null && prefix.length() > 0){
+                            if(prefix != null && !prefix.isEmpty()){
                                 contentTypePropertyIdBuffer.append(prefix);
                                 contentTypePropertyIdBuffer.append(".");
                             }
@@ -284,10 +284,10 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
                             contentType = PropertyUtil.getValue(model, contentTypePropertyId);
                         }
                         
-                        if(contentFilenamePropertyId != null && contentFilenamePropertyId.length() > 0){
+                        if(contentFilenamePropertyId != null && !contentFilenamePropertyId.isEmpty()){
                             StringBuilder contentFilenamePropertyIdBuffer = new StringBuilder();
                             
-                            if(prefix != null && prefix.length() > 0){
+                            if(prefix != null && !prefix.isEmpty()){
                                 contentFilenamePropertyIdBuffer.append(prefix);
                                 contentFilenamePropertyIdBuffer.append(".");
                             }
@@ -299,7 +299,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
                         }
                     }
                     
-                    if(contentFilename != null && contentFilename.length() > 0)
+                    if(contentFilename != null && !contentFilename.isEmpty())
                         contentType = ContentType.toContentType(contentFilename);
                     
                     if(contentType == null)
@@ -310,7 +310,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
                 }
             }
             
-            if((contentType == ContentType.GIF || contentType == ContentType.JPG || contentType == ContentType.PNG) && (!this.showContentFilename || contentFilename == null || contentFilename.length() == 0) && !this.showContentSize){
+            if((contentType == ContentType.GIF || contentType == ContentType.JPG || contentType == ContentType.PNG) && (!this.showContentFilename || contentFilename == null || contentFilename.isEmpty()) && !this.showContentSize){
                 ImageComponent imageComponent = new ImageComponent();
                 
                 imageComponent.setPageContext(this.pageContext);
@@ -349,7 +349,7 @@ public class DownloadPropertyComponent extends BasePropertyComponent{
                 println("</td>");
                 println("<td>");
                 
-                if(this.showContentFilename && contentFilename != null && contentFilename.length() > 0){
+                if(this.showContentFilename && contentFilename != null && !contentFilename.isEmpty()){
                     LabelComponent filenameComponent = new LabelComponent();
                     
                     filenameComponent.setPageContext(this.pageContext);

@@ -9,7 +9,6 @@ import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.processors.ExpressionProcessor;
 import br.com.concepting.framework.processors.ExpressionProcessorUtil;
-import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.ui.components.types.PagerActionType;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.ui.controller.UIController;
@@ -38,7 +37,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -47,7 +46,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class GridPropertyComponent extends OptionsPropertyComponent{
     private static final long serialVersionUID = -5946996131314362186L;
@@ -135,7 +134,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
     
     /**
-     * Returns the list of columns of the component.
+     * Returns the list of columns.
      *
      * @return List that contains the columns.
      */
@@ -144,7 +143,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
     
     /**
-     * Defines the list of columns of the component.
+     * Defines the list of columns.
      *
      * @param columnsComponents List that contains the columns.
      */
@@ -153,7 +152,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
     
     /**
-     * Returns the list of buttons of the component.
+     * Returns the list of buttons.
      *
      * @return List that contains the buttons.
      */
@@ -162,7 +161,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
     
     /**
-     * Defines the list of buttons of the component.
+     * Defines the list of buttons.
      *
      * @param buttonsComponents List that contains the buttons.
      */
@@ -171,7 +170,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
     
     /**
-     * Returns the list of row states of the component.
+     * Returns the list of row states.
      *
      * @return List that contains the row states.
      */
@@ -180,7 +179,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
     
     /**
-     * Defines the list of row states of the component.
+     * Defines the list of row states.
      *
      * @param rowStatesComponents List that contains the row states.
      */
@@ -189,7 +188,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
     
     /**
-     * Indicates if the component will show the selection option.
+     * Indicates if the component shows the selection option.
      *
      * @return True/False.
      */
@@ -198,7 +197,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
     
     /**
-     * Indicates if the component will show the selection option.
+     * Indicates if the component shows the selection option.
      *
      * @return True/False.
      */
@@ -207,7 +206,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
     
     /**
-     * Indicates if the component will show the selection option.
+     * Indicates if the component shows the selection option.
      *
      * @return True/False.
      */
@@ -216,7 +215,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
     
     /**
-     * Defines if the component will show the selection option.
+     * Defines if the component shows the selection option.
      *
      * @param showSelection True/False.
      */
@@ -276,8 +275,9 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         if(columnComponent != null){
             if(this.columnsComponents == null)
                 this.columnsComponents = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.columnsComponents.add(columnComponent);
+
+            if(this.columnsComponents != null)
+                this.columnsComponents.add(columnComponent);
         }
     }
     
@@ -290,8 +290,9 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         if(rowStateComponent != null){
             if(this.rowStatesComponents == null)
                 this.rowStatesComponents = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.rowStatesComponents.add(rowStateComponent);
+
+            if(this.rowStatesComponents != null)
+                this.rowStatesComponents.add(rowStateComponent);
         }
     }
 
@@ -300,7 +301,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         String name = getName();
         String dataset = getDataset();
         
-        if((name == null || name.length() == 0) && dataset != null && dataset.length() > 0){
+        if((name == null || name.isEmpty()) && dataset != null && !dataset.isEmpty()){
             name = dataset;
             
             setName(name);
@@ -330,7 +331,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         String name = getName();
         boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && !hasInvalidDefinition){
+        if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty() && !hasInvalidDefinition){
             super.renderDatasetIndexesAttributes();
             
             StringBuilder nameBuffer = new StringBuilder();
@@ -415,7 +416,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         if(this.scrolling){
             print("<div style=\"overflow: auto;");
             
-            if(this.scrollingWidth != null && this.scrollingWidth.length() > 0){
+            if(this.scrollingWidth != null && !this.scrollingWidth.isEmpty()){
                 print(" width: ");
                 print(this.scrollingWidth);
                 
@@ -451,10 +452,10 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     }
 
     @Override
-    public void renderNoDatatMessage() throws InternalErrorException{
+    public void renderNoDataMessage() throws InternalErrorException{
         String message = getNoDataMessage();
         
-        if(message != null && message.length() > 0){
+        if(message != null && !message.isEmpty()){
             println("<tr>");
             print("<td align=\"");
             print(AlignmentType.CENTER);
@@ -481,12 +482,11 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     private void renderDetails() throws InternalErrorException{
-        SecurityController securityController = getSecurityController();
         UIController uiController = getUIController();
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(uiController == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(uiController == null || actionFormName == null || actionFormName.isEmpty() || name == null || name.isEmpty())
             return;
         
         String domain = String.valueOf(System.currentTimeMillis());
@@ -494,7 +494,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         
         try{
             if(hasData)
-                renderNoDatatMessage();
+                renderNoDataMessage();
             else{
                 PropertyInfo propertyInfo = getPropertyInfo();
                 Locale currentLanguage = getCurrentLanguage();
@@ -520,7 +520,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                             
                             String columnName = item.getName();
                             
-                            if(columnName != null && columnName.length() > 0 && columnGroupComponent != null && columnGroupComponent.aggregate()){
+                            if(columnName != null && !columnName.isEmpty() && columnGroupComponent != null && columnGroupComponent.aggregate()){
                                 aggregateColumnCount++;
                                 
                                 if(aggregatePropertiesList == null)
@@ -540,7 +540,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                 datasetValues = ModelUtil.aggregateAndSort(datasetValues, aggregatePropertiesNames, sortPropertyId, sortOrder);
                             }
                             else{
-                                if(sortOrder != null && sortPropertyId != null && sortPropertyId.length() > 0)
+                                if(sortOrder != null && sortPropertyId != null && !sortPropertyId.isEmpty())
                                     ModelUtil.sort(datasetValues, sortPropertyId, sortOrder);
                             }
                         }
@@ -627,11 +627,11 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                         columnGroupComponent = null;
                                     
                                     if(columnGroupComponent != null && columnGroupComponent.aggregate()){
-                                        Object aggregatePropertValue = aggregatePropertiesValues[aggregatePropertiesValuesIndex];
+                                        Object aggregatePropertyValue = aggregatePropertiesValues[aggregatePropertiesValuesIndex];
                                         Object columnValue;
                                         
                                         try{
-                                            if(columnName != null && columnName.length() > 0)
+                                            if(columnName != null && !columnName.isEmpty())
                                                 columnValue = PropertyUtil.getValue(currentModel, columnName);
                                             else
                                                 columnValue = columnComponent.getValue();
@@ -644,11 +644,11 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                         int columnPrecision = columnComponent.getPrecision();
                                         String columnValueLabel = PropertyUtil.format(columnValue, columnPattern, columnUseAdditionalFormatting, columnPrecision, currentLanguage);
                                         
-                                        if((aggregatePropertValue == null && columnValueLabel != null) || (aggregatePropertValue != null && columnValueLabel != null && !aggregatePropertValue.equals(columnValueLabel))){
+                                        if((aggregatePropertyValue == null && columnValueLabel != null) || (aggregatePropertyValue != null && columnValueLabel != null && !aggregatePropertyValue.equals(columnValueLabel))){
                                             String aggregateStyleClass = columnGroupComponent.getStyleClass();
                                             String aggregateStyle = columnGroupComponent.getStyle();
                                             
-                                            if(aggregateStyleClass == null || aggregateStyleClass.length() == 0)
+                                            if(aggregateStyleClass == null || aggregateStyleClass.isEmpty())
                                                 aggregateStyleClass = UIConstants.DEFAULT_GRID_AGGREGATE_STYLE_CLASS;
                                             
                                             println("<tr>");
@@ -656,7 +656,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                             print(aggregateStyleClass);
                                             print("\"");
                                             
-                                            if(aggregateStyle != null && aggregateStyle.length() > 0){
+                                            if(aggregateStyle != null && !aggregateStyle.isEmpty()){
                                                 print(" style=\"");
                                                 print(aggregateStyle);
                                                 
@@ -670,7 +670,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                             print((this.columnsComponents.size() + (this.showSelection ? 1 : 0)) - aggregateColumnCount);
                                             print("\">");
                                             
-                                            if(columnValueLabel != null && columnValueLabel.length() > 0){
+                                            if(columnValueLabel != null && !columnValueLabel.isEmpty()){
                                                 print("&nbsp;");
                                                 println(columnValueLabel);
                                             }
@@ -700,7 +700,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                     columnStyle = rowStateComponent.getStyle();
                                 }
 
-                                if(columnStyleClass == null || columnStyleClass.length() == 0)
+                                if(columnStyleClass == null || columnStyleClass.isEmpty())
                                     columnStyleClass = UIConstants.DEFAULT_GRID_DETAIL_STYLE_CLASS;
                                 
                                 columnStyleClass = ExpressionProcessorUtil.fillVariablesInString(domain, columnStyleClass);
@@ -708,13 +708,13 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
 
                                 print("<td");
                                 
-                                if(columnStyleClass != null && columnStyleClass.length() > 0){
+                                if(columnStyleClass != null && !columnStyleClass.isEmpty()){
                                     print(" class=\"");
                                     print(columnStyleClass);
                                     print("\"");
                                 }
                                 
-                                if(columnStyle != null && columnStyle.length() > 0){
+                                if(columnStyle != null && !columnStyle.isEmpty()){
                                     print(" style=\"");
                                     print(columnStyle);
                                     print("\"");
@@ -826,7 +826,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
 
                                 Class<?> columnClass;
 
-                                if(columnPropertyInfo != null && columnPropertyInfo.getPropertyTypeId() != null && columnPropertyInfo.getPropertyTypeId().length() > 0)
+                                if(columnPropertyInfo != null && columnPropertyInfo.getPropertyTypeId() != null && !columnPropertyInfo.getPropertyTypeId().isEmpty())
                                     columnClass = PropertyUtil.getValue(currentModel, columnPropertyInfo.getPropertyTypeId());
                                 else
                                     columnClass = (columnValue != null ? columnValue.getClass() : null);
@@ -888,37 +888,37 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                         if(columnStateComponent.getColumns() > 0)
                                             columnColumns = columnStateComponent.getColumns();
                                         
-                                        if(columnStateComponent.getPattern() != null && columnStateComponent.getPattern().length() > 0)
+                                        if(columnStateComponent.getPattern() != null && !columnStateComponent.getPattern().isEmpty())
                                             columnPattern = columnStateComponent.getPattern();
                                         
-                                        if(columnStateComponent.getOnBlur() != null && columnStateComponent.getOnBlur().length() > 0)
+                                        if(columnStateComponent.getOnBlur() != null && !columnStateComponent.getOnBlur().isEmpty())
                                             columnOnBlur = columnStateComponent.getOnBlur();
                                         
-                                        if(columnStateComponent.getOnFocus() != null && columnStateComponent.getOnFocus().length() > 0)
+                                        if(columnStateComponent.getOnFocus() != null && !columnStateComponent.getOnFocus().isEmpty())
                                             columnOnFocus = columnStateComponent.getOnFocus();
                                         
-                                        if(columnStateComponent.getOnChange() != null && columnStateComponent.getOnChange().length() > 0)
+                                        if(columnStateComponent.getOnChange() != null && !columnStateComponent.getOnChange().isEmpty())
                                             columnOnChange = columnStateComponent.getOnChange();
                                         
-                                        if(columnStateComponent.getOnClick() != null && columnStateComponent.getOnClick().length() > 0)
+                                        if(columnStateComponent.getOnClick() != null && !columnStateComponent.getOnClick().isEmpty())
                                             columnOnClick = columnStateComponent.getOnClick();
                                         
-                                        if(columnStateComponent.getOnKeyPress() != null && columnStateComponent.getOnKeyPress().length() > 0)
+                                        if(columnStateComponent.getOnKeyPress() != null && !columnStateComponent.getOnKeyPress().isEmpty())
                                             columnOnKeyPress = columnStateComponent.getOnKeyPress();
                                         
-                                        if(columnStateComponent.getOnKeyUp() != null && columnStateComponent.getOnKeyUp().length() > 0)
+                                        if(columnStateComponent.getOnKeyUp() != null && !columnStateComponent.getOnKeyUp().isEmpty())
                                             columnOnKeyUp = columnStateComponent.getOnKeyUp();
                                         
-                                        if(columnStateComponent.getOnKeyDown() != null && columnStateComponent.getOnKeyDown().length() > 0)
+                                        if(columnStateComponent.getOnKeyDown() != null && !columnStateComponent.getOnKeyDown().isEmpty())
                                             columnOnKeyDown = columnStateComponent.getOnKeyDown();
                                         
-                                        if(columnStateComponent.getOnMouseOver() != null && columnStateComponent.getOnMouseOver().length() > 0)
+                                        if(columnStateComponent.getOnMouseOver() != null && !columnStateComponent.getOnMouseOver().isEmpty())
                                             columnOnMouseOver = columnStateComponent.getOnMouseOver();
                                         
-                                        if(columnStateComponent.getOnMouseOut() != null && columnStateComponent.getOnMouseOut().length() > 0)
+                                        if(columnStateComponent.getOnMouseOut() != null && !columnStateComponent.getOnMouseOut().isEmpty())
                                             columnOnMouseOut = columnStateComponent.getOnMouseOut();
                                         
-                                        if(columnStateComponent.getDataset() != null && columnStateComponent.getDataset().length() > 0)
+                                        if(columnStateComponent.getDataset() != null && !columnStateComponent.getDataset().isEmpty())
                                             columnDataset = columnStateComponent.getDataset();
                                         
                                         if(columnStateComponent.getDatasetScope() != null)
@@ -938,7 +938,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                         columnStyle = columnStateComponent.getStyle();
                                     }
                                     
-                                    if(columnStyleClass == null || columnStyleClass.length() == 0)
+                                    if(columnStyleClass == null || columnStyleClass.isEmpty())
                                         columnStyleClass = UIConstants.DEFAULT_GRID_DETAIL_STYLE_CLASS;
                                     
                                     columnStyleClass = ExpressionProcessorUtil.fillVariablesInString(domain, columnStyleClass, currentLanguage);
@@ -946,19 +946,19 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                     
                                     print("<td");
                                     
-                                    if(columnStyleClass != null && columnStyleClass.length() > 0){
+                                    if(columnStyleClass != null && !columnStyleClass.isEmpty()){
                                         print(" class=\"");
                                         print(columnStyleClass);
                                         print("\"");
                                     }
                                     
-                                    if(columnStyle != null && columnStyle.length() > 0){
+                                    if(columnStyle != null && !columnStyle.isEmpty()){
                                         print(" style=\"");
                                         print(columnStyle);
                                         print("\"");
                                     }
                                     
-                                    if(columnWidth != null && columnWidth.length() > 0){
+                                    if(columnWidth != null && !columnWidth.isEmpty()){
                                         print(" width=\"");
                                         print(columnWidth);
                                         print("\"");
@@ -1009,7 +1009,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                                 columnPropertyComponent.setIsBoolean(true);
                                                 columnPropertyComponent.setEnabled(columnEditable);
                                             }
-                                            else if(columnDataset != null && columnDataset.length() > 0){
+                                            else if(columnDataset != null && !columnDataset.isEmpty()){
                                                 columnPropertyComponent = new ListPropertyComponent();
                                                 
                                                 ((ListPropertyComponent) columnPropertyComponent).setOptionStatesComponents(columnComponent.getOptionStatesComponents());
@@ -1077,18 +1077,18 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                             if(columnPropertyInfo == null && columnValue == null)
                                                 columnValueLabel = getInvalidDefinitionMessage();
 
-                                            boolean renderLink = (columnMaximumLength > 0 && columnValueLabel != null && columnValueLabel.length() > 0 && columnValueLabel.length() > columnMaximumLength) || (columnOnClick != null && columnOnClick.length() > 0) || (columnTooltip != null && columnTooltip.length() > 0);
+                                            boolean renderLink = (columnMaximumLength > 0 && columnValueLabel != null && !columnValueLabel.isEmpty() && columnValueLabel.length() > columnMaximumLength) || (columnOnClick != null && !columnOnClick.isEmpty()) || (columnTooltip != null && !columnTooltip.isEmpty());
 
                                             if(renderLink){
                                                 print("<a");
 
-                                                if(columnStyle != null && columnStyle.length() > 0){
+                                                if(columnStyle != null && !columnStyle.isEmpty()){
                                                     print(" style=\"");
                                                     print(columnStyle);
                                                     print("\"");
                                                 }
 
-                                                if(columnOnClick != null && columnOnClick.length() > 0){
+                                                if(columnOnClick != null && !columnOnClick.isEmpty()){
                                                     print(" onClick=\"");
                                                     print(columnOnClick);
                                                     print("\"");
@@ -1108,7 +1108,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                                 print(">");
                                             }
 
-                                            if(columnValueLabel == null || columnValueLabel.length() == 0)
+                                            if(columnValueLabel == null || columnValueLabel.isEmpty())
                                                 println("&nbsp;");
                                             else{
                                                 if(columnMaximumLength > 0 && columnValueLabel.length() > columnMaximumLength){
@@ -1192,7 +1192,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(uiController == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(uiController == null || actionFormName == null || actionFormName.isEmpty() || name == null || name.isEmpty())
             return;
         
         print("<table class=\"");
@@ -1239,13 +1239,13 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                             columnGroupHeaderStyleClass = columnGroupComponent.getHeaderStyleClass();
                             columnGroupHeaderStyle = columnGroupComponent.getHeaderStyle();
                             
-                            if(columnGroupHeaderStyleClass == null || columnGroupHeaderStyleClass.length() == 0)
+                            if(columnGroupHeaderStyleClass == null || columnGroupHeaderStyleClass.isEmpty())
                                 columnGroupHeaderStyleClass = this.headerStyleClass;
                             
-                            if(columnGroupHeaderStyleClass == null || columnGroupHeaderStyleClass.length() == 0)
+                            if(columnGroupHeaderStyleClass == null || columnGroupHeaderStyleClass.isEmpty())
                                 columnGroupHeaderStyleClass = UIConstants.DEFAULT_GRID_HEADER_STYLE_CLASS;
                             
-                            if(columnGroupHeaderStyle == null || columnGroupHeaderStyle.length() == 0)
+                            if(columnGroupHeaderStyle == null || columnGroupHeaderStyle.isEmpty())
                                 columnGroupHeaderStyle = this.headerStyle;
                             
                             columnsInGroup++;
@@ -1253,15 +1253,11 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     }
                     else{
                         if(columnsInGroup > 0){
-                            print("<td");
-                            
-                            if(columnGroupHeaderStyleClass != null && columnGroupHeaderStyleClass.length() > 0){
-                                print(" class=\"");
-                                print(columnGroupHeaderStyleClass);
-                                print("\"");
-                            }
-                            
-                            if(columnGroupHeaderStyle != null && columnGroupHeaderStyle.length() > 0){
+                            print("<td class=\"");
+                            print(columnGroupHeaderStyleClass);
+                            print("\"");
+
+                            if(columnGroupHeaderStyle != null && !columnGroupHeaderStyle.isEmpty()){
                                 print(" style=\"");
                                 print(columnGroupHeaderStyle);
                                 
@@ -1283,16 +1279,16 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                             
                             println(">");
                             
-                            if(columnGroupTooltip != null && columnGroupTooltip.length() > 0){
+                            if(columnGroupTooltip != null && !columnGroupTooltip.isEmpty()){
                                 print("<a title=\"");
                                 print(columnGroupTooltip);
                                 print("\">");
                             }
                             
-                            if(columnGroupLabel != null && columnGroupLabel.length() > 0)
+                            if(columnGroupLabel != null && !columnGroupLabel.isEmpty())
                                 println(columnGroupLabel);
                             
-                            if(columnGroupTooltip != null && columnGroupTooltip.length() > 0)
+                            if(columnGroupTooltip != null && !columnGroupTooltip.isEmpty())
                                 println("</a>");
                             
                             println("</td>");
@@ -1307,13 +1303,13 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                 if(columnsInGroup > 0){
                     print("<td");
                     
-                    if(columnGroupHeaderStyleClass != null && columnGroupHeaderStyleClass.length() > 0){
+                    if(columnGroupHeaderStyleClass != null && !columnGroupHeaderStyleClass.isEmpty()){
                         print(" class=\"");
                         print(columnGroupHeaderStyleClass);
                         print("\"");
                     }
                     
-                    if(columnGroupHeaderStyle != null && columnGroupHeaderStyle.length() > 0){
+                    if(columnGroupHeaderStyle != null && !columnGroupHeaderStyle.isEmpty()){
                         print(" style=\"");
                         print(columnGroupHeaderStyle);
                         
@@ -1335,16 +1331,16 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     
                     println(">");
                     
-                    if(columnGroupTooltip != null && columnGroupTooltip.length() > 0){
+                    if(columnGroupTooltip != null && !columnGroupTooltip.isEmpty()){
                         print("<a title=\"");
                         print(columnGroupTooltip);
                         print("\">");
                     }
                     
-                    if(columnGroupLabel != null && columnGroupLabel.length() > 0)
+                    if(columnGroupLabel != null && !columnGroupLabel.isEmpty())
                         println(columnGroupLabel);
                     
-                    if(columnGroupTooltip != null && columnGroupTooltip.length() > 0)
+                    if(columnGroupTooltip != null && !columnGroupTooltip.isEmpty())
                         println("</a>");
                     
                     println("</td>");
@@ -1357,7 +1353,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
             String columnHeaderStyleClass = this.headerStyleClass;
             String columnHeaderStyle = this.headerStyle;
             
-            if(columnHeaderStyleClass == null || columnHeaderStyleClass.length() == 0)
+            if(columnHeaderStyleClass == null || columnHeaderStyleClass.isEmpty())
                 columnHeaderStyleClass = UIConstants.DEFAULT_GRID_HEADER_STYLE_CLASS;
             
             if(this.showSelection){
@@ -1365,7 +1361,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                 print(columnHeaderStyleClass);
                 print("\"");
                 
-                if(columnHeaderStyle != null && columnHeaderStyle.length() > 0){
+                if(columnHeaderStyle != null && !columnHeaderStyle.isEmpty()){
                     print(" style=\"");
                     print(columnHeaderStyle);
                     
@@ -1415,13 +1411,13 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                 if(columnGroupComponent != null && columnGroupComponent.aggregate()){
                     columnsSize--;
                     
-                    if(columnWidth != null && columnWidth.length() > 0){
+                    if(columnWidth != null && !columnWidth.isEmpty()){
                         aggregatesWidth += Double.parseDouble(StringUtil.replaceAll(columnWidth, "%", ""));
                         columnsWidth -= aggregatesWidth;
                     }
                 }
                 else{
-                    if(columnWidth != null && columnWidth.length() > 0){
+                    if(columnWidth != null && !columnWidth.isEmpty()){
                         columnsSize--;
                         columnsWidth -= Double.parseDouble(StringUtil.replaceAll(columnWidth, "%", ""));
                     }
@@ -1437,13 +1433,13 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                 columnHeaderStyleClass = item.getHeaderStyleClass();
                 columnHeaderStyle = item.getHeaderStyle();
                 
-                if(columnHeaderStyleClass == null || columnHeaderStyleClass.length() == 0)
+                if(columnHeaderStyleClass == null || columnHeaderStyleClass.isEmpty())
                     columnHeaderStyleClass = this.headerStyleClass;
                 
-                if(columnHeaderStyleClass == null || columnHeaderStyleClass.length() == 0)
+                if(columnHeaderStyleClass == null || columnHeaderStyleClass.isEmpty())
                     columnHeaderStyleClass = UIConstants.DEFAULT_GRID_HEADER_STYLE_CLASS;
                 
-                if(columnHeaderStyle == null || columnHeaderStyle.length() == 0)
+                if(columnHeaderStyle == null || columnHeaderStyle.isEmpty())
                     columnHeaderStyle = this.headerStyle;
 
                 GridColumnGroupComponent columnGroupComponent;
@@ -1458,7 +1454,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     print(columnHeaderStyleClass);
                     print("\"");
                     
-                    if(columnHeaderStyle != null && columnHeaderStyle.length() > 0){
+                    if(columnHeaderStyle != null && !columnHeaderStyle.isEmpty()){
                         print(" style=\"");
                         print(columnHeaderStyle);
                         
@@ -1472,7 +1468,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
 
                     double columnWidthValue;
 
-                    if(columnWidth != null && columnWidth.length() > 0){
+                    if(columnWidth != null && !columnWidth.isEmpty()){
                         columnWidthValue = Double.parseDouble(StringUtil.replaceAll(columnWidth, "%", ""));
                         columnWidthValue = (columnWidthValue + (aggregatesWidth / (columnsSize == 0 ? 1 : columnsSize)));
                     }
@@ -1483,7 +1479,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     
                     print(columnWidthValue);
                     
-                    if(columnWidth == null || columnWidth.length() == 0 || columnWidth.endsWith("%"))
+                    if(columnWidth == null || columnWidth.isEmpty() || columnWidth.endsWith("%"))
                         print("%");
                     
                     print("\"");
@@ -1512,7 +1508,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     
                     print("<a");
                     
-                    if(columnName != null && columnName.length() > 0){
+                    if(columnName != null && !columnName.isEmpty()){
                         print(" href=\"javascript: setObjectValue('");
                         print(name);
                         print(".");
@@ -1555,7 +1551,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     
                     print(">");
                     
-                    if(columnLabel != null && columnLabel.length() > 0){
+                    if(columnLabel != null && !columnLabel.isEmpty()){
                         print("<b>");
                         print(columnLabel);
                         print("</b>");
@@ -1563,7 +1559,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     
                     println("</a>");
                     
-                    if(columnName != null && columnName.length() > 0 && columnName.equals(sortOrderProperty)){
+                    if(columnName != null && !columnName.isEmpty() && columnName.equals(sortOrderProperty)){
                         println("</td>");
                         
                         print("<td align=\"");
