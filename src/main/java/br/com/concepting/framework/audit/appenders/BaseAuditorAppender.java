@@ -36,7 +36,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -45,7 +45,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseAuditorAppender extends WriterAppender{
     private Auditor auditor = null;
@@ -140,7 +140,7 @@ public abstract class BaseAuditorAppender extends WriterAppender{
             if(auditableAnnotation != null)
                 entityId = auditableAnnotation.id();
             
-            if(lastIteration && (entityId == null || entityId.length() == 0))
+            if(lastIteration && (entityId == null || entityId.isEmpty()))
                 entityId = entity.getName();
         }
         
@@ -158,12 +158,12 @@ public abstract class BaseAuditorAppender extends WriterAppender{
         
         if(this.auditor != null && method != null){
             Method business = this.auditor.getBusiness();
-            Auditable auditableAnnotation = (business != null ? business.getAnnotation(Auditable.class) : null);
+            Auditable auditableAnnotation = business.getAnnotation(Auditable.class);
             
             if(auditableAnnotation != null)
                 businessId = auditableAnnotation.id();
             
-            if(businessId == null || businessId.length() == 0)
+            if(businessId == null || businessId.isEmpty())
                 businessId = business.getName();
         }
         
@@ -254,8 +254,9 @@ public abstract class BaseAuditorAppender extends WriterAppender{
                         Object businessComplementArgumentValue = businessComplementArgumentValues[cont];
                         C businessComplementItems = buildBusinessComplement(auditorModel, businessComplementArgumentId, businessComplementArgumentType, businessComplementArgumentValue, businessComplementArgumentClass);
                         
-                        if(businessComplementItems != null && businessComplementItems.size() > 0)
-                            businessComplement.addAll(businessComplementItems);
+                        if(businessComplementItems != null && !businessComplementItems.isEmpty())
+                            if(businessComplement != null)
+                                businessComplement.addAll(businessComplementItems);
                     }
                 }
                 catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException ignored){
@@ -306,8 +307,9 @@ public abstract class BaseAuditorAppender extends WriterAppender{
                             if(auditablePropertyInfo.isModel()){
                                 C items = buildBusinessComplement(auditor, name, type, value, businessComplementItemType);
                                 
-                                if(items != null && items.size() > 0)
-                                    businessComplement.addAll(items);
+                                if(items != null && !items.isEmpty())
+                                    if(businessComplement != null)
+                                        businessComplement.addAll(items);
                             }
                             else{
                                 AuditorComplementModel item = ConstructorUtils.invokeConstructor(businessComplementItemType, null);
@@ -316,8 +318,9 @@ public abstract class BaseAuditorAppender extends WriterAppender{
                                 item.setName(name);
                                 item.setType(type.getName());
                                 item.setValue(value);
-                                
-                                businessComplement.add(item);
+
+                                if(businessComplement != null)
+                                    businessComplement.add(item);
                             }
                         }
                     }
@@ -330,8 +333,9 @@ public abstract class BaseAuditorAppender extends WriterAppender{
                             Class<?> businessComplementValuesItemType = businessComplementValuesItem.getClass();
                             C items = buildBusinessComplement(auditor, businessComplementId, businessComplementValuesItemType, businessComplementValuesItem, businessComplementItemType);
                             
-                            if(items != null && items.size() > 0)
-                                businessComplement.addAll(items);
+                            if(items != null && !items.isEmpty())
+                                if(businessComplement != null)
+                                    businessComplement.addAll(items);
                         }
                     }
                 }
@@ -346,8 +350,9 @@ public abstract class BaseAuditorAppender extends WriterAppender{
                     
                     item.setType(businessComplementType.getName());
                     item.setValue(businessComplementValue);
-                    
-                    businessComplement.add(item);
+
+                    if(businessComplement != null)
+                        businessComplement.add(item);
                 }
             }
             catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | IllegalArgumentException | ClassNotFoundException | NoSuchFieldException ignored){
@@ -380,7 +385,7 @@ public abstract class BaseAuditorAppender extends WriterAppender{
      *
      * @param event Instance that contains the properties of the event.
      * @throws InternalErrorException Occurs when was not possible to process
-     * the audting.
+     * the auditing.
      */
     protected void process(LoggingEvent event) throws InternalErrorException{
         Layout layout = getLayout();

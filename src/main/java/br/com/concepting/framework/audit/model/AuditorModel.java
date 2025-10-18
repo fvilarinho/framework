@@ -21,7 +21,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @Model
 @Auditable
@@ -74,7 +74,7 @@ public class AuditorModel extends BaseModel{
     private Long responseTime = null;
     
     /**
-     * Returns the response time of the processing of the entity's business.
+     * Returns the response time of the processing.
      *
      * @return Numeric value containing the response time in milliseconds.
      */
@@ -83,7 +83,7 @@ public class AuditorModel extends BaseModel{
     }
     
     /**
-     * Defines the response time of the processing of the entity's business.
+     * Defines the response time of the processing.
      *
      * @param responseTime Numeric value containing the response time in
      * milliseconds.
@@ -131,12 +131,11 @@ public class AuditorModel extends BaseModel{
     }
     
     /**
-     * Returns the instance of the business complement of the auditing.
+     * Returns the instance of the business complement.
      *
      * @param <C> Class that defines the type of the list that stores the business
      * complement.
-     * @param <AB> Class that defines the type of the data model of the business
-     * complement.
+     * @param <AB> Class that defines the type of the business complement.
      * @return Instance that contains the list that stores the business complement.
      */
     @SuppressWarnings("unchecked")
@@ -145,7 +144,7 @@ public class AuditorModel extends BaseModel{
     }
     
     /**
-     * Defines the instance of the business complement of the auditing.
+     * Defines the instance of the business complement.
      *
      * @param businessComplement Instance that contains the list that stores the
      * business complement.

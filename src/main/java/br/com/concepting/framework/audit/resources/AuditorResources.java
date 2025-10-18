@@ -18,7 +18,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -27,7 +27,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class AuditorResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = -4997789974946981759L;
@@ -45,7 +45,7 @@ public class AuditorResources extends BaseResources<XmlNode>{
     }
     
     /**
-     * Defines the auditins level of the messages.
+     * Defines the auditing level of the messages.
      *
      * @param level String that contains the auditing level of the messages.
      */
@@ -56,7 +56,7 @@ public class AuditorResources extends BaseResources<XmlNode>{
     /**
      * Returns the list of all storages for the auditing's messages.
      *
-     * @param <C> Class that defines the type of list of the storages.
+     * @param <C> Class that defines the type of the storages.
      * @return List of all storages for the auditing's messages.
      */
     @SuppressWarnings("unchecked")
@@ -73,8 +73,9 @@ public class AuditorResources extends BaseResources<XmlNode>{
         if(appender != null){
             if(this.appenders == null)
                 this.appenders = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.appenders.add(appender);
+
+            if(this.appenders != null)
+                this.appenders.add(appender);
         }
     }
 }

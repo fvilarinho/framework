@@ -37,7 +37,7 @@ import java.util.Map.Entry;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -46,7 +46,7 @@ import java.util.Map.Entry;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class Auditor{
     private Logger logger = null;
@@ -121,7 +121,7 @@ public class Auditor{
     }
     
     /**
-     * Returns the response time of the processing of the entity's business.
+     * Returns the response time of the processing.
      *
      * @return Numeric value containing the response time in milliseconds.
      */
@@ -156,7 +156,7 @@ public class Auditor{
     /**
      * Returns the list of business arguments that will be audited.
      *
-     * @return List of business arguments that will be audited.
+     * @return Array of business arguments that will be audited.
      */
     public Class<?>[] getBusinessComplementArgumentsTypes(){
         return this.businessComplementArgumentsTypes;
@@ -175,7 +175,7 @@ public class Auditor{
     /**
      * Returns the identifiers of the business arguments that will be audited.
      *
-     * @return List of the identifiers of the business arguments that will be
+     * @return Array that contains identifiers of the business arguments that will be
      * audited.
      */
     public String[] getBusinessComplementArgumentsIds(){
@@ -185,7 +185,7 @@ public class Auditor{
     /**
      * Defines the identifiers of the business arguments that will be audited.
      *
-     * @param businessComplementArgumentsIds List of the identifiers of the
+     * @param businessComplementArgumentsIds Array that contains the identifiers of the
      * business arguments that will be audited.
      */
     private void setBusinessComplementArgumentsIds(String[] businessComplementArgumentsIds){
@@ -196,7 +196,7 @@ public class Auditor{
      * Returns the values of the business arguments that will be audited.
      *
      * @param <O> Class that defines the type of the value.
-     * @return List of the values of the business arguments that will be
+     * @return Array that contains the values of the business arguments that will be
      * audited.
      */
     @SuppressWarnings("unchecked")
@@ -208,7 +208,7 @@ public class Auditor{
      * Defines the values of the business arguments that will be audited.
      *
      * @param <O> Class that defines the type of the value.
-     * @param businessComplementArgumentsValues List of the values of the
+     * @param businessComplementArgumentsValues Array that contains the values of the
      * business arguments that will be audited.
      */
     private <O> void setBusinessComplementArgumentsValues(O[] businessComplementArgumentsValues){
@@ -366,7 +366,7 @@ public class Auditor{
             Level level = Level.OFF;
             String levelBuffer = this.resources.getLevel();
             
-            if(levelBuffer != null && levelBuffer.length() > 0)
+            if(levelBuffer != null && !levelBuffer.isEmpty())
                 level = Level.toLevel(levelBuffer.toUpperCase());
             
             this.logger.setLevel(level);
@@ -462,7 +462,7 @@ public class Auditor{
                                 appenderInstance = (Appender) ConstructorUtils.invokeConstructor(appenderClass, null);
                             }
                             
-                            if(appenderOptions != null && appenderOptions.size() > 0)
+                            if(appenderOptions != null && !appenderOptions.isEmpty())
                                 if(appenderInstance.requiresLayout())
                                     for(Entry<String, String> entry: appenderOptions.entrySet())
                                         PropertyUtil.setValue(appenderInstance, entry.getKey(), entry.getValue());

@@ -18,7 +18,7 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -27,7 +27,7 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class AuditorResourcesLoader extends XmlResourcesLoader<AuditorResources>{
     /**
@@ -58,7 +58,7 @@ public class AuditorResourcesLoader extends XmlResourcesLoader<AuditorResources>
         AuditorResources resources = super.parseResources(resourcesNode);
         String level = resourcesNode.getAttribute(AuditorConstants.LEVEL_ATTRIBUTE_ID);
         
-        if(level == null || level.length() == 0)
+        if(level == null || level.isEmpty())
             throw new InvalidResourcesException(resourcesDirname, resourcesId, resourcesNode.getText());
         
         resources.setLevel(level);
@@ -86,7 +86,7 @@ public class AuditorResourcesLoader extends XmlResourcesLoader<AuditorResources>
             if(appenderName != null && appenderName.equals(AuditorConstants.APPENDER_ENTRY_ATTRIBUTE_ID)){
                 appenderClass = appenderNode.getAttribute(Constants.CLASS_ATTRIBUTE_ID);
                 
-                if(appenderClass == null || appenderClass.length() == 0)
+                if(appenderClass == null || appenderClass.isEmpty())
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, appenderNode.getText());
                 
                 appender = new FactoryResources();
@@ -109,7 +109,7 @@ public class AuditorResourcesLoader extends XmlResourcesLoader<AuditorResources>
                         
                         optionId = optionNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
                         
-                        if(optionId == null || optionId.length() == 0)
+                        if(optionId == null || optionId.isEmpty())
                             throw new InvalidResourcesException(resourcesDirname, resourcesId, optionNode.getText());
                         
                         optionValue = optionNode.getAttribute(Constants.VALUE_ATTRIBUTE_ID);
