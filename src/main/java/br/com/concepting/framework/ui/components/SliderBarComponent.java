@@ -19,7 +19,7 @@ import java.text.DecimalFormatSymbols;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import java.text.DecimalFormatSymbols;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SliderBarComponent extends TextPropertyComponent{
     private static final long serialVersionUID = 1573821017694529722L;
@@ -37,7 +37,7 @@ public class SliderBarComponent extends TextPropertyComponent{
     protected void buildEvents() throws InternalErrorException{
         String name = getName();
         
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder onBlurContent = new StringBuilder();
             
             onBlurContent.append("setSliderBarPosition('");
@@ -46,7 +46,7 @@ public class SliderBarComponent extends TextPropertyComponent{
             
             String currentOnBlurContent = getOnBlur();
             
-            if(currentOnBlurContent != null && currentOnBlurContent.length() > 0){
+            if(currentOnBlurContent != null && !currentOnBlurContent.isEmpty()){
                 onBlurContent.append(" ");
                 onBlurContent.append(currentOnBlurContent);
                 
@@ -66,14 +66,14 @@ public class SliderBarComponent extends TextPropertyComponent{
         
         String width = getWidth();
         
-        if(width != null && width.length() > 0)
+        if(width != null && !width.isEmpty())
             setWidth(null);
         
         setComponentType(ComponentType.SLIDER_BAR);
         
         super.initialize();
         
-        if(width == null || width.length() == 0)
+        if(width == null || width.isEmpty())
             width = String.valueOf(UIConstants.DEFAULT_SLIDER_BAR_WIDTH);
         
         setWidth(width);
@@ -87,7 +87,7 @@ public class SliderBarComponent extends TextPropertyComponent{
     protected void renderControls() throws InternalErrorException{
         String name = getName();
         
-        if(name == null || name.length() == 0)
+        if(name == null || name.isEmpty())
             return;
         
         boolean enabled = isEnabled();
@@ -118,7 +118,7 @@ public class SliderBarComponent extends TextPropertyComponent{
         
         String width = getWidth();
         
-        if(width != null && width.length() > 0){
+        if(width != null && !width.isEmpty()){
             print(" style=\"width: ");
             print(width);
             
@@ -169,7 +169,7 @@ public class SliderBarComponent extends TextPropertyComponent{
         if(!hasInvalidDefinition){
             String name = getName();
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 DecimalFormatSymbols symbols = NumberUtil.getFormatSymbols(getCurrentLanguage());
                 String width = getWidth();
                 Number maximumValue = getMaximumValue();
@@ -181,7 +181,7 @@ public class SliderBarComponent extends TextPropertyComponent{
                 content.append("addLoadEvent(initializeSliderBar('");
                 content.append(name);
                 content.append("', ");
-                content.append((width != null && width.length() > 0 ? width : Constants.DEFAULT_NULL_ID));
+                content.append((width != null && !width.isEmpty() ? width : Constants.DEFAULT_NULL_ID));
                 content.append(", ");
                 content.append((maximumValue != null ? maximumValue.toString() : Constants.DEFAULT_NULL_ID));
                 content.append(", ");
