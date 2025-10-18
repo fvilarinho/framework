@@ -17,7 +17,7 @@ import br.com.concepting.framework.util.types.ComponentType;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -26,13 +26,13 @@ import br.com.concepting.framework.util.types.ComponentType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ProgressBarComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -583105661110523140L;
 
     private int currentWidth = 0;
-    private double warningValue = UIConstants.DEFAULT_PROGERSS_BAR_WARNING_VALUE;
+    private double warningValue = UIConstants.DEFAULT_PROGRESS_BAR_WARNING_VALUE;
     private double criticalValue = UIConstants.DEFAULT_PROGRESS_BAR_CRITICAL_VALUE;
     private double percentage = UIConstants.DEFAULT_PROGRESS_BAR_MAXIMUM_VALUE;
     private int maximumWidth = UIConstants.DEFAULT_PROGRESS_BAR_WIDTH;
@@ -171,7 +171,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
 
     @Override
     protected void buildStyleClass() throws InternalErrorException{
-        if(getStyleClass() == null || getStyleClass().length() == 0)
+        if(getStyleClass() == null || getStyleClass().isEmpty())
             setStyleClass(UIConstants.DEFAULT_PROGRESS_BAR_TEXT_STYLE_CLASS);
         
         super.buildStyleClass();
@@ -181,7 +181,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
     protected void buildDimensions() throws InternalErrorException{
         String width = getWidth();
         
-        if(width == null || width.length() == 0)
+        if(width == null || width.isEmpty())
             this.maximumWidth = UIConstants.DEFAULT_PROGRESS_BAR_WIDTH;
         else{
             width = StringUtil.replaceAll(width.toLowerCase(), "px", "");
@@ -283,7 +283,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
             
             String style = getStyle();
             
-            if(style != null && style.length() > 0){
+            if(style != null && !style.isEmpty()){
                 print(" style=\"");
                 print(style);
                 
@@ -306,7 +306,7 @@ public class ProgressBarComponent extends BasePropertyComponent{
         super.clearAttributes();
 
         setCurrentWidth(0);
-        setWarningValue(UIConstants.DEFAULT_PROGERSS_BAR_WARNING_VALUE);
+        setWarningValue(UIConstants.DEFAULT_PROGRESS_BAR_WARNING_VALUE);
         setCriticalValue(UIConstants.DEFAULT_PROGRESS_BAR_CRITICAL_VALUE);
         setMaximumWidth(UIConstants.DEFAULT_PROGRESS_BAR_WIDTH);
         setPercentage(UIConstants.DEFAULT_PROGRESS_BAR_MAXIMUM_VALUE);
