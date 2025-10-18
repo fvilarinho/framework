@@ -13,7 +13,7 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -22,7 +22,7 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class UIConstants{
     public static final String ACTION_FORM_COMPONENT_ATTRIBUTE_ID = "actionFormComponent";
@@ -271,7 +271,7 @@ public abstract class UIConstants{
     public static final String DEFAULT_PRINT_BUTTON_ID = "printButton";
     public static final String DEFAULT_PRINT_BUTTON_STYLE_CLASS = DEFAULT_PRINT_BUTTON_ID;
     public static final double DEFAULT_PROGRESS_BAR_CRITICAL_VALUE = 90;
-    public static final double DEFAULT_PROGERSS_BAR_WARNING_VALUE = 70;
+    public static final double DEFAULT_PROGRESS_BAR_WARNING_VALUE = 70;
     public static final String DEFAULT_PROGRESS_BAR_CRITICAL_STYLE_CLASS = "criticalProgressBar";
     public static final String DEFAULT_PROGRESS_BAR_EMPTY_STYLE_CLASS = "emptyProgressBar";
     public static final String DEFAULT_PROGRESS_BAR_GENERAL_STYLE_CLASS = "generalProgressBar";

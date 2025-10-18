@@ -24,7 +24,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -33,7 +33,7 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class UIController{
     private final SystemController systemController;
@@ -50,7 +50,7 @@ public class UIController{
     }
     
     /**
-     * Indicates if the UI page has its CSS and Javascripts imports.
+     * Indicates if the UI page has its CSS and JavaScripts imports.
      *
      * @return True/False.
      */
@@ -65,7 +65,7 @@ public class UIController{
     }
     
     /**
-     * Defines if the UI page has its CSS and Javascripts imports.
+     * Defines if the UI page has its CSS and JavaScripts imports.
      *
      * @param value True/False.
      */
@@ -80,7 +80,7 @@ public class UIController{
     }
     
     /**
-     * Indicates if the UI page has its Javascript events.
+     * Indicates if the UI page has its JavaScript events.
      *
      * @return True/False.
      */
@@ -89,7 +89,7 @@ public class UIController{
     }
     
     /**
-     * Defines if the UI page has its Javascript events.
+     * Defines if the UI page has its JavaScript events.
      *
      * @param value True/False.
      */
@@ -122,7 +122,7 @@ public class UIController{
      * @return Instance that contains the form component.
      */
     public ActionFormComponent getActionFormComponentInstance(String actionFormName){
-        if(actionFormName != null && actionFormName.length() > 0){
+        if(actionFormName != null && !actionFormName.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(actionFormName);
@@ -142,7 +142,7 @@ public class UIController{
      * @param actionFormInstance Instance that contains the form component.
      */
     public void setActionFormComponentInstance(String actionFormName, ActionFormComponent actionFormInstance){
-        if(actionFormName != null && actionFormName.length() > 0){
+        if(actionFormName != null && !actionFormName.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(actionFormName);
@@ -160,7 +160,7 @@ public class UIController{
      * @return String that contains the identifier of the current guide.
      */
     public String getCurrentGuide(String name){
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
@@ -180,7 +180,7 @@ public class UIController{
      * @return String that contains the identifier of the tree view node.
      */
     public String getCurrentTreeViewNode(String name){
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
@@ -200,7 +200,7 @@ public class UIController{
      * @return True/False.
      */
     public boolean isTreeViewNodeExpanded(String name){
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
@@ -220,7 +220,7 @@ public class UIController{
      * @return List that contains the identifiers of the current sections.
      */
     public List<String> getCurrentSections(String name){
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
@@ -233,11 +233,12 @@ public class UIController{
                 List<String> result = null;
                 
                 for(String value: values){
-                    if(value != null && value.length() > 0){
+                    if(value != null && !value.isEmpty()){
                         if(result == null)
                             result = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                        
-                        result.add(value);
+
+                        if(result != null)
+                            result.add(value);
                     }
                 }
                 
@@ -260,7 +261,7 @@ public class UIController{
     public int getPagerItemsPerPage(String actionFormName, String name, int defaultItemsPerPage){
         int itemsPerPage;
 
-        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
+        if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(actionFormName);
@@ -309,7 +310,7 @@ public class UIController{
      * @return Instance that contains the pager action.
      */
     public PagerActionType getPagerAction(String actionFormName, String name){
-        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
+        if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(actionFormName);
@@ -321,7 +322,7 @@ public class UIController{
             try{
                 String pagerActionType = this.systemController.getParameterValue(key.toString());
                 
-                if(pagerActionType == null || pagerActionType.length() == 0)
+                if(pagerActionType == null || pagerActionType.isEmpty())
                     return PagerActionType.REFRESH_PAGE;
                 
                 return PagerActionType.valueOf(pagerActionType.toUpperCase());
@@ -335,7 +336,7 @@ public class UIController{
     }
     
     /**
-     * Returns the number of the current page of the pager component.
+     * Returns the number of the current page.
      *
      * @param actionFormName String that contains the identifier of the form.
      * @param name String that contains the identifier of the component.
@@ -344,7 +345,7 @@ public class UIController{
     public int getPagerCurrentPage(String actionFormName, String name){
         int currentPage = 1;
 
-        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
+        if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(actionFormName);
@@ -367,15 +368,15 @@ public class UIController{
     }
     
     /**
-     * Returns the zoom of the maps component.
+     * Returns the zoom level of the map component.
      *
      * @param actionFormName String that contains the identifier of the form.
      * @param name String that contains the identifier of the component.
      * @param defaultZoom Numeric value that contains the default zoom.
-     * @return Numeric value that contains the zoom.
+     * @return Numeric value that contains the zoom level.
      */
     public int getMapsZoom(String actionFormName, String name, int defaultZoom){
-        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
+        if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(actionFormName);
@@ -407,7 +408,7 @@ public class UIController{
      * @return String that contains the identifier of the sort property.
      */
     public String getSortProperty(String name){
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
@@ -427,7 +428,7 @@ public class UIController{
      * @return Instance that contains the type of the sort.
      */
     public SortOrderType getSortOrder(String name){
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
@@ -437,7 +438,7 @@ public class UIController{
             try{
                 String sortOrder = this.systemController.getParameterValue(key.toString());
                 
-                if(sortOrder != null && sortOrder.length() > 0)
+                if(sortOrder != null && !sortOrder.isEmpty())
                     return SortOrderType.valueOf(sortOrder.toUpperCase());
             }
             catch(IllegalArgumentException ignored){
@@ -454,7 +455,7 @@ public class UIController{
      * @return String that contains the font name.
      */
     public String getRichTextAreaFontName(String name){
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
@@ -463,7 +464,7 @@ public class UIController{
             
             String result = this.systemController.getParameterValue(key.toString());
             
-            if(result != null && result.length() > 0)
+            if(result != null && !result.isEmpty())
                 return result;
         }
         
@@ -479,7 +480,7 @@ public class UIController{
     public int getRichTextAreaFontSize(String name){
         int result;
 
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
@@ -506,7 +507,7 @@ public class UIController{
      * @return String that contains the font color.
      */
     public String getRichTextAreaFontColor(String name){
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
@@ -515,7 +516,7 @@ public class UIController{
             
             String result = this.systemController.getParameterValue(key.toString());
             
-            if(result != null && result.length() > 0)
+            if(result != null && !result.isEmpty())
                 return result;
         }
         
@@ -529,7 +530,7 @@ public class UIController{
      * @return String that contains the font name.
      */
     public String getRichTextAreaBackgroundColor(String name){
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(name);
@@ -538,7 +539,7 @@ public class UIController{
             
             String result = this.systemController.getParameterValue(key.toString());
             
-            if(result != null && result.length() > 0)
+            if(result != null && !result.isEmpty())
                 return result;
         }
         
