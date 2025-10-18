@@ -35,7 +35,7 @@ import java.util.Set;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -44,7 +44,7 @@ import java.util.Set;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @SupportedAnnotationTypes({"br.com.concepting.framework.model.annotations.Model"})
 @SupportedOptions({"buildDir", "buildName", "buildVersion"})
@@ -162,7 +162,7 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
     public String getBuildResourcesDirname(){
         String baseDirname = getBuildBaseDirname();
         
-        if(baseDirname != null && baseDirname.length() > 0){
+        if(!baseDirname.isEmpty()){
             StringBuilder resourcesDirname = new StringBuilder();
             
             resourcesDirname.append(baseDirname);
@@ -241,7 +241,7 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
     }
     
     /**
-     * Returns the annotation processor based of the declaration of the object
+     * Returns the annotation processor based on the declaration of the object
      * that will be processed.
      *
      * @param declarationClassName String that contains the class name of the

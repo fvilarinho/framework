@@ -19,7 +19,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class IterateProcessor extends EvaluateProcessor{
     private String name = null;
@@ -158,17 +158,17 @@ public class IterateProcessor extends EvaluateProcessor{
                 
                 Object item = array[cont];
                 
-                if(this.name != null && this.name.length() > 0)
+                if(this.name != null && !this.name.isEmpty())
                     setVariable(this.name, item);
                 
-                if(this.index != null && this.index.length() > 0)
+                if(this.index != null && !this.index.isEmpty())
                     setVariable(this.index, cont);
                 
                 setDeclaration(item);
                 
                 String result = StringUtil.trim(super.process());
                 
-                if(result.length() > 0){
+                if(!result.isEmpty()){
                     if(buffer.length() > 0)
                         buffer.append(StringUtil.getLineBreak());
                     

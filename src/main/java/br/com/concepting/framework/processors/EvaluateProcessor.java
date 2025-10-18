@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class EvaluateProcessor extends GenericProcessor{
     private static final JexlEngine engine = new JexlBuilder().create();
@@ -239,7 +239,7 @@ public class EvaluateProcessor extends GenericProcessor{
                     for(int cont = 0; cont < parameters.length; cont++){
                         String parameter = parameters[cont];
                         
-                        if(parameter != null && parameter.length() > 0 && ((parameter.startsWith("'") && parameter.endsWith("'")) || (parameter.startsWith("\"") && parameter.endsWith("\"")))){
+                        if(parameter != null && !parameter.isEmpty() && ((parameter.startsWith("'") && parameter.endsWith("'")) || (parameter.startsWith("\"") && parameter.endsWith("\"")))){
                             parameter = StringUtil.replaceAll(parameter, "'", "");
                             parameter = StringUtil.replaceAll(parameter, "\"", "");
                         }
@@ -277,7 +277,7 @@ public class EvaluateProcessor extends GenericProcessor{
                             for(int cont = 0; cont < parameters.length; cont++){
                                 String parameter = parameters[cont];
                                 
-                                if(parameter != null && parameter.length() > 0 && ((parameter.startsWith("'") && parameter.endsWith("'")) || (parameter.startsWith("\"") && parameter.endsWith("\"")))){
+                                if(parameter != null && !parameter.isEmpty() && ((parameter.startsWith("'") && parameter.endsWith("'")) || (parameter.startsWith("\"") && parameter.endsWith("\"")))){
                                     parameter = StringUtil.replaceAll(parameter, "'", "");
                                     parameter = StringUtil.replaceAll(parameter, "\"", "");
                                 }
@@ -288,14 +288,14 @@ public class EvaluateProcessor extends GenericProcessor{
                             }
                         }
                         
-                        Object instance = clazz.newInstance();
+                        Object instance = clazz.getDeclaredConstructor().newInstance();
                         
                         return (O) MethodUtils.invokeMethod(instance, methodId, parametersValues);
                     }
                 }
             }
             
-            pattern = Pattern.compile("\\#\\{(.*?)\\}|\\@\\{(.*?)\\}");
+            pattern = Pattern.compile("#\\{(.*?)}|@\\{(.*?)}");
             matcher = pattern.matcher(value);
             
             Object declaration = getDeclaration();
@@ -310,7 +310,7 @@ public class EvaluateProcessor extends GenericProcessor{
                     String tokenName = (tokenExpression.startsWith("#") ? matcher.group(1) : matcher.group(2));
                     Object tokenValue;
 
-                    if(tokenName != null && tokenName.length() > 0){
+                    if(tokenName != null && !tokenName.isEmpty()){
                         if(tokenExpression.contains("#{")){
                             if(!tokenName.equals("declaration")){
                                 tokenName = StringUtil.replaceAll(tokenName, "declaration.", "");
@@ -333,7 +333,7 @@ public class EvaluateProcessor extends GenericProcessor{
             else{
                 valueBuffer = StringUtil.replaceAll(valueBuffer, "'", "");
                 valueBuffer = StringUtil.replaceAll(valueBuffer, "\"", "");
-                pattern = Pattern.compile("^(not|!)?\\ ?(true|false|[0-9]+)\\ ?(\\+|\\-|\\*|\\/|\\%|\\&+|\\|+)?\\ ?(not|!)?\\ ?(true|false|[0-9]+)?$");
+                pattern = Pattern.compile("^(not|!)? ?(true|false|[0-9]+) ?(\\+|-|\\*|/|%|&+|\\|+)? ?(not|!)? ?(true|false|[0-9]+)?$");
                 matcher = pattern.matcher(valueBuffer);
                 
                 if(!matcher.find()){

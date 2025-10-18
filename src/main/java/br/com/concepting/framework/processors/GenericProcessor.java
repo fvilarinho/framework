@@ -20,7 +20,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class GenericProcessor{
     private String domain = null;
@@ -82,7 +82,7 @@ public class GenericProcessor{
     }
     
     /**
-     * Returns the identifier of the domain of the logic processor.
+     * Returns the identifier of the domain.
      *
      * @return String that contains the identifier.
      */
@@ -91,7 +91,7 @@ public class GenericProcessor{
     }
     
     /**
-     * Defines the identifier of the domain of the logic processor.
+     * Defines the identifier of the domain.
      *
      * @param domain String that contains the identifier.
      */

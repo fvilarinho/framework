@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ExpressionProcessorUtil{
     /**
@@ -45,7 +45,7 @@ public class ExpressionProcessorUtil{
      * @return Instance that contains the value of the variable.
      */
     public static <O> O getVariable(String name){
-        if(name != null && name.length() > 0)
+        if(name != null && !name.isEmpty())
             return getVariable(ExpressionProcessorUtil.class.getName(), name);
         
         return null;
@@ -66,7 +66,7 @@ public class ExpressionProcessorUtil{
         
         Object variableValue = null;
         
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             try{
                 String[] variablesIds = StringUtil.split(name, ".");
                 
@@ -104,7 +104,7 @@ public class ExpressionProcessorUtil{
      * @param value Instance that contains the value of the variable.
      */
     public static void setVariable(String name, Object value){
-        if(name != null && name.length() > 0)
+        if(name != null && !name.isEmpty())
             setVariable(ExpressionProcessorUtil.class.getName(), name, value);
     }
     
@@ -119,7 +119,7 @@ public class ExpressionProcessorUtil{
         if(domain == null)
             domain = ExpressionProcessorUtil.class.getName();
         
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             Cacher<Object> cacher = CacherManager.getInstance().getCacher(domain);
             CachedObject<Object> cachedObject = new CachedObject<>();
             
@@ -141,14 +141,14 @@ public class ExpressionProcessorUtil{
     
     /**
      * Replaces the environment variables in a string. The resource property
-     * should be declared like following: <pre>${&lt;variable-name&gt;} E.g.: ${JAVA_HOME}</pre>
+     * should be declared like the following: <pre>${&lt;variable-name&gt;} E.g.: ${JAVA_HOME}</pre>
      *
      * @param value String before the processing.
      * @return String after the processing.
      */
     public static String fillEnvironmentInString(String value){
-        if(value != null && value.length() > 0){
-            Pattern pattern = Pattern.compile("\\$\\{(.*?)\\}");
+        if(value != null && !value.isEmpty()){
+            Pattern pattern = Pattern.compile("\\$\\{(.*?)}");
             Matcher matcher = pattern.matcher(value);
 
             while(matcher.find()){
@@ -165,7 +165,7 @@ public class ExpressionProcessorUtil{
     
     /**
      * Replaces variables in a string. The variable must be defined like
-     * following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
+     *  the following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
      *
      * @param value String that will be processed.
      * @return String processed.
@@ -176,7 +176,7 @@ public class ExpressionProcessorUtil{
     
     /**
      * Replaces variables in a string. The variable must be defined like
-     * following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
+     *  the following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
      *
      * @param domain String that contains the identifier of the domain.
      * @param value String that will be processed.
@@ -188,7 +188,7 @@ public class ExpressionProcessorUtil{
     
     /**
      * Replaces variables in a string. The variable must be defined like
-     * following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
+     *  the following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
      *
      * @param value String that will be processed.
      * @param language Instance that contains the language.
@@ -200,7 +200,7 @@ public class ExpressionProcessorUtil{
     
     /**
      * Replaces variables in a string. The variable must be defined like
-     * following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
+     *  the following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
      *
      * @param domain String that contains the identifier of the domain.
      * @param value String that will be processed.
@@ -213,7 +213,7 @@ public class ExpressionProcessorUtil{
     
     /**
      * Replaces variables in a string. The variable must be defined like
-     * following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
+     *  the following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
      *
      * @param domain String that contains the identifier of the domain.
      * @param value String that will be processed.
@@ -228,7 +228,7 @@ public class ExpressionProcessorUtil{
     
     /**
      * Replaces variables in a string. The variable must be defined like
-     * following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
+     *  the following: <pre>@{&lt;variable-name&gt;} E.g.: @{var1}</pre>
      *
      * @param domain String that contains the identifier of the domain.
      * @param value String that will be processed.
@@ -242,8 +242,8 @@ public class ExpressionProcessorUtil{
         if(domain == null)
             domain = ExpressionProcessorUtil.class.getName();
         
-        if(value != null && value.length() > 0){
-            Pattern pattern = Pattern.compile("\\@\\{(.*?)(\\((.*?)\\))?\\}");
+        if(value != null && !value.isEmpty()){
+            Pattern pattern = Pattern.compile("@\\{(.*?)(\\((.*?)\\))?}");
             Matcher matcher = pattern.matcher(value);
             ExpressionProcessor expressionProcessor = new ExpressionProcessor(domain, language);
             
@@ -254,7 +254,7 @@ public class ExpressionProcessorUtil{
                 Object variableValue;
 
                 try{
-                    if(variablePattern != null && variablePattern.length() > 0){
+                    if(variablePattern != null && !variablePattern.isEmpty()){
                         variableExpressionBuffer = StringUtil.replaceAll(variableExpression, variablePattern, "");
                         variableExpressionBuffer = StringUtil.replaceAll(variableExpressionBuffer, "(", "");
                         variableExpressionBuffer = StringUtil.replaceAll(variableExpressionBuffer, ")", "");

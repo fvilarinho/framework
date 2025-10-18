@@ -24,7 +24,7 @@ import java.util.Map.Entry;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -33,7 +33,7 @@ import java.util.Map.Entry;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ProcessorFactory{
     private static ProcessorFactory instance = null;
@@ -206,7 +206,7 @@ public class ProcessorFactory{
             if(domain == null)
                 domain = ExpressionProcessorUtil.class.getName();
             
-            L processor = (L) clazz.newInstance();
+            L processor = (L) clazz.getDeclaredConstructor().newInstance();
 
             processor.setDomain(domain);
             processor.setDeclaration(declaration);
@@ -237,6 +237,9 @@ public class ProcessorFactory{
         }
         catch(IllegalAccessException | InstantiationException e){
             throw new InternalErrorException(e);
+        }
+        catch (InvocationTargetException | NoSuchMethodException e){
+            throw new RuntimeException(e);
         }
     }
 }
