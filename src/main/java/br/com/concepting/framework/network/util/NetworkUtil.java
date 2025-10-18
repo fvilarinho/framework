@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class NetworkUtil{
     private static final Pattern DEFAULT_IP_CHECK_REGEX = Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
@@ -90,7 +90,7 @@ public class NetworkUtil{
      * operation.
      */
     public static boolean isLoopbackAddress(String address) throws IOException{
-        return (address != null && address.length() > 0 && isLoopbackAddress(InetAddress.getByName(address)));
+        return (address != null && !address.isEmpty() && isLoopbackAddress(InetAddress.getByName(address)));
     }
     
     /**
@@ -102,7 +102,7 @@ public class NetworkUtil{
      * operation.
      */
     public static boolean isPrivateAddress(String address) throws IOException{
-        if(address != null && address.length() > 0)
+        if(address != null && !address.isEmpty())
             return isPrivateAddress(InetAddress.getByName(address));
         
         return true;
@@ -116,7 +116,7 @@ public class NetworkUtil{
      * @return True/False.
      */
     public static boolean isIpMatches(String ip, String expression){
-        if(ip == null || ip.length() == 0 || expression == null || expression.length() == 0)
+        if(ip == null || ip.isEmpty() || expression == null || expression.isEmpty())
             return false;
         
         if(expression.contains("/")){
