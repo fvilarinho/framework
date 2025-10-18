@@ -21,7 +21,7 @@ import br.com.concepting.framework.util.types.ComponentType;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ import br.com.concepting.framework.util.types.ComponentType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class LinkComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = 7816895487661041101L;
@@ -83,7 +83,7 @@ public class LinkComponent extends BaseActionFormComponent{
         String name = getName();
         String actionFormName = getActionFormName();
         
-        if(name != null && name.length() > 0 && actionFormName != null && actionFormName.length() > 0 && actionFormController != null && securityController != null){
+        if(name != null && !name.isEmpty() && actionFormName != null && !actionFormName.isEmpty() && actionFormController != null && securityController != null){
             LoginSessionModel loginSession = securityController.getLoginSession();
             SystemModuleModel systemModule = (loginSession != null ? loginSession.getSystemModule() : null);
             FormModel form = (systemModule != null ? systemModule.getForm(actionFormName) : null);
@@ -100,10 +100,10 @@ public class LinkComponent extends BaseActionFormComponent{
         
         String resourcesKey = getResourcesKey();
         
-        if((this.url == null || this.url.length() == 0) && ((name != null && name.length() > 0) || (resourcesKey != null && resourcesKey.length() > 0))){
+        if((this.url == null || this.url.isEmpty()) && ((name != null && !name.isEmpty()) || (resourcesKey != null && !resourcesKey.isEmpty()))){
             StringBuilder propertyId = new StringBuilder();
             
-            if(resourcesKey != null && resourcesKey.length() > 0)
+            if(resourcesKey != null && !resourcesKey.isEmpty())
                 propertyId.append(resourcesKey);
             else
                 propertyId.append(name);
@@ -153,12 +153,12 @@ public class LinkComponent extends BaseActionFormComponent{
     protected void renderAttributes() throws InternalErrorException{
         String onClick = getOnClick();
         
-        if(this.url != null && this.url.length() > 0 && (onClick == null || onClick.length() == 0)){
+        if(this.url != null && !this.url.isEmpty() && (onClick == null || onClick.isEmpty())){
             print(" href=\"");
             print(this.url);
             print("\"");
             
-            if(this.target != null && this.target.length() > 0){
+            if(this.target != null && !this.target.isEmpty()){
                 print(" target=\"");
                 print(this.target);
                 print("\"");
@@ -193,7 +193,7 @@ public class LinkComponent extends BaseActionFormComponent{
         boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(showLabel && label != null && label.length() > 0)
+        if(showLabel && label != null && !label.isEmpty())
             print(label);
     }
 

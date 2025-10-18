@@ -19,7 +19,7 @@ import javax.servlet.jsp.JspException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import javax.servlet.jsp.JspException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ListPropertyComponent extends OptionsPropertyComponent{
     private static final long serialVersionUID = 1973970093371979505L;
@@ -125,8 +125,8 @@ public class ListPropertyComponent extends OptionsPropertyComponent{
     protected void buildResources() throws InternalErrorException{
         super.buildResources();
         
-        if(this.showFirstOption && (this.firstOptionLabel == null || this.firstOptionLabel.length() == 0)){
-            if(this.firstOptionResourcesKey == null || this.firstOptionResourcesKey.length() == 0)
+        if(this.showFirstOption && (this.firstOptionLabel == null || this.firstOptionLabel.isEmpty())){
+            if(this.firstOptionResourcesKey == null || this.firstOptionResourcesKey.isEmpty())
                 this.firstOptionResourcesKey = ActionFormMessageConstants.DEFAULT_SELECT_AN_ITEM_ID;
             
             PropertyInfo propertyInfo = getPropertyInfo();
@@ -241,7 +241,7 @@ public class ListPropertyComponent extends OptionsPropertyComponent{
     protected void renderOptions() throws InternalErrorException{
         String name = getName();
         
-        if(this.showFirstOption && this.firstOptionLabel != null && this.firstOptionLabel.length() > 0 && name != null && name.length() > 0){
+        if(this.showFirstOption && this.firstOptionLabel != null && !this.firstOptionLabel.isEmpty() && name != null && !name.isEmpty()){
             ListOptionPropertyComponent firstOptionComponent = new ListOptionPropertyComponent();
             
             firstOptionComponent.setPageContext(this.pageContext);

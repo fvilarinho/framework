@@ -27,7 +27,7 @@ import javax.servlet.jsp.JspException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -36,7 +36,7 @@ import javax.servlet.jsp.JspException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class LoginSessionBoxComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = 1710312403838229576L;
@@ -63,10 +63,6 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
 
     @Override
     protected void buildResources() throws InternalErrorException{
-    }
-
-    @Override
-    protected void buildStyle() throws InternalErrorException{
     }
 
     @Override
@@ -119,7 +115,7 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
         UserModel user = (loginSession != null ? loginSession.getUser() : null);
         String name = (user != null ? user.getName() : null);
         
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             LabelComponent loggedAsComponent = new LabelComponent();
             
             loggedAsComponent.setPageContext(this.pageContext);
@@ -151,8 +147,8 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
         LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
         DateTime startDateTime = (loginSession != null ? loginSession.getStartDateTime() : null);
         UserModel user = (loginSession != null ? loginSession.getUser() : null);
-        String fullName = user.getFullName();
-        byte[] logo = user.getLogo();
+        String fullName = (user != null ? user.getFullName() : null);
+        byte[] logo = (user != null ? user.getLogo() : null);
         ImageComponent userLogoComponent = new ImageComponent();
         
         userLogoComponent.setPageContext(this.pageContext);
@@ -231,7 +227,7 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
         String contextPath = getContextPath();
         String actionFormUrl = ModelUtil.getUrlByModel(modelClass);
         
-        if(contextPath == null || contextPath.length() == 0 || actionFormUrl == null || actionFormUrl.length() == 0)
+        if(contextPath == null || contextPath.isEmpty() || actionFormUrl == null || actionFormUrl.isEmpty())
             return;
         
         StringBuilder url = new StringBuilder();

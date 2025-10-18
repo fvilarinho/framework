@@ -20,6 +20,7 @@ import br.com.concepting.framework.util.types.MethodType;
 
 import javax.servlet.jsp.JspException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Class that defines the menu bar component.
@@ -31,7 +32,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -40,7 +41,7 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class MenuBarComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = -1595323252569482926L;
@@ -78,7 +79,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
     protected ActionFormComponent getActionFormComponent() throws InternalErrorException{
         String actionFormName = getActionFormName();
         
-        if(actionFormName == null || actionFormName.length() == 0){
+        if(actionFormName == null || actionFormName.isEmpty()){
             SystemResources systemResources = getSystemResources();
             
             if(systemResources != null){
@@ -109,7 +110,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
         String actionFormName = getActionFormName();
         C objects = null;
         
-        if(actionFormName != null && actionFormName.length() > 0 && securityController != null){
+        if(actionFormName != null && !actionFormName.isEmpty() && securityController != null){
             LoginSessionModel loginSession = securityController.getLoginSession();
             SystemModuleModel systemModule = (loginSession != null ? loginSession.getSystemModule() : null);
             FormModel form = (systemModule != null ? systemModule.getForm(actionFormName) : null);
@@ -152,7 +153,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
     protected void renderMenuItems() throws InternalErrorException{
         List<? extends ObjectModel> menuItems = lookupMenuItems();
         
-        if(menuItems != null && menuItems.size() > 0)
+        if(menuItems != null && !menuItems.isEmpty())
             renderMenuItems(menuItems, null);
     }
     
@@ -167,7 +168,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
         String contextPath = getContextPath();
         SecurityController securityController = getSecurityController();
         
-        if(menuItems == null || menuItems.size() == 0 || contextPath == null || contextPath.length() == 0 || securityController == null)
+        if(menuItems == null || menuItems.isEmpty() || contextPath == null || contextPath.isEmpty() || securityController == null)
             return;
         
         ModelUtil.sort(menuItems, Constants.SEQUENCE_ATTRIBUTE_ID);
@@ -194,7 +195,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
         for(ObjectModel menuItem: menuItems){
             String menuItemName = menuItem.getName();
             
-            if(menuItemName == null || menuItemName.length() == 0)
+            if(menuItemName == null || menuItemName.isEmpty())
                 continue;
             
             ObjectModel parentMenuItem = menuItem.getParent();
@@ -203,7 +204,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
                 boolean hasPermission;
 
                 if(authenticated)
-                    hasPermission = (superUser || user.hasPermission(menuItem));
+                    hasPermission = (superUser || Objects.requireNonNull(user).hasPermission(menuItem));
                 else
                     hasPermission = false;
                 
@@ -245,7 +246,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
                         
                         String menuItemAction = menuItem.getAction();
                         
-                        if(menuItemAction != null && menuItemAction.length() > 0){
+                        if(menuItemAction != null && !menuItemAction.isEmpty()){
                             print(" onClick=\"");
                             
                             if(menuItemAction.toLowerCase().startsWith("javascript:"))
@@ -260,7 +261,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
                                 
                                String  menuItemActionTarget = menuItem.getActionTarget();
                                 
-                                if(menuItemActionTarget != null && menuItemActionTarget.length() > 0){
+                                if(menuItemActionTarget != null && !menuItemActionTarget.isEmpty()){
                                     print(", null, null, null, '");
                                     print(menuItemActionTarget);
                                     print("'");
@@ -280,7 +281,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
                         
                         String menuItemTooltip = menuItem.getDescription();
                         
-                        if(menuItemTooltip == null || menuItemTooltip.length() == 0){
+                        if(menuItemTooltip == null || menuItemTooltip.isEmpty()){
                             if(propertyId == null)
                                 propertyId = new StringBuilder();
                             else
@@ -299,7 +300,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
                                 menuItemTooltip = (defaultResources != null ? defaultResources.getProperty(propertyId.toString(), false) : null);
                         }
                         
-                        if(menuItemTooltip != null && menuItemTooltip.length() > 0){
+                        if(menuItemTooltip != null && !menuItemTooltip.isEmpty()){
                             print(" title=\"");
                             print(menuItemTooltip);
                             print("\"");
@@ -309,7 +310,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
                         
                         String menuItemLabel = menuItem.getTitle();
                         
-                        if(menuItemLabel == null || menuItemLabel.length() == 0){
+                        if(menuItemLabel == null || menuItemLabel.isEmpty()){
                             if(propertyId == null)
                                 propertyId = new StringBuilder();
                             else
@@ -391,7 +392,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
     protected void renderOpen() throws InternalErrorException{
         String name = getName();
         
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             print("<div id=\"");
             print(name);
             print(".");
@@ -411,7 +412,7 @@ public class MenuBarComponent extends BaseActionFormComponent{
     protected void renderClose() throws InternalErrorException{
         String name = getName();
         
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             println("</div>");
             
             if(this.isFixed){

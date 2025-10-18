@@ -12,7 +12,7 @@ import br.com.concepting.framework.util.types.ContentType;
 import javax.servlet.jsp.JspException;
 
 /**
- * Class that defines the maps component.
+ * Class that defines the map component.
  *
  * @author fvilarinho
  * @since 3.5.0
@@ -21,7 +21,7 @@ import javax.servlet.jsp.JspException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ import javax.servlet.jsp.JspException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class MapsComponent extends BasePropertyComponent{
     private static final long serialVersionUID = 6479362456008135703L;
@@ -59,12 +59,12 @@ public class MapsComponent extends BasePropertyComponent{
     protected void buildDimensions() throws InternalErrorException{
         String width = getWidth();
         
-        if(width == null || width.length() == 0)
+        if(width == null || width.isEmpty())
             setWidth(UIConstants.DEFAULT_MAPS_WIDTH);
 
         String height = getHeight();
         
-        if(height == null || height.length() == 0)
+        if(height == null || height.isEmpty())
             setHeight(UIConstants.DEFAULT_MAPS_HEIGHT);
 
         super.buildDimensions();
@@ -87,7 +87,7 @@ public class MapsComponent extends BasePropertyComponent{
     protected void renderBody() throws InternalErrorException{
         String name = getName();
         
-        if(name == null || name.length() == 0)
+        if(name == null || name.isEmpty())
             return;
         
         boolean enabled = isEnabled();
@@ -132,7 +132,7 @@ public class MapsComponent extends BasePropertyComponent{
                 
                 String onChangeAction = getOnChangeAction();
                 
-                if(onChangeAction == null || onChangeAction.length() == 0)
+                if(onChangeAction == null || onChangeAction.isEmpty())
                     onChangeAction = ActionType.REFRESH.getMethod();
                 
                 inputComponent.setOnChangeAction(onChangeAction);
@@ -221,14 +221,14 @@ public class MapsComponent extends BasePropertyComponent{
             valueBuffer.append(UIConstants.MAPS_ZOOM_ATTRIBUTE_ID);
             valueBuffer.append("=");
             
-            if(value == null || value.length() == 0){
+            if(value == null || value.isEmpty()){
                 if(this.zoom == 0)
                     this.zoom = UIConstants.DEFAULT_MAPS_NO_ZOOM;
             }
             else{
                 String actionFormName = getActionFormName();
                 
-                if(actionFormName != null && actionFormName.length() > 0){
+                if(actionFormName != null && !actionFormName.isEmpty()){
                     this.zoom = getUIController().getMapsZoom(actionFormName, getName(), this.zoom);
                     
                     String[] valueParts = StringUtil.split(value);
@@ -246,14 +246,14 @@ public class MapsComponent extends BasePropertyComponent{
             valueBuffer.append("&format=");
             valueBuffer.append(ContentType.PNG.getExtension().substring(1));
             
-            if(width != null && width.length() > 0 && height != null && height.length() > 0){
+            if(width != null && !width.isEmpty() && height != null && !height.isEmpty()){
                 valueBuffer.append("&size=");
                 valueBuffer.append(width);
                 valueBuffer.append("x");
                 valueBuffer.append(height);
             }
             
-            if(value != null && value.length() > 0){
+            if(value != null && !value.isEmpty()){
                 valueBuffer.append("&markers=color:red|label:|");
                 valueBuffer.append(value);
             }

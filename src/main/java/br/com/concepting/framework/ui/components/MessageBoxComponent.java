@@ -41,7 +41,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -50,7 +50,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class MessageBoxComponent extends DialogBoxComponent{
     private static final long serialVersionUID = 6254384099423430512L;
@@ -93,7 +93,7 @@ public class MessageBoxComponent extends DialogBoxComponent{
      * @return Instance that contains the type of the messages.
      */
     protected ActionFormMessageType getMessageType(){
-        if(this.type != null && this.type.length() > 0){
+        if(this.type != null && !this.type.isEmpty()){
             try{
                 return ActionFormMessageType.valueOf(this.type.toUpperCase());
             }
@@ -202,7 +202,7 @@ public class MessageBoxComponent extends DialogBoxComponent{
                     setResourcesKey(resourcesKey.toString());
                 }
                 
-                if(this.exception.getMessage() != null && this.exception.getMessage().length() > 0)
+                if(this.exception.getMessage() != null && !this.exception.getMessage().isEmpty())
                     setMessage(this.exception.getMessage());
             }
         }
@@ -218,7 +218,7 @@ public class MessageBoxComponent extends DialogBoxComponent{
     protected void buildTitle() throws InternalErrorException{
         String title = getTitle();
         
-        if(title == null || title.length() == 0){
+        if(title == null || title.isEmpty()){
             PropertiesResources resources = getResources();
             PropertiesResources defaultResources = getDefaultResources();
             ActionFormMessageType messageType = getMessageType();
@@ -273,7 +273,7 @@ public class MessageBoxComponent extends DialogBoxComponent{
         Locale currentLanguage = getCurrentLanguage();
         String resourcesKey = getResourcesKey();
         
-        if((resourcesKey == null || resourcesKey.length() == 0) && (this.message == null || this.message.length() == 0)){
+        if((resourcesKey == null || resourcesKey.isEmpty()) && (this.message == null || this.message.isEmpty())){
             ActionFormController actionFormController = getActionFormController();
             Collection<ActionFormMessage> actionFormMessages = null;
             ActionFormMessageType messageType = getMessageType();
@@ -301,51 +301,48 @@ public class MessageBoxComponent extends DialogBoxComponent{
                     if(message == null)
                         message = (defaultResources != null ? defaultResources.getProperty(propertyId.toString()) : null);
                     
-                    if(message != null && message.length() > 0){
+                    if(message != null && !message.isEmpty()){
                         message = ExpressionProcessorUtil.fillVariablesInString(domain, message, currentLanguage);
                         message = ActionFormMessageUtil.fillAttributesInString(actionFormMessage, message, currentLanguage);
                         
                         if(this.messages == null)
                             this.messages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
                         
-                        if(!this.messages.contains(message))
+                        if(this.messages != null && !this.messages.contains(message))
                             this.messages.add(message);
                     }
                 }
-                
-                if(actionFormController != null)
-                    actionFormController.clearMessages(messageType);
+
+                actionFormController.clearMessages(messageType);
             }
         }
-        else if(resourcesKey != null && resourcesKey.length() > 0 && (this.message == null || this.message.length() == 0)){
-            if(this.message == null || this.message.length() == 0){
-                PropertiesResources resources = getResources();
-                PropertiesResources defaultResources = getDefaultResources();
-                
-                this.message = (resources != null ? resources.getProperty(resourcesKey, false) : null);
-                
-                if(this.message == null)
-                    this.message = (defaultResources != null ? defaultResources.getProperty(resourcesKey) : null);
-                
-                if(this.message != null && this.message.length() > 0){
-                    this.message = ExpressionProcessorUtil.fillVariablesInString(domain, this.message, currentLanguage);
-                    this.message = PropertyUtil.fillPropertiesInString(this.exception, this.message, currentLanguage);
-                }
+        else if(resourcesKey != null && !resourcesKey.isEmpty() && (this.message == null || this.message.isEmpty())){
+            PropertiesResources resources = getResources();
+            PropertiesResources defaultResources = getDefaultResources();
+
+            this.message = (resources != null ? resources.getProperty(resourcesKey, false) : null);
+
+            if(this.message == null)
+                this.message = (defaultResources != null ? defaultResources.getProperty(resourcesKey) : null);
+
+            if(this.message != null && !this.message.isEmpty()){
+                this.message = ExpressionProcessorUtil.fillVariablesInString(domain, this.message, currentLanguage);
+                this.message = PropertyUtil.fillPropertiesInString(this.exception, this.message, currentLanguage);
             }
         }
         
-        if(this.message != null && this.message.length() > 0){
+        if(this.message != null && !this.message.isEmpty()){
             if(this.messages == null)
                 this.messages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            if(!this.messages.contains(this.message))
+
+            if(this.messages != null && !this.messages.contains(this.message))
                 this.messages.add(this.message);
         }
     }
 
     @Override
     protected void buildPermissions() throws InternalErrorException{
-        setRender(this.exception != null || (this.message != null && this.message.length() > 0) || (this.messages != null && this.messages.size() > 0));
+        setRender(this.exception != null || (this.message != null && !this.message.isEmpty()) || (this.messages != null && !this.messages.isEmpty()));
         
         super.buildPermissions();
     }
@@ -361,13 +358,13 @@ public class MessageBoxComponent extends DialogBoxComponent{
     protected void renderBody() throws InternalErrorException{
         String name = getName();
         
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             print("<table class=\"");
             print(UIConstants.DEFAULT_CONTENT_PANEL_STYLE_CLASS);
             println("\">");
             println("<tr>");
             
-            if(this.type != null && this.type.length() > 0){
+            if(this.type != null && !this.type.isEmpty()){
                 println("<td width=\"10\"></td>");
                 
                 print("<td align=\"");
