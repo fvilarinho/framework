@@ -17,7 +17,7 @@ import javax.servlet.jsp.JspException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -26,7 +26,7 @@ import javax.servlet.jsp.JspException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class CheckPropertyComponent extends BaseOptionPropertyComponent{
     private static final long serialVersionUID = 3956751502801574242L;
@@ -35,7 +35,7 @@ public class CheckPropertyComponent extends BaseOptionPropertyComponent{
     protected void buildEvents() throws InternalErrorException{
         String id = getId();
         
-        if(id != null && id.length() > 0 && isBoolean()){
+        if(id != null && !id.isEmpty() && isBoolean()){
             StringBuilder onClick = new StringBuilder();
             
             onClick.append("setObjectValue('");
@@ -44,7 +44,7 @@ public class CheckPropertyComponent extends BaseOptionPropertyComponent{
             
             String currentOnClick = getOnClick();
             
-            if(currentOnClick != null && currentOnClick.length() > 0){
+            if(currentOnClick != null && !currentOnClick.isEmpty()){
                 onClick.append(" ");
                 onClick.append(currentOnClick);
                 
@@ -63,7 +63,7 @@ public class CheckPropertyComponent extends BaseOptionPropertyComponent{
         String id = getId();
         String name = getName();
         
-        if(id == null && name != null && name.length() > 0){
+        if(id == null && name != null && !name.isEmpty()){
             StringBuilder idBuffer = new StringBuilder();
             
             idBuffer.append(name);
@@ -100,7 +100,7 @@ public class CheckPropertyComponent extends BaseOptionPropertyComponent{
         String name = getName();
         boolean enabled = isEnabled();
         
-        if(optionsPropertyComponent == null && propertyInfo != null && actionFormName != null && actionFormName.length() > 0 && id != null && id.length() > 0 && name != null && name.length() > 0 && enabled){
+        if(optionsPropertyComponent == null && propertyInfo != null && actionFormName != null && !actionFormName.isEmpty() && id != null && !id.isEmpty() && name != null && !name.isEmpty() && enabled){
             HiddenPropertyComponent propertyComponent = new HiddenPropertyComponent();
             
             propertyComponent.setPageContext(this.pageContext);
