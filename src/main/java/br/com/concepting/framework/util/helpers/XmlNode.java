@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class that defines a XML node.
+ * Class that defines an XML node.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class XmlNode extends Node{
     private static final long serialVersionUID = 3468250465462747310L;
@@ -141,9 +141,9 @@ public class XmlNode extends Node{
     }
     
     /**
-     * Builds the attributes mapping.
+     * Builds the attributes' mappings.
      *
-     * @param attributes List that contains the attributes mapping.
+     * @param attributes List that contains the attributes' mappings.
      */
     private void buildAttributes(List<Attribute> attributes){
         if(attributes == null || attributes.isEmpty())
@@ -346,7 +346,7 @@ public class XmlNode extends Node{
     }
     
     /**
-     * Returns the value of an attribute of the node.
+     * Returns the value of a node attribute.
      *
      * @param name String that contains the identifier of the attribute.
      * @return String that contains the value.
@@ -368,8 +368,9 @@ public class XmlNode extends Node{
         if(name != null && !name.isEmpty() && value != null){
             if(this.attributes == null)
                 this.attributes = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-            
-            this.attributes.put(name, value);
+
+            if(this.attributes != null)
+                this.attributes.put(name, value);
         }
     }
 
@@ -383,23 +384,24 @@ public class XmlNode extends Node{
             if(this.attributes == null)
                 this.attributes = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
 
-            this.attributes.remove(name);
+            if(this.attributes != null)
+                this.attributes.remove(name);
         }
     }
     
     /**
-     * Returns the attributes mapping.
+     * Returns the attributes' mappings.
      *
-     * @return Instance that contains the attributes mapping.
+     * @return Instance that contains the attributes' mappings.
      */
     public Map<String, String> getAttributes(){
         return this.attributes;
     }
     
     /**
-     * Defines the attributes mapping.
+     * Defines the attributes' mappings.
      *
-     * @param attributes Instance that contains the attributes mapping.
+     * @param attributes Instance that contains the attributes' mappings.
      */
     public void setAttributes(Map<String, String> attributes){
         this.attributes = attributes;
