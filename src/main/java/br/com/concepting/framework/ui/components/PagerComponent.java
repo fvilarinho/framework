@@ -22,7 +22,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -31,7 +31,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class PagerComponent extends BaseOptionsPropertyComponent{
     private static final long serialVersionUID = 6880028362277325178L;
@@ -176,7 +176,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(uiController == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(uiController == null || actionFormName == null || actionFormName.isEmpty() || name == null || name.isEmpty())
             return;
         
         PagerActionType pagerAction = uiController.getPagerAction(actionFormName, name);
@@ -185,9 +185,9 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         this.currentPage = uiController.getPagerCurrentPage(actionFormName, name);
         
         Collection<? extends BaseModel> datasetValues = getDatasetValues();
-        int mod = ((datasetValues != null && datasetValues.size() > 0 && this.itemsPerPage > 0) ? (datasetValues.size() % this.itemsPerPage) : 0);
+        int mod = ((datasetValues != null && !datasetValues.isEmpty() && this.itemsPerPage > 0) ? (datasetValues.size() % this.itemsPerPage) : 0);
         
-        this.pages = ((datasetValues != null && datasetValues.size() > 0 && this.itemsPerPage > 0) ? (datasetValues.size() / this.itemsPerPage) : 1);
+        this.pages = ((datasetValues != null && !datasetValues.isEmpty() && this.itemsPerPage > 0) ? (datasetValues.size() / this.itemsPerPage) : 1);
         
         if(mod > 0)
             this.pages++;
@@ -213,7 +213,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         int datasetStartIndex = (this.currentPage - 1) * this.itemsPerPage;
         int datasetEndIndex = this.currentPage * this.itemsPerPage;
         
-        if(datasetValues != null && datasetValues.size() > 0)
+        if(datasetValues != null && !datasetValues.isEmpty())
             if(datasetEndIndex > datasetValues.size())
                 datasetEndIndex = datasetValues.size();
         
@@ -257,8 +257,9 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             
             try{
                 PagerComponent pagerComponent = (PagerComponent) this.clone();
-                
-                gridComponent.setPagerComponent(pagerComponent);
+
+                if(gridComponent != null)
+                    gridComponent.setPagerComponent(pagerComponent);
             }
             catch(CloneNotSupportedException e){
                 throw new InternalErrorException(e);
@@ -283,7 +284,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         boolean render = render();
         boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(gridComponent == null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && render && !hasInvalidDefinition){
+        if(gridComponent == null && actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty() && render && !hasInvalidDefinition){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(actionFormName);
@@ -357,7 +358,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
                 
                 print("<table");
                 
-                if(styleClass != null && styleClass.length() > 0){
+                if(styleClass != null && !styleClass.isEmpty()){
                     print(" class=\"");
                     print(styleClass);
                     print("\"");
@@ -365,7 +366,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
                 
                 String style = getStyle();
                 
-                if(style != null && style.length() > 0){
+                if(style != null && !style.isEmpty()){
                     print(" style=\"");
                     print(style);
                     
@@ -544,7 +545,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             String name = pagerComponent.getName();
             int currentPage = pagerComponent.getCurrentPage();
             
-            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage > 1){
+            if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty() && currentPage > 1){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToFirstPage('");
@@ -553,7 +554,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
                 
                 String updateViews = pagerComponent.getUpdateViews();
                 
-                if(updateViews != null && updateViews.length() > 0){
+                if(updateViews != null && !updateViews.isEmpty()){
                     onClick.append("'");
                     onClick.append(updateViews);
                     onClick.append("'");
@@ -629,7 +630,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             String name = pagerComponent.getName();
             int currentPage = pagerComponent.getCurrentPage();
             
-            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage > 1){
+            if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty() && currentPage > 1){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToPreviousPage('");
@@ -638,7 +639,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
                 
                 String updateViews = pagerComponent.getUpdateViews();
                 
-                if(updateViews != null && updateViews.length() > 0){
+                if(updateViews != null && !updateViews.isEmpty()){
                     onClick.append("'");
                     onClick.append(updateViews);
                     onClick.append("'");
@@ -715,7 +716,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             int currentPage = pagerComponent.getCurrentPage();
             int pages = pagerComponent.getPages();
             
-            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage < pages){
+            if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty() && currentPage < pages){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToNextPage('");
@@ -724,7 +725,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
                 
                 String updateViews = pagerComponent.getUpdateViews();
                 
-                if(updateViews != null && updateViews.length() > 0){
+                if(updateViews != null && !updateViews.isEmpty()){
                     onClick.append("'");
                     onClick.append(updateViews);
                     onClick.append("'");
@@ -801,7 +802,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             int currentPage = pagerComponent.getCurrentPage();
             int pages = pagerComponent.getPages();
             
-            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && currentPage < pages){
+            if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty() && currentPage < pages){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToLastPage('");
@@ -810,7 +811,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
                 
                 String updateViews = pagerComponent.getUpdateViews();
                 
-                if(updateViews != null && updateViews.length() > 0){
+                if(updateViews != null && !updateViews.isEmpty()){
                     onClick.append("'");
                     onClick.append(updateViews);
                     onClick.append("'");
@@ -881,7 +882,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
 
             String updateViews = pagerComponent.getUpdateViews();
 
-            if(updateViews != null && updateViews.length() > 0){
+            if(updateViews != null && !updateViews.isEmpty()){
                 onKeyPressContent.append("'");
                 onKeyPressContent.append(updateViews);
                 onKeyPressContent.append("'");
@@ -904,7 +905,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
             String actionFormName = pagerComponent.getActionFormName();
             String name = pagerComponent.getName();
             
-            if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
+            if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty()){
                 StringBuilder nameBuffer = new StringBuilder();
                 
                 nameBuffer.append(actionFormName);

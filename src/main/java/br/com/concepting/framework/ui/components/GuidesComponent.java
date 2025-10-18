@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Class that defines the guides component.
+ * Class that defines the guides' component.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -23,7 +23,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -32,7 +32,7 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class GuidesComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = -4321693551104130259L;
@@ -85,8 +85,9 @@ public class GuidesComponent extends BaseActionFormComponent{
         if(guideContent != null){
             if(this.guidesComponents == null)
                 this.guidesComponents = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.guidesComponents.add(guideContent);
+
+            if(this.guidesComponents != null)
+                this.guidesComponents.add(guideContent);
         }
     }
 
@@ -121,7 +122,7 @@ public class GuidesComponent extends BaseActionFormComponent{
         
         String width = getWidth();
         
-        if(width != null && width.length() > 0){
+        if(width != null && !width.isEmpty()){
             print(" style=\"width: ");
             print(width);
             
@@ -142,8 +143,8 @@ public class GuidesComponent extends BaseActionFormComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         boolean enabled = isEnabled();
-        
-        if(uiController != null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && enabled && this.guidesComponents != null && !this.guidesComponents.isEmpty()){
+
+        if(uiController != null && actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty() && enabled && this.guidesComponents != null && !this.guidesComponents.isEmpty()){
             String currentGuide = uiController.getCurrentGuide(name);
             
             if(this.guidesComponents.size() == 1){
@@ -153,7 +154,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                     currentGuide = iterator.next().getName();
             }
             else if(this.guidesComponents.size() > 1){
-                if(currentGuide == null || currentGuide.length() == 0){
+                if(currentGuide == null || currentGuide.isEmpty()){
                     Iterator<GuideComponent> iterator = this.guidesComponents.iterator();
                     
                     if(iterator.hasNext())
@@ -187,7 +188,7 @@ public class GuidesComponent extends BaseActionFormComponent{
             for(GuideComponent guideComponent: this.guidesComponents){
                 String guideWidth = guideComponent.getWidth();
                 
-                if(guideWidth != null && guideWidth.length() > 0){
+                if(guideWidth != null && !guideWidth.isEmpty()){
                     guideWidthAmount -= Double.parseDouble(guideWidth);
                     
                     guidesSize--;
@@ -231,7 +232,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                 print(AlignmentType.BOTTOM);
                 print("\" width=\"");
                 
-                if(guideWidth != null && guideWidth.length() > 0)
+                if(guideWidth != null && !guideWidth.isEmpty())
                     print(guideWidth);
                 else{
                     print(guideWidthAmount);
@@ -278,28 +279,24 @@ public class GuidesComponent extends BaseActionFormComponent{
                 else
                     print(UIConstants.DEFAULT_GUIDE_STYLE_CLASS);
                 
-                print("\"");
-                
-                if(enabled){
-                    print(" onClick=\"setCurrentGuide('");
-                    print(guideName);
-                    print("', '");
-                    print(name);
-                    print("'");
-                    
-                    String guideOnSelect = guideComponent.getOnSelect();
-                    
-                    if(guideOnSelect != null && guideOnSelect.length() > 0){
-                        print(", ");
-                        print(guideOnSelect);
-                    }
-                    
-                    print(");\"");
+                print("\" onClick=\"setCurrentGuide('");
+                print(guideName);
+                print("', '");
+                print(name);
+                print("'");
+
+                String guideOnSelect = guideComponent.getOnSelect();
+
+                if(guideOnSelect != null && !guideOnSelect.isEmpty()){
+                    print(", ");
+                    print(guideOnSelect);
                 }
-                
+
+                print(");\"");
+
                 String guideTooltip = guideComponent.getTooltip();
                 
-                if(guideTooltip != null && guideTooltip.length() > 0){
+                if(guideTooltip != null && !guideTooltip.isEmpty()){
                     print(" title=\"");
                     print(guideTooltip);
                     print("\"");
@@ -350,7 +347,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                 print(UIConstants.DEFAULT_GUIDE_CONTENT_STYLE_CLASS);
                 print("\"");
                 
-                if(guidesHeight != null && guidesHeight.length() > 0){
+                if(guidesHeight != null && !guidesHeight.isEmpty()){
                     print(" style=\"height: ");
                     print(guidesHeight);
                     
@@ -364,7 +361,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                 println("<tr>");
                 println("<td>");
                 
-                if(guideContent != null && guideContent.length() > 0)
+                if(guideContent != null && !guideContent.isEmpty())
                     println(guideContent);
                 
                 println("</td>");
@@ -378,7 +375,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                         println("\">");
                         println("<hr size=\"1\"/>");
                         
-                        if(cont > 0 && enabled){
+                        if(cont > 0){
                             GuideComponent previousGuideComponent = this.guidesComponents.get(cont - 1);
                             
                             if(previousGuideComponent.isEnabled()){
@@ -394,7 +391,7 @@ public class GuidesComponent extends BaseActionFormComponent{
                             }
                         }
                         
-                        if(cont >= 0 && (cont != guidesSize - 1) && enabled){
+                        if(cont >= 0 && (cont != guidesSize - 1)){
                             GuideComponent nextGuideComponent = this.guidesComponents.get(cont + 1);
                             
                             if(nextGuideComponent.isEnabled()){
@@ -455,7 +452,7 @@ public class GuidesComponent extends BaseActionFormComponent{
          * Constructor - Initializes the component.
          *
          * @param guideComponent Instance that contains the guide component.
-         * @param guidesComponent Instance that contains the guides component.
+         * @param guidesComponent Instance that contains the guides' component.
          */
         public GuideButtonComponent(GuideComponent guideComponent, GuidesComponent guidesComponent){
             super();
@@ -479,9 +476,9 @@ public class GuidesComponent extends BaseActionFormComponent{
         }
         
         /**
-         * Defines the guides component.
+         * Defines the guides' component.
          *
-         * @param guidesComponent instance of the guides component.
+         * @param guidesComponent instance of the guides' component.
          */
         protected void setGuidesComponent(GuidesComponent guidesComponent){
             this.guidesComponent = guidesComponent;
@@ -504,7 +501,7 @@ public class GuidesComponent extends BaseActionFormComponent{
             
             String guideOnSelect = this.guideComponent.getOnSelect();
             
-            if(guideOnSelect != null && guideOnSelect.length() > 0){
+            if(guideOnSelect != null && !guideOnSelect.isEmpty()){
                 onClick.append(", ");
                 onClick.append(guideOnSelect);
             }
@@ -537,7 +534,7 @@ public class GuidesComponent extends BaseActionFormComponent{
          * Constructor - Initializes the component.
          *
          * @param guideComponent Instance that contains the guide component.
-         * @param guidesComponent Instance that contains the guides component.
+         * @param guidesComponent Instance that contains the guides' component.
          */
         public PreviousGuideButtonComponent(GuideComponent guideComponent, GuidesComponent guidesComponent){
             super(guideComponent, guidesComponent);
@@ -572,7 +569,7 @@ public class GuidesComponent extends BaseActionFormComponent{
          * Constructor - Initializes the component.
          *
          * @param guideComponent Instance that contains the guide component.
-         * @param guidesComponent Instance that contains the guides component.
+         * @param guidesComponent Instance that contains the guides' component.
          */
         public NextGuideButtonComponent(GuideComponent guideComponent, GuidesComponent guidesComponent){
             super(guideComponent, guidesComponent);
