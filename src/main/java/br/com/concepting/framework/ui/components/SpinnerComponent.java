@@ -20,7 +20,7 @@ import java.text.DecimalFormatSymbols;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ import java.text.DecimalFormatSymbols;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SpinnerComponent extends TextPropertyComponent{
     private static final long serialVersionUID = 2739899668872823020L;
@@ -152,7 +152,7 @@ public class SpinnerComponent extends TextPropertyComponent{
     }
     
     /**
-     * Class that defines the add button of the component.
+     * Class that defines the add button component.
      *
      * @author fvilarinho
      * @since 3.0.0
@@ -190,7 +190,7 @@ public class SpinnerComponent extends TextPropertyComponent{
             SpinnerComponent spinnerComponent = (SpinnerComponent) getParent();
             String name = (spinnerComponent != null ? spinnerComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 Number minimumValue = spinnerComponent.getMinimumValue();
                 Number maximumValue = spinnerComponent.getMaximumValue();
                 int step = spinnerComponent.getStep();
@@ -240,7 +240,7 @@ public class SpinnerComponent extends TextPropertyComponent{
     }
     
     /**
-     * Class that defines the subtract button of the component.
+     * Class that defines the subtract button component.
      *
      * @author fvilarinho
      * @since 3.0.0
@@ -278,7 +278,7 @@ public class SpinnerComponent extends TextPropertyComponent{
             SpinnerComponent spinnerComponent = (SpinnerComponent) getParent();
             String name = (spinnerComponent != null ? spinnerComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 Number minimumValue = spinnerComponent.getMinimumValue();
                 Number maximumValue = spinnerComponent.getMaximumValue();
                 int step = spinnerComponent.getStep();
