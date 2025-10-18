@@ -19,7 +19,7 @@ import java.io.IOException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import java.io.IOException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ImageComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -3933038010029461283L;
@@ -37,7 +37,7 @@ public class ImageComponent extends BasePropertyComponent{
     protected void buildRestrictions() throws InternalErrorException{
         String name = getName();
         
-        if(name == null || name.length() == 0 || getPropertyInfo() == null)
+        if(name == null || name.isEmpty() || getPropertyInfo() == null)
             setShowLabel(false);
         
         super.buildRestrictions();
@@ -56,7 +56,7 @@ public class ImageComponent extends BasePropertyComponent{
         String contextPath = getContextPath();
         String currentSkin = getCurrentSkin();
         
-        if(contextPath == null || contextPath.length() == 0 || currentSkin == null || currentSkin.length() == 0)
+        if(contextPath == null || contextPath.isEmpty() || currentSkin == null || currentSkin.isEmpty())
             return;
         
         super.renderAttributes();

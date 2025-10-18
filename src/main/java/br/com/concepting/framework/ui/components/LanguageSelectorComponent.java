@@ -26,7 +26,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -35,7 +35,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class LanguageSelectorComponent extends ListPropertyComponent{
     private static final long serialVersionUID = -3260096810965124526L;
@@ -63,7 +63,7 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
     protected void buildName() throws InternalErrorException{
         String name = getName();
         
-        if(name == null || name.length() == 0)
+        if(name == null || name.isEmpty())
             setName(SystemConstants.CURRENT_LANGUAGE_ATTRIBUTE_ID);
         
         super.buildName();
@@ -81,7 +81,7 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
                     String contextPath = getContextPath();
                     String actionFormUrl = ModelUtil.getUrlByModel(modelClass);
                     
-                    if(contextPath != null && contextPath.length() > 0 && actionFormUrl != null && actionFormUrl.length() > 0){
+                    if(contextPath != null && !contextPath.isEmpty() && actionFormUrl != null && !actionFormUrl.isEmpty()){
                         StringBuilder url = new StringBuilder();
                         
                         url.append(contextPath);
@@ -127,15 +127,16 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
             if(availableLanguages != null && !availableLanguages.isEmpty()) {
                 Collection<String> languages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-                for (Locale availableLanguage : availableLanguages)
-                    languages.add(availableLanguage.toString());
+                if(languages != null)
+                    for (Locale availableLanguage : availableLanguages)
+                        languages.add(availableLanguage.toString());
 
                 setDatasetValues(languages);
             }
                 
             String name = getName();
 
-            if(name == null || name.length() == 0){
+            if(name == null || name.isEmpty()){
                 Locale currentLanguage = getCurrentLanguage();
 
                 if(currentLanguage != null)
