@@ -39,7 +39,7 @@ import java.util.Map;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -48,7 +48,7 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class Mq{
     private static final ObjectMapper propertyMapper = PropertyUtil.getMapper();
@@ -116,16 +116,20 @@ public class Mq{
     public static Mq getInstance(MqResources resources) throws InternalErrorException{
         if(instances == null)
             instances = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        Mq instance = instances.get(resources.getId());
-        
-        if(instance == null){
-            instance = new Mq(resources);
-            
-            instances.put(resources.getId(), instance);
+
+        if(instances != null) {
+            Mq instance = instances.get(resources.getId());
+
+            if (instance == null) {
+                instance = new Mq(resources);
+
+                instances.put(resources.getId(), instance);
+            }
+
+            return instance;
         }
-        
-        return instance;
+
+        return null;
     }
     
     /**
@@ -161,7 +165,7 @@ public class Mq{
             
             ActiveMQConnectionFactory connectionFactory;
             
-            if(this.resources.getUserName() != null && this.resources.getUserName().length() > 0)
+            if(this.resources.getUserName() != null && !this.resources.getUserName().isEmpty())
                 connectionFactory = new ActiveMQConnectionFactory(this.resources.getUserName(), this.resources.getPassword(), connectorUri.toString());
             else
                 connectionFactory = new ActiveMQConnectionFactory(connectorUri.toString());
@@ -189,7 +193,7 @@ public class Mq{
                     MessageConsumer messageConsumer = this.session.createConsumer(messageQueue);
                     String listenerClassName = queue.getListenerClass();
                     
-                    if(listenerClassName != null && listenerClassName.length() > 0){
+                    if(listenerClassName != null && !listenerClassName.isEmpty()){
                         Class<? extends MqListener> listenerClass = (Class<? extends MqListener>) Class.forName(listenerClassName);
                         MqListener listener = ConstructorUtils.invokeConstructor(listenerClass, null);
                         
@@ -383,17 +387,17 @@ public class Mq{
         }
         catch(Throwable ignored){
         }
-        
+
         try{
             this.session.close();
         }
         catch(Throwable ignored){
         }
-        
-        try{
+
+        try {
             this.service.stop();
         }
-        catch(Throwable ignored){
+        catch (Throwable ignored) {
         }
     }
 }

@@ -23,7 +23,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -32,7 +32,7 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
     /**
@@ -66,7 +66,7 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
         if(serverNameNode != null){
             String serverName = serverNameNode.getValue();
             
-            if(serverName == null || serverName.length() == 0)
+            if(serverName == null || serverName.isEmpty())
                 throw new InvalidResourcesException(resourcesDirname, resourcesId, serverNameNode.getText());
             
             resources.setServerName(serverName);
@@ -77,7 +77,7 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
         XmlNode serverPortNode = resourcesNode.getNode(NetworkConstants.SERVER_PORT_ATTRIBUTE_ID);
         
         if(serverPortNode != null){
-            if(serverPortNode.getValue() == null || serverPortNode.getValue().length() == 0)
+            if(serverPortNode.getValue() == null || serverPortNode.getValue().isEmpty())
                 throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText());
             
             try{
@@ -97,7 +97,7 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
         if(userNameNode != null){
             String userName = userNameNode.getValue();
             
-            if(userName != null && userName.length() > 0){
+            if(userName != null && !userName.isEmpty()){
                 userName = ExpressionProcessorUtil.fillEnvironmentInString(userName);
                 
                 resources.setUserName(userName);
@@ -109,7 +109,7 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
         if(passwordNode != null){
             String password = passwordNode.getValue();
             
-            if(password != null && password.length() > 0){
+            if(password != null && !password.isEmpty()){
                 password = ExpressionProcessorUtil.fillEnvironmentInString(password);
                 
                 resources.setPassword(password);
@@ -125,7 +125,7 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
                 for(XmlNode queueNode: queuesNodeList){
                     String queueId = queueNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
                     
-                    if(queueId == null || queueId.length() == 0)
+                    if(queueId == null || queueId.isEmpty())
                         throw new InvalidResourcesException(resourcesDirname, resourcesId, queueNode.getText());
                     
                     MqResources.MqQueue queue = new MqResources.MqQueue();
@@ -134,7 +134,7 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
                     
                     String queueListenerClass = queueNode.getAttribute(MqConstants.LISTENER_CLASS_ATTRIBUTE_ID);
                     
-                    if(queueListenerClass != null && queueListenerClass.length() > 0)
+                    if(queueListenerClass != null && !queueListenerClass.isEmpty())
                         queue.setListenerClass(queueListenerClass);
                     
                     resources.addQueue(queue);
@@ -148,7 +148,11 @@ public class MqResourcesLoader extends NetworkResourcesLoader<MqResources>{
     @Override
     protected XmlNode parseContent() throws InvalidResourcesException{
         XmlNode contentNode = super.parseContent();
-        XmlNode resourcesNode = (contentNode != null ? contentNode.getNode(MqConstants.DEFAULT_ID) : null);
+
+        if(contentNode == null)
+            throw new InvalidResourcesException(getResourcesDirname(), getResourcesId());
+
+        XmlNode resourcesNode = contentNode.getNode(MqConstants.DEFAULT_ID);
         
         if(resourcesNode == null)
             throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), contentNode.getText());

@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- * Class responsible to storage the MQ resources.
+ * Class responsible for storage the MQ resources.
  *
  * @author fvilarinho
  * @since 3.5.0
@@ -19,7 +19,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class MqResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = 3052749946121399692L;
@@ -102,8 +102,9 @@ public class MqResources extends BaseResources<XmlNode>{
         if(queue != null){
             if(this.queues == null)
                 this.queues = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.queues.add(queue);
+
+            if(this.queues != null)
+                this.queues.add(queue);
         }
     }
     
