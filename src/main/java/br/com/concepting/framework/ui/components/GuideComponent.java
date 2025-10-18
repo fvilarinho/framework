@@ -17,7 +17,7 @@ import javax.servlet.jsp.tagext.BodyContent;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -26,7 +26,7 @@ import javax.servlet.jsp.tagext.BodyContent;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class GuideComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = 6950682512939115664L;
@@ -40,7 +40,7 @@ public class GuideComponent extends BaseActionFormComponent{
     private String content = null;
     
     /**
-     * Returns the identifier of the action of the select event.
+     * Returns the identifier of the select action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -49,7 +49,7 @@ public class GuideComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action of the select event.
+     * Defines the identifier of the select action.
      *
      * @param onSelectAction String that contains the identifier of the action.
      */
@@ -204,7 +204,7 @@ public class GuideComponent extends BaseActionFormComponent{
         if(guidesComponent != null){
             String resourcesId = getResourcesId();
             
-            if(resourcesId == null || resourcesId.length() == 0){
+            if(resourcesId == null || resourcesId.isEmpty()){
                 resourcesId = guidesComponent.getResourcesId();
                 
                 setResourcesId(resourcesId);
@@ -250,7 +250,7 @@ public class GuideComponent extends BaseActionFormComponent{
                     BodyContent bodyContent = guideComponent.getBodyContent();
                     String guideContent = guideComponent.getContent();
                     
-                    if(bodyContent != null && (guideContent == null || guideContent.length() == 0)){
+                    if(bodyContent != null && (guideContent == null || guideContent.isEmpty())){
                         guideContent = bodyContent.getString();
                         
                         guideComponent.setContent(guideContent);
