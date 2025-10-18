@@ -25,7 +25,7 @@ import java.util.Objects;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -34,7 +34,7 @@ import java.util.Objects;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class AccordionComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = 1642597166746306289L;
@@ -117,8 +117,9 @@ public class AccordionComponent extends BaseActionFormComponent{
         if(sectionComponent != null){
             if(this.sectionsComponents == null)
                 this.sectionsComponents = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.sectionsComponents.add(sectionComponent);
+
+            if(this.sectionsComponents != null)
+                this.sectionsComponents.add(sectionComponent);
         }
     }
 
@@ -155,7 +156,7 @@ public class AccordionComponent extends BaseActionFormComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(uiController == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(uiController == null || actionFormName == null || actionFormName.isEmpty() || name == null || name.isEmpty())
             return;
         
         this.currentSections = uiController.getCurrentSections(name);
@@ -168,58 +169,58 @@ public class AccordionComponent extends BaseActionFormComponent{
                 this.currentSections = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
             else
                 this.currentSections.clear();
-            
-            this.currentSections.add(sectionName);
+
+            if(this.currentSections != null)
+                this.currentSections.add(sectionName);
         }
         else if(this.sectionsComponents != null && this.sectionsComponents.size() > 1){
-            if(this.currentSections != null && !this.currentSections.isEmpty()){
-                for(int cont = 0; cont < this.currentSections.size(); cont++){
-                    String currentSectionName = this.currentSections.get(cont);
-                    boolean found = false;
-                    
-                    for(SectionComponent sectionComponent: this.sectionsComponents){
-                        String sectionName = sectionComponent.getName();
-                        
-                        if(currentSectionName.equals(sectionName)){
-                            found = true;
-                            
-                            break;
-                        }
-                    }
-                    
-                    if(!found){
-                        if(this.currentSections != null && this.currentSections.size() > 0)
-                            this.currentSections.remove(cont);
-                        
-                        cont--;
+            for (int cont = 0; cont < Objects.requireNonNull(this.currentSections).size(); cont++) {
+                String currentSectionName = this.currentSections.get(cont);
+                boolean found = false;
+
+                for (SectionComponent sectionComponent : this.sectionsComponents) {
+                    String sectionName = sectionComponent.getName();
+
+                    if (currentSectionName.equals(sectionName)) {
+                        found = true;
+
+                        break;
                     }
                 }
+
+                if (!found) {
+                    if (this.currentSections != null && !this.currentSections.isEmpty())
+                        this.currentSections.remove(cont);
+
+                    cont--;
+                }
             }
-            
+
             String lastSectionName = null;
             
             if(this.sectionsComponents != null && !this.sectionsComponents.isEmpty()){
                 for(SectionComponent sectionComponent: this.sectionsComponents){
                     String sectionName = sectionComponent.getName();
                     
-                    if(sectionComponent.focus() || (sectionName != null && this.currentSections != null && this.currentSections.size() > 0 && this.currentSections.contains(sectionName)))
+                    if(sectionComponent.focus() || (sectionName != null && this.currentSections != null && !this.currentSections.isEmpty() && this.currentSections.contains(sectionName)))
                         lastSectionName = sectionName;
                 }
                 
                 for(SectionComponent sectionComponent: this.sectionsComponents){
                     String sectionName = sectionComponent.getName();
                     
-                    if(((sectionComponent.focus() || (sectionName != null && sectionName.length() > 0 && this.currentSections != null && this.currentSections.size() > 0 && this.currentSections.contains(sectionName))) && this.multipleSelection) || (lastSectionName != null && lastSectionName.equals(sectionName))){
+                    if(((sectionComponent.focus() || (sectionName != null && !sectionName.isEmpty() && this.currentSections != null && !this.currentSections.isEmpty() && this.currentSections.contains(sectionName))) && this.multipleSelection) || (lastSectionName != null && lastSectionName.equals(sectionName))){
                         if(this.currentSections == null)
                             this.currentSections = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                        
-                        this.currentSections.add(sectionName);
+
+                        if(this.currentSections != null)
+                            this.currentSections.add(sectionName);
                     }
                     else{
                         String currentSectionStyle = sectionComponent.getStyle();
                         StringBuilder sectionStyle = new StringBuilder();
                         
-                        if(currentSectionStyle != null && currentSectionStyle.length() > 0){
+                        if(currentSectionStyle != null && !currentSectionStyle.isEmpty()){
                             sectionStyle.append(currentSectionStyle);
                             
                             if(!currentSectionStyle.endsWith(";"))
@@ -259,7 +260,7 @@ public class AccordionComponent extends BaseActionFormComponent{
                 for(SectionComponent sectionComponent: this.sectionsComponents){
                     String sectionName = sectionComponent.getName();
                     
-                    if(sectionName != null && sectionName.length() > 0)
+                    if(sectionName != null && !sectionName.isEmpty() && sections != null)
                         sections.add(sectionName);
                 }
             }
@@ -301,7 +302,7 @@ public class AccordionComponent extends BaseActionFormComponent{
             currentSectionPropertyComponent.setActionFormName(actionFormName);
             currentSectionPropertyComponent.setName(nameBuffer.toString());
             
-            if(this.currentSections != null && this.currentSections.size() > 0)
+            if(this.currentSections != null && !this.currentSections.isEmpty())
                 currentSectionPropertyComponent.setValue(this.currentSections.iterator().next());
             
             try{
@@ -317,7 +318,7 @@ public class AccordionComponent extends BaseActionFormComponent{
         
         print("<table");
         
-        if(styleClass != null && styleClass.length() > 0){
+        if(styleClass != null && !styleClass.isEmpty()){
             print(" class=\"");
             print(styleClass);
             print("\"");
@@ -325,7 +326,7 @@ public class AccordionComponent extends BaseActionFormComponent{
         
         String style = getStyle();
         
-        if(style != null && style.length() > 0){
+        if(style != null && !style.isEmpty()){
             print(" style=\"");
             print(style);
             
@@ -389,7 +390,7 @@ public class AccordionComponent extends BaseActionFormComponent{
         String name = getName();
         String sectionName = (sectionComponent != null ? sectionComponent.getName() : null);
         
-        if(actionFormName != null && actionFormName.length() > 0 && id != null && id.length() > 0 && name != null && name.length() > 0 && sectionName != null && sectionName.length() > 0){
+        if(actionFormName != null && !actionFormName.isEmpty() && id != null && !id.isEmpty() && name != null && !name.isEmpty() && sectionName != null && !sectionName.isEmpty()){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(sectionName);
@@ -425,7 +426,7 @@ public class AccordionComponent extends BaseActionFormComponent{
                 print(StringUtil.capitalize(UIConstants.DEFAULT_SECTION_HEADER_STYLE_CLASS));
             }
             else if(index == this.sectionsComponents.size() - 1){
-                boolean isCurrentSection = (this.currentSections != null && this.currentSections.size() > 0 && this.currentSections.contains(sectionName));
+                boolean isCurrentSection = (this.currentSections != null && !this.currentSections.isEmpty() && this.currentSections.contains(sectionName));
                 
                 if(!isCurrentSection){
                     print("last");
@@ -446,21 +447,21 @@ public class AccordionComponent extends BaseActionFormComponent{
             print("', '");
             print(name);
             print("', ");
-            print(Objects.requireNonNullElse(this.multipleSelection, Boolean.FALSE));
+            print(this.multipleSelection);
             
             String onSelect = sectionComponent.getOnSelect();
             String onUnSelect = sectionComponent.getOnUnSelect();
             
-            if(onSelect != null && onSelect.length() > 0){
+            if(onSelect != null && !onSelect.isEmpty()){
                 print(", function(){");
                 print(onSelect);
                 print("}");
             }
             
-            if(onUnSelect != null && onUnSelect.length() > 0){
+            if(onUnSelect != null && !onUnSelect.isEmpty()){
                 print(", ");
-                
-                if(onSelect.length() == 0){
+
+                if(onSelect != null && onSelect.isEmpty()){
                     print(Constants.DEFAULT_NULL_ID);
                     print(", ");
                 }
@@ -474,7 +475,7 @@ public class AccordionComponent extends BaseActionFormComponent{
             
             String labelStyle = sectionComponent.getLabelStyle();
             
-            if(labelStyle != null && labelStyle.length() > 0){
+            if(labelStyle != null && !labelStyle.isEmpty()){
                 print(" style=\"");
                 print(labelStyle);
                 
@@ -486,7 +487,7 @@ public class AccordionComponent extends BaseActionFormComponent{
             
             String tooltip = sectionComponent.getTooltip();
             
-            if(tooltip != null && tooltip.length() > 0){
+            if(tooltip != null && !tooltip.isEmpty()){
                 print(" title=\"");
                 print(tooltip);
                 print("\"");
@@ -496,7 +497,7 @@ public class AccordionComponent extends BaseActionFormComponent{
             
             String label = sectionComponent.getLabel();
             
-            if(label != null && label.length() > 0)
+            if(label != null && !label.isEmpty())
                 println(label);
             
             println("</div>");
@@ -518,7 +519,7 @@ public class AccordionComponent extends BaseActionFormComponent{
         String name = getName();
         String sectionName = sectionComponent.getName();
         
-        if(name == null || name.length() == 0 || sectionName == null || sectionName.length() == 0)
+        if(name == null || name.isEmpty() || sectionName == null || sectionName.isEmpty())
             return;
         
         print("<div id=\"");
@@ -544,7 +545,7 @@ public class AccordionComponent extends BaseActionFormComponent{
         
         String style = sectionComponent.getStyle();
         
-        if(style != null && style.length() > 0){
+        if(style != null && !style.isEmpty()){
             print(" style=\"");
             print(style);
             
@@ -558,7 +559,7 @@ public class AccordionComponent extends BaseActionFormComponent{
         
         String content = sectionComponent.getContent();
         
-        if(content != null && content.length() > 0)
+        if(content != null && !content.isEmpty())
             println(content);
         
         println("</div>");
