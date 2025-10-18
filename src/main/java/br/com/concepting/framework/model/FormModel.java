@@ -21,7 +21,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @Model
 public class FormModel extends BaseModel{
@@ -94,7 +94,7 @@ public class FormModel extends BaseModel{
     /**
      * Returns the name of the form.
      *
-     * @return String that contains name of the form.
+     * @return String that contains the name of the form.
      */
     public String getName(){
         return this.name;
@@ -103,25 +103,25 @@ public class FormModel extends BaseModel{
     /**
      * Defines the name of the form.
      *
-     * @param name String that contains name of the form.
+     * @param name String that contains the name of the form.
      */
     public void setName(String name){
         this.name = name;
     }
     
     /**
-     * Returns the list of objects of the form.
+     * Returns the list of the form objects.
      *
-     * @return Instance that contains the list of objects of the form.
+     * @return Instance that contains the list of the form objects.
      */
     public Collection<? extends ObjectModel> getObjects(){
         return this.objects;
     }
     
     /**
-     * Defines the list of objects of the form.
+     * Defines the list of the form objects.
      *
-     * @param objects Instance that contains the list of objects of the form.
+     * @param objects Instance that contains the list of the form objects.
      */
     public void setObjects(Collection<? extends ObjectModel> objects){
         this.objects = objects;
@@ -131,7 +131,7 @@ public class FormModel extends BaseModel{
      * Returns the instance that contains the attributes of the system.
      *
      * @param <S> Class that define the system module data model.
-     * @return Instance that contains that attributes of the system.
+     * @return Instance that contains the attributes of the system.
      */
     @SuppressWarnings("unchecked")
     public <S extends SystemModuleModel> S getSystemModule(){
@@ -141,7 +141,7 @@ public class FormModel extends BaseModel{
     /**
      * Defines the instance that contains the attributes of the system.
      *
-     * @param systemModule Instance that contains that attributes of the system.
+     * @param systemModule Instance that contains the attributes of the system.
      */
     public void setSystemModule(SystemModuleModel systemModule){
         this.systemModule = systemModule;
@@ -166,7 +166,7 @@ public class FormModel extends BaseModel{
     }
     
     /**
-     * Returns the instance of an object of the form.
+     * Returns the instance of a form object.
      *
      * @param objectName String that contains the identifier of the object.
      * @return Instance that contains the object.

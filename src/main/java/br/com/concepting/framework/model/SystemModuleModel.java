@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Class that defines the basic implementation of the data model of a system.
+ * Class that defines the basic implementation of the system data model.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -24,7 +24,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -33,7 +33,7 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @Auditable
 @Model
@@ -81,7 +81,7 @@ public class SystemModuleModel extends BaseModel{
     private Collection<? extends UrlModel> exclusionUrls = null;
     
     /**
-     * Returns the exclusions URLs.
+     * Returns all exclusion URLs.
      *
      * @return List that contains the URLs.
      */
@@ -90,7 +90,7 @@ public class SystemModuleModel extends BaseModel{
     }
     
     /**
-     * Defines the exclusions URLs.
+     * Defines All exclusion URLs.
      *
      * @param exclusionUrls List that contains the URLs.
      */
@@ -221,18 +221,18 @@ public class SystemModuleModel extends BaseModel{
     }
     
     /**
-     * Returns the list of forms of the system.
+     * Returns the list of the system forms.
      *
-     * @return List that contains the forms of the system.
+     * @return List that contains the system forms.
      */
     public Collection<? extends FormModel> getForms(){
         return this.forms;
     }
     
     /**
-     * Defines the list of forms of the system.
+     * Defines the list of the system forms.
      *
-     * @param forms List that contains the forms of the system.
+     * @param forms List that contains the system forms.
      */
     public void setForms(Collection<? extends FormModel> forms){
         this.forms = forms;

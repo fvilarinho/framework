@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ModelUtil{
     private static final ObjectMapper propertyMapper = PropertyUtil.getMapper();
@@ -87,7 +87,7 @@ public class ModelUtil{
      * operation.
      */
     public static <M extends BaseModel> M fromIdentifierString(String value) throws IOException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
-        if(value != null && value.length() > 0){
+        if(value != null && !value.isEmpty()){
             try (ByteArrayInputStream in = new ByteArrayInputStream(ByteUtil.fromBase64(value))){
                 return fromIdentifierMap(propertyMapper.readValue(in, new TypeReference<>(){}));
             }
@@ -119,7 +119,7 @@ public class ModelUtil{
      */
     @SuppressWarnings("unchecked")
     private static <M extends BaseModel> M fromIdentifierMap(Map<String, Object> map) throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
-        if(map == null || map.size() == 0)
+        if(map == null || map.isEmpty())
             return null;
         
         Class<M> modelClass = (Class<M>) Class.forName(map.get(Constants.CLASS_ATTRIBUTE_ID).toString());
@@ -193,8 +193,9 @@ public class ModelUtil{
                 if(value != null){
                     if(map == null)
                         map = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-                    
-                    map.put(auditablePropertyInfo.getId(), value);
+
+                    if(map != null)
+                        map.put(auditablePropertyInfo.getId(), value);
                 }
             }
         }
@@ -203,7 +204,7 @@ public class ModelUtil{
     }
     
     /**
-     * Generates an identifier for a auditable data model.
+     * Generates an identifier for an auditable data model.
      *
      * @param <M> Class that defines the data model.
      * @param model Instance that contains the data model.
@@ -260,8 +261,9 @@ public class ModelUtil{
         
         Class<M> modelClass = (Class<M>) model.getClass();
         Map<String, Object> map = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        map.put(Constants.CLASS_ATTRIBUTE_ID, modelClass.getName());
+
+        if(map != null)
+            map.put(Constants.CLASS_ATTRIBUTE_ID, modelClass.getName());
         
         ModelInfo modelInfo = ModelUtil.getInfo(model.getClass());
         Collection<PropertyInfo> identityPropertiesInfo = modelInfo.getIdentityPropertiesInfo();
@@ -277,7 +279,8 @@ public class ModelUtil{
                     value = generateIdentifierMap((M) value);
                 
                 if(value != null)
-                    map.put(identityPropertyInfo.getId(), value);
+                    if(map != null)
+                        map.put(identityPropertyInfo.getId(), value);
             }
         }
         
@@ -294,7 +297,8 @@ public class ModelUtil{
                     value = generateIdentifierMap((M) value);
                 
                 if(value != null)
-                    map.put(uniquePropertyInfo.getId(), value);
+                    if(map != null)
+                        map.put(uniquePropertyInfo.getId(), value);
             }
         }
         
@@ -311,7 +315,8 @@ public class ModelUtil{
                     value = generateIdentifierMap((M) value);
                 
                 if(value != null)
-                    map.put(serializablePropertyInfo.getId(), value);
+                    if(map != null)
+                        map.put(serializablePropertyInfo.getId(), value);
             }
         }
         
@@ -403,12 +408,12 @@ public class ModelUtil{
             modelInfo.setUi(modelAnnotation.ui());
             modelInfo.setTemplateId(modelAnnotation.templateId());
             modelInfo.setActionFormValidatorClass(modelAnnotation.actionFormValidatorClass());
-            modelInfo.setGenerateUi((modelAnnotation.ui() != null && modelAnnotation.ui().length() > 0));
+            modelInfo.setGenerateUi((modelAnnotation.ui() != null && !modelAnnotation.ui().isEmpty()));
 
             if(modelAnnotation.generatePersistence())
                 modelInfo.setGeneratePersistence(true);
             else
-                modelInfo.setGeneratePersistence(modelAnnotation.mappedRepositoryId() != null && modelAnnotation.mappedRepositoryId().length() > 0);
+                modelInfo.setGeneratePersistence(modelAnnotation.mappedRepositoryId() != null && !modelAnnotation.mappedRepositoryId().isEmpty());
             
             if(modelInfo.generateUi() || modelInfo.generatePersistence())
                 modelInfo.setGenerateService(true);
@@ -421,38 +426,38 @@ public class ModelUtil{
                 modelAnnotation = superClass.getAnnotation(Model.class);
                 
                 if(modelAnnotation != null){
-                    if(modelInfo.getMappedRepositoryId() == null || modelInfo.getMappedRepositoryId().length() == 0)
+                    if(modelInfo.getMappedRepositoryId() == null || modelInfo.getMappedRepositoryId().isEmpty())
                         modelInfo.setMappedRepositoryId(modelAnnotation.mappedRepositoryId());
                     
                     if(!modelInfo.getCacheable())
                         modelInfo.setCacheable(modelAnnotation.cacheable());
                     
-                    if(modelInfo.getDescriptionPattern() == null || modelInfo.getDescriptionPattern().length() == 0)
+                    if(modelInfo.getDescriptionPattern() == null || modelInfo.getDescriptionPattern().isEmpty())
                         modelInfo.setDescriptionPattern(modelAnnotation.descriptionPattern());
                     
-                    if(modelInfo.getUi() == null || modelInfo.getUi().length() == 0)
+                    if(modelInfo.getUi() == null || modelInfo.getUi().isEmpty())
                         modelInfo.setUi(modelAnnotation.ui());
                     
-                    if(modelInfo.getTemplateId() == null || modelInfo.getTemplateId().length() == 0)
+                    if(modelInfo.getTemplateId() == null || modelInfo.getTemplateId().isEmpty())
                         modelInfo.setTemplateId(modelAnnotation.templateId());
                     
                     if(modelInfo.getActionFormValidatorClass() == null || modelInfo.getActionFormValidatorClass().equals(ActionFormValidator.class))
                         modelInfo.setActionFormValidatorClass(modelAnnotation.actionFormValidatorClass());
                     
                     if(!modelInfo.getGenerateUi())
-                        modelInfo.setGenerateUi(modelAnnotation.ui() != null && modelAnnotation.ui().length() > 0);
+                        modelInfo.setGenerateUi(modelAnnotation.ui() != null && !modelAnnotation.ui().isEmpty());
 
                     if(!modelInfo.getGenerateService())
-                        modelInfo.setGenerateService((modelAnnotation.ui() != null && modelAnnotation.ui().length() > 0) || (modelAnnotation.mappedRepositoryId() != null && modelAnnotation.mappedRepositoryId().length() > 0) || modelAnnotation.generateService());
+                        modelInfo.setGenerateService((modelAnnotation.ui() != null && !modelAnnotation.ui().isEmpty()) || (modelAnnotation.mappedRepositoryId() != null && !modelAnnotation.mappedRepositoryId().isEmpty()) || modelAnnotation.generateService());
                     
                     if(!modelInfo.getGeneratePersistence())
-                        modelInfo.setGeneratePersistence(modelAnnotation.mappedRepositoryId() != null && modelAnnotation.mappedRepositoryId().length() > 0);
+                        modelInfo.setGeneratePersistence(modelAnnotation.mappedRepositoryId() != null && !modelAnnotation.mappedRepositoryId().isEmpty());
                 }
                 
                 superClass = superClass.getSuperclass();
             }
             
-            if(modelInfo.getTemplateId().length() == 0)
+            if(modelInfo.getTemplateId().isEmpty())
                 modelInfo.setTemplateId(Constants.DEFAULT_ATTRIBUTE_ID);
             
             modelInfo.setPropertiesInfo(PropertyUtil.getInfos(modelClass));
@@ -491,7 +496,7 @@ public class ModelUtil{
      * operation.
      */
     public static <M extends BaseModel> List<M> subList(List<M> list, String propertyId, Object propertyValue) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException{
-        if(list == null || propertyId == null || propertyId.length() == 0)
+        if(list == null || propertyId == null || propertyId.isEmpty())
             return null;
 
         return list.parallelStream().filter(i -> {
@@ -581,7 +586,7 @@ public class ModelUtil{
      */
     public static <M extends BaseModel> void sort(List<M> list, String sortPropertyId, SortOrderType sortOrder) throws ClassCastException, IllegalArgumentException, UnsupportedOperationException{
         if(list != null && !list.isEmpty()){
-            if(sortPropertyId != null && sortPropertyId.length() > 0)
+            if(sortPropertyId != null && !sortPropertyId.isEmpty())
                 for(BaseModel item: list)
                     item.setSortPropertyId(sortPropertyId);
             
@@ -642,7 +647,7 @@ public class ModelUtil{
      * operation.
      */
     public static <M extends BaseModel> List<M> aggregateAndSort(List<M> list, String[] propertiesIds, String sortPropertyId, SortOrderType sortOrder) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassCastException, IllegalArgumentException, UnsupportedEncodingException{
-        if(list == null || list.size() == 0 || propertiesIds == null || propertiesIds.length == 0)
+        if(list == null || list.isEmpty() || propertiesIds == null || propertiesIds.length == 0)
             return null;
         
         List<M> resultList = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
@@ -664,14 +669,15 @@ public class ModelUtil{
                     }
 
                     if (bufferSubList != null && !bufferSubList.isEmpty()) {
-                        if (sortPropertyId != null && sortPropertyId.length() > 0) {
+                        if (sortPropertyId != null && !sortPropertyId.isEmpty()) {
                             if (sortOrder == null)
                                 sortOrder = SortOrderType.ASCEND;
 
                             sort(bufferSubList, sortPropertyId, sortOrder);
                         }
 
-                        resultList.addAll(bufferSubList);
+                        if(resultList != null)
+                            resultList.addAll(bufferSubList);
 
                         cont += bufferSubList.size() - 1;
                     }
@@ -689,7 +695,7 @@ public class ModelUtil{
      * @param <M> Class that defines the data model.
      * @param <C> Class that defines the list of data models.
      * @param list List that contains the data models.
-     * @param propertyId String that contains the identifier of property that
+     * @param propertyId String that contains the identifier of the property that
      * will be used.
      * @return Numeric value that contains the average.
      * @throws IllegalAccessException Occurs when was not possible to execute
@@ -701,7 +707,7 @@ public class ModelUtil{
      */
     @SuppressWarnings("unchecked")
     public static <N extends Number, C extends List<M>, M extends BaseModel> N sum(C list, String propertyId) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
-        if(list != null && list.size() > 0 && propertyId != null && propertyId.length() > 0){
+        if(list != null && !list.isEmpty() && propertyId != null && !propertyId.isEmpty()){
             Number result = null;
 
             for(M item: list){
@@ -726,7 +732,7 @@ public class ModelUtil{
      * @param <M> Class that defines the data model.
      * @param <C> Class that defines the list of data models.
      * @param list List that contains the data models.
-     * @param propertyId String that contains the identifier of property that
+     * @param propertyId String that contains the identifier of the property that
      * will be used.
      * @return Numeric value that contains the average.
      * @throws IllegalAccessException Occurs when was not possible to execute
@@ -738,7 +744,7 @@ public class ModelUtil{
      */
     @SuppressWarnings("unchecked")
     public static <N extends Number, C extends List<M>, M extends BaseModel> N average(C list, String propertyId) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException{
-        if(list != null && list.size() > 0 && propertyId != null && propertyId.length() > 0){
+        if(list != null && !list.isEmpty() && propertyId != null && !propertyId.isEmpty()){
             Number result = sum(list, propertyId);
             
             result = NumberUtil.divide(result, list.size());
@@ -755,7 +761,7 @@ public class ModelUtil{
      * @param <M> Class that defines the data model.
      * @param <C> Class that defines the list of data models.
      * @param list List that contains the data models.
-     * @param propertyId String that contains the identifier of property that
+     * @param propertyId String that contains the identifier of the property that
      * will be used.
      * @return Instance that contains the data model.
      * @throws ClassCastException Occurs when was not possible to execute the
@@ -765,7 +771,7 @@ public class ModelUtil{
      */
     public static <C extends List<M>, M extends BaseModel> M max(C list, String propertyId) throws ClassCastException, NoSuchElementException{
         if(list != null && !list.isEmpty()){
-            if(propertyId != null && propertyId.length() > 0)
+            if(propertyId != null && !propertyId.isEmpty())
                 for(BaseModel item: list)
                     item.setSortPropertyId(propertyId);
             
@@ -781,7 +787,7 @@ public class ModelUtil{
      * @param <M> Class that defines the data model.
      * @param <C> Class that defines the list of data models.
      * @param list List that contains the data models.
-     * @param propertyId String that contains the identifier of property that
+     * @param propertyId String that contains the identifier of the property that
      * will be used.
      * @return Instance that contains the data model.
      * @throws ClassCastException Occurs when was not possible to execute the
@@ -791,7 +797,7 @@ public class ModelUtil{
      */
     public static <C extends List<M>, M extends BaseModel> M min(C list, String propertyId) throws ClassCastException, NoSuchElementException{
         if(list != null && !list.isEmpty()){
-            if(propertyId != null && propertyId.length() > 0)
+            if(propertyId != null && !propertyId.isEmpty())
                 for(BaseModel item: list)
                     item.setSortPropertyId(propertyId);
             
@@ -877,15 +883,17 @@ public class ModelUtil{
                         if(processedRelations == null || !processedRelations.contains(propertyInfo.getClazz())){
                             if(processedRelations == null)
                                 processedRelations = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                            
-                            processedRelations.add(relationModelClass);
+
+                            if(processedRelations != null)
+                                processedRelations.add(relationModelClass);
                             
                             buildPhoneticMap(relationModelClass, processedRelations, phoneticMap);
                         }
                     }
                 }
                 else if(propertyInfo.getSearchCondition() == ConditionType.PHONETIC)
-                    phoneticMap.put(propertyInfo.getId(), propertyInfo);
+                    if(phoneticMap != null)
+                        phoneticMap.put(propertyInfo.getId(), propertyInfo);
             }
         }
     }
@@ -953,7 +961,7 @@ public class ModelUtil{
      * the operation.
      */
     public static <M extends BaseModel, L extends List<M>> L filterByPhonetic(M model, L modelList) throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
-        if(model == null || modelList == null || modelList.size() == 0)
+        if(model == null || modelList == null || modelList.isEmpty())
             return modelList;
         
         Map<String, PropertyInfo> phoneticMap = buildPhoneticMap(model.getClass());
@@ -971,7 +979,7 @@ public class ModelUtil{
                     String comparePropertyValue = PropertyUtil.getValue(modelListItem, phoneticPropertyId);
                     String propertyValue = PhoneticUtil.soundCode(PropertyUtil.getValue(model, entry.getKey()));
                     
-                    if(propertyValue != null && propertyValue.length() > 0){
+                    if(propertyValue != null && !propertyValue.isEmpty()){
                         phoneticAccuracy += PhoneticUtil.getAccuracy(propertyValue, comparePropertyValue);
                         comparePhoneticAccuracy += phoneticPropertyInfo.getPhoneticAccuracy();
                         
@@ -1020,7 +1028,7 @@ public class ModelUtil{
      * @return String that contains the package prefix.
      */
     public static String getPackagePrefix(String modelClassName){
-        if(modelClassName == null || modelClassName.length() == 0)
+        if(modelClassName == null || modelClassName.isEmpty())
             return null;
         
         String[] packageItems = StringUtil.split(modelClassName, ".");
@@ -1059,7 +1067,7 @@ public class ModelUtil{
      * @return String that contains the URL.
      */
     public static String getUrlByModel(String modelClassName){
-        if(modelClassName != null && modelClassName.length() > 0){
+        if(modelClassName != null && !modelClassName.isEmpty()){
             String url = modelClassName;
             String prefix = ModelUtil.getPackagePrefix(modelClassName);
             
@@ -1104,13 +1112,13 @@ public class ModelUtil{
     }
     
     /**
-     * Returns the resources identifier based on a data model class name.
+     * Returns the resources' identifier based on a data model class name.
      *
      * @param modelClassName String that contains the data model class name.
      * @return String that contains the identifier.
      */
     public static String getResourcesIdByModel(String modelClassName){
-        if(modelClassName != null && modelClassName.length() > 0){
+        if(modelClassName != null && !modelClassName.isEmpty()){
             StringBuilder resourcesId = new StringBuilder();
             String resourcesPrefix = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR;
             
@@ -1124,7 +1132,7 @@ public class ModelUtil{
     }
     
     /**
-     * Returns the resources identifier based on a data model.
+     * Returns the resources' identifier based on a data model.
      *
      * @param modelClass Class that contains the data model.
      * @return String that contains the identifier.

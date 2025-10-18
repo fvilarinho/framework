@@ -21,7 +21,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ModelInfo{
     private Class<? extends BaseModel> clazz = null;
@@ -315,45 +315,51 @@ public class ModelInfo{
 
         for(PropertyInfo propertyInfo: propertiesInfo){
             if(propertyInfo.isIdentity())
-                this.identityPropertiesInfo.add(propertyInfo);
+                if(this.identityPropertiesInfo != null)
+                    this.identityPropertiesInfo.add(propertyInfo);
 
             if(propertyInfo.isUnique())
-                this.uniquePropertiesInfo.add(propertyInfo);
+                if(this.uniquePropertiesInfo != null)
+                    this.uniquePropertiesInfo.add(propertyInfo);
 
             if(propertyInfo.isSerializable())
-                this.serializablePropertiesInfo.add(propertyInfo);
+                if(this.serializablePropertiesInfo != null)
+                    this.serializablePropertiesInfo.add(propertyInfo);
 
             if(propertyInfo.isForSearch())
-                this.searchPropertiesInfo.add(propertyInfo);
+                if(this.searchPropertiesInfo != null)
+                   this.searchPropertiesInfo.add(propertyInfo);
 
             if(propertyInfo.isAuditable())
-                this.auditablePropertiesInfo.add(propertyInfo);
+                if(this.auditablePropertiesInfo != null)
+                    this.auditablePropertiesInfo.add(propertyInfo);
 
             if(propertyInfo.getValidations() != null && propertyInfo.getValidations().length > 0 && propertyInfo.getValidations()[0] == ValidationType.NONE)
-                this.validationPropertiesInfo.add(propertyInfo);
+                if(this.validationPropertiesInfo != null)
+                    this.validationPropertiesInfo.add(propertyInfo);
         }
 
-        if(this.identityPropertiesInfo.size() > 0)
+        if(this.identityPropertiesInfo != null && !this.identityPropertiesInfo.isEmpty())
             setIdentityPropertiesInfo(this.identityPropertiesInfo);
 
-        if(this.uniquePropertiesInfo.size() > 0)
+        if(this.uniquePropertiesInfo != null && !this.uniquePropertiesInfo.isEmpty())
             setUniquePropertiesInfo(this.uniquePropertiesInfo);
 
-        if(this.serializablePropertiesInfo.size() > 0)
+        if(this.serializablePropertiesInfo != null && !this.serializablePropertiesInfo.isEmpty())
             setSerializablePropertiesInfo(this.serializablePropertiesInfo);
 
-        if(this.searchPropertiesInfo.size() > 0)
+        if(this.searchPropertiesInfo != null && !this.searchPropertiesInfo.isEmpty())
             setSearchPropertiesInfo(this.searchPropertiesInfo);
 
-        if(this.validationPropertiesInfo.size() > 0)
+        if(this.validationPropertiesInfo != null && !this.validationPropertiesInfo.isEmpty())
             setValidationPropertiesInfo(this.validationPropertiesInfo);
 
-        if(this.auditablePropertiesInfo.size() > 0)
+        if(this.auditablePropertiesInfo != null && !this.auditablePropertiesInfo.isEmpty())
             setAuditablePropertiesInfo(this.auditablePropertiesInfo);
     }
 
     /**
-     * Returns the list of identity properties of the data model.
+     * Returns the list of identity properties.
      *
      * @return List that contains the properties.
      */
@@ -362,7 +368,7 @@ public class ModelInfo{
     }
 
     /**
-     * Defines the list of identity properties of the data model.
+     * Defines the list of identity properties.
      *
      * @param identityPropertiesInfo List that contains the properties.
      */
@@ -371,7 +377,7 @@ public class ModelInfo{
     }
 
     /**
-     * Returns the list of search properties of the data model.
+     * Returns the list of search properties.
      *
      * @return List that contains the properties.
      */
@@ -380,7 +386,7 @@ public class ModelInfo{
     }
 
     /**
-     * Defines the list of search properties of the data model.
+     * Defines the list of search properties.
      *
      * @param searchPropertiesInfo List that contains the properties.
      */
@@ -389,7 +395,7 @@ public class ModelInfo{
     }
 
     /**
-     * Returns the list of validation properties of the data model.
+     * Returns the list of validation properties.
      *
      * @return List that contains the properties.
      */
@@ -398,7 +404,7 @@ public class ModelInfo{
     }
 
     /**
-     * Defines the list of validation properties of the data model.
+     * Defines the list of validation properties.
      *
      * @param validationPropertiesInfo List that contains the properties.
      */
@@ -407,7 +413,7 @@ public class ModelInfo{
     }
 
     /**
-     * Returns the list of validation properties of the data model.
+     * Returns the list of validation properties.
      *
      * @return List that contains the properties.
      */
@@ -416,7 +422,7 @@ public class ModelInfo{
     }
 
     /**
-     * Defines the list of auditable properties of the data model.
+     * Defines the list of auditable properties.
      *
      * @param auditablePropertiesInfo List that contains the properties.
      */
@@ -488,11 +494,11 @@ public class ModelInfo{
      * @return True/False.
      */
     public boolean hasPropertiesValidation(){
-        return (this.validationPropertiesInfo != null && this.validationPropertiesInfo.size() > 0);
+        return (this.validationPropertiesInfo != null && !this.validationPropertiesInfo.isEmpty());
     }
 
     /**
-     * Returns the identifier of the persistence repository of the data model.
+     * Returns the identifier of the persistence repository.
      *
      * @return String that contains the identifier of the repository.
      */
@@ -501,7 +507,7 @@ public class ModelInfo{
     }
 
     /**
-     * Defines the identifier of the persistence repository of the data model.
+     * Defines the identifier of the persistence repository.
      *
      * @param mappedRepositoryId String that contains the identifier of the
      * repository.
@@ -511,7 +517,7 @@ public class ModelInfo{
     }
 
     /**
-     * Returns the identifier of the UI of the data model.
+     * Returns the identifier of the UI.
      *
      * @return String that contains the identifier of the UI.
      */
@@ -520,7 +526,7 @@ public class ModelInfo{
     }
 
     /**
-     * Defines the identifier of the UI of the data model.
+     * Defines the identifier of the UI.
      *
      * @param ui String that contains the identifier of the UI.
      */

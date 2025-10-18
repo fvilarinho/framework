@@ -69,7 +69,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -78,7 +78,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
     private final ModelInfo modelInfo;
@@ -488,7 +488,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                 forwardsNode.addChild(forwardNode);
                 
                 actionFormNode.addChild(forwardsNode);
-                actionFormsNode.addChild(actionFormNode);
+
+                if(actionFormsNode != null)
+                    actionFormsNode.addChild(actionFormNode);
                 
                 XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
                 
@@ -1181,7 +1183,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             if(persistenceMappingDir.exists()){
                 File[] persistenceMappingFiles = persistenceMappingDir.listFiles();
                 
-                if(persistenceMappingFiles != null && persistenceMappingFiles.length > 0){
+                if(persistenceMappingFiles != null){
                     for(File persistenceMappingFile: persistenceMappingFiles){
                         String modelClassName = StringUtil.replaceAll(persistenceMappingFile.getName(), PersistenceConstants.DEFAULT_MAPPING_FILE_EXTENSION, "");
                         XmlNode persistenceResourcesMappingNode = new XmlNode(PersistenceConstants.MAPPING_ATTRIBUTE_ID, modelClassName);
@@ -2070,7 +2072,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
     }
     
     /**
-     * Adds a class name to generate code checking file.
+     * Adds a class name to generate the code checking file.
      *
      * @param className String that contains the class name.
      * @throws IOException Occurs when was not possible to execute the

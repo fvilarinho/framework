@@ -24,7 +24,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -33,7 +33,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @Model
 public abstract class BaseModel extends Node implements Comparable<BaseModel>{
@@ -92,34 +92,32 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
     public int compareTo(@NotNull BaseModel compareObject){
         int result = -1;
 
-        if(compareObject != null){
-            try{
-                Object compareValue;
-                Object currentValue;
+        try {
+            Object compareValue;
+            Object currentValue;
 
-                if(this.sortPropertyId == null || this.sortPropertyId.length() == 0){
-                    currentValue = this;
-                    compareValue = compareObject;
-                }
-                else{
-                    currentValue = PropertyUtil.getValue(this, this.sortPropertyId);
-                    compareValue = PropertyUtil.getValue(compareObject, this.sortPropertyId);
+            if (this.sortPropertyId == null || this.sortPropertyId.isEmpty()) {
+                currentValue = this;
+                compareValue = compareObject;
+            } else {
+                currentValue = PropertyUtil.getValue(this, this.sortPropertyId);
+                compareValue = PropertyUtil.getValue(compareObject, this.sortPropertyId);
 
-                    if(PropertyUtil.isNumber(currentValue) && PropertyUtil.isNumber(compareValue))
-                        currentValue = PropertyUtil.convertTo(currentValue, compareValue.getClass());
-                }
-
-                if(currentValue != null && compareValue != null)
-                    result = (Integer) (MethodUtils.invokeMethod(currentValue, "compareTo", compareValue));
-                else if(currentValue == null && compareValue != null)
-                    result = -1;
-                else if(currentValue != null && compareValue == null)
-                    result = 1;
+                if (PropertyUtil.isNumber(currentValue) && PropertyUtil.isNumber(compareValue))
+                    currentValue = PropertyUtil.convertTo(currentValue, compareValue.getClass());
             }
-            catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException | NullPointerException ignored){
-            }
+
+            if (currentValue != null && compareValue != null)
+                result = (Integer) (MethodUtils.invokeMethod(currentValue, "compareTo", compareValue));
+            else if (currentValue == null && compareValue == null)
+                result = 0;
+            else if (currentValue != null)
+                result = 1;
         }
-        
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
+                 NullPointerException ignored) {
+        }
+
         return result;
     }
 
@@ -135,7 +133,7 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
                 Collection<PropertyInfo> uniquesInfo = modelInfo.getUniquePropertiesInfo();
                 Collection<PropertyInfo> propertiesInfo = CollectionUtil.union(identitiesInfo, uniquesInfo);
                 
-                if(propertiesInfo != null && !propertiesInfo.isEmpty()){
+                if(!propertiesInfo.isEmpty()){
                     for(PropertyInfo propertyInfo: propertiesInfo){
                         try{
                             Object value = PropertyUtil.getValue(this, propertyInfo.getId());
@@ -151,12 +149,8 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
                             else{
                                 if(value != null && compareValue != null)
                                     compareFlag = value.equals(compareValue);
-                                else if(value == null && compareValue != null)
+                                else
                                     compareFlag = false;
-                                else if(value != null && compareValue == null)
-                                    compareFlag = false;
-                                else if(value == null && compareValue == null)
-                                    compareFlag = true;
                             }
                             
                             if(!compareFlag)
@@ -181,7 +175,7 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
             ModelInfo modelInfo = ModelUtil.getInfo(getClass());
             String descriptionPattern = modelInfo.getDescriptionPattern();
             
-            if(descriptionPattern != null && descriptionPattern.length() > 0)
+            if(descriptionPattern != null && !descriptionPattern.isEmpty())
                 return PropertyUtil.fillPropertiesInString(this, descriptionPattern);
         }
         catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException ignored){
