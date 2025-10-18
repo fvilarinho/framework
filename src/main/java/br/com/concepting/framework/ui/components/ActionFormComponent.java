@@ -26,7 +26,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -35,7 +35,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ActionFormComponent extends BaseComponent{
     private static final long serialVersionUID = -800612013578741201L;
@@ -83,18 +83,18 @@ public class ActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the submit event.
+     * Returns the submit's event snippet.
      *
-     * @return String that contains the submit event.
+     * @return String that contains the submit's event snippet.
      */
     public String getOnSubmit(){
         return this.onSubmit;
     }
     
     /**
-     * Defines the submit event.
+     * Defines the submit's event snippet.
      *
-     * @param onSubmit String that contains the submit event.
+     * @param onSubmit String that contains the submit's event snippet.
      */
     public void setOnSubmit(String onSubmit){
         this.onSubmit = onSubmit;
@@ -154,7 +154,7 @@ public class ActionFormComponent extends BaseComponent{
         if(pageComponent != null){
             String resourcesId = getResourcesId();
             
-            if(resourcesId == null || resourcesId.length() == 0){
+            if(resourcesId == null || resourcesId.isEmpty()){
                 resourcesId = pageComponent.getResourcesId();
                 
                 setResourcesId(resourcesId);
@@ -162,7 +162,7 @@ public class ActionFormComponent extends BaseComponent{
             
             String encoding = getEncoding();
             
-            if(encoding == null || encoding.length() == 0){
+            if(encoding == null || encoding.isEmpty()){
                 encoding = pageComponent.getEncoding();
                 
                 setEncoding(encoding);
@@ -173,23 +173,11 @@ public class ActionFormComponent extends BaseComponent{
     }
 
     @Override
-    protected void buildAlignment() throws InternalErrorException{
-    }
-
-    @Override
     protected void buildDimensions() throws InternalErrorException{
     }
 
-    @Override
-    protected void buildStyleClass() throws InternalErrorException{
-    }
-
-    @Override
-    protected void buildStyle() throws InternalErrorException{
-    }
-    
     /**
-     * Intializes the component.
+     * Initializes the component.
      *
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
@@ -217,7 +205,7 @@ public class ActionFormComponent extends BaseComponent{
             
         }
         
-        if(uiController == null || name == null || name.length() == 0)
+        if(uiController == null || name == null || name.isEmpty())
             return;
         
         try{
@@ -236,7 +224,7 @@ public class ActionFormComponent extends BaseComponent{
     protected void renderEvents() throws InternalErrorException{
         super.renderEvents();
         
-        if(this.onSubmit != null && this.onSubmit.length() > 0){
+        if(this.onSubmit != null && !this.onSubmit.isEmpty()){
             print(" onSubmit=\"");
             print(this.onSubmit);
             print("\"");
@@ -256,14 +244,14 @@ public class ActionFormComponent extends BaseComponent{
             return;
         
         UIController uiController = getUIController();
-        boolean hasPageComponentInstance = (uiController != null ? uiController.hasPageComponentInstance() : null);
-        boolean hasPageImports = (uiController != null ? uiController.hasPageImports() : null);
+        boolean hasPageComponentInstance = (uiController != null && uiController.hasPageComponentInstance());
+        boolean hasPageImports = (uiController != null && uiController.hasPageImports());
         
-        if(!hasPageComponentInstance && !hasPageImports){
+        if(!hasPageComponentInstance && !hasPageImports && uiController != null){
             PageComponent.renderImports(systemController, getCurrentLanguage());
             PageComponent.renderLoadingBox(systemController, defaultResources);
             PageComponent.renderPageShade(systemController);
-            
+
             uiController.hasPageImports(true);
         }
         
@@ -288,14 +276,14 @@ public class ActionFormComponent extends BaseComponent{
 
         String contextPath = getContextPath();
         
-        if(contextPath != null && contextPath.length() > 0 && this.action != null && this.action.length() > 0){
+        if(contextPath != null && !contextPath.isEmpty() && this.action != null && !this.action.isEmpty()){
             print(" action=\"");
             print(contextPath);
             print(this.action);
             print("\"");
         }
         
-        if(this.encoding != null && this.encoding.length() > 0){
+        if(this.encoding != null && !this.encoding.isEmpty()){
             print(" accept-charset=\"");
             print(this.encoding);
             print("\"");
@@ -320,7 +308,7 @@ public class ActionFormComponent extends BaseComponent{
         println("</form>");
         
         UIController uiController = getUIController();
-        boolean hasPageComponentInstance = (uiController != null ? uiController.hasPageComponentInstance() : null);
+        boolean hasPageComponentInstance = (uiController != null && uiController.hasPageComponentInstance());
         
         if(!hasPageComponentInstance){
             PageComponent.renderMessageBoxes(systemController);
@@ -340,7 +328,7 @@ public class ActionFormComponent extends BaseComponent{
     protected void renderMessageBoxes() throws InternalErrorException{
         String actionFormName = getName();
         
-        if(actionFormName == null || actionFormName.length() == 0)
+        if(actionFormName == null || actionFormName.isEmpty())
             return;
         
         String resourcesId = getResourcesId();
@@ -421,7 +409,7 @@ public class ActionFormComponent extends BaseComponent{
     protected void renderDataAttributes() throws InternalErrorException{
         String actionFormName = getName();
         
-        if(actionFormName == null || actionFormName.length() == 0)
+        if(actionFormName == null || actionFormName.isEmpty())
             return;
         
         HiddenPropertyComponent actionPropertyComponent = new HiddenPropertyComponent();

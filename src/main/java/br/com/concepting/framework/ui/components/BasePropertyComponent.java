@@ -32,7 +32,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 /**
- * Class that defines the basic implementation for the component that refers a
+ * Class that defines the basic implementation for the component that refers to a
  * property of a data model.
  *
  * @author fvilarinho
@@ -42,7 +42,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -51,7 +51,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BasePropertyComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = -7479880433732396484L;
@@ -183,7 +183,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Indicates if it is a read only component.
+     * Indicates if it is a read-only component.
      *
      * @return True/False.
      */
@@ -192,7 +192,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Indicates if it is a read only component.
+     * Indicates if it is a read-only component.
      *
      * @return True/False.
      */
@@ -201,7 +201,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines if it is a read only component.
+     * Defines if it is a read-only component.
      *
      * @param readOnly True/False.
      */
@@ -261,15 +261,13 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
             else{
                 String pattern = getPattern();
                 
-                if(pattern != null && pattern.length() > 0){
-                    if(size == 0){
-                        size = pattern.length();
-                        
-                        if(pattern.contains("a"))
-                            size += 2;
-                        
-                        setSize(size);
-                    }
+                if(pattern != null && !pattern.isEmpty()){
+                    size = pattern.length();
+
+                    if(pattern.contains("a"))
+                        size += 2;
+
+                    setSize(size);
                 }
             }
         }
@@ -315,7 +313,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Returns the identifier of the action of the change event.
+     * Returns the identifier of the change action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -324,7 +322,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action of the change event.
+     * Defines the identifier of the change action.
      *
      * @param onChangeAction String that contains the identifier of the action.
      */
@@ -444,7 +442,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Returns the identifier of the action of the key down event.
+     * Returns the identifier of the key-down action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -453,7 +451,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action of the key down event.
+     * Defines the identifier of the key-down action.
      *
      * @param onKeyDownAction String that contains the identifier of the action.
      */
@@ -462,7 +460,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action of the key down event.
+     * Defines the identifier of the key-down action.
      *
      * @param onKeyDownActionType Instance that contains the action.
      */
@@ -573,7 +571,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Returns the identifier of the action of the key up event.
+     * Returns the identifier of the key-up action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -582,7 +580,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action of the key up event.
+     * Defines the identifier of the key-up action.
      *
      * @param onKeyUpAction String that contains the identifier of the action.
      */
@@ -591,7 +589,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action of the key up event.
+     * Defines the identifier of the key-up action.
      *
      * @param onKeyUpActionType Instance that contains the action.
      */
@@ -702,7 +700,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Returns the identifier of the action of the key press event.
+     * Returns the identifier of the key-press action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -711,7 +709,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action of the key press event.
+     * Defines the identifier of the key-press action.
      *
      * @param onKeyPressAction String that contains the identifier of the
      * action.
@@ -721,7 +719,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action of the key press event.
+     * Defines the identifier of the key-press action.
      *
      * @param onKeyPressActionType Instance that contains the action.
      */
@@ -814,22 +812,18 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Returns the instance that contains the attributes of the property of the
-     * data model.
+     * Returns the instance that contains the attributes of the property.
      *
-     * @return Instance that contains the attributes of the property of the data
-     * model.
+     * @return Instance that contains the attributes of the property.
      */
     protected PropertyInfo getPropertyInfo(){
         return this.propertyInfo;
     }
     
     /**
-     * Defines the instance that contains the attributes of the property of the
-     * data model.
+     * Defines the instance that contains the attributes of the property.
      *
-     * @param propertyInfo Instance that contains the attributes of the property
-     * of the data model.
+     * @param propertyInfo Instance that contains the attributes of the property.
      */
     protected void setPropertyInfo(PropertyInfo propertyInfo){
         this.propertyInfo = propertyInfo;
@@ -842,11 +836,11 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     protected String getPattern() throws InternalErrorException{
-        if(this.pattern == null || this.pattern.length() == 0)
+        if(this.pattern == null || this.pattern.isEmpty())
             if(this.propertyInfo != null)
                 this.pattern = this.propertyInfo.getPattern();
         
-        if(this.pattern == null || this.pattern.length() == 0){
+        if(this.pattern == null || this.pattern.isEmpty()){
             if(this.isDate){
                 Locale currentLanguage = getCurrentLanguage();
                 
@@ -1036,7 +1030,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
             String currentStyle = getStyle();
             StringBuilder style = null;
             
-            if(currentStyle != null && currentStyle.length() > 0){
+            if(currentStyle != null && !currentStyle.isEmpty()){
                 style = new StringBuilder();
                 style.append(currentStyle);
                 
@@ -1060,7 +1054,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                     style.append(";");
                 }
             }
-            else if(input != null && input != InputType.NONE){
+            else if(input != null){
                 if(style == null)
                     style = new StringBuilder();
                 else
@@ -1105,7 +1099,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                 onKeyPressContent.append("', event);");
             }
         }
-        else if(pattern != null && pattern.length() > 0){
+        else if(pattern != null && !pattern.isEmpty()){
             onKeyPressContent = new StringBuilder();
             
             if(this.isDate){
@@ -1118,7 +1112,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
             }
         }
         
-        if(currentOnKeyPressContent != null && currentOnKeyPressContent.length() > 0){
+        if(currentOnKeyPressContent != null && !currentOnKeyPressContent.isEmpty()){
             if(onKeyPressContent == null)
                 onKeyPressContent = new StringBuilder();
             else if(onKeyPressContent.length() > 0)
@@ -1197,7 +1191,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                 if(this.minimumValue == null){
                     Class<? extends Number> propertyClass = (Class<? extends Number>) this.propertyInfo.getClazz();
                     
-                    if(this.propertyInfo.getMinimumValue() != null && this.propertyInfo.getMinimumValue().length() > 0){
+                    if(this.propertyInfo.getMinimumValue() != null && !this.propertyInfo.getMinimumValue().isEmpty()){
                         try{
                             this.minimumValue = NumberUtil.parse(propertyClass, this.propertyInfo.getMinimumValue());
                         }
@@ -1209,7 +1203,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                 if(this.maximumValue == null){
                     Class<? extends Number> propertyClass = (Class<? extends Number>) this.propertyInfo.getClazz();
                     
-                    if(this.propertyInfo.getMaximumValue() != null && this.propertyInfo.getMaximumValue().length() > 0){
+                    if(this.propertyInfo.getMaximumValue() != null && !this.propertyInfo.getMaximumValue().isEmpty()){
                         try{
                             this.maximumValue = NumberUtil.parse(propertyClass, this.propertyInfo.getMaximumValue());
                         }
@@ -1230,7 +1224,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(systemController != null && actionFormController != null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && this.propertyInfo == null && this.value == null){
+        if(systemController != null && actionFormController != null && actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty() && this.propertyInfo == null && this.value == null){
             PropertyType propertyType = PropertyUtil.getType(name);
             
             if(propertyType == PropertyType.MODEL){
@@ -1320,7 +1314,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         catch(ClassCastException ignored){
         }
         
-        if(actionFormName != null && actionFormName.length() > 0 && id != null && id.length() > 0 && name != null && name.length() > 0 && pattern != null && pattern.length() > 0 && this.propertyInfo != null && optionsPropertyComponent == null && enabled){
+        if(actionFormName != null && !actionFormName.isEmpty() && id != null && !id.isEmpty() && name != null && !name.isEmpty() && pattern != null && !pattern.isEmpty() && this.propertyInfo != null && optionsPropertyComponent == null && enabled){
             StringBuilder idBuffer = new StringBuilder();
             
             idBuffer.append(id);
@@ -1370,7 +1364,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
 
         print("<span");
 
-        if(labelStyleClass != null && labelStyleClass.length() > 0){
+        if(labelStyleClass != null && !labelStyleClass.isEmpty()){
             print(" class=\"");
             print(labelStyleClass);
             print("\"");
@@ -1378,7 +1372,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         
         String labelStyle = getLabelStyle();
         
-        if(labelStyle != null && labelStyle.length() > 0){
+        if(labelStyle != null && !labelStyle.isEmpty()){
             print(" style=\"");
             print(labelStyle);
             
@@ -1413,7 +1407,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         
         print(" value=\"");
         
-        if(formattedValue != null && formattedValue.length() > 0)
+        if(formattedValue != null && !formattedValue.isEmpty())
             print(formattedValue);
         
         print("\"");
@@ -1448,7 +1442,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(showLabel && label != null && label.length() > 0 && labelPosition == PositionType.INSIDE){
+        if(showLabel && label != null && !label.isEmpty() && labelPosition == PositionType.INSIDE){
             print(" placeholder=\"");
             print(label);
             print("\"");
@@ -1459,25 +1453,25 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     protected void renderEvents() throws InternalErrorException{
         super.renderEvents();
         
-        if(this.onKeyPress != null && this.onKeyPress.length() > 0){
+        if(this.onKeyPress != null && !this.onKeyPress.isEmpty()){
             print(" onKeyPress=\"");
             print(this.onKeyPress);
             print("\"");
         }
         
-        if(this.onKeyDown != null && this.onKeyDown.length() > 0){
+        if(this.onKeyDown != null && !this.onKeyDown.isEmpty()){
             print(" onKeyDown=\"");
             print(this.onKeyDown);
             print("\"");
         }
         
-        if(this.onKeyUp != null && this.onKeyUp.length() > 0){
+        if(this.onKeyUp != null && !this.onKeyUp.isEmpty()){
             print(" onKeyUp=\"");
             print(this.onKeyUp);
             print("\"");
         }
         
-        if(this.onChange != null && this.onChange.length() > 0){
+        if(this.onChange != null && !this.onChange.isEmpty()){
             print(" onChange=\"");
             print(this.onChange);
             print("\"");
@@ -1502,13 +1496,13 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(name != null && name.length() > 0 && showLabel && label != null && label.length() > 0 && renderRequiredMark()){
+        if(name != null && !name.isEmpty() && showLabel && label != null && !label.isEmpty() && renderRequiredMark()){
             SearchPropertiesGroupComponent searchPropertiesGroupComponent = getSearchPropertiesGroupComponent();
             String[] validationModelPropertiesBuffer = (searchPropertiesGroupComponent != null ? StringUtil.split(searchPropertiesGroupComponent.getValidateModelProperties()) : null);
             Collection<String> validationModelProperties = (validationModelPropertiesBuffer != null && validationModelPropertiesBuffer.length > 0 ? Arrays.asList(validationModelPropertiesBuffer) : null);
             ValidationType[] validations = (this.propertyInfo != null ? this.propertyInfo.getValidations() : null);
             
-            if(validations != null && validations.length > 0 && ((validationModelProperties != null && validationModelProperties.size() > 0 && validationModelProperties.contains(name)) || (searchPropertiesGroupComponent == null && (validationModelProperties == null || validationModelProperties.size() == 0)))){
+            if(validations != null && validations.length > 0 && (validationModelProperties != null && validationModelProperties.contains(name) || searchPropertiesGroupComponent == null)){
                 for(ValidationType validation: validations){
                     if(validation == ValidationType.REQUIRED){
                         println("(*) ");

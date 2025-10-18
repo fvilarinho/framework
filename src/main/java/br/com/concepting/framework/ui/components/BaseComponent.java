@@ -38,7 +38,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -47,7 +47,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     private static final long serialVersionUID = -7267112866725230814L;
@@ -214,7 +214,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      * Returns the instance that contains the resources.
      *
      * @return Instance that contains the resources.
-     * @throws InternalErrorException Occurs when was not possible to execute the operation..
+     * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     protected PropertiesResources getResources() throws InternalErrorException{
         return getResources(this.resourcesId);
@@ -225,10 +225,10 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @param resourcesId String that contains the identifier of the resources.
      * @return Instance that contains the resources.
-     * @throws InternalErrorException Occurs when was not possible to execute the operation..
+     * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     protected PropertiesResources getResources(String resourcesId) throws InternalErrorException{
-        if(resourcesId == null || resourcesId.length() == 0)
+        if(resourcesId == null || resourcesId.isEmpty())
             resourcesId = UIConstants.DEFAULT_COMMON_RESOURCES_ID;
         
         PropertiesResourcesLoader loader = new PropertiesResourcesLoader(resourcesId, getCurrentLanguage());
@@ -240,7 +240,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      * Returns the instance that contains the default resources.
      *
      * @return Instance that contains the resources.
-     * @throws InternalErrorException Occurs when was not possible to execute the operation..
+     * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     protected PropertiesResources getDefaultResources() throws InternalErrorException{
         return getResources(null);
@@ -283,7 +283,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     }
     
     /**
-     * Indicates if the component will be rendered only if the user is
+     * Indicates if the component is rendered only if the user is
      * authenticated.
      *
      * @return True/False.
@@ -293,7 +293,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     }
     
     /**
-     * Indicates if the component will be rendered only if the user is
+     * Indicates if the component is rendered only if the user is
      * authenticated.
      *
      * @return True/False.
@@ -303,7 +303,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     }
     
     /**
-     * Defines if the component will be rendered only if the user is
+     * Defines if the component is rendered only if the user is
      * authenticated.
      *
      * @param renderWhenAuthenticated True/False.
@@ -313,7 +313,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     }
     
     /**
-     * Indicates if the component will be rendered.
+     * Indicates if the component is rendered.
      *
      * @return True/False.
      */
@@ -322,7 +322,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     }
     
     /**
-     * Indicates if the component will be rendered.
+     * Indicates if the component is rendered.
      *
      * @return True/False.
      */
@@ -331,7 +331,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     }
     
     /**
-     * Defines if the component will be rendered.
+     * Defines if the component is rendered.
      *
      * @param rendered True/False.
      */
@@ -600,7 +600,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             UserModel user = (loginSession != null ? loginSession.getUser() : null);
             LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
             
-            if(loginParameter != null && loginParameter.getLanguage() != null && loginParameter.getLanguage().length() > 0)
+            if(loginParameter != null && loginParameter.getLanguage() != null && !loginParameter.getLanguage().isEmpty())
                 return LanguageUtil.getLanguageByString(loginParameter.getLanguage());
         }
         
@@ -637,7 +637,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     }
     
     /**
-     * Prints a content with line break.
+     * Prints the content with a linebreak.
      *
      * @param <O> Class that defines the content.
      * @param value Instance that contains the content.
@@ -730,7 +730,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
         String name = getName();
         ComponentType componentType = getComponentType();
         
-        if((name == null || name.length() == 0) && componentType != null){
+        if((name == null || name.isEmpty()) && componentType != null){
             name = componentType.getId();
             
             setName(name);
@@ -752,11 +752,11 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      * the operation.
      */
     protected void buildDimensions() throws InternalErrorException{
-        if((this.width != null && this.width.length() > 0) || (this.height != null && this.height.length() > 0)){
+        if((this.width != null && !this.width.isEmpty()) || (this.height != null && !this.height.isEmpty())){
             StringBuilder styleContent = new StringBuilder();
             
-            if(this.width != null && this.width.length() > 0){
-                if(this.style != null && this.style.length() > 0){
+            if(this.width != null && !this.width.isEmpty()){
+                if(this.style != null && !this.style.isEmpty()){
                     styleContent.append(this.style);
                     
                     if(!this.style.endsWith(";"))
@@ -775,11 +775,11 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
                     styleContent.append(";");
             }
             
-            if(this.height != null && this.height.length() > 0){
+            if(this.height != null && !this.height.isEmpty()){
                 if(styleContent.length() == 0){
                     styleContent = new StringBuilder();
                     
-                    if(this.style != null && this.style.length() > 0){
+                    if(this.style != null && !this.style.isEmpty()){
                         styleContent.append(this.style);
                         
                         if(!this.style.endsWith(";"))
@@ -883,7 +883,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     protected void renderId() throws InternalErrorException{
         String id = getId();
         
-        if(id != null && id.length() > 0){
+        if(id != null && !id.isEmpty()){
             print(" id=\"");
             print(id);
             print("\"");
@@ -898,7 +898,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     protected void renderName() throws InternalErrorException{
         String name = getName();
         
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             print(" name=\"");
             print(name);
             print("\"");
@@ -911,7 +911,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderEvents() throws InternalErrorException{
-        if(this.onBlur != null && this.onBlur.length() > 0){
+        if(this.onBlur != null && !this.onBlur.isEmpty()){
             print(" ");
             print(EventType.ON_BLUR.getId());
             print("=\"");
@@ -919,7 +919,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             print("\"");
         }
         
-        if(this.onFocus != null && this.onFocus.length() > 0){
+        if(this.onFocus != null && !this.onFocus.isEmpty()){
             print(" ");
             print(EventType.ON_FOCUS.getId());
             print("=\"");
@@ -927,7 +927,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             print("\"");
         }
         
-        if(this.onClick != null && this.onClick.length() > 0){
+        if(this.onClick != null && !this.onClick.isEmpty()){
             print(" ");
             print(EventType.ON_CLICK.getId());
             print("=\"");
@@ -935,7 +935,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             print("\"");
         }
         
-        if(this.onMouseOver != null && this.onMouseOver.length() > 0){
+        if(this.onMouseOver != null && !this.onMouseOver.isEmpty()){
             print(" ");
             print(EventType.ON_MOUSE_OVER.getId());
             print("=\"");
@@ -943,7 +943,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             print("\"");
         }
         
-        if(this.onMouseOut != null && this.onMouseOut.length() > 0){
+        if(this.onMouseOut != null && !this.onMouseOut.isEmpty()){
             print(" ");
             print(EventType.ON_MOUSE_OUT.getId());
             print("=\"");
@@ -970,13 +970,13 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderStyle() throws InternalErrorException{
-        if(this.styleClass != null && this.styleClass.length() > 0){
+        if(this.styleClass != null && !this.styleClass.isEmpty()){
             print(" class=\"");
             print(this.styleClass);
             print("\"");
         }
         
-        if(this.style != null && this.style.length() > 0){
+        if(this.style != null && !this.style.isEmpty()){
             print(" style=\"");
             print(this.style);
             print("\"");
@@ -1016,7 +1016,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
         String name = getName();
         boolean focus = focus();
         
-        if(focus && name != null && name.length() > 0){
+        if(focus && name != null && !name.isEmpty()){
             StringBuilder content = new StringBuilder();
             
             content.append("focusObject('");
