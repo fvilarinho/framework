@@ -27,7 +27,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -36,7 +36,7 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class GridColumnComponent extends BaseOptionsPropertyComponent{
     private static final long serialVersionUID = 4958728620516766106L;
@@ -252,8 +252,9 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
         if(columnStateComponent != null){
             if(this.columnStatesComponents == null)
                 this.columnStatesComponents = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.columnStatesComponents.add(columnStateComponent);
+
+            if(this.columnStatesComponents != null)
+                this.columnStatesComponents.add(columnStateComponent);
         }
     }
     
@@ -309,7 +310,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
         if(gridComponent != null){
             String resourceId = getResourcesId();
             
-            if(resourceId == null || resourceId.length() == 0){
+            if(resourceId == null || resourceId.isEmpty()){
                 resourceId = gridComponent.getResourcesId();
                 
                 setResourcesId(resourceId);
@@ -318,11 +319,11 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
             String resourcesKey = getResourcesKey();
             StringBuilder resourcesKeyBuffer = new StringBuilder();
             
-            if(resourcesKey == null || resourcesKey.length() == 0){
+            if(resourcesKey == null || resourcesKey.isEmpty()){
                 String gridComponentName = gridComponent.getName();
                 String name = getName();
                 
-                if(name == null || name.length() == 0 || gridComponentName == null || gridComponentName.length() == 0)
+                if(name == null || name.isEmpty() || gridComponentName == null || gridComponentName.isEmpty())
                     return;
                 
                 resourcesKeyBuffer.append(gridComponentName);
@@ -364,7 +365,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
             String actionFormName = gridComponent.getActionFormName();
             String name = getName();
             
-            if(actionFormController != null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
+            if(actionFormController != null && actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty()){
                 setActionFormName(actionFormName);
                 
                 ScopeType datasetScope = gridComponent.getDatasetScopeType();
@@ -378,7 +379,7 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
                 try{
                     String dataset = gridComponent.getDataset();
                     
-                    if(dataset != null && dataset.length() > 0){
+                    if(dataset != null && !dataset.isEmpty()){
                         Object instance;
                         
                         if(datasetScope == ScopeType.MODEL){

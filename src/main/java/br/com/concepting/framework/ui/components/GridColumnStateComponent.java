@@ -12,7 +12,7 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class GridColumnStateComponent extends GridColumnComponent{
     private static final long serialVersionUID = 1155474817351663846L;
@@ -74,15 +74,7 @@ public class GridColumnStateComponent extends GridColumnComponent{
     }
 
     @Override
-    protected void renderOpen() throws InternalErrorException{
-    }
-
-    @Override
     protected void renderBody() throws InternalErrorException{
-    }
-
-    @Override
-    protected void renderClose() throws InternalErrorException{
     }
 
     @Override
