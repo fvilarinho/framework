@@ -30,7 +30,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -39,7 +39,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
     private static final long serialVersionUID = -8455531154293038105L;
@@ -93,7 +93,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Returns the identifier of the action of the select event.
+     * Returns the identifier of event action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -102,7 +102,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Defines the identifier of the action of the select event.
+     * Defines the identifier of the event action.
      *
      * @param onSelectAction String that contains the identifier of the action.
      */
@@ -200,7 +200,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Returns the identifier of the option label property of the data model.
+     * Returns the identifier of the option label property.
      *
      * @return String that contains the identifier.
      */
@@ -209,7 +209,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Defines the identifier of the option label property of the data model.
+     * Defines the identifier of the option label property.
      *
      * @param optionLabelProperty String that contains the identifier.
      */
@@ -218,7 +218,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Returns the identifier of the option tooltip property of the data model.
+     * Returns the identifier of the option tooltip property.
      *
      * @return String that contains the identifier.
      */
@@ -227,7 +227,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Defines the identifier of the option tooltip property of the data model.
+     * Defines the identifier of the option tooltip property.
      *
      * @param optionTooltipProperty String that contains the identifier.
      */
@@ -240,12 +240,12 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
+        if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty()){
             buildEvent(EventType.ON_SELECT);
             
             super.buildEvents();
             
-            if(this.action != null && this.action.length() > 0){
+            if(this.action != null && !this.action.isEmpty()){
                 StringBuilder onKeyPress = new StringBuilder();
                 
                 onKeyPress.append("function ");
@@ -286,7 +286,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
     protected void buildStyleClass() throws InternalErrorException{
         String styleClass = getStyleClass();
         
-        if(styleClass == null || styleClass.length() == 0){
+        if(styleClass == null || styleClass.isEmpty()){
             styleClass = UIConstants.DEFAULT_TEXTBOX_STYLE_CLASS;
             
             setStyleClass(styleClass);
@@ -311,7 +311,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
         PropertyInfo propertyInfo = getPropertyInfo();
         String name = getName();
         
-        if(actionFormController == null || propertyInfo == null || name == null || name.length() == 0)
+        if(actionFormController == null || propertyInfo == null || name == null || name.isEmpty())
             return;
         
         boolean hasInvalidDefinition = hasInvalidDefinition();
@@ -330,14 +330,14 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
             
             String style = getStyle();
             
-            if(style != null && style.length() > 0){
+            if(style != null && !style.isEmpty()){
                 print(" style=\"");
                 print(style);
                 
                 if(!style.endsWith(";"))
                     print(";");
                 
-                if(propertyValues != null && propertyValues.size() > 0 && this.action != null && actionForm.getAction() != null && this.action.equals(actionForm.getAction())){
+                if(propertyValues != null && !propertyValues.isEmpty() && this.action != null && actionForm.getAction() != null && this.action.equals(actionForm.getAction())){
                     print(" visibility: ");
                     print(VisibilityType.VISIBLE);
                     print(";");
@@ -346,7 +346,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                 print("\"");
             }
             else{
-                if(propertyValues != null && propertyValues.size() > 0 && this.action != null && actionForm.getAction() != null && this.action.equals(actionForm.getAction())){
+                if(propertyValues != null && !propertyValues.isEmpty() && this.action != null && actionForm.getAction() != null && this.action.equals(actionForm.getAction())){
                     print(" style=\"visibility: ");
                     print(VisibilityType.VISIBLE);
                     print(";\"");
@@ -408,7 +408,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                             catch(Throwable ignored){
                             }
                             
-                            if(objectValue != null && objectValue.length() > 0){
+                            if(objectValue != null && !objectValue.isEmpty()){
                                 if(cont > 0)
                                     print(" ");
                                 
@@ -433,7 +433,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                         print(propertyInfo.getId());
                         print("');");
                         
-                        if(this.onSelect != null && this.onSelect.length() > 0){
+                        if(this.onSelect != null && !this.onSelect.isEmpty()){
                             print(" ");
                             print(this.onSelect);
                             
@@ -444,7 +444,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                         print("\"");
                         
                         try{
-                            if(this.optionTooltipProperty != null && this.optionTooltipProperty.length() > 0)
+                            if(this.optionTooltipProperty != null && !this.optionTooltipProperty.isEmpty())
                                 optionValueTooltip = PropertyUtil.format(PropertyUtil.getValue(propertyValue, this.optionTooltipProperty), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
                             else
                                 optionValueTooltip = PropertyUtil.format(PropertyUtil.getValue(propertyValue, propertyInfo.getId()), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
@@ -457,7 +457,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                             }
                         }
                         
-                        if(optionValueTooltip != null && optionValueTooltip.length() > 0){
+                        if(optionValueTooltip != null && !optionValueTooltip.isEmpty()){
                             print(" title=\"");
                             print(optionValueTooltip);
                             print("\"");
@@ -466,7 +466,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                         print(">");
                         
                         try{
-                            if(this.optionLabelProperty != null && this.optionLabelProperty.length() > 0)
+                            if(this.optionLabelProperty != null && !this.optionLabelProperty.isEmpty())
                                 optionValueLabel = PropertyUtil.format(PropertyUtil.getValue(propertyValue, this.optionLabelProperty), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
                             else
                                 optionValueLabel = PropertyUtil.format(PropertyUtil.getValue(propertyValue, propertyInfo.getId()), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
@@ -479,7 +479,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                             }
                         }
                         
-                        if(optionValueLabel != null && optionValueLabel.length() > 0){
+                        if(optionValueLabel != null && !optionValueLabel.isEmpty()){
                             print("&nbsp;");
                             print(optionValueLabel);
                         }
@@ -495,14 +495,14 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                         catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored){
                         }
                         
-                        if(objectValue != null && objectValue.length() > 0)
+                        if(objectValue != null && !objectValue.isEmpty())
                             print(objectValue);
                         
                         print("'); hideSuggestionBox('");
                         print(propertyInfo.getId());
                         print("');");
                         
-                        if(this.onSelect != null && this.onSelect.length() > 0){
+                        if(this.onSelect != null && !this.onSelect.isEmpty()){
                             print(" ");
                             print(this.onSelect);
                             
@@ -513,7 +513,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                         print("\"");
                         
                         try{
-                            if(this.optionTooltipProperty != null && this.optionTooltipProperty.length() > 0)
+                            if(this.optionTooltipProperty != null && !this.optionTooltipProperty.isEmpty())
                                 optionValueTooltip = PropertyUtil.format(PropertyUtil.getValue(propertyValue, this.optionTooltipProperty), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
                             else
                                 optionValueTooltip = PropertyUtil.format(PropertyUtil.getValue(propertyValue, propertyInfo.getId()), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
@@ -526,7 +526,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                             }
                         }
                         
-                        if(optionValueTooltip != null && optionValueTooltip.length() > 0){
+                        if(optionValueTooltip != null && !optionValueTooltip.isEmpty()){
                             print(" title=\"");
                             print(optionValueTooltip);
                             print("\"");
@@ -535,7 +535,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                         print(">");
                         
                         try{
-                            if(this.optionLabelProperty != null && this.optionLabelProperty.length() > 0)
+                            if(this.optionLabelProperty != null && !this.optionLabelProperty.isEmpty())
                                 optionValueLabel = PropertyUtil.format(PropertyUtil.getValue(propertyValue, this.optionLabelProperty), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
                             else
                                 optionValueLabel = PropertyUtil.format(PropertyUtil.getValue(propertyValue, propertyInfo.getId()), getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
@@ -548,7 +548,7 @@ public class SuggestionBoxComponent extends BaseOptionsPropertyComponent{
                             }
                         }
                         
-                        if(optionValueLabel != null && optionValueLabel.length() > 0){
+                        if(optionValueLabel != null && !optionValueLabel.isEmpty()){
                             print("&nbsp;");
                             print(optionValueLabel);
                         }

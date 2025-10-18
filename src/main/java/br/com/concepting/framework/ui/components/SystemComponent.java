@@ -26,7 +26,7 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -35,7 +35,7 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SystemComponent extends BaseComponent{
     private static final long serialVersionUID = 7420316295230472764L;
@@ -69,8 +69,8 @@ public class SystemComponent extends BaseComponent{
         LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
         SystemModuleModel systemModule = (loginSession != null ? loginSession.getSystemModule() : null);
         
-        if(systemModule != null && systemModule.getId() != null && systemModule.getId() > 0 && systemModule.getActive() != null && systemModule.getActive() && systemResources != null && securityResources != null && systemController != null && securityController != null){
-            UserModel user = (loginSession != null ? loginSession.getUser() : null);
+        if(systemModule != null && systemModule.getId() != null && systemModule.getId() > 0 && systemModule.getActive() != null && systemModule.getActive() && systemResources != null && securityResources != null && systemController != null){
+            UserModel user = loginSession.getUser();
             LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
             String action = systemController.getParameterValue(ActionFormConstants.ACTION_ATTRIBUTE_ID);
             Class<? extends BaseModel> modelClass;
@@ -126,6 +126,7 @@ public class SystemComponent extends BaseComponent{
             }
         }
         else
-            systemController.forward(UIConstants.DEFAULT_ERROR_URL);
+            if(systemController != null)
+                systemController.forward(UIConstants.DEFAULT_ERROR_URL);
     }
 }

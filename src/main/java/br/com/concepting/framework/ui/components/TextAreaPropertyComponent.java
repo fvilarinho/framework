@@ -13,7 +13,7 @@ import br.com.concepting.framework.util.types.ComponentType;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -22,7 +22,7 @@ import br.com.concepting.framework.util.types.ComponentType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class TextAreaPropertyComponent extends TextPropertyComponent{
     private static final long serialVersionUID = -4412598905102532413L;
@@ -108,7 +108,7 @@ public class TextAreaPropertyComponent extends TextPropertyComponent{
         
         boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidDefinition() || getValue() != null){
+        if(!hasInvalidDefinition || getValue() != null){
             print("<textarea");
             
             renderAttributes();
@@ -122,8 +122,8 @@ public class TextAreaPropertyComponent extends TextPropertyComponent{
         String formattedValue = getFormattedValue();
         boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidDefinition()){
-            if(formattedValue != null && formattedValue.length() > 0)
+        if(!hasInvalidDefinition){
+            if(formattedValue != null && !formattedValue.isEmpty())
                 println(formattedValue);
         }
         else
@@ -134,7 +134,7 @@ public class TextAreaPropertyComponent extends TextPropertyComponent{
     protected void renderClose() throws InternalErrorException{
         boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidDefinition() || getValue() != null)
+        if(!hasInvalidDefinition || getValue() != null)
             println("</textarea>");
         
         super.renderClose();

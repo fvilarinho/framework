@@ -21,7 +21,7 @@ import javax.servlet.jsp.JspException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ import javax.servlet.jsp.JspException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class TimerComponent extends LabelComponent{
     private static final long serialVersionUID = -3881406429829663145L;
@@ -61,7 +61,7 @@ public class TimerComponent extends LabelComponent{
     }
     
     /**
-     * Returns the identifier of the action of the trigger event.
+     * Returns the identifier of the trigger action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -70,7 +70,7 @@ public class TimerComponent extends LabelComponent{
     }
     
     /**
-     * Defines the identifier of the action of the trigger event.
+     * Defines the identifier of the trigger action.
      *
      * @param onTriggerAction String that contains the identifier of the action.
      */
@@ -193,7 +193,7 @@ public class TimerComponent extends LabelComponent{
         String actionFormName = getActionFormName();
         boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(propertyInfo != null && actionFormName != null && actionFormName.length() > 0 && !hasInvalidDefinition){
+        if(propertyInfo != null && actionFormName != null && !actionFormName.isEmpty() && !hasInvalidDefinition){
             HiddenPropertyComponent propertyComponent = new HiddenPropertyComponent();
             
             propertyComponent.setPageContext(this.pageContext);
@@ -217,7 +217,7 @@ public class TimerComponent extends LabelComponent{
     protected void renderId() throws InternalErrorException{
         String id = getId();
         
-        if(id != null && id.length() > 0){
+        if(id != null && !id.isEmpty()){
             print(" id=\"");
             print(id);
             print(".");
@@ -230,7 +230,7 @@ public class TimerComponent extends LabelComponent{
     protected void renderName() throws InternalErrorException{
         String name = getName();
         
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             print(" name=\"");
             print(name);
             print(".");
@@ -246,7 +246,7 @@ public class TimerComponent extends LabelComponent{
         String name = getName();
         boolean hasInvalidDefinition = hasInvalidDefinition();
         
-        if(!hasInvalidDefinition && name != null && name.length() > 0){
+        if(!hasInvalidDefinition && name != null && !name.isEmpty()){
             Number value = getValue();
             int compare = (value != null ? PropertyUtil.compareTo(value, 0) : 0);
             
