@@ -39,7 +39,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -48,7 +48,7 @@ import java.lang.reflect.InvocationTargetException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseActionFormComponent extends BaseComponent{
     private static final long serialVersionUID = 1879613642083701618L;
@@ -147,7 +147,6 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      *
      * @return Instance that contains the resource.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
-     * resource.
      */
     protected PropertiesResources getMainConsoleResources() throws InternalErrorException{
         if(this.mainConsoleResources == null){
@@ -168,7 +167,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Indicates if the components supports asynchronous events.
+     * Indicates if the component supports asynchronous events.
      *
      * @return True/False.
      */
@@ -177,22 +176,21 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the type of vertical alignment of the component.
+     * Returns the type of vertical alignment.
      *
-     * @return String that contains the type of vertical alignment of the
-     * component.
+     * @return String that contains the type of vertical alignment.
      */
     public String getVerticalAlignment(){
         return this.verticalAlignment;
     }
     
     /**
-     * Returns a type of vertical alignment of the component.
+     * Returns a type of vertical alignment.
      *
      * @return Instance that contains the vertical alignment.
      */
     protected AlignmentType getVerticalAlignmentType(){
-        if(this.verticalAlignment != null && this.verticalAlignment.length() > 0){
+        if(this.verticalAlignment != null && !this.verticalAlignment.isEmpty()){
             try{
                 return AlignmentType.valueOf(this.verticalAlignment.toUpperCase());
             }
@@ -204,7 +202,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the type of vertical alignment of the component.
+     * Defines the type of vertical alignment.
      *
      * @param verticalAlignment String that contains the type of vertical
      * alignment.
@@ -214,7 +212,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the type of alignment of the component.
+     * Defines the type of alignment.
      *
      * @param verticalAlignment Instance that contains the type of alignment.
      */
@@ -575,7 +573,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the identifier of the action forward of the on click event.
+     * Returns the identifier of the click action forward.
      *
      * @return String that contains the identifier of the action forward.
      */
@@ -584,7 +582,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action forward of the on click event.
+     * Defines the identifier of the click action forward.
      *
      * @param onClickForward String that contains the identifier of the action
      * forward.
@@ -632,7 +630,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the identifier of the action of the blur event.
+     * Returns the identifier of the blur action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -641,7 +639,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action of the blur event.
+     * Defines the identifier of the blur action.
      *
      * @param onBlurAction String that contains the identifier of the action.
      */
@@ -650,7 +648,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action of the blur event.
+     * Defines the identifier of the blur action.
      *
      * @param onBlurActionType Instance that contains the action.
      */
@@ -662,7 +660,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the identifier of the action of the focus event.
+     * Returns the identifier of the focus action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -671,7 +669,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action of the focus event.
+     * Defines the identifier of the focus action.
      *
      * @param onFocusAction String that contains the identifier of the action.
      */
@@ -680,7 +678,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action of the focus event.
+     * Defines the identifier of the focus action.
      *
      * @param onFocusActionType Instance that contains the action.
      */
@@ -692,7 +690,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the identifier of the action of the click event.
+     * Returns the identifier of the click action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -701,7 +699,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action of the click event.
+     * Defines the identifier of the click action.
      *
      * @param onClickAction String that contains the identifier of the action.
      */
@@ -710,7 +708,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action of the click event.
+     * Defines the identifier of the click action.
      *
      * @param onClickActionType Instance that contains the action.
      */
@@ -722,7 +720,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the identifier of the action of the mouse over event.
+     * Returns the identifier of the mouse-over action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -731,7 +729,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action of the mouse over event.
+     * Defines the identifier of the mouse-over action.
      *
      * @param onMouseOverAction String that contains the identifier of the
      * action.
@@ -741,7 +739,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action of the mouse over event.
+     * Defines the identifier of the mouse-over action.
      *
      * @param onMouseOverActionType Instance that contains the action.
      */
@@ -753,7 +751,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the identifier of the action of the mouse out event.
+     * Returns the identifier of the mouse-out action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -762,7 +760,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action of the mouse out event.
+     * Defines the identifier of the mouse-out action.
      *
      * @param onMouseOutAction String that contains the identifier of the
      * action.
@@ -772,7 +770,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the identifier of the action of the mouse out event.
+     * Defines the identifier of the mouse-out action.
      *
      * @param onMouseOutActionType Instance that contains the action.
      */
@@ -784,7 +782,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the type of alignment of the component.
+     * Returns the type of alignment.
      *
      * @return String that contains the type of alignment.
      */
@@ -793,12 +791,12 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns a type of alignment of the component.
+     * Returns a type of alignment.
      *
      * @return Instance that contains the alignment.
      */
     protected AlignmentType getAlignmentType(){
-        if(this.alignment != null && this.alignment.length() > 0){
+        if(this.alignment != null && !this.alignment.isEmpty()){
             try{
                 return AlignmentType.valueOf(this.alignment.toUpperCase());
             }
@@ -810,7 +808,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the type of alignment of the component.
+     * Defines the type of alignment.
      *
      * @param alignment String that contains the type of alignment.
      */
@@ -819,7 +817,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the type of alignment of the component.
+     * Defines the type of alignment.
      *
      * @param alignment Instance that contains the type of alignment.
      */
@@ -831,7 +829,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the type of alignment of the label of the component.
+     * Returns the type of label alignment.
      *
      * @return String that contains the type of alignment.
      */
@@ -840,12 +838,12 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the type of alignment of the label of the component.
+     * Returns the type of label alignment.
      *
      * @return Instance that contains the type of alignment.
      */
     protected AlignmentType getLabelAlignmentType(){
-        if(this.labelAlignment != null && this.labelAlignment.length() > 0){
+        if(this.labelAlignment != null && !this.labelAlignment.isEmpty()){
             try{
                 return AlignmentType.valueOf(this.labelAlignment.toUpperCase());
             }
@@ -857,7 +855,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the type of alignment of the label of the component.
+     * Defines the type of label alignment.
      *
      * @param labelAlignment String that contains the type of alignment.
      */
@@ -866,7 +864,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the type of alignment of the label of the component.
+     * Defines the type of label alignment.
      *
      * @param labelAlignment Instance that contains the type of alignment.
      */
@@ -878,7 +876,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the type of vertical alignment of the label of the component.
+     * Returns the type of label vertical alignment.
      *
      * @return String that contains the type of vertical alignment.
      */
@@ -887,12 +885,12 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the type of vertical alignment of the label of the component.
+     * Returns the type of label vertical alignment
      *
      * @return Instance that contains the type of vertical alignment.
      */
     protected AlignmentType getLabelVerticalAlignmentType(){
-        if(this.labelVerticalAlignment != null && this.labelVerticalAlignment.length() > 0){
+        if(this.labelVerticalAlignment != null && !this.labelVerticalAlignment.isEmpty()){
             try{
                 return AlignmentType.valueOf(this.labelVerticalAlignment.toUpperCase());
             }
@@ -904,7 +902,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the type of vertical alignment of the label of the component.
+     * Defines the type of label vertical alignment
      *
      * @param labelVerticalAlignment String that contains the type of vertical
      * alignment.
@@ -914,7 +912,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the type of vertical alignment of the label of the component.
+     * Defines the type of label vertical alignment.
      *
      * @param labelVerticalAlignment Instance that contains the type of vertical
      * alignment.
@@ -945,7 +943,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the position of the label of the component.
+     * Returns the position of the label.
      *
      * @return String that contains the position of the label.
      */
@@ -954,12 +952,12 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Returns the position of the label of the component.
+     * Returns the position of the label.
      *
      * @return Instance that contains the position of the label.
      */
     protected PositionType getLabelPositionType(){
-        if(this.labelPosition != null && this.labelPosition.length() > 0){
+        if(this.labelPosition != null && !this.labelPosition.isEmpty()){
             try{
                 return PositionType.valueOf(this.labelPosition.toUpperCase());
             }
@@ -971,7 +969,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the position of the label of the component.
+     * Defines the position of the label.
      *
      * @param labelPosition String that contains the position of the label.
      */
@@ -980,7 +978,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Defines the position of the label of the component.
+     * Defines the position of the label.
      *
      * @param labelPosition Instance that contains the position of the label.
      */
@@ -1123,7 +1121,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      * the operation.
      */
     protected ActionFormComponent getActionFormComponent() throws InternalErrorException{
-        if(this.actionFormName == null || this.actionFormName.length() == 0){
+        if(this.actionFormName == null || this.actionFormName.isEmpty()){
             this.actionFormComponent = (ActionFormComponent) findAncestorWithClass(this, ActionFormComponent.class);
             
             if(this.actionFormComponent == null){
@@ -1138,7 +1136,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 this.actionFormName = this.actionFormComponent.getName();
         }
         
-        if(this.actionFormName != null && this.actionFormName.length() > 0){
+        if(this.actionFormName != null && !this.actionFormName.isEmpty()){
             UIController uiController = getUIController();
             
             if(uiController != null)
@@ -1153,7 +1151,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         String name = getName();
         ComponentType componentType = getComponentType();
         
-        if((name == null || name.length() == 0) && componentType != null){
+        if((name == null || name.isEmpty()) && componentType != null){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(componentType.getId());
@@ -1179,7 +1177,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         String resourcesKey = getResourcesKey();
         String name = getName();
         
-        if(this.actionFormName != null && this.actionFormName.length() > 0 && name != null && name.length() > 0 && (resourcesKey == null || resourcesKey.length() == 0)){
+        if(this.actionFormName != null && !this.actionFormName.isEmpty() && name != null && !name.isEmpty() && (resourcesKey == null || resourcesKey.isEmpty())){
             LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
             SystemModuleModel systemModule = (loginSession != null ? loginSession.getSystemModule() : null);
             FormModel form = (systemModule != null ? systemModule.getForm(this.actionFormName) : null);
@@ -1196,7 +1194,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         String labelValue = null;
         StringBuilder propertyId = null;
         
-        if(resourcesKey != null && resourcesKey.length() > 0 && this.label == null){
+        if(resourcesKey != null && !resourcesKey.isEmpty() && this.label == null){
             propertyId = new StringBuilder();
             propertyId.append(resourcesKey);
             propertyId.append(".");
@@ -1249,7 +1247,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         String resourcesKey = getResourcesKey();
         String name = getName();
         
-        if(this.actionFormName != null && this.actionFormName.length() > 0 && name != null && name.length() > 0 && (resourcesKey == null || resourcesKey.length() == 0)){
+        if(this.actionFormName != null && !this.actionFormName.isEmpty() && name != null && !name.isEmpty() && (resourcesKey == null || resourcesKey.isEmpty())){
             SecurityController securityController = getSecurityController();
             LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
             SystemModuleModel systemModule = (loginSession != null ? loginSession.getSystemModule() : null);
@@ -1268,7 +1266,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         String tooltipValue = null;
         StringBuilder propertyId = null;
         
-        if(resourcesKey != null && resourcesKey.length() > 0 && this.tooltip == null){
+        if(resourcesKey != null && !resourcesKey.isEmpty() && this.tooltip == null){
             propertyId = new StringBuilder();
             propertyId.append(resourcesKey);
             propertyId.append(".");
@@ -1351,7 +1349,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         ComponentType componentType = getComponentType();
         String styleClass = getStyleClass();
         
-        if((styleClass == null || styleClass.length() == 0) && componentType != null){
+        if((styleClass == null || styleClass.isEmpty()) && componentType != null){
             styleClass = componentType.getId();
             
             setStyleClass(styleClass);
@@ -1361,13 +1359,13 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     }
     
     /**
-     * Builds the CSS style of the label of the component.
+     * Builds the CSS style of the label.
      *
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
     protected void buildLabelStyleClass() throws InternalErrorException{
-        if(this.labelStyleClass == null || this.labelStyleClass.length() == 0)
+        if(this.labelStyleClass == null || this.labelStyleClass.isEmpty())
             this.labelStyleClass = UIConstants.DEFAULT_LABEL_STYLE_CLASS;
     }
 
@@ -1378,7 +1376,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         if(actionFormComponent != null){
             String resourcesId = getResourcesId();
             
-            if(resourcesId == null || resourcesId.length() == 0){
+            if(resourcesId == null || resourcesId.isEmpty()){
                 resourcesId = actionFormComponent.getResourcesId();
                 
                 setResourcesId(resourcesId);
@@ -1416,10 +1414,10 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             String currentEventContent = PropertyUtil.getValue(this, eventId);
             String eventAction = PropertyUtil.getValue(this, eventId.concat(StringUtil.capitalize(ActionFormConstants.ACTION_ATTRIBUTE_ID)));
             
-            if(this.actionFormName != null && this.actionFormName.length() > 0){
+            if(this.actionFormName != null && !this.actionFormName.isEmpty()){
                 String eventForward = PropertyUtil.getValue(this, eventId.concat(StringUtil.capitalize(ActionFormConstants.FORWARD_ATTRIBUTE_ID)));
                 
-                if(eventForward != null && eventForward.length() > 0){
+                if(eventForward != null && !eventForward.isEmpty()){
                     eventContent = new StringBuilder();
                     eventContent.append("document.");
                     eventContent.append(this.actionFormName);
@@ -1432,7 +1430,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 
                 String eventUpdateViews = PropertyUtil.getValue(this, eventId.concat(StringUtil.capitalize(UIConstants.UPDATE_VIEWS_ATTRIBUTE_ID)));
                 
-                if(eventUpdateViews != null && eventUpdateViews.length() > 0){
+                if(eventUpdateViews != null && !eventUpdateViews.isEmpty()){
                     if(eventContent == null)
                         eventContent = new StringBuilder();
                     else if(eventContent.length() > 0)
@@ -1459,13 +1457,11 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                     eventContent.append(this.actionFormName);
                     eventContent.append(".");
                     eventContent.append(ModelConstants.VALIDATE_MODEL_ATTRIBUTE_ID);
-                    eventContent.append(".value = ");
-                    eventContent.append(eventValidate);
-                    eventContent.append(";");
+                    eventContent.append(".value = true;");
                     
                     String eventValidateModelProperties = PropertyUtil.getValue(this, eventId.concat(StringUtil.capitalize(ModelConstants.VALIDATE_MODEL_PROPERTIES_ATTRIBUTE_ID)));
                     
-                    if(eventValidateModelProperties != null && eventValidateModelProperties.length() > 0){
+                    if(eventValidateModelProperties != null && !eventValidateModelProperties.isEmpty()){
                         eventContent.append(" document.");
                         eventContent.append(this.actionFormName);
                         eventContent.append(".");
@@ -1476,7 +1472,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                     }
                 }
                 
-                if(eventAction != null && eventAction.length() > 0){
+                if(eventAction != null && !eventAction.isEmpty()){
                     if(eventContent == null)
                         eventContent = new StringBuilder();
                     else if(eventContent.length() > 0)
@@ -1492,7 +1488,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 }
             }
             
-            if(currentEventContent != null && currentEventContent.length() > 0){
+            if(currentEventContent != null && !currentEventContent.isEmpty()){
                 if(eventContent == null)
                     eventContent = new StringBuilder();
                 else if(eventContent.length() > 0)
@@ -1504,10 +1500,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                     eventContent.append(";");
             }
             
-            if(this.actionFormName != null && this.actionFormName.length() > 0 && eventAction != null && eventAction.length() > 0){
-                if(eventContent == null)
-                    eventContent = new StringBuilder();
-                else if(eventContent.length() > 0)
+            if(this.actionFormName != null && !this.actionFormName.isEmpty() && eventAction != null && !eventAction.isEmpty()){
+                if(eventContent.length() > 0)
                     eventContent.append(" ");
                 
                 if(asynchronousEvents()){
@@ -1558,7 +1552,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     protected void buildPermissions() throws InternalErrorException{
         String name = getName();
         
-        if(this.actionFormName != null && this.actionFormName.length() > 0 && name != null && name.length() > 0){
+        if(this.actionFormName != null && !this.actionFormName.isEmpty() && name != null && !name.isEmpty()){
             SecurityController securityController = getSecurityController();
             LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
             SystemModuleModel systemModule = (loginSession != null ? loginSession.getSystemModule() : null);
@@ -1599,7 +1593,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         String name = getName();
         boolean enabled = isEnabled();
         
-        if(id != null && id.length() > 0 && name != null && name.length() > 0 && enabled){
+        if(id != null && !id.isEmpty() && name != null && !name.isEmpty() && enabled){
             StringBuilder idBuffer = new StringBuilder();
             
             idBuffer.append(id);
@@ -1639,12 +1633,12 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     protected void renderLabelOpen() throws InternalErrorException{
         PositionType labelPosition = getLabelPositionType();
         
-        if(this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE){
+        if(this.showLabel && this.label != null && !this.label.isEmpty() && labelPosition != PositionType.INSIDE){
             print("<td class=\"");
             print(this.labelStyleClass);
             print("\"");
             
-            if(this.labelStyle != null && this.labelStyle.length() > 0){
+            if(this.labelStyle != null && !this.labelStyle.isEmpty()){
                 print(" style=\"");
                 print(this.labelStyle);
                 
@@ -1654,13 +1648,13 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 print("\"");
             }
             
-            if(this.labelAlignment != null && this.labelAlignment.length() > 0){
+            if(this.labelAlignment != null && !this.labelAlignment.isEmpty()){
                 print(" align=\"");
                 print(this.labelAlignment);
                 print("\"");
             }
             
-            if(this.labelVerticalAlignment != null && this.labelVerticalAlignment.length() > 0){
+            if(this.labelVerticalAlignment != null && !this.labelVerticalAlignment.isEmpty()){
                 print(" valign=\"");
                 print(this.labelVerticalAlignment);
                 print("\"");
@@ -1680,7 +1674,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     protected void renderLabelBody() throws InternalErrorException{
         PositionType labelPosition = getLabelPositionType();
         
-        if(this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE){
+        if(this.showLabel && this.label != null && !this.label.isEmpty() && labelPosition != PositionType.INSIDE){
             print(this.label);
             
             PositionType labelPositionType = getLabelPositionType();
@@ -1704,7 +1698,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     protected void renderLabelClose() throws InternalErrorException{
         PositionType labelPosition = getLabelPositionType();
         
-        if(this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE)
+        if(this.showLabel && this.label != null && !this.label.isEmpty() && labelPosition != PositionType.INSIDE)
             println("</td>");
     }
     
@@ -1714,7 +1708,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderTooltip() throws InternalErrorException{
-        if(this.tooltip != null && this.tooltip.length() > 0){
+        if(this.tooltip != null && !this.tooltip.isEmpty()){
             print(" title=\"");
             print(this.tooltip);
             print("\"");
@@ -1727,7 +1721,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderLabel() throws InternalErrorException{
-        if(this.showLabel && this.label != null && this.label.length() > 0){
+        if(this.showLabel && this.label != null && !this.label.isEmpty()){
             renderLabelOpen();
             renderLabelBody();
             renderLabelClose();
@@ -1799,7 +1793,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         
         PositionType labelPosition = getLabelPositionType();
         
-        if(this.showLabel && this.label != null && this.label.length() > 0 && labelPosition != PositionType.INSIDE){
+        if(this.showLabel && this.label != null && !this.label.isEmpty() && labelPosition != PositionType.INSIDE){
             println("<table>");
             println("<tr>");
             
@@ -1814,13 +1808,13 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             
             print("<td");
             
-            if(this.alignment != null && this.alignment.length() > 0){
+            if(this.alignment != null && !this.alignment.isEmpty()){
                 print(" align=\"");
                 print(this.alignment);
                 print("\"");
             }
             
-            if(this.verticalAlignment != null && this.verticalAlignment.length() > 0){
+            if(this.verticalAlignment != null && !this.verticalAlignment.isEmpty()){
                 print(" valign=\"");
                 print(this.verticalAlignment);
                 print("\"");
@@ -1841,7 +1835,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
 
     @Override
     protected void renderClose() throws InternalErrorException{
-        if(this.showLabel && this.label != null && this.label.length() > 0){
+        if(this.showLabel && this.label != null && !this.label.isEmpty()){
             println("</td>");
             
             PositionType labelPosition = getLabelPositionType();
