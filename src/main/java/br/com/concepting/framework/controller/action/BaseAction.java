@@ -28,7 +28,7 @@ import org.apache.commons.beanutils.MethodUtils;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Class that defines the basic implementation of the actions of a form.
+ * Class that defines the basic implementation of the form actions.
  *
  * @param <M> Class that defines the data model.
  * @author fvilarinho
@@ -38,7 +38,7 @@ import java.lang.reflect.InvocationTargetException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -47,7 +47,7 @@ import java.lang.reflect.InvocationTargetException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseAction<M extends BaseModel>{
     private SystemController systemController = null;
@@ -287,13 +287,13 @@ public abstract class BaseAction<M extends BaseModel>{
     public <F extends BaseActionForm<M>> void download() throws Throwable{
         String contentId = this.systemController.getParameterValue(Constants.CONTENT_ATTRIBUTE_ID);
 
-        if(contentId != null && contentId.length() > 0){
+        if(contentId != null && !contentId.isEmpty()){
             byte[] content = this.systemController.getAttribute(contentId, ScopeType.SESSION);
 
             if(content != null){
                 String contentType = this.systemController.getParameterValue(Constants.CONTENT_TYPE_ATTRIBUTE_ID);
 
-                if(contentType == null || contentType.length() == 0)
+                if(contentType == null || contentType.isEmpty())
                     contentType = ContentType.BINARY.getMimeType();
 
                 String contentFilename = this.systemController.getParameterValue(Constants.CONTENT_FILENAME_ATTRIBUTE_ID);
@@ -336,7 +336,7 @@ public abstract class BaseAction<M extends BaseModel>{
         String action = this.actionForm.getAction();
         String uri = this.systemController.getURI();
 
-        if(action != null && action.length() > 0) {
+        if(action != null && !action.isEmpty()) {
             try {
                 MethodUtils.invokeMethod(this, action, null);
             }

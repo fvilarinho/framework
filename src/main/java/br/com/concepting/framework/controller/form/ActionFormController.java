@@ -40,7 +40,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -49,7 +49,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ActionFormController{
     private final SystemController systemController;
@@ -87,7 +87,7 @@ public class ActionFormController{
     public BaseActionForm<? extends BaseModel> getActionFormInstanceByName(String name) throws InternalErrorException{
         BaseActionForm<? extends BaseModel> actionFormInstance = null;
         
-        if(name != null && name.length() > 0){
+        if(name != null && !name.isEmpty()){
             actionFormInstance = this.systemController.getAttribute(name, ScopeType.SESSION);
             
             if(actionFormInstance == null){
@@ -133,7 +133,7 @@ public class ActionFormController{
     public BaseActionForm<? extends BaseModel> getActionFormInstanceByAction(String action) throws InternalErrorException{
         BaseActionForm<? extends BaseModel> actionFormInstance = null;
         
-        if(action != null && action.length() > 0){
+        if(action != null && !action.isEmpty()){
             try{
                 SystemResourcesLoader loader = new SystemResourcesLoader();
                 SystemResources systemResources = loader.getDefault();
@@ -165,7 +165,7 @@ public class ActionFormController{
             }
         }
         
-        return actionFormInstance;
+        return null;
     }
     
     /**
@@ -177,7 +177,7 @@ public class ActionFormController{
     public BaseActionForm<? extends BaseModel> getActionFormInstance() throws InternalErrorException{
         BaseActionForm<? extends BaseModel> actionFormInstance;
         
-        if(this.actionFormName == null || this.actionFormName.length() == 0){
+        if(this.actionFormName == null || this.actionFormName.isEmpty()){
             String action = StringUtil.replaceAll(this.systemController.getURI(), this.systemController.getContextPath(), "");
             
             action = StringUtil.replaceAll(action, ProjectConstants.DEFAULT_UI_PAGES_DIR, "");
@@ -208,7 +208,7 @@ public class ActionFormController{
      * @return String that contains the identifier of the property dataset.
      */
     private String getPropertyDataset(String propertyName){
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(propertyName);
@@ -217,7 +217,7 @@ public class ActionFormController{
             
             String keyValue = this.systemController.getParameterValue(key.toString());
             
-            if(keyValue != null && keyValue.length() > 0){
+            if(keyValue != null && !keyValue.isEmpty()){
                 StringBuilder result = new StringBuilder();
                 ScopeType propertyDatasetScope = getPropertyDatasetScope(propertyName);
                 
@@ -245,10 +245,10 @@ public class ActionFormController{
      * @return Instance that contains the property dataset.
      */
     public <C extends Collection<?>> C getPropertyDatasetValues(String propertyName){
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             String propertyDataset = getPropertyDataset(propertyName);
             
-            if(propertyDataset != null && propertyDataset.length() > 0)
+            if(propertyDataset != null && !propertyDataset.isEmpty())
                 return this.systemController.getAttribute(propertyDataset, ScopeType.SESSION);
         }
         
@@ -256,13 +256,13 @@ public class ActionFormController{
     }
     
     /**
-     * Returns the instance of the scope type of the property dataset.
+     * Returns the instance of the scope type for the property dataset.
      *
      * @param propertyName String that contains the identifier of the property.
      * @return Instance that contains the scope type of the property dataset.
      */
     private ScopeType getPropertyDatasetScope(String propertyName){
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(propertyName);
@@ -294,7 +294,7 @@ public class ActionFormController{
     public int getPropertyDatasetStartIndex(String propertyName){
         int propertyIndex = 0;
 
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(propertyName);
@@ -303,7 +303,7 @@ public class ActionFormController{
             
             String value = this.systemController.getParameterValue(key.toString());
 
-            if(value != null && value.length() > 0){
+            if(value != null && !value.isEmpty()){
                 try{
                     propertyIndex = NumberUtil.parseInt(value);
                 }
@@ -324,7 +324,7 @@ public class ActionFormController{
     public int getPropertyDatasetEndIndex(String propertyName){
         int propertyIndex = 0;
 
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(propertyName);
@@ -333,7 +333,7 @@ public class ActionFormController{
             
             String value = this.systemController.getParameterValue(key.toString());
 
-            if(value != null && value.length() > 0){
+            if(value != null && !value.isEmpty()){
                 try{
                     propertyIndex = NumberUtil.parseInt(value);
                 }
@@ -352,7 +352,7 @@ public class ActionFormController{
      * @return String that contains the pattern.
      */
     public String getPropertyPattern(String propertyName){
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(propertyName);
@@ -362,7 +362,7 @@ public class ActionFormController{
             String encoding = this.systemController.getEncoding();
             String value = this.systemController.getParameterValue(key.toString());
             
-            if(value != null && value.length() > 0){
+            if(value != null && !value.isEmpty()){
                 try{
                     value = URLDecoder.decode(value, encoding);
                 }
@@ -383,7 +383,7 @@ public class ActionFormController{
      * @return String that contains the label.
      */
     public String getPropertyLabel(String propertyName){
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             StringBuilder key = new StringBuilder();
             
             key.append(propertyName);
@@ -393,7 +393,7 @@ public class ActionFormController{
             String encoding = this.systemController.getEncoding();
             String value = this.systemController.getParameterValue(key.toString());
             
-            if(value != null && value.length() > 0){
+            if(value != null && !value.isEmpty()){
                 try{
                     value = URLDecoder.decode(value, encoding);
                 }
@@ -401,7 +401,7 @@ public class ActionFormController{
                 }
             }
             
-            if(value == null || value.length() == 0)
+            if(value == null || value.isEmpty())
                 value = propertyName;
             
             return value;
@@ -465,10 +465,10 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public boolean hasValidationMessage(String propertyName) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             Collection<ActionFormMessage> validationMessages = getValidationMessages(propertyName);
             
-            return (validationMessages != null && validationMessages.size() > 0);
+            return (validationMessages != null && !validationMessages.isEmpty());
         }
         
         return false;
@@ -484,7 +484,7 @@ public class ActionFormController{
      */
     @SuppressWarnings("unchecked")
     public <C extends Collection<ActionFormMessage>> C getValidationMessages(String propertyName) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             Collection<ActionFormMessage> validationMessages = getMessages(ActionFormMessageType.VALIDATION);
             
             if(validationMessages != null && !validationMessages.isEmpty()){
@@ -496,8 +496,9 @@ public class ActionFormController{
                     if(value != null && value.equals(propertyName)){
                         if(result == null)
                             result = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                        
-                        result.add(validationMessage);
+
+                        if(result != null)
+                            result.add(validationMessage);
                     }
                 }
                 
@@ -539,7 +540,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addInfoMessage(String key) throws InternalErrorException{
-        if(key != null && key.length() > 0)
+        if(key != null && !key.isEmpty())
             addMessage(ActionFormMessageUtil.createInfoMessage(key));
     }
     
@@ -550,7 +551,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addWarningMessage(String key) throws InternalErrorException{
-        if(key != null && key.length() > 0)
+        if(key != null && !key.isEmpty())
             addMessage(ActionFormMessageUtil.createWarningMessage(key));
     }
     
@@ -561,7 +562,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addErrorMessage(String key) throws InternalErrorException{
-        if(key != null && key.length() > 0)
+        if(key != null && !key.isEmpty())
             addMessage(ActionFormMessageUtil.createErrorMessage(key));
     }
     
@@ -585,7 +586,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addContentTypeValidationMessage(String propertyName, ContentType propertyContentType, ContentType[] permittedContentTypes) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyContentType != null && permittedContentTypes != null && permittedContentTypes.length > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyContentType != null && permittedContentTypes != null && permittedContentTypes.length > 0)
             addContentTypeValidationMessage(propertyName, getPropertyLabel(propertyName), propertyContentType, permittedContentTypes);
     }
     
@@ -599,7 +600,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addContentTypeValidationMessage(String propertyName, String propertyLabel, ContentType propertyContentType, ContentType[] permittedContentTypes) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyContentType != null && permittedContentTypes != null && permittedContentTypes.length > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyContentType != null && permittedContentTypes != null && permittedContentTypes.length > 0)
             addMessage(ActionFormValidationMessageUtil.createContentTypeValidationMessage(propertyName, propertyLabel, propertyContentType, permittedContentTypes));
     }
     
@@ -608,11 +609,11 @@ public class ActionFormController{
      *
      * @param propertyName String that contains the identifier of the property.
      * @param propertyContentSize Numeric value that contains the size of the content.
-     * @param propertyContentSizeUnit Instance that content the content size unit.
+     * @param propertyContentSizeUnit Instance that contains the content size unit.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addContentSizeValidationMessage(String propertyName, Double propertyContentSize, ByteMetricType propertyContentSizeUnit) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyContentSize != null && propertyContentSize > 0 && propertyContentSizeUnit != null)
+        if(propertyName != null && !propertyName.isEmpty() && propertyContentSize != null && propertyContentSize > 0 && propertyContentSizeUnit != null)
             addContentSizeValidationMessage(propertyName, getPropertyLabel(propertyName), propertyContentSize, propertyContentSizeUnit);
     }
     
@@ -622,34 +623,34 @@ public class ActionFormController{
      * @param propertyName String that contains the identifier of the property.
      * @param propertyLabel String that contains the label of the property.
      * @param propertyContentSize Numeric value that contains the size of the content.
-     * @param propertyContentSizeUnit Instance that content the content size unit.
+     * @param propertyContentSizeUnit Instance that contains the content size unit.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addContentSizeValidationMessage(String propertyName, String propertyLabel, Double propertyContentSize, ByteMetricType propertyContentSizeUnit) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyContentSize != null && propertyContentSize > 0 && propertyContentSizeUnit != null)
+        if(propertyName != null && !propertyName.isEmpty() && propertyContentSize != null && propertyContentSize > 0 && propertyContentSizeUnit != null)
             addMessage(ActionFormValidationMessageUtil.createContentSizeValidationMessage(propertyName, propertyLabel, propertyContentSize, propertyContentSizeUnit));
     }
     
     /**
-     * Adds a property required validation message for a data model property.
+     * Adds a validation message for the required property input.
      *
      * @param propertyName String that contains the identifier of the property.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addRequiredValidationMessage(String propertyName) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty())
             addRequiredValidationMessage(propertyName, getPropertyLabel(propertyName));
     }
     
     /**
-     * Adds a property required validation message for a data model property.
+     * Adds a validation message for the required property.
      *
      * @param propertyName String that contains the identifier of the property.
      * @param propertyLabel String that contains the label of the property.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addRequiredValidationMessage(String propertyName, String propertyLabel) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty())
             addMessage(ActionFormValidationMessageUtil.createRequiredValidationMessage(propertyName, propertyLabel));
     }
     
@@ -660,7 +661,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addDateTimeValidationMessage(String propertyName) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty())
             addDateTimeValidationMessage(propertyName, getPropertyLabel(propertyName), getPropertyPattern(propertyName));
     }
     
@@ -673,7 +674,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addDateTimeValidationMessage(String propertyName, String propertyLabel, String propertyPattern) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty())
             addMessage(ActionFormValidationMessageUtil.createDateTimeValidationMessage(propertyName, propertyLabel, propertyPattern));
     }
     
@@ -684,7 +685,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addNumberValidationMessage(String propertyName) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty())
             addNumberValidationMessage(propertyName, getPropertyLabel(propertyName));
     }
     
@@ -696,7 +697,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addNumberValidationMessage(String propertyName, String propertyLabel) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty())
             addMessage(ActionFormValidationMessageUtil.createNumberValidationMessage(propertyName, propertyLabel));
     }
     
@@ -711,7 +712,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addCompareValidationMessage(String propertyName, ConditionType propertyCompareCondition, String propertyCompareName) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyCompareCondition != null && propertyCompareName != null && propertyCompareName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyCompareCondition != null && propertyCompareName != null && !propertyCompareName.isEmpty())
             addCompareValidationMessage(propertyName, getPropertyLabel(propertyName), propertyCompareCondition, propertyCompareName, getPropertyLabel(propertyName));
     }
     
@@ -729,7 +730,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addCompareValidationMessage(String propertyName, String propertyLabel, ConditionType propertyCompareCondition, String propertyCompareName, String propertyCompareLabel) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyCompareCondition != null && propertyCompareName != null && propertyCompareName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyCompareCondition != null && propertyCompareName != null && !propertyCompareName.isEmpty())
             addMessage(ActionFormValidationMessageUtil.createCompareValidationMessage(propertyName, propertyLabel, propertyCompareCondition, propertyCompareName, propertyCompareLabel));
     }
     
@@ -741,7 +742,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addWordCountValidationMessage(String propertyName, int propertyWordCount) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyWordCount > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyWordCount > 0)
             addWordCountValidationMessage(propertyName, getPropertyLabel(propertyName), propertyWordCount);
     }
     
@@ -754,7 +755,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addWordCountValidationMessage(String propertyName, String propertyLabel, int propertyWordCount) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyWordCount > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyWordCount > 0)
             addMessage(ActionFormValidationMessageUtil.createWordCountValidationMessage(propertyName, propertyLabel, propertyWordCount));
     }
     
@@ -767,7 +768,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addMinimumLengthValidationMessage(String propertyName, int propertyMinimumLength) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyMinimumLength > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyMinimumLength > 0)
             addMinimumLengthValidationMessage(propertyName, getPropertyLabel(propertyName), propertyMinimumLength);
     }
     
@@ -781,7 +782,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addMinimumLengthValidationMessage(String propertyName, String propertyLabel, int propertyMinimumLength) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyMinimumLength > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyMinimumLength > 0)
             addMessage(ActionFormValidationMessageUtil.createMinimumLengthValidationMessage(propertyName, propertyLabel, propertyMinimumLength));
     }
     
@@ -794,7 +795,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addMaximumLengthValidationMessage(String propertyName, int propertyMaximumLength) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyMaximumLength > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyMaximumLength > 0)
             addMaximumLengthValidationMessage(propertyName, getPropertyLabel(propertyName), propertyMaximumLength);
     }
     
@@ -808,7 +809,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addMaximumLengthValidationMessage(String propertyName, String propertyLabel, int propertyMaximumLength) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyMaximumLength > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyMaximumLength > 0)
             addMessage(ActionFormValidationMessageUtil.createMaximumLengthValidationMessage(propertyName, propertyLabel, propertyMaximumLength));
     }
     
@@ -820,7 +821,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addRegularExpressionValidationMessage(String propertyName, String propertyRegex) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyRegex != null && propertyRegex.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyRegex != null && !propertyRegex.isEmpty())
             addRegularExpressionValidationMessage(propertyName, getPropertyLabel(propertyName), propertyRegex);
     }
     
@@ -833,30 +834,30 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addRegularExpressionValidationMessage(String propertyName, String propertyLabel, String propertyRegex) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyRegex != null && propertyRegex.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyRegex != null && !propertyRegex.isEmpty())
             addMessage(ActionFormValidationMessageUtil.createRegularExpressionValidationMessage(propertyName, propertyLabel, propertyRegex));
     }
     
     /**
-     * Adds a e-Mail validation message for a data model property.
+     * Adds an e-Mail validation message for a data model property.
      *
      * @param propertyName String that contains the identifier of the property.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addEmailValidationMessage(String propertyName) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty())
             addEmailValidationMessage(propertyName, getPropertyLabel(propertyName));
     }
     
     /**
-     * Adds a e-Mail validation message for a data model property.
+     * Adds an e-Mail validation message for a data model property.
      *
      * @param propertyName String that contains the identifier of the property.
      * @param propertyLabel String that contains the label of the property.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addEmailValidationMessage(String propertyName, String propertyLabel) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty())
             addMessage(ActionFormValidationMessageUtil.createEmailValidationMessage(propertyName, propertyLabel));
     }
     
@@ -867,7 +868,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addPatternValidationMessage(String propertyName) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty())
             addPatternValidationMessage(propertyName, getPropertyLabel(propertyName), getPropertyPattern(propertyName));
     }
     
@@ -880,7 +881,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addPatternValidationMessage(String propertyName, String propertyLabel, String propertyPattern) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyPattern != null && propertyPattern.length() > 0)
+        if(propertyName != null && !propertyName.isEmpty() && propertyPattern != null && !propertyPattern.isEmpty())
             addMessage(ActionFormValidationMessageUtil.createPatternValidationMessage(propertyName, propertyLabel, propertyPattern));
     }
     
@@ -888,12 +889,12 @@ public class ActionFormController{
      * Adds a numeric range validation message for a data model property.
      *
      * @param propertyName String that contains the identifier of the property.
-     * @param propertyStartRange Numeric value the contains the start range.
-     * @param propertyEndRange Numeric value the contains the end range.
+     * @param propertyStartRange Numeric value that contains the start range.
+     * @param propertyEndRange Numeric value that contains the end range.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addRangeValidationMessage(String propertyName, Object propertyStartRange, Object propertyEndRange) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyStartRange != null && propertyEndRange != null)
+        if(propertyName != null && !propertyName.isEmpty() && propertyStartRange != null && propertyEndRange != null)
             addRangeValidationMessage(propertyName, getPropertyLabel(propertyName), propertyStartRange, propertyEndRange);
     }
     
@@ -902,12 +903,12 @@ public class ActionFormController{
      *
      * @param propertyName String that contains the identifier of the property.
      * @param propertyLabel String that contains the label of the property.
-     * @param propertyStartRange Numeric value the contains the start range.
-     * @param propertyEndRange Numeric value the contains the end range.
+     * @param propertyStartRange Numeric value that contains the start range.
+     * @param propertyEndRange Numeric value that contains the end range.
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addRangeValidationMessage(String propertyName, String propertyLabel, Object propertyStartRange, Object propertyEndRange) throws InternalErrorException{
-        if(propertyName != null && propertyName.length() > 0 && propertyStartRange != null && propertyEndRange != null)
+        if(propertyName != null && !propertyName.isEmpty() && propertyStartRange != null && propertyEndRange != null)
             addMessage(ActionFormValidationMessageUtil.createRangeValidationMessage(propertyName, propertyLabel, propertyStartRange, propertyEndRange));
     }
     
@@ -920,7 +921,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addCustomValidationMessage(String propertyValidation, String propertyName) throws InternalErrorException{
-        if(propertyValidation != null && propertyValidation.length() > 0 && propertyName != null && propertyName.length() > 0)
+        if(propertyValidation != null && !propertyValidation.isEmpty() && propertyName != null && !propertyName.isEmpty())
             addCustomValidationMessage(propertyValidation, propertyName, getPropertyLabel(propertyName));
     }
     
@@ -934,7 +935,7 @@ public class ActionFormController{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public void addCustomValidationMessage(String propertyValidation, String propertyName, String propertyLabel) throws InternalErrorException{
-        if(propertyValidation != null && propertyValidation.length() > 0 && propertyName != null && propertyName.length() > 0)
+        if(propertyValidation != null && !propertyValidation.isEmpty() && propertyName != null && !propertyName.isEmpty())
             addMessage(ActionFormValidationMessageUtil.createCustomValidationMessage(propertyValidation, propertyName, propertyLabel));
     }
     
@@ -951,7 +952,7 @@ public class ActionFormController{
         if(actionForm != null){
             String actionFormForwardName = actionForm.getForward();
             
-            if(actionFormForwardName == null || actionFormForwardName.length() == 0)
+            if(actionFormForwardName == null || actionFormForwardName.isEmpty())
                 actionFormForwardName = ActionFormConstants.DEFAULT_FORWARD_ID;
             
             SystemResourcesLoader loader = new SystemResourcesLoader();
@@ -960,7 +961,7 @@ public class ActionFormController{
             if(systemResources != null){
                 Collection<SystemResources.ActionFormResources> actionFormsResources = systemResources.getActionForms();
                 
-                if(actionFormsResources != null && actionFormsResources.size() > 0)
+                if(actionFormsResources != null && !actionFormsResources.isEmpty())
                     for(SystemResources.ActionFormResources actionFormResources: actionFormsResources)
                         if(actionFormResources.getClazz().equals(actionForm.getClass().getName()))
                             return actionFormResources.getForward(actionFormForwardName);

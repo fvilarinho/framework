@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ActionFormMessageUtil{
     /**
@@ -43,7 +43,7 @@ public class ActionFormMessageUtil{
      * @return Instance that contains the message.
      */
     public static ActionFormMessage createInfoMessage(String key){
-        if(key != null && key.length() > 0)
+        if(key != null && !key.isEmpty())
             return new ActionFormMessage(ActionFormMessageType.INFO, key);
         
         return null;
@@ -56,7 +56,7 @@ public class ActionFormMessageUtil{
      * @return Instance that contains the message.
      */
     public static ActionFormMessage createWarningMessage(String key){
-        if(key != null && key.length() > 0)
+        if(key != null && !key.isEmpty())
             return new ActionFormMessage(ActionFormMessageType.WARNING, key);
         
         return null;
@@ -69,7 +69,7 @@ public class ActionFormMessageUtil{
      * @return Instance that contains the message.
      */
     public static ActionFormMessage createErrorMessage(String key){
-        if(key != null && key.length() > 0)
+        if(key != null && !key.isEmpty())
             return new ActionFormMessage(ActionFormMessageType.ERROR, key);
         
         return null;
@@ -98,30 +98,27 @@ public class ActionFormMessageUtil{
         
         ActionFormMessage actionFormMessage = new ActionFormMessage(messageType, key);
         Field[] fields = e.getClass().getDeclaredFields();
-        
-        if(fields != null && fields.length > 0){
-            for(Field field: fields){
-                if(Modifier.isStatic(field.getModifiers()))
-                    continue;
-                
-                String name = field.getName();
-                
-                try{
-                    Object value = PropertyUtil.getValue(e, name);
-                    
-                    actionFormMessage.addAttribute(name, value);
-                }
-                catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored){
-                }
+
+        for (Field field : fields) {
+            if (Modifier.isStatic(field.getModifiers()))
+                continue;
+
+            String name = field.getName();
+
+            try {
+                Object value = PropertyUtil.getValue(e, name);
+
+                actionFormMessage.addAttribute(name, value);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored) {
             }
         }
-        
+
         return actionFormMessage;
     }
     
     /**
      * Replaces the message attributes in a string. The attribute in a string
-     * must be defined like following: <pre>#{&lt;attribute-name&gt;} E.g.: #{label}</pre>
+     * must be defined like the following: <pre>#{&lt;attribute-name&gt;} E.g.: #{label}</pre>
      *
      * @param instance Instance that contains the message.
      * @param value String before the replacement.
@@ -133,7 +130,7 @@ public class ActionFormMessageUtil{
     
     /**
      * Replaces the message attributes in a string. The attribute in a string
-     * must be defined like following: <pre>#{&lt;attribute-name&gt;} E.g.: #{label}</pre>
+     * must be defined like the following: <pre>#{&lt;attribute-name&gt;} E.g.: #{label}</pre>
      *
      * @param instance Instance that contains the message.
      * @param value String before the replacement.
@@ -141,11 +138,11 @@ public class ActionFormMessageUtil{
      * @return String after the replacement.
      */
     public static String fillAttributesInString(ActionFormMessage instance, String value, Locale language){
-        if(instance == null || value == null || value.length() == 0)
+        if(instance == null || value == null || value.isEmpty())
             return value;
         
         String buffer = value;
-        Pattern pattern = Pattern.compile("\\#\\{(.*?)\\}");
+        Pattern pattern = Pattern.compile("#\\{(.*?)}");
         Matcher matcher = pattern.matcher(value);
 
         while(matcher.find()){

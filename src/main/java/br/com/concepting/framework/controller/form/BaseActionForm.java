@@ -36,7 +36,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -45,7 +45,7 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  * @author fvilarinho
  * @since 1.0.0
  */
@@ -89,8 +89,9 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
         if(!action.equals(ActionType.BACK.getMethod())){
             if(this.actionsHistory == null)
                 this.actionsHistory = PropertyUtil.instantiate(Constants.DEFAULT_LIFO_QUEUE_CLASS);
-            
-            this.actionsHistory.add(action);
+
+            if(this.actionsHistory != null)
+                this.actionsHistory.add(action);
         }
         
         this.setAction(action);
@@ -112,7 +113,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
      * Clears all form messages.
      */
     public void clearAllMessages(){
-        if(this.messages != null && this.messages.size() > 0)
+        if(this.messages != null && !this.messages.isEmpty())
             this.messages.clear();
     }
     
@@ -122,10 +123,10 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
      * @param type Instance that contains the type.
      */
     public void clearMessages(ActionFormMessageType type){
-        if(this.messages != null && this.messages.size() > 0 && type != null){
+        if(this.messages != null && !this.messages.isEmpty() && type != null){
             Collection<ActionFormMessage> typeMessages = getMessages(type);
             
-            if(typeMessages != null && typeMessages.size() > 0)
+            if(typeMessages != null && !typeMessages.isEmpty())
                 this.messages.removeAll(typeMessages);
         }
     }
@@ -152,13 +153,14 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
     public <C extends Collection<ActionFormMessage>> C getMessages(ActionFormMessageType type){
         Collection<ActionFormMessage> result = null;
         
-        if(this.messages != null && this.messages.size() > 0 && type != null){
+        if(this.messages != null && !this.messages.isEmpty() && type != null){
             for(ActionFormMessage message: this.messages){
                 if(type.equals(message.getType())){
                     if(result == null)
                         result = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                    
-                    result.add(message);
+
+                    if(result != null)
+                        result.add(message);
                 }
             }
         }
@@ -174,8 +176,9 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
     public void addMessage(ActionFormMessage message){
         if(this.messages == null)
             this.messages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        
-        this.messages.add(message);
+
+        if(this.messages != null)
+            this.messages.add(message);
     }
     
     /**
@@ -188,7 +191,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
     }
     
     /**
-     * Returns a list (comma separated string) containing the views that should
+     * Returns a list (comma-separated string) containing the views that should
      * be refreshed after an action execution.
      *
      * @return String that contains the views.
@@ -198,7 +201,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
     }
     
     /**
-     * Defines a list (comma separated string) containing the views that should
+     * Defines a list (comma-separated string) containing the views that should
      * be refreshed after an action execution.
      *
      * @param updateViews String that contains the views.
@@ -244,7 +247,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
     }
     
     /**
-     * Returns the identifier of the forward in case of success of the action.
+     * Returns the identifier of the forward in case of success.
      *
      * @return String that contains the identifier.
      */
@@ -253,7 +256,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
     }
     
     /**
-     * Defines the identifier of the forward in case of success of the action.
+     * Defines the identifier of the forward in case of success.
      *
      * @param forward String that contains the identifier.
      */
@@ -318,7 +321,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
     }
     
     /**
-     * Returns a list (comma separated string) containing the data model
+     * Returns a list (comma-separated string) containing the data model
      * properties that must be validated.
      *
      * @return String that contains the properties.
@@ -407,22 +410,20 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
                     throw new InvalidResourcesException(uri, e);
                 }
 
-                if(actionClass != null){
-                    BaseAction<M> actionInstance;
+                BaseAction<M> actionInstance;
 
-                    try {
-                        actionInstance = ConstructorUtils.invokeConstructor(actionClass, null);
-                        actionInstance.processRequest(this, systemController, actionFormController, securityController);
-                    }
-                    catch (InvocationTargetException | InstantiationException e) {
-                        throw new InternalErrorException(e);
-                    }
-                    catch (NoSuchMethodException e) {
-                        throw new InvalidResourcesException(uri, e);
-                    }
-                    catch (IllegalAccessException e) {
-                        throw new PermissionDeniedException(e);
-                    }
+                try {
+                    actionInstance = ConstructorUtils.invokeConstructor(actionClass, null);
+                    actionInstance.processRequest(this, systemController, actionFormController, securityController);
+                }
+                catch (InvocationTargetException | InstantiationException e) {
+                    throw new InternalErrorException(e);
+                }
+                catch (NoSuchMethodException e) {
+                    throw new InvalidResourcesException(uri, e);
+                }
+                catch (IllegalAccessException e) {
+                    throw new PermissionDeniedException(e);
                 }
             }
 
@@ -445,7 +446,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
             if(ExceptionUtil.isExpectedException(e)) {
                 systemController.setCurrentException(e);
 
-                if(forwardUrl != null && forwardUrl.length() > 0)
+                if(forwardUrl != null && !forwardUrl.isEmpty())
                     systemController.forward(forwardUrl);
                 else
                     systemController.forward(e);

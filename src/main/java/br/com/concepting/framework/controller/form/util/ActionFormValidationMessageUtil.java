@@ -19,7 +19,7 @@ import br.com.concepting.framework.util.types.ContentType;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import br.com.concepting.framework.util.types.ContentType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ActionFormValidationMessageUtil{
     /**
@@ -41,7 +41,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createContentTypeValidationMessage(String propertyName, String propertyLabel, ContentType propertyContentType, ContentType[] propertyContentTypes){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0 && propertyContentType != null && propertyContentTypes != null && propertyContentTypes.length > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty() && propertyContentType != null && propertyContentTypes != null && propertyContentTypes.length > 0){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.CONTENT_TYPE);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -77,7 +77,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createContentSizeValidationMessage(String propertyName, String propertyLabel, double propertyContentSize, ByteMetricType propertyContentSizeUnit){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0 && propertyContentSize > 0 && propertyContentSizeUnit != null){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty() && propertyContentSize > 0 && propertyContentSizeUnit != null){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.CONTENT_SIZE);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -91,14 +91,14 @@ public class ActionFormValidationMessageUtil{
     }
     
     /**
-     * Creates a property required validation message.
+     * Creates the validation message for the input required of a property.
      *
      * @param propertyName String that contains the identifier of the property.
      * @param propertyLabel String that contains the propertyLabel of the property.
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createRequiredValidationMessage(String propertyName, String propertyLabel){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty()){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.REQUIRED);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -119,7 +119,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createDateTimeValidationMessage(String propertyName, String propertyLabel, String propertyPattern){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0 && propertyPattern != null && propertyPattern.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty() && propertyPattern != null && !propertyPattern.isEmpty()){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.DATE_TIME);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -140,7 +140,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createNumberValidationMessage(String propertyName, String propertyLabel){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty()){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.NUMBER);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -165,7 +165,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createCompareValidationMessage(String propertyName, String propertyLabel, ConditionType propertyCompareCondition, String comparePropertyName, String propertyCompareLabel){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyCompareCondition != null && comparePropertyName != null && comparePropertyName.length() > 0 && propertyCompareLabel != null && propertyCompareLabel.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty() && propertyCompareCondition != null && comparePropertyName != null && !comparePropertyName.isEmpty() && propertyCompareLabel != null && !propertyCompareLabel.isEmpty()){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.COMPARE);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -189,7 +189,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createWordCountValidationMessage(String propertyName, String propertyLabel, int propertyWordCount){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyWordCount > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty() && propertyWordCount > 0){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.WORD_COUNT);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -211,7 +211,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createMinimumLengthValidationMessage(String propertyName, String propertyLabel, int propertyMinimumLength){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyMinimumLength > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty() && propertyMinimumLength > 0){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.MINIMUM_LENGTH);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -233,7 +233,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createMaximumLengthValidationMessage(String propertyName, String propertyLabel, int propertyMaximumLength){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyMaximumLength > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty() && propertyMaximumLength > 0){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.MAXIMUM_LENGTH);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -255,7 +255,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createRegularExpressionValidationMessage(String propertyName, String propertyLabel, String propertyRegex){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyName.length() > 0 && propertyRegex != null && propertyRegex.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty() && propertyRegex != null && !propertyRegex.isEmpty()){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.REGULAR_EXPRESSION);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -269,14 +269,14 @@ public class ActionFormValidationMessageUtil{
     }
     
     /**
-     * Creates a e-Mail validation message.
+     * Creates an e-Mail validation message.
      *
      * @param propertyName String that contains the identifier of the property.
      * @param propertyLabel String that contains the propertyLabel of the property.
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createEmailValidationMessage(String propertyName, String propertyLabel){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty()){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.EMAIL);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -297,7 +297,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createPatternValidationMessage(String propertyName, String propertyLabel, String propertyPattern){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0 && propertyPattern != null && propertyPattern.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty() && propertyPattern != null && !propertyPattern.isEmpty()){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.PATTERN);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -320,7 +320,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createRangeValidationMessage(String propertyName, String propertyLabel, Object minimumValue, Object maximumValue){
-        if(propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0 && minimumValue != null && maximumValue != null){
+        if(propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty() && minimumValue != null && maximumValue != null){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(ValidationType.RANGE);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);
@@ -344,7 +344,7 @@ public class ActionFormValidationMessageUtil{
      * @return Instance that contains the validation message.
      */
     public static ValidationActionFormMessage createCustomValidationMessage(String validation, String propertyName, String propertyLabel){
-        if(validation != null && validation.length() > 0 && propertyName != null && propertyName.length() > 0 && propertyLabel != null && propertyLabel.length() > 0){
+        if(validation != null && !validation.isEmpty() && propertyName != null && !propertyName.isEmpty() && propertyLabel != null && !propertyLabel.isEmpty()){
             ValidationActionFormMessage validationFormMessage = new ValidationActionFormMessage(validation);
             
             validationFormMessage.addAttribute(Constants.NAME_ATTRIBUTE_ID, propertyName);

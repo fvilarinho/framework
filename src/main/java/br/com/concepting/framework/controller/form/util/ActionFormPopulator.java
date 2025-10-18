@@ -38,7 +38,7 @@ import java.util.Map.Entry;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -47,7 +47,7 @@ import java.util.Map.Entry;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ActionFormPopulator{
     private final SystemController systemController;
@@ -85,7 +85,7 @@ public class ActionFormPopulator{
             UserModel user = (loginSession != null ? loginSession.getUser() : null);
             LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
             
-            if(loginParameter != null && loginParameter.getLanguage() != null && loginParameter.getLanguage().length() > 0)
+            if(loginParameter != null && loginParameter.getLanguage() != null && !loginParameter.getLanguage().isEmpty())
                 return LanguageUtil.getLanguageByString(loginParameter.getLanguage());
         }
         
@@ -99,7 +99,7 @@ public class ActionFormPopulator{
         if(this.actionForm != null && this.systemController != null){
             String action = this.systemController.getParameterValue(ActionFormConstants.ACTION_ATTRIBUTE_ID);
             
-            if(action == null || action.length() == 0)
+            if(action == null || action.isEmpty())
                 action = ActionType.INIT.getMethod();
             
             this.actionForm.addActionHistory(action);
@@ -156,7 +156,7 @@ public class ActionFormPopulator{
                 Class<?> propertyClass;
                 Object propertyValue = PropertyUtil.getValue(model, propertyName);
                 
-                if(propertyInfo.getPropertyTypeId() != null && propertyInfo.getPropertyTypeId().length() > 0){
+                if(propertyInfo.getPropertyTypeId() != null && !propertyInfo.getPropertyTypeId().isEmpty()){
                     StringBuilder propertyTypeId = new StringBuilder();
                     int pos = propertyName.indexOf(".");
                     
@@ -174,7 +174,7 @@ public class ActionFormPopulator{
                     if(PropertyUtil.isNumber(propertyClass))
                         propertyValue = PropertyUtil.convertTo(0, propertyClass);
                     else
-                        propertyValue = propertyClass.newInstance();
+                        propertyValue = propertyClass.getDeclaredConstructor().newInstance();
                 }
                 else
                     propertyValue = populateProperty(requestParameterInfo, propertyInfo, propertyClass);
@@ -183,7 +183,7 @@ public class ActionFormPopulator{
                 
                 String contentFilenamePropertyNameBuffer = propertyInfo.getContentFilenamePropertyId();
                 
-                if(contentFilenamePropertyNameBuffer != null && contentFilenamePropertyNameBuffer.length() > 0){
+                if(contentFilenamePropertyNameBuffer != null && !contentFilenamePropertyNameBuffer.isEmpty()){
                     StringBuilder contentFilenamePropertyName = new StringBuilder();
                     int pos = propertyName.lastIndexOf(".");
                     
@@ -199,7 +199,7 @@ public class ActionFormPopulator{
                 
                 String contentTypePropertyNameBuffer = propertyInfo.getContentTypePropertyId();
                 
-                if(contentTypePropertyNameBuffer != null && contentTypePropertyNameBuffer.length() > 0){
+                if(contentTypePropertyNameBuffer != null && !contentTypePropertyNameBuffer.isEmpty()){
                     StringBuilder contentTypePropertyName = new StringBuilder();
                     int pos = propertyName.lastIndexOf(".");
                     
@@ -274,7 +274,7 @@ public class ActionFormPopulator{
                                     
                                     String contentFilenamePropertyNameBuffer = datasetPropertyInfo.getContentFilenamePropertyId();
                                     
-                                    if(contentFilenamePropertyNameBuffer != null && contentFilenamePropertyNameBuffer.length() > 0){
+                                    if(contentFilenamePropertyNameBuffer != null && !contentFilenamePropertyNameBuffer.isEmpty()){
                                         StringBuilder contentFilenamePropertyName = new StringBuilder();
                                         
                                         contentFilenamePropertyName.append(datasetPropertyName);
@@ -286,7 +286,7 @@ public class ActionFormPopulator{
                                     
                                     String contentTypePropertyNameBuffer = datasetPropertyInfo.getContentTypePropertyId();
                                     
-                                    if(contentTypePropertyNameBuffer != null && contentTypePropertyNameBuffer.length() > 0){
+                                    if(contentTypePropertyNameBuffer != null && !contentTypePropertyNameBuffer.isEmpty()){
                                         StringBuilder contentTypePropertyName = new StringBuilder();
                                         
                                         contentTypePropertyName.append(datasetPropertyName);
@@ -298,7 +298,7 @@ public class ActionFormPopulator{
                                     
                                     datasetPropertyName = datasetPropertyInfo.getId();
                                     
-                                    if(datasetPropertyInfo.getPropertyTypeId() != null && datasetPropertyInfo.getPropertyTypeId().length() > 0)
+                                    if(datasetPropertyInfo.getPropertyTypeId() != null && !datasetPropertyInfo.getPropertyTypeId().isEmpty())
                                         datasetPropertyClass = PropertyUtil.getValue(datasetValue, datasetPropertyInfo.getPropertyTypeId());
                                     else{
                                         datasetPropertyValue = PropertyUtil.getValue(datasetValue, datasetPropertyName);
@@ -404,14 +404,14 @@ public class ActionFormPopulator{
      * @return Instance that contains the date/time.
      */
     private <D extends Date> D populateDateTimeProperty(String propertyName, String propertyValue, String propertyPattern){
-        if(propertyName != null && propertyName.length() > 0 && propertyValue != null && propertyValue.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyValue != null && !propertyValue.isEmpty()){
             try{
                 String propertyPatternBuffer = this.actionFormController.getPropertyPattern(propertyName);
                 
-                if(propertyPatternBuffer != null && propertyPatternBuffer.length() > 0)
+                if(propertyPatternBuffer != null && !propertyPatternBuffer.isEmpty())
                     propertyPattern = propertyPatternBuffer;
                 
-                if(propertyPattern != null && propertyPattern.length() > 0)
+                if(propertyPattern != null && !propertyPattern.isEmpty())
                     return DateTimeUtil.parse(propertyValue, propertyPattern);
                 
                 return DateTimeUtil.parse(propertyValue, getCurrentLanguage());
@@ -444,13 +444,13 @@ public class ActionFormPopulator{
      * @return Instance that contains the string.
      */
     private String populateStringProperty(String propertyName, String propertyValue, String propertyPattern, boolean persistPattern, InputType inputType){
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             String propertyPatternBuffer = this.actionFormController.getPropertyPattern(propertyName);
             
-            if(propertyPatternBuffer != null && propertyPatternBuffer.length() > 0)
+            if(propertyPatternBuffer != null && !propertyPatternBuffer.isEmpty())
                 propertyPattern = propertyPatternBuffer;
             
-            if(propertyPattern != null && propertyPattern.length() > 0)
+            if(propertyPattern != null && !propertyPattern.isEmpty())
                 if(!persistPattern)
                     propertyValue = StringUtil.unformat(propertyValue, propertyPattern);
             
@@ -470,12 +470,12 @@ public class ActionFormPopulator{
     /**
      * Populates a data model.
      *
-     * @param <M> Class the defines the data model.
+     * @param <M> Class that defines the data model.
      * @param propertyValue String that contains the value.
      * @return Instance that contains the data model.
      */
     private <M extends BaseModel> M populateModelProperty(String propertyValue){
-        if(propertyValue != null && propertyValue.length() > 0){
+        if(propertyValue != null && !propertyValue.isEmpty()){
             try{
                 return ModelUtil.fromIdentifierString(propertyValue);
             }
@@ -515,7 +515,7 @@ public class ActionFormPopulator{
                     Object selectedPropertyValue = null;
                     
                     for(String propertyValue: propertyValues){
-                        if(propertyValue.length() > 0){
+                        if(!propertyValue.isEmpty()){
                             if(propertyInfo.hasModel())
                                 selectedPropertyValue = populateModelProperty(propertyValue);
                             else if(propertyInfo.hasEnum())
@@ -529,12 +529,12 @@ public class ActionFormPopulator{
                             else if(propertyInfo.isString())
                                 selectedPropertyValue = populateStringProperty(propertyName, propertyValue, propertyInfo.getPattern(), propertyInfo.persistPattern(), propertyInfo.getInputType());
                             
-                            if(selectedPropertyValue != null)
+                            if(selectedPropertyValue != null && selectedPropertyValues != null)
                                 selectedPropertyValues.add(selectedPropertyValue);
                         }
                     }
                     
-                    if(currentPropertyValues == null || currentPropertyValues.size() == 0)
+                    if(currentPropertyValues == null || currentPropertyValues.isEmpty())
                         currentPropertyValues = selectedPropertyValues;
                     else{
                         int propertyDatasetStartIndex = this.actionFormController.getPropertyDatasetStartIndex(propertyName);
@@ -545,11 +545,14 @@ public class ActionFormPopulator{
                         else{
                             List<?> propertyDatasetValues = this.actionFormController.getPropertyDatasetValues(propertyName);
                             
-                            if(propertyDatasetValues != null && propertyDatasetValues.size() > 0)
+                            if(propertyDatasetValues != null && !propertyDatasetValues.isEmpty())
                                 propertyDatasetValues = propertyDatasetValues.subList(propertyDatasetStartIndex, propertyDatasetEndIndex);
-                            
-                            currentPropertyValues.removeAll(propertyDatasetValues);
-                            currentPropertyValues.addAll(selectedPropertyValues);
+
+                            if(propertyDatasetValues != null)
+                                currentPropertyValues.removeAll(propertyDatasetValues);
+
+                            if(selectedPropertyValues != null)
+                                currentPropertyValues.addAll(selectedPropertyValues);
                         }
                     }
                 }
@@ -570,7 +573,7 @@ public class ActionFormPopulator{
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Enum<?> populateEnumProperty(Class<?> propertyClass, String propertyValue){
-        if(propertyClass != null && propertyValue != null && propertyValue.length() > 0){
+        if(propertyClass != null && propertyValue != null && !propertyValue.isEmpty()){
             try{
                 return Enum.valueOf((Class) propertyClass, propertyValue);
             }

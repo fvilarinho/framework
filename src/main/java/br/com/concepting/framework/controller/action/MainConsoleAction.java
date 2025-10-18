@@ -20,7 +20,7 @@ import br.com.concepting.framework.security.model.UserModel;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ import br.com.concepting.framework.security.model.UserModel;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class MainConsoleAction<M extends MainConsoleModel> extends BaseAction<M>{
     /**
@@ -47,7 +47,7 @@ public class MainConsoleAction<M extends MainConsoleModel> extends BaseAction<M>
         F actionForm = getActionForm();
         M model = (actionForm != null ? actionForm.getModel() : null);
         
-        if(loginParameter != null && model != null && model.getCurrentLanguage() != null && model.getCurrentLanguage().length() > 0){
+        if(loginParameter != null && model != null && model.getCurrentLanguage() != null && !model.getCurrentLanguage().isEmpty()){
             loginParameter.setLanguage(model.getCurrentLanguage());
             
             systemController.addCookie(SystemConstants.CURRENT_LANGUAGE_ATTRIBUTE_ID, loginParameter.getLanguage(), true);
@@ -69,7 +69,7 @@ public class MainConsoleAction<M extends MainConsoleModel> extends BaseAction<M>
         F actionForm = getActionForm();
         M model = (actionForm != null ? actionForm.getModel() : null);
         
-        if(loginParameter != null && model != null && model.getCurrentSkin() != null && model.getCurrentSkin().length() > 0){
+        if(loginParameter != null && model != null && model.getCurrentSkin() != null && !model.getCurrentSkin().isEmpty()){
             loginParameter.setSkin(model.getCurrentSkin());
             
             systemController.addCookie(SystemConstants.CURRENT_SKIN_ATTRIBUTE_ID, loginParameter.getSkin(), true);

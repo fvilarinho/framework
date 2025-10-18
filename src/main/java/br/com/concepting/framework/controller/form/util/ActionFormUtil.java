@@ -18,7 +18,7 @@ import br.com.concepting.framework.util.StringUtil;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -27,7 +27,7 @@ import br.com.concepting.framework.util.StringUtil;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ActionFormUtil{
     /**
@@ -47,11 +47,11 @@ public class ActionFormUtil{
      * @return String that contains the identifier of the data value.
      */
     public static String getDatasetPropertyId(String propertyName){
-        if(propertyName != null && propertyName.length() > 0){
+        if(propertyName != null && !propertyName.isEmpty()){
             String[] propertyNameBuffer = StringUtil.split(propertyName, ":");
             
             if(propertyNameBuffer != null && propertyNameBuffer.length == 3)
-                return propertyNameBuffer[3];
+                return propertyNameBuffer[2];
         }
         
         return null;
@@ -82,7 +82,7 @@ public class ActionFormUtil{
      * @return String that contains the data model class name.
      */
     public static String getModelClassNameByActionForm(String actionFormClassName){
-        if(actionFormClassName != null && actionFormClassName.length() > 0){
+        if(actionFormClassName != null && !actionFormClassName.isEmpty()){
             String modelClassName = StringUtil.replaceLast(actionFormClassName, StringUtil.capitalize(ActionFormConstants.ACTION_ATTRIBUTE_ID).concat(StringUtil.capitalize(SystemConstants.FORM_ATTRIBUTE_ID)), StringUtil.capitalize(ModelConstants.DEFAULT_ID));
             
             modelClassName = StringUtil.replaceAll(modelClassName, ".".concat(SystemConstants.DEFAULT_CONTROLLER_ID).concat(".").concat(SystemConstants.FORM_ATTRIBUTE_ID), ".".concat(ModelConstants.DEFAULT_ID));
@@ -94,7 +94,7 @@ public class ActionFormUtil{
     }
     
     /**
-     * Returns the data model based on an actions class.
+     * Returns the data model based on the action class.
      *
      * @param <M> Class that defines the data model.
      * @param <A> Class that defines the actions of the form.
@@ -117,10 +117,10 @@ public class ActionFormUtil{
     }
     
     /**
-     * Returns the actions class package name based on a data model.
+     * Returns the package of the action class based on a data model.
      *
      * @param modelClass Class that defines the data model.
-     * @return String that contains the actions class package.
+     * @return String that contains the package of the action class.
      */
     public static String getActionPackageByModel(Class<? extends BaseModel> modelClass){
         if(modelClass != null)
@@ -130,10 +130,10 @@ public class ActionFormUtil{
     }
     
     /**
-     * Returns the actions class name based on a data model.
+     * Returns the name of the action class based on a data model.
      *
      * @param modelClass Class that defines the data model.
-     * @return String that contains the actions class name.
+     * @return String that contains the name of the action class.
      */
     public static String getActionClassNameByModel(Class<? extends BaseModel> modelClass){
         if(modelClass != null){
@@ -146,10 +146,10 @@ public class ActionFormUtil{
     }
     
     /**
-     * Returns the actions names based on a data model.
+     * Returns the name of the action based on a data model.
      *
      * @param modelClass Class that defines the data model.
-     * @return String that contains the actions names.
+     * @return String that contains the name of the action.
      */
     public static String getActionNameByModel(Class<? extends BaseModel> modelClass){
         if(modelClass != null)
@@ -159,11 +159,11 @@ public class ActionFormUtil{
     }
     
     /**
-     * Returns the actions class based on a data model.
+     * Returns the action class based on a data model.
      *
      * @param <A> Class that defines the actions of the form.
      * @param modelClass Class that defines the data model.
-     * @return Instance that contains the actions class.
+     * @return Instance that contains the action class.
      * @throws ClassNotFoundException Occurs when was not possible to execute
      * the operation.
      */
@@ -224,7 +224,7 @@ public class ActionFormUtil{
      * @return String that contains the name of the form.
      */
     public static String getActionFormNameByModel(String modelClassName){
-        if(modelClassName != null && modelClassName.length() > 0){
+        if(modelClassName != null && !modelClassName.isEmpty()){
             int pos = modelClassName.lastIndexOf(".");
             
             if(pos >= 0)
@@ -273,7 +273,7 @@ public class ActionFormUtil{
      * @return String that contains the identifier of the form.
      */
     public static String getActionFormIdByModel(String modelClassName){
-        if(modelClassName != null && modelClassName.length() > 0){
+        if(modelClassName != null && !modelClassName.isEmpty()){
             String actionFormName = getActionFormNameByModel(modelClassName);
             StringBuilder id = new StringBuilder();
             

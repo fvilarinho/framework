@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 import static br.com.concepting.framework.webservice.constants.WebServiceConstants.DEFAULT_URL_PATTERN;
 
 /**
- * Class responsible to control the requests of the system.
+ * Class responsible for control the requests of the system.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -48,7 +48,7 @@ import static br.com.concepting.framework.webservice.constants.WebServiceConstan
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -57,7 +57,7 @@ import static br.com.concepting.framework.webservice.constants.WebServiceConstan
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SystemController{
 	private static final ObjectMapper mapper = PropertyUtil.getMapper();
@@ -134,7 +134,8 @@ public class SystemController{
 			if(this.request.getCookies() != null && this.request.getCookies().length > 0){
 				this.cookies = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-				Collections.addAll(this.cookies, this.request.getCookies());
+                if(this.cookies != null)
+    				Collections.addAll(this.cookies, this.request.getCookies());
 			}
 		}
 	}
@@ -161,7 +162,7 @@ public class SystemController{
 								try{
 									String name = item.getFieldName();
 
-									if(name == null || name.length() == 0)
+									if(name == null || name.isEmpty())
 										continue;
 
 									RequestParameterInfo requestParameter = (this.requestParameters != null ? this.requestParameters.get(name) : null);
@@ -258,7 +259,7 @@ public class SystemController{
 							RequestParameterInfo requestParameter = new RequestParameterInfo();
 
 							requestParameter.setName(requestParameterName);
-							requestParameter.setValue(requestParameterValue[0]);
+							requestParameter.setValue(requestParameterValue != null ? requestParameterValue[0] : null);
 							requestParameter.setValues(requestParameterValue);
 							requestParameter.setType(PropertyUtil.getType(requestParameterName));
 
@@ -280,61 +281,63 @@ public class SystemController{
 	private void filterRequestParameters(Map<String, RequestParameterInfo> requestParameters){
 		if(requestParameters != null && !requestParameters.isEmpty()){
 			List<String> requestParametersList = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-			
-			requestParametersList.addAll(requestParameters.keySet());
 
-			for(int cont = 0 ; cont < requestParametersList.size() ; cont++){
-				String requestParameterName = requestParametersList.get(cont);
+            if(requestParametersList != null){
+                requestParametersList.addAll(requestParameters.keySet());
 
-				if(!requestParameterName.endsWith(Constants.LABEL_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(Constants.TOOLTIP_ATTRIBUTE_ID) && 
-				   !requestParameterName.endsWith(Constants.PATTERN_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(ActionFormConstants.ACTION_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(ActionFormConstants.FORWARD_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(ActionFormConstants.DATASET_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(ActionFormConstants.DATASET_SCOPE_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(ActionFormConstants.DATASET_START_INDEX_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(ActionFormConstants.DATASET_END_INDEX_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(ModelConstants.VALIDATE_MODEL_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(ModelConstants.VALIDATE_MODEL_PROPERTIES_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.CALENDAR_HOURS_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.CALENDAR_MINUTES_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.CALENDAR_MILLISECONDS_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.CALENDAR_SECONDS_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.COLOR_PICKER_BLUE_VALUE_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.COLOR_PICKER_GREEN_VALUE_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.COLOR_PICKER_RED_VALUE_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.CURRENT_GUIDE_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.CURRENT_SECTIONS_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.CURRENT_TREE_VIEW_NODE_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.IS_TREE_VIEW_NODE_EXPANDED_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.PAGER_ACTION_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.PAGER_CURRENT_PAGE_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.PAGER_ITEMS_PER_PAGE_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.RICH_TEXT_AREA_TOOLBAR_FONT_NAME_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.RICH_TEXT_AREA_TOOLBAR_FONT_SIZE_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.RICH_TEXT_AREA_TOOLBAR_FONT_COLOR_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.RICH_TEXT_AREA_TOOLBAR_BACKGROUND_COLOR_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.SORT_ORDER_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.SORT_PROPERTY_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.SUGGESTION_BOX_DATASET_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.SUGGESTION_BOX_LABEL_PROPERTY_ATTRIBUTE_ID) &&
-				   !requestParameterName.endsWith(UIConstants.UPDATE_VIEWS_ATTRIBUTE_ID)){
-					int pos = requestParameterName.lastIndexOf(".");
-					
-					if(pos >= 0){
-						String parentRequestParameterName = requestParameterName.substring(0, pos);
-						
-						pos = requestParametersList.indexOf(parentRequestParameterName);
-						
-						if(pos >= 0){
-							requestParameters.remove(parentRequestParameterName);
-							requestParametersList.remove(pos);
-							
-							cont--;
-						}
-					}
-				}
+                for(int cont = 0 ; cont < requestParametersList.size() ; cont++) {
+                    String requestParameterName = requestParametersList.get(cont);
+
+                    if (!requestParameterName.endsWith(Constants.LABEL_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(Constants.TOOLTIP_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(Constants.PATTERN_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(ActionFormConstants.ACTION_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(ActionFormConstants.FORWARD_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(ActionFormConstants.DATASET_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(ActionFormConstants.DATASET_SCOPE_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(ActionFormConstants.DATASET_START_INDEX_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(ActionFormConstants.DATASET_END_INDEX_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(ModelConstants.VALIDATE_MODEL_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(ModelConstants.VALIDATE_MODEL_PROPERTIES_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.CALENDAR_HOURS_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.CALENDAR_MINUTES_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.CALENDAR_MILLISECONDS_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.CALENDAR_SECONDS_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.COLOR_PICKER_BLUE_VALUE_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.COLOR_PICKER_GREEN_VALUE_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.COLOR_PICKER_RED_VALUE_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.CURRENT_GUIDE_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.CURRENT_SECTIONS_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.CURRENT_TREE_VIEW_NODE_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.IS_TREE_VIEW_NODE_EXPANDED_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.PAGER_ACTION_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.PAGER_CURRENT_PAGE_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.PAGER_ITEMS_PER_PAGE_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.RICH_TEXT_AREA_TOOLBAR_FONT_NAME_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.RICH_TEXT_AREA_TOOLBAR_FONT_SIZE_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.RICH_TEXT_AREA_TOOLBAR_FONT_COLOR_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.RICH_TEXT_AREA_TOOLBAR_BACKGROUND_COLOR_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.SORT_ORDER_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.SORT_PROPERTY_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.SUGGESTION_BOX_DATASET_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.SUGGESTION_BOX_LABEL_PROPERTY_ATTRIBUTE_ID) &&
+                        !requestParameterName.endsWith(UIConstants.UPDATE_VIEWS_ATTRIBUTE_ID)) {
+                        int pos = requestParameterName.lastIndexOf(".");
+
+                        if (pos >= 0) {
+                            String parentRequestParameterName = requestParameterName.substring(0, pos);
+
+                            pos = requestParametersList.indexOf(parentRequestParameterName);
+
+                            if (pos >= 0) {
+                                requestParameters.remove(parentRequestParameterName);
+                                requestParametersList.remove(pos);
+
+                                cont--;
+                            }
+                        }
+                    }
+                }
 			}
 		}
 	}
@@ -431,7 +434,7 @@ public class SystemController{
 		String contextPath = getContextPath();
 		String uri = getURI();
 
-		if(contextPath != null && contextPath.length() > 0 && uri != null && uri.length() > 0){
+		if(contextPath != null && !contextPath.isEmpty() && uri != null && !uri.isEmpty()){
 			StringBuilder urlPattern = new StringBuilder();
 
 			urlPattern.append(contextPath);
@@ -465,7 +468,7 @@ public class SystemController{
 	public <F extends BaseActionForm<? extends BaseModel>> ActionFormController getActionFormController(F actionForm){
 		String name = (actionForm != null ? actionForm.getName() : null);
 
-		if(name != null && name.length() > 0)
+		if(name != null && !name.isEmpty())
 			return getActionFormController(name);
 
 		return null;
@@ -530,12 +533,12 @@ public class SystemController{
 	/**
 	 * Returns the accept-language of the request.
 	 *
-	 * @return String that contains the accept-anguage;
+	 * @return String that contains the accepted language;
 	 */
 	public String getAcceptLanguage(){
 		String acceptLanguage = getHeader(SystemConstants.ACCEPT_LANGUAGE_ATTRIBUTE_ID);
 
-		if(acceptLanguage != null && acceptLanguage.length() > 0)
+		if(acceptLanguage != null && !acceptLanguage.isEmpty())
 			acceptLanguage = StringUtil.replaceAll(acceptLanguage, "-", "_");
 
 		return acceptLanguage;
@@ -563,10 +566,10 @@ public class SystemController{
 		if(this.request != null){
 			String ip = this.request.getHeader(SystemConstants.TRUE_CLIENT_IP_ATTRIBUTE_ID);
 
-			if(ip == null || ip.length() == 0){
+			if(ip == null || ip.isEmpty()){
 				ip = this.request.getHeader(SystemConstants.CONNECTING_IP_ATTRIBUTE_ID);
 
-				if(ip == null || ip.length() == 0)
+				if(ip == null || ip.isEmpty())
 					ip = this.request.getRemoteAddr();
 			}
 
@@ -625,7 +628,7 @@ public class SystemController{
 	public String getParameterValue(String name){
 		String value = null;
 
-		if(name != null && name.length() > 0){
+		if(name != null && !name.isEmpty()){
 			String queryString = (this.request != null ? this.request.getQueryString() : null);
 			StringBuilder parameterId = new StringBuilder();
 
@@ -663,10 +666,10 @@ public class SystemController{
 		if(this.request != null)
 			encoding = this.request.getParameter(SystemConstants.ENCODING_ATTRIBUTE_ID);
 
-		if(encoding == null || encoding.length() == 0)
+		if(encoding == null || encoding.isEmpty())
 			encoding = getAttribute(SystemConstants.ENCODING_ATTRIBUTE_ID, ScopeType.REQUEST);
 
-		if(encoding == null || encoding.length() == 0)
+		if(encoding == null || encoding.isEmpty())
 			encoding = Constants.DEFAULT_UNICODE_ENCODING;
 
 		return encoding;
@@ -678,7 +681,7 @@ public class SystemController{
 	 * @param encoding String that contains the encoding.
 	 */
 	public void setEncoding(String encoding){
-		if(encoding == null || encoding.length() == 0)
+		if(encoding == null || encoding.isEmpty())
 			encoding = Constants.DEFAULT_UNICODE_ENCODING;
 
 		setAttribute(SystemConstants.ENCODING_ATTRIBUTE_ID, encoding, ScopeType.REQUEST);
@@ -718,7 +721,7 @@ public class SystemController{
 
 			this.cookies = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-			if(cookies != null && cookies.length > 0)
+			if(this.cookies != null && cookies != null)
 				for(Cookie cookie : cookies)
 					if(cookie != null)
 						this.cookies.add(cookie);
@@ -794,7 +797,7 @@ public class SystemController{
 	 * session expire.
 	 */
 	public void addCookie(String name, String value, boolean persistent){
-		if(name != null && name.length() > 0 && value != null && value.length() > 0){
+		if(name != null && !name.isEmpty() && value != null && !value.isEmpty()){
 			if(persistent)
 				addCookie(name, value, 60 * 60 * 24 * 365);
 			else
@@ -812,7 +815,7 @@ public class SystemController{
 	public void addCookie(String name, String value, int maxAge){
 		String path = getContextPath();
 		
-		if(name != null && name.length() > 0 && path != null && path.length() > 0 && value != null && value.length() > 0 && this.request != null && this.response != null){
+		if(name != null && !name.isEmpty() && path != null && !path.isEmpty() && value != null && !value.isEmpty() && this.request != null && this.response != null){
 			Cookie cookie = getCookie(name);
 			
 			if(cookie != null)
@@ -843,11 +846,11 @@ public class SystemController{
 	 * @param name String that contains the identifier.
 	 */
 	public void removeCookie(String name){
-		if(name != null && name.length() > 0 && this.request != null && this.response != null){
+		if(name != null && !name.isEmpty() && this.request != null && this.response != null){
 			Cookie cookie = getCookie(name);
 
 			if(cookie != null){
-				if(this.cookies != null && this.cookies.size() > 0)
+				if(this.cookies != null && !this.cookies.isEmpty())
 					this.cookies.remove(cookie);
 
 				cookie.setMaxAge(0);
@@ -911,7 +914,7 @@ public class SystemController{
 	public <T> T getAttribute(String attributeId, ScopeType scopeType){
 		Object instance = null;
 
-		if(attributeId != null && attributeId.length() > 0){
+		if(attributeId != null && !attributeId.isEmpty()){
 			switch(scopeType){
 				case APPLICATION:{
 					instance = (this.session != null ? this.session.getServletContext().getAttribute(attributeId) : null);
@@ -988,7 +991,7 @@ public class SystemController{
 	 * @param scopeType Instance that contains the type of the scope.
 	 */
 	public <T> void setAttribute(String attributeId, T attributeValue, ScopeType scopeType){
-		if(attributeId != null && attributeId.length() > 0){
+		if(attributeId != null && !attributeId.isEmpty()){
 			boolean isWebServicesRequest = isWebServicesRequest();
 
 			if(this.session != null && scopeType == ScopeType.APPLICATION && !isWebServicesRequest)
@@ -1030,7 +1033,7 @@ public class SystemController{
 	public void redirect(String url){
 		String contextPath = getContextPath();
 
-		if(url != null && url.length() > 0 && contextPath != null && contextPath.length() > 0 && this.response != null){
+		if(url != null && !url.isEmpty() && contextPath != null && !contextPath.isEmpty() && this.response != null){
 			StringBuilder urlBuffer = new StringBuilder();
 
 			urlBuffer.append(contextPath);
@@ -1050,7 +1053,7 @@ public class SystemController{
 	 * @param url String that contains the page.
 	 */
 	public void forward(String url){
-		if(url != null && url.length() > 0 && this.request != null && this.response != null){
+		if(url != null && !url.isEmpty() && this.request != null && this.response != null){
 			try{
 				this.request.getRequestDispatcher(url).forward(this.request, this.response);
 			}
@@ -1114,9 +1117,9 @@ public class SystemController{
 	}
 
 	/**
-	 * Returns the mime-tyoe of the response.
+	 * Returns the mimetype of the response.
 	 *
-	 * @return Instance that contains the response.
+	 * @return Instance that contains the mimetype.
 	 */
 	public ContentType getContentType(){
 		String contentType = StringUtil.trim(getHeader(SystemConstants.CONTENT_TYPE_ATTRIBUTE_ID));
@@ -1130,9 +1133,9 @@ public class SystemController{
 	}
 
 	/**
-	 * Returns the accepted mime-tyoe of the request.
+	 * Returns the accepted mimetype of the request.
 	 *
-	 * @return Instance that contains the mime-type.
+	 * @return Instance that contains the mimetype.
 	 */
 	public ContentType getAccept(){
 		String accept = StringUtil.trim(getHeader(SystemConstants.ACCEPT_ATTRIBUTE_ID));
@@ -1210,7 +1213,7 @@ public class SystemController{
 	public void outputContent(byte[] contentData, String contentType, String contentFilename){
 		if(this.response != null){
 			try{
-				if(contentFilename != null && contentFilename.length() > 0){
+				if(contentFilename != null && !contentFilename.isEmpty()){
 					StringBuilder filenameBuffer = new StringBuilder();
 
 					filenameBuffer.append("attachment; filename=\"");
@@ -1220,7 +1223,7 @@ public class SystemController{
 					this.response.setHeader("Content-Disposition", filenameBuffer.toString());
 				}
 
-				if(contentType != null && contentType.length() > 0)
+				if(contentType != null && !contentType.isEmpty())
 					this.response.setContentType(contentType);
 
 				this.response.setContentLength(contentData.length);
