@@ -6,7 +6,7 @@ import br.com.concepting.framework.util.types.ComponentType;
 import javax.servlet.jsp.tagext.Tag;
 
 /**
- * Class that defines the radion button component.
+ * Class that defines the radio button component.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -15,7 +15,7 @@ import javax.servlet.jsp.tagext.Tag;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -24,7 +24,7 @@ import javax.servlet.jsp.tagext.Tag;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class RadioPropertyComponent extends BaseOptionPropertyComponent{
     private static final long serialVersionUID = 7631291170352730770L;
@@ -42,7 +42,7 @@ public class RadioPropertyComponent extends BaseOptionPropertyComponent{
         if(parent == null){
             String id = getId();
             
-            if(id != null && id.length() > 0){
+            if(id != null && !id.isEmpty()){
                 String currentOnClick = getOnClick();
                 StringBuilder onClick = new StringBuilder();
                 
@@ -52,7 +52,7 @@ public class RadioPropertyComponent extends BaseOptionPropertyComponent{
                 onClick.append(id);
                 onClick.append("', ''); }");
                 
-                if(currentOnClick != null && currentOnClick.length() > 0){
+                if(currentOnClick != null && !currentOnClick.isEmpty()){
                     onClick.append(" ");
                     onClick.append(currentOnClick);
                     

@@ -19,7 +19,7 @@ import javax.servlet.jsp.tagext.BodyContent;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,7 @@ import javax.servlet.jsp.tagext.BodyContent;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SearchPropertiesGroupComponent extends BaseGroupComponent{
     private static final long serialVersionUID = 8751796595605205394L;
@@ -164,7 +164,7 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
     protected void buildStyleClass() throws InternalErrorException{
         String styleClass = getStyleClass();
         
-        if(styleClass == null || styleClass.length() == 0){
+        if(styleClass == null || styleClass.isEmpty()){
             styleClass = UIConstants.DEFAULT_SEARCH_PROPERTIES_GROUP_STYLE_CLASS;
             
             setStyleClass(styleClass);
@@ -172,7 +172,7 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
         
         String labelStyleClass = getLabelStyleClass();
         
-        if(labelStyleClass == null || labelStyleClass.length() == 0){
+        if(labelStyleClass == null || labelStyleClass.isEmpty()){
             labelStyleClass = UIConstants.DEFAULT_SEARCH_PROPERTIES_GROUP_LABEL_STYLE_CLASS;
             
             setLabelStyleClass(labelStyleClass);
@@ -183,7 +183,7 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
 
     @Override
     protected void initialize() throws InternalErrorException{
-        if(this.action == null || this.action.length() == 0)
+        if(this.action == null || this.action.isEmpty())
             this.action = ActionType.SEARCH.getMethod();
         
         setComponentType(ComponentType.SEARCH_PROPERTIES_GROUP);
@@ -195,7 +195,7 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
     protected void renderBody() throws InternalErrorException{
         String actionFormName = getActionFormName();
         
-        if(actionFormName == null || actionFormName.length() == 0)
+        if(actionFormName == null || actionFormName.isEmpty())
             return;
         
         print("<table class=\"");
@@ -214,7 +214,7 @@ public class SearchPropertiesGroupComponent extends BaseGroupComponent{
         if(bodyContent != null){
             String content = bodyContent.getString();
             
-            if(content != null && content.length() > 0)
+            if(content != null && !content.isEmpty())
                 println(content);
         }
         

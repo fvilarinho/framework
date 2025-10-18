@@ -17,7 +17,7 @@ import javax.servlet.jsp.tagext.BodyContent;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -26,7 +26,7 @@ import javax.servlet.jsp.tagext.BodyContent;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class SectionComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = -3844478753445296174L;
@@ -46,7 +46,7 @@ public class SectionComponent extends BaseActionFormComponent{
     private String onUnSelectValidateModelProperties = null;
     
     /**
-     * Returns the identifier of the action of the unselect event.
+     * Returns the identifier of the unselect action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -55,7 +55,7 @@ public class SectionComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action of the unselect event.
+     * Defines the identifier of the unselect action.
      *
      * @param onUnSelectAction String that contains the identifier of the
      * action.
@@ -65,7 +65,7 @@ public class SectionComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the action of the unselect event.
+     * Defines the type of unselect action.
      *
      * @param onUnSelectActionType Instance that contains the action.
      */
@@ -77,7 +77,7 @@ public class SectionComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Returns the identifier of the action forward of the unselect event.
+     * Returns the identifier of the unselect action forward.
      *
      * @return String that contains the identifier of the action forward.
      */
@@ -86,7 +86,7 @@ public class SectionComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action forward of the unselect event.
+     * Defines the identifier of the unselect action forward.
      *
      * @param onUnSelectForward String that contains the identifier of the
      * action forward.
@@ -96,8 +96,7 @@ public class SectionComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Returns the identifier of the views that will be updated on the unselect
-     * event.
+     * Returns the identifier of the unselect action views that will be updated.
      *
      * @return String that contains the identifier of the views.
      */
@@ -106,8 +105,7 @@ public class SectionComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the views that will be updated on the unselect
-     * event.
+     * Defines the identifier of the unselect action views that will be updated.
      *
      * @param onUnSelectUpdateViews String that contains the identifier of the
      * views.
@@ -156,7 +154,7 @@ public class SectionComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Returns the identifier of the action of the select event.
+     * Returns the identifier of the select action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -165,7 +163,7 @@ public class SectionComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the identifier of the action of the select event.
+     * Defines the identifier of the select action.
      *
      * @param onSelectAction String that contains the identifier of the action.
      */
@@ -301,7 +299,7 @@ public class SectionComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Returns the unselect event.
+     * Returns the unselect event snippet.
      *
      * @return String that contains the event.
      */
@@ -310,7 +308,7 @@ public class SectionComponent extends BaseActionFormComponent{
     }
     
     /**
-     * Defines the unselect event.
+     * Defines the unselect event snippet.
      *
      * @param onUnSelect String that contains the event.
      */
@@ -333,7 +331,7 @@ public class SectionComponent extends BaseActionFormComponent{
         if(accordionComponent != null){
             String height = getHeight();
             
-            if(height == null || height.length() == 0){
+            if(height == null || height.isEmpty()){
                 height = accordionComponent.getHeight();
                 
                 setHeight(height);
@@ -358,7 +356,7 @@ public class SectionComponent extends BaseActionFormComponent{
         if(accordionComponent != null){
             String resourcesId = getResourcesId();
             
-            if(resourcesId == null || resourcesId.length() == 0){
+            if(resourcesId == null || resourcesId.isEmpty()){
                 resourcesId = accordionComponent.getResourcesId();
                 
                 setResourcesId(resourcesId);
@@ -404,7 +402,7 @@ public class SectionComponent extends BaseActionFormComponent{
                     BodyContent bodyContent = sectionComponent.getBodyContent();
                     String sectionContent = sectionComponent.getContent();
                     
-                    if(bodyContent != null && (sectionContent == null || sectionContent.length() == 0)){
+                    if(bodyContent != null && (sectionContent == null || sectionContent.isEmpty())){
                         sectionContent = bodyContent.getString();
                         
                         sectionComponent.setContent(sectionContent);

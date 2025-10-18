@@ -15,7 +15,7 @@ import javax.servlet.jsp.tagext.BodyContent;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -24,7 +24,7 @@ import javax.servlet.jsp.tagext.BodyContent;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ScriptComponent extends BaseComponent{
     private static final long serialVersionUID = 4577984120880234589L;
@@ -73,22 +73,18 @@ public class ScriptComponent extends BaseComponent{
     }
 
     @Override
-    protected void buildStyle() throws InternalErrorException{
-    }
-
-    @Override
     protected void renderOpen() throws InternalErrorException{
         String contextPath = getContextPath();
         String currentSkin = getCurrentSkin();
         
-        if(contextPath == null || contextPath.length() == 0 || currentSkin == null || currentSkin.length() == 0)
+        if(contextPath == null || contextPath.isEmpty() || currentSkin == null || currentSkin.isEmpty())
             return;
         
         super.renderOpen();
         
         StringBuilder url = null;
         
-        if(this.url != null && this.url.length() > 0){
+        if(this.url != null && !this.url.isEmpty()){
             url = new StringBuilder();
             url.append(contextPath);
             
@@ -117,17 +113,17 @@ public class ScriptComponent extends BaseComponent{
 
     @Override
     protected void renderBody() throws InternalErrorException{
-        if(this.url == null || this.url.length() == 0){
+        if(this.url == null || this.url.isEmpty()){
             BodyContent bodyContent = getBodyContent();
             String content = getContent();
             
-            if(bodyContent != null && (content == null || content.length() == 0)){
+            if(bodyContent != null && (content == null || content.isEmpty())){
                 content = bodyContent.getString();
                 
                 setContent(content);
             }
             
-            if(content != null && content.length() > 0)
+            if(content != null && !content.isEmpty())
                 println(content);
         }
     }

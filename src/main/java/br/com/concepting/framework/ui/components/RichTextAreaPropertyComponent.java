@@ -22,7 +22,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -31,7 +31,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class RichTextAreaPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -3254930243069817268L;
@@ -43,7 +43,7 @@ public class RichTextAreaPropertyComponent extends BasePropertyComponent{
         PropertyInfo propertyInfo = getPropertyInfo();
         String name = getName();
         
-        if(propertyInfo != null && name != null && name.length() > 0){
+        if(propertyInfo != null && name != null && !name.isEmpty()){
             renderControls();
             
             print("<div id=\"");
@@ -59,10 +59,10 @@ public class RichTextAreaPropertyComponent extends BasePropertyComponent{
             String width = getWidth();
             String height = getHeight();
             
-            if((width != null && width.length() > 0) || (height != null && height.length() > 0)){
+            if((width != null && !width.isEmpty()) || (height != null && !height.isEmpty())){
                 print(" style=\"");
                 
-                if(width != null && width.length() > 0){
+                if(width != null && !width.isEmpty()){
                     print("width: ");
                     print(width);
                     
@@ -70,8 +70,8 @@ public class RichTextAreaPropertyComponent extends BasePropertyComponent{
                         print(";");
                 }
                 
-                if(height != null && height.length() > 0){
-                    if(width != null && width.length() > 0)
+                if(height != null && !height.isEmpty()){
+                    if(width != null && !width.isEmpty())
                         print(" ");
                     
                     print("height: ");
@@ -98,7 +98,7 @@ public class RichTextAreaPropertyComponent extends BasePropertyComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(uiController == null || actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(uiController == null || actionFormName == null || actionFormName.isEmpty() || name == null || name.isEmpty())
             return;
         
         print("<div class=\"");
@@ -107,7 +107,7 @@ public class RichTextAreaPropertyComponent extends BasePropertyComponent{
         
         String width = getWidth();
         
-        if(width != null && width.length() > 0){
+        if(width != null && !width.isEmpty()){
             print(" style=\"width: ");
             print(width);
             
@@ -610,7 +610,7 @@ public class RichTextAreaPropertyComponent extends BasePropertyComponent{
     protected void renderValue() throws InternalErrorException{
         String formattedValue = getFormattedValue();
         
-        if(formattedValue != null && formattedValue.length() > 0)
+        if(formattedValue != null && !formattedValue.isEmpty())
             println(formattedValue);
     }
 
@@ -620,7 +620,7 @@ public class RichTextAreaPropertyComponent extends BasePropertyComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(propertyInfo != null && actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0){
+        if(propertyInfo != null && actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty()){
             println("</div>");
             
             StringBuilder content = new StringBuilder();
