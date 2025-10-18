@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 
 /**
- * Class that stores the attributes of a property of a data model.
+ * Class that stores the attributes of data model property.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -22,7 +22,7 @@ import java.math.BigDecimal;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -31,7 +31,7 @@ import java.math.BigDecimal;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     private String id = null;
@@ -571,7 +571,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     /**
      * Returns the list of validation actions.
      *
-     * @return List that contains the identifiers of the actions.
+     * @return Array that contains the identifiers of the actions.
      */
     public String[] getValidationActions(){
         return this.validationActions;
@@ -607,7 +607,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Returns the identifier of the repository sequence of a data model.
+     * Returns the identifier of the repository sequence.
      *
      * @return String that contains the identifier of the sequence.
      */
@@ -616,7 +616,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Defines the identifier of the repository sequence of a data model.
+     * Defines the identifier of the repository sequence.
      *
      * @param sequenceId String that contains the identifier of the sequence.
      */
@@ -708,7 +708,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     /**
      * Returns the regular expression used in the validation.
      *
-     * @return String that contains regular expression.
+     * @return String that contains a regular expression.
      */
     public String getRegularExpression(){
         return this.regularExpression;
@@ -717,7 +717,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     /**
      * Defines the regular expression used in the validation.
      *
-     * @param regularExpression String that contains regular expression.
+     * @param regularExpression String that contains a regular expression.
      */
     public void setRegularExpression(String regularExpression){
         this.regularExpression = regularExpression;
@@ -813,7 +813,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Returns the identifier of the foreign key of the relationship.
+     * Returns the identifier of the foreign key.
      *
      * @return String that contains the identifier of the foreign key.
      */
@@ -822,7 +822,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Defines the identifier of the foreign key of the relationship.
+     * Defines the identifier of the foreign key.
      *
      * @param foreignKeyId String that contains the identifier of the foreign
      * key.
@@ -1045,16 +1045,16 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Returns the identifiers of the foreign keys of the relationship.
+     * Returns the identifiers of the foreign keys.
      *
-     * @return String that contains the identifiers.
+     * @return Array that contains the identifiers.
      */
     public String[] getMappedPropertiesIds(){
         return this.mappedPropertiesIds;
     }
     
     /**
-     * Defines the identifiers of the foreign keys of the relationship.
+     * Defines the identifiers of the foreign keys.
      *
      * @param mappedPropertiesIds String that contains the identifiers.
      */
@@ -1293,7 +1293,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Indicates if the property will be considered in the search.
+     * Indicates if the property is considered in the search.
      *
      * @return True/False.
      */
@@ -1302,7 +1302,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Indicates if the property will be considered in the search.
+     * Indicates if the property is considered in the search.
      *
      * @return True/False.
      */
@@ -1311,7 +1311,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Defines if the property will be considered in the search.
+     * Defines if the property is considered in the search.
      *
      * @param isForSearch True/False.
      */
@@ -1395,7 +1395,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Indica if the property will be audited.
+     * Indica if the property is audited.
      *
      * @return True/False.
      */
@@ -1404,7 +1404,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Indica if the property will be audited.
+     * Indica if the property is audited.
      *
      * @return True/False.
      */
@@ -1424,7 +1424,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     /**
      * Returns the property validation rules.
      *
-     * @return List that contains the validation rules.
+     * @return Array that contains the validation rules.
      */
     public ValidationType[] getValidations(){
         return this.validations;
@@ -1563,18 +1563,18 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Returns the mapping of the properties of a data model
+     * Returns the mapping of the properties
      *
-     * @return String that contains the mapping of the properties.
+     * @return Array that contains the mapping of the properties.
      */
     public String[] getPropertiesIds(){
         return this.propertiesIds;
     }
     
     /**
-     * Defines the mapping of the properties of the data model.
+     * Defines the mapping of the properties.
      *
-     * @param propertiesIds String that contains the mapping of the properties.
+     * @param propertiesIds Array that contains the mapping of the properties.
      */
     public void setPropertiesIds(String[] propertiesIds){
         this.propertiesIds = propertiesIds;
@@ -1672,25 +1672,25 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Returns the identifiers of the foreign keys of the relationship.
+     * Returns the identifiers of the foreign keys.
      *
-     * @return String that contains the identifiers.
+     * @return Array that contains the identifiers.
      */
     public String[] getMappedRelationPropertiesIds(){
         return this.mappedRelationPropertiesIds;
     }
     
     /**
-     * Defines the identifiers of the foreign keys of the relationship.
+     * Defines the identifiers of the foreign keys.
      *
-     * @param mappedRelationPropertiesIds String that contains the identifiers.
+     * @param mappedRelationPropertiesIds Array that contains the identifiers.
      */
     public void setMappedRelationPropertiesIds(String[] mappedRelationPropertiesIds){
         this.mappedRelationPropertiesIds = mappedRelationPropertiesIds;
     }
     
     /**
-     * Indica if the group separator should be used in the numeric formatting..
+     * Indica if the group separator should be used in the numeric formatting.
      *
      * @return True/False.
      */
@@ -1699,7 +1699,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Defines if the group separator should be used in the numeric formatting..
+     * Defines if the group separator should be used in the numeric formatting.
      *
      * @param useGroupSeparator True/False.
      */
@@ -1710,7 +1710,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     /**
      * Returns formula expression.
      *
-     * @return String that contains formula expression.
+     * @return String that contains a formula expression.
      */
     public String getFormulaExpression(){
         return this.formulaExpression;
@@ -1719,7 +1719,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     /**
      * Defines formula expression.
      *
-     * @param formulaExpression String that contains formula expression.
+     * @param formulaExpression String that contains a formula expression.
      */
     public void setFormulaExpression(String formulaExpression){
         this.formulaExpression = formulaExpression;
@@ -1763,7 +1763,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Returns the identifier of the property of the data model that should be
+     * Returns the identifier of the property that should be
      * mapped in the persistence repository.
      *
      * @return String that contains the identifier of the property.
@@ -1773,7 +1773,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
     
     /**
-     * Defines the identifier of the property of the data model that should be
+     * Defines the identifier of the property that should be
      * mapped in the persistence repository.
      *
      * @param propertyId String that contains the identifier of the property.
@@ -1928,12 +1928,9 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
 
     @Override
-    public boolean equals(Object object){
+    public boolean equals(@NotNull Object object){
         PropertyInfo comparePropertyInfo = (PropertyInfo) object;
-        
-        if(comparePropertyInfo == null)
-            return false;
-        
+
         return (this.id != null && this.id.equals(comparePropertyInfo.getId()));
     }
 
@@ -1949,6 +1946,6 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
 
     @Override
     public int compareTo(@NotNull PropertyInfo comparePropertyInfo){
-        return (comparePropertyInfo != null && this.id != null ? this.id.compareTo(comparePropertyInfo.getId()) : -1);
+        return this.id != null ? this.id.compareTo(comparePropertyInfo.getId()) : -1;
     }
 }
