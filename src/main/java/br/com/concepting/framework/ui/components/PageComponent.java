@@ -28,7 +28,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -37,7 +37,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class PageComponent extends BaseComponent{
     private static final long serialVersionUID = -5686043597731581091L;
@@ -82,15 +82,7 @@ public class PageComponent extends BaseComponent{
     }
 
     @Override
-    protected void buildStyle() throws InternalErrorException{
-    }
-
-    @Override
     protected void buildName() throws InternalErrorException{
-    }
-
-    @Override
-    protected void buildEvents() throws InternalErrorException{
     }
 
     @Override
@@ -105,7 +97,7 @@ public class PageComponent extends BaseComponent{
         
         String encoding = getEncoding();
         
-        if(encoding == null || encoding.length() == 0){
+        if(encoding == null || encoding.isEmpty()){
             encoding = Constants.DEFAULT_UNICODE_ENCODING;
             
             setEncoding(encoding);
@@ -124,7 +116,7 @@ public class PageComponent extends BaseComponent{
             println("<html>");
             println("<head>");
             
-            if(this.encoding != null && this.encoding.length() > 0){
+            if(this.encoding != null && !this.encoding.isEmpty()){
                 print("<meta http-equiv=\"Content-Type\" content=\"");
                 print(ContentType.HTML.getMimeType());
                 print("; charset=");
@@ -140,7 +132,7 @@ public class PageComponent extends BaseComponent{
                 println("\">");
             }
             
-            if(this.title != null && this.title.length() > 0){
+            if(this.title != null && !this.title.isEmpty()){
                 print("<title>");
                 print(this.title);
                 println("</title>");
@@ -223,7 +215,7 @@ public class PageComponent extends BaseComponent{
         
         String message = resources.getProperty(UIConstants.DEFAULT_LOADING_BOX_INFO_ID);
         
-        if(message != null && message.length() > 0){
+        if(message != null && !message.isEmpty()){
             outputStream.println("<tr>");
             outputStream.print("<td class=\"");
             outputStream.print(UIConstants.DEFAULT_LOADING_BOX_TEXT_STYLE_CLASS);
@@ -388,7 +380,7 @@ public class PageComponent extends BaseComponent{
         
         String contextPath = systemController.getContextPath();
         
-        if(contextPath == null || contextPath.length() == 0)
+        if(contextPath == null || contextPath.isEmpty())
             return;
         
         StyleComponent styleComponent = new StyleComponent();
@@ -398,7 +390,7 @@ public class PageComponent extends BaseComponent{
         
         String requestPath = StringUtil.replaceAll(systemController.getRequestPath(), ProjectConstants.DEFAULT_UI_PAGES_DIR, "");
         
-        int pos = (requestPath != null && requestPath.length() > 0 ? requestPath.lastIndexOf("/") : -1);
+        int pos = (requestPath != null && !requestPath.isEmpty() ? requestPath.lastIndexOf("/") : -1);
         
         try{
             if(pos >= 0)
