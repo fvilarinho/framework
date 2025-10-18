@@ -16,7 +16,7 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -25,7 +25,7 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class MailResources extends BaseResources<XmlNode>{
     private static final long serialVersionUID = -4631808238382919312L;
@@ -46,7 +46,7 @@ public class MailResources extends BaseResources<XmlNode>{
     private boolean storageUseTls = false;
     
     /**
-     * Returns the type of transport of messages.
+     * Returns the type of transport.
      *
      * @return Instance that contains the type of transport.
      */
@@ -55,7 +55,7 @@ public class MailResources extends BaseResources<XmlNode>{
     }
     
     /**
-     * Defines the type of transport of messages.
+     * Defines the type of transport.
      *
      * @param transport Instance that contains the type of transport.
      */
@@ -64,7 +64,7 @@ public class MailResources extends BaseResources<XmlNode>{
     }
     
     /**
-     * Returns the type of storage of messages.
+     * Returns the type of storage.
      *
      * @return Instance that contains the type of transport.
      */
@@ -73,7 +73,7 @@ public class MailResources extends BaseResources<XmlNode>{
     }
     
     /**
-     * Defines the type of storage of messages.
+     * Defines the type of storage.
      *
      * @param storage Instance that contains the type of transport.
      */
@@ -190,7 +190,7 @@ public class MailResources extends BaseResources<XmlNode>{
     }
     
     /**
-     * Returns the hostname/IP the mail storage server.
+     * Returns the hostname/IP to the mail storage server.
      *
      * @return String that contains the hostname/IP.
      */

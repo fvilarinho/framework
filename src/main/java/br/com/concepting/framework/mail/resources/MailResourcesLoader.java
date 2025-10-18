@@ -23,7 +23,7 @@ import java.text.ParseException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -32,7 +32,7 @@ import java.text.ParseException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
     /**
@@ -69,7 +69,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
             if(serverNameNode != null){
                 String serverName = serverNameNode.getValue();
                 
-                if(serverName == null || serverName.length() == 0)
+                if(serverName == null || serverName.isEmpty())
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, serverNameNode.getText());
                 
                 resources.setStorageServerName(serverName);
@@ -80,7 +80,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
             XmlNode serverPortNode = storageNode.getNode(NetworkConstants.SERVER_PORT_ATTRIBUTE_ID);
             
             if(serverPortNode != null){
-                if(serverPortNode.getValue() == null || serverPortNode.getValue().length() == 0)
+                if(serverPortNode.getValue() == null || serverPortNode.getValue().isEmpty())
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText());
                 
                 try{
@@ -97,7 +97,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
             
             String storageType = storageNode.getAttribute(Constants.TYPE_ATTRIBUTE_ID);
             
-            if(storageType != null && storageType.length() > 0){
+            if(storageType != null && !storageType.isEmpty()){
                 try{
                     resources.setStorage(MailStorageType.valueOf(storageType.toUpperCase()));
                 }
@@ -113,7 +113,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
             if(userNameNode != null){
                 String userName = userNameNode.getValue();
                 
-                if(userName != null && userName.length() > 0)
+                if(userName != null && !userName.isEmpty())
                     resources.setStorageUserName(userName);
             }
             
@@ -122,7 +122,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
             if(passwordNode != null){
                 String password = passwordNode.getValue();
                 
-                if(password != null && password.length() > 0)
+                if(password != null && !password.isEmpty())
                     resources.setStoragePassword(password);
             }
             
@@ -148,7 +148,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
             if(serverNameNode != null){
                 String serverName = serverNameNode.getValue();
                 
-                if(serverName == null || serverName.length() == 0)
+                if(serverName == null || serverName.isEmpty())
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, serverNameNode.getText());
                 
                 resources.setTransportServerName(serverName);
@@ -159,7 +159,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
             XmlNode serverPortNode = transportNode.getNode(NetworkConstants.SERVER_PORT_ATTRIBUTE_ID);
             
             if(serverPortNode != null){
-                if(serverPortNode.getValue() == null || serverPortNode.getValue().length() == 0)
+                if(serverPortNode.getValue() == null || serverPortNode.getValue().isEmpty())
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, serverPortNode.getText());
                 
                 try{
@@ -176,7 +176,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
             
             String transportType = transportNode.getAttribute(Constants.TYPE_ATTRIBUTE_ID);
             
-            if(transportType != null && transportType.length() > 0){
+            if(transportType != null && !transportType.isEmpty()){
                 try{
                     resources.setTransport(MailTransportType.valueOf(transportType.toUpperCase()));
                 }
@@ -192,7 +192,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
             if(userNameNode != null){
                 String userName = userNameNode.getValue();
                 
-                if(userName != null && userName.length() > 0)
+                if(userName != null && !userName.isEmpty())
                     resources.setTransportUserName(userName);
             }
             
@@ -201,7 +201,7 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
             if(passwordNode != null){
                 String password = passwordNode.getValue();
                 
-                if(password != null && password.length() > 0)
+                if(password != null && !password.isEmpty())
                     resources.setTransportPassword(password);
             }
             
@@ -220,7 +220,11 @@ public class MailResourcesLoader extends NetworkResourcesLoader<MailResources>{
     @Override
     protected XmlNode parseContent() throws InvalidResourcesException{
         XmlNode contentNode = super.parseContent();
-        XmlNode resourcesNode = (contentNode != null ? contentNode.getNode(MailConstants.DEFAULT_ID) : null);
+
+        if(contentNode == null)
+            throw new InvalidResourcesException(getResourcesDirname(), getResourcesId());
+
+        XmlNode resourcesNode = contentNode.getNode(MailConstants.DEFAULT_ID);
         
         if(resourcesNode == null)
             throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), contentNode.getText());

@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -39,7 +39,7 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class MailMessage extends Message<Object>{
     private static final long serialVersionUID = 6336269811220022270L;
@@ -59,7 +59,7 @@ public class MailMessage extends Message<Object>{
      * file.
      */
     public void attach(String filename) throws InternalErrorException{
-        if(filename == null || filename.length() == 0)
+        if(filename == null || filename.isEmpty())
             return;
         
         try{
@@ -79,7 +79,7 @@ public class MailMessage extends Message<Object>{
      * file.
      */
     public void attach(String filename, InputStream stream) throws InternalErrorException{
-        if(filename == null || filename.length() == 0 || stream == null)
+        if(filename == null || filename.isEmpty() || stream == null)
             return;
         
         try{
@@ -110,16 +110,19 @@ public class MailMessage extends Message<Object>{
         
         if(filename != null){
             File temp = new File(filename);
-            
-            attach.put(Constants.CONTENT_FILENAME_ATTRIBUTE_ID, temp.getName());
+
+            if(attach != null)
+                attach.put(Constants.CONTENT_FILENAME_ATTRIBUTE_ID, temp.getName());
         }
-        
-        attach.put(Constants.CONTENT_ATTRIBUTE_ID, content);
+
+        if(attach != null)
+            attach.put(Constants.CONTENT_ATTRIBUTE_ID, content);
         
         if(this.attachments == null)
             this.attachments = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        
-        this.attachments.add(attach);
+
+        if(this.attachments != null)
+            this.attachments.add(attach);
     }
     
     /**
@@ -129,27 +132,30 @@ public class MailMessage extends Message<Object>{
      * @param content String that contains the data of the file.
      */
     public void attach(String filename, String content){
-        if(content == null || content.length() == 0)
+        if(content == null || content.isEmpty())
             return;
         
         Map<String, Object> attach = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
         
         if(filename != null){
             File temp = new File(filename);
-            
-            attach.put(Constants.CONTENT_FILENAME_ATTRIBUTE_ID, temp.getName());
+
+            if(attach != null)
+                attach.put(Constants.CONTENT_FILENAME_ATTRIBUTE_ID, temp.getName());
         }
-        
-        attach.put(Constants.CONTENT_ATTRIBUTE_ID, content);
+
+        if(attach != null)
+            attach.put(Constants.CONTENT_ATTRIBUTE_ID, content);
         
         if(this.attachments == null)
             this.attachments = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        
-        this.attachments.add(attach);
+
+        if(this.attachments != null)
+            this.attachments.add(attach);
     }
     
     /**
-     * Returns the list of attachments of the message.
+     * Returns the list of attachments.
      *
      * @return List that contains the attachments of the message.
      */
@@ -201,7 +207,7 @@ public class MailMessage extends Message<Object>{
      * @param from String that contains the sender.
      */
     public void setFrom(String from){
-        if(from != null && from.length() > 0){
+        if(from != null && !from.isEmpty()){
             try{
                 this.setFrom(new InternetAddress(from));
             }
@@ -211,54 +217,54 @@ public class MailMessage extends Message<Object>{
     }
     
     /**
-     * Returns the list of recipients of the message.
+     * Returns the list of recipients.
      *
-     * @return List of recipients of the message.
+     * @return List of recipients.
      */
     public Collection<? extends Address> getToRecipients(){
         return this.to;
     }
     
     /**
-     * Defines the list of recipients of the message.
+     * Defines the list of recipients.
      *
-     * @param to List of recipients of the message.
+     * @param to List of recipients.
      */
     public void setToRecipients(Collection<Address> to){
         this.to = to;
     }
     
     /**
-     * Returns the carbon copy list of recipients of the message.
+     * Returns the carbon copy list of recipients.
      *
-     * @return to The carbon copy list of recipients of the message.
+     * @return to The carbon copy list of recipients.
      */
     public Collection<? extends Address> getCcRecipients(){
         return this.cc;
     }
     
     /**
-     * Defines the carbon copy list of recipients of the message.
+     * Defines the carbon copy list of recipients.
      *
-     * @param cc The carbon copy list of recipients of the message.
+     * @param cc The carbon copy list of recipients.
      */
     public void setCcRecipients(Collection<Address> cc){
         this.cc = cc;
     }
     
     /**
-     * Returns the blinded carbon copy list of recipients of the message.
+     * Returns the blinded carbon copy list of recipients.
      *
-     * @return The blinded carbon copy list of recipients of the message.
+     * @return The blinded carbon copy list of recipients.
      */
     public Collection<? extends Address> getBccRecipients(){
         return this.bcc;
     }
     
     /**
-     * Defines the blinded carbon copy list of recipients of the message.
+     * Defines the blinded carbon copy list of recipients.
      *
-     * @param bcc The blinded carbon copy list of recipients of the message.
+     * @param bcc The blinded carbon copy list of recipients.
      */
     public void setBccRecipients(Collection<Address> bcc){
         this.bcc = bcc;
@@ -274,8 +280,9 @@ public class MailMessage extends Message<Object>{
         if(recipient != null){
             if(this.to == null)
                 this.to = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.to.add(recipient);
+
+            if(this.to != null)
+                this.to.add(recipient);
         }
     }
     
@@ -289,8 +296,9 @@ public class MailMessage extends Message<Object>{
         if(recipient != null){
             if(this.cc == null)
                 this.cc = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.cc.add(recipient);
+
+            if(this.cc != null)
+                this.cc.add(recipient);
         }
     }
     
@@ -304,8 +312,9 @@ public class MailMessage extends Message<Object>{
         if(recipient != null){
             if(this.bcc == null)
                 this.bcc = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.bcc.add(recipient);
+
+            if(this.bcc != null)
+                this.bcc.add(recipient);
         }
     }
     
@@ -315,7 +324,7 @@ public class MailMessage extends Message<Object>{
      * @param recipient String that contains the recipient.
      */
     public void addBccRecipient(String recipient){
-        if(recipient != null && recipient.length() > 0){
+        if(recipient != null && !recipient.isEmpty()){
             try{
                 this.addBccRecipient(new InternetAddress(recipient));
             }
@@ -330,7 +339,7 @@ public class MailMessage extends Message<Object>{
      * @param recipient String that contains the recipient.
      */
     public void addCcRecipient(String recipient){
-        if(recipient != null && recipient.length() > 0){
+        if(recipient != null && !recipient.isEmpty()){
             try{
                 this.addCcRecipient(new InternetAddress(recipient));
             }
@@ -345,7 +354,7 @@ public class MailMessage extends Message<Object>{
      * @param recipient String that contains the recipient.
      */
     public void addToRecipient(String recipient){
-        if(recipient != null && recipient.length() > 0){
+        if(recipient != null && !recipient.isEmpty()){
             try{
                 this.addToRecipient(new InternetAddress(recipient));
             }

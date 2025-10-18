@@ -38,7 +38,7 @@ import java.util.Properties;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -47,7 +47,7 @@ import java.util.Properties;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class Mail{
     private static Map<String, Mail> instances = null;
@@ -110,16 +110,20 @@ public class Mail{
     public static Mail getInstance(MailResources resources) throws InternalErrorException{
         if(instances == null)
             instances = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        Mail instance = instances.get(resources.getId());
-        
-        if(instance == null){
-            instance = new Mail(resources);
-            
-            instances.put(resources.getId(), instance);
+
+        if(instances != null) {
+            Mail instance = instances.get(resources.getId());
+
+            if (instance == null) {
+                instance = new Mail(resources);
+
+                instances.put(resources.getId(), instance);
+            }
+
+            return instance;
         }
-        
-        return instance;
+
+        return null;
     }
     
     /**
@@ -152,7 +156,7 @@ public class Mail{
             this.properties.setProperty("mail.smtp.localhost", this.resources.getTransportServerName());
             this.properties.setProperty("mail.smtp.port", String.valueOf(this.resources.getTransportServerPort()));
             
-            if(this.resources.getTransportUserName() != null && this.resources.getTransportUserName().length() > 0)
+            if(this.resources.getTransportUserName() != null && !this.resources.getTransportUserName().isEmpty())
                 this.properties.setProperty("mail.smtp.auth", Boolean.TRUE.toString());
             
             if(this.resources.getTransportUseTls())
@@ -223,15 +227,15 @@ public class Mail{
         
         sendMessage.setFrom(message.getFrom());
         
-        if(message.getToRecipients() != null && message.getToRecipients().size() > 0)
+        if(message.getToRecipients() != null && !message.getToRecipients().isEmpty())
             for(Address item: message.getToRecipients())
                 sendMessage.addRecipient(Message.RecipientType.TO, item);
         
-        if(message.getCcRecipients() != null && message.getCcRecipients().size() > 0)
+        if(message.getCcRecipients() != null && !message.getCcRecipients().isEmpty())
             for(Address item: message.getCcRecipients())
                 sendMessage.addRecipient(Message.RecipientType.CC, item);
         
-        if(message.getBccRecipients() != null && message.getBccRecipients().size() > 0)
+        if(message.getBccRecipients() != null && !message.getBccRecipients().isEmpty())
             for(Address item: message.getBccRecipients())
                 sendMessage.addRecipient(Message.RecipientType.BCC, item);
         
@@ -299,8 +303,8 @@ public class Mail{
                 else
                     attachData = fileContent.toString().getBytes();
                 
-                if(attachData != null && attachData.length > 0){
-                    if(filename == null || filename.length() == 0){
+                if(attachData.length > 0){
+                    if(filename == null || filename.isEmpty()){
                         filename = "attachment-".concat(String.valueOf(cont));
                         
                         cont++;
@@ -331,7 +335,7 @@ public class Mail{
      * Clears all attachments.
      */
     private void clearAttachments(){
-        if(this.attachments != null && this.attachments.size() > 0)
+        if(this.attachments != null && !this.attachments.isEmpty())
             for(File file: this.attachments)
                 file.delete();
     }
@@ -406,7 +410,7 @@ public class Mail{
     }
     
     /**
-     * Sends a message in an assynchronous way.
+     * Sends a message asynchronously.
      *
      * @param message Instance that contains the message.
      */
@@ -465,7 +469,6 @@ public class Mail{
      *
      * @param message Instance that contains the message.
      * @return Instance that contains the message.
-     * message.
      * @throws MessagingException Occurs when was not possible to get the
      * message.
      * @throws IOException Occurs when was not possible to get the
@@ -603,7 +606,7 @@ public class Mail{
             
             messages = folder.getMessages();
             
-            if(messages != null && messages.length > 0){
+            if(messages != null){
                 for(Message message: messages){
                     if(onlyUnread)
                         if(message.getFlags().contains(Flags.Flag.SEEN))
@@ -615,8 +618,9 @@ public class Mail{
                     
                     if(mailMessages == null)
                         mailMessages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                    
-                    mailMessages.add(mailMessage);
+
+                    if(mailMessages != null)
+                        mailMessages.add(mailMessage);
                 }
             }
             
@@ -661,8 +665,11 @@ public class Mail{
             for(int cont = 0; cont < parts.getCount(); cont++){
                 subPart = parts.getBodyPart(cont);
                 attach = subPart.getDataHandler().getDataSource().getInputStream();
-                
-                if(attach instanceof InputStream || (subPart.getDisposition() != null && subPart.getDisposition().equals(Part.ATTACHMENT)))
+
+                if(attach == null)
+                    continue;
+
+                if((subPart.getDisposition() != null && subPart.getDisposition().equals(Part.ATTACHMENT)))
                     mailMessage.attach(subPart.getFileName(), ByteUtil.fromBinaryStream(attach));
                 else{
                     if(subPart.getContent() instanceof Multipart)
