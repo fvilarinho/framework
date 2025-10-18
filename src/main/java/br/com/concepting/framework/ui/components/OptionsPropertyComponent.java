@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Class that defines the options component.
+ * Class that defines the options' component.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -35,7 +35,7 @@ import java.util.Locale;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -44,7 +44,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     private static final long serialVersionUID = 1340880138631153675L;
@@ -86,7 +86,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Returns the identifier of the action of the unselect event.
+     * Returns the identifier of the unselect action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -95,7 +95,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Defines the identifier of the action of the unselect event.
+     * Defines the identifier of the unselect action.
      *
      * @param onUnSelectAction String that contains the identifier of the
      * action.
@@ -105,7 +105,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Defines the action of the unselect event.
+     * Defines the type of the unselect action.
      *
      * @param onUnSelectActionType Instance that contains the action.
      */
@@ -117,28 +117,26 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Returns the identifier of the action forward of the unselect event.
+     * Returns the identifier of the unselect action forward.
      *
-     * @return String that contains the identifier of the action forward of the
-     * action.
+     * @return String that contains the identifier of the unselect action forward.
      */
     public String getOnUnSelectForward(){
         return this.onUnSelectForward;
     }
     
     /**
-     * Defines the identifier of the action forward of the unselect event.
+     * Defines the identifier of the unselect action forward.
      *
      * @param onUnSelectForward String that contains the identifier of the
-     * action forward of the action.
+     * unselect action forward.
      */
     public void setOnUnSelectForward(String onUnSelectForward){
         this.onUnSelectForward = onUnSelectForward;
     }
     
     /**
-     * Returns the identifier of the views that should be updated on the select
-     * event.
+     * Returns the identifier of the unselect action views that should be updated.
      *
      * @return String that contains the identifier of the views.
      */
@@ -147,8 +145,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Defines the identifier of the views that should be updated on the select
-     * event.
+     * Defines the identifier of the unselect action views that should be updated.
      *
      * @param onUnSelectUpdateViews String that contains the identifier of the
      * views.
@@ -176,8 +173,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Returns the validation properties of the data model of the unselect
-     * event.
+     * Returns the validation properties of the unselect action.
      *
      * @return String that contains the identifiers of the properties.
      */
@@ -186,8 +182,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Defines the validation properties of the data model of the unselect
-     * event.
+     * Defines the validation properties of the unselect action.
      *
      * @param onUnSelectValidateModelProperties String that contains the
      * identifiers of the properties.
@@ -197,7 +192,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Returns the identifier of the action of the select event.
+     * Returns the identifier of the select action.
      *
      * @return String that contains the identifier of the action.
      */
@@ -206,7 +201,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Defines the identifier of the action of the select event.
+     * Defines the identifier of the select action.
      *
      * @param onSelectAction String that contains the identifier of the action.
      */
@@ -215,7 +210,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Defines the action of the select event.
+     * Defines the type of the select action.
      *
      * @param onSelectActionType Instance that contains the action.
      */
@@ -286,8 +281,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Returns the validation properties of the data model of the on select
-     * event.
+     * Returns the validation properties of the select action.
      *
      * @return String that contains the identifiers of the properties.
      */
@@ -296,8 +290,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Defines the validation properties of the data model of the on select
-     * event.
+     * Defines the validation properties of the select action.
      *
      * @param onSelectValidateModelProperties String that contains the
      * identifiers of the properties.
@@ -381,18 +374,18 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Returns the unselect event.
+     * Returns the unselect action snippet.
      *
-     * @return String that contains the event.
+     * @return String that contains the snippet.
      */
     public String getOnUnSelect(){
         return this.onUnSelect;
     }
     
     /**
-     * Defines the unselect event.
+     * Defines the unselect action snippet.
      *
-     * @param onUnSelect String that contains the event.
+     * @param onUnSelect String that contains the snippet.
      */
     public void setOnUnSelect(String onUnSelect){
         this.onUnSelect = onUnSelect;
@@ -426,7 +419,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
             else{
                 String name = object.getName();
                 
-                if(name != null && name.length() > 0){
+                if(name != null && !name.isEmpty()){
                     StringBuilder propertyId = new StringBuilder();
                     
                     propertyId.append(name);
@@ -445,16 +438,11 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         }
         else{
             try{
-                if(this.optionLabelProperty != null && this.optionLabelProperty.length() > 0){
+                if(this.optionLabelProperty != null && !this.optionLabelProperty.isEmpty()){
                     PropertyInfo optionLabelPropertyInfo = PropertyUtil.getInfo(option.getClass(), this.optionLabelProperty);
-                    
-                    if(optionLabelPropertyInfo != null){
-                        Object optionValue = PropertyUtil.getValue(option, this.optionLabelProperty);
-                        
-                        optionValueLabel = PropertyUtil.format(optionValue, optionLabelPropertyInfo.getPattern(), optionLabelPropertyInfo.useAdditionalFormatting(), optionLabelPropertyInfo.getPrecision(), currentLanguage);
-                    }
-                    else
-                        optionValueLabel = PropertyUtil.format(option, getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
+                    Object optionValue = PropertyUtil.getValue(option, this.optionLabelProperty);
+
+                    optionValueLabel = PropertyUtil.format(optionValue, optionLabelPropertyInfo.getPattern(), optionLabelPropertyInfo.useAdditionalFormatting(), optionLabelPropertyInfo.getPrecision(), currentLanguage);
                 }
                 else
                     optionValueLabel = PropertyUtil.format(option, getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
@@ -467,10 +455,10 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         StringBuilder optionLabelBuffer = new StringBuilder();
         String indentation = getOptionLabelIndentation(level);
         
-        if(indentation != null && indentation.length() > 0)
+        if(indentation != null && !indentation.isEmpty())
             optionLabelBuffer.append(indentation);
         
-        if(optionValueLabel != null && optionValueLabel.length() > 0)
+        if(optionValueLabel != null && !optionValueLabel.isEmpty())
             optionLabelBuffer.append(optionValueLabel);
         else
             optionLabelBuffer.append(optionResourceLabel);
@@ -482,7 +470,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      * Returns the label indentation of a specific level.
      *
      * @param level Numeric value that contains the level.
-     * @return String that contains the label identation.
+     * @return String that contains the label indentation.
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
@@ -512,7 +500,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
             ObjectModel object = (ObjectModel) option;
             String name = object.getName();
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder propertyId = new StringBuilder();
                 
                 propertyId.append(name);
@@ -532,19 +520,14 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         String optionValueTooltip;
 
         try{
-            if(this.optionTooltipProperty == null || this.optionTooltipProperty.length() == 0)
+            if(this.optionTooltipProperty == null || this.optionTooltipProperty.isEmpty())
                 this.optionTooltipProperty = this.optionLabelProperty;
 
-            if(this.optionTooltipProperty != null && this.optionTooltipProperty.length() > 0){
+            if(this.optionTooltipProperty != null && !this.optionTooltipProperty.isEmpty()){
                 PropertyInfo optionTooltipPropertyInfo = PropertyUtil.getInfo(option.getClass(), this.optionTooltipProperty);
-                
-                if(optionTooltipPropertyInfo != null){
-                    Object optionValue = PropertyUtil.getValue(option, this.optionTooltipProperty);
-                    
-                    optionValueTooltip = PropertyUtil.format(optionValue, optionTooltipPropertyInfo.getPattern(), optionTooltipPropertyInfo.useAdditionalFormatting(), optionTooltipPropertyInfo.getPrecision(), currentLanguage);
-                }
-                else
-                    optionValueTooltip = PropertyUtil.format(option, getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
+                Object optionValue = PropertyUtil.getValue(option, this.optionTooltipProperty);
+
+                optionValueTooltip = PropertyUtil.format(optionValue, optionTooltipPropertyInfo.getPattern(), optionTooltipPropertyInfo.useAdditionalFormatting(), optionTooltipPropertyInfo.getPrecision(), currentLanguage);
             }
             else
                 optionValueTooltip = PropertyUtil.format(option, getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
@@ -553,7 +536,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
             optionValueTooltip = PropertyUtil.format(option, getPattern(), useAdditionalFormatting(), getPrecision(), currentLanguage);
         }
         
-        if(optionValueTooltip != null && optionValueTooltip.length() > 0)
+        if(optionValueTooltip != null && !optionValueTooltip.isEmpty())
             return optionValueTooltip;
         
         return optionResourceTooltip;
@@ -629,7 +612,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(getLabelPositionType() == PositionType.TOP && showLabel && label != null && label.length() > 0){
+        if(getLabelPositionType() == PositionType.TOP && showLabel && label != null && !label.isEmpty()){
             renderGroupLabelOpen();
             renderGroupLabelBody();
             renderGroupLabelClose();
@@ -637,7 +620,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Renders the label of the grouping (tag opening) of the options.
+     * Renders the label of the options' opening tag.
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
@@ -646,7 +629,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         
         String labelStyleClass = getLabelStyleClass();
         
-        if(labelStyleClass != null && labelStyleClass.length() > 0){
+        if(labelStyleClass != null && !labelStyleClass.isEmpty()){
             print(" class=\"");
             print(labelStyleClass);
             print("\"");
@@ -654,7 +637,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         
         String labelStyle = getLabelStyle();
         
-        if(labelStyle != null && labelStyle.length() > 0){
+        if(labelStyle != null && !labelStyle.isEmpty()){
             print(" style=\"");
             print(labelStyle);
             
@@ -668,7 +651,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Renders the label of the grouping (tag body) of the options.
+     * Renders the label of the options' body.
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
@@ -677,7 +660,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     }
     
     /**
-     * Renders the label of the grouping (tag closing) of the options.
+     * Renders the label of the options' close tag.
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
@@ -733,7 +716,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         catch(ClassCastException ignored){
         }
         
-        if(id != null && id.length() > 0 && name != null && name.length() > 0 && multipleSelection && optionsPropertyComponent == null){
+        if(id != null && !id.isEmpty() && name != null && !name.isEmpty() && multipleSelection && optionsPropertyComponent == null){
             HiddenPropertyComponent propertyComponent = new HiddenPropertyComponent();
             
             propertyComponent.setPageContext(this.pageContext);
@@ -806,7 +789,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
     protected void renderOptions() throws InternalErrorException{
         List<?> datasetValues = getDatasetValues();
         
-        if(datasetValues != null && datasetValues.size() > 0)
+        if(datasetValues != null && !datasetValues.isEmpty())
             renderOptions(datasetValues, null, 0);
     }
     
@@ -816,13 +799,12 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
      * @param <N> Class that defines an option.
      * @param options List that contains the options.
      * @param parent Instance that contains the parent option.
-     * @param level String that contains the identifier of the cascade level of
-     * the options.
+     * @param level String that contains the identifier of the option level.
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     @SuppressWarnings("unchecked")
     protected <N extends Node> void renderOptions(List<?> options, N parent, int level) throws InternalErrorException{
-        if(options == null || options.size() == 0)
+        if(options == null || options.isEmpty())
             return;
         
         String domain = String.valueOf(System.currentTimeMillis());
