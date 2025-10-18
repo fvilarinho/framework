@@ -21,7 +21,7 @@ import java.awt.*;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ import java.awt.*;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ColorPickerPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -3503305568245070969L;
@@ -76,7 +76,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
     }
     
     /**
-     * Indicates if component should be rendered as a dialog box.
+     * Indicates if the component should be rendered as a dialog box.
      *
      * @return True/False.
      */
@@ -85,7 +85,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
     }
     
     /**
-     * Indicates if component should be rendered as a dialog box.
+     * Indicates if the component should be rendered as a dialog box.
      *
      * @return True/False.
      */
@@ -94,7 +94,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
     }
     
     /**
-     * Defines if component should be rendered as a dialog box.
+     * Defines if the component should be rendered as a dialog box.
      *
      * @param showInDialog True/False.
      */
@@ -106,7 +106,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
     protected void buildEvents() throws InternalErrorException{
         String name = getName();
         
-        if(name == null || name.length() == 0)
+        if(name == null || name.isEmpty())
             return;
         
         String currentOnChange = getOnChange();
@@ -116,7 +116,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         onChange.append(name);
         onChange.append("');");
         
-        if(currentOnChange != null && currentOnChange.length() > 0){
+        if(currentOnChange != null && !currentOnChange.isEmpty()){
             onChange.append(" ");
             onChange.append(currentOnChange);
             
@@ -144,7 +144,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         PropertyInfo propertyInfo = getPropertyInfo();
         String name = getName();
         
-        if(name == null || name.length() == 0 || actionFormName == null || actionFormName.length() == 0 || propertyInfo == null)
+        if(name == null || name.isEmpty() || actionFormName == null || actionFormName.isEmpty() || propertyInfo == null)
             return;
         
         HiddenPropertyComponent propertyComponent = new HiddenPropertyComponent();
@@ -182,7 +182,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(actionFormName == null || actionFormName.isEmpty() || name == null || name.isEmpty())
             return;
         
         print("<table class=\"");
@@ -201,7 +201,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         String resourcesId = getResourcesId();
         String onChange = getOnChange();
         String value = getValue();
-        Color color = (value != null && value.length() > 0 ? ColorUtil.toColor(value) : Color.WHITE);
+        Color color = (value != null && !value.isEmpty() ? ColorUtil.toColor(value) : Color.WHITE);
         SliderBarComponent redValuePropertyComponent = new SliderBarComponent();
         
         redValuePropertyComponent.setPageContext(this.pageContext);
@@ -308,7 +308,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
     protected void renderThumbnail() throws InternalErrorException{
         String name = getName();
         
-        if(name == null || name.length() == 0)
+        if(name == null || name.isEmpty())
             return;
         
         print("<div id=\"");
@@ -322,10 +322,10 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         String width = getWidth();
         String height = getHeight();
         
-        if((width != null && width.length() > 0) || (height != null && height.length() > 0)){
+        if((width != null && !width.isEmpty()) || (height != null && !height.isEmpty())){
             print(" style=\"");
             
-            if(width != null && width.length() > 0){
+            if(width != null && !width.isEmpty()){
                 print("width: ");
                 print(width);
                 
@@ -333,8 +333,8 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
                     print(";");
             }
             
-            if(height != null && height.length() > 0){
-                if(width != null && width.length() > 0)
+            if(height != null && !height.isEmpty()){
+                if(width != null && !width.isEmpty())
                     print(" ");
                 
                 print("height: ");
@@ -365,7 +365,7 @@ public class ColorPickerPropertyComponent extends BasePropertyComponent{
         
         String onChange = getOnChange();
         
-        if(onChange != null && onChange.length() > 0){
+        if(onChange != null && !onChange.isEmpty()){
             ScriptComponent scriptComponent = new ScriptComponent();
             
             scriptComponent.setPageContext(this.pageContext);

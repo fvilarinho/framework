@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Class that defines the bread crumb componente (navigation history).
+ * Class that defines the bread crumb component (navigation history).
  *
  * @author fvilarinho
  * @since 3.3.0
@@ -31,7 +31,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -40,13 +40,13 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class BreadCrumbComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = 4253305064847746149L;
     
     /**
-     * Lookup the navigation history.
+     * Look up the navigation history.
      *
      * @return Instance that contains the current object of the navigation history.
      * @throws InternalErrorException Occurs when was not possible to execute
@@ -59,7 +59,7 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
         String actionFormName = getActionFormName();
         ObjectModel object = null;
         
-        if(actionFormName != null && actionFormName.length() > 0 && systemResources != null && systemController != null && securityController != null){
+        if(actionFormName != null && !actionFormName.isEmpty() && systemResources != null && systemController != null && securityController != null){
             LoginSessionModel loginSession = securityController.getLoginSession();
             SystemModuleModel systemModule = loginSession.getSystemModule();
             FormModel form = systemModule.getForm(actionFormName);
@@ -81,7 +81,7 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
                         for (SystemResources.ActionFormResources item : actionForms) {
                             actionForm = item;
 
-                            if (action.equals(actionForm.getAction()))
+                            if (action != null && action.equals(actionForm.getAction()))
                                 break;
 
                             actionForm = null;
@@ -140,7 +140,7 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
     protected ActionFormComponent getActionFormComponent() throws InternalErrorException{
         String actionFormName = getActionFormName();
         
-        if(actionFormName == null || actionFormName.length() == 0){
+        if(actionFormName == null || actionFormName.isEmpty()){
             SystemResources systemResources = getSystemResources();
             
             if(systemResources != null){
@@ -193,7 +193,7 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
         
         String styleClass = getStyleClass();
         
-        if(styleClass != null && styleClass.length() > 0){
+        if(styleClass != null && !styleClass.isEmpty()){
             print(" class=\"");
             print(styleClass);
             print("\"");
@@ -201,7 +201,7 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
         
         String style = getStyle();
         
-        if(style != null && style.length() > 0){
+        if(style != null && !style.isEmpty()){
             print(" style=\"");
             print(style);
             
@@ -224,7 +224,7 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
         String contextPath = getContextPath();
         String actionFormName = getActionFormName();
         
-        if(contextPath != null && contextPath.length() > 0 && actionFormName != null && actionFormName.length() > 0 && authenticated){
+        if(contextPath != null && !contextPath.isEmpty() && actionFormName != null && !actionFormName.isEmpty() && authenticated){
             LinkComponent linkComponent = new LinkComponent();
             
             linkComponent.setPageContext(this.pageContext);
@@ -266,73 +266,75 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
         String actionFormName = getActionFormName();
         String contextPath = getContextPath();
         
-        if(contextPath != null && contextPath.length() > 0 && actionFormName != null && actionFormName.length() > 0){
+        if(contextPath != null && !contextPath.isEmpty() && actionFormName != null && !actionFormName.isEmpty()){
             try{
                 ObjectModel object = lookupNavigation();
-                
+
                 if(object == null)
                     return;
-                
+
                 ObjectModel parentObject = object;
                 List<ObjectModel> navigationHistory = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                
-                navigationHistory.add(object);
-                
-                do{
-                    parentObject = parentObject.getParent();
-                    
-                    if(parentObject != null)
-                        navigationHistory.add(parentObject);
-                }
-                while(parentObject != null);
-                
-                for(int cont = navigationHistory.size() - 1; cont >= 0; cont--){
-                    println(" / ");
 
-                    ObjectModel navigationHistoryItem = navigationHistory.get(cont);
-                    LinkComponent linkComponent = new LinkComponent();
-                    
-                    linkComponent.setPageContext(this.pageContext);
-                    linkComponent.setOutputStream(getOutputStream());
-                    linkComponent.setActionFormName(actionFormName);
-                    linkComponent.setName(navigationHistoryItem.getName());
-                    linkComponent.setLabel(navigationHistoryItem.getTitle());
-                    linkComponent.setTooltip(navigationHistoryItem.getTooltip());
-                    linkComponent.setTarget(navigationHistoryItem.getActionTarget());
-                    linkComponent.setResourcesId(getResourcesId());
-                    linkComponent.setResourcesKey(navigationHistoryItem.getName());
-                    
-                    String action = navigationHistoryItem.getAction();
-                    
-                    if(action != null && action.length() > 0){
-                        if(!action.toLowerCase().startsWith("javascript")){
-                            StringBuilder onClick = new StringBuilder();
+                if(navigationHistory != null) {
+                    navigationHistory.add(object);
 
-                            onClick.append("submitRequest('");
-                            onClick.append(MethodType.GET);
-                            onClick.append("', '");
-                            onClick.append(contextPath);
-                            onClick.append(action);
-                            onClick.append("'");
-                            
-                            String actionTarget = navigationHistoryItem.getActionTarget();
-                            
-                            if(actionTarget != null && actionTarget.length() > 0){
-                                onClick.append(", null, null, null, '");
-                                onClick.append(actionTarget);
-                                onClick.append("'");
-                            }
-                            
-                            onClick.append(");");
-                            
-                            linkComponent.setOnClick(onClick.toString());
-                        }
-                        else
-                            linkComponent.setUrl(action);
+                    do {
+                        parentObject = parentObject.getParent();
+
+                        if (parentObject != null)
+                            navigationHistory.add(parentObject);
                     }
-                    
-                    linkComponent.doStartTag();
-                    linkComponent.doEndTag();
+                    while (parentObject != null);
+
+                    for (int cont = navigationHistory.size() - 1; cont >= 0; cont--) {
+                        println(" / ");
+
+                        ObjectModel navigationHistoryItem = navigationHistory.get(cont);
+                        LinkComponent linkComponent = new LinkComponent();
+
+                        linkComponent.setPageContext(this.pageContext);
+                        linkComponent.setOutputStream(getOutputStream());
+                        linkComponent.setActionFormName(actionFormName);
+                        linkComponent.setName(navigationHistoryItem.getName());
+                        linkComponent.setLabel(navigationHistoryItem.getTitle());
+                        linkComponent.setTooltip(navigationHistoryItem.getTooltip());
+                        linkComponent.setTarget(navigationHistoryItem.getActionTarget());
+                        linkComponent.setResourcesId(getResourcesId());
+                        linkComponent.setResourcesKey(navigationHistoryItem.getName());
+
+                        String action = navigationHistoryItem.getAction();
+
+                        if (action != null && !action.isEmpty()) {
+                            if (!action.toLowerCase().startsWith("javascript")) {
+                                StringBuilder onClick = new StringBuilder();
+
+                                onClick.append("submitRequest('");
+                                onClick.append(MethodType.GET);
+                                onClick.append("', '");
+                                onClick.append(contextPath);
+                                onClick.append(action);
+                                onClick.append("'");
+
+                                String actionTarget = navigationHistoryItem.getActionTarget();
+
+                                if (actionTarget != null && !actionTarget.isEmpty()) {
+                                    onClick.append(", null, null, null, '");
+                                    onClick.append(actionTarget);
+                                    onClick.append("'");
+                                }
+
+                                onClick.append(");");
+
+                                linkComponent.setOnClick(onClick.toString());
+                            }
+                            else
+                                linkComponent.setUrl(action);
+                        }
+
+                        linkComponent.doStartTag();
+                        linkComponent.doEndTag();
+                    }
                 }
             }
             catch(JspException e){

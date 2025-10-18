@@ -20,7 +20,7 @@ import br.com.concepting.framework.util.types.PositionType;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ import br.com.concepting.framework.util.types.PositionType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ButtonComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = -6412461075636504749L;
@@ -68,7 +68,7 @@ public class ButtonComponent extends BaseActionFormComponent{
      * @return True/False.
      */
     protected boolean hasAction(){
-        return (this.action != null && this.action.length() > 0);
+        return (this.action != null && !this.action.isEmpty());
     }
     
     /**
@@ -106,7 +106,7 @@ public class ButtonComponent extends BaseActionFormComponent{
      * @return Instance that contains the pager action.
      */
     protected PagerActionType getPagerActionType(){
-        if(this.pagerAction != null && this.pagerAction.length() > 0){
+        if(this.pagerAction != null && !this.pagerAction.isEmpty()){
             try{
                 return PagerActionType.valueOf(this.pagerAction.toUpperCase());
             }
@@ -123,7 +123,7 @@ public class ButtonComponent extends BaseActionFormComponent{
      * @param pagerActionType Instance that contains the pager action.
      */
     protected void setPagerActionType(PagerActionType pagerActionType){
-        if(this.pagerAction != null)
+        if(pagerActionType != null)
             this.pagerAction = pagerActionType.toString();
         else
             this.pagerAction = null;
@@ -288,19 +288,19 @@ public class ButtonComponent extends BaseActionFormComponent{
             }
         }
         
-        if(gridComponent != null && gridComponent.getName() != null && gridComponent.getName().length() > 0){
+        if(gridComponent != null && gridComponent.getName() != null && !gridComponent.getName().isEmpty()){
             String currentOnClick = getOnClick();
             StringBuilder onClick = null;
             
-            if(currentOnClick != null && currentOnClick.length() > 0){
+            if(currentOnClick != null && !currentOnClick.isEmpty()){
                 onClick = new StringBuilder();
                 onClick.append(currentOnClick);
                 
-                if(currentOnClick.length() > 0 && !currentOnClick.endsWith(";"))
+                if(!currentOnClick.endsWith(";"))
                     onClick.append(";");
             }
             
-            if(hasAction() && this.pagerAction != null && this.pagerAction.length() > 0){
+            if(hasAction() && this.pagerAction != null && !this.pagerAction.isEmpty()){
                 if(onClick == null)
                     onClick = new StringBuilder();
                 else
@@ -336,7 +336,7 @@ public class ButtonComponent extends BaseActionFormComponent{
         String styleClass = getStyleClass();
         StringBuilder styleClassBuffer = new StringBuilder();
         
-        if(styleClass != null && styleClass.length() > 0)
+        if(styleClass != null && !styleClass.isEmpty())
             styleClassBuffer.append(styleClass);
         else{
             if(componentType != null)
@@ -352,7 +352,7 @@ public class ButtonComponent extends BaseActionFormComponent{
         
         styleClassBuffer.delete(0, styleClassBuffer.length());
         
-        if(styleClass != null && styleClass.length() > 0)
+        if(styleClass != null && !styleClass.isEmpty())
             styleClassBuffer.append(styleClass);
         else{
             if(componentType != null)
@@ -372,7 +372,7 @@ public class ButtonComponent extends BaseActionFormComponent{
         
         styleClassBuffer.delete(0, styleClassBuffer.length());
         
-        if(labelStyleClass != null && labelStyleClass.length() > 0)
+        if(labelStyleClass != null && !labelStyleClass.isEmpty())
             styleClassBuffer.append(labelStyleClass);
         else{
             if(componentType != null){
@@ -421,13 +421,13 @@ public class ButtonComponent extends BaseActionFormComponent{
     protected void buildResources() throws InternalErrorException{
         String resourcesKey = getResourcesKey();
         
-        if(resourcesKey == null || resourcesKey.length() == 0){
+        if(resourcesKey == null || resourcesKey.isEmpty()){
             ComponentType componentType = getComponentType();
             
             if(componentType == ComponentType.BUTTON){
                 String name = getName();
                 
-                if(name != null && name.length() > 0)
+                if(name != null && !name.isEmpty())
                     resourcesKey = name;
             }
             else if(componentType != null)
@@ -491,20 +491,20 @@ public class ButtonComponent extends BaseActionFormComponent{
      * @throws InternalErrorException Occurs when was not possible to render.
      */
     protected void renderIcon() throws InternalErrorException{
-        if((this.iconStyleClass != null && this.iconStyleClass.length() > 0) || (this.iconStyle != null && this.iconStyle.length() > 0)){
+        if((this.iconStyleClass != null && !this.iconStyleClass.isEmpty()) || (this.iconStyle != null && !this.iconStyle.isEmpty())){
             print("<td align=\"");
             print(AlignmentType.CENTER);
             println("\" width=\"1\">");
             
             print("<div");
             
-            if(this.iconStyleClass != null && this.iconStyleClass.length() > 0){
+            if(this.iconStyleClass != null && !this.iconStyleClass.isEmpty()){
                 print(" class=\"");
                 print(this.iconStyleClass);
                 print("\"");
             }
             
-            if(this.iconStyle != null && this.iconStyle.length() > 0){
+            if(this.iconStyle != null && !this.iconStyle.isEmpty()){
                 print(" style=\"");
                 print(this.iconStyle);
                 
@@ -548,7 +548,7 @@ public class ButtonComponent extends BaseActionFormComponent{
         boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(showLabel && label != null && label.length() > 0)
+        if(showLabel && label != null && !label.isEmpty())
             println(label);
     }
 

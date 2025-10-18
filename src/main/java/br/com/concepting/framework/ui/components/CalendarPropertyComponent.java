@@ -21,7 +21,7 @@ import java.util.Calendar;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ import java.util.Calendar;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class CalendarPropertyComponent extends TextPropertyComponent{
     private static final long serialVersionUID = -2047638037702135816L;
@@ -83,7 +83,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
     protected void buildEvents() throws InternalErrorException{
         String name = getName();
         
-        if(name == null || name.length() == 0)
+        if(name == null || name.isEmpty())
             return;
         
         String currentOnBlur = getOnBlur();
@@ -93,7 +93,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
         onBlur.append(name);
         onBlur.append("');");
         
-        if(currentOnBlur != null && currentOnBlur.length() > 0){
+        if(currentOnBlur != null && !currentOnBlur.isEmpty()){
             onBlur.append(" ");
             onBlur.append(currentOnBlur);
             
@@ -166,7 +166,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
         boolean enabled = isEnabled();
         boolean readOnly = isReadOnly();
         
-        if(propertyInfo != null && name != null && name.length() > 0 && enabled && !readOnly){
+        if(propertyInfo != null && name != null && !name.isEmpty() && enabled && !readOnly){
             if(this.showButton){
                 println("<td width=\"5\"></td>");
                 
@@ -206,7 +206,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             String style = getStyle();
             
-            if(style != null && style.length() > 0){
+            if(style != null && !style.isEmpty()){
                 print(" style=\"");
                 print(style);
                 
@@ -428,7 +428,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("showHideCalendar('");
@@ -487,7 +487,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToPreviousYear('");
@@ -546,7 +546,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToPreviousMonth('");
@@ -605,7 +605,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToNextMonth('");
@@ -664,7 +664,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder onClick = new StringBuilder();
                 
                 onClick.append("moveToNextYear('");
@@ -694,7 +694,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
     }
     
     /**
-     * Class that defines the hours input of the calendar component.
+     * Class that defines the component for the input of the hours.
      *
      * @author fvilarinho
      * @since 3.3.0
@@ -731,7 +731,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder nameBuffer = new StringBuilder();
                 
                 nameBuffer.append(name);
@@ -759,7 +759,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             onChange.append("setCurrentCalendarHours(this);");
             
-            if(currentOnChange != null && currentOnChange.length() > 0){
+            if(currentOnChange != null && !currentOnChange.isEmpty()){
                 onChange.append(" ");
                 onChange.append(currentOnChange);
                 
@@ -822,7 +822,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
     }
     
     /**
-     * Class that defines the minutes input of the calendar component.
+     * Class that defines the component for the input of the minutes.
      *
      * @author fvilarinho
      * @since 3.3.0
@@ -859,7 +859,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder nameBuffer = new StringBuilder();
                 
                 nameBuffer.append(name);
@@ -887,7 +887,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             onChange.append("setCurrentCalendarMinutes(this);");
             
-            if(currentOnChange != null && currentOnChange.length() > 0){
+            if(currentOnChange != null && !currentOnChange.isEmpty()){
                 onChange.append(" ");
                 onChange.append(currentOnChange);
                 
@@ -940,7 +940,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
     }
     
     /**
-     * Class that defines the seconds input of the calendar component.
+     * Class that defines the component for the input of the seconds.
      *
      * @author fvilarinho
      * @since 3.3.0
@@ -977,7 +977,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder nameBuffer = new StringBuilder();
                 
                 nameBuffer.append(name);
@@ -1005,7 +1005,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             onChange.append("setCurrentCalendarSeconds(this);");
             
-            if(currentOnChange != null && currentOnChange.length() > 0){
+            if(currentOnChange != null && !currentOnChange.isEmpty()){
                 onChange.append(" ");
                 onChange.append(currentOnChange);
                 
@@ -1058,7 +1058,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
     }
     
     /**
-     * Class that defines the milliseconds input of the calendar component.
+     * Class that defines the component for the input of the milliseconds.
      *
      * @author fvilarinho
      * @since 3.3.0
@@ -1095,7 +1095,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder nameBuffer = new StringBuilder();
                 
                 nameBuffer.append(name);
@@ -1123,7 +1123,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             onChange.append("setCurrentCalendarMilliseconds(this);");
             
-            if(currentOnChange != null && currentOnChange.length() > 0){
+            if(currentOnChange != null && !currentOnChange.isEmpty()){
                 onChange.append(" ");
                 onChange.append(currentOnChange);
                 
@@ -1207,7 +1207,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder nameBuffer = new StringBuilder();
                 
                 nameBuffer.append(name);
@@ -1235,7 +1235,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             onChange.append("setCurrentCalendarAm(this);");
             
-            if(currentOnChange != null && currentOnChange.length() > 0){
+            if(currentOnChange != null && !currentOnChange.isEmpty()){
                 onChange.append(" ");
                 onChange.append(currentOnChange);
                 
@@ -1301,7 +1301,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             CalendarPropertyComponent calendarPropertyComponent = (CalendarPropertyComponent) getParent();
             String name = (calendarPropertyComponent != null ? calendarPropertyComponent.getName() : null);
             
-            if(name != null && name.length() > 0){
+            if(name != null && !name.isEmpty()){
                 StringBuilder nameBuffer = new StringBuilder();
                 
                 nameBuffer.append(name);
@@ -1329,7 +1329,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
             
             onChange.append("setCurrentCalendarPm(this);");
             
-            if(currentOnChange != null && currentOnChange.length() > 0){
+            if(currentOnChange != null && !currentOnChange.isEmpty()){
                 onChange.append(" ");
                 onChange.append(currentOnChange);
                 
