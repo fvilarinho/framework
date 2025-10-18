@@ -21,7 +21,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -30,7 +30,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = 8280294646254910196L;
@@ -128,7 +128,7 @@ public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
         Object value = getValue();
         
         if(PropertyUtil.isCollection(value) && (propertyInfo != null && propertyInfo.isCollection())){
-            if(value != null && this.optionValue != null){
+            if(this.optionValue != null){
                 Collection<?> values = (Collection<?>) value;
                 
                 this.selected = (values.contains(this.optionValue));
@@ -185,7 +185,7 @@ public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
         boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(showLabel && label != null && label.length() > 0){
+        if(showLabel && label != null && !label.isEmpty()){
             if(this.optionValue != null)
                 println(label);
             else

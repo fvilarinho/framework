@@ -16,7 +16,7 @@ import javax.servlet.jsp.JspException;
 import java.util.Collection;
 
 /**
- * Class that defines the basic implementation for the options component.
+ * Class that defines the basic implementation for an options' component.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -25,7 +25,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -34,7 +34,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent{
     private static final long serialVersionUID = -5223346768919041691L;
@@ -143,8 +143,9 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         if(optionStateComponent != null){
             if(this.optionStatesComponents == null)
                 this.optionStatesComponents = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-            
-            this.optionStatesComponents.add(optionStateComponent);
+
+            if(this.optionStatesComponents != null)
+                this.optionStatesComponents.add(optionStateComponent);
         }
     }
     
@@ -178,7 +179,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
     }
     
     /**
-     * Returns the scope of storage of the dataset.
+     * Returns the scope of the dataset storage.
      *
      * @return String that contains the scope of storage.
      */
@@ -187,12 +188,12 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
     }
     
     /**
-     * Returns the scope of storage of the dataset.
+     * Returns the scope of the dataset storage.
      *
      * @return Instance that contains the scope of storage.
      */
     protected ScopeType getDatasetScopeType(){
-        if(this.datasetScope != null && this.datasetScope.length() > 0){
+        if(this.datasetScope != null && !this.datasetScope.isEmpty()){
             try{
                 return ScopeType.valueOf(this.datasetScope.toUpperCase());
             }
@@ -204,7 +205,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
     }
     
     /**
-     * Defines the scope of storage of the data
+     * Defines the scope of the dataset storage.
      *
      * @param datasetScope String that contains the scope of storage.
      */
@@ -213,7 +214,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
     }
     
     /**
-     * Defines the scope of storage of the dataset.
+     * Defines the scope of the dataset storage.
      *
      * @param datasetScope Instance that contains the scope of storage.
      */
@@ -245,7 +246,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
     }
     
     /**
-     * Indicates if the component will permits multiple selection.
+     * Indicates if the component permits multiple selection.
      *
      * @return True/False.
      */
@@ -254,7 +255,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
     }
     
     /**
-     * Indicates if the component will permits multiple selection.
+     * Indicates if the component permits multiple selection.
      *
      * @return True/False.
      */
@@ -263,7 +264,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
     }
     
     /**
-     * Defines if the component will permits multiple selection.
+     * Defines if the component permits multiple selection.
      *
      * @param multipleSelection True/False.
      */
@@ -327,7 +328,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
     protected void buildStyleClass() throws InternalErrorException{
         String optionLabelStyleClass = getOptionLabelStyleClass();
         
-        if(optionLabelStyleClass == null || optionLabelStyleClass.length() == 0){
+        if(optionLabelStyleClass == null || optionLabelStyleClass.isEmpty()){
             optionLabelStyleClass = UIConstants.DEFAULT_OPTIONS_LABEL_STYLE_CLASS;
             
             setOptionLabelStyleClass(optionLabelStyleClass);
@@ -344,7 +345,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         String actionFormName = getActionFormName();
         boolean render = render();
         
-        if(systemController != null && actionFormName != null && actionFormName.length() > 0 && this.dataset != null && this.dataset.length() > 0 && (this.datasetValues == null || this.datasetValues.size() == 0) && render){
+        if(systemController != null && actionFormName != null && !actionFormName.isEmpty() && this.dataset != null && !this.dataset.isEmpty() && (this.datasetValues == null || this.datasetValues.isEmpty()) && render){
             ScopeType datasetScope = getDatasetScopeType();
             
             if(datasetScope == null){
@@ -367,10 +368,10 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
             this.datasetValues = systemController.getAttribute(propertyId.toString(), datasetScope);
         }
         
-        if(this.datasetValues != null && this.datasetValues.size() > 0)
+        if(this.datasetValues != null && !this.datasetValues.isEmpty())
             this.datasetEndIndex = this.datasetValues.size();
         
-        this.hasNoData = (this.datasetValues == null || this.datasetValues.size() == 0);
+        this.hasNoData = (this.datasetValues == null || this.datasetValues.isEmpty());
     }
     
     /**
@@ -378,12 +379,12 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
-    protected void renderNoDatatMessage() throws InternalErrorException{
+    protected void renderNoDataMessage() throws InternalErrorException{
         String labelStyleClass = getLabelStyleClass();
         
         print("<span");
         
-        if(labelStyleClass != null && labelStyleClass.length() > 0){
+        if(labelStyleClass != null && !labelStyleClass.isEmpty()){
             print(" class=\"");
             print(labelStyleClass);
             print("\"");
@@ -391,7 +392,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         
         String labelStyle = getLabelStyle();
         
-        if(labelStyle != null && labelStyle.length() > 0){
+        if(labelStyle != null && !labelStyle.isEmpty()){
             print(" style=\"");
             print(labelStyle);
             
@@ -415,7 +416,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(actionFormName == null || actionFormName.isEmpty() || name == null || name.isEmpty())
             return;
         
         boolean hasInvalidDefinition = hasInvalidDefinition();
@@ -427,7 +428,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         catch(ClassCastException ignored){
         }
         
-        if(!hasInvalidDefinition && this.dataset != null && this.dataset.length() > 0 && optionsPropertyComponent == null){
+        if(!hasInvalidDefinition && this.dataset != null && !this.dataset.isEmpty() && optionsPropertyComponent == null){
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(name);
@@ -482,7 +483,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         String actionFormName = getActionFormName();
         String name = getName();
         
-        if(actionFormName == null || actionFormName.length() == 0 || name == null || name.length() == 0)
+        if(actionFormName == null || actionFormName.isEmpty() || name == null || name.isEmpty())
             return;
         
         boolean hasInvalidDefinition = hasInvalidDefinition();

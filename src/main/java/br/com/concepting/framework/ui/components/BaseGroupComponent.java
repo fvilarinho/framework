@@ -4,7 +4,7 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.ui.constants.UIConstants;
 
 /**
- * Class that defines the basic implementation for groups components.
+ * Class that defines the basic implementation for a group component.
  *
  * @author fvilarinho
  * @since 3.3.0
@@ -13,7 +13,7 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -22,7 +22,7 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseGroupComponent extends BaseActionFormComponent{
     private static final long serialVersionUID = 8751796595605205394L;
@@ -31,7 +31,7 @@ public abstract class BaseGroupComponent extends BaseActionFormComponent{
     protected void buildStyleClass() throws InternalErrorException{
         String styleClass = getStyleClass();
         
-        if(styleClass == null || styleClass.length() == 0){
+        if(styleClass == null || styleClass.isEmpty()){
             styleClass = UIConstants.DEFAULT_GROUP_STYLE_CLASS;
             
             setStyleClass(styleClass);
@@ -39,7 +39,7 @@ public abstract class BaseGroupComponent extends BaseActionFormComponent{
         
         String labelStyleClass = getLabelStyleClass();
         
-        if(labelStyleClass == null || labelStyleClass.length() == 0){
+        if(labelStyleClass == null || labelStyleClass.isEmpty()){
             labelStyleClass = UIConstants.DEFAULT_GROUP_LABEL_STYLE_CLASS;
             
             setLabelStyleClass(labelStyleClass);
@@ -54,7 +54,7 @@ public abstract class BaseGroupComponent extends BaseActionFormComponent{
         
         String labelStyleClass = getLabelStyleClass();
         
-        if(labelStyleClass != null && labelStyleClass.length() > 0){
+        if(labelStyleClass != null && !labelStyleClass.isEmpty()){
             print(" class=\"");
             print(labelStyleClass);
             print("\"");
@@ -62,7 +62,7 @@ public abstract class BaseGroupComponent extends BaseActionFormComponent{
         
         String labelStyle = getLabelStyle();
         
-        if(labelStyle != null && labelStyle.length() > 0){
+        if(labelStyle != null && !labelStyle.isEmpty()){
             print(" style=\"");
             print(labelStyle);
             
@@ -86,7 +86,7 @@ public abstract class BaseGroupComponent extends BaseActionFormComponent{
         
         String styleClass = getStyleClass();
         
-        if(styleClass != null && styleClass.length() > 0){
+        if(styleClass != null && !styleClass.isEmpty()){
             print(" class=\"");
             print(styleClass);
             print("\"");
@@ -94,7 +94,7 @@ public abstract class BaseGroupComponent extends BaseActionFormComponent{
         
         String style = getStyle();
         
-        if(style != null && style.length() > 0){
+        if(style != null && !style.isEmpty()){
             print(" style=\"");
             print(style);
             
@@ -111,7 +111,7 @@ public abstract class BaseGroupComponent extends BaseActionFormComponent{
         boolean showLabel = showLabel();
         String label = getLabel();
         
-        if(showLabel && label != null && label.length() > 0)
+        if(showLabel && label != null && !label.isEmpty())
             super.renderLabel();
     }
 
