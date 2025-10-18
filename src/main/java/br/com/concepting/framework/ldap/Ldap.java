@@ -29,7 +29,7 @@ import java.util.Properties;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -38,7 +38,7 @@ import java.util.Properties;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class Ldap{
     private static Map<String, Ldap> instances = null;
@@ -100,15 +100,19 @@ public class Ldap{
     public static Ldap getInstance(LdapResources resources) throws InternalErrorException{
         if(instances == null)
             instances = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        Ldap instance = instances.get(resources.getId());
-        
-        if(instance == null){
-            instance = new Ldap(resources);
-            
-            instances.put(resources.getId(), instance);
+
+        Ldap instance = null;
+
+        if(instances != null) {
+            instance = instances.get(resources.getId());
+
+            if(instance == null){
+                instance = new Ldap(resources);
+
+                instances.put(resources.getId(), instance);
+            }
         }
-        
+
         return instance;
     }
     
@@ -147,13 +151,13 @@ public class Ldap{
         if(this.resources.getTimeout() > 0)
             properties.put(LdapConstants.TIMEOUT_ATTRIBUTE_ID, String.valueOf(this.resources.getTimeout() * 1000));
         
-        if(this.resources.getUserName() != null && this.resources.getUserName().length() > 0){
+        if(this.resources.getUserName() != null && !this.resources.getUserName().isEmpty()){
             StringBuilder securityBuffer = new StringBuilder();
             
             securityBuffer.append("uid=");
             securityBuffer.append(this.resources.getUserName());
             
-            if(this.resources.getUserDn() != null && this.resources.getUserDn().length() > 0){
+            if(this.resources.getUserDn() != null && !this.resources.getUserDn().isEmpty()){
                 securityBuffer.append(",");
                 securityBuffer.append(this.resources.getUserDn());
             }
