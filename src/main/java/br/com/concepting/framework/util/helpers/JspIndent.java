@@ -15,7 +15,7 @@ import java.util.Collection;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -24,17 +24,20 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class JspIndent extends BaseIndent{
     private static final Collection<JspIndent> rules;
     
     static{
         rules = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        rules.add(new JspIndent("<%", "%>"));
-        rules.add(new JspIndent("<", "/>"));
-        rules.add(new JspIndent("<", "</"));
-        rules.add(new JspIndent("/*", "*/", 1, true));
+
+        if(rules != null) {
+            rules.add(new JspIndent("<%", "%>"));
+            rules.add(new JspIndent("<", "/>"));
+            rules.add(new JspIndent("<", "</"));
+            rules.add(new JspIndent("/*", "*/", 1, true));
+        }
     }
     
     /**
@@ -52,8 +55,8 @@ public class JspIndent extends BaseIndent{
      *
      * @param startChar String that contains the start character.
      * @param endChar String that contains the end character.
-     * @param indentSize Numeric value that contains the amount of indentation
-     * characters should be use.
+     * @param indentSize Numeric value that contains the number of indentation
+     * characters should be used.
      */
     public JspIndent(String startChar, String endChar, Integer indentSize){
         super(startChar, endChar, indentSize);
@@ -64,8 +67,8 @@ public class JspIndent extends BaseIndent{
      *
      * @param startChar String that contains the start character.
      * @param endChar String that contains the end character.
-     * @param indentSize Numeric value that contains the amount of indentation
-     * characters should be use.
+     * @param indentSize Numeric value that contains the number of indentation
+     * characters should be used.
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.
      */
@@ -90,8 +93,8 @@ public class JspIndent extends BaseIndent{
      *
      * @param startChar String that contains the start character.
      * @param endChar String that contains the end character.
-     * @param indentSize Numeric value that contains the amount of indentation
-     * characters should be use.
+     * @param indentSize Numeric value that contains the number of indentation
+     * characters should be used.
      * @param indentChar String that contains the indentation character.
      */
     public JspIndent(String startChar, String endChar, Integer indentSize, String indentChar){
@@ -103,8 +106,8 @@ public class JspIndent extends BaseIndent{
      *
      * @param startChar String that contains the start character.
      * @param endChar String that contains the end character.
-     * @param indentSize Numeric value that contains the amount of indentation
-     * characters should be use.
+     * @param indentSize Numeric value that contains the number of indentation
+     * characters should be used.
      * @param indentChar String that contains the indentation character.
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.

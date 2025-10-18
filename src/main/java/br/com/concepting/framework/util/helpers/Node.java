@@ -20,7 +20,7 @@ import java.util.List;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,7 +29,7 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "class")
 public abstract class Node implements Serializable, Cloneable{
@@ -143,7 +143,7 @@ public abstract class Node implements Serializable, Cloneable{
         if(this.children == null)
             this.children = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
         
-        if(!this.children.contains(child)){
+        if(this.children != null && !this.children.contains(child)){
             child.setParent(this, false);
             
             this.children.add(child);
@@ -159,7 +159,7 @@ public abstract class Node implements Serializable, Cloneable{
         if(child == null)
             return;
         
-        if(this.children != null && this.children.size() > 0)
+        if(this.children != null && !this.children.isEmpty())
             this.children.remove(child);
     }
     
