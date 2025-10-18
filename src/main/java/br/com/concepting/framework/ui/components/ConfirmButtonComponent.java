@@ -9,7 +9,7 @@ import br.com.concepting.framework.ui.constants.UIConstants;
 import javax.servlet.jsp.JspException;
 
 /**
- * Class that defines the confirm button component.
+ * Class that defines the confirmation button component.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -18,7 +18,7 @@ import javax.servlet.jsp.JspException;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 3 of the License or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -27,7 +27,7 @@ import javax.servlet.jsp.JspException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see http://www.gnu.org/licenses.</pre>
+ * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
 public class ConfirmButtonComponent extends ButtonComponent{
     private static final long serialVersionUID = -1643950893623970881L;
@@ -82,7 +82,7 @@ public class ConfirmButtonComponent extends ButtonComponent{
     }
     
     /**
-     * Returns the confirmation message key that is stored in the resource file.
+     * Returns the confirmation message key stored in the resource file.
      *
      * @return String that contains the key.
      */
@@ -91,7 +91,7 @@ public class ConfirmButtonComponent extends ButtonComponent{
     }
     
     /**
-     * Defines the confirmation message key that is stored in the resource file.
+     * Defines the confirmation message key stored in the resource file.
      *
      * @param messageKey String that contains the key.
      */
@@ -108,7 +108,7 @@ public class ConfirmButtonComponent extends ButtonComponent{
     protected void buildMessage() throws InternalErrorException{
         String name = getName();
         
-        if(name != null && name.length() > 0 && this.showDialogBox && this.messageKey != null && this.messageKey.length() > 0 && this.message == null){
+        if(name != null && !name.isEmpty() && this.showDialogBox && this.messageKey != null && !this.messageKey.isEmpty() && this.message == null){
             PropertiesResources resources = getResources();
             PropertiesResources mainConsoleResources = getMainConsoleResources();
             PropertiesResources defaultResources = getDefaultResources();
@@ -152,13 +152,13 @@ public class ConfirmButtonComponent extends ButtonComponent{
     protected void buildResources() throws InternalErrorException{
         String resourcesKey = getResourcesKey();
         
-        if(resourcesKey == null || resourcesKey.length() == 0){
+        if(resourcesKey == null || resourcesKey.isEmpty()){
             resourcesKey = UIConstants.DEFAULT_CONFIRM_BUTTON_ID;
             
             setResourcesKey(resourcesKey);
         }
         
-        if(this.messageKey == null || this.messageKey.length() == 0)
+        if(this.messageKey == null || this.messageKey.isEmpty())
             this.messageKey = UIConstants.DEFAULT_CONFIRM_MESSAGE_ID;
         
         super.buildResources();
@@ -170,11 +170,11 @@ public class ConfirmButtonComponent extends ButtonComponent{
     protected void buildEvents() throws InternalErrorException{
         String name = getName();
         
-        if(name != null && name.length() > 0 && this.message != null && this.message.length() > 0){
+        if(name != null && !name.isEmpty() && this.message != null && !this.message.isEmpty()){
             String currentOnClick = getOnClick();
             StringBuilder onClick = new StringBuilder();
             
-            if(currentOnClick != null && currentOnClick.length() > 0){
+            if(currentOnClick != null && !currentOnClick.isEmpty()){
                 onClick.append(currentOnClick);
                 
                 if(!currentOnClick.endsWith(";"))
@@ -202,7 +202,7 @@ public class ConfirmButtonComponent extends ButtonComponent{
     protected void buildStyleClass() throws InternalErrorException{
         String styleClass = getStyleClass();
         
-        if(styleClass == null || styleClass.length() == 0){
+        if(styleClass == null || styleClass.isEmpty()){
             styleClass = UIConstants.DEFAULT_CONFIRM_BUTTON_STYLE_CLASS;
             
             setStyleClass(styleClass);
@@ -218,7 +218,7 @@ public class ConfirmButtonComponent extends ButtonComponent{
         boolean enabled = isEnabled();
         boolean render = render();
         
-        if(actionFormName != null && actionFormName.length() > 0 && name != null && name.length() > 0 && enabled && render && this.showDialogBox){
+        if(actionFormName != null && !actionFormName.isEmpty() && name != null && !name.isEmpty() && enabled && render && this.showDialogBox){
             ConfirmDialogBoxComponent confirmDialogBoxComponent = new ConfirmDialogBoxComponent();
             
             confirmDialogBoxComponent.setPageContext(this.pageContext);
