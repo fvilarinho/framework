@@ -1,0 +1,25 @@
+<root>
+    public class Test{
+        <iterate var="propertyInfo" values="#{propertiesInfo}">
+            <if expr="@{propertyInfo.fromClass}">
+                private @{propertyInfo.clazz.simpleName} @{propertyInfo.id} = null;
+            </if>
+        </iterate>
+        <if expr="#{declaration} != null">
+            public Test() {
+                super();
+            }
+        </if>
+        <iterate var="propertyInfo" values="#{propertiesInfo}">
+            <if expr="@{propertyInfo.fromClass}">
+                <set var="capitalizedPropertyId" value="br.com.concepting.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
+                public @{propertyInfo.clazz.simpleName} get@{capitalizedPropertyId}() {
+                    return this.@{propertyInfo.id};
+                }
+                public void set@{capitalizedPropertyId}(@{propertyInfo.clazz.simpleName} @{propertyInfo.id}) {
+                    this.@{propertyInfo.id} = @{propertyInfo.id};
+                }
+            </if>
+        </iterate>
+    }
+</root>

@@ -137,7 +137,7 @@ public class StringUtil{
      * @return String replicated.
      */
     public static String replicate(String value, int times){
-        if(value != null && !value.isEmpty() && times > 0)
+        if(value != null && !value.isEmpty())
             return value.repeat(times);
 
         return value;

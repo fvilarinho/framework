@@ -1,0 +1,12 @@
+public class Test{
+    private String testField = null;
+    public Test() {
+        super();
+    }
+    public String getTestField() {
+        return this.testField;
+    }
+    public void setTestField(String testField) {
+        this.testField = testField;
+    }
+}
