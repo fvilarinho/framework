@@ -3,7 +3,7 @@ apply plugin: "maven"
 apply plugin: "maven-publish"
 apply plugin: "jacoco"
 
-group="br.com.concepting"
+group="${buildPackage}"
 version="${buildVersion}"
 
 jacoco {
@@ -14,9 +14,9 @@ repositories{
     mavenLocal()
 	mavenCentral()
 	maven{
-		url = "${repositoryUrl}"
+		url = System.getenv("REPOSITORY_URL")
 		credentials{
-			username = "${repositoryUser}"
+			username = System.getenv("REPOSITORY_USERNAME")
 			password = System.getenv("REPOSITORY_PASSWORD")
 		}
 	}
@@ -209,8 +209,8 @@ artifacts{
 uploadArchives{
     repositories{
         mavenDeployer{
-            repository(url: "${repositoryUrl}"){
-                authentication(userName: "${repositoryUser}",
+            repository(url: System.getenv("REPOSITORY_URL")){
+                authentication(userName: System.getenv("REPOSITORY_USERNAME"),
 						       password: System.getenv("REPOSITORY_PASSWORD"))
             }
         }

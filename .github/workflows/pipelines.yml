@@ -19,11 +19,15 @@ jobs:
 
     - name: Build and Test
       env:
+        REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
+        REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
         REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
       run: ./build.sh
 
     - name: Publish
       if: contains(github.event.files, 'gradle.properties')
       env:
+        REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
+        REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
         REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
       run: ./publish.sh
