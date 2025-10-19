@@ -1,6 +1,6 @@
-package br.com.concepting.framework.network.util.helpers;
+package br.com.concepting.framework.network.helpers;
 
-import br.com.concepting.framework.util.types.ProbeType;
+import br.com.concepting.framework.network.types.ProbeType;
 
 public class ProbeOptions{
     public static final ProbeType DEFAULT_TYPE = ProbeType.DESKTOP;

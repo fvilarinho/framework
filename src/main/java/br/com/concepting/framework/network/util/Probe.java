@@ -2,8 +2,10 @@ package br.com.concepting.framework.network.util;
 
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.exceptions.InternalErrorException;
-import br.com.concepting.framework.util.helpers.ProbeOptions;
-import br.com.concepting.framework.util.types.ProbeType;
+import br.com.concepting.framework.network.helpers.ProbeOptions;
+import br.com.concepting.framework.network.types.ProbeType;
+import br.com.concepting.framework.util.PropertyUtil;
+import br.com.concepting.framework.util.StringUtil;
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;

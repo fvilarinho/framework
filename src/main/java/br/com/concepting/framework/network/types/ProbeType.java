@@ -1,4 +1,4 @@
-package br.com.concepting.framework.util.types;
+package br.com.concepting.framework.network.types;
 
 /**
  * Class that defines the types of a probe.
