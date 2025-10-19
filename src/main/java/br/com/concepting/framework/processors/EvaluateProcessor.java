@@ -344,15 +344,10 @@ public class EvaluateProcessor extends GenericProcessor{
                     return (O) expression.evaluate(context);
                 }
             }
-            
+
             JexlExpression expression = engine.createExpression(valueBuffer);
             
-            try{
-                return (O) expression.evaluate(context);
-            }
-            catch(JexlException e){
-                return null;
-            }
+            return (O) expression.evaluate(context);
         }
         catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException | ClassNotFoundException e){
             throw new InternalErrorException(e);
