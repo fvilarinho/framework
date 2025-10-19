@@ -1,4 +1,4 @@
-package br.com.concepting.framework.util;
+package br.com.concepting.framework.network.util;
 
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.exceptions.InternalErrorException;

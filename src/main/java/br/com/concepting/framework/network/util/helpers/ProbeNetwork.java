@@ -1,4 +1,4 @@
-package br.com.concepting.framework.util.helpers;
+package br.com.concepting.framework.network.util.helpers;
 
 public class ProbeNetwork{
     private Integer latency = null;

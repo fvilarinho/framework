@@ -1,4 +1,4 @@
-package br.com.concepting.framework.util.helpers;
+package br.com.concepting.framework.network.util.helpers;
 
 import br.com.concepting.framework.util.types.ProbeType;
 
