@@ -2085,7 +2085,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
         ProjectBuild build = getAnnotationProcessorFactory().getBuild();
         StringBuilder checkGeneratedCodeFilename = new StringBuilder();
 
-        checkGeneratedCodeFilename.append(FileUtil.getTempDirectoryPath());
+        checkGeneratedCodeFilename.append(FileUtil.getTempDirectory());
         checkGeneratedCodeFilename.append(build.getName());
         checkGeneratedCodeFilename.append("-");
         checkGeneratedCodeFilename.append(build.getVersion());

@@ -1,7 +1,6 @@
 package br.com.concepting.framework.util;
 
 import br.com.concepting.framework.constants.Constants;
-import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.net.URL;
@@ -32,7 +31,7 @@ import java.nio.file.FileSystems;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public class FileUtil extends FileUtils{
+public class FileUtil{
     /**
      * Returns the directory separator character.
      *
@@ -41,7 +40,16 @@ public class FileUtil extends FileUtils{
     public static String getDirectorySeparator(){
         return FileSystems.getDefault().getSeparator();
     }
-    
+
+    /**
+     * Returns the temporary directory path.
+     *
+     * @return String that contains the path.
+     */
+    public static String getTempDirectory(){
+        return System.getProperty("java.io.tmpdir");
+    }
+
     /**
      * Download the content from the url and writes it in a file.
      *

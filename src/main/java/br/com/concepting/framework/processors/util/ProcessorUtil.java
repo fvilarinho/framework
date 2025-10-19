@@ -29,7 +29,7 @@ import java.util.Map;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class ProcessorUtil{
+public class ProcessorUtil{
     private static final Map<String, Class<? extends GenericProcessor>> validProcessors;
     private static final Map<String, String> validProcessorAttributes;
     
