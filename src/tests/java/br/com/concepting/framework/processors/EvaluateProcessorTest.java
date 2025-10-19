@@ -104,7 +104,7 @@ public class EvaluateProcessorTest {
     }
 
     @Test
-    public void testLogic() throws InternalErrorException {
+    public void testWithLogic() throws InternalErrorException {
         String expression = "new br.com.concepting.framework.model.TestModel('This is a test')";
         EvaluateProcessor processor = new EvaluateProcessor("testDomain", Locale.ENGLISH);
 
@@ -124,7 +124,7 @@ public class EvaluateProcessorTest {
     }
 
     @Test
-    public void testErrorsInLogic() throws InternalErrorException {
+    public void testWithErrorsInLogic() throws InternalErrorException {
         String expression = "new br.com.concepting.framework.model.TestModel2()";
         EvaluateProcessor processor = new EvaluateProcessor("testDomain", Locale.ENGLISH);
 
@@ -141,7 +141,7 @@ public class EvaluateProcessorTest {
     }
 
     @Test
-    public void testNoLogic() throws InternalErrorException {
+    public void testWithNoLogic() throws InternalErrorException {
         EvaluateProcessor processor = new EvaluateProcessor("testDomain", Locale.ENGLISH);
         Object result = processor.evaluate();
 

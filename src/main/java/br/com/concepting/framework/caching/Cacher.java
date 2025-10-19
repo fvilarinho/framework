@@ -59,9 +59,9 @@ public class Cacher<O> implements Serializable{
      * @param id String that contains the cache identifier.
      */
     public Cacher(String id){
-        this(id, CacherConstants.DEFAULT_TIMEOUT, CacherConstants.DEFAULT_TIMEOUT_TYPE);
+        this(id, CacherConstants.DEFAULT_TIMEOUT);
     }
-    
+
     /**
      * Constructor - Initialize the cache.
      *
@@ -71,7 +71,7 @@ public class Cacher<O> implements Serializable{
     public Cacher(String id, Long timeout){
         this(id, timeout, CacherConstants.DEFAULT_TIMEOUT_TYPE);
     }
-    
+
     /**
      * Constructor - Initialize the cache.
      *
@@ -127,8 +127,7 @@ public class Cacher<O> implements Serializable{
      * Expires all cache content.
      */
     public void expire(){
-        if(this.history != null && !this.history.isEmpty())
-            this.history.clear();
+        clear();
     }
     
     /**
@@ -139,10 +138,11 @@ public class Cacher<O> implements Serializable{
      * stored in a cache.
      */
     public synchronized void add(CachedObject<O> object) throws ItemAlreadyExistsException{
-        if(object != null && this.history != null){
+        if(object != null){
             if(!contains(object)){
                 object.setCacheDate(new DateTime());
                 object.setLastAccess(null);
+                object.attach(this);
                 
                 this.history.put(object.getId(), object);
             }
@@ -160,7 +160,7 @@ public class Cacher<O> implements Serializable{
      */
     public synchronized void set(CachedObject<O> object) throws ItemNotFoundException{
         if(object != null){
-            if(contains(object) && this.history != null && !this.history.isEmpty()){
+            if(contains(object) && !this.history.isEmpty()){
                 object.setCacheDate(new DateTime());
                 object.setLastAccess(null);
                 
@@ -180,7 +180,7 @@ public class Cacher<O> implements Serializable{
      */
     public synchronized void remove(CachedObject<O> object) throws ItemNotFoundException{
         if(object != null){
-            if(contains(object) && this.history != null && !this.history.isEmpty())
+            if(contains(object) && !this.history.isEmpty())
                 this.history.remove(object.getId());
             else
                 throw new ItemNotFoundException();
@@ -233,7 +233,7 @@ public class Cacher<O> implements Serializable{
      * @return True/False.
      */
     public boolean contains(CachedObject<O> object){
-        return (this.history != null && !this.history.isEmpty() && this.history.containsKey(object.getId()));
+        return (!this.history.isEmpty() && this.history.containsKey(object.getId()));
     }
     
     /**
@@ -260,14 +260,14 @@ public class Cacher<O> implements Serializable{
      * @return Numeric value containing the number of contents in the cache.
      */
     public int getSize(){
-        return (this.history != null ? this.history.size() : 0);
+        return this.history.size();
     }
     
     /**
      * Clear cache.
      */
     public void clear(){
-        if(this.history != null)
+        if(!this.history.isEmpty())
             this.history.clear();
     }
 }

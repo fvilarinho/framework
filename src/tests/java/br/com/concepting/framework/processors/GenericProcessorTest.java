@@ -42,7 +42,7 @@ public class GenericProcessorTest {
     }
 
     @Test
-    public void testConstructorAndGetters() throws InternalErrorException {
+    public void testConstructorsAndGetters() throws InternalErrorException {
         GenericProcessor processor = factory.getProcessor("testDomain", new Object(), this.contentWithLogic, Locale.ENGLISH);
 
         assertEquals("testDomain", processor.getDomain());
@@ -78,7 +78,7 @@ public class GenericProcessorTest {
     }
 
     @Test
-    public void testProcessWithLogic() throws InternalErrorException {
+    public void testWithLogic() throws InternalErrorException {
         try {
             ModelInfo modelInfo = ModelUtil.getInfo(TestModel.class);
             GenericProcessor processor = factory.getProcessor("testDomain", modelInfo, this.contentWithLogic, Locale.ENGLISH);
@@ -92,7 +92,7 @@ public class GenericProcessorTest {
     }
 
     @Test
-    public void testProcessWithNoLogic() throws InternalErrorException {
+    public void testWithNoLogic() throws InternalErrorException {
         try {
             GenericProcessor processor = factory.getProcessor("testDomain", "Darth Vader", this.contentWithNoLogic, Locale.ENGLISH);
             String result = StringUtil.indent(processor.process(), TagIndent.getRules());

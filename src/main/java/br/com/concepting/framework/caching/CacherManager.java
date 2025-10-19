@@ -87,6 +87,16 @@ public class CacherManager{
         
         return cacher;
     }
+
+    /**
+     * Returns the default cache instance.
+     *
+     * @param <O> Class that defines the type of the cache content.
+     * @return Instance that contains the cache.
+     */
+    public <O> Cacher<O> getDefaultCacher(){
+        return getCacher((String)null);
+    }
     
     /**
      * Returns the cache instance.

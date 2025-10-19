@@ -21,7 +21,7 @@ package br.com.concepting.framework.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class ProjectConstants{
+public final class ProjectConstants{
     public static final String BUILD_ATTRIBUTE_ID = "build";
     public static final String BUILD_DIR_ATTRIBUTE_ID = "buildDir";
     public static final String BUILD_NAME_ATTRIBUTE_ID = "buildName";

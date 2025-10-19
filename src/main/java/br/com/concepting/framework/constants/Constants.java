@@ -25,7 +25,7 @@ import java.util.*;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class Constants{
+public final class Constants{
     public static final String ACTIVE_ATTRIBUTE_ID = "active";
     public static final String CLASS_ATTRIBUTE_ID = "class";
     public static final String CONTENT_ATTRIBUTE_ID = "contentId";

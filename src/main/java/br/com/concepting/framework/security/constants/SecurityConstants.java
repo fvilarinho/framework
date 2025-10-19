@@ -23,7 +23,7 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class SecurityConstants{
+public final class SecurityConstants{
     public static final String ACCESSES_ATTRIBUTE_ID = "accesses";
     public static final String AUTHENTICATION_TYPE_ATTRIBUTE_ID = "authenticationType";
     public static final String CRYPTOGRAPHY_ALGORITHM_ATTRIBUTE_ID = "algorithm";

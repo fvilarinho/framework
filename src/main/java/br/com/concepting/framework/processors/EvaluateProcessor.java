@@ -166,7 +166,7 @@ public class EvaluateProcessor extends GenericProcessor{
      * @param name String that contains the identifier of the variable.
      * @param value Instance that contains the content of the variable.
      */
-    public void setVariable(String name, Object value){
+    protected void setVariable(String name, Object value){
         ExpressionProcessorUtil.setVariable(getDomain(), name, value);
     }
     
@@ -340,7 +340,7 @@ public class EvaluateProcessor extends GenericProcessor{
                     context.set("declaration", valueBuffer);
                     
                     JexlExpression expression = engine.createExpression("declaration");
-                    
+
                     return (O) expression.evaluate(context);
                 }
             }

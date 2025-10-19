@@ -22,7 +22,7 @@ package br.com.concepting.framework.ldap.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class LdapConstants{
+public final class LdapConstants{
     public static final String BASE_DN_ATTRIBUTE_ID = "baseDn";
     public static final String USER_DN_ATTRIBUTE_ID = "userDn";
     public static final String TIMEOUT_ATTRIBUTE_ID = "com.sun.jndi.ldap.read.timeout";

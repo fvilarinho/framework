@@ -21,7 +21,7 @@ package br.com.concepting.framework.webservice.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses">...</a>.</pre>
  */
-public abstract class WebServiceConstants{
+public final class WebServiceConstants{
     public static final String METHOD_ATTRIBUTE_ID = "method";
     public static final String URL_ATTRIBUTE_ID = "url";
     public static final String TOKEN_ATTRIBUTE_ID = "token";

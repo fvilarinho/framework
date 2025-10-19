@@ -21,7 +21,7 @@ package br.com.concepting.framework.controller.form.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class ActionFormMessageConstants{
+public final class ActionFormMessageConstants{
     public static final String DEFAULT_INVALID_DEFINITION_ID = "invalidDefinition";
     public static final String DEFAULT_NO_DATA_KEY_ID = "noData";
     public static final String DEFAULT_SELECT_AN_ITEM_ID = "selectAnItem";

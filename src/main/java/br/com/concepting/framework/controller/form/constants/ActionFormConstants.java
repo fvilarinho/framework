@@ -23,7 +23,7 @@ import br.com.concepting.framework.controller.types.ScopeType;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class ActionFormConstants{
+public final class ActionFormConstants{
     public static final String ACTION_FORMS_ATTRIBUTE_ID = "actionForms";
     public static final String ACTION_FORM_ATTRIBUTE_ID = "actionForm";
     public static final String ACTION_ATTRIBUTE_ID = "action";

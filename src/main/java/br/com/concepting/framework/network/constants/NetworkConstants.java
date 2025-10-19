@@ -24,7 +24,7 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class NetworkConstants{
+public final class NetworkConstants{
     public static final String IP_ATTRIBUTE_ID = "ip";
     public static final String NETWORK_MASK_ATTRIBUTE_ID = "networkMask";
     public static final String HOSTS_ATTRIBUTE_ID = "hosts";

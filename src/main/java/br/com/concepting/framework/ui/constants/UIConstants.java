@@ -24,7 +24,7 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class UIConstants{
+public final class UIConstants{
     public static final String ACTION_FORM_COMPONENT_ATTRIBUTE_ID = "actionFormComponent";
     public static final String CALENDAR_HOURS_ATTRIBUTE_ID = "calendarHours";
     public static final String CALENDAR_MINUTES_ATTRIBUTE_ID = "calendarMinutes";

@@ -22,7 +22,7 @@ package br.com.concepting.framework.service.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class ServiceConstants{
+public final class ServiceConstants{
     public static final String SERVICE_ATTRIBUTE_ID = "service";
     public static final String SERVICES_ATTRIBUTE_ID = "services";
     public static final String DEFAULT_ID = SERVICE_ATTRIBUTE_ID;

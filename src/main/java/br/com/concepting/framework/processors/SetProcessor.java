@@ -107,7 +107,7 @@ public class SetProcessor extends EvaluateProcessor{
      * processing.
      */
     public SetProcessor(Object declaration, XmlNode content, Locale language){
-        super(null, declaration, content, language);
+        super(ExpressionProcessorUtil.class.getName(), declaration, content, language);
     }
     
     /**
@@ -129,8 +129,17 @@ public class SetProcessor extends EvaluateProcessor{
     }
 
     @Override
+    public <O> O evaluate() throws InternalErrorException{
+        O value = super.evaluate();
+
+        setVariable(this.name, value);
+
+        return value;
+    }
+
+    @Override
     public String process() throws InternalErrorException{
-        setVariable(this.name, evaluate());
+        evaluate();
         
         return ProcessorConstants.DEFAULT_REMOVE_TAG_ID;
     }

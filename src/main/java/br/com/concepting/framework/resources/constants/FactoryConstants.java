@@ -22,7 +22,7 @@ package br.com.concepting.framework.resources.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class FactoryConstants{
+public final class FactoryConstants{
     public static final String RESOURCES_ATTRIBUTE_ID = "factoryResourcesId";
     public static final String URI_ATTRIBUTE_ID = "uri";
     public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("factoryResources.xml");

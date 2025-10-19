@@ -27,7 +27,7 @@ import java.util.List;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class PersistenceConstants{
+public final class PersistenceConstants{
     public static final String CACHEABLE_QUERY_ATTRIBUTE_ID = "org.hibernate.cacheable";
     public static final String CLOSE_QUOTE_ATTRIBUTE_ID = "closeQuote";
     public static final String FACTORY_CLASS_NAME_ATTRIBUTE_ID = "driverClassName";

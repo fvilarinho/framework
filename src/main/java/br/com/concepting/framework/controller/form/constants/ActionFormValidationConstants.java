@@ -21,7 +21,7 @@ package br.com.concepting.framework.controller.form.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class ActionFormValidationConstants{
+public final class ActionFormValidationConstants{
     public static final String COMPARE_CONDITION_ATTRIBUTE_ID = "compareCondition";
     public static final String COMPARE_LABEL_ATTRIBUTE_ID = "compareLabel";
     public static final String COMPARE_NAME_ATTRIBUTE_ID = "compareName";
