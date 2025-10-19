@@ -19,7 +19,7 @@ import java.util.Locale;
 
 import static org.junit.Assert.*;
 
-public class ProcessorFactoryTest {
+public class ProcessorsTest {
     private static final ProcessorFactory factory = ProcessorFactory.getInstance();
 
     private XmlNode contentWithLogic = null;

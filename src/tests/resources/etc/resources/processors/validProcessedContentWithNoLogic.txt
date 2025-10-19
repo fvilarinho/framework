@@ -1,4 +1,4 @@
-<script>
+<lines>
     <line1>Darth Vader: Luke, I'm your Father!</line1>
     <line2>Luke: NOOOOOOOOOOOOOOOOOOOOOOOOOO!</line2>
-</script>
+</lines>

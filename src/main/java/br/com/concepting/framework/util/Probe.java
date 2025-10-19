@@ -6,7 +6,6 @@ import br.com.concepting.framework.util.helpers.ProbeOptions;
 import br.com.concepting.framework.util.types.ProbeType;
 import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import org.openqa.selenium.*;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -23,8 +22,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.Duration;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 
 /**
@@ -58,9 +58,11 @@ public class Probe extends WebDriverBackedSelenium{
     public static Probe initialize(ProbeOptions options){
         ChromeOptions driverOptions = new ChromeOptions();
         Map<String, Object> driverPrefs = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
-        
-        driverPrefs.put("profile.default_content_settings.popups", 0);
-        driverPrefs.put("download.default_directory", options.getDownloadDir());
+
+        if(driverPrefs != null) {
+            driverPrefs.put("profile.default_content_settings.popups", 0);
+            driverPrefs.put("download.default_directory", options.getDownloadDir());
+        }
         
         driverOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
         driverOptions.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
@@ -73,7 +75,7 @@ public class Probe extends WebDriverBackedSelenium{
         if(options.getType() != null && options.getType() == ProbeType.MOBILE){
             driverOptions.setExperimentalOption("androidPackage", "com.android.chrome");
             
-            if(options.getId() != null && options.getId().length() > 0)
+            if(options.getId() != null && !options.getId().isEmpty())
                 driverOptions.setExperimentalOption("androidDeviceSerial", options.getId());
         }
         else{
@@ -86,17 +88,20 @@ public class Probe extends WebDriverBackedSelenium{
                 driverOptions.addArguments("--kiosk");
                 driverOptions.addArguments("--window-position=0,0");
             }
-            
-            driverOptions.addArguments("--ignore-ssl-errors=yes", "--ignore-certificate-errors", "--disable-dev-shm-usage", "--no-sandbox");
+
+            driverOptions.addArguments("--remote-allow-origins=*", "--ignore-ssl-errors=yes", "--ignore-certificate-errors", "--disable-dev-shm-usage", "--no-sandbox");
             
             if(options.getViewPortWidth() >0 && options.getViewPortHeight() > 0){
                 Map<String, Object> mobileEmulation = PropertyUtil.instantiate(Map.class);
                 Map<String, Object> deviceMetrics = PropertyUtil.instantiate(Map.class);
-                
-                deviceMetrics.put("width", options.getViewPortWidth());
-                deviceMetrics.put("height", options.getViewPortHeight());
-                
-                mobileEmulation.put("deviceMetrics", deviceMetrics);
+
+                if(deviceMetrics != null) {
+                    deviceMetrics.put("width", options.getViewPortWidth());
+                    deviceMetrics.put("height", options.getViewPortHeight());
+                }
+
+                if(mobileEmulation != null)
+                    mobileEmulation.put("deviceMetrics", deviceMetrics);
                 
                 driverOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
             }
@@ -209,9 +214,9 @@ public class Probe extends WebDriverBackedSelenium{
     public void setTimeout(Integer timeout){
         WebDriver driver = getWrappedDriver();
         
-        driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(timeout, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeout));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(timeout));
+        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(timeout));
     }
     
     /**
@@ -224,14 +229,17 @@ public class Probe extends WebDriverBackedSelenium{
     public void applyNetworkCondition(Integer latency, Integer downloadKbps, Integer uploadKbps){
         if(latency != null && downloadKbps != null && uploadKbps != null){
             Map<String, Object> networkConditions = PropertyUtil.instantiate(Map.class);
-            
-            networkConditions.put("latency", latency);
-            networkConditions.put("download_throughput", downloadKbps * 1024);
-            networkConditions.put("upload_throughput", uploadKbps * 1024);
+
+            if(networkConditions != null) {
+                networkConditions.put("latency", latency);
+                networkConditions.put("download_throughput", downloadKbps * 1024);
+                networkConditions.put("upload_throughput", uploadKbps * 1024);
+            }
             
             Map<String, Object> map = PropertyUtil.instantiate(Map.class);
-            
-            map.put("network_conditions", networkConditions);
+
+            if(map != null)
+                map.put("network_conditions", networkConditions);
             
             WebDriver driver = getWrappedDriver();
             
@@ -413,7 +421,7 @@ public class Probe extends WebDriverBackedSelenium{
                 elements = driver.findElements(By.tagName(elementId));
         }
         
-        if(elements == null || elements.size() == 0)
+        if(elements == null || elements.isEmpty())
             throw new NoSuchElementException(elementId);
         
         return elements;
@@ -425,33 +433,37 @@ public class Probe extends WebDriverBackedSelenium{
         element.submit();
     }
     
-    public Long waitForPageToLoad() throws TimeoutException{
-        return waitForPageToLoad(this.options.getTimeout());
+    public void waitForPageToLoad() throws TimeoutException{
+        waitForPageToLoad(this.options.getTimeout());
     }
     
-    public Long waitForPageToLoad(Integer timeout) throws TimeoutException{
+    public void waitForPageToLoad(Integer timeout) throws TimeoutException{
         WebDriver driver = getWrappedDriver();
         
         new WebDriverWait(driver, Duration.ofSeconds(timeout)).until((ExpectedCondition<Object>) d -> {
             try{
                 JavascriptExecutor javascriptExecutor = (JavascriptExecutor) d;
 
-                return (Boolean) javascriptExecutor.executeScript("return (jQuery.active === 0);");
+                if(javascriptExecutor != null)
+                    return (Boolean) javascriptExecutor.executeScript("return (jQuery.active === 0);");
             }
-            catch(Throwable e){
-                return true;
+            catch(Throwable ignored){
             }
+
+            return true;
         });
         
         new WebDriverWait(driver, Duration.ofSeconds(timeout)).until((ExpectedCondition<Boolean>) d -> {
             try{
                 JavascriptExecutor javascriptExecutor = (JavascriptExecutor) d;
 
-                return (Boolean) javascriptExecutor.executeScript("return (document.readyState === 'complete');");
+                if(javascriptExecutor != null)
+                    return (Boolean) javascriptExecutor.executeScript("return (document.readyState === 'complete');");
             }
-            catch(Throwable e){
-                return true;
+            catch(Throwable ignored){
             }
+
+            return true;
         });
         
         int count = 0;
@@ -461,7 +473,7 @@ public class Probe extends WebDriverBackedSelenium{
         while(count < (timeout * 1000)){
             Collection<LogEntry> buffer = driver.manage().logs().get(LogType.PERFORMANCE).getAll();
             
-            if(buffer == null || buffer.size() == 0){
+            if(buffer == null || buffer.isEmpty()){
                 if(fullyLoadedTime == null)
                     fullyLoadedTime = executeScript("return (new Date().getTime() - window.performance.timing.navigationStart);");
                 
@@ -473,11 +485,12 @@ public class Probe extends WebDriverBackedSelenium{
                 waitTime = 0;
             }
             
-            if(this.options.getCaptureNetworkMetrics() && buffer != null && buffer.size() > 0){
+            if(this.options.getCaptureNetworkMetrics() && buffer != null && !buffer.isEmpty()){
                 if(this.networkMetrics == null)
                     this.networkMetrics = PropertyUtil.instantiate(Collection.class);
-                
-                this.networkMetrics.addAll(buffer);
+
+                if(this.networkMetrics != null)
+                    this.networkMetrics.addAll(buffer);
             }
             
             try{
@@ -490,11 +503,6 @@ public class Probe extends WebDriverBackedSelenium{
             count += 100;
             waitTime += 100;
         }
-        
-        if(fullyLoadedTime == null)
-            fullyLoadedTime = (timeout * 1000L);
-        
-        return fullyLoadedTime;
     }
 
     public void waitForElementPresent(String elementId) throws NoSuchElementException, TimeoutException{
@@ -828,15 +836,13 @@ public class Probe extends WebDriverBackedSelenium{
                         }
                         
                         method = ChromeDriver.class.getMethod(name, types);
-                        
-                        if(method != null)
-                            method.invoke(this, values);
+
+                        method.invoke(this, values);
                     }
                     else{
                         method = ChromeDriver.class.getMethod(name);
-                        
-                        if(method != null)
-                            method.invoke(this);
+
+                        method.invoke(this);
                     }
                 }
             }
@@ -844,5 +850,4 @@ public class Probe extends WebDriverBackedSelenium{
         catch(InvocationTargetException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException e){
             throw new InternalErrorException(e);
         }
-    }
-}
+    }}

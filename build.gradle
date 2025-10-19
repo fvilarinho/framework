@@ -10,14 +10,6 @@ jacoco {
     toolVersion = "0.8.12"
 }
 
-jacocoTestReport {
-    reports {
-        html.required.set(true)
-        xml.required.set(true)
-        csv.required.set(false)
-    }
-}
-
 repositories{
     mavenLocal()
 	mavenCentral()
@@ -89,18 +81,18 @@ dependencies{
 	compile "javax.servlet:jstl:1.2"
 	compile "com.sun.mail:mailapi:2.0.1"
 	compile "com.mysql:mysql-connector-j:9.4.0"
-	compile 'com.squareup.okhttp3:okhttp:4.10.0'
+	compile 'com.squareup.okhttp3:okhttp:4.12.0'
 	compile "com.squareup.okio:okio:3.1.0"
 	compile "org.apache.poi:poi:5.4.1"
 	compile "org.apache.poi:poi-ooxml:5.4.1"
 	compile "com.sun.mail:pop3:2.0.1"
 	compile "com.wcohen:com.wcohen.secondstring:0.1"
-	compile 'org.seleniumhq.selenium:selenium-api:4.0.0'
-	compile 'org.seleniumhq.selenium:selenium-chrome-driver:4.0.0'
-	compile 'org.seleniumhq.selenium:selenium-java:4.0.0'
-	compile 'org.seleniumhq.selenium:selenium-leg-rc:4.0.0'
-	compile 'org.seleniumhq.selenium:selenium-remote-driver:4.0.0'
-	compile "org.seleniumhq.selenium:selenium-support:4.0.0"
+	compile 'org.seleniumhq.selenium:selenium-api:4.1.2'
+	compile 'org.seleniumhq.selenium:selenium-chrome-driver:4.1.2'
+	compile 'org.seleniumhq.selenium:selenium-java:4.1.2'
+	compile 'org.seleniumhq.selenium:selenium-leg-rc:4.1.2'
+	compile 'org.seleniumhq.selenium:selenium-remote-driver:4.1.2'
+	compile "org.seleniumhq.selenium:selenium-support:4.1.2"
 	compile "com.sun.mail:smtp:2.0.1"
 	compile "com.github.ua-parser:uap-java:1.6.1"
 	compile "javax.validation:validation-api:2.0.1.Final"
@@ -196,6 +188,14 @@ test {
     finalizedBy jacocoTestReport
 }
 
+jacocoTestReport {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        csv.required.set(false)
+    }
+}
+
 artifacts{
 	archives modelJar
 	archives controllerJar
@@ -204,22 +204,6 @@ artifacts{
 	archives uiJar
 	archives resourcesJar
 	archives coreJar
-}
-
-publishing{
-    publications{
-       	mavenJava(MavenPublication){
-            from components.java
-			artifact modelJar
-			artifact controllerJar
-			artifact persistenceJar
-			artifact serviceJar
-			artifact uiJar
-			artifact resourcesJar
-			artifact coreJar
- 			artifact javadocJar
-        }
-    }
 }
 
 uploadArchives{

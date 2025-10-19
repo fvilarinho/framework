@@ -1,6 +1,6 @@
 <root>
-    <script>
+    <lines>
         <line1>#{declaration}: Luke, I'm your Father!</line1>
         <line2>Luke: NOOOOOOOOOOOOOOOOOOOOOOOOOO!</line2>
-    </script>
+    </lines>
 </root>
