@@ -10,7 +10,7 @@ def environment = new Properties()
 def environmentFile = file(".env")
 
 if (environmentFile.exists()) {
-    environmentFile.withReader('UTF-8') { reader ->
+    environmentFile.withReader("UTF-8") { reader ->
         environment.load(reader)
     }
 }
@@ -90,17 +90,17 @@ dependencies{
 	compile "javax.servlet:jstl:1.2"
 	compile "com.sun.mail:mailapi:2.0.1"
 	compile "com.mysql:mysql-connector-j:9.4.0"
-	compile 'com.squareup.okhttp3:okhttp:4.12.0'
+	compile "com.squareup.okhttp3:okhttp:4.12.0"
 	compile "com.squareup.okio:okio:3.1.0"
 	compile "org.apache.poi:poi:5.4.1"
 	compile "org.apache.poi:poi-ooxml:5.4.1"
 	compile "com.sun.mail:pop3:2.0.1"
 	compile "com.wcohen:com.wcohen.secondstring:0.1"
-	compile 'org.seleniumhq.selenium:selenium-api:4.1.2'
-	compile 'org.seleniumhq.selenium:selenium-chrome-driver:4.1.2'
-	compile 'org.seleniumhq.selenium:selenium-java:4.1.2'
-	compile 'org.seleniumhq.selenium:selenium-leg-rc:4.1.2'
-	compile 'org.seleniumhq.selenium:selenium-remote-driver:4.1.2'
+	compile "org.seleniumhq.selenium:selenium-api:4.1.2"
+	compile "org.seleniumhq.selenium:selenium-chrome-driver:4.1.2"
+	compile "org.seleniumhq.selenium:selenium-java:4.1.2"
+	compile "org.seleniumhq.selenium:selenium-leg-rc:4.1.2"
+	compile "org.seleniumhq.selenium:selenium-remote-driver:4.1.2"
 	compile "org.seleniumhq.selenium:selenium-support:4.1.2"
 	compile "com.sun.mail:smtp:2.0.1"
 	compile "com.github.ua-parser:uap-java:1.6.1"
@@ -108,8 +108,8 @@ dependencies{
 	compile "javax.servlet.jsp:javax.servlet.jsp-api:2.3.3"
 	compile "javax.servlet:javax.servlet-api:4.0.1"
 
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.11.0'
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.mockito:mockito-core:5.11.0"
 }
 
 java {
@@ -137,7 +137,7 @@ version = "${buildVersion}"
 
 def coreExcludes = []
 
-tasks.register('modelJar', Jar) {
+tasks.register("modelJar", Jar) {
 	archiveClassifier = "model"
 	from(sourceSets.main.output) {
 		include "**/model/**"
@@ -145,7 +145,7 @@ tasks.register('modelJar', Jar) {
 	}
 }
 
-tasks.register('controllerJar', Jar) {
+tasks.register("controllerJar", Jar) {
 	archiveClassifier = "controller"
 	from(sourceSets.main.output) {
 		include "**/controller/**"
@@ -153,7 +153,7 @@ tasks.register('controllerJar', Jar) {
 	}
 }
 
-tasks.register('persistenceJar', Jar) {
+tasks.register("persistenceJar", Jar) {
 	archiveClassifier = "persistence"
 	from(sourceSets.main.output) {
 		include "**/persistence/**"
@@ -161,7 +161,7 @@ tasks.register('persistenceJar', Jar) {
 	}
 }
 
-tasks.register('serviceJar', Jar) {
+tasks.register("serviceJar", Jar) {
 	archiveClassifier = "service"
 	from(sourceSets.main.output) {
 		include "**/service/**"
@@ -169,7 +169,7 @@ tasks.register('serviceJar', Jar) {
 	}
 }
 
-tasks.register('uiJar', Jar) {
+tasks.register("uiJar", Jar) {
 	archiveClassifier = "ui"
 	from(sourceSets.main.output) {
 		include "**/ui/**"
@@ -177,7 +177,7 @@ tasks.register('uiJar', Jar) {
 	}
 }
 
-tasks.register('resourcesJar', Jar) {
+tasks.register("resourcesJar", Jar) {
 	archiveClassifier = "resources"
 	from(sourceSets.main.output) {
 		include "etc/**/*.properties"
@@ -187,7 +187,7 @@ tasks.register('resourcesJar', Jar) {
 	}
 }
 
-tasks.register('coreJar', Jar) {
+tasks.register("coreJar", Jar) {
 	archiveClassifier = "core"
 	from(sourceSets.main.output) {
 		exclude coreExcludes
@@ -196,7 +196,7 @@ tasks.register('coreJar', Jar) {
 
 javadoc.options.addStringOption("Xdoclint:none", "-quiet")
 
-tasks.register('javadocJar', Jar) {
+tasks.register("javadocJar", Jar) {
 	archiveClassifier = "javadoc"
 	from javadoc
 }
