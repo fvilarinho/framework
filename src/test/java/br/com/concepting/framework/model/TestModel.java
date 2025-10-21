@@ -6,7 +6,7 @@ import br.com.concepting.framework.model.annotations.Property;
 @Model
 public class TestModel extends BaseModel {
     @Property
-    private String testField;
+    private String testField = null;
 
     public TestModel() {
         super();
@@ -30,5 +30,10 @@ public class TestModel extends BaseModel {
 
     public static final void saySomething(String something) {
         System.out.println(something);
+    }
+
+    @Override
+    public String toString(){
+        return getTestField();
     }
 }

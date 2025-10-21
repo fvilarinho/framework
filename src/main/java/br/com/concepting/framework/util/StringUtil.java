@@ -184,7 +184,7 @@ public class StringUtil{
         if(value != null && !value.isEmpty() && replace != null && !replace.isEmpty())
             return replaceLast(value, String.valueOf(search), replace);
 
-        return StringUtils.EMPTY;
+        return value;
     }
     
     /**
@@ -229,7 +229,7 @@ public class StringUtil{
             return reverseBuffer.reverse().toString();
         }
         
-        return null;
+        return value;
     }
     
     /**
@@ -240,7 +240,7 @@ public class StringUtil{
      */
     public static String trim(Object value){
         if(value == null)
-            return "";
+            return StringUtils.EMPTY;
         
         if(PropertyUtil.isString(value))
             return ((String) value).trim();
@@ -248,7 +248,7 @@ public class StringUtil{
         String result = value.toString();
         
         if(result == null)
-            return "";
+            return StringUtils.EMPTY;
         
         return result.trim();
     }
@@ -440,14 +440,12 @@ public class StringUtil{
                 
                 String[] values = StringUtil.split(value, delimiter);
                 
-                if(values != null){
-                    for(String valueItem: values){
-                        if(result.length() > 0)
-                            result.append(delimiter);
-                        
-                        result.append(valueItem.substring(0, 1).toUpperCase());
-                        result.append(valueItem.substring(1));
-                    }
+                for(String valueItem: values){
+                    if(result.length() > 0)
+                        result.append(delimiter);
+
+                    result.append(valueItem.substring(0, 1).toUpperCase());
+                    result.append(valueItem.substring(1));
                 }
             }
             
