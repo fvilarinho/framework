@@ -8,7 +8,12 @@ on:
 jobs:
   run:
     name: Jobs
+    env:
+      REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
+      REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
+      REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
     runs-on: ubuntu-latest
+
     steps:
     - name: Download project files
       uses: actions/checkout@v4
@@ -19,16 +24,8 @@ jobs:
         java-version: 11
 
     - name: Build and Test
-      env:
-        REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
-        REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
-        REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
       run: ./build.sh
 
     - name: Publish
       if: contains(github.event.files, 'gradle.properties')
-      env:
-        REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
-        REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
-        REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
       run: ./publish.sh
