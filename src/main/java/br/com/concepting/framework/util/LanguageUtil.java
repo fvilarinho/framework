@@ -3,6 +3,7 @@ package br.com.concepting.framework.util;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.SystemResourcesLoader;
+import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 
 import java.util.Locale;
 
@@ -43,7 +44,7 @@ public class LanguageUtil{
                 language = new Locale(languageBuffer[0]);
             else if(languageBuffer.length == 2)
                 language = new Locale(languageBuffer[0], languageBuffer[1]);
-            else if(languageBuffer.length == 3)
+            else
                 language = new Locale(languageBuffer[0], languageBuffer[1], languageBuffer[2]);
             
             return language;
@@ -51,29 +52,30 @@ public class LanguageUtil{
         
         return null;
     }
-    
+
+    protected static SystemResources getResources() {
+        try {
+            SystemResourcesLoader loader = new SystemResourcesLoader();
+
+            return loader.getDefault();
+        }
+        catch(InvalidResourcesException ignored){
+        }
+
+        return null;
+    }
+
     /**
      * Returns the instance of the default language.
      *
      * @return Instance that contains the language.
      */
     public static Locale getDefaultLanguage(){
-        try{
-            SystemResourcesLoader loader = new SystemResourcesLoader();
-            SystemResources resources = loader.getDefault();
-            
-            if(resources != null){
-                Locale language = resources.getDefaultLanguage();
-                
-                if(language == null)
-                    language = Locale.getDefault();
-                
-                return language;
-            }
-        }
-        catch(InternalErrorException ignored){
-        }
-        
+        SystemResources resources = getResources();
+
+        if(resources != null)
+            return resources.getDefaultLanguage();
+
         return Locale.getDefault();
     }
 }

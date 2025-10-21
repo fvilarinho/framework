@@ -8,17 +8,26 @@ import static org.junit.Assert.*;
 
 public class StringUtilTest {
     @Test
-    public void testCapitalization(){
+    public void testCapitalizationAndNormalization(){
         assertEquals("Hello World", StringUtil.capitalize("hello world"));
         assertEquals("Hello World", StringUtil.capitalize("hello world", null));
         assertEquals("Hi there", StringUtil.capitalize("hi there", true));
         assertEquals("Orange,Tomato,Sugar", StringUtil.capitalize("orange,tomato,sugar", ","));
         assertEquals("Dark Side", StringUtil.capitalize("dark side", "", false));
+        assertEquals("hello world", StringUtil.normalize("Hello World"));
+        assertEquals("hello world", StringUtil.normalize("Hello World", ""));
+        assertEquals("hello world", StringUtil.normalize("Hello World", null));
+        assertEquals("helloWorld", StringUtil.normalize("Hello_World"));
+        assertEquals("", StringUtil.normalize("", ""));
+        assertEquals("", StringUtil.normalize("", null));
 
         assertNull(StringUtil.capitalize(null));
         assertNull(StringUtil.capitalize(""));
         assertNull(StringUtil.capitalize(null, ";", false));
         assertNull(StringUtil.capitalize("", ";", false));
+        assertNull(StringUtil.normalize(null));
+        assertNull(StringUtil.normalize(null, null));
+        assertNull(StringUtil.normalize(null, ""));
     }
 
     @Test
@@ -126,5 +135,40 @@ public class StringUtilTest {
         assertNull(StringUtil.replaceLast(null, "world", ""));
         assertNull(StringUtil.replaceLast(null, '!', null));
         assertNull(StringUtil.replaceLast(null, '!', ""));
+    }
+
+    @Test
+    public void testFormatting() {
+        assertEquals("(11) 91234-5678", StringUtil.format("11912345678", "(99) 99999-9999"));
+        assertEquals("21/10/2025 16:30:00", StringUtil.format("21102025163000", "dd/MM/yyyy HH:mm:ss"));
+        assertEquals("11 91234-5678", StringUtil.format("11 91234-5678", "99999999999"));
+        assertEquals("", StringUtil.format("", "99999999999"));
+        assertEquals("", StringUtil.format("", null));
+        assertEquals("", StringUtil.format("", ""));
+        assertEquals("1234", StringUtil.format("1234", null));
+        assertEquals("1234", StringUtil.format("1234", ""));
+        assertEquals("11912345678", StringUtil.unformat("(11) 91234-5678", "(99) 99999-9999"));
+        assertEquals("", StringUtil.unformat("", "99999999999"));
+        assertEquals("", StringUtil.unformat("", null));
+        assertEquals("", StringUtil.unformat("", ""));
+        assertEquals("1234", StringUtil.unformat("1234", null));
+        assertEquals("1234", StringUtil.unformat("1234", ""));
+
+        assertNull(StringUtil.format(null, "99999999999"));
+        assertNull(StringUtil.format(null, null));
+        assertNull(StringUtil.format(null, ""));
+        assertNull(StringUtil.unformat(null, "99999999999"));
+        assertNull(StringUtil.unformat(null, null));
+        assertNull(StringUtil.unformat(null, ""));
+    }
+
+    @Test
+    public void testRegex() {
+        assertEquals(".*", StringUtil.toRegex("*"));
+        assertEquals(".", StringUtil.toRegex("?"));
+        assertEquals(".*\\.*", StringUtil.toRegex("*.*"));
+        assertEquals("", StringUtil.toRegex(""));
+
+        assertNull(StringUtil.toRegex(null));
     }
 }

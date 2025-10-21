@@ -111,19 +111,16 @@ public class StringUtil{
                 delimiter = Constants.DEFAULT_NORMALIZE_DELIMITER;
             
             String[] parts = StringUtil.split(value.toLowerCase(), delimiter);
-            
-            if(parts != null && parts.length > 0){
-                StringBuilder normalized = new StringBuilder();
-                
-                for(int cont = 0; cont < parts.length; cont++){
-                    if(cont == 0)
-                        normalized.append(parts[cont]);
-                    else
-                        normalized.append(StringUtil.capitalize(parts[cont]));
-                }
-                
-                return normalized.toString();
+            StringBuilder normalized = new StringBuilder();
+
+            for(int cont = 0; cont < parts.length; cont++){
+                if(cont == 0)
+                    normalized.append(parts[cont]);
+                else
+                    normalized.append(StringUtil.capitalize(parts[cont]));
             }
+
+            return normalized.toString();
         }
         
         return value;
@@ -497,24 +494,13 @@ public class StringUtil{
             pattern = StringUtil.replaceAll(pattern, "h", "#");
             pattern = StringUtil.replaceAll(pattern, "m", "#");
             pattern = StringUtil.replaceAll(pattern, "s", "#");
-            
+
             try{
                 MaskFormatter formatter = new MaskFormatter(pattern);
 
                 formatter.setValueContainsLiteralCharacters(false);
                 
                 value = formatter.valueToString(value);
-
-                int cont;
-
-                for(cont = 0; cont < pattern.length(); cont++)
-                    if(pattern.charAt(cont) != ' ' && value.charAt(cont) == ' ')
-                        break;
-                
-                if(pattern.charAt(cont - 1) != '#' && pattern.charAt(cont - 1) != '9' && pattern.charAt(cont - 1) != 'd' && pattern.charAt(cont - 1) != 'M' && pattern.charAt(cont - 1) != 'y' && pattern.charAt(cont - 1) != 'H' && pattern.charAt(cont - 1) != 'h' && pattern.charAt(cont - 1) != 'm' && pattern.charAt(cont - 1) != 's' && pattern.charAt(cont - 1) != 'A')
-                    value = value.substring(0, cont - 1);
-                else
-                    value = value.substring(0, cont);
             }
             catch(ParseException ignored){
             }
@@ -700,6 +686,6 @@ public class StringUtil{
             return expression;
         }
         
-        return null;
+        return expression;
     }
 }
