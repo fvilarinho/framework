@@ -34,6 +34,9 @@ public class TestModel extends BaseModel {
 
     @Override
     public String toString(){
+        if(getTestField() == null)
+            return super.toString();
+
         return getTestField();
     }
 }

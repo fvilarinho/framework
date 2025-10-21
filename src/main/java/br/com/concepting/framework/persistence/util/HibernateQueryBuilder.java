@@ -26,10 +26,7 @@ import org.hibernate.transform.Transformers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.ParseException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 /**
@@ -269,7 +266,7 @@ public abstract class HibernateQueryBuilder{
                         propertyValueBuffer = PropertyUtil.getValue(model, propertyInfo.getId());
                     
                     if(propertyValueBuffer != null)
-                        propertyValue = List.of(propertyValueBuffer);
+                        propertyValue = Arrays.asList(propertyValueBuffer);
                 }
                 
                 if(relationJoinType == null && (propertiesRelationsJoins == null || !propertiesRelationsJoins.containsKey(propertyPrefixBuffer.toString())))
@@ -405,9 +402,9 @@ public abstract class HibernateQueryBuilder{
                     
                     if(propertyCondition == null || propertyCondition.isEmpty()){
                         if(propertyInfo.getSearchCondition() == ConditionType.NONE)
-                            propertyCondition = List.of(ConditionType.EQUAL);
+                            propertyCondition = Arrays.asList(ConditionType.EQUAL);
                         else
-                            propertyCondition = List.of(propertyInfo.getSearchCondition());
+                            propertyCondition = Arrays.asList(propertyInfo.getSearchCondition());
                     }
                     
                     Iterator<ConditionType> propertyConditionIterator = propertyCondition.iterator();
@@ -820,7 +817,7 @@ public abstract class HibernateQueryBuilder{
                                     processCondition = false;
                                 else{
                                     if(!PropertyUtil.isCollection(propertyValueItem))
-                                        propertyValueItems = List.of(propertyValueItem);
+                                        propertyValueItems = Arrays.asList(propertyValueItem);
                                     else{
                                         propertyValueItems = (Collection<Object>) propertyValueItem;
                                         

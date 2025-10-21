@@ -85,7 +85,7 @@ public class StringUtilTest {
     public void testTrim() {
         assertEquals("Hello World", StringUtil.trim("  Hello World  "));
         assertEquals("", StringUtil.trim(null));
-        assertEquals("", StringUtil.trim(new TestModel()));
+        assertTrue(StringUtil.trim(new TestModel()).startsWith(TestModel.class.getName()));
         assertEquals("Hello World", StringUtil.trim(new TestModel("  Hello World  ")));
     }
 

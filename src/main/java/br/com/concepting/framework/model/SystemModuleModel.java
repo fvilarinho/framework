@@ -316,7 +316,7 @@ public class SystemModuleModel extends BaseModel{
      * @return True/False.
      */
     public Boolean isActive(){
-        return this.active;
+        return getActive();
     }
     
     /**
