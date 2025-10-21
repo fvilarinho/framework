@@ -1,23 +1,32 @@
-apply plugin: "java"
-apply plugin: "maven"
-apply plugin: "maven-publish"
-apply plugin: "jacoco"
-
-group="${buildPackage}"
-version="${buildVersion}"
-
-jacoco {
-    toolVersion = "0.8.12"
+plugins {
+    id "java"
+    id "maven"
+    id "maven-publish"
+    id "jacoco"
+    id "org.sonarqube" version "6.0.1.5171"
 }
+
+def environment = new Properties()
+def environmentFile = file(".env")
+
+if (environmentFile.exists()) {
+    environmentFile.withReader('UTF-8') { reader ->
+        environment.load(reader)
+    }
+}
+
+def repositoryUrl      = (environment.getProperty("REPOSITORY_URL") != null ? environment.getProperty("REPOSITORY_URL") : System.getenv("REPOSITORY_URL"))
+def repositoryUserName = (environment.getProperty("REPOSITORY_USERNAME") != null ? environment.getProperty("REPOSITORY_USERNAME") : System.getenv("REPOSITORY_USERNAME"))
+def repositoryPassword = (environment.getProperty("REPOSITORY_PASSWORD") != null ? environment.getProperty("REPOSITORY_PASSWORD") : System.getenv("REPOSITORY_PASSWORD"))
 
 repositories{
     mavenLocal()
 	mavenCentral()
 	maven{
-		url = System.getenv("REPOSITORY_URL")
+		url = "${repositoryUrl}"
 		credentials{
-			username = System.getenv("REPOSITORY_USERNAME")
-			password = System.getenv("REPOSITORY_PASSWORD")
+			username = "${repositoryUserName}"
+			password = "${repositoryPassword}"
 		}
 	}
 }
@@ -103,6 +112,11 @@ dependencies{
     testImplementation 'org.mockito:mockito-core:5.11.0'
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
 }
@@ -118,13 +132,16 @@ tasks.withType(Jar).configureEach {
 	exclude "**/*.html"
 }
 
-ext.coreExcludes = []
+group   = "${buildPackage}"
+version = "${buildVersion}"
+
+def coreExcludes = []
 
 tasks.register('modelJar', Jar) {
 	archiveClassifier = "model"
 	from(sourceSets.main.output) {
 		include "**/model/**"
-		project.ext.coreExcludes.addAll(includes)
+		coreExcludes.addAll(includes)
 	}
 }
 
@@ -132,7 +149,7 @@ tasks.register('controllerJar', Jar) {
 	archiveClassifier = "controller"
 	from(sourceSets.main.output) {
 		include "**/controller/**"
-		project.ext.coreExcludes.addAll(includes)
+		coreExcludes.addAll(includes)
 	}
 }
 
@@ -140,7 +157,7 @@ tasks.register('persistenceJar', Jar) {
 	archiveClassifier = "persistence"
 	from(sourceSets.main.output) {
 		include "**/persistence/**"
-		project.ext.coreExcludes.addAll(includes)
+		coreExcludes.addAll(includes)
 	}
 }
 
@@ -148,7 +165,7 @@ tasks.register('serviceJar', Jar) {
 	archiveClassifier = "service"
 	from(sourceSets.main.output) {
 		include "**/service/**"
-		project.ext.coreExcludes.addAll(includes)
+		coreExcludes.addAll(includes)
 	}
 }
 
@@ -156,7 +173,7 @@ tasks.register('uiJar', Jar) {
 	archiveClassifier = "ui"
 	from(sourceSets.main.output) {
 		include "**/ui/**"
-		project.ext.coreExcludes.addAll(includes)
+		coreExcludes.addAll(includes)
 	}
 }
 
@@ -166,14 +183,14 @@ tasks.register('resourcesJar', Jar) {
 		include "etc/**/*.properties"
 		include "etc/**/*.xml"
 		include "etc/**/*.xsd"
-		project.ext.coreExcludes.addAll(includes)
+		coreExcludes.addAll(includes)
 	}
 }
 
 tasks.register('coreJar', Jar) {
 	archiveClassifier = "core"
 	from(sourceSets.main.output) {
-		exclude project.ext.coreExcludes
+		exclude coreExcludes
 	}
 }
 
@@ -186,6 +203,10 @@ tasks.register('javadocJar', Jar) {
 
 test {
     finalizedBy jacocoTestReport
+}
+
+jacoco {
+    toolVersion = "0.8.12"
 }
 
 jacocoTestReport {
@@ -209,9 +230,9 @@ artifacts{
 uploadArchives{
     repositories{
         mavenDeployer{
-            repository(url: System.getenv("REPOSITORY_URL")){
-                authentication(userName: System.getenv("REPOSITORY_USERNAME"),
-						       password: System.getenv("REPOSITORY_PASSWORD"))
+            repository(url: "${repositoryUrl}"){
+                authentication(userName: "${repositoryUserName}",
+						       password: "${repositoryPassword}")
             }
         }
     }
