@@ -6,7 +6,6 @@ import br.com.concepting.framework.network.helpers.ProbeOptions;
 import br.com.concepting.framework.network.types.ProbeType;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.StringUtil;
-import com.thoughtworks.selenium.webdriven.WebDriverBackedSelenium;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -50,7 +49,7 @@ import java.util.logging.Level;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public class Probe extends WebDriverBackedSelenium{
+public class Probe{
     /**
      * Initializes a probe.
      *
@@ -141,14 +140,24 @@ public class Probe extends WebDriverBackedSelenium{
     private String url = null;
     private boolean running = false;
     private Collection<LogEntry> networkMetrics = null;
+    private WebDriver wrappedDriver = null;
     
     private Probe(ProbeOptions options, ChromeDriver driver){
-        super(driver, "http://localhost");
-        
+        super();
+
+        setWrappedDriver(driver);
         setOptions(options);
         show();
     }
-    
+
+    public WebDriver getWrappedDriver() {
+        return wrappedDriver;
+    }
+
+    public void setWrappedDriver(WebDriver wrappedDriver) {
+        this.wrappedDriver = wrappedDriver;
+    }
+
     /**
      * Returns the probe initialization options.
      *
@@ -255,7 +264,6 @@ public class Probe extends WebDriverBackedSelenium{
         }
     }
 
-    @Override
     public void deleteAllVisibleCookies(){
         WebDriver driver = getWrappedDriver();
         
@@ -273,7 +281,6 @@ public class Probe extends WebDriverBackedSelenium{
         }
     }
 
-    @Override
     public void windowMaximize(){
         try{
             WebDriver driver = getWrappedDriver();
@@ -284,7 +291,6 @@ public class Probe extends WebDriverBackedSelenium{
         }
     }
 
-    @Override
     public void windowFocus(){
         executeScript("window.focus();");
     }
@@ -311,12 +317,10 @@ public class Probe extends WebDriverBackedSelenium{
         return driver.getTitle();
     }
 
-    @Override
     public void stop(){
         close();
     }
 
-    @Override
     public void close(){
         setNetworkMetrics(null);
         setRunning(false);
@@ -336,7 +340,6 @@ public class Probe extends WebDriverBackedSelenium{
         }
     }
     
-    @Override
     public void mouseMove(String elementId) throws NoSuchElementException, TimeoutException{
         WebElement element = lookupElement(elementId);
         Actions action = new Actions(getWrappedDriver());
@@ -616,7 +619,6 @@ public class Probe extends WebDriverBackedSelenium{
         throw new TimeoutException(timeout.toString());
     }
 
-    @Override
     public boolean isCookiePresent(String name){
         WebDriver driver = getWrappedDriver();
         Cookie cookie = driver.manage().getCookieNamed(name);
@@ -852,4 +854,21 @@ public class Probe extends WebDriverBackedSelenium{
         catch(InvocationTargetException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException e){
             throw new InternalErrorException(e);
         }
-    }}
+    }
+
+    public static void main(String[] args) {
+        ProbeOptions options = new ProbeOptions();
+
+        options.setCaptureNetworkMetrics(true);
+        options.setViewPortWidth(1280);
+        options.setViewPortHeight(1024);
+
+        Probe probe = Probe.initialize(options);
+
+        probe.open("http://www.google.com");
+
+        probe.waitForPageToLoad();
+
+        probe.close();
+    }
+}
