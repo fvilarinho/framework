@@ -12,7 +12,6 @@ import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.XmlReader;
 import br.com.concepting.framework.util.constants.XmlConstants;
 import br.com.concepting.framework.util.helpers.XmlNode;
-import javassist.tools.reflect.Loader;
 import org.apache.commons.beanutils.ConstructorUtils;
 
 import java.io.FileInputStream;
@@ -112,7 +111,7 @@ public abstract class XmlResourcesLoader<R extends BaseResources<XmlNode>> exten
      */
     @SuppressWarnings("unchecked")
     protected Class<R> getResourcesClass() throws ClassNotFoundException{
-        String resourceClassId = StringUtil.replaceAll(getClass().getName(), Loader.class.getSimpleName(), "");
+        String resourceClassId = StringUtil.replaceAll(getClass().getName(), "Loader", "");
         
         return (Class<R>) Class.forName(resourceClassId);
     }
