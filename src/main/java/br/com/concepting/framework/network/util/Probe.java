@@ -855,20 +855,4 @@ public class Probe{
             throw new InternalErrorException(e);
         }
     }
-
-    public static void main(String[] args) {
-        ProbeOptions options = new ProbeOptions();
-
-        options.setCaptureNetworkMetrics(true);
-        options.setViewPortWidth(1280);
-        options.setViewPortHeight(1024);
-
-        Probe probe = Probe.initialize(options);
-
-        probe.open("http://www.google.com");
-
-        probe.waitForPageToLoad();
-
-        probe.close();
-    }
 }
