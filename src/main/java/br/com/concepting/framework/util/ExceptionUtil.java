@@ -88,10 +88,7 @@ public class ExceptionUtil{
                 return true;
             
             Class<?> e = exception.getSuperclass();
-            
-            if(e == null)
-                return false;
-            
+
             return belongsTo(e, parent);
         }
         
@@ -145,7 +142,7 @@ public class ExceptionUtil{
      * @return True/False.
      */
     public static boolean isInvalidResourceException(Throwable exception){
-        return (exception instanceof InvalidResourcesException || exception instanceof ItemNotFoundException);
+        return (exception instanceof InvalidResourcesException);
     }
     
     /**

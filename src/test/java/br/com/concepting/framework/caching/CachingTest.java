@@ -45,7 +45,7 @@ public class CachingTest {
             assertNotNull(object.getCacheDate());
         }
         catch(ItemAlreadyExistsException e){
-            fail();
+            fail(e.getMessage());
         }
 
         try {
@@ -54,7 +54,7 @@ public class CachingTest {
             assertNotNull(object.getLastAccess());
         }
         catch(ItemNotFoundException e){
-            fail();
+            fail(e.getMessage());
         }
     }
 
@@ -74,20 +74,20 @@ public class CachingTest {
             cacher.add(object);
         }
         catch(ItemAlreadyExistsException e){
-            fail();
+            fail(e.getMessage());
         }
 
         try {
             Thread.sleep(2000L);
         }
         catch(InterruptedException e){
-            fail();
+            fail(e.getMessage());
         }
 
         try {
             object = cacher.get("message");
 
-            fail();
+            fail("The item 'message' should have been expired at this point!");
         }
         catch(ItemNotFoundException ignored){
         }
@@ -96,7 +96,7 @@ public class CachingTest {
             cacher.add(object);
         }
         catch(ItemAlreadyExistsException e){
-            fail();
+            fail(e.getMessage());
         }
 
         cacher.expire();
@@ -104,7 +104,7 @@ public class CachingTest {
         try {
             cacher.get("message");
 
-            fail();
+            fail("The item 'message' should have been expired at this point!");
         }
         catch(ItemNotFoundException ignored){
         }
@@ -120,7 +120,7 @@ public class CachingTest {
             cacher.remove(null);
         }
         catch(ItemNotFoundException e){
-            fail();
+            fail(e.getMessage());
         }
 
         CachedObject<String> object = new CachedObject<>();
@@ -133,7 +133,7 @@ public class CachingTest {
             cacher.set(object);
         }
         catch(ItemAlreadyExistsException | ItemNotFoundException e){
-            fail();
+            fail(e.getMessage());
         }
 
         CachedObject<String> newObject = new CachedObject<>();
@@ -149,20 +149,20 @@ public class CachingTest {
             assertEquals("This is a new test", object.getContent());
         }
         catch(ItemNotFoundException e){
-            fail();
+            fail(e.getMessage());
         }
 
         try {
             cacher.remove(object);
         }
         catch(ItemNotFoundException e){
-            fail();
+            fail(e.getMessage());
         }
 
         try {
             cacher.remove(object);
 
-            fail();
+            fail("The item 'message' should have been removed at this point");
         }
         catch(ItemNotFoundException ignored){
         }
@@ -170,7 +170,7 @@ public class CachingTest {
         try {
             cacher.set(object);
 
-            fail();
+            fail("The item 'message' should have been removed at this point");
         }
         catch(ItemNotFoundException ignored){
         }
@@ -178,7 +178,7 @@ public class CachingTest {
         try {
             cacher.get("message");
 
-            fail();
+            fail("The item 'message' should have been removed at this point");
         }
         catch(ItemNotFoundException e){
             assertEquals(0, cacher.getSize());

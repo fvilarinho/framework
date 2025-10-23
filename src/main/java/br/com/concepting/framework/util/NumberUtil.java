@@ -125,10 +125,7 @@ public class NumberUtil{
      * operation.
      */
     public static float parseFloat(String value) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(Float.class, value);
-        
-        return 0F;
+        return parseFloat(value, LanguageUtil.getDefaultLanguage());
     }
     
     /**
@@ -156,11 +153,7 @@ public class NumberUtil{
      * operation.
      */
     public static double parseDouble(String value) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(Double.class, value);
-        
-        return 0;
-    }
+        return parseDouble(value, LanguageUtil.getDefaultLanguage());    }
     
     /**
      * Converts a string into a big decimal value.
@@ -187,28 +180,9 @@ public class NumberUtil{
      * operation.
      */
     public static BigDecimal parseBigDecimal(String value) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(BigDecimal.class, value);
-        
-        return BigDecimal.ZERO;
+        return parseBigDecimal(value, LanguageUtil.getDefaultLanguage());
     }
-    
-    /**
-     * Converts a string into a long value.
-     *
-     * @param value String that contains the value.
-     * @param language Instance that contains the properties of the language.
-     * @return Instance that contains the long value.
-     * @throws ParseException Occurs when was not possible to execute the
-     * operation.
-     */
-    public static short parseShort(String value, Locale language) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(Short.class, value, language);
-        
-        return 0;
-    }
-    
+
     /**
      * Converts a string into a short value.
      *
@@ -218,10 +192,12 @@ public class NumberUtil{
      * operation.
      */
     public static short parseShort(String value) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(Short.class, value);
-        
-        return 0;
+        Number result = parse(Short.class, value, LanguageUtil.getDefaultLanguage());
+
+        if(result == null)
+            return (short)0;
+
+        return (short)result;
     }
     
     /**
@@ -233,28 +209,14 @@ public class NumberUtil{
      * operation.
      */
     public static byte parseByte(String value) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(Byte.class, value);
-        
-        return 0;
+        Number result = parse(Byte.class, value, LanguageUtil.getDefaultLanguage());
+
+        if(result == null)
+            return (byte)0;
+
+        return (byte)result;
     }
-    
-    /**
-     * Converts a string into a long value.
-     *
-     * @param value String that contains the value.
-     * @param language Instance that contains the properties of the language.
-     * @return Instance that contains the long value.
-     * @throws ParseException Occurs when was not possible to execute the
-     * operation.
-     */
-    public static long parseLong(String value, Locale language) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(Long.class, value, language);
-        
-        return 0L;
-    }
-    
+
     /**
      * Converts a string into a long value.
      *
@@ -264,28 +226,14 @@ public class NumberUtil{
      * operation.
      */
     public static long parseLong(String value) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(Long.class, value);
-        
-        return 0L;
+        Long result = parse(Long.class, value, LanguageUtil.getDefaultLanguage());
+
+        if(result == null)
+            return (long)0;
+
+        return result;
     }
-    
-    /**
-     * Converts a string into a big integer value.
-     *
-     * @param value String that contains the value.
-     * @param language Instance that contains the properties of the language.
-     * @return Instance that contains the big integer value.
-     * @throws ParseException Occurs when was not possible to execute the
-     * operation.
-     */
-    public static BigInteger parseBigInteger(String value, Locale language) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(BigInteger.class, value, language);
-        
-        return BigInteger.ZERO;
-    }
-    
+
     /**
      * Converts a string into a big integer value.
      *
@@ -295,28 +243,14 @@ public class NumberUtil{
      * operation.
      */
     public static BigInteger parseBigInteger(String value) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(BigInteger.class, value);
-        
-        return BigInteger.ZERO;
+        BigInteger result = parse(BigInteger.class, value, LanguageUtil.getDefaultLanguage());
+
+        if(result == null)
+            return BigInteger.ZERO;
+
+        return result;
     }
-    
-    /**
-     * Converts a string into an integer value.
-     *
-     * @param value String that contains the value.
-     * @param language Instance that contains the language that will be used.
-     * @return Instance that contains the integer value.
-     * @throws ParseException Occurs when was not possible to execute the
-     * operation.
-     */
-    public static int parseInt(String value, Locale language) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(Integer.class, value, language);
-        
-        return 0;
-    }
-    
+
     /**
      * Converts a string into an integer value.
      *
@@ -326,12 +260,14 @@ public class NumberUtil{
      * operation.
      */
     public static int parseInt(String value) throws ParseException{
-        if(value != null && !value.isEmpty())
-            return parse(Integer.class, value);
-        
-        return 0;
+        Integer result = parse(Integer.class, value, LanguageUtil.getDefaultLanguage());
+
+        if(result == null)
+            return (int)0;
+
+        return result;
     }
-    
+
     /**
      * Converts a string into a numeric value.
      *
@@ -345,20 +281,20 @@ public class NumberUtil{
     public static <N extends Number> N parse(Class<?> clazz, String value) throws ParseException{
         if(clazz != null && value != null && !value.isEmpty())
             return parse(clazz, value, LanguageUtil.getDefaultLanguage());
-        
+
         return null;
     }
-    
+
     /**
      * Converts a string into a numeric value.
      *
-     * @param <N> Class that defines the numeric value.
-     * @param clazz Class that defines the numeric value.
-     * @param value String that contains the numeric value.
+     * @param <N>      Class that defines the numeric value.
+     * @param clazz    Class that defines the numeric value.
+     * @param value    String that contains the numeric value.
      * @param language Instance that contains the language that will be used.
-     * @return String that contains the formatted numeric value.
+     * @return Number that contains the formatted numeric value.
      * @throws ParseException Occurs when was not possible to execute the
-     * operation.
+     *                        operation.
      */
     public static <N extends Number> N parse(Class<?> clazz, String value, Locale language) throws ParseException{
         if(clazz != null && value != null && !value.isEmpty())
@@ -417,8 +353,13 @@ public class NumberUtil{
                 parser.setMaximumFractionDigits(precision);
                 parser.setMinimumFractionDigits(precision);
             }
-            
-            return (N) PropertyUtil.convertTo(parser.parse(value), clazz);
+
+            try {
+                return (N) PropertyUtil.convertTo(parser.parse(value), clazz);
+            }
+            catch(IllegalArgumentException e){
+                throw new ParseException(e.getLocalizedMessage(), 0);
+            }
         }
         
         return null;
@@ -793,11 +734,7 @@ public class NumberUtil{
      */
     @SuppressWarnings("unchecked")
     public static <N extends Number> N random(Class<N> clazz){
-        if(PropertyUtil.isByte(clazz))
-            return (N) Byte.valueOf(Integer.valueOf(random.nextInt()).byteValue());
-        if(PropertyUtil.isShort(clazz))
-            return (N) Short.valueOf(Integer.valueOf(random.nextInt()).shortValue());
-        else if(PropertyUtil.isInteger(clazz))
+        if(PropertyUtil.isInteger(clazz))
             return (N) Integer.valueOf(random.nextInt());
         else if(PropertyUtil.isLong(clazz))
             return (N) Long.valueOf(random.nextLong());

@@ -134,7 +134,7 @@ public class EvaluateProcessorTest {
         try {
             processor.evaluate();
 
-            fail();
+            fail("The expression '" + expression + "' should throw an exception");
         }
         catch(InternalErrorException e){
             assertEquals(ClassNotFoundException.class, e.getCause().getClass());
