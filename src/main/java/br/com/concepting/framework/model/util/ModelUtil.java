@@ -501,7 +501,7 @@ public class ModelUtil{
 
         return list.parallelStream().filter(i -> {
             try{
-                Object comparePropertyValue = PropertyUtil.getProperty(i, propertyId);
+                Object comparePropertyValue = PropertyUtil.getValue(i, propertyId);
 
                 if(propertyValue == null && comparePropertyValue == null)
                     return true;

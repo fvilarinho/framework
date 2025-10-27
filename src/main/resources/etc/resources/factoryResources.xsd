@@ -32,6 +32,7 @@
                   					<xs:attribute name="type" use="required">
 										<xs:simpleType>
 										    <xs:restriction base="xs:string">
+                                                <xs:enumeration value="H2"/>
 										        <xs:enumeration value="MSSQL"/>
 										        <xs:enumeration value="SYBASE"/>
 										        <xs:enumeration value="DB2"/>

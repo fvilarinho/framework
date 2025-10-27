@@ -334,7 +334,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             return;
         
         try{
-            Object referenceProperty = PropertyUtil.getProperty(model, referencePropertyId);
+            Object referenceProperty = PropertyUtil.getValue(model, referencePropertyId);
             
             try{
                 reattachModel(model);
@@ -342,7 +342,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
             catch(Throwable ignored){
             }
             
-            PropertyUtil.setProperty(model, referencePropertyId, referenceProperty);
+            PropertyUtil.setValue(model, referencePropertyId, referenceProperty);
             
             update(model);
         }

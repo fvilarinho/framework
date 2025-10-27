@@ -73,18 +73,13 @@ public class MethodUtil {
             
             stackTraceElement = null;
         }
-        
+
         if(stackTraceElement == null)
             return null;
-        
+
         Class<?> clazz = Class.forName(stackTraceElement.getClassName());
-        Method[] methods = clazz.getDeclaredMethods();
-        
-        for(Method method: methods)
-            if(method.getName().equals(stackTraceElement.getMethodName()))
-                return method;
-        
-        return null;
+
+        return getMethod(clazz, stackTraceElement.getMethodName());
     }
 
     /**

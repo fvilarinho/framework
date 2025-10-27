@@ -9,7 +9,11 @@
 		</resources>
 	</ldap>
 	<persistence>
-		<resources id="mssql" type="MSSQL">
+        <resources id="h2" type="H2" default="true">
+            <class>org.h2.Driver</class>
+            <uri>jdbc:h2:mem:#{repositoryId}</uri>
+        </resources>
+        <resources id="mssql" type="MSSQL">
 			<class>net.sourceforge.jtds.jdbc.Driver</class>
 			<uri>jdbc:jtds:sqlserver://#{serverName}:#{serverPort}/#{repositoryId}</uri>
 		</resources>
@@ -25,7 +29,7 @@
 			<class>oracle.jdbc.driver.OracleDriver</class>
 			<uri>jdbc:oracle:thin:@#{serverName}:#{serverPort}:#{repositoryId}</uri>
 		</resources>
-		<resources id="mysql" type="MYSQL" default="true">
+		<resources id="mysql" type="MYSQL">
 			<class>com.mysql.cj.jdbc.Driver</class>
 			<uri>jdbc:mysql://#{serverName}:#{serverPort}/#{repositoryId}?autoReconnectForPools=true&amp;failOverReadOnly=false&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</uri>
 		</resources>

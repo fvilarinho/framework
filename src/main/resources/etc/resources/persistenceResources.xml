@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="persistenceResources.xsd">  
-    <resources id="datasource" factoryResourcesId="mysql" default="true"> 
+    <resources id="datasource" factoryResourcesId="h2" default="true">
         <repositoryId>test</repositoryId>  
         <userName>root</userName>  
         <options>

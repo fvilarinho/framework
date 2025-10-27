@@ -23,6 +23,11 @@ package br.com.concepting.framework.persistence.types;
  */
 public enum RepositoryType{
     /**
+     * H2 Database Engine.
+     */
+    H2("H2 Database Engine", 8082, "\"", "\""),
+
+    /**
      * Microsoft SQL Server.
      */
     MSSQL("MS-SQL Server", 1433, "[", "]"),

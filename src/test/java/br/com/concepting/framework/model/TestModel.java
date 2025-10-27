@@ -28,7 +28,7 @@ public class TestModel extends BaseModel {
         System.out.println("Hello world!");
     }
 
-    public static final void saySomething(String something) {
+    public static void saySomething(String something) {
         System.out.println(something);
     }
 

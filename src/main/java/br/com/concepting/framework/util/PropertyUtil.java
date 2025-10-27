@@ -1677,7 +1677,7 @@ public class PropertyUtil {
         Object propertyValue = instance;
 
         for (String propertyName : propertyNames) {
-            propertyValue = PropertyUtils.getProperty(propertyValue, propertyName);
+            propertyValue = beanUtils.getProperty(propertyValue, propertyName);
 
             if (propertyValue == null) {
                 Method method = MethodUtil.getAccessibleMethod(instance.getClass(), name, new Class[0]);
@@ -2121,47 +2121,5 @@ public class PropertyUtil {
         ObjectMapper mapper = getMapper();
 
         return mapper.convertValue(value, clazz);
-    }
-
-    /**
-     * Returns the value of an instance property.
-     *
-     * @param instance Instance of the class.
-     * @param propertyId String that contains the property identifier.
-     * @return Instance of the property value.
-     * @throws InvocationTargetException Occurs when was not possible to execute the method.
-     * @throws IllegalAccessException Occurs when was not possible to execute the method.
-     * @throws NoSuchMethodException Occurs when was not possible to execute the method.
-     */
-    public static Object getProperty(Object instance, String propertyId) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return beanUtils.getProperty(instance, propertyId);
-    }
-
-    /**
-     * Defines the value of an instance property.
-     *
-     * @param instance Instance of the class.
-     * @param propertyId String that contains the property identifier.
-     * @param propertyValue Instance of the property value.
-     * @throws InvocationTargetException Occurs when was not possible to execute the method.
-     * @throws IllegalAccessException Occurs when was not possible to execute the method.
-     * @throws NoSuchMethodException Occurs when was not possible to execute the method.
-     */
-    public static void setProperty(Object instance, String propertyId, Object propertyValue) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        beanUtils.setProperty(instance, propertyId, propertyValue);
-    }
-
-    /**
-     * Returns the type of instance property.
-     *
-     * @param instance Instance of the class.
-     * @param propertyId String that contains the property identifier.
-     * @return Class that defines the type of the property.
-     * @throws InvocationTargetException Occurs when was not possible to execute the method.
-     * @throws IllegalAccessException Occurs when was not possible to execute the method.
-     * @throws NoSuchMethodException Occurs when was not possible to execute the method.
-     */
-    public static Class<?> getPropertyType(Object instance, String propertyId) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-        return beanUtils.getPropertyType(instance, propertyId);
     }
 }

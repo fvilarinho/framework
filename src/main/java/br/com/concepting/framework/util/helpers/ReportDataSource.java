@@ -69,7 +69,7 @@ public class ReportDataSource implements JRRewindableDataSource{
             String fieldName = field.getName();
             
             try{
-                Class<?> clazz = PropertyUtil.getPropertyType(this.currentItem, fieldName);
+                Class<?> clazz = PropertyUtil.getClass(this.currentItem.getClass(), fieldName);
                 Object fieldValue = PropertyUtil.getValue(this.currentItem, fieldName);
                 
                 if(PropertyUtil.isCollection(clazz))
@@ -77,7 +77,7 @@ public class ReportDataSource implements JRRewindableDataSource{
                 
                 return fieldValue;
             }
-            catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
+            catch(IllegalAccessException | InvocationTargetException | InstantiationException | NoSuchMethodException | NoSuchFieldException | ClassNotFoundException e){
                 throw new JRException(e);
             }
         }
