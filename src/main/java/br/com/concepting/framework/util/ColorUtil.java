@@ -41,7 +41,7 @@ public class ColorUtil{
             value.append(red);
             value.append(", ");
             value.append(green);
-            value.append(",");
+            value.append(", ");
             value.append(blue);
             value.append(")");
             
@@ -98,7 +98,7 @@ public class ColorUtil{
             
             String[] values = StringUtil.split(value);
             
-            if(values != null && values.length == 3)
+            if(values.length == 3)
                 return new Color(Integer.parseInt(values[0]), Integer.parseInt(values[1]), Integer.parseInt(values[2]));
         }
         

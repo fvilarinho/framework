@@ -980,7 +980,7 @@ public class ModelUtil{
                     String propertyValue = PhoneticUtil.soundCode(PropertyUtil.getValue(model, entry.getKey()));
                     
                     if(propertyValue != null && !propertyValue.isEmpty()){
-                        phoneticAccuracy += PhoneticUtil.getAccuracy(propertyValue, comparePropertyValue);
+                        phoneticAccuracy += PhoneticUtil.getSoundSimilarity(propertyValue, comparePropertyValue);
                         comparePhoneticAccuracy += phoneticPropertyInfo.getPhoneticAccuracy();
                         
                         phoneticAccuracyCount++;

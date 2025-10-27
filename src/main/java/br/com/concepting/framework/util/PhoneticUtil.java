@@ -37,13 +37,13 @@ public class PhoneticUtil{
     }
     
     /**
-     * Returns the accuracy percentage of two strings.
+     * Returns the sound similarity percentage of two strings.
      *
      * @param value1 String 1.
      * @param value2 String 2
-     * @return Numeric value that contains the accuracy percentage.
+     * @return Numeric value that contains the similarity percentage.
      */
-    public static double getAccuracy(String value1, String value2) {
+    public static double getSoundSimilarity(String value1, String value2) {
         try {
             String v1 = soundCode(value1);
 
