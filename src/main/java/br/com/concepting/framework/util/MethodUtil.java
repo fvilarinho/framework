@@ -2,6 +2,7 @@ package br.com.concepting.framework.util;
 
 import org.apache.commons.beanutils.MethodUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -25,7 +26,7 @@ import java.lang.reflect.Method;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
  */
-public class MethodUtil extends MethodUtils{
+public class MethodUtil {
     /**
      * Returns a method definition of a class.
      *
@@ -84,5 +85,47 @@ public class MethodUtil extends MethodUtils{
                 return method;
         
         return null;
+    }
+
+    /**
+     * Invokes a method dynamically.
+     *
+     * @param instance Instance of the class.
+     * @param methodName String that contains the method name.
+     * @param methodArgument Object that contains the argument of the method.
+     * @return Object that contains the result of the method.
+     * @throws InvocationTargetException Occurs when was not possible to execute the mnethod.
+     * @throws NoSuchMethodException Occurs when was not possible to execute the mnethod.
+     * @throws IllegalAccessException Occurs when was not possible to execute the mnethod.
+     */
+    public static Object invokeMethod(Object instance, String methodName, Object methodArgument) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return MethodUtils.invokeMethod(instance, methodName, methodArgument);
+    }
+
+    /**
+     * Invokes a method dynamically.
+     *
+     * @param instance Instance of the class.
+     * @param methodName String that contains the method name.
+     * @param methodArguments Array that contains the arguments of the method.
+     * @return Object that contains the result of the method.
+     * @throws InvocationTargetException Occurs when was not possible to execute the mnethod.
+     * @throws NoSuchMethodException Occurs when was not possible to execute the mnethod.
+     * @throws IllegalAccessException Occurs when was not possible to execute the mnethod.
+     */
+    public static Object invokeMethod(Object instance, String methodName, Object[] methodArguments) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return MethodUtils.invokeMethod(instance, methodName, methodArguments);
+    }
+
+    /**
+     * Returns the instance of a method in a class.
+     *
+     * @param clazz Desired class.
+     * @param methodName String that contains the method name.
+     * @param methodArgumentsTypes Array that contains the types of the method arguments.
+     * @return Object that contains the result of the method.
+     */
+    public static Method getAccessibleMethod(Class<?> clazz, String methodName, Class<?>[] methodArgumentsTypes) {
+        return MethodUtils.getAccessibleMethod(clazz, methodName, methodArgumentsTypes);
     }
 }

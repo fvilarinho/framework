@@ -66,10 +66,8 @@ public class Probe{
         }
         
         driverOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-        driverOptions.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
-        driverOptions.setCapability(CapabilityType.SUPPORTS_JAVASCRIPT, true);
-        driverOptions.setCapability(CapabilityType.SUPPORTS_APPLICATION_CACHE, false);
-        driverOptions.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.ACCEPT);
+        driverOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.ACCEPT);
+        driverOptions.setAcceptInsecureCerts(true);
         driverOptions.setExperimentalOption("prefs", driverPrefs);
         driverOptions.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
         
@@ -80,8 +78,6 @@ public class Probe{
                 driverOptions.setExperimentalOption("androidDeviceSerial", options.getId());
         }
         else{
-            driverOptions.setAcceptInsecureCerts(true);
-            
             if(options.getHeadless())
                 driverOptions.addArguments("--headless", "--disable-gpu");
 
@@ -128,7 +124,6 @@ public class Probe{
         
         logPreferences.enable(LogType.PERFORMANCE, Level.ALL);
         
-        driverOptions.setCapability(CapabilityType.LOGGING_PREFS, logPreferences);
         driverOptions.setCapability("goog:loggingPrefs", logPreferences);
         
         ChromeDriver driver = new ChromeDriver(driverOptions);
