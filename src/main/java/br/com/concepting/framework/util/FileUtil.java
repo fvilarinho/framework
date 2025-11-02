@@ -60,20 +60,22 @@ public class FileUtil{
     public static void fromUrlToFile(String url, String filename) throws IOException{
         if(url == null || url.isEmpty() || filename == null || filename.isEmpty())
             return;
-        
+
         File file = new File(filename);
-        
+
         if(!file.getParentFile().exists())
             file.getParentFile().mkdirs();
-        
+
         URL path = new URL(url);
-        InputStream in = path.openStream();
-        FileOutputStream out = new FileOutputStream(filename);
-        ReadableByteChannel inChannel = Channels.newChannel(in);
-        FileChannel outChannel = out.getChannel();
-        
-        outChannel.transferFrom(inChannel, 0, Long.MAX_VALUE);
-        out.close();
+
+        try (InputStream in = path.openStream()) {
+            try (FileOutputStream out = new FileOutputStream(filename)) {
+                ReadableByteChannel inChannel = Channels.newChannel(in);
+                FileChannel outChannel = out.getChannel();
+
+                outChannel.transferFrom(inChannel, 0, Long.MAX_VALUE);
+            }
+        }
     }
     
     /**

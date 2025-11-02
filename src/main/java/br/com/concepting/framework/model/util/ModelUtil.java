@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -59,8 +60,8 @@ public class ModelUtil{
      *
      * @return Numeric value that contains the serial number.
      */
-    public static long generateSerialVersionUID(){
-        return (long) (Math.random() * NumberUtil.getMaximumRange(Long.class));
+    public static int generateSerialVersionUID(){
+        return new SecureRandom().nextInt(NumberUtil.getMaximumRange(Integer.class));
     }
     
     /**

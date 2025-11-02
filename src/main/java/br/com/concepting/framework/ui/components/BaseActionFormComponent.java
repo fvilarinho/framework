@@ -28,6 +28,7 @@ import br.com.concepting.framework.util.types.PositionType;
 
 import javax.servlet.jsp.JspException;
 import java.lang.reflect.InvocationTargetException;
+import java.security.SecureRandom;
 
 /**
  * Class that defines the basic implementation of a form component.
@@ -1155,7 +1156,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             StringBuilder nameBuffer = new StringBuilder();
             
             nameBuffer.append(componentType.getId());
-            nameBuffer.append((int) (Math.random() * NumberUtil.getMaximumRange(Integer.class)));
+            nameBuffer.append(new SecureRandom().nextInt(NumberUtil.getMaximumRange(Integer.class)));
             
             setName(nameBuffer.toString());
         }

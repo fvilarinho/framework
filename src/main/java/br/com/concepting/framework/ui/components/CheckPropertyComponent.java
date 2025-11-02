@@ -6,6 +6,7 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.JspException;
+import java.security.SecureRandom;
 
 /**
  * Class that defines the checkbox component.
@@ -67,7 +68,7 @@ public class CheckPropertyComponent extends BaseOptionPropertyComponent{
             StringBuilder idBuffer = new StringBuilder();
             
             idBuffer.append(name);
-            idBuffer.append((int) (Math.random() * NumberUtil.getMaximumRange(Integer.class)));
+            idBuffer.append(new SecureRandom().nextInt(NumberUtil.getMaximumRange(Integer.class)));
             
             setId(idBuffer.toString());
         }

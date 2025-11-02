@@ -55,6 +55,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -146,9 +147,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             systemSession.setIp(NetworkConstants.DEFAULT_LOCALHOST_ADDRESS_ID);
             systemSession.setHostName(NetworkConstants.DEFAULT_LOCALHOST_NAME_ID);
         }
-        
+
         ExpressionProcessorUtil.setVariable(ProcessorConstants.DEFAULT_NOW_ID, loginSession.getStartDateTime());
-        ExpressionProcessorUtil.setVariable(ProcessorConstants.DEFAULT_RANDOM_ID, (int) (Math.random() * NumberUtil.getMaximumRange(Long.class)));
+        ExpressionProcessorUtil.setVariable(ProcessorConstants.DEFAULT_RANDOM_ID, new SecureRandom().nextInt(NumberUtil.getMaximumRange(Integer.class)));
         ExpressionProcessorUtil.setVariable(SecurityConstants.USER_ATTRIBUTE_ID, loginSession.getUser());
         
         StringBuilder templateFilesDirname = new StringBuilder();

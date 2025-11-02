@@ -86,7 +86,7 @@ public class XmlReader{
                 SAXReader reader = new SAXReader(validate);
                 
                 try{
-                    reader.setFeature(XmlConstants.DEFAULT_APACHE_VALIDATION_FEATURE_ID,  validate);
+                    reader.setFeature(XmlConstants.DEFAULT_APACHE_VALIDATION_FEATURE_ID, validate);
                     reader.setFeature(XmlConstants.DEFAULT_SAX_VALIDATION_FEATURE_ID, validate);
                 }
                 catch(SAXException ignored){

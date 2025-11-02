@@ -91,32 +91,28 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
             return;
         
         LoginSessionService<L, U, LP> service = getService();
-        
+        LP loginParameter;
+
         try{
             loginSession = service.logIn(user);
             user = loginSession.getUser();
+            loginParameter = user.getLoginParameter();
             
-            LP loginParameter = user.getLoginParameter();
-            
-            if(loginParameter.isPasswordWillExpire())
+            if(loginParameter != null && loginParameter.isPasswordWillExpire())
                 throw new PasswordWillExpireException(loginParameter.getDaysUntilExpire(), loginParameter.getHoursUntilExpire(), loginParameter.getMinutesUntilExpire(), loginParameter.getSecondsUntilExpire());
         }
-        finally{
+        finally {
             systemController.addCookie(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, loginSession.getId(), true);
-            
-            actionForm.setModel((L)loginSession.clone());
-    
-            securityController.setLoginSession(loginSession);
 
-            user = actionForm.getModel().getUser();
-    
-            LP loginParameter = (user != null ? user.getLoginParameter() : null);
-            
-            if(loginParameter != null && loginParameter.changePassword()){
-                loadChangePassword();
-                
-                throw new ExpiredPasswordException();
-            }
+            actionForm.setModel((L) loginSession.clone());
+
+            securityController.setLoginSession(loginSession);
+        }
+
+        if(loginParameter != null && loginParameter.changePassword()){
+            loadChangePassword();
+
+            throw new ExpiredPasswordException();
         }
     }
     

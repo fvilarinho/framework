@@ -25,8 +25,12 @@ import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 
 import java.lang.reflect.InvocationTargetException;
+import java.security.SecureRandom;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -141,7 +145,7 @@ public abstract class HibernateQueryBuilder{
             if(fromClause.length() == 0){
                 propertyAliasBuffer = new StringBuilder();
                 propertyAliasBuffer.append(modelInfo.getClazz().getSimpleName().toLowerCase());
-                propertyAliasBuffer.append((int) (Math.random() * NumberUtil.getMaximumRange(Integer.class)));
+                propertyAliasBuffer.append(new SecureRandom().nextInt(NumberUtil.getMaximumRange(Integer.class)));
                 
                 propertyAlias = propertyAliasBuffer.toString();
                 
@@ -363,7 +367,7 @@ public abstract class HibernateQueryBuilder{
                                     propertyAliasBuffer.delete(0, propertyAliasBuffer.length());
                                 
                                 propertyAliasBuffer.append(relationModelClass.getSimpleName().toLowerCase());
-                                propertyAliasBuffer.append((int) (Math.random() * NumberUtil.getMaximumRange(Integer.class)));
+                                propertyAliasBuffer.append(new SecureRandom().nextInt(NumberUtil.getMaximumRange(Integer.class)));
                                 
                                 if(joinClause.length() > 0)
                                     joinClause.append(" ");

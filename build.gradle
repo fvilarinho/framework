@@ -1,22 +1,37 @@
 plugins {
     id "java"
-    id "maven"
     id "maven-publish"
     id "jacoco"
+    id "org.sonarqube" version "7.0.1.6134"
 }
+
+group   = "${buildPackage}"
+version = "${buildVersion}"
 
 def environment = new Properties()
 def environmentFile = file(".env")
 
-if (environmentFile.exists()) {
-    environmentFile.withReader("UTF-8") { reader ->
-        environment.load(reader)
-    }
-}
+if (environmentFile.exists())
+    environmentFile.withReader("UTF-8") { reader -> environment.load(reader) }
 
 def repositoryUrl      = (environment.getProperty("REPOSITORY_URL") != null ? environment.getProperty("REPOSITORY_URL") : System.getenv("REPOSITORY_URL"))
 def repositoryUserName = (environment.getProperty("REPOSITORY_USERNAME") != null ? environment.getProperty("REPOSITORY_USERNAME") : System.getenv("REPOSITORY_USERNAME"))
 def repositoryPassword = (environment.getProperty("REPOSITORY_PASSWORD") != null ? environment.getProperty("REPOSITORY_PASSWORD") : System.getenv("REPOSITORY_PASSWORD"))
+def sonarToken         = (environment.getProperty("SONAR_TOKEN") != null ? environment.getProperty("SONAR_TOKEN") : System.getenv("SONAR_TOKEN"))
+def sonarProjectKey    = (environment.getProperty("SONAR_PROJECT_KEY") != null ? environment.getProperty("SONAR_PROJECT_KEY") : System.getenv("SONAR_PROJECT_KEY"))
+def sonarOrganization  = (environment.getProperty("SONAR_ORGANIZATION") != null ? environment.getProperty("SONAR_ORGANIZATION") : System.getenv("SONAR_ORGANIZATION"))
+
+jacoco {
+    toolVersion = "0.8.13"
+}
+
+sonar {
+    properties {
+        property("sonar.token", "${sonarToken}")
+        property("sonar.projectKey", "${sonarProjectKey}")
+        property("sonar.organization", "${sonarOrganization}")
+    }
+}
 
 repositories {
     mavenLocal()
@@ -110,22 +125,23 @@ dependencies {
     testImplementation("org.mockito:mockito-inline:5.2.0")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
 tasks.withType(JavaCompile).configureEach {
 	options.encoding    = "UTF-8"
     options.deprecation = true
+    options.release     = 11
 }
-
-group   = "${buildPackage}"
-version = "${buildVersion}"
 
 tasks.withType(Jar).configureEach {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	includeEmptyDirs   = false
+
+    exclude("META-INF/**")
+    exclude("**/*.html")
+}
+
+tasks.withType(ProcessResources).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    includeEmptyDirs   = false
 
     exclude("META-INF/**")
     exclude("**/*.html")
@@ -181,12 +197,14 @@ tasks.register("uiJar", Jar) {
 tasks.register("resourcesJar", Jar) {
 	archiveClassifier = "resources"
 
-	from(sourceSets.main.output) {
+
+    from(sourceSets.main.output) {
 		include("etc/**/*.properties")
 		include("etc/**/*.xml")
 		include("etc/**/*.xsd")
 	}
 }
+
 
 tasks.register("coreJar", Jar) {
 	archiveClassifier = "core"
@@ -203,6 +221,8 @@ tasks.register("coreJar", Jar) {
 	}
 }
 
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+
 tasks.register("javadocJar", Jar) {
 	archiveClassifier = "javadoc"
 
@@ -213,10 +233,6 @@ test {
     finalizedBy(jacocoTestReport)
 }
 
-jacoco {
-    toolVersion = "0.8.12"
-}
-
 jacocoTestReport {
     reports {
         html.required.set(true)
@@ -224,6 +240,7 @@ jacocoTestReport {
         csv.required.set(false)
     }
 }
+
 
 artifacts {
     archives(allJar)
@@ -236,11 +253,27 @@ artifacts {
 	archives(uiJar)
 }
 
-uploadArchives {
+publishing{
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact allJar
+            artifact modelJar
+            artifact controllerJar
+            artifact persistenceJar
+            artifact serviceJar
+            artifact uiJar
+            artifact resourcesJar
+            artifact coreJar
+            artifact javadocJar
+        }
+    }
     repositories {
-        mavenDeployer {
-            repository(url: "${repositoryUrl}") {
-                authentication(userName: "${repositoryUserName}", password: "${repositoryPassword}")
+        maven {
+            url = "${repositoryUrl}"
+            credentials {
+                username = "${repositoryUserName}"
+                password = "${repositoryPassword}"
             }
         }
     }
