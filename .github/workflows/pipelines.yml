@@ -26,6 +26,9 @@ jobs:
     - name: Build and Test
       run: ./build.sh
 
+    - name: Code Analysis
+      run: ./codeAnalysis.sh
+
     - name: Publish
       if: contains(github.event.files, 'gradle.properties')
       run: ./publish.sh
