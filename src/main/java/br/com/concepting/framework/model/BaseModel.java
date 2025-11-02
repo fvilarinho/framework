@@ -145,11 +145,13 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
                                 
                                 if(value != null && compareValue != null)
                                     compareFlag = (PropertyUtil.compareTo(value, compareValue) == 0);
+                                else if((value != null && compareValue == null) || (value == null && compareValue != null))
+                                    compareFlag = false;
                             }
                             else{
                                 if(value != null && compareValue != null)
                                     compareFlag = value.equals(compareValue);
-                                else
+                                else if((value != null && compareValue == null) || (value == null && compareValue != null))
                                     compareFlag = false;
                             }
                             
