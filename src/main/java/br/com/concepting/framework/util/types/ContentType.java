@@ -55,7 +55,7 @@ public enum ContentType{
     /**
      * CSV file.
      */
-    CSV("text/CSV", ".csv"),
+    CSV("text/csv", ".csv"),
     
     /**
      * Microsoft Word 2003 or higher.

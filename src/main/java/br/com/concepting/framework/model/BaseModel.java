@@ -43,7 +43,7 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
     private Double compareAccuracy = null;
     
     @Property
-    private String sortPropertyId = null;
+    private String comparePropertyId = null;
     
     /**
      * Returns the accuracy percentage between two data model.
@@ -65,21 +65,21 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
     }
     
     /**
-     * Returns the identifier of the current sort property.
+     * Returns the identifier of the current comparison property.
      *
      * @return String that contains the identifier.
      */
-    public String getSortPropertyId(){
-        return this.sortPropertyId;
+    public String getComparePropertyId(){
+        return this.comparePropertyId;
     }
     
     /**
-     * Defines the identifier of the current sort property.
+     * Defines the identifier of the current comparison property.
      *
-     * @param sortPropertyId String that contains the identifier.
+     * @param comparePropertyId String that contains the identifier.
      */
-    public void setSortPropertyId(String sortPropertyId){
-        this.sortPropertyId = sortPropertyId;
+    public void setComparePropertyId(String comparePropertyId){
+        this.comparePropertyId = comparePropertyId;
     }
     
     /**
@@ -89,22 +89,19 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
      * @return Numeric value that indicates the comparison (0 - Equal, 1 or -1 -
      * Different).
      */
-    public int compareTo(@NotNull BaseModel compareObject){
+    public int compareTo(BaseModel compareObject){
         int result = -1;
 
         try {
             Object compareValue;
             Object currentValue;
 
-            if (this.sortPropertyId == null || this.sortPropertyId.isEmpty()) {
+            if (this.comparePropertyId == null || this.comparePropertyId.isEmpty()) {
                 currentValue = this;
                 compareValue = compareObject;
             } else {
-                currentValue = PropertyUtil.getValue(this, this.sortPropertyId);
-                compareValue = PropertyUtil.getValue(compareObject, this.sortPropertyId);
-
-                if (PropertyUtil.isNumber(currentValue) && PropertyUtil.isNumber(compareValue))
-                    currentValue = PropertyUtil.convertTo(currentValue, compareValue.getClass());
+                currentValue = PropertyUtil.getValue(this, this.comparePropertyId);
+                compareValue = PropertyUtil.getValue(compareObject, this.comparePropertyId);
             }
 
             if (currentValue != null && compareValue != null)
@@ -114,8 +111,7 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
             else if (currentValue != null)
                 result = 1;
         }
-        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
-                 NullPointerException ignored) {
+        catch (Throwable ignored) {
         }
 
         return result;
@@ -125,47 +121,27 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
     @SuppressWarnings("unchecked")
     public boolean equals(Object compareModel){
         boolean compareFlag = true;
-        
-        if((compareModel != null && compareModel.getClass().equals(getClass())) || (compareModel != null && compareModel.getClass().getSuperclass().equals(getClass().getSuperclass()))){
-            try{
-                ModelInfo modelInfo = ModelUtil.getInfo(getClass());
-                Collection<PropertyInfo> identitiesInfo = modelInfo.getIdentityPropertiesInfo();
-                Collection<PropertyInfo> uniquesInfo = modelInfo.getUniquePropertiesInfo();
-                Collection<PropertyInfo> propertiesInfo = CollectionUtil.union(identitiesInfo, uniquesInfo);
-                
-                if(!propertiesInfo.isEmpty()){
-                    for(PropertyInfo propertyInfo: propertiesInfo){
-                        try{
-                            Object value = PropertyUtil.getValue(this, propertyInfo.getId());
-                            Object compareValue = PropertyUtil.getValue(compareModel, propertyInfo.getId());
-                            
-                            if(propertyInfo.isNumber()){
-                                value = PropertyUtil.convertTo(value, propertyInfo.getClazz());
-                                compareValue = PropertyUtil.convertTo(compareValue, propertyInfo.getClazz());
-                                
-                                if(value != null && compareValue != null)
-                                    compareFlag = (PropertyUtil.compareTo(value, compareValue) == 0);
-                                else if((value != null && compareValue == null) || (value == null && compareValue != null))
-                                    compareFlag = false;
-                            }
-                            else{
-                                if(value != null && compareValue != null)
-                                    compareFlag = value.equals(compareValue);
-                                else if((value != null && compareValue == null) || (value == null && compareValue != null))
-                                    compareFlag = false;
-                            }
-                            
-                            if(!compareFlag)
-                                break;
-                        }
-                        catch(Throwable ignored){
-                        }
-                    }
+
+        try{
+            ModelInfo modelInfo = ModelUtil.getInfo(getClass());
+            Collection<PropertyInfo> identitiesInfo = modelInfo.getIdentityPropertiesInfo();
+            Collection<PropertyInfo> uniquesInfo = modelInfo.getUniquePropertiesInfo();
+            Collection<PropertyInfo> propertiesInfo = CollectionUtil.union(identitiesInfo, uniquesInfo);
+
+            if(!propertiesInfo.isEmpty()){
+                for(PropertyInfo propertyInfo: propertiesInfo){
+                    Object value = PropertyUtil.getValue(this, propertyInfo.getId());
+                    Object compareValue = PropertyUtil.getValue(compareModel, propertyInfo.getId());
+
+                    compareFlag = (PropertyUtil.compareTo(value, compareValue) == 0);
+
+                    if(!compareFlag)
+                        break;
                 }
             }
-            catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException e){
-                compareFlag = false;
-            }
+        }
+        catch(Throwable e){
+            compareFlag = false;
         }
 
         return compareFlag;
@@ -177,10 +153,10 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
             ModelInfo modelInfo = ModelUtil.getInfo(getClass());
             String descriptionPattern = modelInfo.getDescriptionPattern();
             
-            if(descriptionPattern != null && !descriptionPattern.isEmpty())
+            if(!descriptionPattern.isEmpty())
                 return PropertyUtil.fillPropertiesInString(this, descriptionPattern);
         }
-        catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException ignored){
+        catch(Throwable ignored){
         }
         
         return super.toString();

@@ -312,7 +312,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         Boolean superUser = user.getSuperUser();
         
         if(superUser == null || !superUser){
-            if(!user.hasPermissions())
+            if(!user.hasRestrictions())
                 throw new PermissionDeniedException();
             
             if(multipleLogins == null || !multipleLogins){

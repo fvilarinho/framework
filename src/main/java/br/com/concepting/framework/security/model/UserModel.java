@@ -459,24 +459,28 @@ public class UserModel extends BaseModel{
     }
     
     /**
-     * Indicates if the user has permissions.
+     * Indicates if the user has restrictions.
      *
      * @return True/False.
      */
-    public Boolean hasPermissions(){
-        try{
-            if(this.groups != null && !this.groups.isEmpty()){
-                for(GroupModel group : this.groups)
-                    if(group.hasPermissions())
-                        return true;
+    public Boolean hasRestrictions(){
+        boolean restrictions = false;
 
-                return false;
+        try{
+            if(!this.groups.isEmpty()){
+                for(GroupModel group : this.groups) {
+                    if (group.hasRestrictions()) {
+                        restrictions = true;
+
+                        break;
+                    }
+                }
             }
         }
         catch(Throwable ignored){
         }
         
-        return true;
+        return restrictions;
     }
     
     /**
@@ -487,7 +491,7 @@ public class UserModel extends BaseModel{
      */
     public Boolean hasPermission(String path){
         try{
-            if(this.groups != null && !this.groups.isEmpty()){
+            if(!this.groups.isEmpty()){
                 for(GroupModel group : this.groups)
                     if(group.hasPermission(path))
                         return true;
@@ -509,7 +513,7 @@ public class UserModel extends BaseModel{
      */
     public Boolean hasPermission(SystemModuleModel compareSystemModule){
         try{
-            if(this.groups != null && !this.groups.isEmpty() && compareSystemModule != null){
+            if(!this.groups.isEmpty() && compareSystemModule != null){
                 for(GroupModel group : this.groups)
                     if(group.hasPermission(compareSystemModule))
                         return true;
@@ -531,7 +535,7 @@ public class UserModel extends BaseModel{
      */
     public Boolean hasPermission(ObjectModel compareObject){
         try{
-            if(this.groups != null && !this.groups.isEmpty() && compareObject != null){
+            if(!this.groups.isEmpty() && compareObject != null){
                 for(GroupModel group : this.groups)
                     if(group.hasPermission(compareObject))
                         return true;

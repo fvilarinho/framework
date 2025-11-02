@@ -190,28 +190,48 @@ public class GroupModel extends BaseModel{
      * @return True/False.
      */
     public boolean hasPermission(ObjectModel compareObject){
+        boolean hasPermission = true;
+
         try{
-            return (this.objects.contains(compareObject));
+            if (!this.objects.isEmpty()) {
+                for (ObjectModel object : this.objects) {
+                    if (object != null) {
+                        hasPermission = object.equals(compareObject);
+
+                        if (hasPermission)
+                            break;
+                    }
+                }
+            }
         }
         catch(Throwable ignored){
         }
         
-        return true;
+        return hasPermission;
     }
     
     /**
-     * Indicates if the group has permission to access the objects.
+     * Indicates if the group has restrictions.
      *
      * @return True/False.
      */
-    public boolean hasPermissions(){
-        try{
-            return ((this.objects != null && !this.objects.isEmpty()) || (this.accesses != null && !this.accesses.isEmpty()));
+    public boolean hasRestrictions(){
+        boolean restrictions = false;
+
+        try {
+            restrictions = !this.objects.isEmpty();
         }
         catch(Throwable ignored){
         }
-        
-        return true;
+
+        try {
+            if(!restrictions)
+                restrictions = !this.accesses.isEmpty();
+        }
+        catch(Throwable ignored){
+        }
+
+        return restrictions;
     }
     
     /**
@@ -221,16 +241,20 @@ public class GroupModel extends BaseModel{
      * @return True/False.
      */
     public boolean hasPermission(String path){
-        if(this.accesses != null && !this.accesses.isEmpty()){
-            for(AccessModel access: this.accesses){
-                UrlModel url = access.getUrl();
-                String urlPath = StringUtil.toRegex(url.getPath());
-                
-                if(path.matches(urlPath) && !access.isBlocked())
-                    return true;
+        try {
+            if (!this.accesses.isEmpty()) {
+                for (AccessModel access : this.accesses) {
+                    UrlModel url = access.getUrl();
+                    String urlPath = StringUtil.toRegex(url.getPath());
+
+                    if (path.matches(urlPath) && !access.isBlocked())
+                        return true;
+                }
+
+                return false;
             }
-            
-            return false;
+        }
+        catch(Throwable ignored){
         }
         
         return true;
@@ -244,7 +268,7 @@ public class GroupModel extends BaseModel{
      */
     public boolean hasPermission(SystemModuleModel compareSystemModule){
         try{
-            if(this.objects != null && !this.objects.isEmpty()){
+            if(!this.objects.isEmpty() && compareSystemModule != null){
                 for(ObjectModel object: this.objects){
                     FormModel form = object.getForm();
                     

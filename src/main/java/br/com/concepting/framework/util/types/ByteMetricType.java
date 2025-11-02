@@ -32,23 +32,28 @@ public enum ByteMetricType implements IMetric{
     /**
      * Kilobyte metric.
      */
-    KILO_BYTE(BYTE.getValue() * 1024D, "Kb"),
+    KILO_BYTE(BYTE.getValue() * 1024D, "KB"),
     
     /**
      * Megabyte metric.
      */
-    MEGA_BYTE(KILO_BYTE.getValue() * 1024D, "Mb"),
+    MEGA_BYTE(KILO_BYTE.getValue() * 1024D, "MB"),
     
     /**
      * Gigabyte metric.
      */
-    GIGA_BYTE(MEGA_BYTE.getValue() * 1024D, "Gb"),
+    GIGA_BYTE(MEGA_BYTE.getValue() * 1024D, "GB"),
     
     /**
      * Constant for a Terabyte.
      */
-    TERA_BYTE(GIGA_BYTE.getValue() * 1024D, "Tb");
-    
+    TERA_BYTE(GIGA_BYTE.getValue() * 1024D, "TB"),
+
+    /**
+     * Constant for a Petabyte.
+     */
+    PETA_BYTE(TERA_BYTE.getValue() * 1024D, "PB");
+
     private double value;
     private String unit;
 

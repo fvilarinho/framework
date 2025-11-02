@@ -32,23 +32,18 @@ public enum BitMetricType implements IMetric{
     /**
      * Kilobit metric.
      */
-    KILO_BIT(BIT.getValue() * 1000D, "Kbit"),
+    KILO_BIT(BIT.getValue() * 1000D, "KBit"),
     
     /**
      * Megabit metric.
      */
-    MEGA_BIT(KILO_BIT.getValue() * 1000D, "Mbit"),
+    MEGA_BIT(KILO_BIT.getValue() * 1000D, "MBit"),
     
     /**
      * Gigabit metric.
      */
-    GIGA_BIT(MEGA_BIT.getValue() * 1000D, "Gbit"),
-    
-    /**
-     * Terabit metric.
-     */
-    TERA_BYTE(GIGA_BIT.getValue() * 1000D, "Tbit");
-    
+    GIGA_BIT(MEGA_BIT.getValue() * 1000D, "GBit");
+
     private double metricValue;
     private String metricUnit;
     

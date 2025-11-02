@@ -588,7 +588,7 @@ public class ModelUtil{
         if(list != null && !list.isEmpty()){
             if(sortPropertyId != null && !sortPropertyId.isEmpty())
                 for(BaseModel item: list)
-                    item.setSortPropertyId(sortPropertyId);
+                    item.setComparePropertyId(sortPropertyId);
             
             sort(list, sortOrder);
         }
@@ -773,7 +773,7 @@ public class ModelUtil{
         if(list != null && !list.isEmpty()){
             if(propertyId != null && !propertyId.isEmpty())
                 for(BaseModel item: list)
-                    item.setSortPropertyId(propertyId);
+                    item.setComparePropertyId(propertyId);
             
             return Collections.max(list);
         }
@@ -799,7 +799,7 @@ public class ModelUtil{
         if(list != null && !list.isEmpty()){
             if(propertyId != null && !propertyId.isEmpty())
                 for(BaseModel item: list)
-                    item.setSortPropertyId(propertyId);
+                    item.setComparePropertyId(propertyId);
             
             return Collections.min(list);
         }

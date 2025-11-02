@@ -1,5 +1,8 @@
 package br.com.concepting.framework.model;
 
+import br.com.concepting.framework.caching.CacherManager;
+import br.com.concepting.framework.model.helpers.ModelInfo;
+import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.security.model.*;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.ComponentType;
@@ -7,6 +10,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -205,7 +209,109 @@ public class ModelsTest {
     }
 
     @Test
-    public void testBaseModel() {
+    public void testBaseModelGettersAndSetters() {
+        PhonebookModel phonebookModel = new PhonebookModel();
+
+        phonebookModel.setName("Luke");
+        phonebookModel.setPhone("123456789");
+        phonebookModel.setCompareAccuracy(100d);
+        phonebookModel.setComparePropertyId("name");
+
+        assertEquals("Luke", phonebookModel.getName());
+        assertEquals("123456789", phonebookModel.getPhone());
+        assertEquals(100d, phonebookModel.getCompareAccuracy(), 0);
+        assertEquals("name", phonebookModel.getComparePropertyId());
+    }
+
+    @Test
+    public void testBaseModelCompare() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
+        PhonebookModel phonebookModel = new PhonebookModel();
+        PhonebookModel phonebookModel2 = new PhonebookModel();
+
+        assertEquals(-1, phonebookModel.compareTo(phonebookModel2));
+
+        phonebookModel.setComparePropertyId("name");
+        phonebookModel2.setComparePropertyId("name");
+
+        assertEquals(0, phonebookModel.compareTo(phonebookModel2));
+        assertTrue(phonebookModel.equals(phonebookModel2));
+
+        phonebookModel.setName("Luke");
+        phonebookModel2.setName("Darth");
+
+        assertTrue(phonebookModel.compareTo(phonebookModel2) > 0);
+        assertFalse(phonebookModel2.equals(phonebookModel));
+        assertTrue(phonebookModel2.compareTo(phonebookModel) < 0);
+        assertFalse(phonebookModel.equals(phonebookModel2));
+
+        phonebookModel.setName("Luke");
+        phonebookModel2.setName(null);
+
+        assertEquals(1, phonebookModel.compareTo(phonebookModel2));
+        assertFalse(phonebookModel.equals(phonebookModel2));
+
+        phonebookModel.setName(null);
+        phonebookModel2.setName(null);
+
+        assertEquals(0, phonebookModel.compareTo(phonebookModel2));
+        assertTrue(phonebookModel.equals(phonebookModel2));
+
+        phonebookModel.setName(null);
+        phonebookModel2.setName("Darth");
+
+        assertEquals(-1, phonebookModel.compareTo(phonebookModel2));
+        assertFalse(phonebookModel.equals(phonebookModel2));
+
+        phonebookModel.setComparePropertyId("name2");
+        phonebookModel2.setComparePropertyId("name2");
+
+        assertEquals(-1,phonebookModel.compareTo(phonebookModel2));
+
+        phonebookModel.setComparePropertyId("index");
+        phonebookModel2.setComparePropertyId("index");
+
+        phonebookModel.setIndex(1);
+        phonebookModel2.setIndex(1);
+
+        assertEquals(0,phonebookModel.compareTo(phonebookModel2));
+
+        phonebookModel.setIndex(1);
+        phonebookModel2.setIndex(2);
+
+        assertEquals(-1,phonebookModel.compareTo(phonebookModel2));
+
+        phonebookModel.setComparePropertyId("index");
+        phonebookModel2.setComparePropertyId("name");
+
+        assertEquals(-1,phonebookModel.compareTo(phonebookModel2));
+
+        phonebookModel.setComparePropertyId("name");
+        phonebookModel2.setComparePropertyId("index");
+
+        assertEquals(-1,phonebookModel.compareTo(phonebookModel2));
+
+        phonebookModel.setComparePropertyId("");
+        phonebookModel2.setComparePropertyId("");
+        phonebookModel.setName(null);
+        phonebookModel2.setName(null);
+
+        assertEquals(-1, phonebookModel.compareTo(phonebookModel2));
+        assertFalse(phonebookModel.equals(null));
+        assertFalse(phonebookModel.equals(new TestModel()));
+        assertFalse(phonebookModel.equals(new Object()));
+
+        ModelInfo modelInfo = ModelUtil.getInfo(PhonebookModel.class);
+
+        modelInfo.setIdentityPropertiesInfo(new ArrayList<>());
+        modelInfo.setUniquePropertiesInfo(new ArrayList<>());
+
+        assertTrue(phonebookModel.equals(phonebookModel2));
+
+        CacherManager.getInstance().getCacher(ModelUtil.class).clear();
+    }
+
+    @Test()
+    public void testBaseModelDescriptionPattern() throws NoSuchFieldException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
         PhonebookModel phonebookModel = new PhonebookModel();
 
         phonebookModel.setName("Luke");
@@ -217,10 +323,20 @@ public class ModelsTest {
 
         assertTrue(anotherModel.toString().startsWith(TestModel.class.getName()));
         assertNotEquals(new PhonebookModel(), phonebookModel);
+
+        ModelInfo modelInfo = ModelUtil.getInfo(PhonebookModel.class);
+
+        modelInfo.setDescriptionPattern(null);
+
+        assertNotEquals("Luke - 123456789", phonebookModel.toString());
+
+        modelInfo.setDescriptionPattern("");
+
+        assertNotEquals("Luke - 123456789", phonebookModel.toString());
     }
 
     @Test
-    public void testAccessModel() {
+    public void testAccessModelGettersAndSetters() {
         AccessModel accessModel = new AccessModel();
 
         accessModel.setId(1);
@@ -240,7 +356,7 @@ public class ModelsTest {
     }
 
     @Test
-    public void testLoginParameterModel() {
+    public void testLoginParameterModelGettersAndSetters() {
         DateTime now = new DateTime();
         LoginParameterModel loginParameterModel = new LoginParameterModel();
 
@@ -296,7 +412,7 @@ public class ModelsTest {
     }
 
     @Test
-    public void testLoginSessionModel() {
+    public void testLoginSessionModelGettersAndSetters() {
         DateTime now = new DateTime();
         LoginSessionModel loginSessionModel = new LoginSessionModel();
 
@@ -336,7 +452,7 @@ public class ModelsTest {
     }
 
     @Test
-    public void testUserModel() {
+    public void testUserModelGettersAndSetters() {
         DateTime now = new DateTime();
         UserModel userModel = new UserModel();
 
@@ -363,6 +479,12 @@ public class ModelsTest {
 
         userModel.setLoginParameter(loginParameterModel);
 
+        GroupModel groupModel = new GroupModel();
+
+        groupModel.setId(1);
+
+        userModel.setGroups(Arrays.asList(groupModel));
+
         assertEquals(1, userModel.getId(), 0);
         assertEquals("johndoe", userModel.getName());
         assertEquals("John Doe", userModel.getFullName());
@@ -381,25 +503,26 @@ public class ModelsTest {
         assertEquals(Boolean.FALSE, userModel.getSystem());
         assertNotNull(userModel.getLoginParameter());
         assertEquals(loginParameterModel, userModel.getLoginParameter());
+        assertNotNull(userModel.getGroups());
+        assertEquals(1, userModel.getGroups().size());
+    }
 
-        //Test all permissions' possibilities.
-        assertTrue(userModel.hasPermissions());
-        assertTrue(userModel.hasPermission("/test"));
-        assertTrue(userModel.hasPermission((String)null));
-        assertTrue(userModel.hasPermission(new ObjectModel()));
-        assertTrue(userModel.hasPermission((ObjectModel) null));
-        assertTrue(userModel.hasPermission(new SystemModuleModel()));
-        assertTrue(userModel.hasPermission((SystemModuleModel) null));
+    @Test
+    public void testUserModelRestrictions() {
+        UserModel userModel = new UserModel();
+
+        userModel.setId(1);
+
+        // Must return false when there are no restrictions.
+        assertFalse(userModel.hasRestrictions());
 
         userModel.setGroups(new ArrayList<>());
 
-        assertTrue(userModel.hasPermissions());
-        assertTrue(userModel.hasPermission("/test"));
-        assertTrue(userModel.hasPermission((String)null));
-        assertTrue(userModel.hasPermission(new ObjectModel()));
-        assertTrue(userModel.hasPermission((ObjectModel) null));
-        assertTrue(userModel.hasPermission(new SystemModuleModel()));
-        assertTrue(userModel.hasPermission((SystemModuleModel) null));
+        assertFalse(userModel.hasRestrictions());
+
+        userModel.setGroups(Arrays.asList((GroupModel)null));
+
+        assertFalse(userModel.hasRestrictions());
 
         GroupModel groupModel = new GroupModel();
 
@@ -407,21 +530,38 @@ public class ModelsTest {
 
         userModel.setGroups(Arrays.asList(groupModel));
 
-        assertNotNull(userModel.getGroups());
-        assertEquals(1, userModel.getGroups().size());
-        assertFalse(userModel.hasPermissions());
-        assertTrue(userModel.hasPermission("/test"));
-        assertTrue(userModel.hasPermission((String)null));
-        assertTrue(userModel.hasPermission(new ObjectModel()));
-        assertTrue(userModel.hasPermission((ObjectModel) null));
-        assertTrue(userModel.hasPermission(new SystemModuleModel()));
-        assertTrue(userModel.hasPermission((SystemModuleModel) null));
+        assertFalse(userModel.hasRestrictions());
+
+        groupModel.setObjects(new ArrayList<>());
+
+        assertFalse(userModel.hasRestrictions());
 
         groupModel.setAccesses(new ArrayList<>());
 
-        assertFalse(userModel.hasPermissions());
+        assertFalse(userModel.hasRestrictions());
+    }
+
+    @Test
+    public void testUserModelHasAccessToAnUrl() {
+        UserModel userModel = new UserModel();
+
+        userModel.setId(1);
+
         assertTrue(userModel.hasPermission("/test"));
-        assertTrue(userModel.hasPermission((String) null));
+
+        userModel.setGroups(new ArrayList<>());
+
+        assertTrue(userModel.hasPermission("/test"));
+
+        userModel.setGroups(Arrays.asList((GroupModel)null));
+
+        assertTrue(userModel.hasPermission("/test"));
+
+        GroupModel groupModel = new GroupModel();
+
+        groupModel.setId(1);
+
+        userModel.setGroups(Arrays.asList(groupModel));
 
         AccessModel accessModel = new AccessModel();
 
@@ -437,34 +577,78 @@ public class ModelsTest {
 
         groupModel.setAccesses(Arrays.asList(accessModel));
 
-        assertTrue(userModel.hasPermissions());
+        assertTrue(userModel.hasRestrictions());
         assertFalse(userModel.hasPermission("/test"));
-        assertTrue(userModel.hasPermission((String)null));
+        assertFalse(userModel.hasPermission("/test2"));
 
         accessModel.setBlocked(false);
 
         assertTrue(userModel.hasPermission("/test"));
-        assertFalse(userModel.hasPermission("/test2"));
+    }
 
-        groupModel.setObjects(new ArrayList<>());
+    @Test
+    public void testUserModelHasAccessToAnObject() {
+        UserModel userModel = new UserModel();
 
-        assertTrue(userModel.hasPermissions());
-        assertFalse(userModel.hasPermission(new ObjectModel()));
+        userModel.setId(1);
+
+        assertTrue(userModel.hasPermission(new ObjectModel()));
         assertTrue(userModel.hasPermission((ObjectModel) null));
-        assertTrue(userModel.hasPermission(new SystemModuleModel()));
-        assertTrue(userModel.hasPermission((SystemModuleModel)null));
+
+        userModel.setGroups(new ArrayList<>());
+
+        assertTrue(userModel.hasPermission(new ObjectModel()));
+
+        userModel.setGroups(Arrays.asList((GroupModel) null));
+
+        assertTrue(userModel.hasPermission(new ObjectModel()));
+
+        GroupModel groupModel = new GroupModel();
+
+        groupModel.setId(1);
+
+        userModel.setGroups(Arrays.asList(groupModel));
+
+        assertTrue(userModel.hasPermission((ObjectModel) null));
 
         ObjectModel objectModel = new ObjectModel();
 
-        objectModel.setId(1l);
+        objectModel.setId(1L);
 
         groupModel.setObjects(Arrays.asList(objectModel));
 
-        assertTrue(userModel.hasPermissions());
         assertTrue(userModel.hasPermission(objectModel));
-        assertFalse(userModel.hasPermission(new ObjectModel()));
-        assertTrue(userModel.hasPermission((ObjectModel) null));
-        assertFalse(userModel.hasPermission(new SystemModuleModel()));
+
+        ObjectModel objectModel2 = new ObjectModel();
+
+        objectModel2.setId(2L);
+
+        assertFalse(userModel.hasPermission(objectModel2));
+    }
+
+    @Test
+    public void testUserModelHasAccessToASystemModule() {
+        UserModel userModel = new UserModel();
+
+        userModel.setId(1);
+
+        assertTrue(userModel.hasPermission(new SystemModuleModel()));
+        assertTrue(userModel.hasPermission((SystemModuleModel) null));
+
+        userModel.setGroups(new ArrayList<>());
+
+        assertTrue(userModel.hasPermission(new SystemModuleModel()));
+
+        userModel.setGroups(Arrays.asList((GroupModel) null));
+
+        assertTrue(userModel.hasPermission(new SystemModuleModel()));
+
+        GroupModel groupModel = new GroupModel();
+
+        groupModel.setId(1);
+
+        userModel.setGroups(Arrays.asList(groupModel));
+
         assertTrue(userModel.hasPermission((SystemModuleModel) null));
 
         FormModel formModel = new FormModel();
@@ -477,17 +661,24 @@ public class ModelsTest {
 
         formModel.setSystemModule(systemModuleModel);
 
+        ObjectModel objectModel = new ObjectModel();
+
+        objectModel.setId(1L);
         objectModel.setForm(formModel);
 
+        groupModel.setObjects(Arrays.asList(objectModel));
+
         assertTrue(userModel.hasPermission(systemModuleModel));
-        assertFalse(userModel.hasPermission(new ObjectModel()));
-        assertTrue(userModel.hasPermission((ObjectModel) null));
-        assertFalse(userModel.hasPermission(new SystemModuleModel()));
-        assertTrue(userModel.hasPermission((SystemModuleModel) null));
+
+        SystemModuleModel systemModuleModel2 = new SystemModuleModel();
+
+        systemModuleModel2.setId(2);
+
+        assertFalse(userModel.hasPermission(systemModuleModel2));
     }
 
     @Test
-    public void testGroupModel() {
+    public void testGroupModelGettersAndSetters() {
         GroupModel groupModel = new GroupModel();
 
         groupModel.setId(1);
@@ -508,5 +699,148 @@ public class ModelsTest {
         assertTrue(groupModel.getUsers().isEmpty());
         assertNotNull(groupModel.getObjects());
         assertTrue(groupModel.getObjects().isEmpty());
+    }
+
+    @Test
+    public void testGroupModelRestrictions() {
+        GroupModel groupModel = new GroupModel();
+
+        groupModel.setId(1);
+
+        assertFalse(groupModel.hasRestrictions());
+
+        groupModel.setObjects(new ArrayList<>());
+
+        assertFalse(groupModel.hasRestrictions());
+
+        groupModel.setObjects(Arrays.asList((ObjectModel)null));
+
+        assertTrue(groupModel.hasRestrictions());
+
+        groupModel.setObjects(null);
+        groupModel.setAccesses(new ArrayList<>());
+
+        assertFalse(groupModel.hasRestrictions());
+
+        groupModel.setAccesses(Arrays.asList((AccessModel) null));
+
+        assertTrue(groupModel.hasRestrictions());
+    }
+
+    @Test
+    public void testGroupModelHasAccessToAnUrl() {
+        GroupModel groupModel = new GroupModel();
+
+        groupModel.setId(1);
+
+        assertTrue(groupModel.hasPermission("/test"));
+
+        groupModel.setAccesses(new ArrayList<>());
+
+        assertTrue(groupModel.hasPermission("/test"));
+
+        groupModel.setAccesses(Arrays.asList((AccessModel)null));
+
+        assertTrue(groupModel.hasPermission("/test"));
+
+        AccessModel accessModel = new AccessModel();
+
+        accessModel.setId(1);
+
+        UrlModel urlModel = new UrlModel();
+
+        urlModel.setId(1);
+        urlModel.setPath("/test");
+
+        accessModel.setUrl(urlModel);
+        accessModel.setBlocked(true);
+
+        groupModel.setAccesses(Arrays.asList(accessModel));
+
+        assertFalse(groupModel.hasPermission("/test"));
+
+        accessModel.setBlocked(false);
+
+        assertTrue(groupModel.hasPermission("/test"));
+        assertFalse(groupModel.hasPermission("/test2"));
+    }
+
+    @Test
+    public void testGroupModelHasAccessToAnObject() {
+        GroupModel groupModel = new GroupModel();
+
+        groupModel.setId(1);
+
+        assertTrue(groupModel.hasPermission(new ObjectModel()));
+
+        groupModel.setObjects(new ArrayList<>());
+
+        assertTrue(groupModel.hasPermission(new ObjectModel()));
+
+        groupModel.setObjects(Arrays.asList((ObjectModel)null));
+
+        assertTrue(groupModel.hasPermission(new ObjectModel()));
+
+        ObjectModel objectModel = new ObjectModel();
+
+        objectModel.setId(1L);
+
+        assertTrue(groupModel.hasPermission(objectModel));
+
+        ObjectModel objectModel2 = new ObjectModel();
+
+        objectModel.setId(2L);
+
+        assertTrue(groupModel.hasPermission(objectModel2));
+    }
+
+    @Test
+    public void testGroupModelHasAccessToASystemModule() {
+        GroupModel groupModel = new GroupModel();
+
+        groupModel.setId(1);
+
+        assertTrue(groupModel.hasPermission(new SystemModuleModel()));
+
+        groupModel.setObjects(new ArrayList<>());
+
+        assertTrue(groupModel.hasPermission(new SystemModuleModel()));
+
+        groupModel.setObjects(Arrays.asList((ObjectModel)null));
+
+        assertTrue(groupModel.hasPermission(new SystemModuleModel()));
+        assertTrue(groupModel.hasPermission((SystemModuleModel) null));
+
+        ObjectModel objectModel = new ObjectModel();
+
+        objectModel.setId(1L);
+
+        groupModel.setObjects(Arrays.asList(objectModel));
+
+        assertFalse(groupModel.hasPermission(new SystemModuleModel()));
+
+        FormModel formModel = new FormModel();
+
+        formModel.setId(1);
+
+        objectModel.setForm(formModel);
+
+        assertFalse(groupModel.hasPermission(new SystemModuleModel()));
+
+        SystemModuleModel systemModuleModel = new SystemModuleModel();
+
+        systemModuleModel.setId(1);
+
+        assertFalse(groupModel.hasPermission(systemModuleModel));
+
+        formModel.setSystemModule(systemModuleModel);
+
+        assertTrue(groupModel.hasPermission(systemModuleModel));
+
+        SystemModuleModel systemModuleModel2 = new SystemModuleModel();
+
+        systemModuleModel2.setId(2);
+
+        assertFalse(groupModel.hasPermission(systemModuleModel2));
     }
 }
