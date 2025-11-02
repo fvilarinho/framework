@@ -382,9 +382,10 @@ public class ModelsTest {
         assertNotNull(userModel.getLoginParameter());
         assertEquals(loginParameterModel, userModel.getLoginParameter());
 
-        //Test all permissions possibilities.
+        //Test all permissions' possibilities.
         assertTrue(userModel.hasPermissions());
         assertTrue(userModel.hasPermission("/test"));
+        assertTrue(userModel.hasPermission((String)null));
         assertTrue(userModel.hasPermission(new ObjectModel()));
         assertTrue(userModel.hasPermission((ObjectModel) null));
         assertTrue(userModel.hasPermission(new SystemModuleModel()));
@@ -394,6 +395,7 @@ public class ModelsTest {
 
         assertTrue(userModel.hasPermissions());
         assertTrue(userModel.hasPermission("/test"));
+        assertTrue(userModel.hasPermission((String)null));
         assertTrue(userModel.hasPermission(new ObjectModel()));
         assertTrue(userModel.hasPermission((ObjectModel) null));
         assertTrue(userModel.hasPermission(new SystemModuleModel()));
@@ -405,17 +407,21 @@ public class ModelsTest {
 
         userModel.setGroups(Arrays.asList(groupModel));
 
+        assertNotNull(userModel.getGroups());
+        assertEquals(1, userModel.getGroups().size());
         assertFalse(userModel.hasPermissions());
         assertTrue(userModel.hasPermission("/test"));
+        assertTrue(userModel.hasPermission((String)null));
         assertTrue(userModel.hasPermission(new ObjectModel()));
+        assertTrue(userModel.hasPermission((ObjectModel) null));
         assertTrue(userModel.hasPermission(new SystemModuleModel()));
+        assertTrue(userModel.hasPermission((SystemModuleModel) null));
 
         groupModel.setAccesses(new ArrayList<>());
 
         assertFalse(userModel.hasPermissions());
         assertTrue(userModel.hasPermission("/test"));
-        assertTrue(userModel.hasPermission(new ObjectModel()));
-        assertTrue(userModel.hasPermission(new SystemModuleModel()));
+        assertTrue(userModel.hasPermission((String) null));
 
         AccessModel accessModel = new AccessModel();
 
@@ -433,6 +439,7 @@ public class ModelsTest {
 
         assertTrue(userModel.hasPermissions());
         assertFalse(userModel.hasPermission("/test"));
+        assertTrue(userModel.hasPermission((String)null));
 
         accessModel.setBlocked(false);
 
@@ -441,7 +448,11 @@ public class ModelsTest {
 
         groupModel.setObjects(new ArrayList<>());
 
+        assertTrue(userModel.hasPermissions());
+        assertFalse(userModel.hasPermission(new ObjectModel()));
+        assertTrue(userModel.hasPermission((ObjectModel) null));
         assertTrue(userModel.hasPermission(new SystemModuleModel()));
+        assertTrue(userModel.hasPermission((SystemModuleModel)null));
 
         ObjectModel objectModel = new ObjectModel();
 
@@ -469,6 +480,8 @@ public class ModelsTest {
         objectModel.setForm(formModel);
 
         assertTrue(userModel.hasPermission(systemModuleModel));
+        assertFalse(userModel.hasPermission(new ObjectModel()));
+        assertTrue(userModel.hasPermission((ObjectModel) null));
         assertFalse(userModel.hasPermission(new SystemModuleModel()));
         assertTrue(userModel.hasPermission((SystemModuleModel) null));
     }
