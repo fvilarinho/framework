@@ -223,6 +223,10 @@ tasks.register("coreJar", Jar) {
 
 javadoc.options.addStringOption('Xdoclint:none', '-quiet')
 
+javadoc {
+    destinationDir = file("docs")
+}
+
 tasks.register("javadocJar", Jar) {
 	archiveClassifier = "javadoc"
 
