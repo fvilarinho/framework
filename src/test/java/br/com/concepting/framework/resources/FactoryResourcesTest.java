@@ -1,6 +1,8 @@
 package br.com.concepting.framework.resources;
 
+import br.com.concepting.framework.persistence.constants.PersistenceConstants;
 import br.com.concepting.framework.persistence.resources.PersistenceFactoryResourcesLoader;
+import br.com.concepting.framework.resources.constants.FactoryConstants;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import org.junit.Test;
 
@@ -11,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class FactoryResourcesTest {
     @Test
-    public void testFactoryResources() {
+    public void testFactoryResourcesGettersAndSetters() {
         FactoryResources resources = new FactoryResources();
 
         resources.setId("test");
@@ -36,7 +38,7 @@ public class FactoryResourcesTest {
     }
 
     @Test
-    public void testPersistenceFactoryLoaders() {
+    public void testValidPersistenceFactory() {
         try {
             PersistenceFactoryResourcesLoader loader = new PersistenceFactoryResourcesLoader();
             FactoryResources resources = loader.getDefault();
@@ -49,6 +51,20 @@ public class FactoryResourcesTest {
         }
         catch(InvalidResourcesException e) {
             fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testInvalidPersistenceFactory() {
+        try {
+            new PersistenceFactoryResourcesLoader("invalidDirectory");
+
+            fail("Should throw InvalidResourcesException");
+        }
+        catch(InvalidResourcesException e) {
+            assertEquals("invalidDirectory", e.getResourcesDirname());
+            assertEquals(FactoryConstants.DEFAULT_RESOURCES_ID, e.getResourcesId());
+            assertTrue(e.getMessage().contains("No such file or directory"));
         }
     }
 }
