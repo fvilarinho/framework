@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class StringUtil{
     /**
@@ -438,7 +438,7 @@ public class StringUtil{
                 String[] values = StringUtil.split(value, delimiter);
                 
                 for(String valueItem: values){
-                    if(result.length() > 0)
+                    if(!result.isEmpty())
                         result.append(delimiter);
 
                     result.append(valueItem.substring(0, 1).toUpperCase());

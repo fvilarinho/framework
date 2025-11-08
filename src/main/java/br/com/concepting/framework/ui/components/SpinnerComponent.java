@@ -8,6 +8,7 @@ import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.text.DecimalFormatSymbols;
 
 /**
@@ -29,9 +30,10 @@ import java.text.DecimalFormatSymbols;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class SpinnerComponent extends TextPropertyComponent{
+    @Serial
     private static final long serialVersionUID = 2739899668872823020L;
     
     private int step = 1;
@@ -158,6 +160,7 @@ public class SpinnerComponent extends TextPropertyComponent{
      * @since 3.0.0
      */
     private class AddSpinnerButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -7170110437405939054L;
         
         /**
@@ -246,6 +249,7 @@ public class SpinnerComponent extends TextPropertyComponent{
      * @since 3.0.0
      */
     private class SubtractSpinnerButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -7170110437405939054L;
         
         /**

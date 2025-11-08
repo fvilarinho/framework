@@ -9,6 +9,8 @@ import br.com.concepting.framework.persistence.types.RelationType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serial;
+
 /**
  * Class that defines the data model that stores additional information of the
  * auditing.
@@ -29,10 +31,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Model
 public class AuditorComplementModel extends BaseModel{
+    @Serial
     private static final long serialVersionUID = -5973758121126490161L;
     
     @Property(isIdentity = true)

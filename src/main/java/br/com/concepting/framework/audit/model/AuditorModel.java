@@ -9,6 +9,7 @@ import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.util.helpers.DateTime;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.io.Serial;
 import java.util.Collection;
 
 /**
@@ -30,11 +31,12 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Model
 @Auditable
 public class AuditorModel extends BaseModel{
+    @Serial
     private static final long serialVersionUID = 4560619844140960680L;
     
     @Property(isIdentity = true)

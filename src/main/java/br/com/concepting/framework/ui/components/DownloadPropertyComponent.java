@@ -19,6 +19,7 @@ import br.com.concepting.framework.util.types.ContentType;
 
 import javax.servlet.jsp.JspException;
 import java.io.IOException;
+import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -40,9 +41,10 @@ import java.lang.reflect.InvocationTargetException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class DownloadPropertyComponent extends BasePropertyComponent{
+    @Serial
     private static final long serialVersionUID = -1340422255244638637L;
     
     private boolean showContentFilename = false;

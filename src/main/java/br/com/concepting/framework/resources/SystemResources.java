@@ -5,6 +5,7 @@ import br.com.concepting.framework.model.MainConsoleModel;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
@@ -28,9 +29,10 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class SystemResources extends BaseResources<XmlNode>{
+    @Serial
     private static final long serialVersionUID = -1115220620296191917L;
     
     private Class<? extends MainConsoleModel> mainConsoleClass = null;
@@ -201,6 +203,7 @@ public class SystemResources extends BaseResources<XmlNode>{
     }
 
     public static class ActionFormResources implements Serializable {
+        @Serial
         private static final long serialVersionUID = 8287693656398359248L;
 
         private String name = null;
@@ -298,6 +301,7 @@ public class SystemResources extends BaseResources<XmlNode>{
         }
 
         public static class ActionFormForwardResources implements Serializable {
+            @Serial
             private static final long serialVersionUID = 6106118252078337780L;
 
             private String name = null;

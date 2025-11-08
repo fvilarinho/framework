@@ -4,6 +4,8 @@ import br.com.concepting.framework.model.annotations.Model;
 import br.com.concepting.framework.model.annotations.Property;
 import br.com.concepting.framework.model.types.ValidationType;
 
+import java.io.Serial;
+
 /**
  * Class that defines the basic implementation of the main console data model
  *
@@ -23,10 +25,11 @@ import br.com.concepting.framework.model.types.ValidationType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Model(ui = "Main Console", templateId = "mainConsole")
 public abstract class MainConsoleModel extends BaseModel{
+    @Serial
     private static final long serialVersionUID = -8176019419161691084L;
     
     @Property(validations = ValidationType.REQUIRED)

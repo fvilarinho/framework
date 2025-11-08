@@ -1,5 +1,6 @@
 package br.com.concepting.framework.processors.helpers;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -21,9 +22,10 @@ import java.io.Serializable;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ProjectBuild implements Serializable{
+    @Serial
     private static final long serialVersionUID = 5990509906533449866L;
     
     private String name = null;

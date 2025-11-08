@@ -2,6 +2,8 @@ package br.com.concepting.framework.resources;
 
 import br.com.concepting.framework.caching.CachedObject;
 
+import java.io.Serial;
+
 /**
  * Class that defines the basic implementation to store resources.
  *
@@ -22,9 +24,10 @@ import br.com.concepting.framework.caching.CachedObject;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseResources<O> extends CachedObject<O>{
+    @Serial
     private static final long serialVersionUID = 8856089972323762812L;
     
     private boolean isDefault = false;

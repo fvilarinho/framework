@@ -2,6 +2,7 @@ package br.com.concepting.framework.resources;
 
 import br.com.concepting.framework.util.StringUtil;
 
+import java.io.Serial;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -24,9 +25,10 @@ import java.util.ResourceBundle;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class PropertiesResources extends BaseResources<ResourceBundle>{
+    @Serial
     private static final long serialVersionUID = -2809340386475717260L;
     
     /**
@@ -56,7 +58,7 @@ public class PropertiesResources extends BaseResources<ResourceBundle>{
             StringBuilder replaceValueBuffer = new StringBuilder();
             
             for(int cont = 0; cont < parameters.length; cont++){
-                if(replaceValueBuffer.length() > 0)
+                if(!replaceValueBuffer.isEmpty())
                     replaceValueBuffer.delete(0, replaceValueBuffer.length());
                 
                 replaceValueBuffer.append("{");

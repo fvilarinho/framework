@@ -9,6 +9,7 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 
 import javax.servlet.jsp.JspException;
 import java.awt.*;
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -31,9 +32,10 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class RichTextAreaPropertyComponent extends BasePropertyComponent{
+    @Serial
     private static final long serialVersionUID = -3254930243069817268L;
 
     @Override

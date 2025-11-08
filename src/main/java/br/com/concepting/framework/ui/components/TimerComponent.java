@@ -10,6 +10,7 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 
 /**
  * Class that defines the timer component.
@@ -30,9 +31,10 @@ import javax.servlet.jsp.JspException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class TimerComponent extends LabelComponent{
+    @Serial
     private static final long serialVersionUID = -3881406429829663145L;
     
     private String onTrigger = null;

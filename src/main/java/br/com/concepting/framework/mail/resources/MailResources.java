@@ -6,6 +6,8 @@ import br.com.concepting.framework.mail.types.MailTransportType;
 import br.com.concepting.framework.resources.BaseResources;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
+import java.io.Serial;
+
 /**
  * Class responsible to store the mail resources.
  *
@@ -25,9 +27,10 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class MailResources extends BaseResources<XmlNode>{
+    @Serial
     private static final long serialVersionUID = -4631808238382919312L;
     
     private MailTransportType transport = null;

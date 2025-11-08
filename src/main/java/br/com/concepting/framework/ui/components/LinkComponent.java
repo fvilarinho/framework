@@ -11,6 +11,8 @@ import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.util.types.ComponentType;
 
+import java.io.Serial;
+
 /**
  * Class that defines the link component.
  *
@@ -30,9 +32,10 @@ import br.com.concepting.framework.util.types.ComponentType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class LinkComponent extends BaseActionFormComponent{
+    @Serial
     private static final long serialVersionUID = 7816895487661041101L;
     
     private String url = null;

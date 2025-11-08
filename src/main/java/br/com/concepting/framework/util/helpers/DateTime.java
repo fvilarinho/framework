@@ -2,6 +2,7 @@ package br.com.concepting.framework.util.helpers;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.io.Serial;
 import java.util.Date;
 
 /**
@@ -23,10 +24,11 @@ import java.util.Date;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @JsonDeserialize(using = DateTimeDeserializer.class)
 public class DateTime extends Date{
+    @Serial
     private static final long serialVersionUID = -6296515216038853856L;
     
     /**

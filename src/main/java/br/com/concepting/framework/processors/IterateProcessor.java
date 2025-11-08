@@ -15,7 +15,7 @@ import java.util.Locale;
  * @author fvilarinho
  * @since 1.0.0
  *
- * <pre>Copyright (C) 2007 Concepting Inc.
+ * <pre>Copyright (C) 2007 Innovative Thinking Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class IterateProcessor extends EvaluateProcessor{
     private String name = null;
@@ -169,7 +169,7 @@ public class IterateProcessor extends EvaluateProcessor{
                 String result = StringUtil.trim(super.process());
                 
                 if(!result.isEmpty()){
-                    if(buffer.length() > 0)
+                    if(!buffer.isEmpty())
                         buffer.append(StringUtil.getLineBreak());
                     
                     buffer.append(result);
@@ -177,7 +177,7 @@ public class IterateProcessor extends EvaluateProcessor{
             }
         }
         
-        if(buffer.length() == 0)
+        if(buffer.isEmpty())
             return ProcessorConstants.DEFAULT_REMOVE_TAG_ID;
         
         return buffer.toString();

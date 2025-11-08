@@ -5,6 +5,8 @@ import br.com.concepting.framework.security.constants.SecurityConstants;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
+import java.io.Serial;
+
 /**
  * Class responsible to store the security resources.
  *
@@ -24,9 +26,10 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class SecurityResources extends BaseResources<XmlNode>{
+    @Serial
     private static final long serialVersionUID = -2135486169744118837L;
     
     private Class<? extends LoginSessionModel> loginSessionClass = null;

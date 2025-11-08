@@ -18,7 +18,7 @@
 			<concepting:form name="@{actionFormName}" resourcesId="@{resourcesId}">
 				<table class="content">
 					<tr>
-						<td></td>
+                        <td/>
 					</tr>
 				</table>
 				<jsp:include page="/WEB-INF/jsp/footer.jsp"/>

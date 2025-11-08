@@ -24,6 +24,7 @@ import br.com.concepting.framework.util.types.PositionType;
 import br.com.concepting.framework.util.types.PropertyType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -51,9 +52,10 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BasePropertyComponent extends BaseActionFormComponent{
+    @Serial
     private static final long serialVersionUID = -7479880433732396484L;
     
     private static String invalidDefinitionMessage = null;
@@ -1115,7 +1117,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         if(currentOnKeyPressContent != null && !currentOnKeyPressContent.isEmpty()){
             if(onKeyPressContent == null)
                 onKeyPressContent = new StringBuilder();
-            else if(onKeyPressContent.length() > 0)
+            else if(!onKeyPressContent.isEmpty())
                 onKeyPressContent.append(" ");
             
             onKeyPressContent.append(currentOnKeyPressContent);
@@ -1124,7 +1126,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
                 onKeyPressContent.append(";");
         }
         
-        if(onKeyPressContent != null && onKeyPressContent.length() > 0)
+        if(onKeyPressContent != null && !onKeyPressContent.isEmpty())
             setOnKeyPress(onKeyPressContent.toString());
         
         buildEvent(EventType.ON_CHANGE);

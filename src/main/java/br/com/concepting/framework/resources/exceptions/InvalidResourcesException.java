@@ -2,6 +2,8 @@ package br.com.concepting.framework.resources.exceptions;
 
 import br.com.concepting.framework.exceptions.InternalErrorException;
 
+import java.io.Serial;
+
 /**
  * Class that defines the exception when the resources are invalid.
  *
@@ -21,9 +23,10 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class InvalidResourcesException extends InternalErrorException{
+    @Serial
     private static final long serialVersionUID = -2484544753246799231L;
     
     private String resourcesDirname = null;

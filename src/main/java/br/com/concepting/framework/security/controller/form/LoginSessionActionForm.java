@@ -5,6 +5,8 @@ import br.com.concepting.framework.security.model.LoginParameterModel;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.security.model.UserModel;
 
+import java.io.Serial;
+
 /**
  * Class that defines the form of the login session.
  *
@@ -27,8 +29,9 @@ import br.com.concepting.framework.security.model.UserModel;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class LoginSessionActionForm<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseActionForm<L>{
+    @Serial
     private static final long serialVersionUID = 389098674784967719L;
 }

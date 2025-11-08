@@ -10,6 +10,7 @@ import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,9 +33,10 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class GuidesComponent extends BaseActionFormComponent{
+    @Serial
     private static final long serialVersionUID = -4321693551104130259L;
     
     private List<GuideComponent> guidesComponents = null;
@@ -443,6 +445,7 @@ public class GuidesComponent extends BaseActionFormComponent{
      * @since 1.0.0
      */
     private abstract static class GuideButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -9210783180699277267L;
         
         private GuideComponent guideComponent = null;
@@ -528,6 +531,7 @@ public class GuidesComponent extends BaseActionFormComponent{
      * @since 1.0.0
      */
     private static class PreviousGuideButtonComponent extends GuideButtonComponent{
+        @Serial
         private static final long serialVersionUID = -2478586421393262793L;
         
         /**
@@ -563,6 +567,7 @@ public class GuidesComponent extends BaseActionFormComponent{
      * @since 1.0.0
      */
     private static class NextGuideButtonComponent extends GuideButtonComponent{
+        @Serial
         private static final long serialVersionUID = -2197037654486956330L;
         
         /**

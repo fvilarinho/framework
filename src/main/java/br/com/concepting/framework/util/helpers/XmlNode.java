@@ -7,6 +7,7 @@ import br.com.concepting.framework.util.XmlUtil;
 import org.dom4j.Attribute;
 import org.dom4j.Element;
 
+import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +30,10 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class XmlNode extends Node{
+    @Serial
     private static final long serialVersionUID = 3468250465462747310L;
     
     private String namespace = null;

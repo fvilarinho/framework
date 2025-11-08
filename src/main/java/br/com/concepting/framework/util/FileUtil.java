@@ -3,6 +3,7 @@ package br.com.concepting.framework.util;
 import br.com.concepting.framework.constants.Constants;
 
 import java.io.*;
+import java.net.URI;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
@@ -29,7 +30,7 @@ import java.nio.file.FileSystems;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class FileUtil{
     /**
@@ -66,7 +67,7 @@ public class FileUtil{
         if(!file.getParentFile().exists())
             file.getParentFile().mkdirs();
 
-        URL path = new URL(url);
+        URL path = URI.create(url).toURL();
 
         try (InputStream in = path.openStream()) {
             try (FileOutputStream out = new FileOutputStream(filename)) {
@@ -124,9 +125,9 @@ public class FileUtil{
      * @param value String that contains the data.
      * @throws IOException Occurs when was not possible to write the file.
      */
-    public static void toTextFile(String filename, String value) throws IOException{
+    public static void toFile(String filename, String value) throws IOException{
         if(filename != null && !filename.isEmpty() && value != null)
-            toTextFile(filename, value, false);
+            toFile(filename, value, false);
     }
     
     /**
@@ -136,9 +137,9 @@ public class FileUtil{
      * @param value String that contains the content of the file.
      * @throws IOException Occurs when was not possible to write the file.
      */
-    public static void toTextFile(FileOutputStream out, String value) throws IOException{
+    public static void toFile(FileOutputStream out, String value) throws IOException{
         if(out != null && value != null)
-            toTextFile(out, value, getDefaultEncoding());
+            toFile(out, value, getDefaultEncoding());
     }
     
     /**
@@ -149,9 +150,9 @@ public class FileUtil{
      * @param append Indicates if the data should be appended.
      * @throws IOException Occurs when was not possible to write the file.
      */
-    public static void toTextFile(String filename, String value, boolean append) throws IOException{
+    public static void toFile(String filename, String value, boolean append) throws IOException{
         if(filename != null && !filename.isEmpty() && value != null)
-            toTextFile(filename, value, getDefaultEncoding(), append);
+            toFile(filename, value, getDefaultEncoding(), append);
     }
     
     /**
@@ -162,9 +163,9 @@ public class FileUtil{
      * @param encoding String that contains the encoding.
      * @throws IOException Occurs when was not possible to write the file.
      */
-    public static void toTextFile(String filename, String value, String encoding) throws IOException{
+    public static void toFile(String filename, String value, String encoding) throws IOException{
         if(filename != null && !filename.isEmpty() && value != null)
-            toTextFile(filename, value, encoding, false);
+            toFile(filename, value, encoding, false);
     }
     
     /**
@@ -176,11 +177,11 @@ public class FileUtil{
      * @param append Indicates if the data should be appended.
      * @throws IOException Occurs when was not possible to write the file.
      */
-    public static void toTextFile(String filename, String value, String encoding, boolean append) throws IOException{
+    public static void toFile(String filename, String value, String encoding, boolean append) throws IOException{
         if(encoding == null || encoding.isEmpty())
             encoding = getDefaultEncoding();
-        
-        toTextFile(createStream(filename, append), value, encoding);
+
+        toFile(createStream(filename, append), value, encoding);
     }
     
     /**
@@ -191,7 +192,7 @@ public class FileUtil{
      * @param encoding String that contains the encoding.
      * @throws IOException Occurs when was not possible to write the file.
      */
-    public static void toTextFile(FileOutputStream out, String value, String encoding) throws IOException{
+    public static void toFile(FileOutputStream out, String value, String encoding) throws IOException{
         if(out == null || value == null)
             return;
         
@@ -211,9 +212,9 @@ public class FileUtil{
      * @param value Byte array that contains the data.
      * @throws IOException Occurs when was not possible to write the file.
      */
-    public static void toBinaryFile(String filename, byte[] value) throws IOException{
+    public static void toFile(String filename, byte[] value) throws IOException{
         if(filename != null && !filename.isEmpty() && value != null)
-            toBinaryFile(createStream(filename, false), value);
+            toFile(createStream(filename, false), value);
     }
     
     /**
@@ -223,7 +224,7 @@ public class FileUtil{
      * @param value Byte array that contains the data.
      * @throws IOException Occurs when was not possible to write the file.
      */
-    public static void toBinaryFile(FileOutputStream out, byte[] value) throws IOException{
+    public static void toFile(FileOutputStream out, byte[] value) throws IOException{
         if(out != null && value != null){
             out.write(value);
             out.close();
@@ -292,5 +293,19 @@ public class FileUtil{
             if(stream != null)
                 stream.close();
         }
+    }
+
+    /**
+     * Reads a text file.
+     *
+     * @param filename String that contains the definition of the file.
+     * @return String that contains the data of the file.
+     * @throws IOException Occurs when was not possible to read the file.
+     */
+    public static String fromTextFile(String filename) throws IOException{
+        if(filename != null && !filename.isEmpty())
+            return fromTextFile(new File(filename));
+
+        return null;
     }
 }

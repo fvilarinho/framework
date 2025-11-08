@@ -15,6 +15,7 @@ import br.com.concepting.framework.util.types.ContentType;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import java.io.PrintWriter;
+import java.io.Serial;
 import java.text.DateFormatSymbols;
 import java.util.Locale;
 
@@ -37,9 +38,10 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class PageComponent extends BaseComponent{
+    @Serial
     private static final long serialVersionUID = -5686043597731581091L;
     
     private String title = null;

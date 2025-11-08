@@ -10,6 +10,8 @@ import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
 
+import java.io.Serial;
+
 /**
  * Class that defines the basic implementation of a button component.
  *
@@ -29,9 +31,10 @@ import br.com.concepting.framework.util.types.PositionType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ButtonComponent extends BaseActionFormComponent{
+    @Serial
     private static final long serialVersionUID = -6412461075636504749L;
     
     private String iconStyleClass = null;
@@ -315,7 +318,7 @@ public class ButtonComponent extends BaseActionFormComponent{
                 onClick.append("');");
             }
             
-            if(onClick != null && onClick.length() > 0)
+            if(onClick != null && !onClick.isEmpty())
                 setOnClick(onClick.toString());
         }
         

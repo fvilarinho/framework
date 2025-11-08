@@ -4,7 +4,6 @@ import br.com.concepting.framework.exceptions.ExpectedErrorException;
 import br.com.concepting.framework.exceptions.ExpectedException;
 import br.com.concepting.framework.exceptions.ExpectedWarningException;
 import br.com.concepting.framework.exceptions.InternalErrorException;
-import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.exceptions.PermissionDeniedException;
 import br.com.concepting.framework.security.exceptions.UserNotAuthorizedException;
@@ -33,7 +32,7 @@ import java.lang.reflect.UndeclaredThrowableException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ExceptionUtil{
     /**

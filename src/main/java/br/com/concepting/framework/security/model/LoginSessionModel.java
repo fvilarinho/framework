@@ -11,6 +11,8 @@ import br.com.concepting.framework.persistence.types.RelationType;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.SortOrderType;
 
+import java.io.Serial;
+
 /**
  * Class that defines the data model that stores the information of the login
  * session.
@@ -31,11 +33,12 @@ import br.com.concepting.framework.util.types.SortOrderType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Auditable
 @Model(ui = "Login Session", templateId = "loginSession")
 public class LoginSessionModel extends BaseModel{
+    @Serial
     private static final long serialVersionUID = -8507789965528582224L;
     
     @Auditable

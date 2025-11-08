@@ -1,6 +1,5 @@
 package br.com.concepting.framework.util;
 
-import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.SystemResourcesLoader;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
@@ -26,7 +25,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class LanguageUtil{
     /**
@@ -41,11 +40,11 @@ public class LanguageUtil{
             String[] languageBuffer = StringUtil.split(value, "_");
             
             if(languageBuffer.length == 1)
-                language = new Locale(languageBuffer[0]);
+                language = Locale.of(languageBuffer[0]);
             else if(languageBuffer.length == 2)
-                language = new Locale(languageBuffer[0], languageBuffer[1]);
+                language = Locale.of(languageBuffer[0], languageBuffer[1]);
             else
-                language = new Locale(languageBuffer[0], languageBuffer[1], languageBuffer[2]);
+                language = Locale.of(languageBuffer[0], languageBuffer[1], languageBuffer[2]);
             
             return language;
         }

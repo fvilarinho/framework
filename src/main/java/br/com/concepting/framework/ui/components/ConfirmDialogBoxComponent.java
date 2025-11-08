@@ -4,6 +4,7 @@ import br.com.concepting.framework.controller.action.types.ActionType;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 
 /**
  * Class that defines the confirmation dialog box component.
@@ -24,9 +25,10 @@ import javax.servlet.jsp.JspException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ConfirmDialogBoxComponent extends MessageBoxComponent{
+    @Serial
     private static final long serialVersionUID = -4977589330940038040L;
     
     private String onConfirm = null;

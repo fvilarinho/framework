@@ -10,6 +10,8 @@ import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.types.MethodType;
 
+import java.io.Serial;
+
 /**
  * Class that defines the skin selector component.
  *
@@ -29,9 +31,10 @@ import br.com.concepting.framework.util.types.MethodType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class SkinSelectorComponent extends ListPropertyComponent{
+    @Serial
     private static final long serialVersionUID = 8860130395588029708L;
 
     @Override

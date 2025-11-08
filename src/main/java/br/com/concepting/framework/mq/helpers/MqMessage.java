@@ -4,6 +4,8 @@ import br.com.concepting.framework.model.annotations.Property;
 import br.com.concepting.framework.network.helpers.Message;
 import br.com.concepting.framework.util.types.StatusType;
 
+import java.io.Serial;
+
 /**
  * Class that defines a MQ message.
  *
@@ -23,9 +25,10 @@ import br.com.concepting.framework.util.types.StatusType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class MqMessage extends Message<Object>{
+    @Serial
     private static final long serialVersionUID = 7795087518762967454L;
     
     private String id = null;

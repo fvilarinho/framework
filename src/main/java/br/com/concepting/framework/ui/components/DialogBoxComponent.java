@@ -9,6 +9,7 @@ import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;
+import java.io.Serial;
 
 /**
  * Class that defines the dialog box component.
@@ -29,9 +30,10 @@ import javax.servlet.jsp.tagext.BodyContent;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class DialogBoxComponent extends BaseActionFormComponent{
+    @Serial
     private static final long serialVersionUID = -3278696529902173481L;
     
     private String title = null;
@@ -375,6 +377,7 @@ public class DialogBoxComponent extends BaseActionFormComponent{
      * @since 3.0.0
      */
     private static class CloseButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -374340863206135380L;
         
         public CloseButtonComponent(DialogBoxComponent dialogBoxComponent){

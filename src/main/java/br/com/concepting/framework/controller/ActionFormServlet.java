@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * Class responsible to route the request to the right UI.
@@ -34,11 +35,12 @@ import java.io.IOException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @WebServlet(name = "actions", urlPatterns = "*.ui")
 public class ActionFormServlet extends HttpServlet{
-	private static final long serialVersionUID = -6893835539662603177L;
+	@Serial
+    private static final long serialVersionUID = -6893835539662603177L;
 
 	private SystemController systemController = null;
 	private ActionFormController actionFormController = null;

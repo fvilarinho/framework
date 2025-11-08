@@ -4,6 +4,7 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.ui.constants.UIConstants;
 
 import javax.servlet.jsp.tagext.BodyContent;
+import java.io.Serial;
 
 /**
  * Class that defines the declaration of a script in the UI page.
@@ -24,9 +25,10 @@ import javax.servlet.jsp.tagext.BodyContent;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ScriptComponent extends BaseComponent{
+    @Serial
     private static final long serialVersionUID = 4577984120880234589L;
     
     private String url = null;
@@ -102,7 +104,7 @@ public class ScriptComponent extends BaseComponent{
         
         print("<script type=\"text/javascript\"");
         
-        if(url != null && url.length() > 0){
+        if(url != null && !url.isEmpty()){
             print(" src=\"");
             print(url);
             print("\">");

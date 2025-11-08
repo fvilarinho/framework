@@ -19,6 +19,7 @@ import br.com.concepting.framework.util.types.PositionType;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.security.SecureRandom;
 import java.util.Collection;
@@ -44,9 +45,10 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
+    @Serial
     private static final long serialVersionUID = 1340880138631153675L;
     
     private int optionsPerRow = UIConstants.DEFAULT_OPTIONS_PER_ROW;
@@ -411,9 +413,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         String optionResourceLabel = null;
         String optionValueLabel = null;
         
-        if(option instanceof ObjectModel){
-            ObjectModel object = (ObjectModel) option;
-            
+        if(option instanceof ObjectModel object){
             if(object.getType() == ComponentType.MENU_ITEM_SEPARATOR)
                 optionResourceLabel = "-";
             else{
@@ -496,8 +496,7 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         PropertiesResources defaultResources = getDefaultResources();
         String optionResourceTooltip = null;
 
-        if(option instanceof ObjectModel){
-            ObjectModel object = (ObjectModel) option;
+        if(option instanceof ObjectModel object){
             String name = object.getName();
             
             if(name != null && !name.isEmpty()){

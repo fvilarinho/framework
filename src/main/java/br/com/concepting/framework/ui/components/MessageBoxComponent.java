@@ -28,6 +28,7 @@ import org.apache.http.HttpStatus;
 
 import javax.servlet.jsp.ErrorData;
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -50,9 +51,10 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class MessageBoxComponent extends DialogBoxComponent{
+    @Serial
     private static final long serialVersionUID = 6254384099423430512L;
     
     private String type = null;

@@ -5,6 +5,8 @@ import br.com.concepting.framework.resources.BaseResources;
 import br.com.concepting.framework.resources.FactoryResources;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
+import java.io.Serial;
+
 /**
  * Class responsible for storage the LDAP resources.
  *
@@ -24,9 +26,10 @@ import br.com.concepting.framework.util.helpers.XmlNode;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class LdapResources extends BaseResources<XmlNode>{
+    @Serial
     private static final long serialVersionUID = 3052749946121399692L;
     
     private String serverName = null;

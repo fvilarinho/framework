@@ -26,6 +26,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.PrintWriter;
+import java.io.Serial;
 import java.util.Locale;
 
 /**
@@ -47,9 +48,10 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
+    @Serial
     private static final long serialVersionUID = -7267112866725230814L;
     
     private ComponentType componentType = null;
@@ -776,7 +778,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             }
             
             if(this.height != null && !this.height.isEmpty()){
-                if(styleContent.length() == 0){
+                if(styleContent.isEmpty()){
                     styleContent = new StringBuilder();
                     
                     if(this.style != null && !this.style.isEmpty()){

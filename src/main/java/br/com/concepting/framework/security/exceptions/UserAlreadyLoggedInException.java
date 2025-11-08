@@ -1,5 +1,7 @@
 package br.com.concepting.framework.security.exceptions;
 
+import java.io.Serial;
+
 /**
  * Class that defines the exception when the user is already logged into the
  * system.
@@ -20,8 +22,9 @@ package br.com.concepting.framework.security.exceptions;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class UserAlreadyLoggedInException extends UserNotAuthorizedException{
+    @Serial
     private static final long serialVersionUID = 7385854870847137681L;
 }

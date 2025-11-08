@@ -8,6 +8,8 @@ import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.SearchType;
 import br.com.concepting.framework.util.types.SortOrderType;
 
+import java.io.Serial;
+
 /**
  * Class that defines the basic implementation of the data model that stores
  * information of a system session.
@@ -28,11 +30,12 @@ import br.com.concepting.framework.util.types.SortOrderType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Auditable
 @Model
 public class SystemSessionModel extends BaseModel{
+    @Serial
     private static final long serialVersionUID = -6089610099334045707L;
     
     @Auditable

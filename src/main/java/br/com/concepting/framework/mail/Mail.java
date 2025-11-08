@@ -11,14 +11,13 @@ import br.com.concepting.framework.util.ByteUtil;
 import br.com.concepting.framework.util.FileUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
-
 import jakarta.activation.DataHandler;
 import jakarta.activation.FileDataSource;
-
 import jakarta.mail.*;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+
 import javax.net.ssl.SSLSocketFactory;
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +46,7 @@ import java.util.Properties;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class Mail{
     private static Map<String, Mail> instances = null;
@@ -310,7 +309,7 @@ public class Mail{
                         cont++;
                     }
                     
-                    FileUtil.toBinaryFile(filename, attachData);
+                    FileUtil.toFile(filename, attachData);
                     
                     file = new File(filename);
                     
@@ -648,16 +647,13 @@ public class Mail{
      * message content.
      */
     private Object buildContent(Object part, MailMessage mailMessage) throws IOException, MessagingException{
-        if(part instanceof Message){
-            Message message = (Message) part;
-            
+        if(part instanceof Message message){
             if(message.getContent() instanceof Multipart)
                 return buildContent(message.getContent(), mailMessage);
             
             return message.getContent();
         }
-        else if(part instanceof Multipart){
-            Multipart parts = (Multipart) part;
+        else if(part instanceof Multipart parts){
             Part subPart;
             InputStream attach;
             Object buffer = null;

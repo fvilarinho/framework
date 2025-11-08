@@ -2,6 +2,8 @@ package br.com.concepting.framework.model.exceptions;
 
 import br.com.concepting.framework.exceptions.ExpectedWarningException;
 
+import java.io.Serial;
+
 /**
  * Class that defines the exception when the item was not found.
  *
@@ -21,9 +23,10 @@ import br.com.concepting.framework.exceptions.ExpectedWarningException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ItemNotFoundException extends ExpectedWarningException{
+    @Serial
     private static final long serialVersionUID = 3101514179420977157L;
     
     /**

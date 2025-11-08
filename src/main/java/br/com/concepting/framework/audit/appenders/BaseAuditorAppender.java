@@ -45,7 +45,7 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseAuditorAppender extends WriterAppender{
     private Auditor auditor = null;
@@ -390,14 +390,11 @@ public abstract class BaseAuditorAppender extends WriterAppender{
     protected void process(LoggingEvent event) throws InternalErrorException{
         Layout layout = getLayout();
         
-        if(layout instanceof ConsoleLayout){
+        if(layout instanceof ConsoleLayout auditorLayout){
             AuditorModel model = getModel(event);
             
-            if(model != null){
-                ConsoleLayout auditorLayout = (ConsoleLayout) layout;
-                
+            if(model != null)
                 auditorLayout.setModel(model);
-            }
         }
         
         super.append(event);

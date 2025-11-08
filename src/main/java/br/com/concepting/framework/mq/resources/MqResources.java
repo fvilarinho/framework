@@ -6,6 +6,7 @@ import br.com.concepting.framework.resources.BaseResources;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -28,9 +29,10 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class MqResources extends BaseResources<XmlNode>{
+    @Serial
     private static final long serialVersionUID = 3052749946121399692L;
     
     private String serverName = null;
@@ -145,6 +147,7 @@ public class MqResources extends BaseResources<XmlNode>{
     }
 
     public static class MqQueue implements Serializable {
+        @Serial
         private static final long serialVersionUID = -4707395643493075904L;
 
         private String id = null;

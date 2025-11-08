@@ -3,12 +3,10 @@ package br.com.concepting.framework.model;
 import br.com.concepting.framework.caching.CacherManager;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.util.ModelUtil;
-import br.com.concepting.framework.security.model.*;
+import br.com.concepting.framework.security.model.GroupModel;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.ComponentType;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

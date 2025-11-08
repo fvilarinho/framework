@@ -10,6 +10,7 @@ import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -34,9 +35,10 @@ import java.util.Objects;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class AccordionComponent extends BaseActionFormComponent{
+    @Serial
     private static final long serialVersionUID = 1642597166746306289L;
     
     private boolean multipleSelection = false;
@@ -303,7 +305,7 @@ public class AccordionComponent extends BaseActionFormComponent{
             currentSectionPropertyComponent.setName(nameBuffer.toString());
             
             if(this.currentSections != null && !this.currentSections.isEmpty())
-                currentSectionPropertyComponent.setValue(this.currentSections.iterator().next());
+                currentSectionPropertyComponent.setValue(this.currentSections.getFirst());
             
             try{
                 currentSectionPropertyComponent.doStartTag();

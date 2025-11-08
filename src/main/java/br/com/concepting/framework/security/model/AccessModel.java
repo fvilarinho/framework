@@ -7,6 +7,8 @@ import br.com.concepting.framework.model.annotations.Property;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.persistence.types.RelationType;
 
+import java.io.Serial;
+
 /**
  * Class that defines the data model that stores the information of access.
  *
@@ -26,10 +28,11 @@ import br.com.concepting.framework.persistence.types.RelationType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Model
 public class AccessModel extends BaseModel{
+    @Serial
     private static final long serialVersionUID = -412329727370193182L;
     
     @Property(isIdentity = true)

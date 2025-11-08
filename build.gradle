@@ -128,7 +128,7 @@ dependencies {
 tasks.withType(JavaCompile).configureEach {
 	options.encoding    = "UTF-8"
     options.deprecation = true
-    options.release     = 11
+    options.release     = 21
 }
 
 tasks.withType(Jar).configureEach {
@@ -197,14 +197,12 @@ tasks.register("uiJar", Jar) {
 tasks.register("resourcesJar", Jar) {
 	archiveClassifier = "resources"
 
-
     from(sourceSets.main.output) {
 		include("etc/**/*.properties")
 		include("etc/**/*.xml")
 		include("etc/**/*.xsd")
 	}
 }
-
 
 tasks.register("coreJar", Jar) {
 	archiveClassifier = "core"
@@ -245,7 +243,6 @@ jacocoTestReport {
     }
 }
 
-
 artifacts {
     archives(allJar)
     archives(coreJar)
@@ -258,20 +255,6 @@ artifacts {
 }
 
 publishing{
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact allJar
-            artifact modelJar
-            artifact controllerJar
-            artifact persistenceJar
-            artifact serviceJar
-            artifact uiJar
-            artifact resourcesJar
-            artifact coreJar
-            artifact javadocJar
-        }
-    }
     repositories {
         maven {
             url = "${repositoryUrl}"

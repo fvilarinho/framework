@@ -6,6 +6,7 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.security.SecureRandom;
 
 /**
@@ -27,9 +28,10 @@ import java.security.SecureRandom;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class CheckPropertyComponent extends BaseOptionPropertyComponent{
+    @Serial
     private static final long serialVersionUID = 3956751502801574242L;
 
     @Override

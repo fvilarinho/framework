@@ -1,6 +1,5 @@
 package br.com.concepting.framework.resources;
 
-import br.com.concepting.framework.persistence.constants.PersistenceConstants;
 import br.com.concepting.framework.persistence.resources.PersistenceFactoryResourcesLoader;
 import br.com.concepting.framework.resources.constants.FactoryConstants;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;

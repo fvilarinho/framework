@@ -16,6 +16,8 @@ import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.security.resources.SecurityResources;
 import br.com.concepting.framework.ui.constants.UIConstants;
 
+import java.io.Serial;
+
 /**
  * Class that defines the component that renders the system.
  *
@@ -35,25 +37,14 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class SystemComponent extends BaseComponent{
+    @Serial
     private static final long serialVersionUID = 7420316295230472764L;
 
     @Override
     protected void buildName() throws InternalErrorException{
-    }
-
-    @Override
-    protected void buildEvents() throws InternalErrorException{
-    }
-
-    @Override
-    protected void buildStyle() throws InternalErrorException{
-    }
-
-    @Override
-    protected void renderOpen() throws InternalErrorException{
     }
 
     @Override

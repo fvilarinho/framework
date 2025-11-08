@@ -14,6 +14,7 @@ import br.com.concepting.framework.util.types.ContentType;
 import br.com.concepting.framework.util.types.MethodType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.util.Collection;
 
 /**
@@ -35,9 +36,10 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ActionFormComponent extends BaseComponent{
+    @Serial
     private static final long serialVersionUID = -800612013578741201L;
     
     private String action = null;

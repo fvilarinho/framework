@@ -20,6 +20,7 @@ import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.SortOrderType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.security.SecureRandom;
@@ -46,9 +47,10 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class GridPropertyComponent extends OptionsPropertyComponent{
+    @Serial
     private static final long serialVersionUID = -5946996131314362186L;
     
     private boolean scrolling = false;
@@ -1229,9 +1231,8 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                     println("<td></td>");
                 
                 for(GridColumnComponent item: this.columnsComponents){
-                    if(item.getParent() instanceof GridColumnGroupComponent){
-                        GridColumnGroupComponent columnGroupComponent = (GridColumnGroupComponent) item.getParent();
-                        
+                    if(item.getParent() instanceof GridColumnGroupComponent columnGroupComponent){
+
                         if(!columnGroupComponent.aggregate()){
                             columnGroupLabel = columnGroupComponent.getLabel();
                             columnGroupTooltip = columnGroupComponent.getTooltip();

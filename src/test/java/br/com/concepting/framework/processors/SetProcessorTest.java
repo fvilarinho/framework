@@ -2,7 +2,6 @@ package br.com.concepting.framework.processors;
 
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.util.LanguageUtil;
-import br.com.concepting.framework.util.LanguageUtilTest;
 import br.com.concepting.framework.util.helpers.XmlNode;
 import org.junit.Test;
 

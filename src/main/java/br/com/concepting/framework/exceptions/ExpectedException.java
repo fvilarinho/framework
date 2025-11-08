@@ -3,6 +3,8 @@ package br.com.concepting.framework.exceptions;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.io.Serial;
+
 /**
  * Class that defines an expected exception.
  *
@@ -22,11 +24,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "class")
 @JsonIgnoreProperties({"stackTrace", "suppressed", "cause"})
 public class ExpectedException extends Exception{
+    @Serial
     private static final long serialVersionUID = -2046392122293087621L;
     
     /**

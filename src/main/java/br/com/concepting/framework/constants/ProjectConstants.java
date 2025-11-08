@@ -19,7 +19,7 @@ package br.com.concepting.framework.constants;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public final class ProjectConstants{
     public static final String BUILD_ATTRIBUTE_ID = "build";

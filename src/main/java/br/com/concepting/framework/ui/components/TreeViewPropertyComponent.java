@@ -20,6 +20,7 @@ import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.security.SecureRandom;
 import java.util.Collection;
@@ -44,10 +45,11 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @SuppressWarnings("unchecked")
 public class TreeViewPropertyComponent extends OptionsPropertyComponent{
+    @Serial
     private static final long serialVersionUID = -5398943872124965129L;
     
     private String nodeLabelProperty = null;

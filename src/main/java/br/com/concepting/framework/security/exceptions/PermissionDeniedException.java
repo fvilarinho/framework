@@ -2,6 +2,8 @@ package br.com.concepting.framework.security.exceptions;
 
 import br.com.concepting.framework.exceptions.ExpectedErrorException;
 
+import java.io.Serial;
+
 /**
  * Class that defines the exception when the user doesn't have permission to access the resource.
  *
@@ -21,9 +23,10 @@ import br.com.concepting.framework.exceptions.ExpectedErrorException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class PermissionDeniedException extends ExpectedErrorException{
+    @Serial
     private static final long serialVersionUID = 2218995807861634081L;
     
     /**

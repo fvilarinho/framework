@@ -97,7 +97,7 @@
                                             <xs:complexType>
                                                 <xs:simpleContent>
                                                     <xs:extension base="xs:string">
-                                                        <xs:attribute name="escape" type="xs:boolean" use="optional"/>
+                                                        <xs:attribute name="escape" type="xs:boolean"/>
                                                     </xs:extension>
                                                 </xs:simpleContent>
                                             </xs:complexType>

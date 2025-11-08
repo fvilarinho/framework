@@ -80,10 +80,10 @@
 								<xs:complexType>
 									<xs:simpleContent>
 										<xs:extension base="xs:string">
-											<xs:attribute type="xs:boolean" name="isWeb" use="optional"/>
-											<xs:attribute type="xs:string" name="url" use="optional"/>
-											<xs:attribute type="xs:boolean" name="isJob" use="optional"/>
-											<xs:attribute type="xs:boolean" name="isRecurrent" use="optional"/>
+											<xs:attribute type="xs:boolean" name="isWeb"/>
+											<xs:attribute type="xs:string" name="url"/>
+											<xs:attribute type="xs:boolean" name="isJob"/>
+											<xs:attribute type="xs:boolean" name="isRecurrent"/>
 										</xs:extension>
 									</xs:simpleContent>
 								</xs:complexType>

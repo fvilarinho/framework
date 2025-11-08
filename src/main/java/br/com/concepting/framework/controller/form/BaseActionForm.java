@@ -22,6 +22,7 @@ import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import org.apache.commons.beanutils.ConstructorUtils;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -45,11 +46,12 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  * @author fvilarinho
  * @since 1.0.0
  */
 public abstract class BaseActionForm<M extends BaseModel> implements Serializable{
+    @Serial
     private static final long serialVersionUID = -4308647670235033678L;
     
     private List<String> actionsHistory = null;
@@ -102,10 +104,10 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
      */
     public void removeActionHistory(){
         if(this.actionsHistory != null && !actionsHistory.isEmpty()){
-            actionsHistory.remove(actionsHistory.size() - 1);
+            actionsHistory.removeLast();
             
             if(!actionsHistory.isEmpty())
-                setAction(actionsHistory.get(actionsHistory.size() - 1));
+                setAction(actionsHistory.getLast());
         }
     }
     

@@ -3,6 +3,8 @@ package br.com.concepting.framework.ui.components;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.util.types.ComponentType;
 
+import java.io.Serial;
+
 /**
  * Class that defines the text area component.
  *
@@ -22,9 +24,10 @@ import br.com.concepting.framework.util.types.ComponentType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class TextAreaPropertyComponent extends TextPropertyComponent{
+    @Serial
     private static final long serialVersionUID = -4412598905102532413L;
     
     private int rows = 0;

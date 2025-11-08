@@ -79,7 +79,7 @@ import java.util.Locale;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
     private final ModelInfo modelInfo;
@@ -232,14 +232,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         packageNameBuffer.append(packagePrefix);
                     
                     if(packageName != null && !packageName.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
                     if(packageSuffix != null && !packageSuffix.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageSuffix);
@@ -284,7 +284,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             String actionClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
                             if(!actionClassContent.isEmpty())
-                                FileUtil.toTextFile(actionClassFilename.toString(), actionClassContent, encoding);
+                                FileUtil.toFile(actionClassFilename.toString(), actionClassContent, encoding);
                         }
                     }
                     else{
@@ -341,14 +341,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         packageNameBuffer.append(packagePrefix);
                     
                     if(packageName != null && !packageName.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
                     if(packageSuffix != null && !packageSuffix.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageSuffix);
@@ -392,7 +392,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             String actionFormClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
                             if(!actionFormClassContent.isEmpty())
-                                FileUtil.toTextFile(actionFormClassFilename.toString(), actionFormClassContent, encoding);
+                                FileUtil.toFile(actionFormClassFilename.toString(), actionFormClassContent, encoding);
                             
                             addActionFormMapping(actionFormClassName.toString());
                         }
@@ -585,14 +585,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         packageNameBuffer.append(packagePrefix);
                     
                     if(packageName != null && !packageName.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
                     if(packageSuffix != null && !packageSuffix.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageSuffix);
@@ -636,7 +636,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             String modelClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
                             if(!modelClassContent.isEmpty())
-                                FileUtil.toTextFile(modelClassFilename.toString(), modelClassContent, encoding);
+                                FileUtil.toFile(modelClassFilename.toString(), modelClassContent, encoding);
                             
                             addCheckGeneratedCode(modelClassName.toString());
                         }
@@ -681,14 +681,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         packageNameBuffer.append(packagePrefix);
                     
                     if(packageName != null && !packageName.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
                     if(packageSuffix != null && !packageSuffix.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageSuffix);
@@ -731,7 +731,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         String modelClassTestContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                         
                         if(!modelClassTestContent.isEmpty())
-                            FileUtil.toTextFile(modelClassTestFilename.toString(), modelClassTestContent, encoding);
+                            FileUtil.toFile(modelClassTestFilename.toString(), modelClassTestContent, encoding);
                     }
                 }
             }
@@ -780,14 +780,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 packageNameBuffer.append(packagePrefix);
                             
                             if(packageName != null && !packageName.isEmpty()){
-                                if(packageNameBuffer.length() > 0)
+                                if(!packageNameBuffer.isEmpty())
                                     packageNameBuffer.append(".");
                                 
                                 packageNameBuffer.append(packageName);
                             }
                             
                             if(packageSuffix != null && !packageSuffix.isEmpty()){
-                                if(packageNameBuffer.length() > 0)
+                                if(!packageNameBuffer.isEmpty())
                                     packageNameBuffer.append(".");
                                 
                                 packageNameBuffer.append(packageSuffix);
@@ -831,7 +831,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                         GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, resourcesTemplateArtifactNode);
                                         String resourcesContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                                         
-                                        FileUtil.toTextFile(resourcesFilename.toString(), resourcesContent, encoding);
+                                        FileUtil.toFile(resourcesFilename.toString(), resourcesContent, encoding);
                                     }
                                 }
                                 else{
@@ -881,14 +881,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         packageNameBuffer.append(packagePrefix);
                     
                     if(packageName != null && !packageName.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
                     if(packageSuffix != null && !packageSuffix.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageSuffix);
@@ -932,7 +932,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             String persistenceClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
                             if(!persistenceClassContent.isEmpty())
-                                FileUtil.toTextFile(persistenceClassFilename.toString(), persistenceClassContent, encoding);
+                                FileUtil.toFile(persistenceClassFilename.toString(), persistenceClassContent, encoding);
                         }
                     }
                     else{
@@ -979,14 +979,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         packageNameBuffer.append(packagePrefix);
                     
                     if(packageName != null && !packageName.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
                     if(packageSuffix != null && !packageSuffix.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageSuffix);
@@ -1030,7 +1030,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             String persistenceInterfaceContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
                             if(!persistenceInterfaceContent.isEmpty())
-                                FileUtil.toTextFile(persistenceInterfaceFilename.toString(), persistenceInterfaceContent, encoding);
+                                FileUtil.toFile(persistenceInterfaceFilename.toString(), persistenceInterfaceContent, encoding);
                         }
                     }
                     else{
@@ -1076,14 +1076,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         packageNameBuffer.append(packagePrefix);
                     
                     if(packageName != null && !packageName.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
                     if(packageSuffix != null && !packageSuffix.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageSuffix);
@@ -1238,14 +1238,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         packageNameBuffer.append(packagePrefix);
                     
                     if(packageName != null && !packageName.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
                     if(packageSuffix != null && !packageSuffix.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageSuffix);
@@ -1289,7 +1289,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             String serviceClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
                             if(!serviceClassContent.isEmpty())
-                                FileUtil.toTextFile(serviceClassFilename.toString(), serviceClassContent, encoding);
+                                FileUtil.toFile(serviceClassFilename.toString(), serviceClassContent, encoding);
                             
                             addServiceMapping(serviceClassName.toString());
                         }
@@ -1354,14 +1354,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                         packageNameBuffer.append(packagePrefix);
                     
                     if(packageName != null && !packageName.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageName);
                     }
                     
                     if(packageSuffix != null && !packageSuffix.isEmpty()){
-                        if(packageNameBuffer.length() > 0)
+                        if(!packageNameBuffer.isEmpty())
                             packageNameBuffer.append(".");
                         
                         packageNameBuffer.append(packageSuffix);
@@ -1405,7 +1405,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                             String serviceInterfaceContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
                             
                             if(!serviceInterfaceContent.isEmpty())
-                                FileUtil.toTextFile(serviceInterfaceFilename.toString(), serviceInterfaceContent, encoding);
+                                FileUtil.toFile(serviceInterfaceFilename.toString(), serviceInterfaceContent, encoding);
                         }
                     }
                     else{
@@ -1481,14 +1481,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 packageNameBuffer.append(packagePrefix);
                             
                             if(packageName != null && !packageName.isEmpty()){
-                                if(packageNameBuffer.length() > 0)
+                                if(!packageNameBuffer.isEmpty())
                                     packageNameBuffer.append(".");
                                 
                                 packageNameBuffer.append(packageName);
                             }
                             
                             if(packageSuffix != null && !packageSuffix.isEmpty()){
-                                if(packageNameBuffer.length() > 0)
+                                if(!packageNameBuffer.isEmpty())
                                     packageNameBuffer.append(".");
                                 
                                 packageNameBuffer.append(packageSuffix);
@@ -1548,7 +1548,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                         
                                         persistenceDataContent = persistenceDataContentBuffer.toString();
                                         
-                                        FileUtil.toTextFile(persistenceDataFilename.toString(), persistenceDataContent, encoding);
+                                        FileUtil.toFile(persistenceDataFilename.toString(), persistenceDataContent, encoding);
                                     }
                                 }
                             }
@@ -1666,17 +1666,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 uiPageStylesDir.mkdirs();
                             
                             if(!uiPageScriptFile.exists())
-                                FileUtil.toTextFile(new FileOutputStream(uiPageScriptFile), "");
+                                FileUtil.toFile(new FileOutputStream(uiPageScriptFile), "");
                             
                             if(!uiPageStyleFile.exists())
-                                FileUtil.toTextFile(new FileOutputStream(uiPageStyleFile), "");
+                                FileUtil.toFile(new FileOutputStream(uiPageStyleFile), "");
                             
                             if(!uiPageFile.exists()){
                                 GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, uiPageTemplateArtifactNode);
                                 String uiPageContent = StringUtil.indent(processor.process(), JspIndent.getRules());
                                 
                                 if(!uiPageContent.isEmpty())
-                                    FileUtil.toTextFile(uiPageFilename.toString(), uiPageContent, encoding);
+                                    FileUtil.toFile(uiPageFilename.toString(), uiPageContent, encoding);
                             }
                         }
                         else{
@@ -2096,6 +2096,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
         contentBuffer.append(className);
         contentBuffer.append(FileUtil.getDirectorySeparator());
         
-        FileUtil.toTextFile(checkGeneratedCodeFilename.toString(), contentBuffer.toString(), true);
+        FileUtil.toFile(checkGeneratedCodeFilename.toString(), contentBuffer.toString(), true);
     }
 }

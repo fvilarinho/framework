@@ -38,7 +38,7 @@ import java.util.Properties;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class Ldap{
     private static Map<String, Ldap> instances = null;
@@ -232,7 +232,7 @@ public class Ldap{
                         
                         for(NamingEnumeration<Attribute> e = (NamingEnumeration<Attribute>) attribute.getAll(); e.hasMore(); attributeValue = e.next()){
                             if(attributeValue != null){
-                                if(attributeValueBuffer.length() > 0)
+                                if(!attributeValueBuffer.isEmpty())
                                     attributeValueBuffer.append(";");
                                 
                                 attributeValueBuffer.append(attributeValue);

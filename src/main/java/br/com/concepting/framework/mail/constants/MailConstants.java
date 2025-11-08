@@ -23,7 +23,7 @@ import br.com.concepting.framework.mail.types.MailTransportType;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public final class MailConstants{
     public static final String FROM_ATTRIBUTE_ID = "from";

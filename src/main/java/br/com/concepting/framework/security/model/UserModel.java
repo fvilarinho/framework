@@ -18,6 +18,7 @@ import br.com.concepting.framework.util.types.SortOrderType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import java.io.Serial;
 import java.util.Collection;
 
 /**
@@ -39,10 +40,11 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Model(descriptionPattern = "#{name}")
 public class UserModel extends BaseModel{
+    @Serial
     private static final long serialVersionUID = -5952606948187054532L;
     
     @Property(isIdentity = true)

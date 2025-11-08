@@ -4,6 +4,8 @@ import br.com.concepting.framework.audit.annotations.Auditable;
 import br.com.concepting.framework.model.annotations.Model;
 import br.com.concepting.framework.model.annotations.Property;
 
+import java.io.Serial;
+
 /**
  * Class that defines the basic implementation of a data model that stores
  * information of the access.
@@ -24,11 +26,12 @@ import br.com.concepting.framework.model.annotations.Property;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Model(descriptionPattern = "#{path}")
 @Auditable
 public class UrlModel extends BaseModel{
+    @Serial
     private static final long serialVersionUID = 5960805163339246391L;
     
     @Property(isIdentity = true)

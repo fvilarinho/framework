@@ -4,6 +4,7 @@ import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
+import java.io.Serial;
 import java.util.Map;
 
 /**
@@ -25,9 +26,10 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class FactoryResources extends BaseResources<XmlNode>{
+    @Serial
     private static final long serialVersionUID = 4087229074759796309L;
     
     private String clazz = null;

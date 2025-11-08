@@ -3,6 +3,7 @@ package br.com.concepting.framework.network.helpers;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.ContentType;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -24,11 +25,12 @@ import java.util.Date;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  * @author fvilarinho
  * @since 1.0.0
  */
 public class Message<O> implements Serializable{
+    @Serial
     private static final long serialVersionUID = 6336269811220022270L;
     
     private DateTime sentDateTime = null;

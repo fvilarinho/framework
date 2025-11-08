@@ -12,10 +12,7 @@ import jakarta.mail.Address;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 import java.util.Collection;
 import java.util.Map;
@@ -39,9 +36,10 @@ import java.util.Map;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class MailMessage extends Message<Object>{
+    @Serial
     private static final long serialVersionUID = 6336269811220022270L;
     
     private Collection<Address> to = null;

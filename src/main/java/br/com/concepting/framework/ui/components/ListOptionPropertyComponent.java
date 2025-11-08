@@ -2,6 +2,8 @@ package br.com.concepting.framework.ui.components;
 
 import br.com.concepting.framework.exceptions.InternalErrorException;
 
+import java.io.Serial;
+
 /**
  * Class that defines the option of the list component.
  *
@@ -21,9 +23,10 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ListOptionPropertyComponent extends BaseOptionPropertyComponent{
+    @Serial
     private static final long serialVersionUID = 5718731968797128195L;
 
     @Override

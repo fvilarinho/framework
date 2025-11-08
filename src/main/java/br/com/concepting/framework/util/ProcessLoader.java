@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collection;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -28,7 +27,7 @@ import java.util.concurrent.TimeoutException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ProcessLoader{
     private static ProcessLoader instance = null;
@@ -44,107 +43,44 @@ public class ProcessLoader{
         
         return instance;
     }
-    
+
     /**
      * Executes a process with parameters.
      *
-     * @param commandParameters List that contains the parameters.
+     * @param command Array that contains the parameters.
      * @return Instance that contains the stream of the execution.
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    public String execute(Collection<String> commandParameters) throws IOException{
-        return execute(commandParameters, false, Constants.DEFAULT_PROCESS_TIMEOUT);
-    }
-    
-    /**
-     * Executes a process with parameters.
-     *
-     * @param commandParameters List that contains the parameters.
-     * @param timeout Numeric value that contains the timeout.
-     * @return Instance that contains the stream of the execution.
-     * @throws IOException Occurs when was not possible to execute the
-     * operation.
-     */
-    public String execute(Collection<String> commandParameters, int timeout) throws IOException{
-        return execute(commandParameters, false, timeout);
-    }
-    
-    /**
-     * Executes a process with parameters.
-     *
-     * @param commandParameters List that contains the parameters.
-     * @param async True/False.
-     * @param timeout Numeric value that contains the timeout.
-     * @return Instance that contains the stream of the execution.
-     * @throws IOException Occurs when was not possible to execute the
-     * operation.
-     */
-    public String execute(Collection<String> commandParameters, boolean async, int timeout) throws IOException{
-        if(commandParameters != null && !commandParameters.isEmpty()){
-            StringBuilder command = new StringBuilder();
-            
-            for(String commandParameter: commandParameters){
-                if(command.length() > 0)
-                    command.append(" ");
-                
-                command.append(commandParameter);
-            }
-            
-            return execute(command.toString(), async, timeout);
-        }
-        
-        return null;
-    }
-    
-    /**
-     * Executes an asynchronous process with parameters.
-     *
-     * @param commandParameters List that contains the parameters.
-     * @throws IOException Occurs when was not possible to execute the
-     * operation.
-     */
-    public void asyncExecute(Collection<String> commandParameters) throws IOException{
-        execute(commandParameters, true, Constants.DEFAULT_PROCESS_TIMEOUT);
-    }
-    
-    /**
-     * Executes a process with parameters.
-     *
-     * @param command List that contains the parameters.
-     * @return Instance that contains the stream of the execution.
-     * @throws IOException Occurs when was not possible to execute the
-     * operation.
-     */
-    public String execute(String command) throws IOException{
+    public String execute(String[] command) throws IOException{
         return execute(command, false, Constants.DEFAULT_PROCESS_TIMEOUT);
     }
     
     /**
      * Executes a process with parameters.
      *
-     * @param command List that contains the parameters.
+     * @param command Array that contains the parameters.
      * @param timeout Numeric value that contains the timeout.
      * @return Instance that contains the stream of the execution.
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    public String execute(String command, int timeout) throws IOException{
+    public String execute(String[] command, int timeout) throws IOException{
         return execute(command, false, timeout);
     }
     
     /**
      * Executes a process with parameters.
      *
-     * @param command List that contains the parameters.
+     * @param command Array that contains the parameters.
      * @param async True/False.
      * @param timeout Numeric value that contains the timeout.
      * @return Instance that contains the stream of the execution.
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    private String execute(String command, boolean async, int timeout) throws IOException{
-        if(command != null && !command.isEmpty()){
+    private String execute(String[] command, boolean async, int timeout) throws IOException{
+        if(command != null && command.length > 0){
             Process child = Runtime.getRuntime().exec(command);
             
             if(!async){
@@ -164,7 +100,7 @@ public class ProcessLoader{
                         String line;
 
                         while((line = reader.readLine()) != null){
-                            if(result.length() > 0)
+                            if(!result.isEmpty())
                                 result.append(StringUtil.getLineBreak());
                             
                             result.append(line);
@@ -196,7 +132,7 @@ public class ProcessLoader{
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    public void asyncExecute(String command) throws IOException{
+    public void asyncExecute(String[] command) throws IOException{
         execute(command, true, Constants.DEFAULT_PROCESS_TIMEOUT);
     }
     
@@ -219,7 +155,7 @@ public class ProcessLoader{
      * GNU General Public License for more details.
      *
      * You should have received a copy of the GNU General Public License
-     * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+     * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
      */
     private static class Worker extends Thread{
         private final Process process;

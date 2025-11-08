@@ -9,9 +9,8 @@ import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.Node;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import org.apache.commons.beanutils.MethodUtils;
-import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.Serial;
 import java.util.Collection;
 
 /**
@@ -33,10 +32,11 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Model
 public abstract class BaseModel extends Node implements Comparable<BaseModel>{
+    @Serial
     private static final long serialVersionUID = -7144498720569063721L;
     
     @Property(pattern = "##0.00")

@@ -4,6 +4,7 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.tagext.Tag;
+import java.io.Serial;
 
 /**
  * Class that defines the radio button component.
@@ -24,9 +25,10 @@ import javax.servlet.jsp.tagext.Tag;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class RadioPropertyComponent extends BaseOptionPropertyComponent{
+    @Serial
     private static final long serialVersionUID = 7631291170352730770L;
 
     @Override

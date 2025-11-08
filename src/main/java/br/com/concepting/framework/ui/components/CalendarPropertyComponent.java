@@ -9,6 +9,7 @@ import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.util.Calendar;
 
 /**
@@ -30,9 +31,10 @@ import java.util.Calendar;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class CalendarPropertyComponent extends TextPropertyComponent{
+    @Serial
     private static final long serialVersionUID = -2047638037702135816L;
     
     private boolean showButton = true;
@@ -405,6 +407,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @since 2.0.0
      */
     private static class ShowCalendarButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -7577282331598735497L;
         
         /**
@@ -464,6 +467,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @since 2.0.0
      */
     private static class PreviousYearButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = 6998272659624256987L;
         
         /**
@@ -523,6 +527,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @since 2.0.0
      */
     private static class PreviousMonthButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -3641327767947261579L;
         
         /**
@@ -582,6 +587,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @since 2.0.0
      */
     private static class NextMonthButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = 7443293371718716410L;
         
         /**
@@ -641,6 +647,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @since 2.0.0
      */
     private static class NextYearButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -3340079892458275397L;
         
         /**
@@ -700,6 +707,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @since 3.3.0
      */
     private static class HoursPropertyComponent extends SliderBarComponent{
+        @Serial
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -828,6 +836,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @since 3.3.0
      */
     private static class MinutesPropertyComponent extends SliderBarComponent{
+        @Serial
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -946,6 +955,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @since 3.3.0
      */
     private static class SecondsPropertyComponent extends SliderBarComponent{
+        @Serial
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -1064,6 +1074,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
      * @since 3.3.0
      */
     private static class MillisecondsPropertyComponent extends SliderBarComponent{
+        @Serial
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -1176,6 +1187,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
     }
     
     private static class AmPropertyComponent extends RadioPropertyComponent{
+        @Serial
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**
@@ -1270,6 +1282,7 @@ public class CalendarPropertyComponent extends TextPropertyComponent{
     }
     
     private static class PmPropertyComponent extends RadioPropertyComponent{
+        @Serial
         private static final long serialVersionUID = -8176506397233683603L;
         
         /**

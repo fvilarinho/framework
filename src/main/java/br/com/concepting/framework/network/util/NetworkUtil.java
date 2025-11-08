@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class NetworkUtil{
     private static final Pattern DEFAULT_IP_CHECK_REGEX = Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
@@ -129,7 +129,7 @@ public class NetworkUtil{
         String[] octets = StringUtil.split(expression, ".");
         
         for(String octet: octets){
-            if(regexBuffer.length() > 0)
+            if(!regexBuffer.isEmpty())
                 regexBuffer.append(".");
             
             if(octet.contains("-")){

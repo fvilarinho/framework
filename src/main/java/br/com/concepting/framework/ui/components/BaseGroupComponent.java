@@ -3,6 +3,8 @@ package br.com.concepting.framework.ui.components;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.ui.constants.UIConstants;
 
+import java.io.Serial;
+
 /**
  * Class that defines the basic implementation for a group component.
  *
@@ -22,9 +24,10 @@ import br.com.concepting.framework.ui.constants.UIConstants;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseGroupComponent extends BaseActionFormComponent{
+    @Serial
     private static final long serialVersionUID = 8751796595605205394L;
 
     @Override

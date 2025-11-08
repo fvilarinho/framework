@@ -7,6 +7,7 @@ import br.com.concepting.framework.util.NumberUtil;
 import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.text.DecimalFormatSymbols;
 
 /**
@@ -28,9 +29,10 @@ import java.text.DecimalFormatSymbols;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class SliderBarComponent extends TextPropertyComponent{
+    @Serial
     private static final long serialVersionUID = 1573821017694529722L;
 
     @Override

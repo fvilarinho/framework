@@ -13,6 +13,7 @@ import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.ComponentType;
 
+import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
@@ -36,9 +37,10 @@ import java.util.List;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class GridColumnComponent extends BaseOptionsPropertyComponent{
+    @Serial
     private static final long serialVersionUID = 4958728620516766106L;
     
     private boolean showAsImage = false;
@@ -476,13 +478,9 @@ public class GridColumnComponent extends BaseOptionsPropertyComponent{
                     if(!(this instanceof GridColumnGroupComponent)){
                         GridColumnComponent gridColumnComponent = (GridColumnComponent) this.clone();
                         
-                        if(getParent() instanceof GridColumnGroupComponent){
-                            GridColumnGroupComponent gridColumnGroupComponent = (GridColumnGroupComponent) getParent();
-                            
-                            if(gridColumnGroupComponent != null)
-                                gridColumnComponent.setParent(gridColumnGroupComponent.clone());
-                        }
-                        
+                        if(getParent() instanceof GridColumnGroupComponent gridColumnGroupComponent)
+                            gridColumnComponent.setParent(gridColumnGroupComponent.clone());
+
                         gridComponent.addColumnComponent(gridColumnComponent);
                     }
                 }

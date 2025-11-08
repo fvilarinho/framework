@@ -7,6 +7,8 @@ import br.com.concepting.framework.model.types.ValidationType;
 import br.com.concepting.framework.util.helpers.DateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.io.Serial;
+
 /**
  * Class that defines the data model that stores the login parameters.
  *
@@ -26,10 +28,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Model
 public class LoginParameterModel extends BaseModel{
+    @Serial
     private static final long serialVersionUID = -6631335675531065211L;
     
     @Property(isIdentity = true)

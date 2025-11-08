@@ -8,6 +8,7 @@ import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;
+import java.io.Serial;
 
 /**
  * Class that defines the search properties group component.
@@ -28,9 +29,10 @@ import javax.servlet.jsp.tagext.BodyContent;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class SearchPropertiesGroupComponent extends BaseGroupComponent{
+    @Serial
     private static final long serialVersionUID = 8751796595605205394L;
     
     private String action = null;

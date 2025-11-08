@@ -10,6 +10,7 @@ import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.util.Collection;
 
 /**
@@ -31,9 +32,10 @@ import java.util.Collection;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class PagerComponent extends BaseOptionsPropertyComponent{
+    @Serial
     private static final long serialVersionUID = 6880028362277325178L;
     
     private boolean showItemsPerPage = true;
@@ -505,6 +507,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @since 1.0.0
      */
     private static class FirstPageButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -7169801688944456509L;
         
         /**
@@ -590,6 +593,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @since 1.0.0
      */
     private static class PreviousPageButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -1949430040045196611L;
         
         /**
@@ -675,6 +679,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @since 1.0.0
      */
     private static class NextPageButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = 2747901438645534966L;
         
         /**
@@ -761,6 +766,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @since 1.0.0
      */
     private static class LastPageButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -574994133651394709L;
         
         /**
@@ -845,6 +851,7 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
      * @since 1.0.0
      */
     private static class ItemsPerPagePropertyComponent extends TextPropertyComponent{
+        @Serial
         private static final long serialVersionUID = 7830360215475249040L;
         
         /**

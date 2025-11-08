@@ -2,6 +2,8 @@ package br.com.concepting.framework.controller.form;
 
 import br.com.concepting.framework.model.MainConsoleModel;
 
+import java.io.Serial;
+
 /**
  * Class that defines the basic implementation of the main console form.
  *
@@ -22,8 +24,9 @@ import br.com.concepting.framework.model.MainConsoleModel;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class MainConsoleActionForm<M extends MainConsoleModel> extends BaseActionForm<M>{
+    @Serial
     private static final long serialVersionUID = 2246476401602563788L;
 }

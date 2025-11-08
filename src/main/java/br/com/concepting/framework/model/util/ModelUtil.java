@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ModelUtil{
     private static final ObjectMapper propertyMapper = PropertyUtil.getMapper();

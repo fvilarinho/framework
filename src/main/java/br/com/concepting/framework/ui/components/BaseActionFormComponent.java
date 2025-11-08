@@ -27,6 +27,7 @@ import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.security.SecureRandom;
 
@@ -49,9 +50,10 @@ import java.security.SecureRandom;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public abstract class BaseActionFormComponent extends BaseComponent{
+    @Serial
     private static final long serialVersionUID = 1879613642083701618L;
     
     private int size = 0;
@@ -1434,7 +1436,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 if(eventUpdateViews != null && !eventUpdateViews.isEmpty()){
                     if(eventContent == null)
                         eventContent = new StringBuilder();
-                    else if(eventContent.length() > 0)
+                    else if(!eventContent.isEmpty())
                         eventContent.append(" ");
                     
                     eventContent.append("document.");
@@ -1451,7 +1453,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 if(eventValidate){
                     if(eventContent == null)
                         eventContent = new StringBuilder();
-                    else if(eventContent.length() > 0)
+                    else if(!eventContent.isEmpty())
                         eventContent.append(" ");
                     
                     eventContent.append("document.");
@@ -1476,7 +1478,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 if(eventAction != null && !eventAction.isEmpty()){
                     if(eventContent == null)
                         eventContent = new StringBuilder();
-                    else if(eventContent.length() > 0)
+                    else if(!eventContent.isEmpty())
                         eventContent.append(" ");
                     
                     eventContent.append("document.");
@@ -1492,7 +1494,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             if(currentEventContent != null && !currentEventContent.isEmpty()){
                 if(eventContent == null)
                     eventContent = new StringBuilder();
-                else if(eventContent.length() > 0)
+                else if(!eventContent.isEmpty())
                     eventContent.append(" ");
                 
                 eventContent.append(currentEventContent);
@@ -1502,7 +1504,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             }
             
             if(this.actionFormName != null && !this.actionFormName.isEmpty() && eventAction != null && !eventAction.isEmpty()){
-                if(eventContent.length() > 0)
+                if(!eventContent.isEmpty())
                     eventContent.append(" ");
                 
                 if(asynchronousEvents()){
@@ -1517,7 +1519,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 }
             }
             
-            if(eventContent != null && eventContent.length() > 0)
+            if(eventContent != null && !eventContent.isEmpty())
                 PropertyUtil.setValue(this, eventId, eventContent.toString());
         }
         catch(IllegalArgumentException | InvocationTargetException | IllegalAccessException | NoSuchMethodException e){

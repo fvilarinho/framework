@@ -9,6 +9,7 @@ import br.com.concepting.framework.util.types.ContentType;
 import br.com.concepting.framework.util.types.PositionType;
 
 import javax.servlet.jsp.JspException;
+import java.io.Serial;
 
 /**
  * Class that defines the download box component.
@@ -29,9 +30,10 @@ import javax.servlet.jsp.JspException;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <a href="http://www.gnu.org/licenses"></a>.</pre>
+ * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class UploadPropertyComponent extends DownloadPropertyComponent{
+    @Serial
     private static final long serialVersionUID = -1340422255244638637L;
 
     @Override
@@ -157,6 +159,7 @@ public class UploadPropertyComponent extends DownloadPropertyComponent{
      * @since 1.0.0
      */
     private class UploadButtonComponent extends ButtonComponent{
+        @Serial
         private static final long serialVersionUID = -7170110437405939054L;
         
         /**
