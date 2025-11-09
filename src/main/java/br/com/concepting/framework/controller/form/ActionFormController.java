@@ -154,8 +154,6 @@ public class ActionFormController{
                                 
                                 this.systemController.setAttribute(this.actionFormName, actionFormInstance, ScopeType.SESSION);
                             }
-                            
-                            return actionFormInstance;
                         }
                     }
                 }
@@ -165,7 +163,7 @@ public class ActionFormController{
             }
         }
         
-        return null;
+        return actionFormInstance;
     }
     
     /**

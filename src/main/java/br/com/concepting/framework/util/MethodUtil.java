@@ -104,9 +104,9 @@ public class MethodUtil {
      * @param methodName String that contains the method name.
      * @param methodArguments Array that contains the arguments of the method.
      * @return Object that contains the result of the method.
-     * @throws InvocationTargetException Occurs when was not possible to execute the mnethod.
-     * @throws NoSuchMethodException Occurs when was not possible to execute the mnethod.
-     * @throws IllegalAccessException Occurs when was not possible to execute the mnethod.
+     * @throws InvocationTargetException Occurs when was not possible to execute the method.
+     * @throws NoSuchMethodException Occurs when was not possible to execute the method.
+     * @throws IllegalAccessException Occurs when was not possible to execute the method.
      */
     public static Object invokeMethod(Object instance, String methodName, Object[] methodArguments) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         return MethodUtils.invokeMethod(instance, methodName, methodArguments);

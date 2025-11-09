@@ -35,8 +35,9 @@ public class LanguageUtil{
      * @return Instance that contains the language.
      */
     public static Locale getLanguageByString(String value){
+        Locale language = null;
+
         if(value != null && !value.isEmpty()){
-            Locale language = null;
             String[] languageBuffer = StringUtil.split(value, "_");
             
             if(languageBuffer.length == 1)
@@ -45,11 +46,9 @@ public class LanguageUtil{
                 language = Locale.of(languageBuffer[0], languageBuffer[1]);
             else
                 language = Locale.of(languageBuffer[0], languageBuffer[1], languageBuffer[2]);
-            
-            return language;
         }
         
-        return null;
+        return language;
     }
 
     protected static SystemResources getResources() {
