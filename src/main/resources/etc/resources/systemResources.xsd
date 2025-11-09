@@ -42,7 +42,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="actionForms" minOccurs="0">
+				<xs:element name="actionForms">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="actionForm" minOccurs="0" maxOccurs="unbounded">
@@ -73,7 +73,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="services" minOccurs="0">
+				<xs:element name="services">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="service" minOccurs="0" maxOccurs="unbounded">

@@ -6,21 +6,21 @@
 				<xs:element name="loginSession">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element type="xs:short" name="timeout" minOccurs="0"/>
+							<xs:element type="xs:short" name="timeout"/>
 							<xs:element type="xs:string" name="class" minOccurs="0"/>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-              	<xs:element name="cryptography" minOccurs="0">
+              	<xs:element name="cryptography">
                 	<xs:complexType>
-                  		<xs:attribute name="algorithm" default="AES">
+                  		<xs:attribute name="algorithm" use="required">
 							<xs:simpleType>
 								<xs:restriction base="xs:string">
 									<xs:enumeration value="AES"/>
 								</xs:restriction>
 							</xs:simpleType>
                   		</xs:attribute>
-                 		<xs:attribute name="keySize" default="128">
+                 		<xs:attribute name="keySize" use="required">
 							<xs:simpleType>
 								<xs:restriction base="xs:short">
 									<xs:enumeration value="56"/>

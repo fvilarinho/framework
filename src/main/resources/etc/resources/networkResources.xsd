@@ -3,7 +3,7 @@
 	<xs:element name="network">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="mail" minOccurs="0">
+				<xs:element name="mail">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="resources" maxOccurs="unbounded">
@@ -12,10 +12,10 @@
 										<xs:element name="storage" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element type="xs:string" name="serverName" minOccurs="0"/>
-													<xs:element type="xs:byte" name="serverPort" minOccurs="0"/>
-													<xs:element type="xs:string" name="userName" minOccurs="0"/>
-													<xs:element type="xs:string" name="password" minOccurs="0"/>
+													<xs:element type="xs:string" name="serverName"/>
+													<xs:element type="xs:short" name="serverPort"/>
+													<xs:element type="xs:string" name="userName"/>
+													<xs:element type="xs:string" name="password"/>
 												</xs:sequence>
 												<xs:attribute name="type" use="required">
 													<xs:simpleType>
@@ -33,10 +33,10 @@
 										<xs:element name="transport" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element type="xs:string" name="serverName" minOccurs="0"/>
-													<xs:element type="xs:byte" name="serverPort" minOccurs="0"/>
-													<xs:element type="xs:string" name="userName" minOccurs="0"/>
-													<xs:element type="xs:string" name="password" minOccurs="0"/>
+													<xs:element type="xs:string" name="serverName"/>
+													<xs:element type="xs:short" name="serverPort"/>
+													<xs:element type="xs:string" name="userName"/>
+													<xs:element type="xs:string" name="password"/>
 												</xs:sequence>
 												<xs:attribute name="type" use="required">
 													<xs:simpleType>
@@ -51,14 +51,14 @@
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>
-									<xs:attribute type="xs:string" name="id"/>
+									<xs:attribute type="xs:string" name="id" use="required"/>
 									<xs:attribute type="xs:boolean" name="default"/>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="ldap" minOccurs="0">
+				<xs:element name="ldap">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="resources" maxOccurs="unbounded">
@@ -81,7 +81,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="webService" minOccurs="0">
+				<xs:element name="webService">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="resources" maxOccurs="unbounded">
@@ -110,7 +110,7 @@
 															<xs:simpleContent>
 																<xs:extension base="xs:string">
 																	<xs:attribute type="xs:string" name="id" use="required"/>
-																	<xs:attribute type="xs:string" name="value"/>
+																	<xs:attribute type="xs:string" name="value" use="required"/>
 																</xs:extension>
 															</xs:simpleContent>
 														</xs:complexType>
@@ -126,7 +126,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="mq" minOccurs="0">
+				<xs:element name="mq">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element name="resources" maxOccurs="unbounded">
