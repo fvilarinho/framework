@@ -229,7 +229,7 @@ public class NumberUtil{
         Long result = parse(Long.class, value, LanguageUtil.getDefaultLanguage());
 
         if(result == null)
-            return (long)0;
+            return 0;
 
         return result;
     }
@@ -263,7 +263,7 @@ public class NumberUtil{
         Integer result = parse(Integer.class, value, LanguageUtil.getDefaultLanguage());
 
         if(result == null)
-            return (int)0;
+            return 0;
 
         return result;
     }
@@ -369,7 +369,7 @@ public class NumberUtil{
      * Formats a numeric value.
      *
      * @param value Instance that contains the numeric value.
-     * @return String that contains the numeric value formatado.
+     * @return String that contains the formatted numeric value.
      */
     public static String format(Number value){
         if(value != null)

@@ -8,14 +8,14 @@ let weekNames  = null;
 let monthNames = null;
  
 /**
- * Inicializes the list of month names.
+ * Initializes the list of month names.
  */
 function initializeCalendarMonthNames(){
 	monthNames = initializeCalendarMonthNames.arguments;
 }
 
 /**
- * Inicializes the list of week names.
+ * Initializes the list of week names.
  */
 function initializeCalendarWeekNames(){
 	weekNames = initializeCalendarWeekNames.arguments;
@@ -73,7 +73,7 @@ function moveToPreviousMonth(name){
 }
 
 /**
- * Moves to preivous year.
+ * Moves to previous year.
  * 
  * @param name String that contains the identifier of the calendar component.
  */

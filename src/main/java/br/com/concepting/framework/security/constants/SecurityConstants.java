@@ -39,12 +39,10 @@ public final class SecurityConstants{
     public static final String USER_ATTRIBUTE_ID = "user";
     public static final String USERS_ATTRIBUTE_ID = "users";
     public static final String USER_NAME_ATTRIBUTE_ID = "userName";
+    public static final String CRYPTO_AES_ALGORITHM_ID = "AES";
     public static final String DEFAULT_CHANGE_PASSWORD_ID = "changePassword";
-    public static final int DEFAULT_CRYPTO_3DES_KEY_SIZE = 168;
-    public static final String DEFAULT_CRYPTO_AES_ALGORITHM_ID = "AES";
     public static final int DEFAULT_CRYPTO_AES_KEY_SIZE = 256;
-    public static final int DEFAULT_CRYPTO_DES_KEY_SIZE = 56;
-    public static final String DEFAULT_CRYPTO_ALGORITHM_ID = DEFAULT_CRYPTO_AES_ALGORITHM_ID;
+    public static final String DEFAULT_CRYPTO_ALGORITHM_ID = "DEFAULT_CRYPTO_AES_ALGORITHM_ID";
     public static final int DEFAULT_CRYPTO_KEY_SIZE = DEFAULT_CRYPTO_AES_KEY_SIZE;
     public static final int DEFAULT_TOKEN_SIZE = 32;
     public static final String DEFAULT_DIGEST_ALGORITHM_ID = "MD5";

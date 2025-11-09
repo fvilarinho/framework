@@ -1928,10 +1928,10 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
 
     @Override
-    public boolean equals(@NotNull Object object){
+    public boolean equals(Object object){
         PropertyInfo comparePropertyInfo = (PropertyInfo) object;
 
-        return (this.id != null && this.id.equals(comparePropertyInfo.getId()));
+        return (this.id != null && comparePropertyInfo != null && this.id.equals(comparePropertyInfo.getId()));
     }
 
     @Override

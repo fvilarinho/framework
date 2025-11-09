@@ -1302,14 +1302,10 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                 }
                 
                 if(columnsInGroup > 0){
-                    print("<td");
-                    
-                    if(columnGroupHeaderStyleClass != null && !columnGroupHeaderStyleClass.isEmpty()){
-                        print(" class=\"");
-                        print(columnGroupHeaderStyleClass);
-                        print("\"");
-                    }
-                    
+                    print("<td class=\"");
+                    print(columnGroupHeaderStyleClass);
+                    print("\"");
+
                     if(columnGroupHeaderStyle != null && !columnGroupHeaderStyle.isEmpty()){
                         print(" style=\"");
                         print(columnGroupHeaderStyle);

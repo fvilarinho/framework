@@ -25,6 +25,7 @@ import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.util.Arrays;
@@ -81,30 +82,30 @@ public abstract class HibernateQueryBuilder{
         
         buildExpression(model, filter, propertyPrefix, propertyAlias, fieldsClause, fromClause, joinClause, whereClause, groupByClause, orderByClause, whereClauseParameters, processedRelations, true, false, false);
         
-        if(fieldsClause.length() > 0){
+        if(!fieldsClause.isEmpty()){
             expression.append(fieldsClause);
             expression.append(" ");
         }
         
         expression.append(fromClause);
         
-        if(joinClause.length() > 0){
+        if(!joinClause.isEmpty()){
             expression.append(" ");
             expression.append(joinClause);
         }
         
-        if(whereClause.length() > 0){
+        if(!whereClause.isEmpty()){
             expression.append(" ");
             expression.append(whereClause);
             expression.append(")");
         }
         
-        if(groupByClause.length() > 0){
+        if(!groupByClause.isEmpty()){
             expression.append(" ");
             expression.append(groupByClause);
         }
         
-        if(orderByClause.length() > 0){
+        if(!orderByClause.isEmpty()){
             expression.append(" ");
             expression.append(orderByClause);
         }
@@ -142,7 +143,7 @@ public abstract class HibernateQueryBuilder{
             ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
             StringBuilder propertyAliasBuffer = null;
             
-            if(fromClause.length() == 0){
+            if(fromClause.isEmpty()){
                 propertyAliasBuffer = new StringBuilder();
                 propertyAliasBuffer.append(modelInfo.getClazz().getSimpleName().toLowerCase());
                 propertyAliasBuffer.append(new SecureRandom().nextInt(NumberUtil.getMaximumRange(Integer.class)));
@@ -190,7 +191,7 @@ public abstract class HibernateQueryBuilder{
                 propertyIdBuffer.append(propertyInfo.getId());
                 
                 if((returnProperties != null && returnProperties.contains(propertyPrefixBuffer.toString())) || (propertiesFormulas != null && propertiesFormulas.containsKey(propertyPrefixBuffer.toString()))){
-                    if(fieldsClause.length() == 0)
+                    if(fieldsClause.isEmpty())
                         fieldsClause.append("select ");
                     else
                         fieldsClause.append(",");
@@ -215,14 +216,14 @@ public abstract class HibernateQueryBuilder{
                         fieldsClause.append(propertyInfo.getId());
                 }
                 else if(returnProperties == null){
-                    if(fieldsClause.length() == 0){
+                    if(fieldsClause.isEmpty()){
                         fieldsClause.append("select ");
                         fieldsClause.append(propertyAlias);
                     }
                 }
                 
                 if((groupByProperties != null && groupByProperties.contains(propertyPrefixBuffer.toString())) || (groupByProperties == null && propertiesFormulas == null && propertyPrefix.isEmpty() && propertyIsIdentity && propertyInfo.getMappedPropertyId() != null && !propertyInfo.getMappedPropertyId().isEmpty())){
-                    if(groupByClause.length() == 0)
+                    if(groupByClause.isEmpty())
                         groupByClause.append("group by ");
                     else
                         groupByClause.append(", ");
@@ -237,7 +238,7 @@ public abstract class HibernateQueryBuilder{
                         propertySortOrder = propertyInfo.getSortOrder();
                     
                     if(propertySortOrder != null && propertySortOrder != SortOrderType.NONE && propertyInfo.getMappedPropertyId() != null && !propertyInfo.getMappedPropertyId().isEmpty()){
-                        if(orderByClause.length() == 0)
+                        if(orderByClause.isEmpty())
                             orderByClause.append("order by ");
                         else
                             orderByClause.append(", ");
@@ -369,7 +370,7 @@ public abstract class HibernateQueryBuilder{
                                 propertyAliasBuffer.append(relationModelClass.getSimpleName().toLowerCase());
                                 propertyAliasBuffer.append(new SecureRandom().nextInt(NumberUtil.getMaximumRange(Integer.class)));
                                 
-                                if(joinClause.length() > 0)
+                                if(!joinClause.isEmpty())
                                     joinClause.append(" ");
                                 
                                 joinClause.append(relationJoinType.getOperator());
@@ -432,7 +433,7 @@ public abstract class HibernateQueryBuilder{
                         switch(propertyConditionItem){
                             case IS_NULL:
                             case IS_NOT_NULL: {
-                                if(whereClause.length() == 0)
+                                if(whereClause.isEmpty())
                                     whereClause.append("where (");
                                 else{
                                     if(propertyConditionOperation == ConditionOperationType.AND)
@@ -461,7 +462,7 @@ public abstract class HibernateQueryBuilder{
                                     if(whereClauseParameters == null)
                                         whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                                     
-                                    if(whereClause.length() == 0)
+                                    if(whereClause.isEmpty())
                                         whereClause.append("where (");
                                     else{
                                         if(propertyConditionOperation == ConditionOperationType.AND)
@@ -525,7 +526,7 @@ public abstract class HibernateQueryBuilder{
                                     if(whereClauseParameters == null)
                                         whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                                     
-                                    if(whereClause.length() == 0)
+                                    if(whereClause.isEmpty())
                                         whereClause.append("where (");
                                     else{
                                         if(propertyConditionOperation == ConditionOperationType.AND)
@@ -581,7 +582,7 @@ public abstract class HibernateQueryBuilder{
                                     if(whereClauseParameters == null)
                                         whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                                     
-                                    if(whereClause.length() == 0)
+                                    if(whereClause.isEmpty())
                                         whereClause.append("where (");
                                     else{
                                         if(propertyConditionOperation == ConditionOperationType.AND)
@@ -653,7 +654,7 @@ public abstract class HibernateQueryBuilder{
                                     if(whereClauseParameters == null)
                                         whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                                     
-                                    if(whereClause.length() == 0)
+                                    if(whereClause.isEmpty())
                                         whereClause.append("where (");
                                     else{
                                         if(propertyConditionOperation == ConditionOperationType.AND)
@@ -707,7 +708,7 @@ public abstract class HibernateQueryBuilder{
                                     if(whereClauseParameters == null)
                                         whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                                     
-                                    if(whereClause.length() == 0)
+                                    if(whereClause.isEmpty())
                                         whereClause.append("where (");
                                     else{
                                         if(propertyConditionOperation == ConditionOperationType.AND)
@@ -766,7 +767,7 @@ public abstract class HibernateQueryBuilder{
                                     if(whereClauseParameters == null)
                                         whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                                     
-                                    if(whereClause.length() == 0)
+                                    if(whereClause.isEmpty())
                                         whereClause.append("where (");
                                     else{
                                         if(propertyConditionOperation == ConditionOperationType.AND)
@@ -834,7 +835,7 @@ public abstract class HibernateQueryBuilder{
                                     if(whereClauseParameters == null)
                                         whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                                     
-                                    if(whereClause.length() == 0)
+                                    if(whereClause.isEmpty())
                                         whereClause.append("where (");
                                     else{
                                         if(propertyConditionOperation == ConditionOperationType.AND)
@@ -896,7 +897,7 @@ public abstract class HibernateQueryBuilder{
                                     if(whereClauseParameters == null)
                                         whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                                     
-                                    if(whereClause.length() == 0)
+                                    if(whereClause.isEmpty())
                                         whereClause.append("where (");
                                     else{
                                         if(propertyConditionOperation == ConditionOperationType.AND)
@@ -1023,7 +1024,7 @@ public abstract class HibernateQueryBuilder{
                                     if(whereClauseParameters == null)
                                         whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                                     
-                                    if(whereClause.length() == 0)
+                                    if(whereClause.isEmpty())
                                         whereClause.append("where (");
                                     else{
                                         if(propertyConditionOperation == ConditionOperationType.AND)
@@ -1137,7 +1138,7 @@ public abstract class HibernateQueryBuilder{
                                     if(whereClauseParameters == null)
                                         whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
                                     
-                                    if(whereClause.length() == 0)
+                                    if(whereClause.isEmpty())
                                         whereClause.append("where (");
                                     else{
                                         if(propertyConditionOperation == ConditionOperationType.AND)
@@ -1263,7 +1264,8 @@ public abstract class HibernateQueryBuilder{
                 model = (M) ConstructorUtils.invokeConstructor(modelClass, null);
             
             Session connection = persistence.getConnection();
-            String statementId = MethodUtil.getMethodFromStackTrace(3).getName();
+            Method statementMethod = MethodUtil.getMethodFromStackTrace(3);
+            String statementId = (statementMethod != null ? statementMethod.getName() : null);
             Map<String, Object> whereClauseParameters = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
             String expression = buildExpression(model, filter, whereClauseParameters);
             Query query = connection.createQuery(expression);
@@ -1277,12 +1279,14 @@ public abstract class HibernateQueryBuilder{
             
             if(filter != null && filter.getReturnProperties() != null && !filter.getReturnProperties().isEmpty())
                 query.setResultTransformer(Transformers.aliasToBean(model.getClass()));
-            
-            for(Entry<String, Object> entry: whereClauseParameters.entrySet()){
-                if(PropertyUtil.isCollection(entry.getValue()))
-                    query.setParameterList(entry.getKey(), (Collection<?>) entry.getValue());
-                else
-                    query.setParameter(entry.getKey(), entry.getValue());
+
+            if(whereClauseParameters != null) {
+                for (Entry<String, Object> entry : whereClauseParameters.entrySet()) {
+                    if (PropertyUtil.isCollection(entry.getValue()))
+                        query.setParameterList(entry.getKey(), (Collection<?>) entry.getValue());
+                    else
+                        query.setParameter(entry.getKey(), entry.getValue());
+                }
             }
             
             if(queryType == QueryType.FIND)

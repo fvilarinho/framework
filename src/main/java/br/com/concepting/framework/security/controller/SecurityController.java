@@ -204,8 +204,9 @@ public class SecurityController{
      */
     public void setLoginSession(LoginSessionModel loginSession){
         boolean isWebServicesRequest = (this.systemController != null && this.systemController.isWebServicesRequest());
-        
-        this.systemController.setAttribute(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, loginSession, (isWebServicesRequest ? ScopeType.REQUEST : ScopeType.SESSION));
+
+        if(this.systemController != null)
+            this.systemController.setAttribute(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, loginSession, (isWebServicesRequest ? ScopeType.REQUEST : ScopeType.SESSION));
     }
     
     /**

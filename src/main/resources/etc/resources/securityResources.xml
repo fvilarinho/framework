@@ -5,5 +5,5 @@
 	<loginSession>
 		<timeout>1440</timeout>
 	</loginSession>
-	<cryptography algorithm="AES" keySize="256"/>
+	<cryptography keySize="256"/>
 </resources>

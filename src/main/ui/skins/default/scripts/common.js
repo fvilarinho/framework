@@ -1,7 +1,6 @@
 /**
  * Defines the UI routines for general use. 
- * visuais.
- * 
+ *
  * @author fvilarinho
  * @version 1.0.0
  */

@@ -20,7 +20,7 @@
 								</xs:restriction>
 							</xs:simpleType>
                   		</xs:attribute>
-                 		<xs:attribute name="keySize" default="256">
+                 		<xs:attribute name="keySize" default="128">
 							<xs:simpleType>
 								<xs:restriction base="xs:short">
 									<xs:enumeration value="56"/>

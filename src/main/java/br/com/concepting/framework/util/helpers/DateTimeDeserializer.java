@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 /**
- * Class that defines the date/time deserializae.
+ * Class that defines the date/time deserialization.
  *
  * @author fvilarinho
  * @since 3.7.0
