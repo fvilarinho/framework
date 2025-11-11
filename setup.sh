@@ -10,9 +10,8 @@ function licenseDialog() {
               --textbox LICENSE 20 90
 }
 
-function newProject() {
-  TITLE="NEW PROJECT"
-
+# Opens the project input dialog.
+function projectInputDialog() {
   # Open the dialog.
   while "true"; do
     PROJECT_NAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
@@ -27,12 +26,18 @@ function newProject() {
                   --title "$TITLE" \
                   --msgbox "\nYou must specify the name of the project!" 7 60
     else
-      break
+      PROJECT_DIR=$(dirname "$(pwd)")
+      PROJECT_DIR="$PROJECT_DIR/$PROJECT_NAME"
+
+      if [ -d "$PROJECT_DIR" ]; then
+        $DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                    --title "$TITLE" \
+                    --msgbox "\nProject already exists!" 7 60
+      else
+        break
+      fi
     fi
   done
-
-  PROJECT_DIR=$(dirname "$(pwd)")
-  PROJECT_DIR="$PROJECT_DIR/$PROJECT_NAME"
 
   while "true"; do
     PROJECT_DIR=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
@@ -51,6 +56,8 @@ function newProject() {
     fi
   done
 
+  PROJECT_PACKAGE_NAME="com.$PROJECT_NAME"
+
   while "true"; do
     PROJECT_PACKAGE_NAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                        --title "$TITLE" \
@@ -68,6 +75,8 @@ function newProject() {
     fi
   done
 
+  PROJECT_VERSION="1.0.0"
+
   while "true"; do
     PROJECT_VERSION=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                   --title "$TITLE" \
@@ -84,7 +93,10 @@ function newProject() {
       break
     fi
   done
+}
 
+# Opens the build repository dialog.
+function buildRepositoryDialog() {
   while "true"; do
     BUILD_REPO_URL=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                  --title "$TITLE" \
@@ -135,7 +147,10 @@ function newProject() {
       break
     fi
   done
+}
 
+# Opens the publish repository dialog.
+function publishRepositoryDialog() {
   while "true"; do
     PUBLISH_REPO_URL=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                  --title "$TITLE" \
@@ -186,7 +201,10 @@ function newProject() {
       break
     fi
   done
+}
 
+# Opens the sonar dialog.
+function sonarDialog() {
   while "true"; do
     SONAR_ORG=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                             --title "$TITLE" \
@@ -220,22 +238,77 @@ function newProject() {
       break
     fi
   done
+}
 
+# Creates the project banner.
+function createProjectBanner() {
+  if [ ! -f "$PROJECT_DIR/banner.txt" ]; then
+    if [ -n "$FIGLET_CMD" ]; then
+      $FIGLET_CMD "$PROJECT_NAME" > "$PROJECT_DIR/banner.txt"
+
+      echo >> "$PROJECT_DIR/banner.txt"
+    fi
+  fi
+}
+
+# Creates the project structure directories.
+function createProjectStructure() {
   mkdir -p "$PROJECT_DIR/src/main/java" \
            "$PROJECT_DIR/src/test/java" \
            "$PROJECT_DIR/src/test/resources"
+}
 
-  echo "BUILD_REPOSITORY_URL=$BUILD_REPO_URL" > "$PROJECT_DIR/.env"
-  echo "BUILD_REPOSITORY_USERNAME=$BUILD_REPO_USERNAME" >> "$PROJECT_DIR/.env"
-  echo "BUILD_REPOSITORY_PASSWORD=$BUILD_REPO_PASSWORD" >> "$PROJECT_DIR/.env"
-  echo >> "$PROJECT_DIR/.env"
-  echo "PUBLISH_REPOSITORY_URL=$PUBLISH_REPO_URL" >> "$PROJECT_DIR/.env"
-  echo "PUBLISH_REPOSITORY_USERNAME=$PUBLISH_REPO_USERNAME" >> "$PROJECT_DIR/.env"
-  echo "PUBLISH_REPOSITORY_PASSWORD=$PUBLISH_REPO_PASSWORD" >> "$PROJECT_DIR/.env"
-  echo >> "$PROJECT_DIR/.env"
-  echo "SONAR_ORGANIZATION=$SONAR_ORG" >> "$PROJECT_DIR/.env"
-  echo "SONAR_TOKEN=$SONAR_TOK" >> "$PROJECT_DIR/.env"
+# Creates the project environment file.
+function createProjectEnvironment() {
+  if [ ! -f "$PROJECT_DIR/.env" ]; then
+    echo "BUILD_REPOSITORY_URL=$BUILD_REPO_URL" > "$PROJECT_DIR/.env"
+    echo "BUILD_REPOSITORY_USERNAME=$BUILD_REPO_USERNAME" >> "$PROJECT_DIR/.env"
+    echo "BUILD_REPOSITORY_PASSWORD=$BUILD_REPO_PASSWORD" >> "$PROJECT_DIR/.env"
+    echo >> "$PROJECT_DIR/.env"
+    echo "PUBLISH_REPOSITORY_URL=$PUBLISH_REPO_URL" >> "$PROJECT_DIR/.env"
+    echo "PUBLISH_REPOSITORY_USERNAME=$PUBLISH_REPO_USERNAME" >> "$PROJECT_DIR/.env"
+    echo "PUBLISH_REPOSITORY_PASSWORD=$PUBLISH_REPO_PASSWORD" >> "$PROJECT_DIR/.env"
+    echo >> "$PROJECT_DIR/.env"
+    echo "SONAR_ORGANIZATION=$SONAR_ORG" >> "$PROJECT_DIR/.env"
+    echo "SONAR_TOKEN=$SONAR_TOK" >> "$PROJECT_DIR/.env"
+  fi
+}
 
+# Creates the project build files.
+function createProjectBuild() {
+  if [ ! -f "$PROJECT_DIR/build.gradle" ]; then
+    cp -f src/templates/build.gradle "$PROJECT_DIR"
+  fi
+
+  if [ ! -f "$PROJECT_DIR/settings.gradle" ]; then
+    cp -f settings.gradle "$PROJECT_DIR"
+  fi
+
+  if [ ! -f "$PROJECT_DIR/gradle.properties" ]; then
+    echo "buildPackage=$PROJECT_PACKAGE_NAME" > "$PROJECT_DIR/gradle.properties"
+    echo "buildName=$PROJECT_NAME" >> "$PROJECT_DIR/gradle.properties"
+    echo "buildVersion=$PROJECT_VERSION" >> "$PROJECT_DIR/gradle.properties"
+  fi
+
+  if [ ! -f "$PROJECT_DIR/functions.sh" ]; then
+    cp -f functions.sh "$PROJECT_DIR"
+  fi
+
+  if [ ! -f "$PROJECT_DIR/build.sh" ]; then
+    cp -f build.sh "$PROJECT_DIR"
+  fi
+
+  if [ ! -f "$PROJECT_DIR/codeAnalysis.sh" ]; then
+    cp -f codeAnalysis.sh "$PROJECT_DIR"
+  fi
+
+  if [ ! -f "$PROJECT_DIR/publish.sh" ]; then
+    cp -f publish.sh "$PROJECT_DIR"
+  fi
+}
+
+# Copies project file.
+function copyProjectFiles() {
   if [ ! -d "$PROJECT_DIR/src/main/resources" ]; then
     cp -r src/main/resources "$PROJECT_DIR/src/main"
   fi
@@ -248,44 +321,21 @@ function newProject() {
     cp -r src/templates "$PROJECT_DIR/src"
     rm -f "$PROJECT_DIR/src/templates/build.gradle"
   fi
+}
 
-  if [ ! -f "$PROJECT_DIR/build.gradle" ]; then
-    cp src/templates/build.gradle "$PROJECT_DIR"
-  fi
+# Opens the new project dialog.
+function newProjectDialog() {
+  TITLE="NEW PROJECT"
 
-  if [ ! -f "$PROJECT_DIR/gradle.properties" ]; then
-    echo "buildPackage=$PROJECT_PACKAGE_NAME" > "$PROJECT_DIR/gradle.properties"
-    echo "buildName=$PROJECT_NAME" >> "$PROJECT_DIR/gradle.properties"
-    echo "buildVersion=$PROJECT_VERSION" >> "$PROJECT_DIR/gradle.properties"
-  fi
+  projectInputDialog
+  buildRepositoryDialog
+  publishRepositoryDialog
+  sonarDialog
 
-  if [ ! -f "$PROJECT_DIR/settings.gradle" ]; then
-    cp settings.gradle "$PROJECT_DIR"
-  fi
-
-  if [ ! -f "$PROJECT_DIR/functions.sh" ]; then
-    cp functions.sh "$PROJECT_DIR"
-  fi
-
-  if [ ! -f "$PROJECT_DIR/build.sh" ]; then
-    cp build.sh "$PROJECT_DIR"
-  fi
-
-  if [ ! -f "$PROJECT_DIR/codeAnalysis.sh" ]; then
-    cp codeAnalysis.sh "$PROJECT_DIR"
-  fi
-
-  if [ ! -f "$PROJECT_DIR/publish.sh" ]; then
-    cp codeAnalysis.sh "$PROJECT_DIR"
-  fi
-
-  if [ ! -f "$PROJECT_DIR/banner.txt" ]; then
-    if [ -n "$FIGLET_CMD" ]; then
-      $FIGLET_CMD "$PROJECT_NAME" > "$PROJECT_DIR/banner.txt"
-
-      echo >> "$PROJECT_DIR/banner.txt"
-    fi
-  fi
+  createProjectStructure
+  createProjectEnvironment
+  createProjectBuild
+  createProjectBanner
 
   cd $PROJECT_DIR || exit 1
 
@@ -333,7 +383,7 @@ function menuDialog() {
         menuDialog
         ;;
       "5. NEW PROJECT")
-        newProject
+        newProjectDialog
         menuDialog
         ;;
       "6. LICENSE")
@@ -408,16 +458,14 @@ function welcomeDialog() {
 
 # Check the dependencies of this script.
 function checkDependencies() {
-  if [ -z "$UNATTENDED" ]; then
-    DIALOG_CMD=$(which dialog)
+  DIALOG_CMD=$(which dialog)
 
-    # Check if the requirements to start the setup exists.
-    if [ -z "$DIALOG_CMD" ]; then
-      echo "dialog is not installed! Please install it first to continue!"
-      echo
+  # Check if the requirements to start the setup exists.
+  if [ -z "$DIALOG_CMD" ]; then
+    echo "dialog is not installed! Please install it first to continue!"
+    echo
 
-      exit 1
-    fi
+    exit 1
   fi
 }
 

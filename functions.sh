@@ -8,8 +8,6 @@ function showLabel() {
     echo "*** CODE ANALYSIS ***"
   elif [[ "$0" == *"publish.sh"* ]]; then
     echo "*** PUBLISH ***"
-  elif [[ "$0" == *"setup.sh"* ]]; then
-    echo "*** SETUP ***"
   fi
 
   echo
