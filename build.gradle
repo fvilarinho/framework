@@ -5,25 +5,30 @@ plugins {
     id "org.sonarqube" version "7.0.1.6134"
 }
 
-group   = "${buildPackage}"
-version = "${buildVersion}"
-
 def environment = new Properties()
 def environmentFile = file(".env")
 
 if (environmentFile.exists())
     environmentFile.withReader("UTF-8") { reader -> environment.load(reader) }
 
-def repositoryUrl      = (environment.getProperty("REPOSITORY_URL") != null ? environment.getProperty("REPOSITORY_URL") : System.getenv("REPOSITORY_URL"))
-def repositoryUserName = (environment.getProperty("REPOSITORY_USERNAME") != null ? environment.getProperty("REPOSITORY_USERNAME") : System.getenv("REPOSITORY_USERNAME"))
-def repositoryPassword = (environment.getProperty("REPOSITORY_PASSWORD") != null ? environment.getProperty("REPOSITORY_PASSWORD") : System.getenv("REPOSITORY_PASSWORD"))
-def sonarToken         = (environment.getProperty("SONAR_TOKEN") != null ? environment.getProperty("SONAR_TOKEN") : System.getenv("SONAR_TOKEN"))
-def sonarProjectKey    = (environment.getProperty("SONAR_PROJECT_KEY") != null ? environment.getProperty("SONAR_PROJECT_KEY") : System.getenv("SONAR_PROJECT_KEY"))
-def sonarOrganization  = (environment.getProperty("SONAR_ORGANIZATION") != null ? environment.getProperty("SONAR_ORGANIZATION") : System.getenv("SONAR_ORGANIZATION"))
+def buildRepositoryUrl      = (environment.getProperty("BUILD_REPOSITORY_URL") != null ? environment.getProperty("BUILD_REPOSITORY_URL") : System.getenv("BUILD_REPOSITORY_URL"))
+def buildRepositoryUserName = (environment.getProperty("BUILD_REPOSITORY_USERNAME") != null ? environment.getProperty("BUILD_REPOSITORY_USERNAME") : System.getenv("BUILD_REPOSITORY_USERNAME"))
+def buildRepositoryPassword = (environment.getProperty("BUILD_REPOSITORY_PASSWORD") != null ? environment.getProperty("BUILD_REPOSITORY_PASSWORD") : System.getenv("BUILD_REPOSITORY_PASSWORD"))
+
+def publishRepositoryUrl      = (environment.getProperty("PUBLISH_REPOSITORY_URL") != null ? environment.getProperty("PUBLISH_REPOSITORY_URL") : System.getenv("PUBLISH_REPOSITORY_URL"))
+def publishRepositoryUserName = (environment.getProperty("PUBLISH_REPOSITORY_USERNAME") != null ? environment.getProperty("PUBLISH_REPOSITORY_USERNAME") : System.getenv("PUBLISH_REPOSITORY_USERNAME"))
+def publishRepositoryPassword = (environment.getProperty("PUBLISH_REPOSITORY_PASSWORD") != null ? environment.getProperty("PUBLISH_REPOSITORY_PASSWORD") : System.getenv("PUBLISH_REPOSITORY_PASSWORD"))
+
+def sonarToken        = (environment.getProperty("SONAR_TOKEN") != null ? environment.getProperty("SONAR_TOKEN") : System.getenv("SONAR_TOKEN"))
+def sonarOrganization = (environment.getProperty("SONAR_ORGANIZATION") != null ? environment.getProperty("SONAR_ORGANIZATION") : System.getenv("SONAR_ORGANIZATION"))
+def sonarProjectKey   = sonarOrganization + "_" + rootProject.name
 
 jacoco {
     toolVersion = "0.8.13"
 }
+
+group   = "${buildPackage}"
+version = "${buildVersion}"
 
 sonar {
     properties {
@@ -37,10 +42,10 @@ repositories {
     mavenLocal()
 	mavenCentral()
 	maven {
-		url = "${repositoryUrl}"
+		url = "${buildRepositoryUrl}"
 		credentials {
-			username = "${repositoryUserName}"
-			password = "${repositoryPassword}"
+			username = "${buildRepositoryUserName}"
+			password = "${buildRepositoryPassword}"
 		}
 	}
 }
@@ -134,6 +139,7 @@ tasks.withType(JavaCompile).configureEach {
 tasks.withType(Jar).configureEach {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	includeEmptyDirs   = false
+    zip64              = true
 
     exclude("META-INF/**")
     exclude("**/*.html")
@@ -252,15 +258,16 @@ artifacts {
 	archives(persistenceJar)
 	archives(serviceJar)
 	archives(uiJar)
+    archives(javadocJar)
 }
 
 publishing{
     repositories {
         maven {
-            url = "${repositoryUrl}"
+            url = "${publishRepositoryUrl}"
             credentials {
-                username = "${repositoryUserName}"
-                password = "${repositoryPassword}"
+                username = "${publishRepositoryUserName}"
+                password = "${publishRepositoryPassword}"
             }
         }
     }

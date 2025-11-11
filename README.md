@@ -22,7 +22,8 @@ The framework came up to mitigate these problems and many others and also speed 
 Contribution
 ============
 
-If you want to contribute with us, just fork the project that is located in GitHub ([https://www.github.com/fvilarinho/framework]([https://www.github.com/fvilarinho/framework)) and then make a pull request. We will analyze your code and check if it can be incorporated as soon as possible. You can also report a bug or request a new feature.
+If you want to contribute with us, fork the project located in GitHub ([https://www.github.com/fvilarinho/framework]([https://www.github.com/fvilarinho/framework)) and then make a pull request. 
+We will analyze your code and check if it can be incorporated as soon as possible. You can also report a bug or request a new feature.
 
 
 Build Status

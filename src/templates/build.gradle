@@ -1,0 +1,233 @@
+plugins {
+    id "java"
+    id "maven-publish"
+    id "jacoco"
+    id "org.sonarqube" version "7.0.1.6134"
+}
+
+def environment = new Properties()
+def environmentFile = file(".env")
+
+if (environmentFile.exists())
+    environmentFile.withReader("UTF-8") { reader -> environment.load(reader) }
+
+def buildRepositoryUrl      = (environment.getProperty("BUILD_REPOSITORY_URL") != null ? environment.getProperty("BUILD_REPOSITORY_URL") : System.getenv("BUILD_REPOSITORY_URL"))
+def buildRepositoryUserName = (environment.getProperty("BUILD_REPOSITORY_USERNAME") != null ? environment.getProperty("BUILD_REPOSITORY_USERNAME") : System.getenv("BUILD_REPOSITORY_USERNAME"))
+def buildRepositoryPassword = (environment.getProperty("BUILD_REPOSITORY_PASSWORD") != null ? environment.getProperty("BUILD_REPOSITORY_PASSWORD") : System.getenv("BUILD_REPOSITORY_PASSWORD"))
+
+def publishRepositoryUrl      = (environment.getProperty("PUBLISH_REPOSITORY_URL") != null ? environment.getProperty("PUBLISH_REPOSITORY_URL") : System.getenv("PUBLISH_REPOSITORY_URL"))
+def publishRepositoryUserName = (environment.getProperty("PUBLISH_REPOSITORY_USERNAME") != null ? environment.getProperty("PUBLISH_REPOSITORY_USERNAME") : System.getenv("PUBLISH_REPOSITORY_USERNAME"))
+def publishRepositoryPassword = (environment.getProperty("PUBLISH_REPOSITORY_PASSWORD") != null ? environment.getProperty("PUBLISH_REPOSITORY_PASSWORD") : System.getenv("PUBLISH_REPOSITORY_PASSWORD"))
+
+def sonarToken        = (environment.getProperty("SONAR_TOKEN") != null ? environment.getProperty("SONAR_TOKEN") : System.getenv("SONAR_TOKEN"))
+def sonarOrganization = (environment.getProperty("SONAR_ORGANIZATION") != null ? environment.getProperty("SONAR_ORGANIZATION") : System.getenv("SONAR_ORGANIZATION"))
+def sonarProjectKey   = sonarOrganization + "_" + rootProject.name
+
+jacoco {
+    toolVersion = "0.8.13"
+}
+
+group   = "${buildPackage}"
+version = "${buildVersion}"
+
+sonar {
+    properties {
+        property("sonar.token", "${sonarToken}")
+        property("sonar.projectKey", "${sonarProjectKey}")
+        property("sonar.organization", "${sonarOrganization}")
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url = "${buildRepositoryUrl}"
+        credentials {
+            username = "${buildRepositoryUserName}"
+            password = "${buildRepositoryPassword}"
+        }
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs("src/main/java")
+        }
+        resources {
+            srcDirs("src/main/resources")
+        }
+    }
+    test{
+        java {
+            srcDirs("src/test/java")
+        }
+        resources {
+            srcDirs("src/test/resources")
+        }
+    }
+}
+
+dependencies {
+    implementation("br.com.concepting:framework:3.10.16")
+
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:5.2.0")
+    testImplementation("org.mockito:mockito-inline:5.2.0")
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding    = "UTF-8"
+    options.deprecation = true
+    options.release     = 21
+}
+
+tasks.withType(Jar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    includeEmptyDirs   = false
+    zip64              = true
+
+    exclude("META-INF/**")
+    exclude("**/*.html")
+}
+
+tasks.withType(ProcessResources).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    includeEmptyDirs   = false
+
+    exclude("META-INF/**")
+    exclude("**/*.html")
+}
+
+tasks.register("allJar", Jar) {
+    archiveClassifier = "all"
+
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    from(sourceSets.main.output)
+}
+
+tasks.register("modelJar", Jar) {
+    archiveClassifier = "model"
+
+    from(sourceSets.main.output) {
+        include("**/model/**")
+    }
+}
+
+tasks.register("controllerJar", Jar) {
+    archiveClassifier = "controller"
+
+    from(sourceSets.main.output) {
+        include("**/controller/**")
+    }
+}
+
+tasks.register("persistenceJar", Jar) {
+    archiveClassifier = "persistence"
+
+    from(sourceSets.main.output) {
+        include("**/persistence/**")
+    }
+}
+
+tasks.register("serviceJar", Jar) {
+    archiveClassifier = "service"
+
+    from(sourceSets.main.output) {
+        include("**/service/**")
+    }
+}
+
+tasks.register("uiJar", Jar) {
+    archiveClassifier = "ui"
+
+    from(sourceSets.main.output) {
+        include("**/ui/**")
+    }
+}
+
+tasks.register("resourcesJar", Jar) {
+    archiveClassifier = "resources"
+
+    from(sourceSets.main.output) {
+        include("etc/**/*.properties")
+        include("etc/**/*.xml")
+        include("etc/**/*.xsd")
+    }
+}
+
+tasks.register("coreJar", Jar) {
+    archiveClassifier = "core"
+
+    from(sourceSets.main.output) {
+        exclude("**/model/**")
+        exclude("**/controller/**")
+        exclude("**/persistence/**")
+        exclude("**/service/**")
+        exclude("**/ui/**")
+        exclude("etc/**/*.properties")
+        exclude("etc/**/*.xml")
+        exclude("etc/**/*.xsd")
+    }
+}
+
+javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+
+javadoc {
+    destinationDir = file("docs")
+}
+
+tasks.register("javadocJar", Jar) {
+    archiveClassifier = "javadoc"
+
+    from(javadoc)
+}
+
+test {
+    finalizedBy(jacocoTestReport)
+}
+
+jacocoTestReport {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        csv.required.set(false)
+    }
+}
+
+artifacts {
+    archives(allJar)
+    archives(coreJar)
+    archives(resourcesJar)
+    archives(controllerJar)
+    archives(modelJar)
+    archives(persistenceJar)
+    archives(serviceJar)
+    archives(uiJar)
+    archives(javadocJar)
+}
+
+test {
+    finalizedBy(jacocoTestReport)
+}
+
+jacocoTestReport {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        csv.required.set(false)
+    }
+}
+
+publishing{
+    repositories {
+        maven {
+            url = "${publishRepositoryUrl}"
+            credentials {
+                username = "${publishRepositoryUserName}"
+                password = "${publishRepositoryPassword}"
+            }
+        }
+    }
+}
