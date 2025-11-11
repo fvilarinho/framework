@@ -70,7 +70,9 @@ sourceSets {
 }
 
 dependencies {
-    implementation("br.com.concepting:framework:3.10.16")
+    implementation("br.com.concepting:framework:3.10.76")
+
+    annotationProcessor("br.com.concepting:framework:3.10.17")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.2.0")
@@ -98,6 +100,20 @@ tasks.withType(ProcessResources).configureEach {
 
     exclude("META-INF/**")
     exclude("**/*.html")
+}
+
+tasks.register("generateCode", JavaCompile) {
+    source(sourceSets.main.java.srcDirs)
+
+    classpath                       = configurations.runtimeClasspath + configurations.annotationProcessor + sourceSets.main.output
+    options.annotationProcessorPath = configurations.runtimeClasspath + configurations.annotationProcessor + sourceSets.main.output
+    options.compilerArgs            = [
+            "-proc:only",
+            "-processor", "br.com.concepting.framework.processors.AnnotationProcessorFactory",
+            "-AbuildDir=" + project.projectDir + "/" + project.name,
+            "-AbuildName=" + project.name,
+            "-AbuildVersion=" + version
+    ]
 }
 
 tasks.register("allJar", Jar) {
