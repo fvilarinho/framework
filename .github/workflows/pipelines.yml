@@ -12,6 +12,15 @@ on:
 jobs:
   run:
     name: Jobs
+    env:
+      BUILD_REPOSITORY_URL: ${{ secrets.BUILD_REPOSITORY_URL }}
+      BUILD_REPOSITORY_USERNAME: ${{ secrets.BUILD_REPOSITORY_USERNAME }}
+      BUILD_REPOSITORY_PASSWORD: ${{ secrets.BUILD_REPOSITORY_PASSWORD }}
+      PUBLISH_REPOSITORY_URL: ${{ secrets.PUBLISH_REPOSITORY_URL }}
+      PUBLISH_REPOSITORY_USERNAME: ${{ secrets.PUBLISH_REPOSITORY_USERNAME }}
+      PUBLISH_REPOSITORY_PASSWORD: ${{ secrets.PUBLISH_REPOSITORY_PASSWORD }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
     runs-on: ubuntu-latest
 
     steps:
@@ -25,22 +34,12 @@ jobs:
         java-version: 21
 
     - name: Build and Test
-      env:
-        BUILD_REPOSITORY_URL: ${{ secrets.BUILD_REPOSITORY_URL }}
-        BUILD_REPOSITORY_USERNAME: ${{ secrets.BUILD_REPOSITORY_USERNAME }}
-        BUILD_REPOSITORY_PASSWORD: ${{ secrets.BUILD_REPOSITORY_PASSWORD }}
       run: ./build.sh
 
     - name: Code Analysis
       env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
       run: ./codeAnalysis.sh
 
     - name: Publish
       if: contains(github.event.files, 'gradle.properties')
-      env:
-        PUBLISH_REPOSITORY_URL: ${{ secrets.PUBLISH_REPOSITORY_URL }}
-        PUBLISH_REPOSITORY_USERNAME: ${{ secrets.PUBLISH_REPOSITORY_USERNAME }}
-        PUBLISH_REPOSITORY_PASSWORD: ${{ secrets.PUBLISH_REPOSITORY_PASSWORD }}
       run: ./publish.sh
