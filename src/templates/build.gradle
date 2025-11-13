@@ -70,7 +70,7 @@ sourceSets {
 }
 
 dependencies {
-    implementation("br.com.concepting:framework:3.10.76")
+    implementation("br.com.concepting:framework:3.10.17")
 
     annotationProcessor("br.com.concepting:framework:3.10.17")
 

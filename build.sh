@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Checks the dependencies of this script.
 function checkDependencies() {
@@ -37,13 +37,6 @@ function checkDependencies() {
 function prepareToExecute() {
   source functions.sh
 
-
-  # Mandatory environment variables.
-  if [ -f "$BUILD_ENV_FILENAME" ]; then
-    export $(grep -v '^#' .env | xargs)
-  fi
-
-
   showBanner
 }
 
@@ -54,8 +47,6 @@ function build() {
 
 # Main function.
 function main() {
-  clear
-
   prepareToExecute
   checkDependencies
   build

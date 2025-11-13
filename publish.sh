@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Checks the dependencies of this script.
 function checkDependencies() {
@@ -47,8 +47,6 @@ function publish() {
 
 # Main function.
 function main() {
-  clear
-
   prepareToExecute
   checkDependencies
   publish

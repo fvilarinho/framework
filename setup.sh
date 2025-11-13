@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Opens the license dialog.
 function licenseDialog() {
@@ -16,7 +16,7 @@ function projectInputDialog() {
   while "true"; do
     PROJECT_NAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                --title "$TITLE" \
-                               --inputbox "\nPlease enter the name of the project:" 10 70 "$PROJECT_NAME" 2>&1 > /dev/tty)
+                               --inputbox "\nPlease enter the name of the project:" 10 60 "$PROJECT_NAME" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -42,7 +42,7 @@ function projectInputDialog() {
   while "true"; do
     PROJECT_DIR=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                               --title "$TITLE" \
-                              --inputbox "\nPlease enter the directory of the project:" 10 70 "$PROJECT_DIR" 2>&1 > /dev/tty)
+                              --inputbox "\nPlease enter the directory of the project:" 10 60 "$PROJECT_DIR" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -61,7 +61,7 @@ function projectInputDialog() {
   while "true"; do
     PROJECT_PACKAGE_NAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                        --title "$TITLE" \
-                                       --inputbox "\nPlease enter the package name of the project:" 10 70 "$PROJECT_PACKAGE_NAME" 2>&1 > /dev/tty)
+                                       --inputbox "\nPlease enter the package name of the project:" 10 60 "$PROJECT_PACKAGE_NAME" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -80,7 +80,7 @@ function projectInputDialog() {
   while "true"; do
     PROJECT_VERSION=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                   --title "$TITLE" \
-                                  --inputbox "\nPlease enter the initial version of the project:" 10 70 "$PROJECT_VERSION" 2>&1 > /dev/tty)
+                                  --inputbox "\nPlease enter the initial version of the project:" 10 60 "$PROJECT_VERSION" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -100,7 +100,7 @@ function buildRepositoryDialog() {
   while "true"; do
     BUILD_REPO_URL=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                  --title "$TITLE" \
-                                 --inputbox "\nPlease enter the build repository URL:" 10 70 "$BUILD_REPOSITORY_URL" 2>&1 > /dev/tty)
+                                 --inputbox "\nPlease enter the build repository URL:" 10 60 "$BUILD_REPOSITORY_URL" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -117,7 +117,7 @@ function buildRepositoryDialog() {
   while "true"; do
     BUILD_REPO_USERNAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                       --title "$TITLE" \
-                                      --inputbox "\nPlease enter the build repository username:" 10 70 "$BUILD_REPOSITORY_USERNAME" 2>&1 > /dev/tty)
+                                      --inputbox "\nPlease enter the build repository username:" 10 60 "$BUILD_REPOSITORY_USERNAME" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -134,7 +134,7 @@ function buildRepositoryDialog() {
   while "true"; do
     BUILD_REPO_PASSWORD=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                       --title "$TITLE" \
-                                      --inputbox "\nPlease enter the build repository password:" 10 70 "$BUILD_REPOSITORY_PASSWORD" 2>&1 > /dev/tty)
+                                      --inputbox "\nPlease enter the build repository password:" 10 60 "$BUILD_REPOSITORY_PASSWORD" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -154,7 +154,7 @@ function publishRepositoryDialog() {
   while "true"; do
     PUBLISH_REPO_URL=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                  --title "$TITLE" \
-                                 --inputbox "\nPlease enter the publish repository URL:" 10 70 "$PUBLISH_REPOSITORY_URL" 2>&1 > /dev/tty)
+                                 --inputbox "\nPlease enter the publish repository URL:" 10 60 "$PUBLISH_REPOSITORY_URL" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -171,7 +171,7 @@ function publishRepositoryDialog() {
   while "true"; do
     PUBLISH_REPO_USERNAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                       --title "$TITLE" \
-                                      --inputbox "\nPlease enter the publish repository username:" 10 70 "$PUBLISH_REPOSITORY_USERNAME" 2>&1 > /dev/tty)
+                                      --inputbox "\nPlease enter the publish repository username:" 10 60 "$PUBLISH_REPOSITORY_USERNAME" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -188,7 +188,7 @@ function publishRepositoryDialog() {
   while "true"; do
     PUBLISH_REPO_PASSWORD=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                       --title "$TITLE" \
-                                      --inputbox "\nPlease enter the publish repository password:" 10 70 "$PUBLISH_REPOSITORY_PASSWORD" 2>&1 > /dev/tty)
+                                      --inputbox "\nPlease enter the publish repository password:" 10 60 "$PUBLISH_REPOSITORY_PASSWORD" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -208,7 +208,7 @@ function sonarDialog() {
   while "true"; do
     SONAR_ORG=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                             --title "$TITLE" \
-                            --inputbox "\nPlease enter the sonar organization:" 10 70 "$SONAR_ORGANIZATION" 2>&1 > /dev/tty)
+                            --inputbox "\nPlease enter the sonar organization:" 10 60 "$SONAR_ORGANIZATION" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -225,7 +225,7 @@ function sonarDialog() {
   while "true"; do
     SONAR_TOK=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                             --title "$TITLE" \
-                            --inputbox "\nPlease enter the sonar organization:" 10 70 "$SONAR_TOKEN" 2>&1 > /dev/tty)
+                            --inputbox "\nPlease enter the sonar organization:" 10 60 "$SONAR_TOKEN" 2>&1 > /dev/tty)
 
     # Check / validate the input.
     if [ $? -eq 1 ]; then
@@ -341,7 +341,15 @@ function newProjectDialog() {
 
   $GRADLE_CMD wrapper > /dev/null
 
-  ./build.sh
+  ./build.sh > "$PROJECT_NAME.log"
+
+  LOGS=$(cat $PROJECT_NAME.log)
+
+  rm -f "$LOGS"
+
+  $DIALOG_CMD --backtitle "$MAIN_TITLE" \
+              --title "$TITLE" \
+              --msgbox "$LOGS" 21 90
 }
 
 # Open the menu dialog.
@@ -421,7 +429,7 @@ function checkRequirementsDialog() {
       if [ ! -f "$BINARY_CMD" ]; then
         $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                     --title "$TITLE" \
-                    --msgbox "\n$BINARY is not installed! Please install it first to continue!" 7 70 > /dev/tty
+                    --msgbox "\n$BINARY is not installed! Please install it first to continue!" 7 60 > /dev/tty
 
         clear
 
@@ -431,7 +439,7 @@ function checkRequirementsDialog() {
 
         echo $counter | $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                     --title "$TITLE" \
-                                    --gauge "\nFinding required software installation..." 8 45
+                                    --gauge "\nFinding required software installation..." 8 40
       fi
     done
 
@@ -446,7 +454,7 @@ function checkRequirementsDialog() {
 # Opens the welcome dialog.
 function welcomeDialog() {
   if [ -z "$UNATTENDED" ]; then
-    MAIN_TITLE="Concepting Framework"
+    MAIN_TITLE="$buildName $buildVersion"
     TITLE="WELCOME!"
     ABOUT=$(cat README.md)
 
