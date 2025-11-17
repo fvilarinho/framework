@@ -41,8 +41,6 @@ function codeAnalysis() {
 
 # Main function.
 function main() {
-  clear
-
   prepareToExecute
   checkDependencies
   codeAnalysis
