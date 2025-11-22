@@ -33,7 +33,7 @@ function loadBuildEnvironment() {
 
   # Mandatory environment variables.
   if [ -f "$BUILD_ENV_FILENAME" ]; then
-    LINES=$(cat "$BUILD_ENV_FILENAME")
+    LINES=$(grep -v "^#" "$BUILD_ENV_FILENAME")
 
     for LINE in $LINES
     do
@@ -47,7 +47,7 @@ function loadBuildSettings() {
   export BUILD_SETTINGS_FILENAME="$WORK_DIR"/gradle.properties
 
   if [ -f "$BUILD_SETTINGS_FILENAME" ]; then
-    LINES=$(cat "$BUILD_SETTINGS_FILENAME")
+    LINES=$(grep -v "^#" "$BUILD_SETTINGS_FILENAME")
 
     for LINE in $LINES
     do
