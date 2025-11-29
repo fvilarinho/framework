@@ -263,6 +263,20 @@ artifacts {
 }
 
 publishing{
+    publications{
+        mavenJava(MavenPublication){
+            artifact jar
+            artifact allJar
+            artifact coreJar
+            artifact resourcesJar
+            artifact modelJar
+            artifact persistenceJar
+            artifact serviceJar
+            artifact controllerJar
+            artifact uiJar
+            artifact javadocJar
+        }
+    }
     repositories {
         maven {
             url = "${publishRepositoryUrl}"

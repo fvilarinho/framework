@@ -42,7 +42,7 @@ function prepareToExecute() {
 
 # Publishes the build files in the repository.
 function publish() {
-  ./gradlew build publishAllPublicationsToMavenRepository
+  ./gradlew publish
 }
 
 # Main function.

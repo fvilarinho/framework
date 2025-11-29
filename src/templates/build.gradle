@@ -214,18 +214,6 @@ jacocoTestReport {
     }
 }
 
-artifacts {
-    archives(allJar)
-    archives(coreJar)
-    archives(resourcesJar)
-    archives(controllerJar)
-    archives(modelJar)
-    archives(persistenceJar)
-    archives(serviceJar)
-    archives(uiJar)
-    archives(javadocJar)
-}
-
 test {
     finalizedBy(jacocoTestReport)
 }
@@ -239,6 +227,21 @@ jacocoTestReport {
 }
 
 publishing{
+    publications{
+        mavenJava(MavenPublication){
+            artifact jar
+            artifact allJar
+            artifact coreJar
+            artifact resourcesJar
+            artifact modelJar
+            artifact persistenceJar
+            artifact serviceJar
+            artifact controllerJar
+            artifact uiJar
+            artifact javadocJar
+        }
+    }
+
     repositories {
         maven {
             url = "${publishRepositoryUrl}"
