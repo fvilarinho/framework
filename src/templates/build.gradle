@@ -43,6 +43,7 @@ repositories {
     mavenCentral()
     maven {
         url = "${buildRepositoryUrl}"
+
         credentials {
             username = "${buildRepositoryUserName}"
             password = "${buildRepositoryPassword}"
@@ -105,11 +106,12 @@ tasks.withType(ProcessResources).configureEach {
 tasks.register("generateCode", JavaCompile) {
     source(sourceSets.main.java.srcDirs)
 
-    classpath                       = configurations.runtimeClasspath + configurations.annotationProcessor + sourceSets.main.output
-    options.annotationProcessorPath = configurations.runtimeClasspath + configurations.annotationProcessor + sourceSets.main.output
-    options.compilerArgs            = [
+    classpath = configurations.runtimeClasspath + configurations.annotationProcessor
+
+    options.annotationProcessorPath = configurations.annotationProcessor
+    options.compilerArgs = [
             "-proc:only",
-            "-processor", "br.com.concepting.framework.processors.AnnotationProcessorFactory",
+            "-processor", "br.com.concerting.framework.processors.AnnotationProcessorFactory",
             "-AbuildDir=" + project.projectDir + "/" + project.name,
             "-AbuildName=" + project.name,
             "-AbuildVersion=" + version
@@ -240,6 +242,7 @@ publishing{
     repositories {
         maven {
             url = "${publishRepositoryUrl}"
+
             credentials {
                 username = "${publishRepositoryUserName}"
                 password = "${publishRepositoryPassword}"
