@@ -3,6 +3,7 @@ plugins {
     id "maven-publish"
     id "jacoco"
     id "org.sonarqube" version "7.0.1.6134"
+    id "war"
 }
 
 def environment = new Properties()
@@ -220,6 +221,10 @@ jacocoTestReport {
         xml.required.set(true)
         csv.required.set(false)
     }
+}
+
+war {
+    from("src/main/ui")
 }
 
 publishing{
