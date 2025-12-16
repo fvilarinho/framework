@@ -60,10 +60,8 @@
 
 		import br.com.concepting.framework.controller.action.BaseAction;
 		import br.com.concepting.framework.model.exceptions.ItemNotSelectedException;
-		import br.com.concepting.framework.model.types.ConditionType;
 		import br.com.concepting.framework.util.PropertyUtil;
-		import br.com.concepting.framework.util.helpers.Filter;
-		
+
 		import @{actionFormClassName};
 		import #{clazz.name};
 		import @{inputModelClassName};
@@ -277,7 +275,7 @@
 		        @{accessModelName} access = model.getAccess();
 		        List&lt;@{accessModelName}&gt; accesses = input.getAccesses();
 		        
-		        if(access == null || accesses == null || accesses.size() == 0)
+		        if(access == null || accesses == null || accesses.isEmpty())
 		        	throw new ItemNotSelectedException();
 		        	
 		        accesses.remove(access);

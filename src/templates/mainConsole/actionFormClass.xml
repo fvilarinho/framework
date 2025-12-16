@@ -11,6 +11,8 @@
 
 		import #{clazz.name};
 
+		import java.io.Serial;
+
 		/**
 		 * Class that defines the form of the main console UI.
 		 *
@@ -19,6 +21,7 @@
 		 * @since @{now}
 		 */
 		public class @{name} extends BaseActionForm&lt;#{clazz.simpleName}&gt;{
+			@Serial
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>

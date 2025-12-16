@@ -56,33 +56,36 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
     }
 
     @Override
-    public SystemResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException{
+    public SystemResources parseResources(XmlNode resourcesNode) throws InvalidResourcesException {
         String resourcesDirname = getResourcesDirname();
         String resourcesId = getResourcesId();
         SystemResources resources = new SystemResources();
-        
+
         resources.setId(Constants.DEFAULT_ATTRIBUTE_ID);
         resources.setDefault(true);
-        
+
         XmlNode mainConsoleNode = resourcesNode.getNode(SystemConstants.MAIN_CONSOLE_ATTRIBUTE_ID);
-        
-        if(mainConsoleNode != null){
-            XmlNode classNode = mainConsoleNode.getNode(Constants.CLASS_ATTRIBUTE_ID);
-            
-            if(classNode != null){
-                String value = classNode.getValue();
-                
-                if(value != null && !value.isEmpty()){
-                    try{
+
+        try {
+            if (mainConsoleNode != null) {
+                XmlNode classNode = mainConsoleNode.getNode(Constants.CLASS_ATTRIBUTE_ID);
+
+                if (classNode != null) {
+                    String value = classNode.getValue();
+
+                    if (value != null && !value.isEmpty())
                         resources.setMainConsoleClass(classNode.getValue());
-                    }
-                    catch(ClassNotFoundException | ClassCastException e){
-                        throw new InvalidResourcesException(resourcesDirname, resourcesId, classNode.getText());
-                    }
+                    else
+                        resources.setMainConsoleClass(SystemConstants.DEFAULT_MAIN_CONSOLE_CLASS);
                 }
                 else
-                    resources.setMainConsoleClass(MainConsoleModel.class.getName());
+                    resources.setMainConsoleClass(SystemConstants.DEFAULT_MAIN_CONSOLE_CLASS);
             }
+            else
+                resources.setMainConsoleClass(SystemConstants.DEFAULT_MAIN_CONSOLE_CLASS);
+        }
+        catch(ClassNotFoundException | ClassCastException e){
+            throw new InvalidResourcesException(resourcesDirname, resourcesId, e);
         }
         
         XmlNode skinsNode = resourcesNode.getNode(SystemConstants.SKINS_ATTRIBUTE_ID);
@@ -231,5 +234,12 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
         }
         
         return resources;
+    }
+
+    public static void main(String args[]) throws Throwable {
+        SystemResourcesLoader loader = new SystemResourcesLoader();
+        SystemResources resources = loader.getDefault();
+
+        System.out.println(resources.getMainConsoleClass());
     }
 }

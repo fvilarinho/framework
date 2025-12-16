@@ -1,9 +1,9 @@
 package br.com.concepting.framework.controller.action;
 
+import br.com.concepting.framework.common.controller.form.MainConsoleActionForm;
+import br.com.concepting.framework.common.model.MainConsoleModel;
 import br.com.concepting.framework.constants.SystemConstants;
 import br.com.concepting.framework.controller.SystemController;
-import br.com.concepting.framework.controller.form.MainConsoleActionForm;
-import br.com.concepting.framework.model.MainConsoleModel;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.model.LoginParameterModel;
 import br.com.concepting.framework.security.model.LoginSessionModel;

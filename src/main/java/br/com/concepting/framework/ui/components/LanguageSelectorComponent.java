@@ -1,15 +1,14 @@
 package br.com.concepting.framework.ui.components;
 
+import br.com.concepting.framework.common.model.MainConsoleModel;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.constants.SystemConstants;
 import br.com.concepting.framework.controller.action.types.ActionType;
 import br.com.concepting.framework.controller.form.constants.ActionFormConstants;
 import br.com.concepting.framework.exceptions.InternalErrorException;
-import br.com.concepting.framework.model.MainConsoleModel;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.constants.ResourcesConstants;
-import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.MethodType;

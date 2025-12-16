@@ -1,5 +1,7 @@
 package br.com.concepting.framework.constants;
 
+import br.com.concepting.framework.common.model.MainConsoleModel;
+
 import br.com.concepting.framework.resources.constants.ResourcesConstants;
 
 /**
@@ -54,4 +56,5 @@ public final class SystemConstants{
     public static final String EXCLUSION_URLS_ATTRIBUTE_ID = "exclusionUrls";
     public static final String DEFAULT_CONTROLLER_ID = "controller";
     public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("systemResources.xml");
+    public static final String DEFAULT_MAIN_CONSOLE_CLASS = MainConsoleModel.class.getName();
 }

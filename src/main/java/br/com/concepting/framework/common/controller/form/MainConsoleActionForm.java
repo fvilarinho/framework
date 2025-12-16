@@ -1,6 +1,7 @@
-package br.com.concepting.framework.controller.form;
+package br.com.concepting.framework.common.controller.form;
 
-import br.com.concepting.framework.model.MainConsoleModel;
+import br.com.concepting.framework.common.model.MainConsoleModel;
+import br.com.concepting.framework.controller.form.BaseActionForm;
 
 import java.io.Serial;
 
@@ -26,7 +27,7 @@ import java.io.Serial;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
-public class MainConsoleActionForm<M extends MainConsoleModel> extends BaseActionForm<M>{
+public class MainConsoleActionForm<M extends MainConsoleModel> extends BaseActionForm<M> {
     @Serial
     private static final long serialVersionUID = 2246476401602563788L;
 }

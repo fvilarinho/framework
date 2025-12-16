@@ -1,7 +1,7 @@
 package br.com.concepting.framework.resources;
 
+import br.com.concepting.framework.common.model.MainConsoleModel;
 import br.com.concepting.framework.constants.Constants;
-import br.com.concepting.framework.model.MainConsoleModel;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
 

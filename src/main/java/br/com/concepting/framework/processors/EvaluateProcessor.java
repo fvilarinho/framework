@@ -369,10 +369,4 @@ public class EvaluateProcessor extends GenericProcessor{
         
         return super.process();
     }
-
-    public static void main(String[] args) throws Throwable{
-        EvaluateProcessor processor = new EvaluateProcessor();
-
-        processor.evaluate("br.com.concepting.framework.model.util.ModelUtil.getResourcesIdByModel(@{systemResources.mainConsoleClass})");
-    }
 }

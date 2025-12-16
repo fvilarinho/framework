@@ -1,8 +1,9 @@
-package br.com.concepting.framework.service;
+package br.com.concepting.framework.common.service;
 
-import br.com.concepting.framework.model.MainConsoleModel;
+import br.com.concepting.framework.common.model.MainConsoleModel;
+import br.com.concepting.framework.common.service.interfaces.MainConsoleService;
+import br.com.concepting.framework.service.BaseService;
 import br.com.concepting.framework.service.annotations.Service;
-import br.com.concepting.framework.service.interfaces.MainConsoleService;
 
 /**
  * Class that defines the service of the main console UI.

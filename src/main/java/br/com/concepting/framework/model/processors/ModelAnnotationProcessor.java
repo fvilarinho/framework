@@ -3,6 +3,7 @@ package br.com.concepting.framework.model.processors;
 import br.com.concepting.framework.audit.Auditor;
 import br.com.concepting.framework.audit.resources.AuditorResources;
 import br.com.concepting.framework.audit.resources.AuditorResourcesLoader;
+import br.com.concepting.framework.common.model.MainConsoleModel;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.constants.ProjectConstants;
 import br.com.concepting.framework.constants.SystemConstants;
@@ -12,7 +13,6 @@ import br.com.concepting.framework.controller.form.constants.ActionFormConstants
 import br.com.concepting.framework.controller.form.util.ActionFormUtil;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
-import br.com.concepting.framework.model.MainConsoleModel;
 import br.com.concepting.framework.model.SystemModuleModel;
 import br.com.concepting.framework.model.SystemSessionModel;
 import br.com.concepting.framework.model.helpers.ModelInfo;
@@ -726,9 +726,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     modelClassTestFilename.append(StringUtil.replaceAll(modelClassName.toString(), ".", FileUtil.getDirectorySeparator()));
                     modelClassTestFilename.append(ProjectConstants.DEFAULT_JAVA_FILE_EXTENSION);
                     
-                    File modelClassFile = new File(modelClassTestFilename.toString());
+                    File modelClassTestFile = new File(modelClassTestFilename.toString());
                     
-                    if(!modelClassFile.exists()){
+                    if(!modelClassTestFile.exists()){
                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);

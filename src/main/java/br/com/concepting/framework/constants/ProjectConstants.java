@@ -51,7 +51,7 @@ public final class ProjectConstants{
     public static final String DEFAULT_SERVICE_CLASS_TEMPLATE_FILE_ID = "serviceClass.xml";
     public static final String DEFAULT_SERVICE_INTERFACE_TEMPLATE_FILE_ID = "serviceInterface.xml";
     public static final String DEFAULT_TEMPLATES_DIR = DEFAULT_SOURCE_DIR.concat("templates/");
-    public static final String DEFAULT_TESTS_DIR = DEFAULT_SOURCE_DIR.concat("tests/java/");
+    public static final String DEFAULT_TESTS_DIR = DEFAULT_SOURCE_DIR.concat("test/java/");
     public static final String DEFAULT_UI_PAGE_FILE_ID = "index.jsp";
     public static final String DEFAULT_UI_PAGE_TEMPLATE_FILE_ID = "uiPage.xml";
     public static final String DEFAULT_UI_PAGES_DIR = DEFAULT_MODULE_DESCRIPTORS_DIR.concat("/jsp/");

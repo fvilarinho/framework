@@ -72,7 +72,7 @@
 		        if(newPassword != null &amp;&amp; confirmPassword != null &amp;&amp; !newPassword.equals(confirmPassword))
 		            throw new PasswordsNotMatchException();
 		        
-		        if(newPassword != null &amp;&amp; newPassword.length() > 0){
+		        if(newPassword != null &amp;&amp; !newPassword.isEmpty()){
 					@{loginParameterModelName} loginParameter = user.getLoginParameter();
 
 		            if(loginParameter != null){

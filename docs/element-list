@@ -6,6 +6,10 @@ br.com.concepting.framework.audit.model
 br.com.concepting.framework.audit.resources
 br.com.concepting.framework.caching
 br.com.concepting.framework.caching.constants
+br.com.concepting.framework.common.controller.form
+br.com.concepting.framework.common.model
+br.com.concepting.framework.common.service
+br.com.concepting.framework.common.service.interfaces
 br.com.concepting.framework.constants
 br.com.concepting.framework.controller
 br.com.concepting.framework.controller.action

@@ -1,5 +1,6 @@
-package br.com.concepting.framework.model;
+package br.com.concepting.framework.common.model;
 
+import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.annotations.Model;
 import br.com.concepting.framework.model.annotations.Property;
 import br.com.concepting.framework.model.types.ValidationType;
@@ -28,7 +29,7 @@ import java.io.Serial;
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Model(ui = "Main Console", templateId = "mainConsole")
-public abstract class MainConsoleModel extends BaseModel{
+public abstract class MainConsoleModel extends BaseModel {
     @Serial
     private static final long serialVersionUID = -8176019419161691084L;
     

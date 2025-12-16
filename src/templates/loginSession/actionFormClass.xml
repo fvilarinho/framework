@@ -19,7 +19,9 @@
 		import #{clazz.name};
 		import @{userModelClassName};
 		import @{loginParameterModelClassName};
-	
+
+		import java.io.Serial;
+
 		/**
 		 * Class that defines the form of the login session UI.
 		 *
@@ -28,7 +30,8 @@
 		 * @since @{now}
 		 */
 		public class @{name} extends br.com.concepting.framework.security.controller.form.LoginSessionActionForm&lt;#{clazz.simpleName}, @{userModelName}, @{loginParameterModelName}&gt;{
-			private static final long serialVersionUID = @{serialVersionUID}L;	
+			@Serial
+			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
 </artifacts>

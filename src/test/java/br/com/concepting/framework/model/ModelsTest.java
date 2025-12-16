@@ -1,6 +1,7 @@
 package br.com.concepting.framework.model;
 
 import br.com.concepting.framework.caching.CacherManager;
+import br.com.concepting.framework.common.model.MainConsoleModel;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.security.model.GroupModel;
