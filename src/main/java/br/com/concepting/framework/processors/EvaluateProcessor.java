@@ -289,8 +289,13 @@ public class EvaluateProcessor extends GenericProcessor{
                         }
                         
                         Object instance = clazz.getDeclaredConstructor().newInstance();
-                        
-                        return (O) MethodUtils.invokeMethod(instance, methodId, parametersValues);
+
+                        try {
+                            return (O) MethodUtils.invokeMethod(instance, methodId, parametersValues);
+                        }
+                        catch(NullPointerException e) {
+                            return null;
+                        }
                     }
                 }
             }
@@ -363,5 +368,11 @@ public class EvaluateProcessor extends GenericProcessor{
         }
         
         return super.process();
+    }
+
+    public static void main(String[] args) throws Throwable{
+        EvaluateProcessor processor = new EvaluateProcessor();
+
+        processor.evaluate("br.com.concepting.framework.model.util.ModelUtil.getResourcesIdByModel(@{systemResources.mainConsoleClass})");
     }
 }

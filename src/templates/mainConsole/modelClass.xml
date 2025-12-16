@@ -23,7 +23,6 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
-		@SuppressWarnings("javadoc")
 		@Model(mappedRepositoryId="user",
 			mappedProperties={
 				@Property(propertyId="id", mappedPropertyId="id"),

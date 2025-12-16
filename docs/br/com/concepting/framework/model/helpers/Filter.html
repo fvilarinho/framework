@@ -5,7 +5,7 @@
 <title>Filter (framework 3.10.17 API)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="description" content="declaration: package: br.com.concepting.framework.persistence.helpers, class: Filter">
+<meta name="description" content="declaration: package: br.com.concepting.framework.model.helpers, class: Filter">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -81,11 +81,11 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">br.com.concepting.framework.persistence.helpers</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">br.com.concepting.framework.model.helpers</a></div>
 <h1 title="Class Filter" class="title">Class Filter</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">br.com.concepting.framework.persistence.helpers.Filter</div>
+<div class="inheritance">br.com.concepting.framework.model.helpers.Filter</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
@@ -119,7 +119,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <dt>See Also:</dt>
 <dd>
 <ul class="tag-list">
-<li><a href="../../../../../../serialized-form.html#br.com.concepting.framework.persistence.helpers.Filter">Serialized Form</a></li>
+<li><a href="../../../../../../serialized-form.html#br.com.concepting.framework.model.helpers.Filter">Serialized Form</a></li>
 </ul>
 </dd>
 </dl>
@@ -163,13 +163,13 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addPropertyCondition(java.lang.String,br.com.concepting.framework.model.types.ConditionType)" class="member-name-link">addPropertyCondition</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="../../model/types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&nbsp;condition)</code></div>
+ <a href="../types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&nbsp;condition)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds a property condition.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addPropertyConditionOperation(java.lang.String,br.com.concepting.framework.model.types.ConditionOperationType)" class="member-name-link">addPropertyConditionOperation</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="../../model/types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&nbsp;conditionOperation)</code></div>
+ <a href="../types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&nbsp;conditionOperation)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds a property condition operation.</div>
 </div>
@@ -181,7 +181,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addPropertyRelationJoin(java.lang.String,br.com.concepting.framework.persistence.types.RelationJoinType)" class="member-name-link">addPropertyRelationJoin</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="../types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&nbsp;relationJoinType)</code></div>
+ <a href="../../persistence/types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&nbsp;relationJoinType)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Adds a relation join to the mapping.</div>
 </div>
@@ -217,12 +217,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns all properties' aliases.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../../model/types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&gt;&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&gt;&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPropertiesConditions()" class="member-name-link">getPropertiesConditions</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the mapping of the properties' conditions.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../model/types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPropertiesConditionsOperations()" class="member-name-link">getPropertiesConditionsOperations</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the mapping of the properties conditions operations.</div>
@@ -232,7 +232,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns all properties' formulas.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../persistence/types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPropertiesRelationsJoins()" class="member-name-link">getPropertiesRelationsJoins</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the relations joins mapping.</div>
@@ -268,12 +268,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="block">Defines all properties' aliases.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPropertiesConditions(java.util.Map)" class="member-name-link">setPropertiesConditions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../../model/types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&gt;&gt;&nbsp;conditions)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPropertiesConditions(java.util.Map)" class="member-name-link">setPropertiesConditions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&gt;&gt;&nbsp;conditions)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Defines the mapping of the properties' conditions.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPropertiesConditionsOperations(java.util.Map)" class="member-name-link">setPropertiesConditionsOperations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../model/types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&gt;&nbsp;propertiesConditionsOperations)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPropertiesConditionsOperations(java.util.Map)" class="member-name-link">setPropertiesConditionsOperations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&gt;&nbsp;propertiesConditionsOperations)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Defines the mapping of the properties conditions operations.</div>
 </div>
@@ -283,7 +283,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="block">Returns all properties' formulas.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPropertiesRelationsJoins(java.util.Map)" class="member-name-link">setPropertiesRelationsJoins</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&gt;&nbsp;propertiesRelationsJoins)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPropertiesRelationsJoins(java.util.Map)" class="member-name-link">setPropertiesRelationsJoins</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../persistence/types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&gt;&nbsp;propertiesRelationsJoins)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Defines the relations joins mapping.</div>
 </div>
@@ -426,7 +426,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <li>
 <section class="detail" id="getPropertiesRelationsJoins()">
 <h3>getPropertiesRelationsJoins</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&gt;</span>&nbsp;<span class="element-name">getPropertiesRelationsJoins</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../persistence/types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&gt;</span>&nbsp;<span class="element-name">getPropertiesRelationsJoins</span>()</div>
 <div class="block">Returns the relations joins mapping.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -437,7 +437,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <li>
 <section class="detail" id="setPropertiesRelationsJoins(java.util.Map)">
 <h3>setPropertiesRelationsJoins</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPropertiesRelationsJoins</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&gt;&nbsp;propertiesRelationsJoins)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPropertiesRelationsJoins</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../persistence/types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&gt;&nbsp;propertiesRelationsJoins)</span></div>
 <div class="block">Defines the relations joins mapping.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -449,7 +449,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="addPropertyRelationJoin(java.lang.String,br.com.concepting.framework.persistence.types.RelationJoinType)">
 <h3>addPropertyRelationJoin</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addPropertyRelationJoin</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="../types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&nbsp;relationJoinType)</span></div>
+ <a href="../../persistence/types/RelationJoinType.html" title="enum class in br.com.concepting.framework.persistence.types">RelationJoinType</a>&nbsp;relationJoinType)</span></div>
 <div class="block">Adds a relation join to the mapping.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -530,7 +530,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <li>
 <section class="detail" id="getPropertiesConditions()">
 <h3>getPropertiesConditions</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../../model/types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&gt;&gt;</span>&nbsp;<span class="element-name">getPropertiesConditions</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&gt;&gt;</span>&nbsp;<span class="element-name">getPropertiesConditions</span>()</div>
 <div class="block">Returns the mapping of the properties' conditions.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -541,7 +541,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <li>
 <section class="detail" id="setPropertiesConditions(java.util.Map)">
 <h3>setPropertiesConditions</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPropertiesConditions</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../../model/types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&gt;&gt;&nbsp;conditions)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPropertiesConditions</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&gt;&gt;&nbsp;conditions)</span></div>
 <div class="block">Defines the mapping of the properties' conditions.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -553,7 +553,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="addPropertyCondition(java.lang.String,br.com.concepting.framework.model.types.ConditionType)">
 <h3>addPropertyCondition</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addPropertyCondition</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="../../model/types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&nbsp;condition)</span></div>
+ <a href="../types/ConditionType.html" title="enum class in br.com.concepting.framework.model.types">ConditionType</a>&nbsp;condition)</span></div>
 <div class="block">Adds a property condition.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -565,7 +565,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <li>
 <section class="detail" id="getPropertiesConditionsOperations()">
 <h3>getPropertiesConditionsOperations</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../model/types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&gt;</span>&nbsp;<span class="element-name">getPropertiesConditionsOperations</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&gt;</span>&nbsp;<span class="element-name">getPropertiesConditionsOperations</span>()</div>
 <div class="block">Returns the mapping of the properties conditions operations.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -576,7 +576,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <li>
 <section class="detail" id="setPropertiesConditionsOperations(java.util.Map)">
 <h3>setPropertiesConditionsOperations</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPropertiesConditionsOperations</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../../model/types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&gt;&nbsp;propertiesConditionsOperations)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPropertiesConditionsOperations</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="../types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&gt;&nbsp;propertiesConditionsOperations)</span></div>
 <div class="block">Defines the mapping of the properties conditions operations.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -588,7 +588,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="addPropertyConditionOperation(java.lang.String,br.com.concepting.framework.model.types.ConditionOperationType)">
 <h3>addPropertyConditionOperation</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addPropertyConditionOperation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;id,
- <a href="../../model/types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&nbsp;conditionOperation)</span></div>
+ <a href="../types/ConditionOperationType.html" title="enum class in br.com.concepting.framework.model.types">ConditionOperationType</a>&nbsp;conditionOperation)</span></div>
 <div class="block">Adds a property condition operation.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

@@ -60,7 +60,6 @@
 		</iterate>
 		<set var="modelClassName" value="#{clazz.simpleName}"/>
 
-		@SuppressWarnings("javadoc")
 		public class @{name}{
 			private #{clazz.simpleName} model = new #{clazz.simpleName}();
 			 

@@ -5,27 +5,29 @@ import br.com.concepting.framework.audit.appenders.BaseAuditorAppender;
 import br.com.concepting.framework.audit.resources.AuditorResources;
 import br.com.concepting.framework.audit.resources.AuditorResourcesLoader;
 import br.com.concepting.framework.exceptions.InternalErrorException;
+import br.com.concepting.framework.model.processors.ModelAnnotationProcessor;
 import br.com.concepting.framework.resources.FactoryResources;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.StatusType;
-import org.apache.commons.beanutils.ConstructorUtils;
-import org.apache.log4j.Appender;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.Filter;
-import org.apache.log4j.spi.LoggingEvent;
 
-import java.lang.reflect.InvocationTargetException;
+import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.LoggerContext;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Map;
-import java.util.Map.Entry;
+
 
 /**
  * Class responsible to perform auditing.
@@ -49,6 +51,9 @@ import java.util.Map.Entry;
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class Auditor{
+    private static final LoggerContext loggersContext = (LoggerContext)LogManager.getContext(false);
+    private static final Configuration loggersConfiguration = loggersContext.getConfiguration();
+
     private Logger logger = null;
     private Class<?> entity = null;
     private Method business = null;
@@ -113,8 +118,13 @@ public class Auditor{
         setLoginSession(loginSession);
         setEntity(entity);
         setBusiness(business, businessComplementArgumentsValues);
-        
+
         initialize();
+    }
+
+    private void initialize() throws InvalidResourcesException {
+        this.logger = LogManager.getLogger(this.entity.getName());
+
         loadResources();
         loadLevel();
         loadAppenders();
@@ -229,10 +239,8 @@ public class Auditor{
      *
      * @param entity Class that defines the entity that will be audited.
      */
-    public void setEntity(Class<?> entity){
+    public void setEntity(Class<?> entity) {
         this.entity = entity;
-        
-        updateAppenders();
     }
     
     /**
@@ -287,8 +295,6 @@ public class Auditor{
             setBusinessComplementArgumentsTypes(null);
             setBusinessComplementArgumentsValues(null);
         }
-        
-        updateAppenders();
     }
     
     /**
@@ -308,20 +314,7 @@ public class Auditor{
     public void setResources(AuditorResources resources){
         this.resources = resources;
     }
-    
-    /**
-     * Initialize the auditing resources.
-     */
-    @SuppressWarnings("unchecked")
-    private void initialize(){
-        Enumeration<Appender> enumeration = Logger.getRootLogger().getAllAppenders();
-        
-        if(enumeration == null || !enumeration.hasMoreElements())
-            BasicConfigurator.configure();
-        
-        this.logger = Logger.getLogger(this.entity);
-    }
-    
+
     /**
      * Loads the auditing resources.
      *
@@ -336,17 +329,16 @@ public class Auditor{
                 if(auditableAnnotation == null){
                     Class<?> superClass = this.entity;
                     
-                    do{
+                    while(true){
+                        if(superClass.getSuperclass() == null)
+                            break;
+
                         superClass = superClass.getSuperclass();
-                        
-                        if(superClass != null){
-                            auditableAnnotation = superClass.getAnnotation(Auditable.class);
-                            
-                            if(auditableAnnotation == null)
-                                break;
-                        }
+                        auditableAnnotation = superClass.getAnnotation(Auditable.class);
+
+                        if(auditableAnnotation == null)
+                            break;
                     }
-                    while(superClass != null && auditableAnnotation == null);
                 }
                 
                 String resourcesId = (auditableAnnotation != null ? auditableAnnotation.resourcesId() : null);
@@ -356,138 +348,71 @@ public class Auditor{
             }
         }
     }
-    
+
     /**
-     * Defines the level of the auditing's messages. The supported levels are
-     * debug, info and error.
+     * Loads the auditing level.
      */
-    private void loadLevel(){
-        if(this.resources != null){
-            Level level = Level.OFF;
-            String levelBuffer = this.resources.getLevel();
-            
-            if(levelBuffer != null && !levelBuffer.isEmpty())
-                level = Level.toLevel(levelBuffer.toUpperCase());
-            
-            this.logger.setLevel(level);
-            
-            Logger.getRootLogger().setLevel(level);
+    private void loadLevel() {
+        if(this.resources != null && this.logger != null) {
+            Configurator.setRootLevel(Level.OFF);
+            Configurator.setLevel(this.entity.getName(), Level.toLevel(this.resources.getLevel().toUpperCase()));
         }
     }
-    
-    @SuppressWarnings("unchecked")
-    private void updateAppenders(){
-        if(this.logger != null){
-            Enumeration<Appender> allAppenders = this.logger.getAllAppenders();
-            Appender appenderInstance;
-            
-            while(allAppenders.hasMoreElements()){
-                appenderInstance = allAppenders.nextElement();
-                
-                if(appenderInstance instanceof BaseAuditorAppender){
-                    ((BaseAuditorAppender) appenderInstance).setAuditor(this);
-                    
-                    break;
-                }
-            }
-        }
-    }
-    
+
     /**
-     * Loads the storages of auditing's messages.
-     *
-     * @throws InternalErrorException Occurs when was not possible to load the
-     * storages of auditing's messages.
+     * Loads the appenders of the auditing.
      */
-    @SuppressWarnings("unchecked")
-    private void loadAppenders() throws InternalErrorException{
-        Enumeration<Appender> enumeration = Logger.getRootLogger().getAllAppenders();
-        
-        if(enumeration != null){
-            while(enumeration.hasMoreElements()){
-                Appender appender = enumeration.nextElement();
-                
-                appender.addFilter(new Filter(){
-                    public int decide(LoggingEvent event){
-                        try{
-                            Class<?> entity = Class.forName(event.getLoggerName());
-                            
-                            if(entity.equals(Auditor.this.entity))
-                                return -1;
-                        }
-                        catch(Throwable ignored){
-                        }
-                        
-                        return 0;
-                    }
-                });
-            }
-        }
-        
+    private void loadAppenders(){
         if(this.resources != null){
             Collection<FactoryResources> appendersResources = this.resources.getAppenders();
             
             if(appendersResources != null){
-                Enumeration<Appender> allAppenders = this.logger.getAllAppenders();
-                Class<?> appenderClass;
+                LoggerConfig loggerConfiguration = loggersConfiguration.getLoggerConfig(this.entity.getName());
                 Appender appenderInstance;
-                Map<String, String> appenderOptions;
-                boolean hasAppender;
-                
-                for(FactoryResources appenderResources: appendersResources){
-                    appenderOptions = appenderResources.getOptions();
-                    hasAppender = false;
-                    
-                    while(allAppenders != null && allAppenders.hasMoreElements()){
-                        appenderInstance = allAppenders.nextElement();
-                        
-                        if(appenderResources.getClazz() != null && appenderResources.getClazz().equals(appenderInstance.getClass().getName())){
-                            hasAppender = true;
-                            
-                            if(appenderInstance instanceof BaseAuditorAppender)
-                                ((BaseAuditorAppender) appenderInstance).setAuditor(this);
-                            
-                            break;
-                        }
+
+                for (FactoryResources appenderResources : appendersResources) {
+                    appenderInstance = loggersConfiguration.getAppender(appenderResources.getClazz());
+
+                    if(appenderInstance != null) {
+                        if (appenderInstance instanceof BaseAuditorAppender)
+                            ((BaseAuditorAppender) appenderInstance).setAuditor(this);
                     }
-                    
-                    if(!hasAppender){
-                        try{
-                            appenderClass = Class.forName(appenderResources.getClazz());
-                            
-                            try{
-                                appenderInstance = (Appender) ConstructorUtils.invokeConstructor(appenderClass, this);
-                            }
-                            catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e1){
-                                appenderInstance = (Appender) ConstructorUtils.invokeConstructor(appenderClass, null);
-                            }
-                            
-                            if(appenderOptions != null && !appenderOptions.isEmpty())
-                                if(appenderInstance.requiresLayout())
-                                    for(Entry<String, String> entry: appenderOptions.entrySet())
-                                        PropertyUtil.setValue(appenderInstance, entry.getKey(), entry.getValue());
-                            
-                            if(appenderInstance instanceof BaseAuditorAppender)
-                                ((BaseAuditorAppender) appenderInstance).initializeLayout();
-                            
-                            this.logger.addAppender(appenderInstance);
+                    else {
+                        try {
+                            Class<?> appenderClass = Class.forName(appenderResources.getClazz());
+                            Map<String, String> appenderOptions = appenderResources.getOptions();
+
+                            appenderInstance = (Appender)ConstructorUtils.invokeConstructor(appenderClass, appenderResources.getClazz());
+
+                            if (appenderOptions != null && !appenderOptions.isEmpty())
+                                for (Map.Entry<String, String> entry : appenderOptions.entrySet())
+                                    PropertyUtil.setValue(appenderInstance, entry.getKey(), entry.getValue());
+
+                            if (appenderInstance instanceof BaseAuditorAppender)
+                                ((BaseAuditorAppender) appenderInstance).initialize(this);
+
+                            appenderInstance.start();
+
+                            loggersConfiguration.addAppender(appenderInstance);
+
+                            loggerConfiguration.addAppender(appenderInstance, Level.toLevel(this.resources.getLevel().toUpperCase()), null);
                         }
-                        catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e){
-                            throw new InternalErrorException(e);
+                        catch (Throwable e) {
+                            e.printStackTrace(System.out);
                         }
                     }
                 }
             }
         }
     }
-    
+
     /**
      * Creates an information message.
      *
      * @param <O> Class that defines the message type.
      * @param message Instance that contains the message.
      */
-    public <O> void info(O message){
+    public <O> void info(String message){
         if(message != null)
             this.logger.info(message);
     }
@@ -498,7 +423,7 @@ public class Auditor{
      * @param <O> Class that defines the message type.
      * @param message Instance that contains the message.
      */
-    public <O> void debug(O message){
+    public <O> void debug(String message){
         if(message != null)
             this.logger.debug(message);
     }
@@ -509,7 +434,7 @@ public class Auditor{
      * @param <O> Class that defines the message type.
      * @param message Instance that contains the message.
      */
-    public <O> void error(O message){
+    public <O> void error(String message){
         if(message != null)
             this.logger.error(message);
     }
@@ -531,7 +456,7 @@ public class Auditor{
         this.transactionEnded = false;
         this.transactionStartTime = System.currentTimeMillis();
         
-        info(StatusType.PROCESSING);
+        info(StatusType.PROCESSING.toString());
     }
     
     /**
@@ -540,7 +465,7 @@ public class Auditor{
     public void end(){
         this.transactionEnded = true;
         
-        info(StatusType.PROCESSED);
+        info(StatusType.PROCESSED.toString());
         
         this.transactionStartTime = 0;
     }
@@ -555,8 +480,14 @@ public class Auditor{
         
         this.transactionEnded = true;
         
-        info(StatusType.PROCESSED_WITH_ERROR);
+        info(StatusType.PROCESSED_WITH_ERROR.toString());
         
         this.transactionStartTime = 0;
+    }
+
+    public static void main(String[] args) throws Throwable{
+        Auditor auditor = new Auditor(ModelAnnotationProcessor.class, ModelAnnotationProcessor.class.getMethod("generateActionClass", new Class[]{String.class}), new String[]{"teste"});
+
+        auditor.info("Teste");
     }
 }

@@ -1,9 +1,9 @@
 package br.com.concepting.framework.audit.appenders;
 
 import br.com.concepting.framework.audit.Auditor;
+import br.com.concepting.framework.exceptions.InternalErrorException;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -29,14 +29,14 @@ import java.io.PrintWriter;
  */
 public class FileAuditorAppender extends ConsoleAuditorAppender{
     private String filename = null;
-    
+
     /**
-     * Constructor - Initialize the storage.
+     * Constructor - Initialize the appender.
      *
-     * @param auditor Instance that contains the auditing.
+     * @param name String that contains the identifier of the appender.
      */
-    public FileAuditorAppender(Auditor auditor){
-        super(auditor);
+    public FileAuditorAppender(final String name){
+        super(name);
     }
     
     /**
@@ -58,13 +58,15 @@ public class FileAuditorAppender extends ConsoleAuditorAppender{
     }
 
     @Override
-    public void activateOptions(){
-        if(this.filename != null && !this.filename.isEmpty()){
-            try{
+    public void initialize(Auditor auditor) throws InternalErrorException{
+        super.initialize(auditor);
+
+        try {
+            if(this.filename != null && !this.filename.isEmpty())
                 setWriter(new PrintWriter(new FileOutputStream(this.filename, true)));
-            }
-            catch(IOException ignored){
-            }
+        }
+        catch(Throwable e){
+            throw new InternalErrorException(e);
         }
     }
 }

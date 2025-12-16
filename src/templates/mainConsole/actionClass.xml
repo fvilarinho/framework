@@ -15,7 +15,6 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
-		@SuppressWarnings("javadoc")
 		public class @{name} extends br.com.concepting.framework.controller.action.MainConsoleAction&lt;#{clazz.simpleName}&gt;{
 		}
 	</artifact>

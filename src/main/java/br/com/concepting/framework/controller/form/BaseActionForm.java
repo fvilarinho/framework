@@ -87,7 +87,7 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
      *
      * @param action String that contains the action identifier.
      */
-    public void addActionHistory(String action){
+    public void addActionToHistory(String action){
         if(!action.equals(ActionType.BACK.getMethod())){
             if(this.actionsHistory == null)
                 this.actionsHistory = PropertyUtil.instantiate(Constants.DEFAULT_LIFO_QUEUE_CLASS);
@@ -100,15 +100,27 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
     }
     
     /**
-     * Removes the last action from the history.
+     * Removes the last action from history.
      */
-    public void removeActionHistory(){
+    public void removeLastActionFromHistory(){
         if(this.actionsHistory != null && !actionsHistory.isEmpty()){
             actionsHistory.removeLast();
             
             if(!actionsHistory.isEmpty())
                 setAction(actionsHistory.getLast());
         }
+    }
+
+    /**
+     * Returns the last action from the history.
+     *
+     * @return String that contains the identifier of the last action.
+     */
+    public String getLastAction() {
+        if(this.actionsHistory != null && !actionsHistory.isEmpty() && actionsHistory.size() > 1)
+            return actionsHistory.get(actionsHistory.size() - 2);
+
+        return null;
     }
     
     /**
@@ -438,12 +450,12 @@ public abstract class BaseActionForm<M extends BaseModel> implements Serializabl
                 actionFormMessages = actionFormController.getMessages(ActionFormMessageType.ERROR);
 
             if(actionFormMessages != null && !actionFormMessages.isEmpty())
-                removeActionHistory();
+                removeLastActionFromHistory();
 
             systemController.forward(forwardUrl);
         }
         catch(InternalErrorException | ExpectedException e){
-            removeActionHistory();
+            removeLastActionFromHistory();
 
             if(ExceptionUtil.isExpectedException(e)) {
                 systemController.setCurrentException(e);

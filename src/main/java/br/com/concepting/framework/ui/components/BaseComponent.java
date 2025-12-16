@@ -7,6 +7,7 @@ import br.com.concepting.framework.resources.PropertiesResources;
 import br.com.concepting.framework.resources.PropertiesResourcesLoader;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.SystemResourcesLoader;
+import br.com.concepting.framework.resources.constants.ResourcesConstants;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.model.LoginParameterModel;
@@ -15,7 +16,6 @@ import br.com.concepting.framework.security.model.UserModel;
 import br.com.concepting.framework.security.resources.SecurityResources;
 import br.com.concepting.framework.security.resources.SecurityResourcesLoader;
 import br.com.concepting.framework.ui.components.types.EventType;
-import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.ui.controller.UIController;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.types.ComponentType;
@@ -231,7 +231,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      */
     protected PropertiesResources getResources(String resourcesId) throws InternalErrorException{
         if(resourcesId == null || resourcesId.isEmpty())
-            resourcesId = UIConstants.DEFAULT_COMMON_RESOURCES_ID;
+            resourcesId = ResourcesConstants.DEFAULT_COMMON_RESOURCES_ID;
         
         PropertiesResourcesLoader loader = new PropertiesResourcesLoader(resourcesId, getCurrentLanguage());
 

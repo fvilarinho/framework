@@ -90,28 +90,24 @@ tasks.withType(Jar).configureEach {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     includeEmptyDirs   = false
     zip64              = true
-
-    exclude("META-INF/**")
-    exclude("**/*.html")
 }
 
 tasks.withType(ProcessResources).configureEach {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     includeEmptyDirs   = false
-
-    exclude("META-INF/**")
-    exclude("**/*.html")
 }
 
 tasks.register("generateCode", JavaCompile) {
     source(sourceSets.main.java.srcDirs)
+
+    destinationDirectory = compileJava.destinationDirectory
 
     classpath = configurations.runtimeClasspath + configurations.annotationProcessor
 
     options.annotationProcessorPath = configurations.annotationProcessor
     options.compilerArgs = [
             "-proc:only",
-            "-processor", "br.com.concerting.framework.processors.AnnotationProcessorFactory",
+            "-processor", "br.com.concepting.framework.processors.AnnotationProcessorFactory",
             "-AbuildDir=" + project.projectDir + "/" + project.name,
             "-AbuildName=" + project.name,
             "-AbuildVersion=" + version

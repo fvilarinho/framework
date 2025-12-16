@@ -54,7 +54,6 @@ loadScripts(document, 'script');</script>
 <li><a href="br/com/concepting/framework/audit/package-tree.html">br.com.concepting.framework.audit</a>, </li>
 <li><a href="br/com/concepting/framework/audit/annotations/package-tree.html">br.com.concepting.framework.audit.annotations</a>, </li>
 <li><a href="br/com/concepting/framework/audit/appenders/package-tree.html">br.com.concepting.framework.audit.appenders</a>, </li>
-<li><a href="br/com/concepting/framework/audit/appenders/helpers/package-tree.html">br.com.concepting.framework.audit.appenders.helpers</a>, </li>
 <li><a href="br/com/concepting/framework/audit/constants/package-tree.html">br.com.concepting.framework.audit.constants</a>, </li>
 <li><a href="br/com/concepting/framework/audit/model/package-tree.html">br.com.concepting.framework.audit.model</a>, </li>
 <li><a href="br/com/concepting/framework/audit/resources/package-tree.html">br.com.concepting.framework.audit.resources</a>, </li>
@@ -99,7 +98,6 @@ loadScripts(document, 'script');</script>
 <li><a href="br/com/concepting/framework/network/util/package-tree.html">br.com.concepting.framework.network.util</a>, </li>
 <li><a href="br/com/concepting/framework/persistence/package-tree.html">br.com.concepting.framework.persistence</a>, </li>
 <li><a href="br/com/concepting/framework/persistence/constants/package-tree.html">br.com.concepting.framework.persistence.constants</a>, </li>
-<li><a href="br/com/concepting/framework/persistence/helpers/package-tree.html">br.com.concepting.framework.persistence.helpers</a>, </li>
 <li><a href="br/com/concepting/framework/persistence/interfaces/package-tree.html">br.com.concepting.framework.persistence.interfaces</a>, </li>
 <li><a href="br/com/concepting/framework/persistence/resources/package-tree.html">br.com.concepting.framework.persistence.resources</a>, </li>
 <li><a href="br/com/concepting/framework/persistence/types/package-tree.html">br.com.concepting.framework.persistence.types</a>, </li>
@@ -151,6 +149,28 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" class="type-name-link external-link" title="class or interface in java.lang">Object</a>
 <ul>
+<li class="circle">org.apache.logging.log4j.core.AbstractLifeCycle (implements org.apache.logging.log4j.core.LifeCycle2)
+<ul>
+<li class="circle">org.apache.logging.log4j.core.filter.AbstractFilterable (implements org.apache.logging.log4j.core.filter.Filterable)
+<ul>
+<li class="circle">org.apache.logging.log4j.core.appender.AbstractAppender (implements org.apache.logging.log4j.core.Appender, org.apache.logging.log4j.core.impl.LocationAware)
+<ul>
+<li class="circle">br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html" class="type-name-link" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a>
+<ul>
+<li class="circle">br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/ConsoleAuditorAppender.html" class="type-name-link" title="class in br.com.concepting.framework.audit.appenders">ConsoleAuditorAppender</a>
+<ul>
+<li class="circle">br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/FileAuditorAppender.html" class="type-name-link" title="class in br.com.concepting.framework.audit.appenders">FileAuditorAppender</a></li>
+</ul>
+</li>
+<li class="circle">br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/PersistenceAuditorAppender.html" class="type-name-link" title="class in br.com.concepting.framework.audit.appenders">PersistenceAuditorAppender</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="circle">javax.annotation.processing.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.compiler/javax/annotation/processing/AbstractProcessor.html" class="type-name-link external-link" title="class or interface in javax.annotation.processing">AbstractProcessor</a> (implements javax.annotation.processing.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.compiler/javax/annotation/processing/Processor.html" title="class or interface in javax.annotation.processing" class="external-link">Processor</a>)
 <ul>
 <li class="circle">br.com.concepting.framework.processors.<a href="br/com/concepting/framework/processors/AnnotationProcessorFactory.html" class="type-name-link" title="class in br.com.concepting.framework.processors">AnnotationProcessorFactory</a></li>
@@ -170,24 +190,6 @@ loadScripts(document, 'script');</script>
 <li class="circle">br.com.concepting.framework.controller.form.constants.<a href="br/com/concepting/framework/controller/form/constants/ActionFormValidationConstants.html" class="type-name-link" title="class in br.com.concepting.framework.controller.form.constants">ActionFormValidationConstants</a></li>
 <li class="circle">br.com.concepting.framework.controller.form.util.<a href="br/com/concepting/framework/controller/form/util/ActionFormValidationMessageUtil.html" class="type-name-link" title="class in br.com.concepting.framework.controller.form.util">ActionFormValidationMessageUtil</a></li>
 <li class="circle">br.com.concepting.framework.controller.form.util.<a href="br/com/concepting/framework/controller/form/util/ActionFormValidator.html" class="type-name-link" title="class in br.com.concepting.framework.controller.form.util">ActionFormValidator</a></li>
-<li class="circle">org.apache.log4j.AppenderSkeleton (implements org.apache.log4j.Appender, org.apache.log4j.spi.OptionHandler)
-<ul>
-<li class="circle">org.apache.log4j.WriterAppender
-<ul>
-<li class="circle">br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html" class="type-name-link" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a>
-<ul>
-<li class="circle">br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/ConsoleAuditorAppender.html" class="type-name-link" title="class in br.com.concepting.framework.audit.appenders">ConsoleAuditorAppender</a>
-<ul>
-<li class="circle">br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/FileAuditorAppender.html" class="type-name-link" title="class in br.com.concepting.framework.audit.appenders">FileAuditorAppender</a></li>
-</ul>
-</li>
-<li class="circle">br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/PersistenceAuditorAppender.html" class="type-name-link" title="class in br.com.concepting.framework.audit.appenders">PersistenceAuditorAppender</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="circle">br.com.concepting.framework.audit.<a href="br/com/concepting/framework/audit/Auditor.html" class="type-name-link" title="class in br.com.concepting.framework.audit">Auditor</a></li>
 <li class="circle">br.com.concepting.framework.audit.constants.<a href="br/com/concepting/framework/audit/constants/AuditorConstants.html" class="type-name-link" title="class in br.com.concepting.framework.audit.constants">AuditorConstants</a></li>
 <li class="circle">br.com.concepting.framework.util.constants.<a href="br/com/concepting/framework/util/constants/BarcodeConstants.html" class="type-name-link" title="class in br.com.concepting.framework.util.constants">BarcodeConstants</a></li>
@@ -302,7 +304,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">br.com.concepting.framework.processors.<a href="br/com/concepting/framework/processors/ExpressionProcessorUtil.html" class="type-name-link" title="class in br.com.concepting.framework.processors">ExpressionProcessorUtil</a></li>
 <li class="circle">br.com.concepting.framework.resources.constants.<a href="br/com/concepting/framework/resources/constants/FactoryConstants.html" class="type-name-link" title="class in br.com.concepting.framework.resources.constants">FactoryConstants</a></li>
 <li class="circle">br.com.concepting.framework.util.<a href="br/com/concepting/framework/util/FileUtil.html" class="type-name-link" title="class in br.com.concepting.framework.util">FileUtil</a></li>
-<li class="circle">br.com.concepting.framework.persistence.helpers.<a href="br/com/concepting/framework/persistence/helpers/Filter.html" class="type-name-link" title="class in br.com.concepting.framework.persistence.helpers">Filter</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)</li>
+<li class="circle">br.com.concepting.framework.model.helpers.<a href="br/com/concepting/framework/model/helpers/Filter.html" class="type-name-link" title="class in br.com.concepting.framework.model.helpers">Filter</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)</li>
 <li class="circle">br.com.concepting.framework.processors.<a href="br/com/concepting/framework/processors/GenericProcessor.html" class="type-name-link" title="class in br.com.concepting.framework.processors">GenericProcessor</a>
 <ul>
 <li class="circle">br.com.concepting.framework.processors.<a href="br/com/concepting/framework/processors/EvaluateProcessor.html" class="type-name-link" title="class in br.com.concepting.framework.processors">EvaluateProcessor</a>
@@ -338,15 +340,6 @@ loadScripts(document, 'script');</script>
 </ul>
 </li>
 <li class="circle">br.com.concepting.framework.util.<a href="br/com/concepting/framework/util/LanguageUtil.html" class="type-name-link" title="class in br.com.concepting.framework.util">LanguageUtil</a></li>
-<li class="circle">org.apache.log4j.Layout
-<ul>
-<li class="circle">org.apache.log4j.PatternLayout
-<ul>
-<li class="circle">br.com.concepting.framework.audit.appenders.helpers.<a href="br/com/concepting/framework/audit/appenders/helpers/ConsoleLayout.html" class="type-name-link" title="class in br.com.concepting.framework.audit.appenders.helpers">ConsoleLayout</a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="circle">br.com.concepting.framework.ldap.<a href="br/com/concepting/framework/ldap/Ldap.html" class="type-name-link" title="class in br.com.concepting.framework.ldap">Ldap</a></li>
 <li class="circle">br.com.concepting.framework.ldap.constants.<a href="br/com/concepting/framework/ldap/constants/LdapConstants.html" class="type-name-link" title="class in br.com.concepting.framework.ldap.constants">LdapConstants</a></li>
 <li class="circle">br.com.concepting.framework.security.controller.<a href="br/com/concepting/framework/security/controller/LoginSessionListener.html" class="type-name-link" title="class in br.com.concepting.framework.security.controller">LoginSessionListener</a> (implements javax.servlet.http.HttpSessionListener)</li>

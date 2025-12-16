@@ -2,7 +2,6 @@ package br.com.concepting.framework.audit.appenders;
 
 import br.com.concepting.framework.audit.Auditor;
 import br.com.concepting.framework.audit.annotations.Auditable;
-import br.com.concepting.framework.audit.appenders.helpers.ConsoleLayout;
 import br.com.concepting.framework.audit.constants.AuditorConstants;
 import br.com.concepting.framework.audit.model.AuditorComplementModel;
 import br.com.concepting.framework.audit.model.AuditorModel;
@@ -15,11 +14,11 @@ import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
+
 import org.apache.commons.beanutils.ConstructorUtils;
-import org.apache.log4j.Layout;
-import org.apache.log4j.WriterAppender;
-import org.apache.log4j.spi.LoggingEvent;
-import org.apache.log4j.spi.ThrowableInformation;
+import org.apache.logging.log4j.core.LogEvent;
+import org.apache.logging.log4j.core.appender.AbstractAppender;
+import org.apache.logging.log4j.core.config.Property;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -47,19 +46,23 @@ import java.util.Collection;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class BaseAuditorAppender extends WriterAppender{
+public abstract class BaseAuditorAppender extends AbstractAppender {
     private Auditor auditor = null;
     private String modelClass = null;
-    
+
     /**
-     * Constructor - Initialize the storage.
-     *
-     * @param auditor Instance that contains the auditing.
+     * Constructor - Initialize the appender.
      */
-    public BaseAuditorAppender(Auditor auditor){
-        super();
-        
-        setAuditor(auditor);
+    public BaseAuditorAppender(final String name) {
+        super(name, null, null, false, Property.EMPTY_ARRAY);
+    }
+
+    public void setAuditor(Auditor auditor) {
+        this.auditor = auditor;
+    }
+
+    public Auditor getAuditor() {
+        return this.auditor;
     }
     
     /**
@@ -79,68 +82,38 @@ public abstract class BaseAuditorAppender extends WriterAppender{
     public void setModelClass(String modelClass){
         this.modelClass = modelClass;
     }
-    
-    /**
-     * Defines the auditing.
-     *
-     * @param auditor Instance that contains the auditing.
-     */
-    public void setAuditor(Auditor auditor){
-        this.auditor = auditor;
-    }
-    
-    /**
-     * Returns the auditing.
-     *
-     * @return Instance that contains the auditing.
-     */
-    public Auditor getAuditor(){
-        return this.auditor;
-    }
-    
+
     /**
      * Returns the identifier of the entity that will be audited.
      *
-     * @param entity Class that defines the entity that will be audited.
      * @return String that contains the identifier.
      */
-    private String getEntityId(Class<?> entity){
-        return getEntityId(entity, true);
-    }
-    
-    /**
-     * Returns the identifier of the entity that will be audited.
-     *
-     * @param entity Class that defines the entity that will be audited.
-     * @param lastIteration True/False.
-     * @return String that contains the identifier.
-     */
-    private String getEntityId(Class<?> entity, boolean lastIteration){
+    private String getEntityId(){
         String entityId = null;
-        
-        if(entity != null){
+
+        if(this.auditor != null){
+            Class<?> entity =  this.auditor.getEntity();
             Auditable auditableAnnotation = entity.getAnnotation(Auditable.class);
             
             if(auditableAnnotation == null){
                 Class<?> superClass = entity;
                 
-                do{
+                while(true){
+                    if(superClass.getSuperclass() == null)
+                        break;
+
                     superClass = superClass.getSuperclass();
-                    
-                    if(superClass != null){
-                        auditableAnnotation = superClass.getAnnotation(Auditable.class);
+                    auditableAnnotation = superClass.getAnnotation(Auditable.class);
                         
-                        if(auditableAnnotation == null)
-                            break;
-                    }
+                    if(auditableAnnotation == null)
+                        break;
                 }
-                while(superClass != null && auditableAnnotation == null);
             }
             
             if(auditableAnnotation != null)
                 entityId = auditableAnnotation.id();
             
-            if(lastIteration && (entityId == null || entityId.isEmpty()))
+            if(entityId == null || entityId.isEmpty())
                 entityId = entity.getName();
         }
         
@@ -150,13 +123,12 @@ public abstract class BaseAuditorAppender extends WriterAppender{
     /**
      * Returns the identifier of the business that will be audited.
      *
-     * @param method Method that defines the business that will be audited.
      * @return String that contains the identifier.
      */
-    private String getBusinessId(Method method){
+    private String getBusinessId(){
         String businessId = null;
         
-        if(this.auditor != null && method != null){
+        if(this.auditor != null){
             Method business = this.auditor.getBusiness();
             Auditable auditableAnnotation = business.getAnnotation(Auditable.class);
             
@@ -178,10 +150,10 @@ public abstract class BaseAuditorAppender extends WriterAppender{
      * @return Instance that contains the data model.
      */
     @SuppressWarnings("unchecked")
-    public <A extends AuditorModel> A getModel(LoggingEvent event){
+    public <A extends AuditorModel> A getModel(LogEvent event){
         A model = null;
         
-        if(event != null && this.auditor != null){
+        if(event != null){
             try{
                 if(this.modelClass != null)
                     model = (A) ConstructorUtils.invokeConstructor(Class.forName(this.modelClass), null);
@@ -191,38 +163,30 @@ public abstract class BaseAuditorAppender extends WriterAppender{
             catch(NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException e){
                 model = (A) new AuditorModel();
             }
-            
+
             model.setStartDateTime(new DateTime());
-            model.setLoginSession(this.auditor.getLoginSession());
-            model.setEntityId(getEntityId(this.auditor.getEntity()));
-            model.setBusinessId(getBusinessId(this.auditor.getBusiness()));
+
+            if(this.auditor != null)
+                model.setLoginSession(this.auditor.getLoginSession());
+
+            model.setEntityId(getEntityId());
+            model.setBusinessId(getBusinessId());
             model.setBusinessComplement(buildBusinessComplement(model));
             model.setSeverity(event.getLevel().toString());
-            model.setMessage(event.getMessage().toString());
-            model.setResponseTime(this.auditor.getResponseTime());
+            model.setMessage(event.getMessage().getFormattedMessage());
+
+            if(this.auditor != null)
+                model.setResponseTime(this.auditor.getResponseTime());
             
-            ThrowableInformation information = event.getThrowableInformation();
+            Throwable exception = event.getThrown();
             
-            if(information != null){
-                Throwable e = information.getThrowable();
-                
-                if(e != null)
-                    model.setMessage(ExceptionUtil.getTrace(e));
-            }
+            if(exception != null)
+                model.setMessage(ExceptionUtil.getTrace(exception));
         }
         
         return model;
     }
-    
-    /**
-     * Initialize the layout.
-     *
-     * @throws InternalErrorException Occurs when was not possible to initialize
-     * the layout.
-     */
-    public void initializeLayout() throws InternalErrorException{
-    }
-    
+
     /**
      * Builds the business complement.
      *
@@ -234,36 +198,37 @@ public abstract class BaseAuditorAppender extends WriterAppender{
     @SuppressWarnings("unchecked")
     protected <C extends Collection<AuditorComplementModel>> C buildBusinessComplement(AuditorModel auditorModel){
         C businessComplement = null;
-        
-        if(this.auditor != null && auditorModel != null){
-            String[] businessComplementArgumentIds = this.auditor.getBusinessComplementArgumentsIds();
-            Class<?>[] businessComplementArgumentTypes = this.auditor.getBusinessComplementArgumentsTypes();
+
+        if(this.auditor != null) {
+            String[] businessComplementArgumentsIds = this.auditor.getBusinessComplementArgumentsIds();
+            Class<?>[] businessComplementArgumentsTypes = this.auditor.getBusinessComplementArgumentsTypes();
             Object[] businessComplementArgumentValues = this.auditor.getBusinessComplementArgumentsValues();
-            
-            if(businessComplementArgumentValues != null && businessComplementArgumentValues.length > 0){
-                try{
+
+            if (businessComplementArgumentValues != null && businessComplementArgumentValues.length > 0) {
+                try {
                     businessComplement = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                    
+
                     ModelInfo modelInfo = ModelUtil.getInfo(auditorModel.getClass());
                     PropertyInfo propertyInfo = modelInfo.getPropertyInfo(AuditorConstants.BUSINESS_COMPLEMENT_ATTRIBUTE_ID);
                     Class<AuditorComplementModel> businessComplementArgumentClass = (Class<AuditorComplementModel>) propertyInfo.getCollectionItemsClass();
-                    
-                    for(int cont = 0; cont < businessComplementArgumentValues.length; cont++){
-                        String businessComplementArgumentId = (businessComplementArgumentIds != null && cont < businessComplementArgumentIds.length ? businessComplementArgumentIds[cont] : null);
-                        Class<?> businessComplementArgumentType = (businessComplementArgumentTypes != null && cont < businessComplementArgumentTypes.length ? businessComplementArgumentTypes[cont] : null);
+
+                    for (int cont = 0; cont < businessComplementArgumentValues.length; cont++) {
+                        String businessComplementArgumentId = (businessComplementArgumentsIds != null && cont < businessComplementArgumentsIds.length ? businessComplementArgumentsIds[cont] : null);
+                        Class<?> businessComplementArgumentType = (businessComplementArgumentsTypes != null && cont < businessComplementArgumentsTypes.length ? businessComplementArgumentsTypes[cont] : null);
                         Object businessComplementArgumentValue = businessComplementArgumentValues[cont];
                         C businessComplementItems = buildBusinessComplement(auditorModel, businessComplementArgumentId, businessComplementArgumentType, businessComplementArgumentValue, businessComplementArgumentClass);
-                        
-                        if(businessComplementItems != null && !businessComplementItems.isEmpty())
-                            if(businessComplement != null)
+
+                        if (businessComplementItems != null && !businessComplementItems.isEmpty())
+                            if (businessComplement != null)
                                 businessComplement.addAll(businessComplementItems);
                     }
-                }
-                catch(IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException ignored){
+                } catch (IllegalArgumentException | NoSuchMethodException | IllegalAccessException |
+                         InvocationTargetException | InstantiationException | ClassNotFoundException |
+                         NoSuchFieldException ignored) {
                 }
             }
         }
-        
+
         return businessComplement;
     }
     
@@ -362,15 +327,12 @@ public abstract class BaseAuditorAppender extends WriterAppender{
         return businessComplement;
     }
 
-    @Override
-    public void setLayout(Layout layout){
-        super.setLayout(layout);
-        
-        activateOptions();
+    public void initialize(Auditor auditor) throws InternalErrorException {
+        setAuditor(auditor);
     }
 
     @Override
-    public void append(LoggingEvent event){
+    public void append(LogEvent event){
         try{
             process(event);
 
@@ -379,7 +341,7 @@ public abstract class BaseAuditorAppender extends WriterAppender{
         catch(InternalErrorException ignored){
         }
     }
-    
+
     /**
      * Process the auditing.
      *
@@ -387,19 +349,8 @@ public abstract class BaseAuditorAppender extends WriterAppender{
      * @throws InternalErrorException Occurs when was not possible to process
      * the auditing.
      */
-    protected void process(LoggingEvent event) throws InternalErrorException{
-        Layout layout = getLayout();
-        
-        if(layout instanceof ConsoleLayout auditorLayout){
-            AuditorModel model = getModel(event);
-            
-            if(model != null)
-                auditorLayout.setModel(model);
-        }
-        
-        super.append(event);
-    }
-    
+    protected abstract void process(LogEvent event) throws InternalErrorException;
+
     /**
      * Flushes the queue of messages.
      */

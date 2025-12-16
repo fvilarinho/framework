@@ -145,9 +145,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Builds a query based on the persistence.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;M extends <a href="../../model/BaseModel.html" title="class in br.com.concepting.framework.model">BaseModel</a>&gt;<br>org.hibernate.query.Query</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#build(br.com.concepting.framework.persistence.types.QueryType,M,br.com.concepting.framework.persistence.helpers.Filter,br.com.concepting.framework.persistence.HibernatePersistence)" class="member-name-link">build</a><wbr>(<a href="../types/QueryType.html" title="enum class in br.com.concepting.framework.persistence.types">QueryType</a>&nbsp;queryType,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#build(br.com.concepting.framework.persistence.types.QueryType,M,br.com.concepting.framework.model.helpers.Filter,br.com.concepting.framework.persistence.HibernatePersistence)" class="member-name-link">build</a><wbr>(<a href="../types/QueryType.html" title="enum class in br.com.concepting.framework.persistence.types">QueryType</a>&nbsp;queryType,
  M&nbsp;model,
- <a href="../helpers/Filter.html" title="class in br.com.concepting.framework.persistence.helpers">Filter</a>&nbsp;filter,
+ <a href="../../model/helpers/Filter.html" title="class in br.com.concepting.framework.model.helpers">Filter</a>&nbsp;filter,
  <a href="../HibernatePersistence.html" title="class in br.com.concepting.framework.persistence">HibernatePersistence</a>&lt;M&gt;&nbsp;persistence)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Builds a query based on a data model.</div>
@@ -160,8 +160,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Builds a query based on a data model.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;M extends <a href="../../model/BaseModel.html" title="class in br.com.concepting.framework.model">BaseModel</a>&gt;<br>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#buildExpression(M,br.com.concepting.framework.persistence.helpers.Filter,java.lang.String,java.lang.String,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.util.Map,java.util.Collection,boolean,boolean,boolean)" class="member-name-link">buildExpression</a><wbr>(M&nbsp;model,
- <a href="../helpers/Filter.html" title="class in br.com.concepting.framework.persistence.helpers">Filter</a>&nbsp;filter,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#buildExpression(M,br.com.concepting.framework.model.helpers.Filter,java.lang.String,java.lang.String,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.util.Map,java.util.Collection,boolean,boolean,boolean)" class="member-name-link">buildExpression</a><wbr>(M&nbsp;model,
+ <a href="../../model/helpers/Filter.html" title="class in br.com.concepting.framework.model.helpers">Filter</a>&nbsp;filter,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;propertyPrefix,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;propertyAlias,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/StringBuilder.html" title="class or interface in java.lang" class="external-link">StringBuilder</a>&nbsp;fieldsClause,
@@ -179,8 +179,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Builds a query expression based on a data model.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;M extends <a href="../../model/BaseModel.html" title="class in br.com.concepting.framework.model">BaseModel</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#buildExpression(M,br.com.concepting.framework.persistence.helpers.Filter,java.util.Map)" class="member-name-link">buildExpression</a><wbr>(M&nbsp;model,
- <a href="../helpers/Filter.html" title="class in br.com.concepting.framework.persistence.helpers">Filter</a>&nbsp;filter,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#buildExpression(M,br.com.concepting.framework.model.helpers.Filter,java.util.Map)" class="member-name-link">buildExpression</a><wbr>(M&nbsp;model,
+ <a href="../../model/helpers/Filter.html" title="class in br.com.concepting.framework.model.helpers">Filter</a>&nbsp;filter,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;whereClauseParameters)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Builds a query expression based on a data model.</div>
@@ -217,10 +217,10 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="buildExpression(M,br.com.concepting.framework.persistence.helpers.Filter,java.util.Map)">
-<h3 id="buildExpression(br.com.concepting.framework.model.BaseModel,br.com.concepting.framework.persistence.helpers.Filter,java.util.Map)">buildExpression</h3>
+<section class="detail" id="buildExpression(M,br.com.concepting.framework.model.helpers.Filter,java.util.Map)">
+<h3 id="buildExpression(br.com.concepting.framework.model.BaseModel,br.com.concepting.framework.model.helpers.Filter,java.util.Map)">buildExpression</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;M extends <a href="../../model/BaseModel.html" title="class in br.com.concepting.framework.model">BaseModel</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">buildExpression</span><wbr><span class="parameters">(M&nbsp;model,
- <a href="../helpers/Filter.html" title="class in br.com.concepting.framework.persistence.helpers">Filter</a>&nbsp;filter,
+ <a href="../../model/helpers/Filter.html" title="class in br.com.concepting.framework.model.helpers">Filter</a>&nbsp;filter,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;whereClauseParameters)</span>
                                                     throws <span class="exceptions"><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></span></div>
 <div class="block">Builds a query expression based on a data model.</div>
@@ -240,10 +240,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="buildExpression(M,br.com.concepting.framework.persistence.helpers.Filter,java.lang.String,java.lang.String,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.util.Map,java.util.Collection,boolean,boolean,boolean)">
-<h3 id="buildExpression(br.com.concepting.framework.model.BaseModel,br.com.concepting.framework.persistence.helpers.Filter,java.lang.String,java.lang.String,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.util.Map,java.util.Collection,boolean,boolean,boolean)">buildExpression</h3>
+<section class="detail" id="buildExpression(M,br.com.concepting.framework.model.helpers.Filter,java.lang.String,java.lang.String,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.util.Map,java.util.Collection,boolean,boolean,boolean)">
+<h3 id="buildExpression(br.com.concepting.framework.model.BaseModel,br.com.concepting.framework.model.helpers.Filter,java.lang.String,java.lang.String,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.lang.StringBuilder,java.util.Map,java.util.Collection,boolean,boolean,boolean)">buildExpression</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;M extends <a href="../../model/BaseModel.html" title="class in br.com.concepting.framework.model">BaseModel</a>&gt;</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">buildExpression</span><wbr><span class="parameters">(M&nbsp;model,
- <a href="../helpers/Filter.html" title="class in br.com.concepting.framework.persistence.helpers">Filter</a>&nbsp;filter,
+ <a href="../../model/helpers/Filter.html" title="class in br.com.concepting.framework.model.helpers">Filter</a>&nbsp;filter,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;propertyPrefix,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;propertyAlias,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/StringBuilder.html" title="class or interface in java.lang" class="external-link">StringBuilder</a>&nbsp;fieldsClause,
@@ -329,12 +329,12 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="build(br.com.concepting.framework.persistence.types.QueryType,M,br.com.concepting.framework.persistence.helpers.Filter,br.com.concepting.framework.persistence.HibernatePersistence)">
-<h3 id="build(br.com.concepting.framework.persistence.types.QueryType,br.com.concepting.framework.model.BaseModel,br.com.concepting.framework.persistence.helpers.Filter,br.com.concepting.framework.persistence.HibernatePersistence)">build</h3>
+<section class="detail" id="build(br.com.concepting.framework.persistence.types.QueryType,M,br.com.concepting.framework.model.helpers.Filter,br.com.concepting.framework.persistence.HibernatePersistence)">
+<h3 id="build(br.com.concepting.framework.persistence.types.QueryType,br.com.concepting.framework.model.BaseModel,br.com.concepting.framework.model.helpers.Filter,br.com.concepting.framework.persistence.HibernatePersistence)">build</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;M extends <a href="../../model/BaseModel.html" title="class in br.com.concepting.framework.model">BaseModel</a>&gt;</span>
 <span class="return-type">org.hibernate.query.Query</span>&nbsp;<span class="element-name">build</span><wbr><span class="parameters">(<a href="../types/QueryType.html" title="enum class in br.com.concepting.framework.persistence.types">QueryType</a>&nbsp;queryType,
  M&nbsp;model,
- <a href="../helpers/Filter.html" title="class in br.com.concepting.framework.persistence.helpers">Filter</a>&nbsp;filter,
+ <a href="../../model/helpers/Filter.html" title="class in br.com.concepting.framework.model.helpers">Filter</a>&nbsp;filter,
  <a href="../HibernatePersistence.html" title="class in br.com.concepting.framework.persistence">HibernatePersistence</a>&lt;M&gt;&nbsp;persistence)</span>
                          throws <span class="exceptions"><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></span></div>
 <div class="block">Builds a query based on a data model.</div>

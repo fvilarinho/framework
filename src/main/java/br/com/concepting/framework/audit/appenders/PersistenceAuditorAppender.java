@@ -13,7 +13,7 @@ import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.core.LogEvent;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -41,19 +41,14 @@ import java.util.Collection;
  */
 public class PersistenceAuditorAppender extends BaseAuditorAppender{
     /**
-     * Constructor - Initialize the storage.
+     * Constructor - Initialize the appender.
      *
-     * @param auditor Instance that contains the auditing.
+     * @param name String that contains the identifier of the appender.
      */
-    public PersistenceAuditorAppender(Auditor auditor){
-        super(auditor);
+    public PersistenceAuditorAppender(final String name){
+        super(name);
     }
 
-    @Override
-    public boolean requiresLayout(){
-        return false;
-    }
-    
     /**
      * Returns the service implementation of a specific data model.
      *
@@ -66,14 +61,14 @@ public class PersistenceAuditorAppender extends BaseAuditorAppender{
      */
     protected <M extends BaseModel, S extends IService<M>> S getService(Class<M> modelClass) throws InternalErrorException{
         Auditor auditor = getAuditor();
-        LoginSessionModel loginSession = (auditor != null ? auditor.getLoginSession() : null);
-        
+        LoginSessionModel loginSession = auditor.getLoginSession();
+
         return ServiceUtil.getByModelClass(modelClass, loginSession);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected void process(LoggingEvent event) throws InternalErrorException{
+    public void process(LogEvent event) throws InternalErrorException{
         AuditorModel model = getModel(event);
         
         if(model != null){

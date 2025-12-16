@@ -344,11 +344,11 @@ function createProjectEnvironment() {
 # Creates the project build files.
 function createProjectBuild() {
   if [ ! -f "$PROJECT_DIR/build.gradle" ]; then
-    cp -f src/templates/build.gradle $PROJECT_DIR
+    cp -f src/templates/build.gradle $PROJECT_DIR || exit 1
   fi
 
   if [ ! -f "$PROJECT_DIR/settings.gradle" ]; then
-    cp -f settings.gradle $PROJECT_DIR
+    cp -f settings.gradle $PROJECT_DIR || exit 1
   fi
 
   GRADLE_PROPERTIES_FILENAME="$PROJECT_DIR/gradle.properties"
@@ -360,36 +360,36 @@ function createProjectBuild() {
   fi
 
   if [ ! -f "$PROJECT_DIR/functions.sh" ]; then
-    cp -f functions.sh $PROJECT_DIR
+    cp -f functions.sh $PROJECT_DIR || exit 1
   fi
 
   if [ ! -f "$PROJECT_DIR/build.sh" ]; then
-    cp -f build.sh $PROJECT_DIR
+    cp -f build.sh $PROJECT_DIR || exit 1
   fi
 
   if [ ! -f "$PROJECT_DIR/codeAnalysis.sh" ]; then
-    cp -f codeAnalysis.sh $PROJECT_DIR
+    cp -f codeAnalysis.sh $PROJECT_DIR || exit 1
   fi
 
   if [ ! -f "$PROJECT_DIR/publish.sh" ]; then
-    cp -f publish.sh $PROJECT_DIR
+    cp -f publish.sh $PROJECT_DIR || exit 1
   fi
 }
 
 # Copies project files.
 function copyProjectFiles() {
   if [ ! -d $PROJECT_DIR/src/main/resources ]; then
-    cp -r src/main/resources $PROJECT_DIR/src/main
+    cp -r src/main/resources $PROJECT_DIR/src/main || exit 1
   fi
 
   if [ ! -d $PROJECT_DIR/src/main/ui ]; then
-    cp -r src/main/ui $PROJECT_DIR/src/main
+    cp -r src/main/ui $PROJECT_DIR/src/main || exit 1
   fi
 
   if [ ! -d $PROJECT_DIR/src/templates ]; then
-    cp -r src/templates $PROJECT_DIR/src
+    cp -r src/templates $PROJECT_DIR/src || exit 1
 
-    rm -f $PROJECT_DIR/src/templates/build.gradle
+    rm -f $PROJECT_DIR/src/templates/build.gradle || exit 1
   fi
 }
 
@@ -406,6 +406,8 @@ function newProjectDialog() {
   createProjectEnvironment
   createProjectBuild
   createProjectBanner
+
+  copyProjectFiles
 
   cd $PROJECT_DIR || exit 1
 

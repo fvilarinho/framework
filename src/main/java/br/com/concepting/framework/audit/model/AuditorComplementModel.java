@@ -8,6 +8,7 @@ import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.persistence.types.RelationType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serial;
 
@@ -34,6 +35,7 @@ import java.io.Serial;
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @Model
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuditorComplementModel extends BaseModel{
     @Serial
     private static final long serialVersionUID = -5973758121126490161L;

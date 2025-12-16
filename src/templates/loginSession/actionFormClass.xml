@@ -27,7 +27,6 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
-		@SuppressWarnings("javadoc")
 		public class @{name} extends br.com.concepting.framework.security.controller.form.LoginSessionActionForm&lt;#{clazz.simpleName}, @{userModelName}, @{loginParameterModelName}&gt;{
 			private static final long serialVersionUID = @{serialVersionUID}L;	
 		}

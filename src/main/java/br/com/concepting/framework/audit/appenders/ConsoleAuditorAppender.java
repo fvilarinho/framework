@@ -1,8 +1,10 @@
 package br.com.concepting.framework.audit.appenders;
 
 import br.com.concepting.framework.audit.Auditor;
-import br.com.concepting.framework.audit.appenders.helpers.ConsoleLayout;
+import br.com.concepting.framework.audit.model.AuditorModel;
 import br.com.concepting.framework.exceptions.InternalErrorException;
+import br.com.concepting.framework.model.util.ModelUtil;
+import org.apache.logging.log4j.core.LogEvent;
 
 import java.io.PrintWriter;
 
@@ -28,29 +30,42 @@ import java.io.PrintWriter;
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class ConsoleAuditorAppender extends BaseAuditorAppender{
+    private PrintWriter writer;
+
     /**
-     * Constructor - Initialize the storage.
+     * Constructor - Initialize the appender.
      *
-     * @param auditor Instance that contains the auditing.
+     * @param name String that contains the identifier of the appender.
      */
-    public ConsoleAuditorAppender(Auditor auditor){
-        super(auditor);
-    }
-    
-    @Override
-    public boolean requiresLayout(){
-        return true;
+    public ConsoleAuditorAppender(final String name) {
+        super(name);
     }
 
     @Override
-    public void initializeLayout() throws InternalErrorException{
-        ConsoleLayout appenderLayout = new ConsoleLayout();
-        
-        setLayout(appenderLayout);
-    }
+    public void initialize(Auditor auditor) throws InternalErrorException {
+        super.initialize(auditor);
 
-    @Override
-    public void activateOptions(){
         setWriter(new PrintWriter(System.out));
+    }
+
+    protected void setWriter(PrintWriter writer) {
+        this.writer = writer;
+    }
+
+    @Override
+    protected void flush(){
+        this.writer.flush();
+    }
+
+    @Override
+    protected void process(LogEvent event) throws InternalErrorException {
+        try {
+            AuditorModel auditorModel = getModel(event);
+
+            this.writer.println(ModelUtil.toAuditableString(auditorModel));
+        }
+        catch (Throwable e) {
+            throw new InternalErrorException(e);
+        }
     }
 }

@@ -26,7 +26,6 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
-		@SuppressWarnings("javadoc")
 		public interface @{name} extends br.com.concepting.framework.security.service.interfaces.LoginSessionService&lt;#{clazz.simpleName}, @{userModelName}, @{loginParameterModelName}&gt;{
 		}
 	</artifact>

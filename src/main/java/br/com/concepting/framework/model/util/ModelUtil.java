@@ -14,6 +14,7 @@ import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.types.ConditionType;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.resources.constants.ResourcesConstants;
+import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.*;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.SortOrderType;
@@ -1119,17 +1120,21 @@ public class ModelUtil{
      * @return String that contains the identifier.
      */
     public static String getResourcesIdByModel(String modelClassName){
+        String resourcesId;
+
         if(modelClassName != null && !modelClassName.isEmpty()){
-            StringBuilder resourcesId = new StringBuilder();
             String resourcesPrefix = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR;
-            
-            resourcesId.append(resourcesPrefix, 0, resourcesPrefix.length() - 1);
-            resourcesId.append(getUrlByModel(modelClassName));
-            
-            return StringUtil.replaceAll(resourcesId.toString(), "/", ".");
+            StringBuilder buffer = new StringBuilder();
+
+            buffer.append(resourcesPrefix, 0, resourcesPrefix.length() - 1);
+            buffer.append(getUrlByModel(modelClassName));
+
+            resourcesId = buffer.toString();
         }
-        
-        return null;
+        else
+            resourcesId = ResourcesConstants.DEFAULT_COMMON_RESOURCES_ID;
+
+        return StringUtil.replaceAll(resourcesId, "/", ".");
     }
     
     /**
@@ -1142,6 +1147,10 @@ public class ModelUtil{
         if(modelClass != null)
             return getResourcesIdByModel(modelClass.getName());
         
-        return null;
+        return StringUtil.replaceAll(ResourcesConstants.DEFAULT_COMMON_RESOURCES_ID, "/", ".");
+    }
+
+    public static void main(String[] args) {
+        System.out.println(ModelUtil.getResourcesIdByModel(""));
     }
 }

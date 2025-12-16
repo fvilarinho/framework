@@ -106,9 +106,9 @@ dependencies {
     implementation("com.google.zxing:javase:3.5.0")
     implementation("net.sf.jmimemagic:jmimemagic:0.1.5")
     implementation("jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.2")
+    implementation("org.slf4j:slf4j-api:1.7.36")
     implementation("org.apache.logging.log4j:log4j-api:2.25.2")
     implementation("org.apache.logging.log4j:log4j-core:2.25.2")
-    implementation("org.apache.logging.log4j:log4j-1.2-api:2.25.2")
     implementation("com.sun.mail:mailapi:2.0.1")
     implementation("com.mysql:mysql-connector-j:9.4.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
@@ -141,17 +141,11 @@ tasks.withType(Jar).configureEach {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	includeEmptyDirs   = false
     zip64              = true
-
-    exclude("META-INF/**")
-    exclude("**/*.html")
 }
 
 tasks.withType(ProcessResources).configureEach {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     includeEmptyDirs   = false
-
-    exclude("META-INF/**")
-    exclude("**/*.html")
 }
 
 tasks.register("allJar", Jar) {

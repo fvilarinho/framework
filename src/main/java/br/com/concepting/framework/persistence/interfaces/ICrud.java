@@ -4,7 +4,7 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
-import br.com.concepting.framework.persistence.helpers.Filter;
+import br.com.concepting.framework.model.helpers.Filter;
 
 import java.util.Collection;
 

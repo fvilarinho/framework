@@ -256,7 +256,7 @@ public abstract class BaseAction<M extends BaseModel>{
      * @throws Throwable Occurs when was not possible to execute the action.
      */
     public <F extends BaseActionForm<M>> void back() throws Throwable{
-        this.actionForm.removeActionHistory();
+        this.actionForm.removeLastActionFromHistory();
     }
     
     /**

@@ -170,25 +170,32 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             if (templateFiles != null) {
                 for (File templateFile : templateFiles) {
                     for (Method business : templateMethods) {
-                        try {
-                            Tag methodTag = business.getAnnotation(Tag.class);
+                        Tag methodTag = business.getAnnotation(Tag.class);
 
-                            if (methodTag != null && methodTag.value().equals(templateFile.getName())) {
+                        if (methodTag != null && methodTag.value().equals(templateFile.getName())) {
+                            try {
                                 if (auditorResources != null) {
                                     Class<?> entity = getClass();
 
                                     auditor = new Auditor(entity, business, new Object[]{this.modelInfo.getClazz().getName()}, loginSession, auditorResources);
                                     auditor.start();
                                 }
+                            }
+                            catch (Throwable e) {
+                                e.printStackTrace(System.out);
+                            }
 
+                            try {
                                 business.invoke(this, templateFile.getAbsolutePath());
 
                                 if (auditor != null)
                                     auditor.end();
                             }
-                        } catch (Throwable e) {
-                            if (auditor != null)
-                                auditor.end(e);
+                            catch (Throwable e) {
+                                e.printStackTrace(System.out);
+                                if (auditor != null)
+                                    auditor.end(e);
+                            }
                         }
                     }
                 }
@@ -1181,19 +1188,20 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             
             File persistenceMappingDir = new File(persistenceMappingDirName.toString());
             
-            if(persistenceMappingDir.exists()){
-                File[] persistenceMappingFiles = persistenceMappingDir.listFiles();
-                
-                if(persistenceMappingFiles != null){
-                    for(File persistenceMappingFile: persistenceMappingFiles){
-                        String modelClassName = StringUtil.replaceAll(persistenceMappingFile.getName(), PersistenceConstants.DEFAULT_MAPPING_FILE_EXTENSION, "");
-                        XmlNode persistenceResourcesMappingNode = new XmlNode(PersistenceConstants.MAPPING_ATTRIBUTE_ID, modelClassName);
-                        
-                        persistenceResourcesMappingsNode.addChild(persistenceResourcesMappingNode);
-                    }
+            if(!persistenceMappingDir.exists())
+                persistenceMappingDir.mkdirs();
+
+            File[] persistenceMappingFiles = persistenceMappingDir.listFiles();
+
+            if(persistenceMappingFiles != null){
+                for(File persistenceMappingFile: persistenceMappingFiles){
+                    String modelClassName = StringUtil.replaceAll(persistenceMappingFile.getName(), PersistenceConstants.DEFAULT_MAPPING_FILE_EXTENSION, "");
+                    XmlNode persistenceResourcesMappingNode = new XmlNode(PersistenceConstants.MAPPING_ATTRIBUTE_ID, modelClassName);
+
+                    persistenceResourcesMappingsNode.addChild(persistenceResourcesMappingNode);
                 }
             }
-            
+
             persistenceResourcesNode.addChild(persistenceResourcesMappingsNode);
             
             XmlWriter persistenceResourcesWriter = new XmlWriter(persistenceResourcesFile, persistenceResourcesReader.getDocumentType(), persistenceResourcesReader.getEncoding());

@@ -85,10 +85,12 @@ loadScripts(document, 'script');</script>
 <h1 title="Class ConsoleAuditorAppender" class="title">Class ConsoleAuditorAppender</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">org.apache.log4j.AppenderSkeleton
-<div class="inheritance">org.apache.log4j.WriterAppender
+<div class="inheritance">org.apache.logging.log4j.core.AbstractLifeCycle
+<div class="inheritance">org.apache.logging.log4j.core.filter.AbstractFilterable
+<div class="inheritance">org.apache.logging.log4j.core.appender.AbstractAppender
 <div class="inheritance"><a href="BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">br.com.concepting.framework.audit.appenders.BaseAuditorAppender</a>
 <div class="inheritance">br.com.concepting.framework.audit.appenders.ConsoleAuditorAppender</div>
+</div>
 </div>
 </div>
 </div>
@@ -96,7 +98,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code>org.apache.log4j.Appender</code>, <code>org.apache.log4j.spi.OptionHandler</code></dd>
+<dd><code>org.apache.logging.log4j.core.Appender</code>, <code>org.apache.logging.log4j.core.filter.Filterable</code>, <code>org.apache.logging.log4j.core.impl.LocationAware</code>, <code>org.apache.logging.log4j.core.LifeCycle</code>, <code>org.apache.logging.log4j.core.LifeCycle2</code></dd>
 </dl>
 <dl class="notes">
 <dt>Direct Known Subclasses:</dt>
@@ -133,8 +135,11 @@ loadScripts(document, 'script');</script>
 <section class="nested-class-summary" id="nested-class-summary">
 <h2>Nested Class Summary</h2>
 <div class="inherited-list">
-<h2 id="nested-classes-inherited-from-class-org.apache.log4j.AppenderSkeleton">Nested classes/interfaces inherited from class&nbsp;org.apache.log4j.AppenderSkeleton</h2>
-<code>org.apache.log4j.AppenderSkeleton.NoOpErrorHandler</code></div>
+<h2 id="nested-classes-inherited-from-class-org.apache.logging.log4j.core.appender.AbstractAppender">Nested classes/interfaces inherited from class&nbsp;org.apache.logging.log4j.core.appender.AbstractAppender</h2>
+<code>org.apache.logging.log4j.core.appender.AbstractAppender.Builder&lt;B extends org.apache.logging.log4j.core.appender.AbstractAppender.Builder&lt;B&gt;&gt;</code></div>
+<div class="inherited-list">
+<h2 id="nested-classes-inherited-from-class-org.apache.logging.log4j.core.LifeCycle">Nested classes/interfaces inherited from interface&nbsp;org.apache.logging.log4j.core.LifeCycle</h2>
+<code>org.apache.logging.log4j.core.LifeCycle.State</code></div>
 </section>
 </li>
 <!-- =========== FIELD SUMMARY =========== -->
@@ -142,11 +147,11 @@ loadScripts(document, 'script');</script>
 <section class="field-summary" id="field-summary">
 <h2>Field Summary</h2>
 <div class="inherited-list">
-<h3 id="fields-inherited-from-class-org.apache.log4j.WriterAppender">Fields inherited from class&nbsp;org.apache.log4j.WriterAppender</h3>
-<code>encoding, immediateFlush, qw</code></div>
+<h3 id="fields-inherited-from-class-org.apache.logging.log4j.core.AbstractLifeCycle">Fields inherited from class&nbsp;org.apache.logging.log4j.core.AbstractLifeCycle</h3>
+<code>DEFAULT_STOP_TIMEOUT, DEFAULT_STOP_TIMEUNIT, LOGGER</code></div>
 <div class="inherited-list">
-<h3 id="fields-inherited-from-class-org.apache.log4j.AppenderSkeleton">Fields inherited from class&nbsp;org.apache.log4j.AppenderSkeleton</h3>
-<code>closed, errorHandler, headFilter, layout, name, tailFilter, threshold</code></div>
+<h3 id="fields-inherited-from-class-org.apache.logging.log4j.core.Appender">Fields inherited from interface&nbsp;org.apache.logging.log4j.core.Appender</h3>
+<code>ELEMENT_TYPE, EMPTY_ARRAY</code></div>
 </section>
 </li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -157,9 +162,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(br.com.concepting.framework.audit.Auditor)" class="member-name-link">ConsoleAuditorAppender</a><wbr>(<a href="../Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a>&nbsp;auditor)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String)" class="member-name-link">ConsoleAuditorAppender</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Constructor - Initialize the storage.</div>
+<div class="block">Constructor - Initialize the appender.</div>
 </div>
 </div>
 </section>
@@ -175,32 +180,43 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#activateOptions()" class="member-name-link">activateOptions</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initializeLayout()" class="member-name-link">initializeLayout</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Initialize the layout.</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#flush()" class="member-name-link">flush</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Flushes the queue of messages.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#requiresLayout()" class="member-name-link">requiresLayout</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initialize(br.com.concepting.framework.audit.Auditor)" class="member-name-link">initialize</a><wbr>(<a href="../Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a>&nbsp;auditor)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#process(org.apache.logging.log4j.core.LogEvent)" class="member-name-link">process</a><wbr>(org.apache.logging.log4j.core.LogEvent&nbsp;event)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Process the auditing.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWriter(java.io.PrintWriter)" class="member-name-link">setWriter</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/PrintWriter.html" title="class or interface in java.io" class="external-link">PrintWriter</a>&nbsp;writer)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-br.com.concepting.framework.audit.appenders.BaseAuditorAppender">Methods inherited from class&nbsp;br.com.concepting.framework.audit.appenders.<a href="BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></h3>
-<code><a href="BaseAuditorAppender.html#append(org.apache.log4j.spi.LoggingEvent)">append</a>, <a href="BaseAuditorAppender.html#buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel)">buildBusinessComplement</a>, <a href="BaseAuditorAppender.html#flush()">flush</a>, <a href="BaseAuditorAppender.html#getAuditor()">getAuditor</a>, <a href="BaseAuditorAppender.html#getModel(org.apache.log4j.spi.LoggingEvent)">getModel</a>, <a href="BaseAuditorAppender.html#getModelClass()">getModelClass</a>, <a href="BaseAuditorAppender.html#process(org.apache.log4j.spi.LoggingEvent)">process</a>, <a href="BaseAuditorAppender.html#setAuditor(br.com.concepting.framework.audit.Auditor)">setAuditor</a>, <a href="BaseAuditorAppender.html#setLayout(org.apache.log4j.Layout)">setLayout</a>, <a href="BaseAuditorAppender.html#setModelClass(java.lang.String)">setModelClass</a></code></div>
+<code><a href="BaseAuditorAppender.html#append(org.apache.logging.log4j.core.LogEvent)">append</a>, <a href="BaseAuditorAppender.html#buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel)">buildBusinessComplement</a>, <a href="BaseAuditorAppender.html#getAuditor()">getAuditor</a>, <a href="BaseAuditorAppender.html#getModel(org.apache.logging.log4j.core.LogEvent)">getModel</a>, <a href="BaseAuditorAppender.html#getModelClass()">getModelClass</a>, <a href="BaseAuditorAppender.html#setAuditor(br.com.concepting.framework.audit.Auditor)">setAuditor</a>, <a href="BaseAuditorAppender.html#setModelClass(java.lang.String)">setModelClass</a></code></div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-org.apache.log4j.WriterAppender">Methods inherited from class&nbsp;org.apache.log4j.WriterAppender</h3>
-<code>checkEntryConditions, close, closeWriter, createWriter, getEncoding, getImmediateFlush, reset, setEncoding, setErrorHandler, setImmediateFlush, setWriter, shouldFlush, subAppend, writeFooter, writeHeader</code></div>
+<h3 id="methods-inherited-from-class-org.apache.logging.log4j.core.appender.AbstractAppender">Methods inherited from class&nbsp;org.apache.logging.log4j.core.appender.AbstractAppender</h3>
+<code>error, error, error, getHandler, getLayout, getName, ignoreExceptions, parseInt, requiresLocation, setHandler, toSerializable, toString</code></div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-org.apache.log4j.AppenderSkeleton">Methods inherited from class&nbsp;org.apache.log4j.AppenderSkeleton</h3>
-<code>addFilter, clearFilters, doAppend, finalize, getErrorHandler, getFilter, getFirstFilter, getLayout, getName, getThreshold, isAsSevereAsThreshold, setName, setThreshold</code></div>
+<h3 id="methods-inherited-from-class-org.apache.logging.log4j.core.filter.AbstractFilterable">Methods inherited from class&nbsp;org.apache.logging.log4j.core.filter.AbstractFilterable</h3>
+<code>addFilter, getFilter, getPropertyArray, hasFilter, isFiltered, removeFilter, start, stop, stop</code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-org.apache.logging.log4j.core.AbstractLifeCycle">Methods inherited from class&nbsp;org.apache.logging.log4j.core.AbstractLifeCycle</h3>
+<code>equalsImpl, getState, getStatusLogger, hashCodeImpl, initialize, isInitialized, isStarted, isStarting, isStopped, isStopping, setStarted, setStarting, setState, setStopped, setStopping, stop, stop</code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;java.lang.<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<div class="inherited-list">
+<h3 id="methods-inherited-from-class-org.apache.logging.log4j.core.LifeCycle">Methods inherited from interface&nbsp;org.apache.logging.log4j.core.LifeCycle</h3>
+<code>getState, initialize, isStarted, isStopped, start, stop</code></div>
 </section>
 </li>
 </ul>
@@ -213,13 +229,13 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(br.com.concepting.framework.audit.Auditor)">
+<section class="detail" id="&lt;init&gt;(java.lang.String)">
 <h3>ConsoleAuditorAppender</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ConsoleAuditorAppender</span><wbr><span class="parameters">(<a href="../Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a>&nbsp;auditor)</span></div>
-<div class="block">Constructor - Initialize the storage.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ConsoleAuditorAppender</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Constructor - Initialize the appender.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>auditor</code> - Instance that contains the auditing.</dd>
+<dd><code>name</code> - String that contains the identifier of the appender.</dd>
 </dl>
 </section>
 </li>
@@ -232,42 +248,51 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="requiresLayout()">
-<h3>requiresLayout</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">requiresLayout</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code>requiresLayout</code>&nbsp;in interface&nbsp;<code>org.apache.log4j.Appender</code></dd>
-<dt>Overrides:</dt>
-<dd><code>requiresLayout</code>&nbsp;in class&nbsp;<code>org.apache.log4j.WriterAppender</code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="initializeLayout()">
-<h3>initializeLayout</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initializeLayout</span>()
-                      throws <span class="exceptions"><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></span></div>
-<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="BaseAuditorAppender.html#initializeLayout()">BaseAuditorAppender</a></code></span></div>
-<div class="block">Initialize the layout.</div>
+<section class="detail" id="initialize(br.com.concepting.framework.audit.Auditor)">
+<h3>initialize</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initialize</span><wbr><span class="parameters">(<a href="../Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a>&nbsp;auditor)</span>
+                throws <span class="exceptions"><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></span></div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="BaseAuditorAppender.html#initializeLayout()">initializeLayout</a></code>&nbsp;in class&nbsp;<code><a href="BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></code></dd>
+<dd><code><a href="BaseAuditorAppender.html#initialize(br.com.concepting.framework.audit.Auditor)">initialize</a></code>&nbsp;in class&nbsp;<code><a href="BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></code></dd>
 <dt>Throws:</dt>
-<dd><code><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></code> - Occurs when was not possible to initialize
- the layout.</dd>
+<dd><code><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></code></dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="activateOptions()">
-<h3>activateOptions</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">activateOptions</span>()</div>
+<section class="detail" id="setWriter(java.io.PrintWriter)">
+<h3>setWriter</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setWriter</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/PrintWriter.html" title="class or interface in java.io" class="external-link">PrintWriter</a>&nbsp;writer)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="flush()">
+<h3>flush</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">flush</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="BaseAuditorAppender.html#flush()">BaseAuditorAppender</a></code></span></div>
+<div class="block">Flushes the queue of messages.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="BaseAuditorAppender.html#flush()">flush</a></code>&nbsp;in class&nbsp;<code><a href="BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="process(org.apache.logging.log4j.core.LogEvent)">
+<h3>process</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">process</span><wbr><span class="parameters">(org.apache.logging.log4j.core.LogEvent&nbsp;event)</span>
+                throws <span class="exceptions"><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></span></div>
+<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="BaseAuditorAppender.html#process(org.apache.logging.log4j.core.LogEvent)">BaseAuditorAppender</a></code></span></div>
+<div class="block">Process the auditing.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code>activateOptions</code>&nbsp;in interface&nbsp;<code>org.apache.log4j.spi.OptionHandler</code></dd>
-<dt>Overrides:</dt>
-<dd><code>activateOptions</code>&nbsp;in class&nbsp;<code>org.apache.log4j.WriterAppender</code></dd>
+<dd><code><a href="BaseAuditorAppender.html#process(org.apache.logging.log4j.core.LogEvent)">process</a></code>&nbsp;in class&nbsp;<code><a href="BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>event</code> - Instance that contains the properties of the event.</dd>
+<dt>Throws:</dt>
+<dd><code><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></code> - Occurs when was not possible to process
+ the auditing.</dd>
 </dl>
 </section>
 </li>

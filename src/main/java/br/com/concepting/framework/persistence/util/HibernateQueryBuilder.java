@@ -9,7 +9,7 @@ import br.com.concepting.framework.model.types.ConditionType;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.persistence.HibernatePersistence;
 import br.com.concepting.framework.persistence.constants.PersistenceConstants;
-import br.com.concepting.framework.persistence.helpers.Filter;
+import br.com.concepting.framework.model.helpers.Filter;
 import br.com.concepting.framework.persistence.types.QueryType;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.util.*;

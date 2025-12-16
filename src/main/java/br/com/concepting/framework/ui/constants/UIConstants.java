@@ -129,10 +129,8 @@ public final class UIConstants{
     public static final String DEFAULT_COLOR_PICKER_STYLE_RESOURCES_ID = "/".concat(DEFAULT_COLOR_PICKER_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_COLOR_PICKER_THUMBNAIL_ID = "colorPickerThumbnail";
     public static final String DEFAULT_COLOR_PICKER_THUMBNAIL_STYLE_CLASS = DEFAULT_COLOR_PICKER_THUMBNAIL_ID;
-    public static final String DEFAULT_COMMON_ID = "common";
-    public static final String DEFAULT_COMMON_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_COMMON_ID);
-    public static final String DEFAULT_COMMON_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_COMMON_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
-    public static final String DEFAULT_COMMON_STYLE_RESOURCES_ID = "/".concat(DEFAULT_COMMON_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
+    public static final String DEFAULT_COMMON_SCRIPT_RESOURCES_ID = "/".concat(ResourcesConstants.DEFAULT_COMMON_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
+    public static final String DEFAULT_COMMON_STYLE_RESOURCES_ID = "/".concat(ResourcesConstants.DEFAULT_COMMON_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_CONFIRM_BUTTON_ID = "confirmButton";
     public static final String DEFAULT_CONFIRM_BUTTON_STYLE_CLASS = DEFAULT_CONFIRM_BUTTON_ID;
     public static final String DEFAULT_CONFIRM_MESSAGE_ID = "confirmMessage";

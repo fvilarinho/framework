@@ -194,8 +194,8 @@ public class GenericProcessor{
         nodeText = StringUtil.trim(nodeText);
         nodeText = StringUtil.replaceAll(nodeText, ProcessorConstants.DEFAULT_REMOVE_TAG_ID.concat(StringUtil.getLineBreak()), "");
         nodeText = StringUtil.replaceAll(nodeText, ProcessorConstants.DEFAULT_REMOVE_TAG_ID, "");
-        nodeText = ExpressionProcessorUtil.fillVariablesInString(this.domain, nodeText, false, this.language);
-        nodeText = PropertyUtil.fillPropertiesInString(this.declaration, nodeText, false, this.language);
+        nodeText = ExpressionProcessorUtil.fillVariablesInString(this.domain, nodeText, this.language);
+        nodeText = PropertyUtil.fillPropertiesInString(this.declaration, nodeText, this.language);
         
         return nodeText;
     }

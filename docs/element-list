@@ -1,7 +1,6 @@
 br.com.concepting.framework.audit
 br.com.concepting.framework.audit.annotations
 br.com.concepting.framework.audit.appenders
-br.com.concepting.framework.audit.appenders.helpers
 br.com.concepting.framework.audit.constants
 br.com.concepting.framework.audit.model
 br.com.concepting.framework.audit.resources
@@ -46,7 +45,6 @@ br.com.concepting.framework.network.types
 br.com.concepting.framework.network.util
 br.com.concepting.framework.persistence
 br.com.concepting.framework.persistence.constants
-br.com.concepting.framework.persistence.helpers
 br.com.concepting.framework.persistence.interfaces
 br.com.concepting.framework.persistence.resources
 br.com.concepting.framework.persistence.types

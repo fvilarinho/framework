@@ -27,4 +27,7 @@ public final class ResourcesConstants{
     public static final String DEFAULT_RESOURCES_DIR = "etc/resources/";
     public static final String DEFAULT_PROPERTIES_RESOURCES_DIR = DEFAULT_RESOURCES_DIR.concat("properties/");
     public static final String DEFAULT_PROPERTIES_RESOURCES_FILE_EXTENSION = ".properties";
+    public static final String DEFAULT_COMMON_ID = "common";
+    public static final String DEFAULT_COMMON_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_COMMON_ID);
+
 }

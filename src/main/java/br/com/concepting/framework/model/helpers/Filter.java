@@ -1,4 +1,4 @@
-package br.com.concepting.framework.persistence.helpers;
+package br.com.concepting.framework.model.helpers;
 
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.model.types.ConditionOperationType;

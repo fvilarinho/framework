@@ -102,7 +102,7 @@ public class ActionFormPopulator{
             if(action == null || action.isEmpty())
                 action = ActionType.INIT.getMethod();
             
-            this.actionForm.addActionHistory(action);
+            this.actionForm.addActionToHistory(action);
             this.actionForm.setForward(this.systemController.getParameterValue(ActionFormConstants.FORWARD_ATTRIBUTE_ID));
             this.actionForm.setUpdateViews(this.systemController.getParameterValue(UIConstants.UPDATE_VIEWS_ATTRIBUTE_ID));
             this.actionForm.setValidateModel(Boolean.parseBoolean(this.systemController.getParameterValue(ModelConstants.VALIDATE_MODEL_ATTRIBUTE_ID)));

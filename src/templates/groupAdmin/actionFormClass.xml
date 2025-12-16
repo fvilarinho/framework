@@ -18,7 +18,6 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
-		@SuppressWarnings("javadoc")
 		public class @{name} extends BaseActionForm&lt;#{clazz.simpleName}&gt;{
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
