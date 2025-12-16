@@ -80,6 +80,8 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
                         throw new InvalidResourcesException(resourcesDirname, resourcesId, classNode.getText());
                     }
                 }
+                else
+                    resources.setMainConsoleClass(MainConsoleModel.class.getName());
             }
         }
         
