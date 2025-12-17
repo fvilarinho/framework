@@ -122,6 +122,11 @@ public class Auditor{
     private void initialize() throws InvalidResourcesException {
         this.logger = LogManager.getLogger(this.entity.getName());
 
+        LoggerConfig loggerConfiguration = loggersContext.getConfiguration().getLoggerConfig(this.entity.getName());
+
+        if(loggerConfiguration != null)
+            loggerConfiguration.setParent(null);
+
         loadResources();
         loadLevel();
         loadAppenders();
@@ -360,44 +365,55 @@ public class Auditor{
      * Loads the appenders of the auditing.
      */
     private void loadAppenders(){
-        if(this.resources != null){
-            Collection<FactoryResources> appendersResources = this.resources.getAppenders();
-            
-            if(appendersResources != null){
-                Configuration loggersConfiguration = loggersContext.getConfiguration();
-                LoggerConfig loggerConfiguration = loggersContext.getConfiguration().getLoggerConfig(this.entity.getName());
-                Appender appenderInstance;
+        if(this.resources == null)
+            return;
 
-                for (FactoryResources appenderResources : appendersResources) {
-                    appenderInstance = loggersConfiguration.getAppender(appenderResources.getClazz());
+        Collection<FactoryResources> appendersResources = this.resources.getAppenders();
 
-                    if(appenderInstance != null) {
-                        if (appenderInstance instanceof BaseAuditorAppender)
-                            ((BaseAuditorAppender) appenderInstance).setAuditor(this);
-                    }
-                    else {
-                        try {
-                            Class<?> appenderClass = Class.forName(appenderResources.getClazz());
-                            Map<String, String> appenderOptions = appenderResources.getOptions();
+        if(appendersResources == null)
+            return;
 
-                            appenderInstance = (Appender)ConstructorUtils.invokeConstructor(appenderClass, appenderResources.getClazz());
+        Configuration loggersConfiguration = loggersContext.getConfiguration();
 
-                            if (appenderOptions != null && !appenderOptions.isEmpty())
-                                for (Map.Entry<String, String> entry : appenderOptions.entrySet())
-                                    PropertyUtil.setValue(appenderInstance, entry.getKey(), entry.getValue());
+        if(loggersConfiguration == null)
+            return;
 
-                            if (appenderInstance instanceof BaseAuditorAppender)
-                                ((BaseAuditorAppender) appenderInstance).initialize(this);
+        LoggerConfig loggerConfiguration = loggersConfiguration.getLoggerConfig(this.entity.getName());
 
-                            appenderInstance.start();
+        if(loggerConfiguration == null)
+            return;
 
-                            loggerConfiguration.setParent(null);
-                            loggerConfiguration.addAppender(appenderInstance, Level.toLevel(this.resources.getLevel().toUpperCase()), null);
-                        }
-                        catch (Throwable e) {
-                            e.printStackTrace(System.out);
-                        }
-                    }
+        Appender appenderInstance;
+
+        for (FactoryResources appenderResources : appendersResources) {
+            appenderInstance = loggersConfiguration.getAppender(appenderResources.getClazz());
+
+            if(appenderInstance != null) {
+                if (appenderInstance instanceof BaseAuditorAppender)
+                    ((BaseAuditorAppender) appenderInstance).setAuditor(this);
+            }
+            else {
+                try {
+                    Class<?> appenderClass = Class.forName(appenderResources.getClazz());
+                    Map<String, String> appenderOptions = appenderResources.getOptions();
+
+                    appenderInstance = (Appender)ConstructorUtils.invokeConstructor(appenderClass, appenderResources.getClazz());
+
+                    if (appenderOptions != null && !appenderOptions.isEmpty())
+                        for (Map.Entry<String, String> entry : appenderOptions.entrySet())
+                            PropertyUtil.setValue(appenderInstance, entry.getKey(), entry.getValue());
+
+                    if (appenderInstance instanceof BaseAuditorAppender)
+                        ((BaseAuditorAppender) appenderInstance).initialize(this);
+
+                    appenderInstance.start();
+
+                    loggersConfiguration.addAppender(appenderInstance);
+
+                    loggerConfiguration.addAppender(appenderInstance, Level.toLevel(this.resources.getLevel().toUpperCase()), null);
+                }
+                catch (Throwable e) {
+                    e.printStackTrace(System.out);
                 }
             }
         }
@@ -409,7 +425,7 @@ public class Auditor{
      * @param message Instance that contains the message.
      */
     public void info(String message){
-        if(message != null)
+        if(message != null && !message.isEmpty())
             this.logger.info(message);
     }
     
@@ -419,7 +435,7 @@ public class Auditor{
      * @param message Instance that contains the message.
      */
     public void debug(String message){
-        if(message != null)
+        if(message != null && !message.isEmpty())
             this.logger.debug(message);
     }
     
@@ -429,7 +445,7 @@ public class Auditor{
      * @param message Instance that contains the message.
      */
     public void error(String message){
-        if(message != null)
+        if(message != null && !message.isEmpty())
             this.logger.error(message);
     }
     
@@ -449,6 +465,8 @@ public class Auditor{
     public void start(){
         this.transactionEnded = false;
         this.transactionStartTime = System.currentTimeMillis();
+
+        loadAppenders();
         
         info(StatusType.PROCESSING.toString());
     }
@@ -458,6 +476,8 @@ public class Auditor{
      */
     public void end(){
         this.transactionEnded = true;
+
+        loadAppenders();
         
         info(StatusType.PROCESSED.toString());
         
@@ -470,10 +490,12 @@ public class Auditor{
      * @param exception Instance that contains the caught exception.
      */
     public void end(Throwable exception){
-        error(exception);
-        
         this.transactionEnded = true;
-        
+
+        loadAppenders();
+
+        error(exception);
+
         info(StatusType.PROCESSED_WITH_ERROR.toString());
         
         this.transactionStartTime = 0;

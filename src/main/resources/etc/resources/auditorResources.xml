@@ -2,7 +2,7 @@
 
 <auditor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	     xsi:noNamespaceSchemaLocation="auditorResources.xsd">
-	<resources id="default" level="INFO" default="true">
+	<resources id="default" level="ERROR" default="true">
 		<appenders>
 			<appender class="br.com.concepting.framework.audit.appenders.ConsoleAuditorAppender"/>
 		</appenders>
