@@ -53,7 +53,7 @@ public class GenericProcessorTest {
 
     @Test
     public void testSetters() throws InternalErrorException {
-        GenericProcessor processor = factory.getProcessor((String) null, (Object) null, (XmlNode) null, (Locale)null);
+        GenericProcessor processor = factory.getProcessor(null, null, (XmlNode) null, null);
 
         processor.setDomain("domainX");
         processor.setLanguage(Locale.FRENCH);

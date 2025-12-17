@@ -14,7 +14,6 @@ import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.types.ConditionType;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.resources.constants.ResourcesConstants;
-import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.*;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.SortOrderType;

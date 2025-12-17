@@ -231,33 +231,33 @@ public class ModelsTest {
         phonebookModel2.setComparePropertyId("name");
 
         assertEquals(0, phonebookModel.compareTo(phonebookModel2));
-        assertTrue(phonebookModel.equals(phonebookModel2));
+        assertEquals(phonebookModel, phonebookModel2);
 
         phonebookModel.setName("Luke");
         phonebookModel2.setName("Darth");
 
         assertTrue(phonebookModel.compareTo(phonebookModel2) > 0);
-        assertFalse(phonebookModel2.equals(phonebookModel));
+        assertNotEquals(phonebookModel2, phonebookModel);
         assertTrue(phonebookModel2.compareTo(phonebookModel) < 0);
-        assertFalse(phonebookModel.equals(phonebookModel2));
+        assertNotEquals(phonebookModel, phonebookModel2);
 
         phonebookModel.setName("Luke");
         phonebookModel2.setName(null);
 
         assertEquals(1, phonebookModel.compareTo(phonebookModel2));
-        assertFalse(phonebookModel.equals(phonebookModel2));
+        assertNotEquals(phonebookModel, phonebookModel2);
 
         phonebookModel.setName(null);
         phonebookModel2.setName(null);
 
         assertEquals(0, phonebookModel.compareTo(phonebookModel2));
-        assertTrue(phonebookModel.equals(phonebookModel2));
+        assertEquals(phonebookModel, phonebookModel2);
 
         phonebookModel.setName(null);
         phonebookModel2.setName("Darth");
 
         assertEquals(-1, phonebookModel.compareTo(phonebookModel2));
-        assertFalse(phonebookModel.equals(phonebookModel2));
+        assertNotEquals(phonebookModel, phonebookModel2);
 
         phonebookModel.setComparePropertyId("name2");
         phonebookModel2.setComparePropertyId("name2");
@@ -293,16 +293,16 @@ public class ModelsTest {
         phonebookModel2.setName(null);
 
         assertEquals(-1, phonebookModel.compareTo(phonebookModel2));
-        assertFalse(phonebookModel.equals(null));
-        assertFalse(phonebookModel.equals(new TestModel()));
-        assertFalse(phonebookModel.equals(new Object()));
+        assertNotEquals(null, phonebookModel);
+        assertNotEquals(new TestModel(), phonebookModel);
+        assertNotEquals(new Object(), phonebookModel);
 
         ModelInfo modelInfo = ModelUtil.getInfo(PhonebookModel.class);
 
         modelInfo.setIdentityPropertiesInfo(new ArrayList<>());
         modelInfo.setUniquePropertiesInfo(new ArrayList<>());
 
-        assertTrue(phonebookModel.equals(phonebookModel2));
+        assertEquals(phonebookModel, phonebookModel2);
 
         CacherManager.getInstance().getCacher(ModelUtil.class).clear();
     }

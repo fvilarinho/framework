@@ -235,11 +235,4 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
         
         return resources;
     }
-
-    public static void main(String args[]) throws Throwable {
-        SystemResourcesLoader loader = new SystemResourcesLoader();
-        SystemResources resources = loader.getDefault();
-
-        System.out.println(resources.getMainConsoleClass());
-    }
 }

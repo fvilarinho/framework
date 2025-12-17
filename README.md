@@ -60,7 +60,7 @@ Or use the IDE to switch between the versions.
 License
 =======
 
-The framework is licensed under the LGPL 3.0. Please read the licence file or check the URL [http://www.gnu.org/licenses/lgpl-3.0.html](http://www.gnu.org/licenses/lgpl-3.0.html)
+The framework is licensed under the LGPL 3.0. Please read the license file or check the URL [http://www.gnu.org/licenses/lgpl-3.0.html](http://www.gnu.org/licenses/lgpl-3.0.html)
 
 
 Author

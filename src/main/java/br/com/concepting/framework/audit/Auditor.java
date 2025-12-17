@@ -5,23 +5,21 @@ import br.com.concepting.framework.audit.appenders.BaseAuditorAppender;
 import br.com.concepting.framework.audit.resources.AuditorResources;
 import br.com.concepting.framework.audit.resources.AuditorResourcesLoader;
 import br.com.concepting.framework.exceptions.InternalErrorException;
-import br.com.concepting.framework.model.processors.ModelAnnotationProcessor;
 import br.com.concepting.framework.resources.FactoryResources;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.StatusType;
-
 import org.apache.commons.beanutils.ConstructorUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.config.LoggerConfig;
-import org.apache.logging.log4j.core.LoggerContext;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -52,7 +50,6 @@ import java.util.Map;
  */
 public class Auditor{
     private static final LoggerContext loggersContext = (LoggerContext)LogManager.getContext(false);
-    private static final Configuration loggersConfiguration = loggersContext.getConfiguration();
 
     private Logger logger = null;
     private Class<?> entity = null;
@@ -76,7 +73,7 @@ public class Auditor{
      * @throws InternalErrorException Occurs when it was not possible to
      * instantiate the auditing based on the specified parameters.
      */
-    public Auditor(Class<?> entity, Method business, Object[] businessComplementArgumentsValues) throws InternalErrorException{
+    public Auditor(Class<?> entity, Method business, Object... businessComplementArgumentsValues) throws InternalErrorException{
         this(entity, business, businessComplementArgumentsValues, null, null);
     }
     
@@ -270,20 +267,22 @@ public class Auditor{
             setBusinessComplementArgumentsValues(businessComplementArgumentsValues);
             
             if(business.getParameterCount() > 0 && businessComplementArgumentsValues != null && businessComplementArgumentsValues.length == business.getParameterCount()){
-                this.businessComplementArgumentsIds = new String[business.getParameterCount()];
-                this.businessComplementArgumentsTypes = new Class[business.getParameterCount()];
-                
-                int cont = 0;
+                String[] businessComplementArgumentsIds = new String[business.getParameterCount()];
+                Class<?>[] businessComplementArgumentsTypes = new Class<?>[business.getParameterCount()];
                 Object businessComplementArgumentsValue;
-                
+                int cont = 0;
+
                 for(Parameter businessComplementArgument: business.getParameters()){
                     businessComplementArgumentsValue = businessComplementArgumentsValues[cont];
                     
-                    this.businessComplementArgumentsIds[cont] = businessComplementArgument.getName();
-                    this.businessComplementArgumentsTypes[cont] = (businessComplementArgumentsValue != null ? businessComplementArgumentsValue.getClass() : businessComplementArgument.getType());
+                    businessComplementArgumentsIds[cont] = businessComplementArgument.getName();
+                    businessComplementArgumentsTypes[cont] = (businessComplementArgumentsValue != null ? businessComplementArgumentsValue.getClass() : businessComplementArgument.getType());
                     
                     cont++;
                 }
+
+                setBusinessComplementArgumentsIds(businessComplementArgumentsIds);
+                setBusinessComplementArgumentsTypes(businessComplementArgumentsTypes);
             }
             else{
                 setBusinessComplementArgumentsIds(null);
@@ -353,10 +352,8 @@ public class Auditor{
      * Loads the auditing level.
      */
     private void loadLevel() {
-        if(this.resources != null && this.logger != null) {
-            Configurator.setRootLevel(Level.OFF);
+        if(this.resources != null && this.logger != null)
             Configurator.setLevel(this.entity.getName(), Level.toLevel(this.resources.getLevel().toUpperCase()));
-        }
     }
 
     /**
@@ -367,7 +364,8 @@ public class Auditor{
             Collection<FactoryResources> appendersResources = this.resources.getAppenders();
             
             if(appendersResources != null){
-                LoggerConfig loggerConfiguration = loggersConfiguration.getLoggerConfig(this.entity.getName());
+                Configuration loggersConfiguration = loggersContext.getConfiguration();
+                LoggerConfig loggerConfiguration = loggersContext.getConfiguration().getLoggerConfig(this.entity.getName());
                 Appender appenderInstance;
 
                 for (FactoryResources appenderResources : appendersResources) {
@@ -393,8 +391,7 @@ public class Auditor{
 
                             appenderInstance.start();
 
-                            loggersConfiguration.addAppender(appenderInstance);
-
+                            loggerConfiguration.setParent(null);
                             loggerConfiguration.addAppender(appenderInstance, Level.toLevel(this.resources.getLevel().toUpperCase()), null);
                         }
                         catch (Throwable e) {
@@ -409,10 +406,9 @@ public class Auditor{
     /**
      * Creates an information message.
      *
-     * @param <O> Class that defines the message type.
      * @param message Instance that contains the message.
      */
-    public <O> void info(String message){
+    public void info(String message){
         if(message != null)
             this.logger.info(message);
     }
@@ -420,10 +416,9 @@ public class Auditor{
     /**
      * Creates a debug message.
      *
-     * @param <O> Class that defines the message type.
      * @param message Instance that contains the message.
      */
-    public <O> void debug(String message){
+    public void debug(String message){
         if(message != null)
             this.logger.debug(message);
     }
@@ -431,10 +426,9 @@ public class Auditor{
     /**
      * Creates an error message.
      *
-     * @param <O> Class that defines the message type.
      * @param message Instance that contains the message.
      */
-    public <O> void error(String message){
+    public void error(String message){
         if(message != null)
             this.logger.error(message);
     }
@@ -483,11 +477,5 @@ public class Auditor{
         info(StatusType.PROCESSED_WITH_ERROR.toString());
         
         this.transactionStartTime = 0;
-    }
-
-    public static void main(String[] args) throws Throwable{
-        Auditor auditor = new Auditor(ModelAnnotationProcessor.class, ModelAnnotationProcessor.class.getMethod("generateActionClass", new Class[]{String.class}), new String[]{"teste"});
-
-        auditor.info("Teste");
     }
 }
