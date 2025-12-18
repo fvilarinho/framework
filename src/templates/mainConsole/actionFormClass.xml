@@ -7,8 +7,6 @@
 		package @{packageName};
 		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 		
-		import br.com.concepting.framework.controller.form.BaseActionForm;
-
 		import #{clazz.name};
 
 		import java.io.Serial;
@@ -20,7 +18,7 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
-		public class @{name} extends BaseActionForm&lt;#{clazz.simpleName}&gt;{
+		public class @{name} extends br.com.concepting.framework.common.controller.form.MainConsoleActionForm&lt;#{clazz.simpleName}&gt;{
 			@Serial
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}

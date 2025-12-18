@@ -1928,6 +1928,7 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     }
 
     @Override
+    @SuppressWarnings("EqualsDoesntCheckParameterClass")
     public boolean equals(Object object){
         PropertyInfo comparePropertyInfo = (PropertyInfo) object;
 

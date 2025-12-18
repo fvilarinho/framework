@@ -11,7 +11,7 @@
 	<persistence>
         <resources id="h2" type="H2" default="true">
             <class>org.h2.Driver</class>
-            <uri>jdbc:h2:mem:#{repositoryId}</uri>
+            <uri>jdbc:h2:mem:#{repositoryId};DATABASE_TO_UPPER=FALSE</uri>
         </resources>
         <resources id="mssql" type="MSSQL">
 			<class>net.sourceforge.jtds.jdbc.Driver</class>

@@ -9,7 +9,6 @@ import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.util.helpers.DateTime;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.apache.logging.log4j.message.Message;
 
 import java.io.Serial;
 import java.util.Collection;

@@ -76,7 +76,7 @@ public @interface Model{
     
     /**
      * Defines the description pattern of the data model. The pattern should be
-     * defined like the following: <pre>#{&lt;data-model-property&gt;} E.g.: #{id} - #{nome}</pre>
+     * defined like the following: <pre>#{&lt;data-model-property&gt;} E.g.: #{id} - #{name}</pre>
      *
      * @return String that contains the description pattern.
      */

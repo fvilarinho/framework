@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="persistenceResources.xsd">  
-    <resources id="datasource" factoryResourcesId="h2" default="true">
+    <resources id="default" factoryResourcesId="h2" default="true">
         <repositoryId>test</repositoryId>  
-        <userName>root</userName>  
         <options>
             <option id="hibernate.cache.use_minimal_puts" value="false"/>
             <option id="hibernate.cache.use_query_cache" value="true"/>
             <option id="hibernate.cache.use_second_level_cache" value="true"/>
             <option id="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
             <option id="hibernate.current_session_context_class" value="thread"/>
-            <option id="hibernate.format_sql" value="false"/>
+            <option id="hibernate.format_sql" value="true"/>
             <option id="hibernate.generate_statistics" value="false"/>
             <option id="hibernate.jdbc.time_zone" value="UTC"/>
             <option id="hibernate.query_maximum_results" value="3000"/>
-            <option id="hibernate.show_sql" value="false"/>
+            <option id="hibernate.show_sql" value="true"/>
             <option id="hibernate.dbcp.initialSize" value="5"/>
             <option id="hibernate.dbcp.maxTotal" value="20"/>
             <option id="hibernate.dbcp.maxIdle" value="10"/>

@@ -396,8 +396,4 @@ public class SecurityFilter implements Filter{
             this.systemController.forward(e);
         }
     }
-
-    @Override
-    public void destroy(){
-    }
 }

@@ -89,6 +89,7 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
      * @return Numeric value that indicates the comparison (0 - Equal, 1 or -1 -
      * Different).
      */
+    @SuppressWarnings("NullableProblems")
     public int compareTo(BaseModel compareObject){
         int result = -1;
 
@@ -118,7 +119,7 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "EqualsDoesntCheckParameterClass"})
     public boolean equals(Object compareModel){
         boolean compareFlag = true;
 

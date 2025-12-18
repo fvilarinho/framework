@@ -120,7 +120,7 @@ dependencies {
     implementation("org.seleniumhq.selenium:selenium-support:4.6.0")
     implementation("com.sun.mail:smtp:2.0.2")
     implementation("com.github.ua-parser:uap-java:1.6.1")
-    implementation("jakarta.validation:jakarta.validation-api:3.1.1")
+    implementation("javax.validation:validation-api:2.0.1.Final")
     implementation("jakarta.servlet.jsp:jakarta.servlet.jsp-api:4.0.0")
     implementation("jakarta.servlet:jakarta.servlet-api:6.1.0")
 

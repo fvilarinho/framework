@@ -184,6 +184,8 @@ public class HibernateUtil{
             return PostgresPlusDialect.class;
         else if(repositoryType == RepositoryType.DB2)
             return DB2Dialect.class;
+        else if(repositoryType == RepositoryType.H2)
+            return H2Dialect.class;
 
         return Dialect.class;
     }

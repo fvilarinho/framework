@@ -52,7 +52,7 @@
 													<concepting:deleteButton showDialogBox="true"/>
 												</concepting:grid>
 											</concepting:guide>
-											<concepting:guide name="input" render="${@{actionFormName}.model.input != null and (@{actionFormName}.action == 'add' or @{actionFormName}.action == 'edit'}">
+											<concepting:guide name="input" render="${@{actionFormName}.model.input != null and (@{actionFormName}.action == 'add' or @{actionFormName}.action == 'edit')}">
 												<fieldset class="group">
 													<legend class="groupLabel">
 														<concepting:label resourcesKey="inputFieldset"/>:

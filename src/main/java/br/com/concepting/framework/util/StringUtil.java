@@ -554,7 +554,7 @@ public class StringUtil{
             BaseIndent lastRule;
             BaseIndent currentRule;
             String indentation;
-            int currentIdentCount = 0;
+            int currentIndentCount = 0;
             String line;
             int pos;
             
@@ -572,7 +572,7 @@ public class StringUtil{
                             if(pos >= 0){
                                 if(pos == 0){
                                     if(lastRule.getIndentSize() != null){
-                                        currentIdentCount -= lastRule.getIndentSize();
+                                        currentIndentCount -= lastRule.getIndentSize();
                                         
                                         rulesQueue.removeLast();
                                     }
@@ -582,7 +582,7 @@ public class StringUtil{
                                         pos = line.indexOf(lastRule.getStartChar());
                                         
                                         if(pos < 0){
-                                            currentIdentCount -= lastRule.getIndentSize();
+                                            currentIndentCount -= lastRule.getIndentSize();
                                             
                                             rulesQueue.removeLast();
                                         }
@@ -593,7 +593,7 @@ public class StringUtil{
                     }
                 }
 
-                indentation = StringUtil.replicate(" ", currentIdentCount);
+                indentation = StringUtil.replicate(" ", currentIndentCount);
                 
                 if(indentation != null && !indentation.isEmpty())
                     result.append(indentation);
@@ -624,7 +624,7 @@ public class StringUtil{
                 }
                 
                 if(currentRule != null && currentRule.getIndentSize() != null){
-                    currentIdentCount += currentRule.getIndentSize();
+                    currentIndentCount += currentRule.getIndentSize();
                     
                     if(rulesQueue == null)
                         rulesQueue = PropertyUtil.instantiate(Constants.DEFAULT_LIFO_QUEUE_CLASS);
@@ -643,7 +643,7 @@ public class StringUtil{
                             if(pos >= 0){
                                 if(pos == 0){
                                     if(lastRule.getIndentSize() != null){
-                                        currentIdentCount -= lastRule.getIndentSize();
+                                        currentIndentCount -= lastRule.getIndentSize();
                                         
                                         rulesQueue.removeLast();
                                     }
@@ -653,7 +653,7 @@ public class StringUtil{
                                         pos = line.indexOf(lastRule.getStartChar());
                                         
                                         if(pos < 0){
-                                            currentIdentCount -= lastRule.getIndentSize();
+                                            currentIndentCount -= lastRule.getIndentSize();
                                             
                                             rulesQueue.removeLast();
                                         }

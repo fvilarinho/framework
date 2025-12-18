@@ -6,6 +6,8 @@ import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.SystemModuleModel;
 import br.com.concepting.framework.model.SystemSessionModel;
 import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
+import br.com.concepting.framework.persistence.constants.PersistenceConstants;
+import br.com.concepting.framework.persistence.util.HibernateUtil;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.SystemResourcesLoader;
 import br.com.concepting.framework.security.model.LoginParameterModel;
@@ -18,22 +20,21 @@ import br.com.concepting.framework.security.util.SecurityUtil;
 import br.com.concepting.framework.service.helpers.ServiceThread;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
+import br.com.concepting.framework.util.FileUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
 import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
-
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import java.io.File;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Enumeration;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -127,19 +128,7 @@ public class ServiceListener implements ServletContextListener{
         
         if(executor != null)
             executor.shutdown();
-        
-        Enumeration<Driver> drivers = DriverManager.getDrivers();
-        
-        while(drivers.hasMoreElements()){
-            Driver driver = drivers.nextElement();
 
-            try{
-                DriverManager.deregisterDriver(driver);
-            }
-            catch(SQLException ignored){
-            }
-        }
-        
         AbandonedConnectionCleanupThread.checkedShutdown();
     }
 
@@ -148,10 +137,70 @@ public class ServiceListener implements ServletContextListener{
         onInitialize(event);
     }
 
-    @SuppressWarnings("unchecked")
-    protected <L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel, SM extends SystemModuleModel, SS extends SystemSessionModel> void onInitialize(ServletContextEvent event){
+    protected void onInitialize(ServletContextEvent event){
         setEvent(event);
 
+        initializePersistence();
+        initializeServices();
+    }
+
+    /**
+     * Initialize the persistence with startup scripts.
+     */
+    private void initializePersistence(){
+        try {
+            Enumeration<URL> scriptsEnumeration = HibernateUtil.class.getClassLoader().getResources(PersistenceConstants.DEFAULT_SQL_DIR);
+
+            if (scriptsEnumeration.hasMoreElements()) {
+                while (scriptsEnumeration.hasMoreElements()) {
+                    File scriptsDirectory = new File(scriptsEnumeration.nextElement().toURI());
+
+                    if (scriptsDirectory.exists() && scriptsDirectory.isDirectory() && scriptsDirectory.canRead()) {
+                        File[] scripts = scriptsDirectory.listFiles();
+
+                        if (scripts != null) {
+                            Arrays.sort(scripts, Comparator.comparing(File::getName));
+
+                            for (File script : scripts) {
+                                try (Session connection = HibernateUtil.getSession()) {
+                                    String scriptContent = FileUtil.fromTextFile(script.getAbsolutePath());
+                                    Scanner scriptScanner = new Scanner(scriptContent);
+
+                                    scriptScanner.useDelimiter(";\n");
+
+                                    Transaction transaction = connection.beginTransaction();
+
+                                    while (scriptScanner.hasNext()) {
+                                        String scriptCommand = scriptScanner.next();
+
+                                        try {
+                                            connection.createNativeQuery(scriptCommand).executeUpdate();
+                                        }
+                                        catch (Throwable e) {
+                                            e.printStackTrace(System.err);
+                                        }
+                                    }
+
+                                    transaction.commit();
+                                }
+                                catch (Throwable e) {
+                                    e.printStackTrace(System.err);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch (Throwable e) {
+            e.printStackTrace(System.err);
+        }
+    }
+    /**
+     * Initialize services scheduling.
+     */
+    @SuppressWarnings("unchecked")
+    private <L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel, SM extends SystemModuleModel, SS extends SystemSessionModel> void initializeServices() {
         Runnable serviceListenerRunnable = () -> {
             try{
                 ServiceListener.this.loginSession = SecurityUtil.getLoginSession();
@@ -274,9 +323,9 @@ public class ServiceListener implements ServletContextListener{
                 ServiceListener.this.event.getServletContext().log(null, e);
             }
         };
-        
+
         Thread serviceListenerThread = new Thread(serviceListenerRunnable);
-        
+
         serviceListenerThread.start();
     }
 }

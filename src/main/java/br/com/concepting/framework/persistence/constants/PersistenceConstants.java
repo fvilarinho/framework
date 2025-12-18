@@ -42,6 +42,7 @@ public final class PersistenceConstants{
     public static final String DEFAULT_ID = "persistence";
     public static final String DEFAULT_IMPLEMENTATION_ID = "persistenceImpl";
     public static final int DEFAULT_MAXIMUM_RESULTS = 512;
+    public static final String DEFAULT_SQL_DIR = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("sql/");
     public static final String DEFAULT_MAPPINGS_DIR = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("mappings/");
     public static final String DEFAULT_MAPPING_FILE_EXTENSION = ".hbm.xml";
     public static final RepositoryType DEFAULT_REPOSITORY_TYPE = RepositoryType.MYSQL;
