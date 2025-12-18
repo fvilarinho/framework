@@ -6,7 +6,8 @@ import br.com.concepting.framework.resources.PropertiesResources;
 import br.com.concepting.framework.ui.components.types.EventType;
 import br.com.concepting.framework.ui.constants.UIConstants;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 
 /**

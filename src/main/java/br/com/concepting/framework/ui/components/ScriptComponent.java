@@ -3,7 +3,8 @@ package br.com.concepting.framework.ui.components;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.ui.constants.UIConstants;
 
-import javax.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.tagext.BodyContent;
+
 import java.io.Serial;
 
 /**

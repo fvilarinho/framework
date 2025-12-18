@@ -10,7 +10,8 @@ import br.com.concepting.framework.util.NumberUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.SortOrderType;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
+
 import java.text.ParseException;
 import java.util.List;
 

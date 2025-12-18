@@ -7,7 +7,8 @@ import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.ui.controller.UIController;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.awt.*;
 import java.io.Serial;
 import java.util.Arrays;

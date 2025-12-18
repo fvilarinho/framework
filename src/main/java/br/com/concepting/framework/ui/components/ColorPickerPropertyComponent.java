@@ -8,7 +8,7 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
 import java.awt.*;
 import java.io.Serial;
 

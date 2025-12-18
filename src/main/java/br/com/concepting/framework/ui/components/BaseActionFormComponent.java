@@ -26,7 +26,8 @@ import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.security.SecureRandom;

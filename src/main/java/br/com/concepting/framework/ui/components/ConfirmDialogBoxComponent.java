@@ -3,7 +3,8 @@ package br.com.concepting.framework.ui.components;
 import br.com.concepting.framework.controller.action.types.ActionType;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 
 /**

@@ -23,7 +23,8 @@ import br.com.concepting.framework.util.types.InputType;
 import br.com.concepting.framework.util.types.PositionType;
 import br.com.concepting.framework.util.types.PropertyType;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormatSymbols;

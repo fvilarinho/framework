@@ -15,18 +15,17 @@ import br.com.concepting.framework.ui.controller.UIController;
 import br.com.concepting.framework.util.*;
 import br.com.concepting.framework.util.types.ContentType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.jsp.PageContext;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload;
 import org.apache.http.HttpStatus;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.PageContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -151,14 +150,15 @@ public class SystemController{
 				String encoding = getEncoding();
 				boolean isUploadRequest = isUploadRequest();
 
-				if(isUploadRequest()){
-					ServletFileUpload uploader = new ServletFileUpload(new DiskFileItemFactory());
+				if(isUploadRequest){
+					DiskFileItemFactory uploaderFactory = DiskFileItemFactory.builder().get();
+					JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> uploader = new JakartaServletFileUpload<>(uploaderFactory);
 
 					try{
-						List<FileItem> items = uploader.parseRequest(this.request);
+						List<DiskFileItem> items = uploader.parseRequest(this.request);
 
 						if(items != null && !items.isEmpty()){
-							for(FileItem item : items){
+							for(DiskFileItem item : items){
 								try{
 									String name = item.getFieldName();
 
@@ -235,7 +235,7 @@ public class SystemController{
 							}
 						}
 					}
-					catch(FileUploadException ignored){
+					catch(IOException ignored){
 					}
 				}
 				else{
@@ -422,7 +422,7 @@ public class SystemController{
 	 * @return True/False.
 	 */
 	public boolean isUploadRequest(){
-		return (this.request != null && ServletFileUpload.isMultipartContent(this.request));
+		return (this.request != null && JakartaServletFileUpload.isMultipartContent(this.request));
 	}
 
 	/**

@@ -5,7 +5,8 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.ui.components.types.EventType;
 import br.com.concepting.framework.util.types.ComponentType;
 
-import javax.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.tagext.BodyContent;
+
 import java.io.Serial;
 
 /**

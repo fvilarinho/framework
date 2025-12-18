@@ -7,7 +7,8 @@ import br.com.concepting.framework.resources.PropertiesResources;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.ComponentType;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 
 /**

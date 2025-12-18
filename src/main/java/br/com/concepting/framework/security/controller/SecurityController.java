@@ -17,7 +17,7 @@ import br.com.concepting.framework.security.util.SecurityUtil;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.StringUtil;
 
-import javax.servlet.http.Cookie;
+import jakarta.servlet.http.Cookie;
 
 /**
  * Class that defines the security controller.

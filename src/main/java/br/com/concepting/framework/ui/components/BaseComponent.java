@@ -20,11 +20,12 @@ import br.com.concepting.framework.ui.controller.UIController;
 import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.types.ComponentType;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.BodyContent;
-import javax.servlet.jsp.tagext.BodyTagSupport;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.tagext.BodyTagSupport;
+
 import java.io.PrintWriter;
 import java.io.Serial;
 import java.util.Locale;

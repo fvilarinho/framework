@@ -17,7 +17,8 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.ContentType;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.IOException;
 import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;

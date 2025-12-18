@@ -8,7 +8,8 @@ import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.ContentType;
 import br.com.concepting.framework.util.types.PositionType;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 
 /**

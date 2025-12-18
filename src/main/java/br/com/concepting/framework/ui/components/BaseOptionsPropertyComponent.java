@@ -12,7 +12,8 @@ import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 import java.util.Collection;
 

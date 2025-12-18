@@ -3,7 +3,7 @@ package br.com.concepting.framework.ui.components;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.util.types.ComponentType;
 
-import javax.servlet.jsp.tagext.Tag;
+import jakarta.servlet.jsp.tagext.Tag;
 import java.io.Serial;
 
 /**

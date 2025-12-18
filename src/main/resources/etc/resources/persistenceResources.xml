@@ -8,15 +8,13 @@
             <option id="hibernate.cache.use_minimal_puts" value="false"/>
             <option id="hibernate.cache.use_query_cache" value="true"/>
             <option id="hibernate.cache.use_second_level_cache" value="true"/>
-            <option id="hibernate.cache.region.factory_class" value="org.hibernate.cache.jcache.JCacheRegionFactory"/>
-            <option id="hibernate.cache.provider_class" value="org.ehcache.jsr107.EhcacheCachingProvider"/>
+            <option id="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
             <option id="hibernate.current_session_context_class" value="thread"/>
             <option id="hibernate.format_sql" value="false"/>
             <option id="hibernate.generate_statistics" value="false"/>
             <option id="hibernate.jdbc.time_zone" value="UTC"/>
             <option id="hibernate.query_maximum_results" value="3000"/>
             <option id="hibernate.show_sql" value="false"/>
-            <option id="hibernate.dialect.storage_engine" value="innodb"/>
             <option id="hibernate.dbcp.initialSize" value="5"/>
             <option id="hibernate.dbcp.maxTotal" value="20"/>
             <option id="hibernate.dbcp.maxIdle" value="10"/>

@@ -13,7 +13,8 @@ import br.com.concepting.framework.ui.controller.UIController;
 import br.com.concepting.framework.util.types.ContentType;
 import br.com.concepting.framework.util.types.MethodType;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 import java.util.Collection;
 

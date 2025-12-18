@@ -6,8 +6,9 @@ import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.BodyContent;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.BodyContent;
+
 import java.io.Serial;
 
 /**

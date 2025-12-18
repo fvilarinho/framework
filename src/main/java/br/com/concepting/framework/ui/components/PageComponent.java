@@ -12,8 +12,8 @@ import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ContentType;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.PageContext;
 import java.io.PrintWriter;
 import java.io.Serial;
 import java.text.DateFormatSymbols;

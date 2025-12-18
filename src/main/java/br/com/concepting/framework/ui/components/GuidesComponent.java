@@ -9,7 +9,8 @@ import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 import java.util.Iterator;
 import java.util.List;

@@ -26,8 +26,9 @@ import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
 import org.apache.http.HttpStatus;
 
-import javax.servlet.jsp.ErrorData;
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.ErrorData;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 import java.util.Collection;
 import java.util.Locale;

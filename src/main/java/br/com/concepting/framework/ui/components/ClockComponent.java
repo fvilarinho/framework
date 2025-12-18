@@ -5,7 +5,8 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.types.ComponentType;
 
-import javax.servlet.jsp.JspException;
+import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
