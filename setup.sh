@@ -307,7 +307,7 @@ function createProjectBanner() {
 
   if [ ! -f "$BANNER_FILENAME" ]; then
     if [ -n "$FIGLET_CMD" ]; then
-      $FIGLET_CMD "$PROJECT_NAME" > $BANNER_FILENAME
+      $FIGLET_CMD -f smblock -t -W --metal "$PROJECT_NAME" > $BANNER_FILENAME
 
       echo >> $BANNER_FILENAME
     fi
