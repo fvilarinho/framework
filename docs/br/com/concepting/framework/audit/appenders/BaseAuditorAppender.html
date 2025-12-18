@@ -183,7 +183,10 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#append(org.apache.logging.log4j.core.LogEvent)" class="member-name-link">append</a><wbr>(org.apache.logging.log4j.core.LogEvent&nbsp;event)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected &lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../model/AuditorComplementModel.html" title="class in br.com.concepting.framework.audit.model">AuditorComplementModel</a>&gt;&gt;<br>C</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel)" class="member-name-link">buildBusinessComplement</a><wbr>(<a href="../model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a>&nbsp;auditorModel)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel,java.lang.String%5B%5D,java.lang.Class%5B%5D,java.lang.Object%5B%5D)" class="member-name-link">buildBusinessComplement</a><wbr>(<a href="../model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a>&nbsp;auditorModel,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;businessComplementArgumentsIds,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;[]&nbsp;businessComplementArgumentsTypes,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>[]&nbsp;businessComplementArgumentValues)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Builds the business complement.</div>
 </div>
@@ -192,33 +195,24 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Flushes the queue of messages.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAuditor()" class="member-name-link">getAuditor</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;A extends <a href="../model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a>&gt;<br>A</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getModel(org.apache.logging.log4j.core.LogEvent)" class="member-name-link">getModel</a><wbr>(org.apache.logging.log4j.core.LogEvent&nbsp;event)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;A extends <a href="../model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a>&gt;<br>A</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getModel(org.apache.logging.log4j.core.LogEvent)" class="member-name-link">getModel</a><wbr>(org.apache.logging.log4j.core.LogEvent&nbsp;event)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the auditing.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getModelClass()" class="member-name-link">getModelClass</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getModelClass()" class="member-name-link">getModelClass</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the identifier of the auditing data model.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#initialize(br.com.concepting.framework.audit.Auditor)" class="member-name-link">initialize</a><wbr>(<a href="../Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a>&nbsp;auditor)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#process(org.apache.logging.log4j.core.LogEvent)" class="member-name-link">process</a><wbr>(org.apache.logging.log4j.core.LogEvent&nbsp;event)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Process the auditing.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAuditor(br.com.concepting.framework.audit.Auditor)" class="member-name-link">setAuditor</a><wbr>(<a href="../Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a>&nbsp;auditor)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setModelClass(java.lang.String)" class="member-name-link">setModelClass</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modelClass)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setModelClass(java.lang.String)" class="member-name-link">setModelClass</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;modelClass)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Defines the identifier of the auditing data model.</div>
 </div>
 </div>
@@ -266,18 +260,6 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="setAuditor(br.com.concepting.framework.audit.Auditor)">
-<h3>setAuditor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAuditor</span><wbr><span class="parameters">(<a href="../Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a>&nbsp;auditor)</span></div>
-</section>
-</li>
-<li>
-<section class="detail" id="getAuditor()">
-<h3>getAuditor</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a></span>&nbsp;<span class="element-name">getAuditor</span>()</div>
-</section>
-</li>
-<li>
 <section class="detail" id="getModelClass()">
 <h3>getModelClass</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getModelClass</span>()</div>
@@ -315,10 +297,13 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel)">
+<section class="detail" id="buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel,java.lang.String[],java.lang.Class[],java.lang.Object[])">
 <h3>buildBusinessComplement</h3>
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="type-parameters">&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="../model/AuditorComplementModel.html" title="class in br.com.concepting.framework.audit.model">AuditorComplementModel</a>&gt;&gt;</span>
-<span class="return-type">C</span>&nbsp;<span class="element-name">buildBusinessComplement</span><wbr><span class="parameters">(<a href="../model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a>&nbsp;auditorModel)</span></div>
+<span class="return-type">C</span>&nbsp;<span class="element-name">buildBusinessComplement</span><wbr><span class="parameters">(<a href="../model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a>&nbsp;auditorModel,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>[]&nbsp;businessComplementArgumentsIds,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;[]&nbsp;businessComplementArgumentsTypes,
+ <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>[]&nbsp;businessComplementArgumentValues)</span></div>
 <div class="block">Builds the business complement.</div>
 <dl class="notes">
 <dt>Type Parameters:</dt>
@@ -328,17 +313,6 @@ loadScripts(document, 'script');</script>
 <dd><code>auditorModel</code> - Instance that contains the auditing.</dd>
 <dt>Returns:</dt>
 <dd>List containing the business complement.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="initialize(br.com.concepting.framework.audit.Auditor)">
-<h3>initialize</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">initialize</span><wbr><span class="parameters">(<a href="../Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a>&nbsp;auditor)</span>
-                throws <span class="exceptions"><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></span></div>
-<dl class="notes">
-<dt>Throws:</dt>
-<dd><code><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></code></dd>
 </dl>
 </section>
 </li>

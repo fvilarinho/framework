@@ -1,6 +1,5 @@
 package br.com.concepting.framework.audit.appenders;
 
-import br.com.concepting.framework.audit.Auditor;
 import br.com.concepting.framework.audit.model.AuditorModel;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.util.ModelUtil;
@@ -42,12 +41,26 @@ public class ConsoleAuditorAppender extends BaseAuditorAppender{
     }
 
     @Override
-    public void initialize(Auditor auditor) throws InternalErrorException {
-        super.initialize(auditor);
+    public void start() {
+        super.start();
 
         setWriter(new PrintWriter(System.out));
     }
 
+    /**
+     * Returns the instance of the message writer.
+     *
+     * @return Instance of the message writer.
+     */
+    protected PrintWriter getWriter() {
+        return this.writer;
+    }
+
+    /**
+     * Defines the instance of the message writer.
+     *
+     * @param writer Instance of the message writer.
+     */
     protected void setWriter(PrintWriter writer) {
         this.writer = writer;
     }

@@ -619,6 +619,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="br/com/concepting/framework/audit/constants/AuditorConstants.html#%3Cinit%3E()" class="member-name-link">AuditorConstants()</a> - Constructor for class br.com.concepting.framework.audit.constants.<a href="br/com/concepting/framework/audit/constants/AuditorConstants.html" title="class in br.com.concepting.framework.audit.constants">AuditorConstants</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" class="type-name-link" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a> - Class in <a href="br/com/concepting/framework/audit/helpers/package-summary.html">br.com.concepting.framework.audit.helpers</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#%3Cinit%3E()" class="member-name-link">AuditorMessage()</a> - Constructor for class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html" class="type-name-link" title="class in br.com.concepting.framework.audit.model">AuditorModel</a> - Class in <a href="br/com/concepting/framework/audit/model/package-summary.html">br.com.concepting.framework.audit.model</a></dt>
 <dd>
 <div class="block">Class responsible to perform auditing.</div>
@@ -915,6 +919,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/constants/package-summary.html">br.com.concepting.framework.audit.constants</a> - package br.com.concepting.framework.audit.constants</dt>
 <dd>&nbsp;</dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/package-summary.html">br.com.concepting.framework.audit.helpers</a> - package br.com.concepting.framework.audit.helpers</dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/package-summary.html">br.com.concepting.framework.audit.model</a> - package br.com.concepting.framework.audit.model</dt>
 <dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/resources/package-summary.html">br.com.concepting.framework.audit.resources</a> - package br.com.concepting.framework.audit.resources</dt>
@@ -1161,7 +1167,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/ui/components/TreeViewPropertyComponent.html#buildAlignment()" class="member-name-link">buildAlignment()</a> - Method in class br.com.concepting.framework.ui.components.<a href="br/com/concepting/framework/ui/components/TreeViewPropertyComponent.html" title="class in br.com.concepting.framework.ui.components">TreeViewPropertyComponent</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html#buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel)" class="member-name-link">buildBusinessComplement(AuditorModel)</a> - Method in class br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></dt>
+<dt><a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html#buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel,java.lang.String%5B%5D,java.lang.Class%5B%5D,java.lang.Object%5B%5D)" class="member-name-link">buildBusinessComplement(AuditorModel, String[], Class&lt;?&gt;[], Object[])</a> - Method in class br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></dt>
 <dd>
 <div class="block">Builds the business complement.</div>
 </dd>
@@ -4557,8 +4563,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the list of validation properties.</div>
 </dd>
-<dt><a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html#getAuditor()" class="member-name-link">getAuditor()</a> - Method in class br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorComplementModel.html#getAuditor()" class="member-name-link">getAuditor()</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorComplementModel.html" title="class in br.com.concepting.framework.audit.model">AuditorComplementModel</a></dt>
 <dd>
 <div class="block">Returns the instance of the auditing.</div>
@@ -4618,6 +4622,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the method of the entity that defines the business that will be
  audited.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getBusiness()" class="member-name-link">getBusiness()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#getBusinessComplement()" class="member-name-link">getBusinessComplement()</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Returns the instance of the business complement.</div>
@@ -4626,14 +4632,20 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the identifiers of the business arguments that will be audited.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getBusinessComplementArgumentsIds()" class="member-name-link">getBusinessComplementArgumentsIds()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/Auditor.html#getBusinessComplementArgumentsTypes()" class="member-name-link">getBusinessComplementArgumentsTypes()</a> - Method in class br.com.concepting.framework.audit.<a href="br/com/concepting/framework/audit/Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a></dt>
 <dd>
 <div class="block">Returns the list of business arguments that will be audited.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getBusinessComplementArgumentsTypes()" class="member-name-link">getBusinessComplementArgumentsTypes()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/Auditor.html#getBusinessComplementArgumentsValues()" class="member-name-link">getBusinessComplementArgumentsValues()</a> - Method in class br.com.concepting.framework.audit.<a href="br/com/concepting/framework/audit/Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a></dt>
 <dd>
 <div class="block">Returns the values of the business arguments that will be audited.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getBusinessComplementArgumentsValues()" class="member-name-link">getBusinessComplementArgumentsValues()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#getBusinessId()" class="member-name-link">getBusinessId()</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Returns the identifier of the entity's business.</div>
@@ -5222,6 +5234,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the class that defines the entity that will be audited.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getEntity()" class="member-name-link">getEntity()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#getEntityId()" class="member-name-link">getEntityId()</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Returns the identifier of the entity.</div>
@@ -5329,6 +5343,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the formatting symbols of a numeric value.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getFormattedMessage()" class="member-name-link">getFormattedMessage()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/ui/components/BaseOptionPropertyComponent.html#getFormattedValue()" class="member-name-link">getFormattedValue()</a> - Method in class br.com.concepting.framework.ui.components.<a href="br/com/concepting/framework/ui/components/BaseOptionPropertyComponent.html" title="class in br.com.concepting.framework.ui.components">BaseOptionPropertyComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/ui/components/BasePropertyComponent.html#getFormattedValue()" class="member-name-link">getFormattedValue()</a> - Method in class br.com.concepting.framework.ui.components.<a href="br/com/concepting/framework/ui/components/BasePropertyComponent.html" title="class in br.com.concepting.framework.ui.components">BasePropertyComponent</a></dt>
@@ -6047,6 +6063,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the instance that contains the login session data of a user.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getLoginSession()" class="member-name-link">getLoginSession()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#getLoginSession()" class="member-name-link">getLoginSession()</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Returns the login session.</div>
@@ -7082,6 +7100,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the title of the current page.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getParameters()" class="member-name-link">getParameters()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/controller/SystemController.html#getParameters()" class="member-name-link">getParameters()</a> - Method in class br.com.concepting.framework.controller.<a href="br/com/concepting/framework/controller/SystemController.html" title="class in br.com.concepting.framework.controller">SystemController</a></dt>
 <dd>
 <div class="block">Returns the request parameters.</div>
@@ -7499,6 +7519,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the response time of the processing.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getResponseTime()" class="member-name-link">getResponseTime()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#getResponseTime()" class="member-name-link">getResponseTime()</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Returns the response time of the processing.</div>
@@ -7702,10 +7724,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the service implementation of a specific data model.</div>
 </dd>
-<dt><a href="br/com/concepting/framework/audit/appenders/PersistenceAuditorAppender.html#getService(java.lang.Class)" class="member-name-link">getService(Class&lt;M&gt;)</a> - Method in class br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/PersistenceAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">PersistenceAuditorAppender</a></dt>
-<dd>
-<div class="block">Returns the service implementation of a specific data model.</div>
-</dd>
 <dt><a href="br/com/concepting/framework/service/util/ServiceUtil.html#getServiceClassByModel(java.lang.Class)" class="member-name-link">getServiceClassByModel(Class&lt;? extends BaseModel&gt;)</a> - Static method in class br.com.concepting.framework.service.util.<a href="br/com/concepting/framework/service/util/ServiceUtil.html" title="class in br.com.concepting.framework.service.util">ServiceUtil</a></dt>
 <dd>
 <div class="block">Returns the class of the service implementation based on a data model.</div>
@@ -7864,6 +7882,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the start character for indentation.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getStartDateTime()" class="member-name-link">getStartDateTime()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#getStartDateTime()" class="member-name-link">getStartDateTime()</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Returns the date/time of the auditing.</div>
@@ -8009,6 +8029,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the node text.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#getThrowable()" class="member-name-link">getThrowable()</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/ui/components/ColorPickerPropertyComponent.html#getThumbnailHeight()" class="member-name-link">getThumbnailHeight()</a> - Method in class br.com.concepting.framework.ui.components.<a href="br/com/concepting/framework/ui/components/ColorPickerPropertyComponent.html" title="class in br.com.concepting.framework.ui.components">ColorPickerPropertyComponent</a></dt>
 <dd>
 <div class="block">Returns the height for the color thumbnail.</div>
@@ -8944,12 +8966,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="br/com/concepting/framework/ui/components/TreeViewPropertyComponent.html#initialize()" class="member-name-link">initialize()</a> - Method in class br.com.concepting.framework.ui.components.<a href="br/com/concepting/framework/ui/components/TreeViewPropertyComponent.html" title="class in br.com.concepting.framework.ui.components">TreeViewPropertyComponent</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/ui/components/UploadPropertyComponent.html#initialize()" class="member-name-link">initialize()</a> - Method in class br.com.concepting.framework.ui.components.<a href="br/com/concepting/framework/ui/components/UploadPropertyComponent.html" title="class in br.com.concepting.framework.ui.components">UploadPropertyComponent</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html#initialize(br.com.concepting.framework.audit.Auditor)" class="member-name-link">initialize(Auditor)</a> - Method in class br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="br/com/concepting/framework/audit/appenders/ConsoleAuditorAppender.html#initialize(br.com.concepting.framework.audit.Auditor)" class="member-name-link">initialize(Auditor)</a> - Method in class br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/ConsoleAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">ConsoleAuditorAppender</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="br/com/concepting/framework/audit/appenders/FileAuditorAppender.html#initialize(br.com.concepting.framework.audit.Auditor)" class="member-name-link">initialize(Auditor)</a> - Method in class br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/FileAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">FileAuditorAppender</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/network/util/Probe.html#initialize(br.com.concepting.framework.network.helpers.ProbeOptions)" class="member-name-link">initialize(ProbeOptions)</a> - Static method in class br.com.concepting.framework.network.util.<a href="br/com/concepting/framework/network/util/Probe.html" title="class in br.com.concepting.framework.network.util">Probe</a></dt>
 <dd>
@@ -12844,8 +12860,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Defines the list of auditable properties.</div>
 </dd>
-<dt><a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html#setAuditor(br.com.concepting.framework.audit.Auditor)" class="member-name-link">setAuditor(Auditor)</a> - Method in class br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/service/BaseService.html#setAuditor(br.com.concepting.framework.audit.Auditor)" class="member-name-link">setAuditor(Auditor)</a> - Method in class br.com.concepting.framework.service.<a href="br/com/concepting/framework/service/BaseService.html" title="class in br.com.concepting.framework.service">BaseService</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/service/interfaces/IService.html#setAuditor(br.com.concepting.framework.audit.Auditor)" class="member-name-link">setAuditor(Auditor)</a> - Method in interface br.com.concepting.framework.service.interfaces.<a href="br/com/concepting/framework/service/interfaces/IService.html" title="interface in br.com.concepting.framework.service.interfaces">IService</a></dt>
@@ -12889,6 +12903,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Defines the instance that contains the build information.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#setBusiness(java.lang.reflect.Method)" class="member-name-link">setBusiness(Method)</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/Auditor.html#setBusiness(java.lang.reflect.Method,java.lang.Object%5B%5D)" class="member-name-link">setBusiness(Method, Object[])</a> - Method in class br.com.concepting.framework.audit.<a href="br/com/concepting/framework/audit/Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a></dt>
 <dd>
 <div class="block">Defines the method of the entity that defines the business that will be
@@ -12898,10 +12914,16 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Defines the instance of the business complement.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#setBusinessComplementArgumentsIds(java.lang.String%5B%5D)" class="member-name-link">setBusinessComplementArgumentsIds(String[])</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/Auditor.html#setBusinessComplementArgumentsTypes(java.lang.Class%5B%5D)" class="member-name-link">setBusinessComplementArgumentsTypes(Class&lt;?&gt;[])</a> - Method in class br.com.concepting.framework.audit.<a href="br/com/concepting/framework/audit/Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a></dt>
 <dd>
 <div class="block">Defines the list of business arguments that will be audited.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#setBusinessComplementArgumentsTypes(java.lang.Class%5B%5D)" class="member-name-link">setBusinessComplementArgumentsTypes(Class&lt;?&gt;[])</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#setBusinessComplementArgumentsValues(java.lang.Object%5B%5D)" class="member-name-link">setBusinessComplementArgumentsValues(Object[])</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#setBusinessId(java.lang.String)" class="member-name-link">setBusinessId(String)</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Defines the identifier of the entity's business.</div>
@@ -13292,6 +13314,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Defines the class that defines the entity that will be audited.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#setEntity(java.lang.Class)" class="member-name-link">setEntity(Class&lt;?&gt;)</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#setEntityId(java.lang.String)" class="member-name-link">setEntityId(String)</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Defines the identifier of the entity.</div>
@@ -13376,6 +13400,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Defines the instance that contains a specific form of the system.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#setFormattedMessage(java.lang.String)" class="member-name-link">setFormattedMessage(String)</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/model/SystemModuleModel.html#setForms(java.util.Collection)" class="member-name-link">setForms(Collection&lt;? extends FormModel&gt;)</a> - Method in class br.com.concepting.framework.model.<a href="br/com/concepting/framework/model/SystemModuleModel.html" title="class in br.com.concepting.framework.model">SystemModuleModel</a></dt>
 <dd>
 <div class="block">Defines the list of the system forms.</div>
@@ -13872,6 +13898,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Defines the instance that contains the login session data of a user.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#setLoginSession(br.com.concepting.framework.security.model.LoginSessionModel)" class="member-name-link">setLoginSession(LoginSessionModel)</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#setLoginSession(br.com.concepting.framework.security.model.LoginSessionModel)" class="member-name-link">setLoginSession(LoginSessionModel)</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Defines the identifier of the login session.</div>
@@ -15043,6 +15071,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Defines the key of the resources.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#setResponseTime(java.lang.Long)" class="member-name-link">setResponseTime(Long)</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#setResponseTime(java.lang.Long)" class="member-name-link">setResponseTime(Long)</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Defines the response time of the processing.</div>
@@ -15259,6 +15289,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Defines the start character for indentation.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#setStartDateTime(br.com.concepting.framework.util.helpers.DateTime)" class="member-name-link">setStartDateTime(DateTime)</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/model/AuditorModel.html#setStartDateTime(br.com.concepting.framework.util.helpers.DateTime)" class="member-name-link">setStartDateTime(DateTime)</a> - Method in class br.com.concepting.framework.audit.model.<a href="br/com/concepting/framework/audit/model/AuditorModel.html" title="class in br.com.concepting.framework.audit.model">AuditorModel</a></dt>
 <dd>
 <div class="block">Defines the date/time of the auditing.</div>
@@ -15364,6 +15396,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Defines the node text.</div>
 </dd>
+<dt><a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html#setThrowable(java.lang.Throwable)" class="member-name-link">setThrowable(Throwable)</a> - Method in class br.com.concepting.framework.audit.helpers.<a href="br/com/concepting/framework/audit/helpers/AuditorMessage.html" title="class in br.com.concepting.framework.audit.helpers">AuditorMessage</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/ui/components/ColorPickerPropertyComponent.html#setThumbnailHeight(java.lang.String)" class="member-name-link">setThumbnailHeight(String)</a> - Method in class br.com.concepting.framework.ui.components.<a href="br/com/concepting/framework/ui/components/ColorPickerPropertyComponent.html" title="class in br.com.concepting.framework.ui.components">ColorPickerPropertyComponent</a></dt>
 <dd>
 <div class="block">Defines the height for the color thumbnail.</div>
@@ -15909,6 +15943,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="br/com/concepting/framework/util/types/BarcodeType.html#SSCC18" class="member-name-link">SSCC18</a> - Enum constant in enum class br.com.concepting.framework.util.types.<a href="br/com/concepting/framework/util/types/BarcodeType.html" title="enum class in br.com.concepting.framework.util.types">BarcodeType</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/util/types/BarcodeType.html#STANDARD_2_OF_5" class="member-name-link">STANDARD_2_OF_5</a> - Enum constant in enum class br.com.concepting.framework.util.types.<a href="br/com/concepting/framework/util/types/BarcodeType.html" title="enum class in br.com.concepting.framework.util.types">BarcodeType</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="br/com/concepting/framework/audit/appenders/ConsoleAuditorAppender.html#start()" class="member-name-link">start()</a> - Method in class br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/ConsoleAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">ConsoleAuditorAppender</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="br/com/concepting/framework/audit/appenders/FileAuditorAppender.html#start()" class="member-name-link">start()</a> - Method in class br.com.concepting.framework.audit.appenders.<a href="br/com/concepting/framework/audit/appenders/FileAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">FileAuditorAppender</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/audit/Auditor.html#start()" class="member-name-link">start()</a> - Method in class br.com.concepting.framework.audit.<a href="br/com/concepting/framework/audit/Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a></dt>
 <dd>
@@ -16887,6 +16925,10 @@ the order they are declared.</div>
 <dd>&nbsp;</dd>
 <dt><a href="br/com/concepting/framework/network/util/Probe.html#waitForTitle(java.lang.String,java.lang.Integer)" class="member-name-link">waitForTitle(String, Integer)</a> - Method in class br.com.concepting.framework.network.util.<a href="br/com/concepting/framework/network/util/Probe.html" title="class in br.com.concepting.framework.network.util">Probe</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="br/com/concepting/framework/audit/Auditor.html#warn(java.lang.String)" class="member-name-link">warn(String)</a> - Method in class br.com.concepting.framework.audit.<a href="br/com/concepting/framework/audit/Auditor.html" title="class in br.com.concepting.framework.audit">Auditor</a></dt>
+<dd>
+<div class="block">Creates a warning message.</div>
+</dd>
 <dt><a href="br/com/concepting/framework/controller/form/types/ActionFormMessageType.html#WARNING" class="member-name-link">WARNING</a> - Enum constant in enum class br.com.concepting.framework.controller.form.types.<a href="br/com/concepting/framework/controller/form/types/ActionFormMessageType.html" title="enum class in br.com.concepting.framework.controller.form.types">ActionFormMessageType</a></dt>
 <dd>
 <div class="block">Warning message.</div>

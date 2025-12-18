@@ -1,11 +1,9 @@
 package br.com.concepting.framework.audit.appenders;
 
-import br.com.concepting.framework.audit.Auditor;
 import br.com.concepting.framework.audit.constants.AuditorConstants;
 import br.com.concepting.framework.audit.model.AuditorComplementModel;
 import br.com.concepting.framework.audit.model.AuditorModel;
 import br.com.concepting.framework.exceptions.InternalErrorException;
-import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.util.ModelUtil;
@@ -49,54 +47,38 @@ public class PersistenceAuditorAppender extends BaseAuditorAppender{
         super(name);
     }
 
-    /**
-     * Returns the service implementation of a specific data model.
-     *
-     * @param <M> Class that defines the data model.
-     * @param <S> Class that defines the service implementation.
-     * @param modelClass Class that defines the data model.
-     * @return Instance that contains the service implementation of the data model.
-     * @throws InternalErrorException Occurs when was not possible to
-     * instantiate the service implementation.
-     */
-    protected <M extends BaseModel, S extends IService<M>> S getService(Class<M> modelClass) throws InternalErrorException{
-        Auditor auditor = getAuditor();
-        LoginSessionModel loginSession = auditor.getLoginSession();
-
-        return ServiceUtil.getByModelClass(modelClass, loginSession);
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public void process(LogEvent event) throws InternalErrorException{
-        AuditorModel model = getModel(event);
+        AuditorModel auditorModel = getModel(event);
         
-        if(model != null){
-            Class<AuditorModel> modelClass = (Class<AuditorModel>) model.getClass();
+        if(auditorModel != null){
+            Class<AuditorModel> modelClass = (Class<AuditorModel>) auditorModel.getClass();
+            LoginSessionModel loginSession = auditorModel.getLoginSession();
             IService<AuditorModel> auditorService = null;
             
             try{
-                auditorService = getService(modelClass);
+                auditorService = ServiceUtil.getByModelClass(modelClass, loginSession);
             }
             catch(InternalErrorException ignored){
             }
             
             if(auditorService != null){
                 try{
-                    model = auditorService.save(model);
+                    auditorModel = auditorService.save(auditorModel);
                     
                     ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
                     PropertyInfo propertyInfo = modelInfo.getPropertyInfo(AuditorConstants.BUSINESS_COMPLEMENT_ATTRIBUTE_ID);
                     
                     if(propertyInfo != null && !propertyInfo.cascadeOnSave() && propertyInfo.getMappedRelationPropertiesIds() != null && propertyInfo.getMappedRelationPropertiesIds().length > 0){
-                        Collection<AuditorComplementModel> auditorInfoComplement = model.getBusinessComplement();
+                        Collection<AuditorComplementModel> auditorInfoComplement = auditorModel.getBusinessComplement();
                         
                         if(auditorInfoComplement != null && !auditorInfoComplement.isEmpty()){
                             Class<AuditorComplementModel> collectionItemsClass = (Class<AuditorComplementModel>) propertyInfo.getCollectionItemsClass();
                             IService<AuditorComplementModel> auditorComplementService = null;
                             
                             try{
-                                auditorComplementService = getService(collectionItemsClass);
+                                auditorComplementService = ServiceUtil.getByModelClass(collectionItemsClass, loginSession);
                             }
                             catch(InternalErrorException ignored){
                             }
@@ -106,10 +88,10 @@ public class PersistenceAuditorAppender extends BaseAuditorAppender{
                         }
                     }
                 }
-                catch(ItemAlreadyExistsException | NoSuchFieldException | NoSuchMethodException ignored){
+                catch(ItemAlreadyExistsException ignored){
                 }
-                catch(IllegalArgumentException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException e1){
-                    throw new InternalErrorException(e1);
+                catch(IllegalArgumentException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException | NoSuchMethodException e){
+                    throw new InternalErrorException(e);
                 }
             }
         }

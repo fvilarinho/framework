@@ -176,15 +176,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected &lt;M extends <a href="../../model/BaseModel.html" title="class in br.com.concepting.framework.model">BaseModel</a>,<wbr>
-S extends <a href="../../service/interfaces/IService.html" title="interface in br.com.concepting.framework.service.interfaces">IService</a>&lt;M&gt;&gt;<br>S</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getService(java.lang.Class)" class="member-name-link">getService</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;M&gt;&nbsp;modelClass)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#process(org.apache.logging.log4j.core.LogEvent)" class="member-name-link">process</a><wbr>(org.apache.logging.log4j.core.LogEvent&nbsp;event)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the service implementation of a specific data model.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#process(org.apache.logging.log4j.core.LogEvent)" class="member-name-link">process</a><wbr>(org.apache.logging.log4j.core.LogEvent&nbsp;event)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Process the auditing.</div>
 </div>
 </div>
@@ -192,7 +186,7 @@ S extends <a href="../../service/interfaces/IService.html" title="interface in b
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-br.com.concepting.framework.audit.appenders.BaseAuditorAppender">Methods inherited from class&nbsp;br.com.concepting.framework.audit.appenders.<a href="BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></h3>
-<code><a href="BaseAuditorAppender.html#append(org.apache.logging.log4j.core.LogEvent)">append</a>, <a href="BaseAuditorAppender.html#buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel)">buildBusinessComplement</a>, <a href="BaseAuditorAppender.html#flush()">flush</a>, <a href="BaseAuditorAppender.html#getAuditor()">getAuditor</a>, <a href="BaseAuditorAppender.html#getModel(org.apache.logging.log4j.core.LogEvent)">getModel</a>, <a href="BaseAuditorAppender.html#getModelClass()">getModelClass</a>, <a href="BaseAuditorAppender.html#initialize(br.com.concepting.framework.audit.Auditor)">initialize</a>, <a href="BaseAuditorAppender.html#setAuditor(br.com.concepting.framework.audit.Auditor)">setAuditor</a>, <a href="BaseAuditorAppender.html#setModelClass(java.lang.String)">setModelClass</a></code></div>
+<code><a href="BaseAuditorAppender.html#append(org.apache.logging.log4j.core.LogEvent)">append</a>, <a href="BaseAuditorAppender.html#buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel,java.lang.String%5B%5D,java.lang.Class%5B%5D,java.lang.Object%5B%5D)">buildBusinessComplement</a>, <a href="BaseAuditorAppender.html#flush()">flush</a>, <a href="BaseAuditorAppender.html#getModel(org.apache.logging.log4j.core.LogEvent)">getModel</a>, <a href="BaseAuditorAppender.html#getModelClass()">getModelClass</a>, <a href="BaseAuditorAppender.html#setModelClass(java.lang.String)">setModelClass</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-org.apache.logging.log4j.core.appender.AbstractAppender">Methods inherited from class&nbsp;org.apache.logging.log4j.core.appender.AbstractAppender</h3>
 <code>error, error, error, getHandler, getLayout, getName, ignoreExceptions, parseInt, requiresLocation, setHandler, toSerializable, toString</code></div>
@@ -238,28 +232,6 @@ S extends <a href="../../service/interfaces/IService.html" title="interface in b
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="getService(java.lang.Class)">
-<h3>getService</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="type-parameters">&lt;M extends <a href="../../model/BaseModel.html" title="class in br.com.concepting.framework.model">BaseModel</a>,<wbr>
-S extends <a href="../../service/interfaces/IService.html" title="interface in br.com.concepting.framework.service.interfaces">IService</a>&lt;M&gt;&gt;</span>
-<span class="return-type">S</span>&nbsp;<span class="element-name">getService</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;M&gt;&nbsp;modelClass)</span>
-      throws <span class="exceptions"><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></span></div>
-<div class="block">Returns the service implementation of a specific data model.</div>
-<dl class="notes">
-<dt>Type Parameters:</dt>
-<dd><code>M</code> - Class that defines the data model.</dd>
-<dd><code>S</code> - Class that defines the service implementation.</dd>
-<dt>Parameters:</dt>
-<dd><code>modelClass</code> - Class that defines the data model.</dd>
-<dt>Returns:</dt>
-<dd>Instance that contains the service implementation of the data model.</dd>
-<dt>Throws:</dt>
-<dd><code><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></code> - Occurs when was not possible to
- instantiate the service implementation.</dd>
-</dl>
-</section>
-</li>
 <li>
 <section class="detail" id="process(org.apache.logging.log4j.core.LogEvent)">
 <h3>process</h3>

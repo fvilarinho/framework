@@ -9,6 +9,7 @@ import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.util.helpers.DateTime;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.apache.logging.log4j.message.Message;
 
 import java.io.Serial;
 import java.util.Collection;
@@ -37,7 +38,7 @@ import java.util.Collection;
 @Model
 @Auditable
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AuditorModel extends BaseModel{
+public class AuditorModel extends BaseModel {
     @Serial
     private static final long serialVersionUID = 4560619844140960680L;
     

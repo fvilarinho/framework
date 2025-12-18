@@ -2,6 +2,7 @@ br.com.concepting.framework.audit
 br.com.concepting.framework.audit.annotations
 br.com.concepting.framework.audit.appenders
 br.com.concepting.framework.audit.constants
+br.com.concepting.framework.audit.helpers
 br.com.concepting.framework.audit.model
 br.com.concepting.framework.audit.resources
 br.com.concepting.framework.caching
