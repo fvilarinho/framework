@@ -45,7 +45,7 @@ public class FactoryResourcesTest {
             assertEquals("h2", resources.getId());
             assertEquals("H2", resources.getType());
             assertEquals("org.h2.Driver", resources.getClazz());
-            assertEquals("jdbc:h2:mem:#{repositoryId}", resources.getUri());
+            assertEquals("jdbc:h2:mem:#{repositoryId};DATABASE_TO_UPPER=FALSE", resources.getUri());
             assertNull(resources.getOptions());
         }
         catch(InvalidResourcesException e) {

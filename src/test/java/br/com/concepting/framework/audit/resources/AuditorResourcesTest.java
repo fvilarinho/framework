@@ -17,7 +17,7 @@ public class AuditorResourcesTest {
             assertNotNull(resources);
             assertEquals("default", resources.getId());
             assertTrue(resources.isDefault());
-            assertEquals("INFO", resources.getLevel());
+            assertEquals("DEBUG", resources.getLevel());
             assertNotNull(resources.getAppenders());
             assertEquals(1, resources.getAppenders().size());
             assertEquals(ConsoleAuditorAppender.class.getName(), resources.getAppenders().iterator().next().getClazz());
