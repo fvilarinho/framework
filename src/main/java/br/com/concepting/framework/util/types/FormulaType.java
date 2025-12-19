@@ -30,22 +30,22 @@ public enum FormulaType{
     /**
      * Count values formula.
      */
-    COUNT,
+    COUNT("count"),
     
     /**
      * Sum values formula.
      */
-    SUM,
+    SUM("sum"),
     
     /**
      * Minimum values formula.
      */
-    MIN,
+    MIN("min"),
     
     /**
      * Maximum values formula.
      */
-    MAX,
+    MAX("max"),
     
     /**
      * Average values formula.

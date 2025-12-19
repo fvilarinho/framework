@@ -374,7 +374,7 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
         if(this.datasetValues != null && !this.datasetValues.isEmpty())
             this.datasetEndIndex = this.datasetValues.size();
         
-        this.hasNoData = (this.datasetValues == null || this.datasetValues.isEmpty());
+        setHasNoData(this.datasetValues == null || this.datasetValues.isEmpty());
     }
     
     /**

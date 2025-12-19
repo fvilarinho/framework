@@ -161,8 +161,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 
                 if(mainConsoleClass != null){
                     String resourcesId = ModelUtil.getResourcesIdByModel(mainConsoleClass);
-                    
-                    return getResources(resourcesId);
+
+                    setMainConsoleResources(getResources(resourcesId));
                 }
             }
         }
@@ -658,9 +658,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      */
     protected void setOnBlurActionType(ActionType onBlurActionType){
         if(onBlurActionType != null)
-            this.onBlurAction = onBlurActionType.getMethod();
+            setOnBlurAction(onBlurActionType.getMethod());
         else
-            this.onBlurAction = null;
+            setOnBlurAction(null);
     }
     
     /**
@@ -688,9 +688,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      */
     protected void setOnFocusActionType(ActionType onFocusActionType){
         if(onFocusActionType != null)
-            this.onFocusAction = onFocusActionType.getMethod();
+            setOnFocusAction(onFocusActionType.getMethod());
         else
-            this.onFocusAction = null;
+            setOnFocusAction(null);
     }
     
     /**
@@ -718,9 +718,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      */
     protected void setOnClickActionType(ActionType onClickActionType){
         if(onClickActionType != null)
-            this.onClickAction = onClickActionType.getMethod();
+            setOnClickAction(onClickActionType.getMethod());
         else
-            this.onClickAction = null;
+            setOnClickAction(null);
     }
     
     /**
@@ -749,9 +749,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      */
     protected void setOnMouseOverActionType(ActionType onMouseOverActionType){
         if(onMouseOverActionType != null)
-            this.onMouseOverAction = onMouseOverActionType.getMethod();
+            setOnMouseOverAction(onMouseOverActionType.getMethod());
         else
-            this.onMouseOverAction = null;
+            setOnMouseOverAction(null);
     }
     
     /**
@@ -780,9 +780,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      */
     protected void setOnMouseOutActionType(ActionType onMouseOutActionType){
         if(onMouseOutActionType != null)
-            this.onMouseOutAction = onMouseOutActionType.getMethod();
+            setOnMouseOutAction(onMouseOutActionType.getMethod());
         else
-            this.onMouseOutAction = null;
+            setOnMouseOutAction(null);
     }
     
     /**
@@ -923,9 +923,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      */
     protected void setLabelVerticalAlignmentType(AlignmentType labelVerticalAlignment){
         if(labelVerticalAlignment != null)
-            this.labelVerticalAlignment = labelVerticalAlignment.toString();
+            setLabelVerticalAlignment(labelVerticalAlignment.toString());
         else
-            this.labelVerticalAlignment = null;
+            setLabelVerticalAlignment(null);
     }
     
     /**
@@ -1565,22 +1565,22 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             ComponentType componentType = getComponentType();
             
             if(object != null && object.getType() != null && componentType != null && componentType.equals(object.getType())){
-                this.hasPermission = securityController.isLoginSessionAuthenticated();
+                setHasPermission(securityController.isLoginSessionAuthenticated());
                 
-                if(this.hasPermission){
+                if(hasPermission()){
                     UserModel user = loginSession.getUser();
                     Boolean superUser = user.isSuperUser();
                     
                     if(superUser != null && superUser)
-                        this.hasPermission = true;
+                        setHasPermission(true);
                     else
-                        this.hasPermission = user.hasPermission(object);
+                        setHasPermission(user.hasPermission(object));
                 }
 
                 boolean render = render();
 
                 if(render)
-                    setRender(this.hasPermission);
+                    setRender(hasPermission());
             }
         }
         
@@ -1867,14 +1867,13 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         setLabel(null);
         setLabelStyle(null);
         setLabelStyleClass(null);
-        setLabelPositionType(null);
-        setLabelAlignmentType(null);
-        setLabelVerticalAlignmentType(null);
+        setLabelPosition(null);
+        setLabelAlignment(null);
+        setLabelVerticalAlignment(null);
         setShowLabel(true);
         setTooltip(null);
         setAlignment(null);
-        setAlignmentType(null);
-        setVerticalAlignmentType(null);
+        setVerticalAlignment(null);
         setHasPermission(true);
         setOnBlurAction(null);
         setOnBlurForward(null);

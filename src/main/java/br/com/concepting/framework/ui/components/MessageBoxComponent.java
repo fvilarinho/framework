@@ -24,10 +24,9 @@ import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
-import org.apache.http.HttpStatus;
-
 import jakarta.servlet.jsp.ErrorData;
 import jakarta.servlet.jsp.JspException;
+import org.apache.http.HttpStatus;
 
 import java.io.Serial;
 import java.util.Collection;
@@ -68,8 +67,17 @@ public class MessageBoxComponent extends DialogBoxComponent{
      *
      * @param exception Instance that contains the exception.
      */
-    private void setException(Throwable exception){
+    public void setException(Throwable exception){
         this.exception = exception;
+    }
+
+    /**
+     * Returns the component exception.
+     *
+     * @return Instance that contains the exception.
+     */
+    public Throwable getException() {
+        return this.exception;
     }
     
     /**
@@ -122,8 +130,17 @@ public class MessageBoxComponent extends DialogBoxComponent{
      *
      * @param messages List that contains the messages.
      */
-    private void setMessages(Collection<String> messages){
+    public void setMessages(Collection<String> messages){
         this.messages = messages;
+    }
+
+    /**
+     * Returns the current list of messages.
+     *
+     * @return List that contains the messages.
+     */
+    public Collection<String> getMessages() {
+        return this.messages;
     }
     
     /**
@@ -154,38 +171,43 @@ public class MessageBoxComponent extends DialogBoxComponent{
             return;
         
         ActionFormMessageType messageType = getMessageType();
+        Throwable exception = getException();
         
         if(messageType == null){
-            if(this.exception == null){
-                this.exception = systemController.getCurrentException();
+            if(exception == null){
+                exception = systemController.getCurrentException();
                 
-                if(this.exception == null)
-                    this.exception = this.pageContext.getException();
-                else
-                    systemController.setCurrentException(null);
-                
-                if(this.exception != null)
-                    this.exception = ExceptionUtil.getCause(this.exception);
+                if(exception == null)
+                    exception = this.pageContext.getException();
+
+                if(exception != null)
+                    exception = ExceptionUtil.getCause(exception);
+
+                setException(exception);
+
+                systemController.setCurrentException(null);
             }
             
-            if(this.exception == null){
+            if(exception == null){
                 ErrorData errorData = this.pageContext.getErrorData();
                 
                 if(errorData != null && errorData.getStatusCode() > 0){
                     if(errorData.getStatusCode() == HttpStatus.SC_UNAUTHORIZED)
-                        this.exception = new UserNotAuthorizedException();
+                        exception = new UserNotAuthorizedException();
                     else if(errorData.getStatusCode() == HttpStatus.SC_FORBIDDEN)
-                        this.exception = new PermissionDeniedException();
+                        exception = new PermissionDeniedException();
                     else if(errorData.getStatusCode() == HttpStatus.SC_NOT_FOUND || errorData.getStatusCode() == HttpStatus.SC_NOT_ACCEPTABLE || errorData.getStatusCode() == HttpStatus.SC_METHOD_NOT_ALLOWED)
-                        this.exception = new InvalidResourcesException(errorData.getRequestURI());
+                        exception = new InvalidResourcesException(errorData.getRequestURI());
                     else if(errorData.getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR)
-                        this.exception = new InternalErrorException(errorData.getThrowable());
+                        exception = new InternalErrorException(errorData.getThrowable());
+
+                    setException(exception);
                 }
             }
             
-            if(this.exception != null){
-                if(ExceptionUtil.isExpectedException(this.exception)){
-                    if(ExceptionUtil.isExpectedWarningException(this.exception))
+            if(exception != null){
+                if(ExceptionUtil.isExpectedException(exception)){
+                    if(ExceptionUtil.isExpectedWarningException(exception))
                         messageType = ActionFormMessageType.WARNING;
                     else
                         messageType = ActionFormMessageType.ERROR;
@@ -195,26 +217,26 @@ public class MessageBoxComponent extends DialogBoxComponent{
 
                 setType(messageType.toString());
                 
-                if(ExceptionUtil.isInvalidResourceException(this.exception) || ExceptionUtil.isExpectedException(this.exception)){
+                if(ExceptionUtil.isInvalidResourceException(exception) || ExceptionUtil.isExpectedException(exception)){
                     StringBuilder resourcesKey = new StringBuilder();
                     
                     resourcesKey.append(messageType.toString().toLowerCase());
                     resourcesKey.append(".");
-                    resourcesKey.append(ExceptionUtil.getId(this.exception));
+                    resourcesKey.append(ExceptionUtil.getId(exception));
                     
                     setResourcesKey(resourcesKey.toString());
                 }
                 
-                if(this.exception.getMessage() != null && !this.exception.getMessage().isEmpty())
-                    setMessage(this.exception.getMessage());
+                if(exception.getMessage() != null && !exception.getMessage().isEmpty())
+                    setMessage(exception.getMessage());
             }
         }
         
         buildTitle();
         buildMessages();
         
-        if(ExceptionUtil.isInvalidResourceException(this.exception) || ExceptionUtil.isExpectedException(this.exception))
-            this.exception = null;
+        if(ExceptionUtil.isInvalidResourceException(exception) || ExceptionUtil.isExpectedException(exception))
+            setException(null);
     }
 
     @Override
@@ -267,16 +289,19 @@ public class MessageBoxComponent extends DialogBoxComponent{
         
         if(systemSession == null)
             return;
+
+        Throwable exception = getException();
         
-        if(this.exception != null)
-            if(!ExceptionUtil.isInvalidResourceException(this.exception) && !ExceptionUtil.isExpectedException(this.exception))
-                this.message = ExceptionUtil.getTrace(this.exception);
+        if(exception != null)
+            if(!ExceptionUtil.isInvalidResourceException(exception) && !ExceptionUtil.isExpectedException(exception))
+                setMessage(ExceptionUtil.getTrace(exception));
         
         String domain = systemSession.getId();
         Locale currentLanguage = getCurrentLanguage();
         String resourcesKey = getResourcesKey();
+        String message = getMessage();
         
-        if((resourcesKey == null || resourcesKey.isEmpty()) && (this.message == null || this.message.isEmpty())){
+        if((resourcesKey == null || resourcesKey.isEmpty()) && (message == null || message.isEmpty())){
             ActionFormController actionFormController = getActionFormController();
             Collection<ActionFormMessage> actionFormMessages = null;
             ActionFormMessageType messageType = getMessageType();
@@ -298,8 +323,8 @@ public class MessageBoxComponent extends DialogBoxComponent{
                     propertyId.append(actionFormMessage.getType().toString().toLowerCase());
                     propertyId.append(".");
                     propertyId.append(actionFormMessage.getKey());
-                    
-                    String message = (resources != null ? resources.getProperty(propertyId.toString(), false) : null);
+
+                    message = (resources != null ? resources.getProperty(propertyId.toString(), false) : null);
                     
                     if(message == null)
                         message = (defaultResources != null ? defaultResources.getProperty(propertyId.toString()) : null);
@@ -307,39 +332,53 @@ public class MessageBoxComponent extends DialogBoxComponent{
                     if(message != null && !message.isEmpty()){
                         message = ExpressionProcessorUtil.fillVariablesInString(domain, message, currentLanguage);
                         message = ActionFormMessageUtil.fillAttributesInString(actionFormMessage, message, currentLanguage);
-                        
-                        if(this.messages == null)
-                            this.messages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                        
-                        if(this.messages != null && !this.messages.contains(message))
-                            this.messages.add(message);
+
+                        Collection<String> messages = getMessages();
+
+                        if(messages == null) {
+                            messages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+
+                            setMessages(messages);
+                        }
+
+                        if(messages != null && !messages.contains(message))
+                            messages.add(message);
                     }
                 }
 
                 actionFormController.clearMessages(messageType);
+
+                message = null;
             }
         }
-        else if(resourcesKey != null && !resourcesKey.isEmpty() && (this.message == null || this.message.isEmpty())){
+        else if(resourcesKey != null && !resourcesKey.isEmpty() && (message == null || message.isEmpty())){
             PropertiesResources resources = getResources();
             PropertiesResources defaultResources = getDefaultResources();
 
-            this.message = (resources != null ? resources.getProperty(resourcesKey, false) : null);
+            message = (resources != null ? resources.getProperty(resourcesKey, false) : null);
 
-            if(this.message == null)
-                this.message = (defaultResources != null ? defaultResources.getProperty(resourcesKey) : null);
+            if(message == null)
+                message = (defaultResources != null ? defaultResources.getProperty(resourcesKey) : null);
 
-            if(this.message != null && !this.message.isEmpty()){
-                this.message = ExpressionProcessorUtil.fillVariablesInString(domain, this.message, currentLanguage);
-                this.message = PropertyUtil.fillPropertiesInString(this.exception, this.message, currentLanguage);
+            if(message != null && !message.isEmpty()){
+                message = ExpressionProcessorUtil.fillVariablesInString(domain, message, currentLanguage);
+                message = PropertyUtil.fillPropertiesInString(exception, message, currentLanguage);
+
+                setMessage(message);
             }
         }
         
-        if(this.message != null && !this.message.isEmpty()){
-            if(this.messages == null)
-                this.messages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+        if(message != null && !message.isEmpty()){
+            Collection<String> messages = getMessages();
 
-            if(this.messages != null && !this.messages.contains(this.message))
-                this.messages.add(this.message);
+            if(messages == null) {
+                messages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+
+                setMessages(messages);
+            }
+
+            if(messages != null && !messages.contains(message))
+                messages.add(message);
         }
     }
 

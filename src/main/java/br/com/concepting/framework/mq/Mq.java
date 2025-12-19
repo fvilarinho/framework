@@ -17,7 +17,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.broker.BrokerService;
 import org.apache.commons.beanutils.ConstructorUtils;
 
 import javax.jms.*;
@@ -56,7 +55,6 @@ public class Mq{
     private static Map<String, Mq> instances = null;
     
     private final MqResources resources;
-    private final BrokerService service = null;
 
     private ActiveMQConnection connection = null;
     private Session session = null;
@@ -392,12 +390,6 @@ public class Mq{
             this.session.close();
         }
         catch(Throwable ignored){
-        }
-
-        try {
-            this.service.stop();
-        }
-        catch (Throwable ignored) {
         }
     }
 }

@@ -315,7 +315,7 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
     @Override
     protected void buildRestrictions() throws InternalErrorException {
         if(getPropertyInfo() == null)
-            this.showSelection = false;
+            setShowSelection(false);
 
         super.buildRestrictions();
     }

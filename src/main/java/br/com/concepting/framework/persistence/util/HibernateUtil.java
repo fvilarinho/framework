@@ -278,7 +278,7 @@ public class HibernateUtil{
                         }
                     }
                     catch(Throwable e1){
-                        e1.printStackTrace(System.out);
+                        e1.printStackTrace(System.err);
                     }
                 }
             }

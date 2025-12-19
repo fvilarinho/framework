@@ -172,7 +172,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
         if(this.systemResources == null){
             SystemResourcesLoader loader = new SystemResourcesLoader();
             
-            this.systemResources = loader.getDefault();
+            setSystemResources(loader.getDefault());
         }
         
         return this.systemResources;
@@ -198,7 +198,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
         if(this.securityResources == null){
             SecurityResourcesLoader loader = new SecurityResourcesLoader();
             
-            this.securityResources = loader.getDefault();
+            setSecurityResources(loader.getDefault());
         }
         
         return this.securityResources;
@@ -853,7 +853,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
         }
         
         if(parentComponent != null)
-            if(this.render)
+            if(render())
                 this.render = parentComponent.render();
 
         if(this.renderWhenAuthenticated)
@@ -1048,7 +1048,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             try{
                 initialize();
                 
-                if(this.render)
+                if(render())
                     renderOpen();
             }
             catch(Throwable e){
@@ -1063,10 +1063,10 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     public int doAfterBody() throws JspException{
         if(this.systemController != null){
             try{
-                if(this.render){
+                if(render()){
                     renderBody();
                     
-                    this.hasBody = true;
+                    setHasBody(true);
                 }
             }
             catch(Throwable e){
@@ -1081,7 +1081,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     public int doEndTag() throws JspException{
         if(this.systemController != null){
             try{
-                if(this.render){
+                if(render()){
                     if(!this.hasBody)
                         renderBody();
                     

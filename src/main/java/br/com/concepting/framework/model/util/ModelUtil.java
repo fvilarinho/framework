@@ -1148,8 +1148,4 @@ public class ModelUtil{
         
         return StringUtil.replaceAll(ResourcesConstants.DEFAULT_COMMON_RESOURCES_ID, "/", ".");
     }
-
-    public static void main(String[] args) {
-        System.out.println(ModelUtil.getResourcesIdByModel(""));
-    }
 }

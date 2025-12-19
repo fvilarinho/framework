@@ -182,7 +182,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 }
                             }
                             catch (Throwable e) {
-                                e.printStackTrace(System.out);
+                                e.printStackTrace(System.err);
                             }
 
                             try {
@@ -192,9 +192,10 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                     auditor.end();
                             }
                             catch (Throwable e) {
-                                e.printStackTrace(System.out);
                                 if (auditor != null)
                                     auditor.end(e);
+                                else
+                                    e.printStackTrace(System.err);
                             }
                         }
                     }

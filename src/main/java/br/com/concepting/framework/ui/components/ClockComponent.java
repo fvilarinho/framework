@@ -46,8 +46,17 @@ public class ClockComponent extends BaseComponent{
      *
      * @param formatter Instance that contains the formatter.
      */
-    private void setFormatter(SimpleDateFormat formatter){
+    protected void setFormatter(SimpleDateFormat formatter){
         this.formatter = formatter;
+    }
+
+    /**
+     * Returns the formatter of the clock.
+     *
+     * @return Instance that contains the formatter.
+     */
+    protected SimpleDateFormat getFormatter() {
+        return this.formatter;
     }
     
     /**
@@ -73,15 +82,19 @@ public class ClockComponent extends BaseComponent{
         setComponentType(ComponentType.CLOCK);
         
         Locale currentLanguage = getCurrentLanguage();
-        
-        if(this.pattern == null || this.pattern.isEmpty()){
-            this.formatter = (SimpleDateFormat) DateFormat.getTimeInstance(DateFormat.DEFAULT, currentLanguage);
-            this.pattern = this.formatter.toPattern();
+        String pattern = getPattern();
+        SimpleDateFormat formatter;
+
+        if(pattern == null || pattern.isEmpty()){
+            formatter = (SimpleDateFormat) DateFormat.getTimeInstance(DateFormat.DEFAULT, currentLanguage);
+            pattern = formatter.toPattern();
             
-            setPattern(this.pattern);
+            setPattern(pattern);
         }
         else
-            this.formatter = new SimpleDateFormat(this.pattern, currentLanguage);
+            formatter = new SimpleDateFormat(pattern, currentLanguage);
+
+        setFormatter(formatter);
         
         super.initialize();
     }
@@ -136,7 +149,7 @@ public class ClockComponent extends BaseComponent{
 
     @Override
     protected void renderBody() throws InternalErrorException{
-        println(this.formatter.format(new Date()));
+        println(getFormatter().format(new Date()));
     }
 
     @Override
