@@ -118,23 +118,22 @@ function projectInputDialog() {
   done
 }
 
-# Opens the dialog to define the attributes of the build repository.
-function buildRepositoryDialog() {
-  # Build repository URL.
+# Opens the dialog to define the attributes of the repository.
+function repositoryDialog() {
   while "true"; do
-    BUILD_REPO_URL=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                                 --title "$TITLE" \
-                                 --inputbox "\nPlease enter the build repository URL:" \
-                                 10 \
-                                 60 \
-                                 "$BUILD_REPOSITORY_URL" 2>&1 > /dev/tty)
+    REPO_URL=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                           --title "$TITLE" \
+                           --inputbox "\nPlease enter the repository URL:" \
+                           10 \
+                           60 \
+                           "$REPO_URL" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$BUILD_REPO_URL" ]; then
+    elif [ -z "$REPO_URL" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
-                  --msgbox "\nYou must specify the build repository URL!" \
+                  --msgbox "\nYou must specify the repository URL!" \
                   7 \
                   60
     else
@@ -142,90 +141,20 @@ function buildRepositoryDialog() {
     fi
   done
 
-  # Build repository username.
   while "true"; do
-    BUILD_REPO_USERNAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                                      --title "$TITLE" \
-                                      --inputbox "\nPlease enter the build repository username:" \
-                                      10 \
-                                      60 \
-                                      "$BUILD_REPOSITORY_USERNAME" 2>&1 > /dev/tty)
+    REPO_USERNAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                                --title "$TITLE" \
+                                --inputbox "\nPlease enter the repository username:" \
+                                10 \
+                                60 \
+                                "$REPO_USERNAME" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$BUILD_REPO_USERNAME" ]; then
+    elif [ -z "$REPO_USERNAME" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
-                  --msgbox "\nYou must specify the build repository username!" \
-                  7 \
-                  60
-    else
-      break
-    fi
-  done
-
-  # Build repository password.
-  while "true"; do
-    BUILD_REPO_PASSWORD=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                                      --title "$TITLE" \
-                                      --inputbox "\nPlease enter the build repository password:" \
-                                      10 \
-                                      60 \
-                                      "$BUILD_REPOSITORY_PASSWORD" 2>&1 > /dev/tty)
-
-    if [ $? -eq 1 ]; then
-      menuDialog
-    elif [ -z "$BUILD_REPO_PASSWORD" ]; then
-      $DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                  --title "$TITLE" \
-                  --msgbox "\nYou must specify the build repository password!" \
-                  7 \
-                  60
-    else
-      break
-    fi
-  done
-}
-
-# Opens the dialog to define the attributes of the publish repository.
-function publishRepositoryDialog() {
-  # Publish repository URL.
-  while "true"; do
-    PUBLISH_REPO_URL=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                                 --title "$TITLE" \
-                                 --inputbox "\nPlease enter the publish repository URL:" \
-                                 10 \
-                                 60 \
-                                 "$PUBLISH_REPOSITORY_URL" 2>&1 > /dev/tty)
-
-    if [ $? -eq 1 ]; then
-      menuDialog
-    elif [ -z "$PUBLISH_REPO_URL" ]; then
-      $DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                  --title "$TITLE" \
-                  --msgbox "\nYou must specify the publish repository URL!" \
-                  7 \
-                  60
-    else
-      break
-    fi
-  done
-
-  # Publish repository username.
-  while "true"; do
-    PUBLISH_REPO_USERNAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                                      --title "$TITLE" \
-                                      --inputbox "\nPlease enter the publish repository username:" \
-                                      10 \
-                                      60 \
-                                      "$PUBLISH_REPOSITORY_USERNAME" 2>&1 > /dev/tty)
-
-    if [ $? -eq 1 ]; then
-      menuDialog
-    elif [ -z "$PUBLISH_REPO_USERNAME" ]; then
-      $DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                  --title "$TITLE" \
-                  --msgbox "\nYou must specify the publish repository username!" 7 60
+                  --msgbox "\nYou must specify the repository username!" 7 60
     else
       break
     fi
@@ -233,19 +162,19 @@ function publishRepositoryDialog() {
 
   # Publish repository password.
   while "true"; do
-    PUBLISH_REPO_PASSWORD=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                                      --title "$TITLE" \
-                                      --inputbox "\nPlease enter the publish repository password:" \
-                                      10 \
-                                      60 \
-                                      "$PUBLISH_REPOSITORY_PASSWORD" 2>&1 > /dev/tty)
+    REPO_PASSWORD=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                                --title "$TITLE" \
+                                --inputbox "\nPlease enter the repository password:" \
+                                10 \
+                                60 \
+                                "$REPO_PASSWORD" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$PUBLISH_REPO_PASSWORD" ]; then
+    elif [ -z "$REPO_PASSWORD" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
-                  --msgbox "\nYou must specify the publish repository password!" \
+                  --msgbox "\nYou must specify the repository password!" \
                   7 \
                   60
     else
@@ -307,7 +236,7 @@ function createProjectBanner() {
 
   if [ ! -f "$BANNER_FILENAME" ]; then
     if [ -n "$FIGLET_CMD" ]; then
-      $FIGLET_CMD -f smblock -t -W --metal "$PROJECT_NAME" > $BANNER_FILENAME
+      $FIGLET_CMD -W "$PROJECT_NAME" > $BANNER_FILENAME
 
       echo >> $BANNER_FILENAME
     fi
@@ -326,14 +255,14 @@ function createProjectEnvironment() {
   PROJECT_BUILD_ENV_FILENAME="$PROJECT_DIR/.env"
 
   if [ ! -f "$PROJECT_BUILD_ENV_FILENAME" ]; then
-    echo "BUILD_REPOSITORY_URL=$BUILD_REPO_URL" > $PROJECT_BUILD_ENV_FILENAME
-    echo "BUILD_REPOSITORY_USERNAME=$BUILD_REPO_USERNAME" >> $PROJECT_BUILD_ENV_FILENAME
-    echo "BUILD_REPOSITORY_PASSWORD=$BUILD_REPO_PASSWORD" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "FRAMEWORK_REPOSITORY_URL=$REPOSITORY_URL" > $PROJECT_BUILD_ENV_FILENAME
+    echo "FRAMEWORK_REPOSITORY_USERNAME=$REPOSITORY_USERNAME" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "FRAMEWORK_REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD" >> $PROJECT_BUILD_ENV_FILENAME
 
     echo >> $PROJECT_BUILD_ENV_FILENAME
-    echo "PUBLISH_REPOSITORY_URL=$PUBLISH_REPO_URL" >> $PROJECT_BUILD_ENV_FILENAME
-    echo "PUBLISH_REPOSITORY_USERNAME=$PUBLISH_REPO_USERNAME" >> $PROJECT_BUILD_ENV_FILENAME
-    echo "PUBLISH_REPOSITORY_PASSWORD=$PUBLISH_REPO_PASSWORD" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "REPOSITORY_URL=$REPO_URL" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "REPOSITORY_USERNAME=$REPO_USERNAME" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "REPOSITORY_PASSWORD=$REPO_PASSWORD" >> $PROJECT_BUILD_ENV_FILENAME
 
     echo >> $PROJECT_BUILD_ENV_FILENAME
     echo "SONAR_ORGANIZATION=$SONAR_ORG" >> $PROJECT_BUILD_ENV_FILENAME
@@ -398,8 +327,7 @@ function newProjectDialog() {
   TITLE="NEW PROJECT"
 
   projectInputDialog
-  buildRepositoryDialog
-  publishRepositoryDialog
+  repositoryDialog
   sonarDialog
 
   createProjectStructure

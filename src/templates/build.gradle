@@ -12,13 +12,13 @@ def environmentFile = file(".env")
 if (environmentFile.exists())
     environmentFile.withReader("UTF-8") { reader -> environment.load(reader) }
 
-def buildRepositoryUrl      = (environment.getProperty("BUILD_REPOSITORY_URL") != null ? environment.getProperty("BUILD_REPOSITORY_URL") : System.getenv("BUILD_REPOSITORY_URL"))
-def buildRepositoryUserName = (environment.getProperty("BUILD_REPOSITORY_USERNAME") != null ? environment.getProperty("BUILD_REPOSITORY_USERNAME") : System.getenv("BUILD_REPOSITORY_USERNAME"))
-def buildRepositoryPassword = (environment.getProperty("BUILD_REPOSITORY_PASSWORD") != null ? environment.getProperty("BUILD_REPOSITORY_PASSWORD") : System.getenv("BUILD_REPOSITORY_PASSWORD"))
+def frameworkRepositoryUrl      = (environment.getProperty("FRAMEWORK_REPOSITORY_URL") != null ? environment.getProperty("FRAMEWORK_REPOSITORY_URL") : System.getenv("FRAMEWORK_REPOSITORY_URL"))
+def frameworkRepositoryUserName = (environment.getProperty("FRAMEWORK_REPOSITORY_USERNAME") != null ? environment.getProperty("FRAMEWORK_REPOSITORY_USERNAME") : System.getenv("FRAMEWORK_REPOSITORY_USERNAME"))
+def frameworkRepositoryPassword = (environment.getProperty("FRAMEWORK_REPOSITORY_PASSWORD") != null ? environment.getProperty("FRAMEWORK_REPOSITORY_PASSWORD") : System.getenv("FRAMEWORK_REPOSITORY_PASSWORD"))
 
-def publishRepositoryUrl      = (environment.getProperty("PUBLISH_REPOSITORY_URL") != null ? environment.getProperty("PUBLISH_REPOSITORY_URL") : System.getenv("PUBLISH_REPOSITORY_URL"))
-def publishRepositoryUserName = (environment.getProperty("PUBLISH_REPOSITORY_USERNAME") != null ? environment.getProperty("PUBLISH_REPOSITORY_USERNAME") : System.getenv("PUBLISH_REPOSITORY_USERNAME"))
-def publishRepositoryPassword = (environment.getProperty("PUBLISH_REPOSITORY_PASSWORD") != null ? environment.getProperty("PUBLISH_REPOSITORY_PASSWORD") : System.getenv("PUBLISH_REPOSITORY_PASSWORD"))
+def repositoryUrl      = (environment.getProperty("REPOSITORY_URL") != null ? environment.getProperty("REPOSITORY_URL") : System.getenv("REPOSITORY_URL"))
+def repositoryUserName = (environment.getProperty("REPOSITORY_USERNAME") != null ? environment.getProperty("REPOSITORY_USERNAME") : System.getenv("REPOSITORY_USERNAME"))
+def repositoryPassword = (environment.getProperty("REPOSITORY_PASSWORD") != null ? environment.getProperty("REPOSITORY_PASSWORD") : System.getenv("REPOSITORY_PASSWORD"))
 
 def sonarToken        = (environment.getProperty("SONAR_TOKEN") != null ? environment.getProperty("SONAR_TOKEN") : System.getenv("SONAR_TOKEN"))
 def sonarOrganization = (environment.getProperty("SONAR_ORGANIZATION") != null ? environment.getProperty("SONAR_ORGANIZATION") : System.getenv("SONAR_ORGANIZATION"))
@@ -43,11 +43,11 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven {
-        url = "${buildRepositoryUrl}"
+        url = "${frameworkRepositoryUrl}"
 
         credentials {
-            username = "${buildRepositoryUserName}"
-            password = "${buildRepositoryPassword}"
+            username = "${frameworkRepositoryUserName}"
+            password = "${frameworkRepositoryPassword}"
         }
     }
 }
@@ -72,9 +72,9 @@ sourceSets {
 }
 
 dependencies {
-    implementation("br.com.concepting:framework:3.10.17")
+    implementation("br.com.concepting:framework:3.10.17:all")
 
-    annotationProcessor("br.com.concepting:framework:3.10.17")
+    annotationProcessor("br.com.concepting:framework:3.10.17:all")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.2.0")
@@ -103,13 +103,13 @@ tasks.register("generateCode", JavaCompile) {
 
     destinationDirectory = compileJava.destinationDirectory
 
-    classpath = configurations.runtimeClasspath + configurations.annotationProcessor
+    classpath = sourceSets.main.runtimeClasspath + configurations.runtimeClasspath + configurations.annotationProcessor
 
-    options.annotationProcessorPath = configurations.annotationProcessor
+    options.annotationProcessorPath = sourceSets.main.runtimeClasspath + configurations.runtimeClasspath + configurations.annotationProcessor
     options.compilerArgs = [
             "-proc:only",
             "-processor", "br.com.concepting.framework.processors.AnnotationProcessorFactory",
-            "-AbuildDir=" + project.projectDir + "/" + project.name,
+            "-AbuildDir=" + project.projectDir,
             "-AbuildName=" + project.name,
             "-AbuildVersion=" + version
     ]
@@ -245,11 +245,11 @@ publishing{
 
     repositories {
         maven {
-            url = "${publishRepositoryUrl}"
+            url = "${repositoryUrl}"
 
             credentials {
-                username = "${publishRepositoryUserName}"
-                password = "${publishRepositoryPassword}"
+                username = "${repositoryUserName}"
+                password = "${repositoryPassword}"
             }
         }
     }

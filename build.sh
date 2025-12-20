@@ -13,24 +13,6 @@ function checkDependencies() {
 
     exit 1
   fi
-
-  if [ -z "$BUILD_REPOSITORY_URL" ]; then
-    echo "The build repository URL is not defined! Please configure the project first!"
-
-    exit 1
-  fi
-
-  if [ -z "$BUILD_REPOSITORY_USERNAME" ]; then
-    echo "The build repository username is not defined! Please configure the project first!"
-
-    exit 1
-  fi
-
-  if [ -z "$BUILD_REPOSITORY_PASSWORD" ]; then
-    echo "The build repository password is not defined! Please configure the project first!"
-
-    exit 1
-  fi
 }
 
 # Prepares the environment to execute this script.

@@ -14,20 +14,20 @@ function checkDependencies() {
     exit 1
   fi
 
-  if [ -z "$PUBLISH_REPOSITORY_URL" ]; then
-    echo "The publish repository URL is not defined! Please configure the project first!"
+  if [ -z "$REPOSITORY_URL" ]; then
+    echo "The repository URL is not defined! Please configure the project first!"
 
     exit 1
   fi
 
-  if [ -z "$PUBLISH_REPOSITORY_USERNAME" ]; then
-    echo "The publish repository username is not defined! Please configure the project first!"
+  if [ -z "$REPOSITORY_USERNAME" ]; then
+    echo "The repository username is not defined! Please configure the project first!"
 
     exit 1
   fi
 
-  if [ -z "$PUBLISH_REPOSITORY_PASSWORD" ]; then
-    echo "The publish repository password is not defined! Please configure the project first!"
+  if [ -z "$REPOSITORY_PASSWORD" ]; then
+    echo "The repository password is not defined! Please configure the project first!"
 
     exit 1
   fi

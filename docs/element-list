@@ -46,7 +46,6 @@ br.com.concepting.framework.mq.resources
 br.com.concepting.framework.network.constants
 br.com.concepting.framework.network.helpers
 br.com.concepting.framework.network.resources
-br.com.concepting.framework.network.types
 br.com.concepting.framework.network.util
 br.com.concepting.framework.persistence
 br.com.concepting.framework.persistence.constants

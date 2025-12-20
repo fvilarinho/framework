@@ -112,6 +112,8 @@
 
 		import java.io.Serial;
 
+		import java.util.List;
+
 		/**
 		 * Class that defines the group data model.
 		 *
@@ -133,6 +135,11 @@
 		public class @{name} extends br.com.concepting.framework.security.model.GroupModel{
 			@Serial
 			private static final long serialVersionUID = @{serialVersionUID}L;
+
+			@SuppressWarnings("unchecked")
+			public List&lt;AccessModel&gt; getAccesses(){
+				return (List&lt;AccessModel&gt;)super.getAccesses();
+			}
 		}
 	</artifact>
 	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
@@ -193,7 +200,8 @@
 		 * @version @{build.version}
 		 * @since @{now}
 		 */
-		@Model(mappedProperties={
+		@Model(mappedRepositoryId="loginSession",
+		    mappedProperties={
 				@Property(propertyId="id", mappedPropertyId="id"),
 				@Property(propertyId="startDateTime", mappedPropertyId="startDateTime"),
 				@Property(propertyId="systemSession", relationClass=SystemSessionModel.class, mappedRelationPropertiesIds="systemSessionId", foreignKeyId="fk_loginSession_systemSession"),
