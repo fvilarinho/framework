@@ -1521,8 +1521,8 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 persistenceDataFilename.append(FileUtil.getDirectorySeparator());
                             }
                             else{
-                                persistenceDataFilename.append(this.build.getBaseDirname());
-                                persistenceDataFilename.append(ProjectConstants.DEFAULT_PERSISTENCE_DIR);
+                                persistenceDataFilename.append(this.build.getResourcesDirname());
+                                persistenceDataFilename.append(PersistenceConstants.DEFAULT_SQL_DIR);
                             }
                             
                             persistenceDataFilename.append(StringUtil.replaceAll(persistenceDataName.toString(), ".", FileUtil.getDirectorySeparator()));

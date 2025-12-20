@@ -1,7 +1,5 @@
 package br.com.concepting.framework.constants;
 
-import br.com.concepting.framework.resources.constants.ResourcesConstants;
-
 /**
  * Class that defines the constants used in the manipulation of the project.
  *
@@ -44,7 +42,6 @@ public final class ProjectConstants{
     public static final String DEFAULT_MODULE_MAPPING_TEMPLATE_FILE_ID = "moduleMapping.xml";
     public static final String DEFAULT_PERSISTENCE_CLASS_TEMPLATE_FILE_ID = "persistenceClass.xml";
     public static final String DEFAULT_PERSISTENCE_DATA_TEMPLATE_FILE_ID = "persistenceData.xml";
-    public static final String DEFAULT_PERSISTENCE_DIR = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("sql/");
     public static final String DEFAULT_PERSISTENCE_INTERFACE_TEMPLATE_FILE_ID = "persistenceInterface.xml";
     public static final String DEFAULT_PERSISTENCE_MAPPING_DTD_PUBLIC_ID = "-//Hibernate/Hibernate Mapping DTD 3.0//EN";
     public static final String DEFAULT_PERSISTENCE_MAPPING_DTD_SYSTEM_ID = "https://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd";
