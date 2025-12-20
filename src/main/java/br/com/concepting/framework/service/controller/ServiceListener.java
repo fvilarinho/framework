@@ -164,27 +164,25 @@ public class ServiceListener implements ServletContextListener{
                             for (File script : scripts) {
                                 try (Session connection = HibernateUtil.getSession()) {
                                     String scriptContent = FileUtil.fromTextFile(script.getAbsolutePath());
-                                    Scanner scriptScanner = new Scanner(scriptContent);
 
-                                    scriptScanner.useDelimiter(";\n");
+                                    try (Scanner scriptScanner = new Scanner(scriptContent)) {
+                                        scriptScanner.useDelimiter(";\n");
 
-                                    Transaction transaction = connection.beginTransaction();
+                                        Transaction transaction = connection.beginTransaction();
 
-                                    while (scriptScanner.hasNext()) {
-                                        String scriptCommand = scriptScanner.next();
+                                        while (scriptScanner.hasNext()) {
+                                            String scriptCommand = scriptScanner.next();
 
-                                        try {
-                                            connection.createNativeQuery(scriptCommand).executeUpdate();
+                                            try {
+                                                connection.createNativeQuery(scriptCommand).executeUpdate();
+                                            }
+                                            catch (Throwable e) {
+                                                e.printStackTrace(System.err);
+                                            }
                                         }
-                                        catch (Throwable e) {
-                                            e.printStackTrace(System.err);
-                                        }
+
+                                        transaction.commit();
                                     }
-
-                                    transaction.commit();
-                                }
-                                catch (Throwable e) {
-                                    e.printStackTrace(System.err);
                                 }
                             }
                         }
