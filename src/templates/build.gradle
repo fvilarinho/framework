@@ -12,23 +12,23 @@ def environmentFile = file(".env")
 if (environmentFile.exists())
     environmentFile.withReader("UTF-8") { reader -> environment.load(reader) }
 
-def frameworkRepositoryUrl      = (environment.getProperty("FRAMEWORK_REPOSITORY_URL") != null ? environment.getProperty("FRAMEWORK_REPOSITORY_URL") : System.getenv("FRAMEWORK_REPOSITORY_URL"))
+def frameworkRepositoryUrl = (environment.getProperty("FRAMEWORK_REPOSITORY_URL") != null ? environment.getProperty("FRAMEWORK_REPOSITORY_URL") : System.getenv("FRAMEWORK_REPOSITORY_URL"))
 def frameworkRepositoryUserName = (environment.getProperty("FRAMEWORK_REPOSITORY_USERNAME") != null ? environment.getProperty("FRAMEWORK_REPOSITORY_USERNAME") : System.getenv("FRAMEWORK_REPOSITORY_USERNAME"))
 def frameworkRepositoryPassword = (environment.getProperty("FRAMEWORK_REPOSITORY_PASSWORD") != null ? environment.getProperty("FRAMEWORK_REPOSITORY_PASSWORD") : System.getenv("FRAMEWORK_REPOSITORY_PASSWORD"))
 
-def repositoryUrl      = (environment.getProperty("REPOSITORY_URL") != null ? environment.getProperty("REPOSITORY_URL") : System.getenv("REPOSITORY_URL"))
+def repositoryUrl = (environment.getProperty("REPOSITORY_URL") != null ? environment.getProperty("REPOSITORY_URL") : System.getenv("REPOSITORY_URL"))
 def repositoryUserName = (environment.getProperty("REPOSITORY_USERNAME") != null ? environment.getProperty("REPOSITORY_USERNAME") : System.getenv("REPOSITORY_USERNAME"))
 def repositoryPassword = (environment.getProperty("REPOSITORY_PASSWORD") != null ? environment.getProperty("REPOSITORY_PASSWORD") : System.getenv("REPOSITORY_PASSWORD"))
 
-def sonarToken        = (environment.getProperty("SONAR_TOKEN") != null ? environment.getProperty("SONAR_TOKEN") : System.getenv("SONAR_TOKEN"))
+def sonarToken = (environment.getProperty("SONAR_TOKEN") != null ? environment.getProperty("SONAR_TOKEN") : System.getenv("SONAR_TOKEN"))
 def sonarOrganization = (environment.getProperty("SONAR_ORGANIZATION") != null ? environment.getProperty("SONAR_ORGANIZATION") : System.getenv("SONAR_ORGANIZATION"))
-def sonarProjectKey   = sonarOrganization + "_" + rootProject.name
+def sonarProjectKey = sonarOrganization + "_" + rootProject.name
 
 jacoco {
     toolVersion = "0.8.13"
 }
 
-group   = "${buildPackage}"
+group = "${buildPackage}"
 version = "${buildVersion}"
 
 sonar {
@@ -82,20 +82,20 @@ dependencies {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.encoding    = "UTF-8"
+    options.encoding = "UTF-8"
     options.deprecation = true
-    options.release     = 21
+    options.release = 21
 }
 
 tasks.withType(Jar).configureEach {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    includeEmptyDirs   = false
-    zip64              = true
+    includeEmptyDirs = false
+    zip64 = true
 }
 
 tasks.withType(ProcessResources).configureEach {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    includeEmptyDirs   = false
+    includeEmptyDirs = false
 }
 
 tasks.register("generateCode", JavaCompile) {
@@ -118,8 +118,8 @@ tasks.register("generateCode", JavaCompile) {
 tasks.register("allJar", Jar) {
     archiveClassifier = "all"
 
-    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     from(sourceSets.main.output)
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 tasks.register("modelJar", Jar) {
@@ -187,7 +187,7 @@ tasks.register("coreJar", Jar) {
     }
 }
 
-javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+javadoc.options.addStringOption("Xdoclint:none", "-quiet")
 
 javadoc {
     destinationDir = file("docs")
@@ -229,17 +229,17 @@ war {
 
 publishing{
     publications{
-        mavenJava(MavenPublication){
-            artifact jar
-            artifact allJar
-            artifact coreJar
-            artifact resourcesJar
-            artifact modelJar
-            artifact persistenceJar
-            artifact serviceJar
-            artifact controllerJar
-            artifact uiJar
-            artifact javadocJar
+        mavenJava(MavenPublication) {
+            artifact(jar)
+            artifact(allJar)
+            artifact(coreJar)
+            artifact(resourcesJar)
+            artifact(modelJar)
+            artifact(persistenceJar)
+            artifact(serviceJar)
+            artifact(controllerJar)
+            artifact(uiJar)
+            artifact(javadocJar)
         }
     }
 
