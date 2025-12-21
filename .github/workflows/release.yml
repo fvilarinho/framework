@@ -33,5 +33,4 @@ jobs:
       run: ./codeAnalysis.sh
 
     - name: Publish
-      if: contains(github.event.files, 'gradle.properties')
       run: ./publish.sh
