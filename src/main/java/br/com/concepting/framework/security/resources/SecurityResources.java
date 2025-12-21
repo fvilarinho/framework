@@ -1,5 +1,6 @@
 package br.com.concepting.framework.security.resources;
 
+import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.resources.BaseResources;
 import br.com.concepting.framework.security.constants.SecurityConstants;
 import br.com.concepting.framework.security.model.LoginSessionModel;
@@ -89,15 +90,17 @@ public class SecurityResources extends BaseResources<XmlNode>{
      *
      * @param loginSessionClassName String that contains the identifier of the
      * login session class.
-     * @throws ClassNotFoundException Occurs when was not possible to execute
-     * the operation.
-     * @throws ClassCastException Occurs when was not possible to execute the
-     * operation.
+     * @throws InternalErrorException Occurs when was not able to load the class.
      */
     @SuppressWarnings("unchecked")
-    public void setLoginSessionClass(String loginSessionClassName) throws ClassNotFoundException, ClassCastException{
-        if(loginSessionClassName != null && !loginSessionClassName.isEmpty())
-            setLoginSessionClass((Class<? extends LoginSessionModel>) Class.forName(loginSessionClassName));
+    public void setLoginSessionClass(String loginSessionClassName) throws InternalErrorException {
+        try {
+            if (loginSessionClassName != null && !loginSessionClassName.isEmpty())
+                setLoginSessionClass((Class<? extends LoginSessionModel>) Class.forName(loginSessionClassName));
+        }
+        catch(Throwable e){
+            throw new InternalErrorException(e);
+        }
     }
     
     /**

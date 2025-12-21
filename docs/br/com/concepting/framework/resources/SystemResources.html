@@ -360,18 +360,14 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setMainConsoleClass(java.lang.String)">
 <h3>setMainConsoleClass</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMainConsoleClass</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mainConsoleClassName)</span>
-                         throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassNotFoundException.html" title="class or interface in java.lang" class="external-link">ClassNotFoundException</a>,
-<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassCastException.html" title="class or interface in java.lang" class="external-link">ClassCastException</a></span></div>
+                         throws <span class="exceptions"><a href="../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></span></div>
 <div class="block">Defines the class that defines the main console data model.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>mainConsoleClassName</code> - String that contains the identifier of the
  main console data model.</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassNotFoundException.html" title="class or interface in java.lang" class="external-link">ClassNotFoundException</a></code> - Occurs when was not possible to
- instantiate the class.</dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassCastException.html" title="class or interface in java.lang" class="external-link">ClassCastException</a></code> - Occurs when was not possible to instantiate
- the class.</dd>
+<dd><code><a href="../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></code> - Occurs when was not able to load the class.</dd>
 </dl>
 </section>
 </li>

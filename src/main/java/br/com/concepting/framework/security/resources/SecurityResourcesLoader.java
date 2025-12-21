@@ -1,6 +1,7 @@
 package br.com.concepting.framework.security.resources;
 
 import br.com.concepting.framework.constants.Constants;
+import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.resources.XmlResourcesLoader;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.constants.SecurityConstants;
@@ -67,36 +68,37 @@ public class SecurityResourcesLoader extends XmlResourcesLoader<SecurityResource
             XmlNode classNode = loginSessionNode.getNode(Constants.CLASS_ATTRIBUTE_ID);
             
             if(classNode != null){
-                if(classNode.getValue() == null || classNode.getValue().isEmpty())
-                    throw new InvalidResourcesException(resourcesDirname, resourcesId, classNode.getText());
-                
-                try{
-                    resources.setLoginSessionClass(classNode.getValue());
+                if(classNode.getValue() != null && !classNode.getValue().isEmpty()) {
+                    try {
+                        resources.setLoginSessionClass(classNode.getValue());
+                    }
+                    catch(InternalErrorException ignored){
+                        throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), loginSessionNode.getText());
+                    }
                 }
-                catch(ClassNotFoundException | ClassCastException e){
-                    throw new InvalidResourcesException(resourcesDirname, resourcesId, classNode.getText(), e);
-                }
+                else
+                    throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), loginSessionNode.getText());
             }
-            
+
             XmlNode timeoutNode = loginSessionNode.getNode(Constants.TIMEOUT_ATTRIBUTE_ID);
             
             if(timeoutNode != null){
-                if(timeoutNode.getValue() == null || timeoutNode.getValue().isEmpty())
-                    throw new InvalidResourcesException(resourcesDirname, resourcesId, timeoutNode.getText());
-                
                 try{
-                    resources.setLoginSessionTimeout(NumberUtil.parseInt(timeoutNode.getValue()));
+                    if(timeoutNode.getValue() != null && !timeoutNode.getValue().isEmpty())
+                        resources.setLoginSessionTimeout(NumberUtil.parseInt(timeoutNode.getValue()));
+                    else
+                        resources.setLoginSessionTimeout(SecurityConstants.DEFAULT_LOGIN_SESSION_TIMEOUT);
                 }
                 catch(ParseException e){
                     throw new InvalidResourcesException(resourcesDirname, resourcesId, timeoutNode.getText(), e);
                 }
             }
             else
-                resources.setLoginSessionTimeout(SecurityConstants.DEFAULT_LOGIN_SESSION_TIMEOUT);
+                throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), loginSessionNode.getText());
         }
         else
-            throw new InvalidResourcesException(resourcesDirname, resourcesId, resourcesNode.getText());
-        
+            throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), resourcesNode.getText());
+
         XmlNode cryptographyNode = resourcesNode.getNode(SecurityConstants.CRYPTOGRAPHY_ATTRIBUTE_ID);
         
         if(cryptographyNode != null){

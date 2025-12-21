@@ -164,11 +164,12 @@ public class ContextListener implements ServletContextListener{
                             for (File script : scripts) {
                                 try (Session connection = HibernateUtil.getSession()) {
                                     String scriptContent = FileUtil.fromTextFile(script.getAbsolutePath());
+                                    Transaction transaction = null;
 
                                     try (Scanner scriptScanner = new Scanner(scriptContent)) {
                                         scriptScanner.useDelimiter(";\n");
 
-                                        Transaction transaction = connection.beginTransaction();
+                                        transaction = connection.beginTransaction();
 
                                         while (scriptScanner.hasNext()) {
                                             String scriptCommand = scriptScanner.next();
@@ -176,15 +177,22 @@ public class ContextListener implements ServletContextListener{
                                             try {
                                                 connection.createNativeQuery(scriptCommand).executeUpdate();
                                             }
-                                            catch (Throwable e) {
-                                                e.printStackTrace(System.err);
+                                            catch (Throwable ignored) {
                                             }
                                         }
-
-                                        transaction.commit();
                                     }
                                     catch (Throwable e) {
                                         e.printStackTrace(System.err);
+
+                                        if(transaction != null && transaction.isActive()) {
+                                            transaction.rollback();
+
+                                            transaction = null;
+                                        }
+                                    }
+                                    finally{
+                                        if(transaction != null && transaction.isActive())
+                                            transaction.commit();
                                     }
                                 }
                                 catch (Throwable e) {

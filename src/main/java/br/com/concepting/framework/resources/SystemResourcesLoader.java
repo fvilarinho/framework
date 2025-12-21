@@ -3,6 +3,7 @@ package br.com.concepting.framework.resources;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.constants.SystemConstants;
 import br.com.concepting.framework.controller.form.constants.ActionFormConstants;
+import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.service.constants.ServiceConstants;
 import br.com.concepting.framework.util.LanguageUtil;
@@ -66,28 +67,27 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
 
         XmlNode mainConsoleNode = resourcesNode.getNode(SystemConstants.MAIN_CONSOLE_ATTRIBUTE_ID);
 
-        try {
-            if (mainConsoleNode != null) {
-                XmlNode classNode = mainConsoleNode.getNode(Constants.CLASS_ATTRIBUTE_ID);
+        if (mainConsoleNode != null) {
+            XmlNode classNode = mainConsoleNode.getNode(Constants.CLASS_ATTRIBUTE_ID);
 
-                if (classNode != null) {
-                    String value = classNode.getValue();
+            if (classNode != null) {
+                String value = classNode.getValue();
 
-                    if (value != null && !value.isEmpty())
-                        resources.setMainConsoleClass(classNode.getValue());
-                    else
-                        resources.setMainConsoleClass(SystemConstants.DEFAULT_MAIN_CONSOLE_CLASS);
+                if (value != null && !value.isEmpty()) {
+                    try {
+                        resources.setMainConsoleClass(value);
+                    }
+                    catch(InternalErrorException ignored){
+                        throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), mainConsoleNode.getText());
+                    }
                 }
                 else
-                    resources.setMainConsoleClass(SystemConstants.DEFAULT_MAIN_CONSOLE_CLASS);
+                    throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), mainConsoleNode.getText());
             }
-            else
-                resources.setMainConsoleClass(SystemConstants.DEFAULT_MAIN_CONSOLE_CLASS);
         }
-        catch(ClassNotFoundException | ClassCastException e){
-            throw new InvalidResourcesException(resourcesDirname, resourcesId, e);
-        }
-        
+        else
+            throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), resourcesNode.getText());
+
         XmlNode skinsNode = resourcesNode.getNode(SystemConstants.SKINS_ATTRIBUTE_ID);
         
         if(skinsNode == null)

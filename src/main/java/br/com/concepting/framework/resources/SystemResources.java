@@ -2,6 +2,7 @@ package br.com.concepting.framework.resources;
 
 import br.com.concepting.framework.common.model.MainConsoleModel;
 import br.com.concepting.framework.constants.Constants;
+import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
@@ -110,15 +111,17 @@ public class SystemResources extends BaseResources<XmlNode>{
      *
      * @param mainConsoleClassName String that contains the identifier of the
      * main console data model.
-     * @throws ClassNotFoundException Occurs when was not possible to
-     * instantiate the class.
-     * @throws ClassCastException Occurs when was not possible to instantiate
-     * the class.
+     * @throws InternalErrorException Occurs when was not able to load the class.
      */
     @SuppressWarnings("unchecked")
-    public void setMainConsoleClass(String mainConsoleClassName) throws ClassNotFoundException, ClassCastException{
-        if(mainConsoleClassName != null && !mainConsoleClassName.isEmpty())
-            setMainConsoleClass((Class<? extends MainConsoleModel>) Class.forName(mainConsoleClassName));
+    public void setMainConsoleClass(String mainConsoleClassName) throws InternalErrorException {
+        try {
+            if(mainConsoleClassName != null && !mainConsoleClassName.isEmpty())
+                setMainConsoleClass((Class<? extends MainConsoleModel>) Class.forName(mainConsoleClassName));
+        }
+        catch(Throwable e) {
+            throw new InternalErrorException(e);
+        }
     }
     
     /**

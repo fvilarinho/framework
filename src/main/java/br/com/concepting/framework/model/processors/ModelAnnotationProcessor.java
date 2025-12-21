@@ -1742,7 +1742,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
         
         Class<? extends BaseModel> modelClass = this.modelInfo.getClazz();
         
-        if(modelClass != null && (modelClass.getSuperclass().equals(LoginSessionModel.class) || modelClass.getSuperclass().equals(MainConsoleModel.class))){
+        if(modelClass != null && (modelClass.equals(LoginSessionModel.class) || modelClass.getSuperclass().equals(LoginSessionModel.class))){
             try{
                 StringBuilder securityResourcesFilename = new StringBuilder();
                 
@@ -1992,7 +1992,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             
             Class<? extends BaseModel> modelClass = this.modelInfo.getClazz();
             
-            if(modelClass != null && (modelClass.getSuperclass().equals(MainConsoleModel.class))){
+            if(modelClass != null && (modelClass.equals(MainConsoleModel.class) || modelClass.getSuperclass().equals(MainConsoleModel.class))){
                 XmlNode mainConsoleNode = systemResourceContentNode.getNode(SystemConstants.MAIN_CONSOLE_ATTRIBUTE_ID);
                 
                 if(mainConsoleNode == null){
