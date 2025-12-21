@@ -1,4 +1,4 @@
-name: Framework CI/CD pipeline
+name: Framework CI/CD build pipeline
 
 on:
   push:
@@ -11,7 +11,6 @@ on:
 
 jobs:
   run:
-    name: Build
     env:
       REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
       REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
