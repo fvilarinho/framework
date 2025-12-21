@@ -28,17 +28,28 @@ You can also report a bug or request a new feature.
 
 Build Status
 ============
-- Latest version: 3.10.16
+- Stable version: 3.10.16
 - Development version: 3.10.17
 
-[![CI/CD](https://github.com/fvilarinho/framework/actions/workflows/pipelines.yml/badge.svg?branch=master)](https://github.com/fvilarinho/framework/actions/workflows/pipelines.yml)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=fvilarinho_framework&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fvilarinho_framework&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=fvilarinho_framework&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
+[![Build status](https://github.com/fvilarinho/framework/actions/workflows/build.yml/badge.svg)](https://github.com/fvilarinho/framework/actions/workflows/build.yml)
+[![Release status](https://github.com/fvilarinho/framework/actions/workflows/release.yml/badge.svg)](https://github.com/fvilarinho/framework/actions/workflows/release.yml)
+
+[![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
 
 Installation
 ============
 The pre-requisites to use this framework are:
 
-1. [Java Development Kit 21 or higher](https://openjdk.org/projects/jdk/21/)
-2. [Gradle 9.x](https://gradle.org/install/)
+For stable version:
+1. [Java Development Kit 11](https://openjdk.org/projects/jdk/11/)
+2. [Gradle 6.x](https://gradle.org/)
+
+For development version:
+1. [Java Development Kit 21](https://openjdk.org/projects/jdk/21/)
+2. [Gradle 9.x](https://gradle.org/)
 
 To start using the framework, you should clone the project and then import it into your preferable IDE.
 After the cloning, you can choose the version that you want to work.
