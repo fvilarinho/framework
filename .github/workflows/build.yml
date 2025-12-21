@@ -1,0 +1,37 @@
+name: Framework CI/CD pipeline
+
+on:
+  push:
+    branches:
+      - '*'
+    paths-ignore:
+      - '*.md'
+      - 'LICENSE'
+      - 'docs/**'
+
+jobs:
+  run:
+    name: Build
+    env:
+      REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
+      REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
+      REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download project files
+      uses: actions/checkout@v5
+
+    - name: Set up JDK
+      uses: actions/setup-java@v5
+      with:
+        distribution: corretto
+        java-version: 21
+
+    - name: Build and Test
+      run: ./build.sh
+
+    - name: Code Analysis
+      run: ./codeAnalysis.sh

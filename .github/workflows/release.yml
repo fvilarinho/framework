@@ -2,16 +2,12 @@ name: Framework CI/CD pipeline
 
 on:
   push:
-    branches: 
+    tags:
       - '*'
-    paths-ignore:
-      - '*.md'
-      - 'LICENSE'
-      - 'docs/**'
 
 jobs:
   run:
-    name: Jobs
+    name: Release
     env:
       REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
       REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
