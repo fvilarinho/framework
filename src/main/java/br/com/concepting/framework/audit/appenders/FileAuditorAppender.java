@@ -1,5 +1,10 @@
 package br.com.concepting.framework.audit.appenders;
 
+import br.com.concepting.framework.audit.model.AuditorModel;
+import br.com.concepting.framework.exceptions.InternalErrorException;
+import br.com.concepting.framework.model.util.ModelUtil;
+import org.apache.logging.log4j.core.LogEvent;
+
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
@@ -59,11 +64,27 @@ public class FileAuditorAppender extends ConsoleAuditorAppender{
         super.start();
 
         try {
-            if(this.filename != null && !this.filename.isEmpty() && getWriter() == null)
+            if(this.filename != null && !this.filename.isEmpty())
                 setWriter(new PrintWriter(new FileOutputStream(this.filename, true)));
         }
         catch(Throwable e){
             e.printStackTrace(System.err);
         }
     }
+
+    @Override
+    protected void process(LogEvent event) throws InternalErrorException {
+        try {
+            AuditorModel auditorModel = getModel(event);
+
+            if(this.filename != null && !this.filename.isEmpty()) {
+                getWriter().print(ModelUtil.toAuditableString(auditorModel));
+                getWriter().println(",");
+            }
+        }
+        catch (Throwable e) {
+            throw new InternalErrorException(e);
+        }
+    }
+
 }

@@ -183,20 +183,25 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the filename.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFilename(java.lang.String)" class="member-name-link">setFilename</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;filename)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#process(org.apache.logging.log4j.core.LogEvent)" class="member-name-link">process</a><wbr>(org.apache.logging.log4j.core.LogEvent&nbsp;event)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Defines the filename.</div>
+<div class="block">Process the auditing.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFilename(java.lang.String)" class="member-name-link">setFilename</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;filename)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Defines the filename.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#start()" class="member-name-link">start</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-br.com.concepting.framework.audit.appenders.ConsoleAuditorAppender">Methods inherited from class&nbsp;br.com.concepting.framework.audit.appenders.<a href="ConsoleAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">ConsoleAuditorAppender</a></h3>
-<code><a href="ConsoleAuditorAppender.html#flush()">flush</a>, <a href="ConsoleAuditorAppender.html#getWriter()">getWriter</a>, <a href="ConsoleAuditorAppender.html#process(org.apache.logging.log4j.core.LogEvent)">process</a>, <a href="ConsoleAuditorAppender.html#setWriter(java.io.PrintWriter)">setWriter</a></code></div>
+<code><a href="ConsoleAuditorAppender.html#flush()">flush</a>, <a href="ConsoleAuditorAppender.html#getWriter()">getWriter</a>, <a href="ConsoleAuditorAppender.html#setWriter(java.io.PrintWriter)">setWriter</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-br.com.concepting.framework.audit.appenders.BaseAuditorAppender">Methods inherited from class&nbsp;br.com.concepting.framework.audit.appenders.<a href="BaseAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">BaseAuditorAppender</a></h3>
 <code><a href="BaseAuditorAppender.html#append(org.apache.logging.log4j.core.LogEvent)">append</a>, <a href="BaseAuditorAppender.html#buildBusinessComplement(br.com.concepting.framework.audit.model.AuditorModel,java.lang.String%5B%5D,java.lang.Class%5B%5D,java.lang.Object%5B%5D)">buildBusinessComplement</a>, <a href="BaseAuditorAppender.html#getModel(org.apache.logging.log4j.core.LogEvent)">getModel</a>, <a href="BaseAuditorAppender.html#getModelClass()">getModelClass</a>, <a href="BaseAuditorAppender.html#setModelClass(java.lang.String)">setModelClass</a></code></div>
@@ -276,6 +281,24 @@ loadScripts(document, 'script');</script>
 <dd><code>start</code>&nbsp;in interface&nbsp;<code>org.apache.logging.log4j.core.LifeCycle</code></dd>
 <dt>Overrides:</dt>
 <dd><code><a href="ConsoleAuditorAppender.html#start()">start</a></code>&nbsp;in class&nbsp;<code><a href="ConsoleAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">ConsoleAuditorAppender</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="process(org.apache.logging.log4j.core.LogEvent)">
+<h3>process</h3>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">process</span><wbr><span class="parameters">(org.apache.logging.log4j.core.LogEvent&nbsp;event)</span>
+                throws <span class="exceptions"><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></span></div>
+<div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="BaseAuditorAppender.html#process(org.apache.logging.log4j.core.LogEvent)">BaseAuditorAppender</a></code></span></div>
+<div class="block">Process the auditing.</div>
+<dl class="notes">
+<dt>Overrides:</dt>
+<dd><code><a href="ConsoleAuditorAppender.html#process(org.apache.logging.log4j.core.LogEvent)">process</a></code>&nbsp;in class&nbsp;<code><a href="ConsoleAuditorAppender.html" title="class in br.com.concepting.framework.audit.appenders">ConsoleAuditorAppender</a></code></dd>
+<dt>Parameters:</dt>
+<dd><code>event</code> - Instance that contains the properties of the event.</dd>
+<dt>Throws:</dt>
+<dd><code><a href="../../exceptions/InternalErrorException.html" title="class in br.com.concepting.framework.exceptions">InternalErrorException</a></code> - Occurs when was not possible to process
+ the auditing.</dd>
 </dl>
 </section>
 </li>
