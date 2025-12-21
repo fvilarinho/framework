@@ -5,7 +5,6 @@ import br.com.concepting.framework.caching.Cacher;
 import br.com.concepting.framework.caching.CacherManager;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.exceptions.InternalErrorException;
-import br.com.concepting.framework.model.annotations.Model;
 import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
 import br.com.concepting.framework.persistence.constants.PersistenceConstants;
@@ -24,10 +23,11 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.dialect.*;
 import org.hibernate.jdbc.Work;
 
-import java.io.InputStream;
+import java.io.File;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.Enumeration;
 import java.util.Map;
 
 /**
@@ -209,7 +209,7 @@ public class HibernateUtil{
         String persistencePassword = persistenceResources.getPassword();
         
         persistenceFactoryUrl = PropertyUtil.fillPropertiesInString(persistenceResources, persistenceFactoryUrl);
-        
+
         BasicDataSource datasource = new BasicDataSource();
         
         datasource.setDriverClassName(persistenceFactoryClass);
@@ -251,42 +251,42 @@ public class HibernateUtil{
         }
         catch(ItemNotFoundException e){
             MetadataSources sources = new MetadataSources(new StandardServiceRegistryBuilder().applySettings(buildSessionProperties(persistenceResources)).build());
-            Collection<String> mappings = persistenceResources.getMappings();
-            
-            if(mappings != null && !mappings.isEmpty()){
-                StringBuilder persistenceMappingName = null;
-                
-                for(String mapping: mappings){
-                    try{
-                        Class<?> modelClass = Class.forName(mapping);
-                        Model modelAnnotation = modelClass.getAnnotation(Model.class);
-                        
-                        if(modelAnnotation.mappedRepositoryId() != null && !modelAnnotation.mappedRepositoryId().isEmpty() && (modelAnnotation.persistenceResourcesId() == null || modelAnnotation.persistenceResourcesId().isEmpty() || modelAnnotation.persistenceResourcesId().equals(persistenceResources.getId()))){
-                            if(persistenceMappingName == null)
-                                persistenceMappingName = new StringBuilder();
-                            else
-                                persistenceMappingName.delete(0, persistenceMappingName.length());
-                            
-                            persistenceMappingName.append(PersistenceConstants.DEFAULT_MAPPINGS_DIR);
-                            persistenceMappingName.append(modelClass.getName());
-                            persistenceMappingName.append(PersistenceConstants.DEFAULT_MAPPING_FILE_EXTENSION);
 
-                            InputStream persistenceMappingStream = HibernateUtil.class.getClassLoader().getResourceAsStream(persistenceMappingName.toString());
-                            
-                            if(persistenceMappingStream != null)
-                                sources.addInputStream(persistenceMappingStream);
+            try {
+                Enumeration<URL> mappingsEnumeration = HibernateUtil.class.getClassLoader().getResources(PersistenceConstants.DEFAULT_MAPPINGS_DIR);
+
+                while (mappingsEnumeration.hasMoreElements()) {
+                    try {
+                        URL mappingsUrl = mappingsEnumeration.nextElement();
+                        File mappingsDirectory = new File(mappingsUrl.toURI());
+
+                        if (mappingsDirectory.exists() && mappingsDirectory.isDirectory() && mappingsDirectory.canRead()) {
+                            File[] mappings = mappingsDirectory.listFiles();
+
+                            if (mappings != null) {
+                                for (File mapping : mappings) {
+                                    try {
+                                        if (mapping.exists() && mapping.canRead())
+                                            sources.addFile(mapping);
+                                    } catch (Throwable e1) {
+                                        e1.printStackTrace(System.err);
+                                    }
+                                }
+                            }
                         }
-                    }
-                    catch(Throwable e1){
+                    } catch (Throwable e1) {
                         e1.printStackTrace(System.err);
                     }
                 }
             }
-            
+            catch(Throwable e1){
+                e1.printStackTrace(System.err);
+            }
+
             Metadata metadata = sources.getMetadataBuilder().build();
-            
+
             sessionFactory = metadata.getSessionFactoryBuilder().build();
-            
+
             object = new CachedObject<>();
             object.setId(persistenceResources.getId());
             object.setContent(sessionFactory);

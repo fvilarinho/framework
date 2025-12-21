@@ -3,7 +3,6 @@ package br.com.concepting.framework.util;
 import br.com.concepting.framework.audit.annotations.Auditable;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.controller.form.constants.ActionFormConstants;
-import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.annotations.Model;
 import br.com.concepting.framework.model.annotations.Property;
@@ -16,7 +15,6 @@ import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.persistence.constants.PersistenceConstants;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.persistence.types.RelationType;
-import br.com.concepting.framework.processors.ExpressionProcessor;
 import br.com.concepting.framework.resources.PropertiesResources;
 import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.helpers.DateTime;
@@ -1359,7 +1357,6 @@ public class PropertyUtil {
         if (value != null && !value.isEmpty() && instance != null) {
             Pattern pattern = Pattern.compile("#\\{(.*?)(\\((.*?)\\))?}");
             Matcher matcher = pattern.matcher(value);
-            ExpressionProcessor expressionProcessor = new ExpressionProcessor(instance, language);
 
             if (language == null)
                 language = LanguageUtil.getDefaultLanguage();
@@ -1368,55 +1365,53 @@ public class PropertyUtil {
                 String propertyExpression = matcher.group();
                 String propertyName = matcher.group(1);
                 String propertyPattern = matcher.group(3);
-                String propertyExpressionBuffer;
-
-                if (propertyPattern != null && !propertyPattern.isEmpty()) {
-                    propertyExpressionBuffer = StringUtil.replaceAll(propertyExpression, propertyPattern, "");
-                    propertyExpressionBuffer = StringUtil.replaceAll(propertyExpressionBuffer, "(", "");
-                    propertyExpressionBuffer = StringUtil.replaceAll(propertyExpressionBuffer, ")", "");
-                } else
-                    propertyExpressionBuffer = propertyExpression;
 
                 try {
-                    Object propertyValue = expressionProcessor.evaluate(propertyExpressionBuffer);
+                    boolean useAdditionalFormatting = false;
+                    int precision = 0;
+                    Object propertyValue;
 
-                    if (propertyValue != null || replaceNotFoundMatches) {
-                        boolean useAdditionalFormatting = false;
-                        int precision = 0;
+                    if(propertyName.equals("declaration") || propertyName.equals("this"))
+                        propertyValue = instance;
+                    else {
+                        propertyValue = getValue(instance, propertyName);
 
-                        if (propertyPattern == null || propertyPattern.isEmpty()) {
-                            try {
-                                PropertyInfo propertyInfo = getInfo(instance.getClass(), propertyName);
+                        if (propertyValue != null || replaceNotFoundMatches) {
+                            if (propertyPattern == null || propertyPattern.isEmpty()) {
+                                try {
+                                    PropertyInfo propertyInfo = getInfo(instance.getClass(), propertyName);
 
-                                propertyPattern = propertyInfo.getPattern();
+                                    propertyPattern = propertyInfo.getPattern();
 
-                                if (propertyInfo.isDate())
-                                    useAdditionalFormatting = propertyInfo.isTime();
-                                else if (propertyInfo.isNumber()) {
-                                    useAdditionalFormatting = propertyInfo.useGroupSeparator();
-                                    precision = propertyInfo.getPrecision();
+                                    if (propertyInfo.isDate())
+                                        useAdditionalFormatting = propertyInfo.isTime();
+                                    else if (propertyInfo.isNumber()) {
+                                        useAdditionalFormatting = propertyInfo.useGroupSeparator();
+                                        precision = propertyInfo.getPrecision();
+                                    }
                                 }
-                            } catch (NoSuchFieldException ignored) {
+                                catch (NoSuchFieldException ignored) {
+                                }
                             }
                         }
-
-                        String buffer = null;
-
-                        if (propertyValue != null) {
-                            if (propertyPattern != null && !propertyPattern.isEmpty())
-                                buffer = format(propertyValue, propertyPattern, language);
-                            else
-                                buffer = format(propertyValue, useAdditionalFormatting, precision, language);
-
-                            if (escapeCrlf)
-                                buffer = buffer.replaceAll(StringUtil.getLineBreak(), "\\\\n");
-                        }
-
-                        value = StringUtil.replaceAll(value, propertyExpression, buffer);
                     }
-                } catch (IllegalArgumentException | NoSuchMethodException | IllegalAccessException |
-                         InvocationTargetException | InstantiationException | ClassNotFoundException |
-                         InternalErrorException ignored) {
+
+                    String buffer = null;
+
+                    if (propertyValue != null) {
+                        if (propertyPattern != null && !propertyPattern.isEmpty())
+                            buffer = format(propertyValue, propertyPattern, language);
+                        else
+                            buffer = format(propertyValue, useAdditionalFormatting, precision, language);
+
+                        if (escapeCrlf)
+                            buffer = buffer.replaceAll(StringUtil.getLineBreak(), "\\\\n");
+                    }
+
+                    value = StringUtil.replaceAll(value, propertyExpression, buffer);
+                }
+                catch (IllegalArgumentException | NoSuchMethodException | IllegalAccessException |
+                         InvocationTargetException | InstantiationException | ClassNotFoundException ignored) {
                 }
             }
         }

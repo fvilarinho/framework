@@ -187,16 +187,16 @@ function repositoryDialog() {
 function sonarDialog() {
   # Sonar organization.
   while "true"; do
-    SONAR_ORG=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                            --title "$TITLE" \
-                            --inputbox "\nPlease enter the sonar organization:" \
-                            10 \
-                            60 \
-                            "$SONAR_ORGANIZATION" 2>&1 > /dev/tty)
+    SONAR_ORGANIZATION=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                                     --title "$TITLE" \
+                                     --inputbox "\nPlease enter the sonar organization:" \
+                                     10 \
+                                     60 \
+                                     "$SONAR_ORGANIZATION" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$SONAR_ORG" ]; then
+    elif [ -z "$SONAR_ORGANIZATION" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
                   --msgbox "\nYou must specify the sonar organization!" \
@@ -209,16 +209,16 @@ function sonarDialog() {
 
   # Sonar token.
   while "true"; do
-    SONAR_TOK=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                            --title "$TITLE" \
-                            --inputbox "\nPlease enter the sonar organization:" \
-                            10 \
-                            60 \
-                            "$SONAR_TOKEN" 2>&1 > /dev/tty)
+    SONAR_TOKEN=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                              --title "$TITLE" \
+                              --inputbox "\nPlease enter the sonar organization:" \
+                              10 \
+                              60 \
+                              "$SONAR_TOKEN" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$SONAR_TOK" ]; then
+    elif [ -z "$SONAR_TOKEN" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
                   --msgbox "\nYou must specify the sonar token!" \

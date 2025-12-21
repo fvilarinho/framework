@@ -3,7 +3,6 @@ package br.com.concepting.framework.processors;
 import br.com.concepting.framework.caching.CachedObject;
 import br.com.concepting.framework.caching.Cacher;
 import br.com.concepting.framework.caching.CacherManager;
-import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
 import br.com.concepting.framework.util.LanguageUtil;
@@ -245,35 +244,12 @@ public class ExpressionProcessorUtil{
         if(value != null && !value.isEmpty()){
             Pattern pattern = Pattern.compile("@\\{(.*?)(\\((.*?)\\))?}");
             Matcher matcher = pattern.matcher(value);
-            ExpressionProcessor expressionProcessor = new ExpressionProcessor(domain, language);
-            
+
             while(matcher.find()){
                 String variableExpression = matcher.group();
+                String variableName = matcher.group(1);
                 String variablePattern = matcher.group(3);
-                String variableExpressionBuffer;
-                Object variableValue;
-
-                try{
-                    if(variablePattern != null && !variablePattern.isEmpty()){
-                        variableExpressionBuffer = StringUtil.replaceAll(variableExpression, variablePattern, "");
-                        variableExpressionBuffer = StringUtil.replaceAll(variableExpressionBuffer, "(", "");
-                        variableExpressionBuffer = StringUtil.replaceAll(variableExpressionBuffer, ")", "");
-                    }
-                    else
-                        variableExpressionBuffer = variableExpression;
-                    
-                    variableValue = expressionProcessor.evaluate(variableExpressionBuffer);
-                    
-                    if(variableValue == null && !replaceNotFoundMatches)
-                        continue;
-                }
-                catch(InternalErrorException e){
-                    if(replaceNotFoundMatches)
-                        variableValue = null;
-                    else
-                        continue;
-                }
-                
+                Object variableValue = getVariable(domain, variableName);
                 String buffer = null;
                 
                 if(variableValue != null){

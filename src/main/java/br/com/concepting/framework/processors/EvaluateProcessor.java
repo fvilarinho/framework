@@ -1,5 +1,6 @@
 package br.com.concepting.framework.processors;
 
+import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.processors.constants.ProcessorConstants;
 import br.com.concepting.framework.util.LanguageUtil;
@@ -11,7 +12,7 @@ import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.jexl3.*;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -211,7 +212,7 @@ public class EvaluateProcessor extends GenericProcessor{
     public <O> O evaluate() throws InternalErrorException{
         return evaluate(this.value);
     }
-    
+
     /**
      * Evaluates the expression.
      *
@@ -228,8 +229,13 @@ public class EvaluateProcessor extends GenericProcessor{
 
         try{
             JexlContext context = new MapContext();
+            Object declaration = getDeclaration();
+
+            context.set("declaration", declaration);
+
+            String valueBuffer = value;
             Pattern pattern = Pattern.compile("^new (.+)\\((.*?)\\)$");
-            Matcher matcher = pattern.matcher(value);
+            Matcher matcher = pattern.matcher(valueBuffer);
 
             if(matcher.find()){
                 String clazzId = matcher.group(1);
@@ -254,87 +260,129 @@ public class EvaluateProcessor extends GenericProcessor{
 
                 Class<?> clazz = Class.forName(clazzId);
 
-                return (O) ConstructorUtils.invokeConstructor(clazz, parametersValues);
+                return (O)ConstructorUtils.invokeConstructor(clazz, parametersValues);
             }
 
-            pattern = Pattern.compile("^(not|!)? ?((.+)\\((.*?)\\))$");
-            matcher = pattern.matcher(value);
+            pattern = Pattern.compile("^([a-zA-Z0-9.]+|[#{a-zA-Z0-9.}]+|[@{a-zA-Z0-9.}]+).([a-zA-Z0-9]+)\\((.*?)\\)$");
+            matcher = pattern.matcher(valueBuffer);
 
             if(matcher.find()){
-                String command = matcher.group(3);
-                int pos = command.lastIndexOf(".");
+                String command = matcher.group();
+                String instanceId = null;
+                Object instance = null;
+                String methodsIds = null;
 
-                if(pos >= 0) {
-                    String instanceId = command.substring(0, pos);
-                    String methodId = command.substring(pos + 1);
-                    Object instance;
+                if(command.startsWith("#{") || command.startsWith("@{")) {
+                    int pos = command.indexOf("}.");
 
-                    if(instanceId.startsWith("#{") || instanceId.startsWith("@{")) {
-                        if(instanceId.startsWith("#{")) {
-                            instanceId = StringUtil.replaceAll(instanceId,"#{", "");
-                            instanceId = StringUtil.replaceAll(instanceId,"}", "");
+                    if(pos >= 0) {
+                        instanceId = command.substring(0, pos + 1);
+                        methodsIds = command.substring(pos + 2);
 
-                            if(instanceId.equals("declaration"))
-                                instance = getDeclaration();
-                            else
-                                instance = PropertyUtil.getValue(getDeclaration(), instanceId);
-                        }
-                        else{
-                            instanceId = StringUtil.replaceAll(instanceId,"@{", "");
-                            instanceId = StringUtil.replaceAll(instanceId,"}", "");
+                        if (instanceId.startsWith("@{")) {
+                            instanceId = StringUtil.replaceAll(instanceId, "@{", "");
+                            instanceId = StringUtil.replaceAll(instanceId, "}", "");
 
                             instance = getVariable(instanceId);
+                        } else {
+                            instanceId = StringUtil.replaceAll(instanceId, "#{", "");
+                            instanceId = StringUtil.replaceAll(instanceId, "}", "");
+
+                            if (instanceId.equals("declaration"))
+                                instance = declaration;
+                            else
+                                instance = PropertyUtil.getValue(declaration, instanceId);
                         }
-                    }
-                    else {
-                        Class<?> clazz = Class.forName(instanceId);
-
-                        instance = clazz.getDeclaredConstructor().newInstance();
-                    }
-
-                    String parametersId = matcher.group(4);
-                    String[] parameters = StringUtil.split(parametersId);
-                    Object[] parametersValues = (parameters != null && parameters.length > 0 ? new Object[parameters.length] : null);
-
-                    if(parameters != null && parameters.length > 0){
-                        for(int cont = 0; cont < parameters.length; cont++){
-                            String parameter = parameters[cont];
-
-                            if(!parameter.isEmpty() && ((parameter.startsWith("'") && parameter.endsWith("'")) || (parameter.startsWith("\"") && parameter.endsWith("\"")))){
-                                parameter = StringUtil.replaceAll(parameter, "'", "");
-                                parameter = StringUtil.replaceAll(parameter, "\"", "");
-                            }
-
-                            Object parameterValue = evaluate(parameter);
-
-                            parametersValues[cont] = parameterValue;
-                        }
-                    }
-
-                    try {
-                        Object result = (O) MethodUtils.invokeMethod(instance, methodId, parametersValues);
-
-                        context.set("declaration", result);
-
-                        String valueBuffer = StringUtil.replaceAll(matcher.group(), matcher.group(2), "declaration");
-
-                        JexlExpression expression = engine.createExpression(valueBuffer);
-
-                        return (O) expression.evaluate(context);
-                    }
-                    catch(NullPointerException e) {
-                        return null;
                     }
                 }
+                else {
+                    int pos = command.indexOf("(");
+
+                    if (pos >= 0) {
+                        String instanceBuffer = command.substring(0, pos);
+
+                        pos = instanceBuffer.lastIndexOf(".");
+
+                        if (pos >= 0) {
+                            instanceId = instanceBuffer.substring(0, pos);
+                            methodsIds = StringUtil.replaceAll(command, instanceId.concat("."), "");
+
+                            Class<?> clazz = Class.forName(instanceId);
+
+                            instance = clazz.getDeclaredConstructor().newInstance();
+                        }
+                    }
+                }
+
+                if(methodsIds != null && !methodsIds.isEmpty()) {
+                    String methodsIdsBuffer = methodsIds;
+                    Collection<String> methods = null;
+
+                    while (methodsIdsBuffer != null && !methodsIdsBuffer.isEmpty()) {
+                        int pos = methodsIdsBuffer.indexOf(").");
+
+                        if (methods == null)
+                            methods = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+
+                        if (pos >= 0) {
+                            if (methods != null)
+                                methods.add(methodsIdsBuffer.substring(0, pos + 1));
+
+                            methodsIdsBuffer = methodsIdsBuffer.substring(pos + 2);
+                        } else {
+                            if (methods != null)
+                                methods.add(methodsIdsBuffer);
+
+                            methodsIdsBuffer = null;
+                        }
+                    }
+
+                    if (methods != null && !methods.isEmpty()) {
+                        for (String method : methods) {
+                            pattern = Pattern.compile("^(.+)\\((.*?)\\)$");
+                            matcher = pattern.matcher(method);
+
+                            if (matcher.find()) {
+                                String methodId = matcher.group(1);
+                                String parametersId = matcher.group(2);
+                                String[] parameters = StringUtil.split(parametersId);
+                                Object[] parametersValues = (parameters != null && parameters.length > 0 ? new Object[parameters.length] : null);
+
+                                if (parameters != null && parameters.length > 0) {
+                                    for (int cont = 0; cont < parameters.length; cont++) {
+                                        String parameter = parameters[cont];
+
+                                        if (!parameter.isEmpty() && ((parameter.startsWith("'") && parameter.endsWith("'")) || (parameter.startsWith("\"") && parameter.endsWith("\"")))) {
+                                            parameter = StringUtil.replaceAll(parameter, "'", "");
+                                            parameter = StringUtil.replaceAll(parameter, "\"", "");
+                                        }
+
+                                        Object parameterValue = evaluate(parameter);
+
+                                        parametersValues[cont] = parameterValue;
+                                    }
+                                }
+
+                                try {
+                                    instance = (O) MethodUtils.invokeMethod(instance, methodId, parametersValues);
+
+                                    if (instance == null)
+                                        break;
+                                } catch (NullPointerException e) {
+                                    return null;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return (O)instance;
             }
 
-            Object declaration = getDeclaration();
-            String valueBuffer = value;
-
             pattern = Pattern.compile("#\\{(.*?)}|@\\{(.*?)}");
-            matcher = pattern.matcher(value);
+            matcher = pattern.matcher(valueBuffer);
 
-            if(matcher.find()) {
+            if(matcher.find()){
                 do {
                     String tokenExpression = matcher.group();
                     String tokenName = (tokenExpression.startsWith("#{") ? matcher.group(1) : matcher.group(2));
@@ -342,14 +390,12 @@ public class EvaluateProcessor extends GenericProcessor{
 
                     if (tokenName != null && !tokenName.isEmpty()) {
                         if (tokenExpression.contains("#{")) {
+
                             if (!tokenName.equals("declaration")) {
-                                tokenName = StringUtil.replaceAll(tokenName, "declaration.", "");
                                 tokenValue = PropertyUtil.getValue(declaration, tokenName);
 
                                 context.set(tokenName, tokenValue);
                             }
-                            else
-                                context.set("declaration", declaration);
                         }
                         else if (tokenExpression.contains("@{")) {
                             tokenValue = getVariable(tokenName);
@@ -362,28 +408,19 @@ public class EvaluateProcessor extends GenericProcessor{
                 }
                 while (matcher.find());
 
-                JexlExpression expression = engine.createExpression(valueBuffer);
+                try {
+                    JexlExpression expression = engine.createExpression(valueBuffer);
 
-                return (O) expression.evaluate(context);
-            }
-
-            pattern = Pattern.compile("^(not|!)? ?(true|false|[0-9]+) ?(\\+|-|\\*|/|%|&+|\\|+)? ?(not|!)? ?(true|false|[0-9]+)?$");
-            matcher = pattern.matcher(valueBuffer);
-
-            if(matcher.find()) {
-                JexlExpression expression = engine.createExpression(valueBuffer);
-
-                return (O) expression.evaluate(context);
-            }
-
-            if(!valueBuffer.isEmpty() && ((valueBuffer.startsWith("'") && valueBuffer.endsWith("'")) || (valueBuffer.startsWith("\"") && valueBuffer.endsWith("\"")))) {
-                valueBuffer = StringUtil.replaceAll(valueBuffer, "'", "");
-                valueBuffer = StringUtil.replaceAll(valueBuffer, "\"", "");
+                    return (O) expression.evaluate(context);
+                }
+                catch(Throwable e) {
+                    return (O)valueBuffer;
+                }
             }
 
             return (O)valueBuffer;
         }
-        catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException | ClassNotFoundException e){
+        catch(IllegalAccessException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException  e){
             throw new InternalErrorException(e);
         }
     }

@@ -7,14 +7,9 @@
 	          name="UserModel">
 		package @{packageName};
 		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
-	    <set var="groupModelClassName" value="@{packageName}.concat('.GroupModel')"/>	          
-	    <set var="loginParameterModelClassName" value="@{packageName}.concat('.LoginParameterModel')"/>
-	    
+
 		import br.com.concepting.framework.model.annotations.Model;
 		import br.com.concepting.framework.model.annotations.Property;
-		
-		import @{groupModelClassName};
-		import @{loginParameterModelClassName};
 
 		import java.io.Serial;
 		
@@ -99,16 +94,12 @@
 	          name="GroupModel">
 		package @{packageName};
 		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
-	    <set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
 	    <set var="objectModelClassName" value="@{packagePrefix}.concat('.model.ObjectModel')"/>
-		<set var="accessModelClassName" value="@{packageName}.concat('.AccessModel')"/>
-		
+
 		import br.com.concepting.framework.model.annotations.Model;
 		import br.com.concepting.framework.model.annotations.Property;
 		
 		import @{objectModelClassName};
-		import @{userModelClassName};
-		import @{accessModelClassName};
 
 		import java.io.Serial;
 
@@ -182,14 +173,12 @@
 		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 	    <set var="systemSessionModelClassName" value="@{packagePrefix}.concat('.model.SystemSessionModel')"/>
 	    <set var="systemModuleModelClassName" value="@{packagePrefix}.concat('.model.SystemModuleModel')"/>
-	    <set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
-	    
+
 		import br.com.concepting.framework.model.annotations.Model;
 		import br.com.concepting.framework.model.annotations.Property;
 		
 		import @{systemSessionModelClassName};
 		import @{systemModuleModelClassName};
-		import @{userModelClassName};
 
 		import java.io.Serial;
 
@@ -220,17 +209,12 @@
 	          name="UserAdminModel">
 		package @{packageName};
 		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
-	    <set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
-	    <set var="groupModelClassName" value="@{packageName}.concat('.GroupModel')"/>
-	    
+
 	    import java.util.Collection;
 	    
 		import br.com.concepting.framework.model.BaseModel;
 		import br.com.concepting.framework.model.annotations.Model;
 		import br.com.concepting.framework.model.annotations.Property;
-		
-		import @{userModelClassName};
-		import @{groupModelClassName};
 
 		import java.io.Serial;
 
@@ -338,10 +322,7 @@
 		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
 	    <set var="urlModelClassName" value="@{packagePrefix}.concat('.model.UrlModel')"/>
 	    <set var="objectModelClassName" value="@{packagePrefix}.concat('.model.ObjectModel')"/>
-		<set var="userModelClassName" value="@{packageName}.concat('.UserModel')"/>
-	    <set var="groupModelClassName" value="@{packageName}.concat('.GroupModel')"/>
-	    <set var="accessModelClassName" value="@{packageName}.concat('.AccessModel')"/>
-	    
+
 	    import java.util.Collection;
 	    
 		import br.com.concepting.framework.model.BaseModel;
@@ -350,9 +331,6 @@
 		
 		import @{urlModelClassName};
 		import @{objectModelClassName};
-		import @{userModelClassName};
-		import @{groupModelClassName};
-		import @{accessModelClassName};
 
 		import java.io.Serial;
 
@@ -521,14 +499,9 @@
 	          name="SystemModuleModel">
 		package @{packageName};
 		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
-	    <set var="formModelClassName" value="@{packageName}.concat('.FormModel')"/>
-	    <set var="urlModelClassName" value="@{packageName}.concat('.UrlModel')"/>
-	    
+
 		import br.com.concepting.framework.model.annotations.Model;
 		import br.com.concepting.framework.model.annotations.Property;
-		
-		import @{formModelClassName};
-		import @{urlModelClassName};
 
 		import java.io.Serial;
 
@@ -565,19 +538,14 @@
 	          name="FormModel">
 		package @{packageName};
 		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
-	    <set var="objectModelClassName" value="@{packageName}.concat('.ObjectModel')"/>	          
-		<set var="systemModuleModelClassName" value="@{packageName}.concat('.SystemModuleModel')"/>
-		
+
 		import br.com.concepting.framework.model.annotations.Model;
 		import br.com.concepting.framework.model.annotations.Property;
-		
-		import @{objectModelClassName};
-		import @{systemModuleModelClassName};
 
 		import java.io.Serial;
 
 		/**
-		 * Class thar defines the form data model.
+		 * Class that defines the form data model.
 		 *
 		 * @author @{user.name}
 		 * @version @{build.version}
@@ -603,7 +571,6 @@
 	          name="ObjectModel">
 		package @{packageName};
 		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
-		<set var="formModelClassName" value="@{packageName}.concat('.FormModel')"/>
 	    <set var="groupModelClassName" value="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"/>
 	    <set var="groupModelClassName" value="@{groupModelClassName}.concat('.security.model.GroupModel')"/>
 	    	          
@@ -612,7 +579,6 @@
 		import br.com.concepting.framework.persistence.types.RelationType;
 		import br.com.concepting.framework.util.types.SortOrderType;
 		
-		import @{formModelClassName};
 		import @{groupModelClassName};
 
 		import java.io.Serial;
