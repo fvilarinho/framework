@@ -8,7 +8,6 @@ import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
 
 import java.io.Serial;
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -44,39 +43,7 @@ public class PersistenceResources extends BaseResources<XmlNode>{
     private String password = null;
     private FactoryResources factoryResources = null;
     private Map<String, String> options = null;
-    private Collection<String> mappings = null;
-    
-    /**
-     * Returns the list with the mappings of the data models.
-     *
-     * @return Instance that contains the list with the mappings.
-     */
-    public Collection<String> getMappings(){
-        return this.mappings;
-    }
-    
-    /**
-     * Defines the list with the mappings of the data models.
-     *
-     * @param mappings Instance that contains the list with the mappings.
-     */
-    public void setMappings(Collection<String> mappings){
-        this.mappings = mappings;
-    }
-    
-    /**
-     * Add a mapping of a data model.
-     *
-     * @param mapping String that contains the mapping.
-     */
-    public void addMapping(String mapping){
-        if(this.mappings == null)
-            this.mappings = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-        if(this.mappings != null)
-            this.mappings.add(mapping);
-    }
-    
     /**
      * Returns the identifier of the instance.
      *

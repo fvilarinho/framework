@@ -201,8 +201,6 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     }
                 }
             }
-            
-            updatePersistenceResources();
         }
     }
     
@@ -1156,64 +1154,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             throw new InternalErrorException(e);
         }
     }
-    
-    /**
-     * Updates the persistence resources.
-     *
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
-     */
-    private void updatePersistenceResources() throws InternalErrorException{
-        try{
-            StringBuilder persistenceResourcesFilename = new StringBuilder();
 
-            persistenceResourcesFilename.append(this.build.getResourcesDirname());
-            persistenceResourcesFilename.append(FileUtil.getDirectorySeparator());
-            persistenceResourcesFilename.append(PersistenceConstants.DEFAULT_RESOURCES_ID);
-            
-            File persistenceResourcesFile = new File(persistenceResourcesFilename.toString());
-            XmlReader persistenceResourcesReader = new XmlReader(persistenceResourcesFile);
-            XmlNode persistenceResourcesNode = persistenceResourcesReader.getRoot();
-            XmlNode persistenceResourcesMappingsNode = persistenceResourcesNode.getNode(PersistenceConstants.MAPPINGS_ATTRIBUTE_ID);
-            
-            if(persistenceResourcesMappingsNode != null)
-                persistenceResourcesNode.removeChild(persistenceResourcesMappingsNode);
-            
-            persistenceResourcesMappingsNode = new XmlNode(PersistenceConstants.MAPPINGS_ATTRIBUTE_ID);
-            
-            StringBuilder persistenceMappingDirName = new StringBuilder();
-            
-            persistenceMappingDirName.append(this.build.getResourcesDirname());
-            persistenceMappingDirName.append(FileUtil.getDirectorySeparator());
-            persistenceMappingDirName.append(PersistenceConstants.DEFAULT_MAPPINGS_DIR);
-            
-            File persistenceMappingDir = new File(persistenceMappingDirName.toString());
-            
-            if(!persistenceMappingDir.exists())
-                persistenceMappingDir.mkdirs();
-
-            File[] persistenceMappingFiles = persistenceMappingDir.listFiles();
-
-            if(persistenceMappingFiles != null){
-                for(File persistenceMappingFile: persistenceMappingFiles){
-                    String modelClassName = StringUtil.replaceAll(persistenceMappingFile.getName(), PersistenceConstants.DEFAULT_MAPPING_FILE_EXTENSION, "");
-                    XmlNode persistenceResourcesMappingNode = new XmlNode(PersistenceConstants.MAPPING_ATTRIBUTE_ID, modelClassName);
-
-                    persistenceResourcesMappingsNode.addChild(persistenceResourcesMappingNode);
-                }
-            }
-
-            persistenceResourcesNode.addChild(persistenceResourcesMappingsNode);
-            
-            XmlWriter persistenceResourcesWriter = new XmlWriter(persistenceResourcesFile, persistenceResourcesReader.getDocumentType(), persistenceResourcesReader.getEncoding());
-            
-            persistenceResourcesWriter.write(persistenceResourcesNode);
-        }
-        catch(DocumentException | IOException e){
-            throw new InternalErrorException(e);
-        }
-    }
-    
     /**
      * Generates the service class.
      *

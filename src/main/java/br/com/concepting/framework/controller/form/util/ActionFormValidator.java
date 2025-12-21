@@ -396,6 +396,8 @@ public class ActionFormValidator{
                         ContentType[] propertyContentTypes = propertyInfo.getContentTypes();
                         
                         processContentTypeValidation(propertyName, propertyContentType, propertyContentTypes);
+
+                        break;
                     }
                     case CONTENT_SIZE:{
                         ByteMetricType propertyContentSizeUnit = propertyInfo.getContentSizeUnit();
@@ -775,7 +777,7 @@ public class ActionFormValidator{
      * @throws InternalErrorException Occurs when an internal error exception was caught.
      */
     protected void processWordCountValidation(String propertyName, String propertyValue, int propertyWordCount) throws ExpectedException, InternalErrorException{
-        if(propertyName != null && !propertyName.isEmpty() & propertyValue != null && !propertyValue.isEmpty() && propertyWordCount > 0){
+        if(propertyName != null && !propertyName.isEmpty() && propertyValue != null && !propertyValue.isEmpty() && propertyWordCount > 0){
             String[] words = StringUtil.split(propertyValue, " ");
             
             if(words.length < propertyWordCount){
