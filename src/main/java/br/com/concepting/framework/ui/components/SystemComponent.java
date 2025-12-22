@@ -63,7 +63,6 @@ public class SystemComponent extends BaseComponent{
         if(systemModule != null && systemModule.getId() != null && systemModule.getId() > 0 && systemModule.getActive() != null && systemModule.getActive() && systemResources != null && securityResources != null && systemController != null){
             UserModel user = loginSession.getUser();
             LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
-            String action = systemController.getParameterValue(ActionFormConstants.ACTION_ATTRIBUTE_ID);
             Class<? extends BaseModel> modelClass;
             String actionMethod;
             StringBuilder url = new StringBuilder();
@@ -92,11 +91,7 @@ public class SystemComponent extends BaseComponent{
             }
             else{
                 modelClass = securityResources.getLoginSessionClass();
-                
-                if(action != null && action.equals(SecurityConstants.DEFAULT_SEND_FORGOTTEN_PASSWORD_ID))
-                    actionMethod = ActionType.REFRESH.getMethod();
-                else
-                    actionMethod = ActionType.INIT.getMethod();
+                actionMethod = ActionType.REFRESH.getMethod();
             }
             
             if(modelClass != null){
