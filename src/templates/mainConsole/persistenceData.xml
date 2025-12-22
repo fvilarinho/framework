@@ -33,15 +33,16 @@
 		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (5, '/common/mainConsole*action=changeCurrentLanguage*');
 		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (6, '/common/mainConsole*action=changeCurrentSkin*');
 		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (7, '/security/loginSession*action=init*');
-		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (8, '/security/loginSession*action=refresh*');
-		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (9, '/security/loginSession*action=logIn*');
-		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (10, '/security/loginSession*action=validateMfaToken*');
-		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (11, '/security/loginSession*action=loadForgotPassword*');
-		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (12, '/security/loginSession*action=rememberUserAndPassword*');
-		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (13, '/security/loginSession*action=sendForgottenPassword*');
-		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (14, '/webServices/security/loginSession/logIn');
-		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (15, '/webServices/security/loginSession/validateMfaToken');
-		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (16, '/webServices/security/loginSession/sendForgottenPassword');
+		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (8, '/security/loginSession*action=back*');
+		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (9, '/security/loginSession*action=refresh*');
+		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (10, '/security/loginSession*action=logIn*');
+		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (11, '/security/loginSession*action=validateMfaToken*');
+		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (12, '/security/loginSession*action=loadForgotPassword*');
+		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (13, '/security/loginSession*action=rememberUserAndPassword*');
+		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (14, '/security/loginSession*action=sendForgottenPassword*');
+		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (15, '/webServices/security/loginSession/logIn');
+		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (16, '/webServices/security/loginSession/validateMfaToken');
+		insert into @{openQuote}@{urlModelInfo.mappedRepositoryId}@{closeQuote} (id, path) values (17, '/webServices/security/loginSession/sendForgottenPassword');
 		
 		insert into @{openQuote}@{accessModelInfo.mappedRepositoryId}@{closeQuote} (id, urlId, blocked) values (1, 1, false);
 
@@ -84,5 +85,6 @@
 		insert into @{openQuote}@{urlPropertyInfo.mappedRelationRepositoryId}@{closeQuote} (systemModuleId, urlId) values (1, 14);
 		insert into @{openQuote}@{urlPropertyInfo.mappedRelationRepositoryId}@{closeQuote} (systemModuleId, urlId) values (1, 15);
 		insert into @{openQuote}@{urlPropertyInfo.mappedRelationRepositoryId}@{closeQuote} (systemModuleId, urlId) values (1, 16);
+		insert into @{openQuote}@{urlPropertyInfo.mappedRelationRepositoryId}@{closeQuote} (systemModuleId, urlId) values (1, 17);
 	</artifact>
 </artifacts>
