@@ -145,6 +145,7 @@ public class PageComponent extends BaseComponent{
             
             println("</head>");
             println("<body>");
+            println("<div class=\"container\">");
             
             renderLoadingBox();
             renderPageShade();
@@ -161,7 +162,8 @@ public class PageComponent extends BaseComponent{
             super.renderClose();
             
             renderMessageBoxes();
-            
+
+            println("</div>");
             println("</body>");
             println("</html>");
         }
