@@ -4,7 +4,6 @@
 function licenseDialog() {
   TITLE="LICENSE"
   CURRENT_MENU="6. LICENSE"
-
   $DIALOG_CMD --backtitle "$MAIN_TITLE" \
               --title "$TITLE" \
               --textbox LICENSE \
@@ -14,7 +13,6 @@ function licenseDialog() {
 
 # Opens the dialog to input the attributes of the project.
 function projectInputDialog() {
-  # Project name.
   while true; do
     PROJECT_NAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                --title "$TITLE" \
@@ -47,7 +45,6 @@ function projectInputDialog() {
     fi
   done
 
-  # Project directory.
   while true; do
     PROJECT_DIR=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                               --title "$TITLE" \
@@ -69,7 +66,6 @@ function projectInputDialog() {
     fi
   done
 
-  # Project package name.
   PROJECT_PACKAGE_NAME="com.$PROJECT_NAME"
 
   while true; do
@@ -93,7 +89,6 @@ function projectInputDialog() {
     fi
   done
 
-  # Project version.
   PROJECT_VERSION="1.0.0"
 
   while "true"; do
@@ -121,16 +116,16 @@ function projectInputDialog() {
 # Opens the dialog to define the attributes of the repository.
 function repositoryDialog() {
   while "true"; do
-    REPO_URL=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                           --title "$TITLE" \
-                           --inputbox "\nPlease enter the repository URL:" \
-                           10 \
-                           60 \
-                           "$REPO_URL" 2>&1 > /dev/tty)
+    REPOSITORY_URL=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                                 --title "$TITLE" \
+                                 --inputbox "\nPlease enter the repository URL:" \
+                                 10 \
+                                 60 \
+                                 "$REPOSITORY_URL" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$REPO_URL" ]; then
+    elif [ -z "$REPOSITORY_URL" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
                   --msgbox "\nYou must specify the repository URL!" \
@@ -142,16 +137,16 @@ function repositoryDialog() {
   done
 
   while "true"; do
-    REPO_USERNAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                                --title "$TITLE" \
-                                --inputbox "\nPlease enter the repository username:" \
-                                10 \
-                                60 \
-                                "$REPO_USERNAME" 2>&1 > /dev/tty)
+    REPOSITORY_USERNAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                                      --title "$TITLE" \
+                                      --inputbox "\nPlease enter the repository username:" \
+                                      10 \
+                                      60 \
+                                      "$REPOSITORY_USERNAME" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$REPO_USERNAME" ]; then
+    elif [ -z "$REPOSITORY_USERNAME" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
                   --msgbox "\nYou must specify the repository username!" 7 60
@@ -160,18 +155,17 @@ function repositoryDialog() {
     fi
   done
 
-  # Publish repository password.
   while "true"; do
-    REPO_PASSWORD=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                                --title "$TITLE" \
-                                --inputbox "\nPlease enter the repository password:" \
-                                10 \
-                                60 \
-                                "$REPO_PASSWORD" 2>&1 > /dev/tty)
+    REPOSITORY_PASSWORD=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                                      --title "$TITLE" \
+                                      --inputbox "\nPlease enter the repository password:" \
+                                      10 \
+                                      60 \
+                                     "$REPOSITORY_PASSWORD" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$REPO_PASSWORD" ]; then
+    elif [ -z "$REPOSITORY_PASSWORD" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
                   --msgbox "\nYou must specify the repository password!" \
@@ -185,7 +179,6 @@ function repositoryDialog() {
 
 # Opens the dialog to define the attributes of the sonar.
 function sonarDialog() {
-  # Sonar organization.
   while "true"; do
     SONAR_ORGANIZATION=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                      --title "$TITLE" \
@@ -207,7 +200,6 @@ function sonarDialog() {
     fi
   done
 
-  # Sonar token.
   while "true"; do
     SONAR_TOKEN=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                               --title "$TITLE" \
@@ -250,23 +242,34 @@ function createProjectStructure() {
            $PROJECT_DIR/src/test/resources
 }
 
+# Creates the environment file.
+function createEnvironment() {
+  echo "REPOSITORY_URL=$REPOSITORY_URL" > $BUILD_ENV_FILENAME
+  echo "REPOSITORY_USERNAME=$REPOSITORY_USERNAME" >> $BUILD_ENV_FILENAME
+  echo "REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD" >> $BUILD_ENV_FILENAME
+
+  echo >> $BUILD_ENV_FILENAME
+  echo "SONAR_ORGANIZATION=$SONAR_ORGANIZATION" >> $BUILD_ENV_FILENAME
+  echo "SONAR_TOKEN=$SONAR_TOKEN" >> $BUILD_ENV_FILENAME
+}
+
 # Creates the project environment file.
 function createProjectEnvironment() {
   PROJECT_BUILD_ENV_FILENAME="$PROJECT_DIR/.env"
 
   if [ ! -f "$PROJECT_BUILD_ENV_FILENAME" ]; then
-    echo "FRAMEWORK_REPOSITORY_URL=$REPOSITORY_URL" > $PROJECT_BUILD_ENV_FILENAME
-    echo "FRAMEWORK_REPOSITORY_USERNAME=$REPOSITORY_USERNAME" >> $PROJECT_BUILD_ENV_FILENAME
-    echo "FRAMEWORK_REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "FRAMEWORK_REPOSITORY_URL=$FRAMEWORK_REPOSITORY_URL" > $PROJECT_BUILD_ENV_FILENAME
+    echo "FRAMEWORK_REPOSITORY_USERNAME=$FRAMEWORK_REPOSITORY_USERNAME" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "FRAMEWORK_REPOSITORY_PASSWORD=$FRAMEWORK_REPOSITORY_PASSWORD" >> $PROJECT_BUILD_ENV_FILENAME
 
     echo >> $PROJECT_BUILD_ENV_FILENAME
-    echo "REPOSITORY_URL=$REPO_URL" >> $PROJECT_BUILD_ENV_FILENAME
-    echo "REPOSITORY_USERNAME=$REPO_USERNAME" >> $PROJECT_BUILD_ENV_FILENAME
-    echo "REPOSITORY_PASSWORD=$REPO_PASSWORD" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "REPOSITORY_URL=$PROJECT_REPOSITORY_URL" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "REPOSITORY_USERNAME=$PROJECT_REPOSITORY_USERNAME" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "REPOSITORY_PASSWORD=$PROJECT_REPOSITORY_PASSWORD" >> $PROJECT_BUILD_ENV_FILENAME
 
     echo >> $PROJECT_BUILD_ENV_FILENAME
-    echo "SONAR_ORGANIZATION=$SONAR_ORG" >> $PROJECT_BUILD_ENV_FILENAME
-    echo "SONAR_TOKEN=$SONAR_TOK" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "SONAR_ORGANIZATION=$PROJECT_SONAR_ORGANIZATION" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "SONAR_TOKEN=$PROJECT_SONAR_TOKEN" >> $PROJECT_BUILD_ENV_FILENAME
   fi
 }
 
@@ -322,13 +325,58 @@ function copyProjectFiles() {
   fi
 }
 
+# Opens the configure dialog.
+function configureDialog() {
+  TITLE="CONFIGURE"
+
+  repositoryDialog
+  sonarDialog
+
+  createEnvironment
+}
+
+function projectRepositoryDialog() {
+  OLD_REPOSITORY_URL=$REPOSITORY_URL
+  OLD_REPOSITORY_USERNAME=$REPOSITORY_USERNAME
+  OLD_REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD
+
+  FRAMEWORK_REPOSITORY_URL=$OLD_REPOSITORY_URL
+  FRAMEWORK_REPOSITORY_USERNAME=$OLD_REPOSITORY_USERNAME
+  FRAMEWORK_REPOSITORY_PASSWORD=$OLD_REPOSITORY_PASSWORD
+
+  REPOSITORY_URL="${REPOSITORY_URL/framework/$PROJECT_NAME}"
+
+  repositoryDialog
+
+  PROJECT_REPOSITORY_URL=$REPOSITORY_URL
+  PROJECT_REPOSITORY_USERNAME=$REPOSITORY_USERNAME
+  PROJECT_REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD
+
+  REPOSITORY_URL=$OLD_REPOSITORY_URL
+  REPOSITORY_USERNAME=$OLD_REPOSITORY_USERNAME
+  REPOSITORY_PASSWORD=$OLD_REPOSITORY_PASSWORD
+}
+
+function projectSonarDialog() {
+  OLD_SONAR_ORGANIZATION=$SONAR_ORGANIZATION
+  OLD_SONAR_TOKEN=$SONAR_TOKEN
+
+  sonarDialog
+
+  PROJECT_SONAR_ORGANIZATION=$SONAR_ORGANIZATION
+  PROJECT_SONAR_TOKEN=$SONAR_TOKEN
+
+  SONAR_ORGANIZATION=$OLD_SONAR_ORGANIZATION
+  SONAR_TOKEN=$OLD_SONAR_TOKEN
+}
+
 # Opens the new project dialog.
 function newProjectDialog() {
   TITLE="NEW PROJECT"
 
   projectInputDialog
-  repositoryDialog
-  sonarDialog
+  projectRepositoryDialog
+  projectSonarDialog
 
   createProjectStructure
   createProjectEnvironment
@@ -356,7 +404,7 @@ function newProjectDialog() {
   rm -f $LOGS_FILENAME
 }
 
-# Open the menu dialog.
+# Opens the menu dialog.
 function menuDialog() {
   TITLE="LET'S START!"
   OPTION=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
@@ -374,15 +422,16 @@ function menuDialog() {
                        "6. LICENSE" "Know more about licensing." \
                        "0. EXIT" "Exit this setup." 2>&1 > /dev/tty)
 
-  # Check / validate the selected option.
+  # Checks / validates the selected option.
   if [ $? -eq 1 ]; then
     clear
 
     exit 0
   else
-    # Execute the selected option.
+    # Executes the selected option.
     case $OPTION in
       "1. CONFIGURE")
+        configureDialog
         menuDialog
         ;;
       "2. BUILD")
@@ -417,7 +466,7 @@ function menuDialog() {
   fi
 }
 
-# Check the requirements for the setup.
+# Checks the requirements for the setup.
 function checkRequirementsDialog() {
   TITLE="CHECKING REQUIREMENTS"
   BINARIES="java gradle"
@@ -427,14 +476,14 @@ function checkRequirementsDialog() {
   counter=0
   length=${#BINARIES[@]}
 
-  # Check if required binaries are installed in the OS.
+  # Checks if required binaries are installed in the OS.
   for BINARY in "${BINARIES[@]}"
   do
     BINARY_CMD=$(which "$BINARY")
 
     sleep 0.10
 
-    # Check if it was found. If don't, exit the setup.
+    # Checks if it was found. If don't, exit the setup.
     if [ ! -f "$BINARY_CMD" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
@@ -478,11 +527,10 @@ function welcomeDialog() {
               90
 }
 
-# Check the dependencies of this script.
+# Checks the dependencies of this script.
 function checkDependencies() {
   DIALOG_CMD=$(which dialog)
 
-  # Check if the requirements to start the setup exists.
   if [ -z "$DIALOG_CMD" ]; then
     echo "dialog is not installed! Please install it first to continue!"
     echo
@@ -491,7 +539,7 @@ function checkDependencies() {
   fi
 }
 
-# Prepare the environment to execute the commands of this script.
+# Prepares the environment to execute the commands of this script.
 function prepareToExecute() {
   source functions.sh
 }
