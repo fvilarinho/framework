@@ -41,9 +41,47 @@ public class SystemResources extends BaseResources<XmlNode>{
     private Locale defaultLanguage = null;
     private Collection<String> skins = null;
     private String defaultSkin = null;
+    private boolean applyPersistenceScriptsAtBoot = false;
+    private boolean loadServicesAtBoot = false;
     private Collection<ActionFormResources> actionForms = null;
     private Collection<ServiceResources> services = null;
-    
+
+    /**
+     * Indicates if the persistence scripts should be applied at boot.
+     *
+     * @return True/False.
+     */
+    public boolean applyPersistenceScriptsAtBoot() {
+        return applyPersistenceScriptsAtBoot;
+    }
+
+    /**
+     * Defines if the persistence scripts should be applied at boot.
+     *
+     * @param applyPersistenceScriptsAtBoot True/False.
+     */
+    public void setApplyPersistenceScriptsAtBoot(boolean applyPersistenceScriptsAtBoot) {
+        this.applyPersistenceScriptsAtBoot = applyPersistenceScriptsAtBoot;
+    }
+
+    /**
+     * Indicates if the services should be loaded at boot.
+     *
+     * @return True/False.
+     */
+    public boolean loadServicesAtBoot() {
+        return loadServicesAtBoot;
+    }
+
+    /**
+     * Defines if the services should be loaded at boot.
+     *
+     * @param loadServicesAtBoot True/False.
+     */
+    public void setLoadServicesAtBoot(boolean loadServicesAtBoot) {
+        this.loadServicesAtBoot = loadServicesAtBoot;
+    }
+
     /**
      * Returns all system's available services.
      *

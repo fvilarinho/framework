@@ -6,8 +6,11 @@
 		<set var="menuItemUrl" value="br.com.concepting.framework.model.util.ModelUtil.getUrlByModel(#{clazz})"/>
 		<set var="menuItemUrl" value="@{menuItemUrl}.concat('.ui?action=init&amp;forward=index')"/>
 		<set var="menuItemName" value="menuGroupAdmin"/>
-		insert into @{openQuote}object@{closeQuote} (id, type, formId, name, title, description, tooltip, action, actionTarget, objectId, sequence) values (3, 'MENU_ITEM', 1, '@{menuItemName}', '#{ui}', '', '', '@{menuItemUrl}', '', 1, 2);
-		
-		insert into @{openQuote}groupObject@{closeQuote} (objectId, groupId) values (3, 1);
+		<set var="objectsPropertyInfo" value="#{declaration}.getPropertyInfo('objects')"/>
+		<set var="objectModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{objectsPropertyInfo.collectionItemsClass})"/>
+		<set var="groupsPropertyInfo" value="@{objectModelInfo}.getPropertyInfo('groups')"/>
+		insert into @{openQuote}@{objectModelInfo.mappedRepositoryId}@{closeQuote} (id, type, formId, name, title, description, tooltip, action, actionTarget, objectId, sequence) select 3, 'MENU_ITEM', 1, '@{menuItemName}', '#{ui}', '', '', '@{menuItemUrl}', '', 1, 2 where not exists (select 1 from @{openQuote}@{objectModelInfo.mappedRepositoryId}@{closeQuote} where id = 3);
+
+		insert into @{openQuote}@{groupsPropertyInfo.mappedRelationRepositoryId}@{closeQuote} (objectId, groupId) select 3, 1 where not exists (select 1 from @{openQuote}@{groupsPropertyInfo.mappedRelationRepositoryId}@{closeQuote} where objectId = 3 and groupId = 1);
 	</artifact>
 </artifacts>

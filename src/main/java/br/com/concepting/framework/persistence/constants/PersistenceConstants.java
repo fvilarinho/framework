@@ -28,16 +28,16 @@ import java.util.List;
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public final class PersistenceConstants{
-    public static final String CACHEABLE_QUERY_ATTRIBUTE_ID = "org.hibernate.cacheable";
+    public static final String APPLY_SCRIPTS_AT_BOOT_ATTRIBUTE_ID = "applyScriptsAtBoot";
     public static final String CLOSE_QUOTE_ATTRIBUTE_ID = "closeQuote";
-    public static final String FACTORY_CLASS_NAME_ATTRIBUTE_ID = "driverClassName";
-    public static final String OPEN_QUOTE_ATTRIBUTE_ID = "openQuote";
-    public static final String RESOURCES_ATTRIBUTE_ID = "persistenceResources";
-    public static final String QUERY_MAXIMUM_RESULTS_ATTRIBUTE_ID = "hibernate.query_maximum_results";
     public static final String INSTANCE_ATTRIBUTE_ID = "instanceId";
+    public static final String OPEN_QUOTE_ATTRIBUTE_ID = "openQuote";
+    public static final String PERSISTENCE_ATTRIBUTE_ID = "persistence";
+    public static final String QUERY_MAXIMUM_RESULTS_ATTRIBUTE_ID = "hibernate.query_maximum_results";
     public static final String REPOSITORY_ATTRIBUTE_ID = "repositoryId";
+    public static final String RESOURCES_ATTRIBUTE_ID = "persistenceResources";
     public static final String DEFAULT_FILE_EXTENSION = ".sql";
-    public static final String DEFAULT_ID = "persistence";
+    public static final String DEFAULT_ID = PERSISTENCE_ATTRIBUTE_ID;
     public static final String DEFAULT_IMPLEMENTATION_ID = "persistenceImpl";
     public static final int DEFAULT_MAXIMUM_RESULTS = 512;
     public static final String DEFAULT_SQL_DIR = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("sql/");
@@ -52,7 +52,6 @@ public final class PersistenceConstants{
     public static final String DEFAULT_BOOLEAN_TYPE_ID = "boolean";
     public static final String DEFAULT_DATE_TIME_TYPE_ID = "br.com.concepting.framework.persistence.types.DateTimeType";
     public static final String DEFAULT_DATE_TYPE_ID = "date";
-    public static final String DEFAULT_TIME_TYPE_ID = "time";
     public static final String DEFAULT_BIG_DECIMAL_TYPE_ID = "big_decimal";
     public static final String DEFAULT_BIG_INTEGER_TYPE_ID = "big_integer";
     public static final String DEFAULT_BYTE_TYPE_ID = "byte";

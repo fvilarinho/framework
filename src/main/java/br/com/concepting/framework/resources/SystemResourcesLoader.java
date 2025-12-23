@@ -4,6 +4,7 @@ import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.constants.SystemConstants;
 import br.com.concepting.framework.controller.form.constants.ActionFormConstants;
 import br.com.concepting.framework.exceptions.InternalErrorException;
+import br.com.concepting.framework.persistence.constants.PersistenceConstants;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.service.constants.ServiceConstants;
 import br.com.concepting.framework.util.LanguageUtil;
@@ -68,104 +69,102 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
         XmlNode mainConsoleNode = resourcesNode.getNode(SystemConstants.MAIN_CONSOLE_ATTRIBUTE_ID);
 
         if (mainConsoleNode != null) {
-            XmlNode classNode = mainConsoleNode.getNode(Constants.CLASS_ATTRIBUTE_ID);
+            String mainConsoleClass = mainConsoleNode.getAttribute(Constants.CLASS_ATTRIBUTE_ID);
 
-            if (classNode != null) {
-                String value = classNode.getValue();
-
-                if (value != null && !value.isEmpty()) {
+            if (mainConsoleClass != null) {
+                if (!mainConsoleClass.isEmpty()) {
                     try {
-                        resources.setMainConsoleClass(value);
+                        resources.setMainConsoleClass(mainConsoleClass);
                     }
-                    catch(InternalErrorException ignored){
-                        throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), mainConsoleNode.getText());
+                    catch(InternalErrorException e){
+                        throw new InvalidResourcesException(resourcesDirname, resourcesId, mainConsoleNode.getText(), e);
                     }
                 }
                 else
-                    throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), mainConsoleNode.getText());
+                    throw new InvalidResourcesException(resourcesDirname, resourcesId, mainConsoleNode.getText());
             }
+
+            XmlNode skinsNode = mainConsoleNode.getNode(SystemConstants.SKINS_ATTRIBUTE_ID);
+
+            if(skinsNode == null)
+                throw new InvalidResourcesException(resourcesDirname, resourcesId, mainConsoleNode.getText());
+
+            List<XmlNode> skinsChildNodes = skinsNode.getChildren();
+
+            if(skinsChildNodes == null || skinsChildNodes.isEmpty())
+                throw new InvalidResourcesException(resourcesDirname, resourcesId, skinsNode.getText());
+
+            Collection<String> skins = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+            String defaultSkin = null;
+
+            for(XmlNode skinChildNode: skinsChildNodes){
+                String skin = skinChildNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
+
+                if(skin != null && !skin.isEmpty()){
+                    if(Boolean.parseBoolean(skinChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
+                        defaultSkin = skin;
+
+                    if(skins != null)
+                        skins.add(skin);
+                }
+            }
+
+            if(skins == null || skins.isEmpty())
+                throw new InvalidResourcesException(resourcesDirname, resourcesId, skinsNode.getText());
+
+            if(defaultSkin == null)
+                defaultSkin = skins.iterator().next();
+
+            resources.setSkins(skins);
+            resources.setDefaultSkin(defaultSkin);
+
+            XmlNode languagesNode = mainConsoleNode.getNode(SystemConstants.LANGUAGES_ATTRIBUTE_ID);
+
+            if(languagesNode == null)
+                throw new InvalidResourcesException(resourcesDirname, resourcesId, mainConsoleNode.getText());
+
+            List<XmlNode> languagesChildNodes = languagesNode.getChildren();
+
+            if(languagesChildNodes == null || languagesChildNodes.isEmpty())
+                throw new InvalidResourcesException(resourcesDirname, resourcesId, languagesNode.getText());
+
+            Collection<Locale> languages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+            Locale defaultLanguage = null;
+
+            for(XmlNode languageChildNode: languagesChildNodes){
+                String languageBuffer = languageChildNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
+
+                if(languageBuffer != null && !languageBuffer.isEmpty()){
+                    Locale language = LanguageUtil.getLanguageByString(languageBuffer);
+
+                    if(Boolean.parseBoolean(languageChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
+                        defaultLanguage = language;
+
+                    if(languages != null)
+                        languages.add(language);
+                }
+            }
+
+            if(languages == null || languages.isEmpty())
+                throw new InvalidResourcesException(resourcesDirname, resourcesId, languagesNode.getText());
+
+            if(defaultLanguage == null)
+                defaultLanguage = languages.iterator().next();
+
+            resources.setLanguages(languages);
+            resources.setDefaultLanguage(defaultLanguage);
         }
         else
             throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), resourcesNode.getText());
 
-        XmlNode skinsNode = resourcesNode.getNode(SystemConstants.SKINS_ATTRIBUTE_ID);
-        
-        if(skinsNode == null)
-            throw new InvalidResourcesException(resourcesDirname, resourcesId, resourcesNode.getText());
-        
-        List<XmlNode> skinsChildNodes = skinsNode.getChildren();
-        
-        if(skinsChildNodes == null || skinsChildNodes.isEmpty())
-            throw new InvalidResourcesException(resourcesDirname, resourcesId, skinsNode.getText());
-        
-        Collection<String> skins = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        String defaultSkin = null;
-        
-        for(XmlNode skinChildNode: skinsChildNodes){
-            String skin = skinChildNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
-            
-            if(skin != null && !skin.isEmpty()){
-                if(Boolean.parseBoolean(skinChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
-                    defaultSkin = skin;
-
-                if(skins != null)
-                    skins.add(skin);
-            }
-        }
-        
-        if(skins == null || skins.isEmpty())
-            throw new InvalidResourcesException(resourcesDirname, resourcesId, skinsNode.getText());
-        
-        if(defaultSkin == null)
-            defaultSkin = skins.iterator().next();
-        
-        resources.setSkins(skins);
-        resources.setDefaultSkin(defaultSkin);
-        
-        XmlNode languagesNode = resourcesNode.getNode(SystemConstants.LANGUAGES_ATTRIBUTE_ID);
-        
-        if(languagesNode == null)
-            throw new InvalidResourcesException(resourcesDirname, resourcesId, resourcesNode.getText());
-        
-        List<XmlNode> languagesChildNodes = languagesNode.getChildren();
-        
-        if(languagesChildNodes == null || languagesChildNodes.isEmpty())
-            throw new InvalidResourcesException(resourcesDirname, resourcesId, languagesNode.getText());
-        
-        Collection<Locale> languages = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-        Locale defaultLanguage = null;
-        
-        for(XmlNode languageChildNode: languagesChildNodes){
-            String languageBuffer = languageChildNode.getAttribute(Constants.IDENTITY_ATTRIBUTE_ID);
-            
-            if(languageBuffer != null && !languageBuffer.isEmpty()){
-                Locale language = LanguageUtil.getLanguageByString(languageBuffer);
-                
-                if(Boolean.parseBoolean(languageChildNode.getAttribute(Constants.DEFAULT_ATTRIBUTE_ID)))
-                    defaultLanguage = language;
-
-                if(languages != null)
-                    languages.add(language);
-            }
-        }
-        
-        if(languages == null || languages.isEmpty())
-            throw new InvalidResourcesException(resourcesDirname, resourcesId, languagesNode.getText());
-        
-        if(defaultLanguage == null)
-            defaultLanguage = languages.iterator().next();
-        
-        resources.setLanguages(languages);
-        resources.setDefaultLanguage(defaultLanguage);
-        
         XmlNode actionFormsNode = resourcesNode.getNode(ActionFormConstants.ACTION_FORMS_ATTRIBUTE_ID);
-        
+
         if(actionFormsNode != null){
             List<XmlNode> actionFormNodes = actionFormsNode.getChildren();
-            
+
             if(actionFormNodes != null && !actionFormNodes.isEmpty()){
                 Collection<SystemResources.ActionFormResources> actionForms = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                
+
                 for(XmlNode actionFormNode: actionFormNodes){
                     SystemResources.ActionFormResources actionForm = new SystemResources.ActionFormResources();
 
@@ -174,13 +173,13 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
                     actionForm.setAction(actionFormNode.getAttribute(ActionFormConstants.ACTION_ATTRIBUTE_ID));
 
                     XmlNode forwardsNode = actionFormNode.getNode(ActionFormConstants.FORWARDS_ATTRIBUTE_ID);
-                    
+
                     if(forwardsNode != null){
                         List<XmlNode> forwardNodes = forwardsNode.getChildren();
-                        
+
                         if(forwardNodes != null && !forwardNodes.isEmpty()){
                             Collection<SystemResources.ActionFormResources.ActionFormForwardResources> forwards = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                            
+
                             for(XmlNode forwardNode: forwardNodes){
                                 SystemResources.ActionFormResources.ActionFormForwardResources forward = new SystemResources.ActionFormResources.ActionFormForwardResources();
 
@@ -190,7 +189,7 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
                                 if(forwards != null)
                                     forwards.add(forward);
                             }
-                            
+
                             actionForm.setForwards(forwards);
                         }
                     }
@@ -198,31 +197,51 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
                     if(actionForms != null)
                         actionForms.add(actionForm);
                 }
-                
+
                 resources.setActionForms(actionForms);
             }
         }
-        
+
+        XmlNode persistenceNode = resourcesNode.getNode(PersistenceConstants.PERSISTENCE_ATTRIBUTE_ID);
+
+        if(persistenceNode != null) {
+            String applyAtBoot = persistenceNode.getAttribute(PersistenceConstants.APPLY_SCRIPTS_AT_BOOT_ATTRIBUTE_ID);
+
+            if (applyAtBoot != null && !applyAtBoot.isEmpty()) {
+                try {
+                    resources.setApplyPersistenceScriptsAtBoot(Boolean.parseBoolean(applyAtBoot));
+                }
+                catch (Throwable e) {
+                    throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), persistenceNode.getText(), e);
+                }
+            }
+        }
+
         XmlNode servicesNode = resourcesNode.getNode(ServiceConstants.SERVICES_ATTRIBUTE_ID);
         
         if(servicesNode != null){
+            String loadAtBoot = servicesNode.getAttribute(ServiceConstants.LOAD_AT_BOOT_ATTRIBUTE_ID);
+
+            if(loadAtBoot != null && !loadAtBoot.isEmpty())
+                resources.setLoadServicesAtBoot(Boolean.parseBoolean(loadAtBoot));
+
             List<XmlNode> servicesNodes = servicesNode.getChildren();
             
             if(servicesNodes != null && !servicesNodes.isEmpty())
                 for(XmlNode serviceNode: servicesNodes){
                     SystemResources.ServiceResources serviceResources = new SystemResources.ServiceResources();
-                    String isRecurrent = serviceNode.getAttribute("isRecurrent");
-                    String isJob = serviceNode.getAttribute("isJob");
-                    String isWeb = serviceNode.getAttribute("isWeb");
-                    String url = serviceNode.getAttribute("url");
+                    String isRecurrent = serviceNode.getAttribute(ServiceConstants.IS_RECURRENT_ATTRIBUTE_ID);
+                    String isJob = serviceNode.getAttribute(ServiceConstants.IS_JOB_ATTRIBUTE_ID);
+                    String isWeb = serviceNode.getAttribute(ServiceConstants.IS_WEB_ATTRIBUTE_ID);
+                    String url = serviceNode.getAttribute(ServiceConstants.URL_ATTRIBUTE_ID);
 
-                    if(isRecurrent != null)
+                    if(isRecurrent != null && !isRecurrent.isEmpty())
                         serviceResources.setRecurrent(Boolean.parseBoolean(isRecurrent));
 
-                    if(isJob != null)
+                    if(isJob != null && !isJob.isEmpty())
                         serviceResources.setJob(Boolean.parseBoolean(isJob));
 
-                    if(isWeb != null)
+                    if(isWeb != null && !isWeb.isEmpty())
                         serviceResources.setWeb(Boolean.parseBoolean(isWeb));
 
                     serviceResources.setUrl(url);

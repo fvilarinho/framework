@@ -6,40 +6,40 @@
 				<xs:element name="mainConsole">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element type="xs:string" name="class" minOccurs="0"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="languages">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="language" maxOccurs="unbounded">
+							<xs:element name="languages">
 								<xs:complexType>
-									<xs:simpleContent>
-										<xs:extension base="xs:string">
-											<xs:attribute type="xs:string" name="id" use="required"/>
-											<xs:attribute type="xs:boolean" name="default"/>
-										</xs:extension>
-									</xs:simpleContent>
+									<xs:sequence>
+										<xs:element name="language" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute type="xs:string" name="id" use="required"/>
+														<xs:attribute type="xs:boolean" name="default"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="skins">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="skin" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute type="xs:string" name="id" use="required"/>
+														<xs:attribute type="xs:boolean" name="default"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="skins">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="skin" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:simpleContent>
-										<xs:extension base="xs:string">
-											<xs:attribute type="xs:string" name="id" use="required"/>
-											<xs:attribute type="xs:boolean" name="default"/>
-										</xs:extension>
-									</xs:simpleContent>
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
+						<xs:attribute type="xs:string" name="class"/>
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="actionForms">
@@ -73,6 +73,11 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="persistence">
+					<xs:complexType>
+						<xs:attribute type="xs:string" name="applyScriptsAtBoot" default="false"/>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="services">
 					<xs:complexType>
 						<xs:sequence>
@@ -89,6 +94,7 @@
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
+						<xs:attribute type="xs:string" name="loadAtBoot" default="false"/>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>

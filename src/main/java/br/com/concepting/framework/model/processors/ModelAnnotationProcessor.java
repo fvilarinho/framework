@@ -2000,17 +2000,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     systemResourceContentNode.addChild(mainConsoleNode);
                 }
-                
-                XmlNode classNode = mainConsoleNode.getNode(Constants.CLASS_ATTRIBUTE_ID);
-                
-                if(classNode == null){
-                    classNode = new XmlNode(Constants.CLASS_ATTRIBUTE_ID);
-                    
-                    mainConsoleNode.addChild(classNode);
-                }
-                
+
                 if(this.modelInfo.generateUi())
-                    classNode.setValue(modelClass.getName());
+                    mainConsoleNode.addAttribute(Constants.CLASS_ATTRIBUTE_ID, modelClass.getName());
             }
             
             XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
