@@ -18,7 +18,6 @@ import br.com.concepting.framework.util.helpers.Node;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
-
 import jakarta.servlet.jsp.JspException;
 
 import java.io.Serial;
@@ -61,7 +60,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
     private String onExpandUpdateViews = null;
     private boolean onExpandValidateModel = false;
     private String onExpandValidateModelProperties = null;
-    private boolean selectUnselectParentsOrChildren = false;
+    private boolean selectUnselectParentsOrChildren = true;
     
     /**
      * Indicates if the parents and children should be selected or unselected.
@@ -486,6 +485,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
         String domain = String.valueOf(System.currentTimeMillis());
         Locale currentLanguage = getCurrentLanguage();
         boolean hasMultipleSelection = hasMultipleSelection();
+        boolean selectUnselectParentsOrChildren = selectUnselectParentsOrChildren();
         boolean enabled = isEnabled();
         Object value = getValue();
         StringBuilder nodeIndex = null;
@@ -577,8 +577,11 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                     
                     if(nodeIndentation != null && !nodeIndentation.isEmpty())
                         println(nodeIndentation);
-                    
-                    if(!node.hasChildren() && (this.onExpand == null || this.onExpand.isEmpty())){
+
+
+                    String onExpand = getOnExpand();
+
+                    if(!node.hasChildren() && (onExpand == null || onExpand.isEmpty())){
                         print("<td class=\"");
                         print(UIConstants.DEFAULT_TREE_VIEW_TRACE_STYLE_CLASS);
                         println("\"></td>");
@@ -615,27 +618,13 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                         else
                             print(UIConstants.DEFAULT_TREE_VIEW_NODE_COLLAPSED_ICON_STYLE_CLASS);
                         
-                        print("\" onClick=\"");
-                        
-                        if(this.onExpandAction != null && !this.onExpandAction.isEmpty()){
-                            print("selectUnSelectTreeViewNode('");
-                            print(name);
-                            print("', '");
-                            print(nodeId);
-                            print("', ");
-                            print(hasMultipleSelection);
-                            print(", ");
-                            print(this.selectUnselectParentsOrChildren);
-                            print("); ");
-                        }
-                        
-                        print("showHideTreeViewNode('");
+                        print("\" onClick=\"showHideTreeViewNode('");
                         print(nodeId);
                         print("'");
-                        
-                        if(this.onExpand != null && !this.onExpand.isEmpty()){
+
+                        if(onExpand != null && !onExpand.isEmpty()){
                             print(", function(){");
-                            print(this.onExpand);
+                            print(onExpand);
                             print("}");
                         }
                         
@@ -718,7 +707,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                         print("', ");
                         print(hasMultipleSelection);
                         print(", ");
-                        print(this.selectUnselectParentsOrChildren);
+                        print(selectUnselectParentsOrChildren);
                         
                         if((onSelectNodeContent != null && !onSelectNodeContent.isEmpty()) || (onUnSelectNodeContent == null || !onUnSelectNodeContent.isEmpty())){
                             if(onSelectNodeContent != null && !onSelectNodeContent.isEmpty()){
@@ -797,7 +786,7 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                     
                     println(">");
                     
-                    if(node.hasChildren() || (this.onExpand != null && !this.onExpand.isEmpty())){
+                    if(node.hasChildren() || (onExpand != null && !onExpand.isEmpty())){
                         HiddenPropertyComponent expandedNodePropertyComponent = new HiddenPropertyComponent();
 
                         expandedNodePropertyComponent.setPageContext(this.pageContext);
@@ -847,6 +836,6 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
         setOnExpandValidateModel(false);
         setOnExpandValidateModelProperties(null);
         setExpandLevel(0);
-        setSelectUnselectParentsOrChildren(false);
+        setSelectUnselectParentsOrChildren(true);
     }
 }

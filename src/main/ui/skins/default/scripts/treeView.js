@@ -41,13 +41,14 @@ function showHideTreeViewNode(name, onExpand){
 	
 	let nodeExpanded = getObjectValue(name + ".isTreeViewNodeExpanded");
 	
-	if(nodeExpanded === "false")
+	if(nodeExpanded === "false") {
 		setObjectValue(name + ".isTreeViewNodeExpanded", true);
+
+        if(onExpand)
+            onExpand();
+	}
 	else
 		setObjectValue(name + ".isTreeViewNodeExpanded", false);
-	
-	if(onExpand)
-		onExpand();
 }
 
 /**
