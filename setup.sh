@@ -329,6 +329,7 @@ function copyProjectFiles() {
 function configureDialog() {
   TITLE="CONFIGURE"
 
+  prepareToExecute
   repositoryDialog
   sonarDialog
 
@@ -336,6 +337,8 @@ function configureDialog() {
 }
 
 function projectRepositoryDialog() {
+  prepareToExecute
+
   OLD_REPOSITORY_URL=$REPOSITORY_URL
   OLD_REPOSITORY_USERNAME=$REPOSITORY_USERNAME
   OLD_REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD
@@ -516,7 +519,7 @@ function checkRequirementsDialog() {
 
 # Opens the welcome dialog.
 function welcomeDialog() {
-  MAIN_TITLE="$buildName $buildVersion"
+  MAIN_TITLE="Concepting Framework $buildVersion"
   TITLE="WELCOME!"
   ABOUT=$(cat README.md)
 
