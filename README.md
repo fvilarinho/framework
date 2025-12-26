@@ -74,8 +74,10 @@ contact info.
 Contribution
 ---
 If you want to contribute, feel free to join as contributor in GitHub ([https://www.github.com/fvilarinho/framework]([https://www.github.com/fvilarinho/framework))
-and then make a pull request. I'll analyze your code and check if it can be incorporated as soon as possible.
-You can also report a bug or request a new feature.
+and then make a pull request. I'll analyze your code and check if it can be incorporated as soon as possible. You can 
+also report a bug or request a new feature [here](https://github.com/fvilarinho/framework/issues).
+
+- [Security policy](SECURITY.md)
 
 And that's all! Have Fun!
 
