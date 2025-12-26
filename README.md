@@ -1,10 +1,10 @@
-```
-,---.                         |    o              ,---.                                   |    
-|    ,---.,---.,---.,---.,---.|--- .,---.,---.    |__. ,---.,---.,-.-.,---.. . .,---.,---.|__/ 
-|    |   ||   ||    |---'|   ||    ||   ||   |    |    |    ,---|| | ||---'| | ||   ||    |  \ 
-`---'`---'`   '`---'`---'|---'`---'``   '`---|    `    `    `---^` ' '`---'`-'-'`---'`    `   `
-                         |               `---'
-```
+<pre style="font-family: monospace; line-height: 1.15;">
+<span style="color:#eef7ff">,---.                         |    o              ,---.                                   |</span>
+<span style="color:#cfe8ff">|    ,---.,---.,---.,---.,---.|--- .,---.,---.    |__. ,---.,---.,-.-.,---.. . .,---.,---.|__/</span>
+<span style="color:#8fc4ff">|    |   ||   ||    |---'|   ||    ||   ||   |    |    |    ,---|| | ||---'| | ||   ||    |  \</span>
+<span style="color:#3f7fc4">`---'`---'`   '`---'`---'|---'`---'``   '`---|    `    `    `---^` ' '`---'`-'-'`---'`    `   `</span>
+<span style="color:#0b2f55">                         |               `---'</span>
+</pre>
 Introduction
 ---
 This framework was created based on nearly **25 years of software development experience**, with the goal of solving 
