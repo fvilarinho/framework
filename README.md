@@ -52,9 +52,8 @@ Documentation
 ---
 Use the links below to navigate through the documentation:
 
-- 📘 **Overview & Philosophy**
 - 🏗 **Architecture**
-- ⚙️ **Configuration & Environments**
+- ⚙️ **Configuration**
 - 🔌 **Controllers & Integration**
 - 🗄 **Persistence Layer**
 - 🧠 **Business Layer**
