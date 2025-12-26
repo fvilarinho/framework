@@ -6,8 +6,11 @@ on:
       - '*'
     paths-ignore:
       - '*.md'
-      - 'LICENSE'
+      - 'banner.txt'
       - 'docs/**'
+      - 'LICENSE'
+      - 'setup.sh'
+      - 'publish.sh'
 
 jobs:
   run:

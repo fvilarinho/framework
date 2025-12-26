@@ -11,7 +11,7 @@ function licenseDialog() {
               90
 }
 
-# Opens the dialog to input the attributes of the project.
+# Opens the dialog to input the attributes of the new project.
 function projectInputDialog() {
   while true; do
     PROJECT_NAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
@@ -222,7 +222,25 @@ function sonarDialog() {
   done
 }
 
-# Creates the project banner.
+# Creates the environment file.
+function createEnvironment() {
+  echo "REPOSITORY_URL=$REPOSITORY_URL" > $BUILD_ENV_FILENAME
+  echo "REPOSITORY_USERNAME=$REPOSITORY_USERNAME" >> $BUILD_ENV_FILENAME
+  echo "REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD" >> $BUILD_ENV_FILENAME
+
+  echo >> $BUILD_ENV_FILENAME
+  echo "SONAR_ORGANIZATION=$SONAR_ORGANIZATION" >> $BUILD_ENV_FILENAME
+  echo "SONAR_TOKEN=$SONAR_TOKEN" >> $BUILD_ENV_FILENAME
+}
+
+# Creates the new project's structure directories.
+function createProjectStructure() {
+  mkdir -p $PROJECT_DIR/src/main/java \
+           $PROJECT_DIR/src/test/java \
+           $PROJECT_DIR/src/test/resources
+}
+
+# Creates the new project's banner.
 function createProjectBanner() {
   BANNER_FILENAME=$PROJECT_DIR/banner.txt
 
@@ -235,25 +253,7 @@ function createProjectBanner() {
   fi
 }
 
-# Creates the project structure directories.
-function createProjectStructure() {
-  mkdir -p $PROJECT_DIR/src/main/java \
-           $PROJECT_DIR/src/test/java \
-           $PROJECT_DIR/src/test/resources
-}
-
-# Creates the environment file.
-function createEnvironment() {
-  echo "REPOSITORY_URL=$REPOSITORY_URL" > $BUILD_ENV_FILENAME
-  echo "REPOSITORY_USERNAME=$REPOSITORY_USERNAME" >> $BUILD_ENV_FILENAME
-  echo "REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD" >> $BUILD_ENV_FILENAME
-
-  echo >> $BUILD_ENV_FILENAME
-  echo "SONAR_ORGANIZATION=$SONAR_ORGANIZATION" >> $BUILD_ENV_FILENAME
-  echo "SONAR_TOKEN=$SONAR_TOKEN" >> $BUILD_ENV_FILENAME
-}
-
-# Creates the project environment file.
+# Creates the new project's environment file.
 function createProjectEnvironment() {
   PROJECT_BUILD_ENV_FILENAME="$PROJECT_DIR/.env"
 
@@ -273,7 +273,7 @@ function createProjectEnvironment() {
   fi
 }
 
-# Creates the project build files.
+# Creates the new project's build files.
 function createProjectBuild() {
   if [ ! -f "$PROJECT_DIR/build.gradle" ]; then
     cp -f src/templates/build.gradle $PROJECT_DIR || exit 1
@@ -308,7 +308,7 @@ function createProjectBuild() {
   fi
 }
 
-# Copies project files.
+# Copies required files to new project's directory.
 function copyProjectFiles() {
   if [ ! -d $PROJECT_DIR/src/main/resources ]; then
     cp -r src/main/resources $PROJECT_DIR/src/main || exit 1
@@ -325,7 +325,7 @@ function copyProjectFiles() {
   fi
 }
 
-# Opens the configure dialog.
+# Opens the configure's dialog.
 function configureDialog() {
   TITLE="CONFIGURE"
 
@@ -336,6 +336,7 @@ function configureDialog() {
   createEnvironment
 }
 
+# Opens the new project's repository dialog.
 function projectRepositoryDialog() {
   prepareToExecute
 
@@ -360,6 +361,7 @@ function projectRepositoryDialog() {
   REPOSITORY_PASSWORD=$OLD_REPOSITORY_PASSWORD
 }
 
+# Opens the new project's sonar dialog.
 function projectSonarDialog() {
   OLD_SONAR_ORGANIZATION=$SONAR_ORGANIZATION
   OLD_SONAR_TOKEN=$SONAR_TOKEN
@@ -373,7 +375,7 @@ function projectSonarDialog() {
   SONAR_TOKEN=$OLD_SONAR_TOKEN
 }
 
-# Opens the new project dialog.
+# Opens the new project's dialog.
 function newProjectDialog() {
   TITLE="NEW PROJECT"
 
@@ -407,7 +409,7 @@ function newProjectDialog() {
   rm -f $LOGS_FILENAME
 }
 
-# Opens the menu dialog.
+# Opens the main menu dialog.
 function menuDialog() {
   TITLE="LET'S START!"
   OPTION=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
@@ -425,13 +427,11 @@ function menuDialog() {
                        "6. LICENSE" "Know more about licensing." \
                        "0. EXIT" "Exit this setup." 2>&1 > /dev/tty)
 
-  # Checks / validates the selected option.
   if [ $? -eq 1 ]; then
     clear
 
     exit 0
   else
-    # Executes the selected option.
     case $OPTION in
       "1. CONFIGURE")
         configureDialog
@@ -498,6 +498,7 @@ function checkRequirementsDialog() {
 
       exit 1
     else
+      # Progress bar update.
       counter=$((counter + (100 / length)))
 
       echo $counter | $DIALOG_CMD --backtitle "$MAIN_TITLE" \
@@ -530,7 +531,7 @@ function welcomeDialog() {
               90
 }
 
-# Checks the dependencies of this script.
+# Checks the dependencies to run this script.
 function checkDependencies() {
   DIALOG_CMD=$(which dialog)
 
@@ -542,7 +543,7 @@ function checkDependencies() {
   fi
 }
 
-# Prepares the environment to execute the commands of this script.
+# Prepares the environment to execute this script.
 function prepareToExecute() {
   source functions.sh
 }
@@ -556,6 +557,7 @@ function main() {
   menuDialog
 }
 
+# Block interrupt/stop signals.
 trap "" SIGTSTP
 trap "" SIGINT
 

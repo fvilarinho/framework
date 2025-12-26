@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - '*'
+    paths-ignore:
+      - '*.md'
+      - 'banner.txt'
+      - 'docs/**'
+      - 'LICENSE'
+      - 'setup.sh'
 
 jobs:
   run:
