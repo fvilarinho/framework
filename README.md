@@ -15,14 +15,18 @@ and projects:
 4. Hard-coded and/or non-standardized persistence layer.
 5. Hard-coded and/or non-standardized controllers/integration layer.
 6. Hard-coded and/or non-standardized business layer.
-6. Poor and/or non-customizable and complex UI.
-7. Lots of unused/unecessary libraries in the dependency tree.
-8. Critical security flaws/vulnerabilities.
-9. Lack of a centralized utilities package.
-10. And much more. The list is extensive.
+7. Poor and/or non-customizable and complex UI.
+8. Lots of unused/unecessary libraries in the dependency tree.
+9. Critical security flaws/vulnerabilities.
+10. Lack of a centralized utilities package.
+11. And much more. The list is extensive.
 
 This framework was designed to address the above and make the development process simple. As a result, it ensures 
 faster, standardized and reliable way to develop your applications. 
+
+Features
+---
+Please check the [wiki](https://github.com/fvilarinho/framework/wiki) for full details.
 
 Build Status
 ---
