@@ -6,84 +6,85 @@
 ```
 Introduction
 ---
-In my nearly 25 years of experience in software development, I faced the same following problems in different companies 
-and projects:
+This framework was created based on nearly **25 years of software development experience**, with the goal of solving 
+common and recurring problems found across many companies and projects, such as:
 
-1. Code with lack of standards, reuse and complexity.
-2. Code duplications due lack of quality checks.
-3. Different versions for different environments (Operating systems, Development, Production, etc).
-4. Hard-coded and/or non-standardized persistence layer.
-5. Hard-coded and/or non-standardized controllers/integration layer.
-6. Hard-coded and/or non-standardized business layer.
-7. Poor and/or non-customizable and complex UI.
-8. Lots of unused/unecessary libraries in the dependency tree.
-9. Critical security flaws/vulnerabilities.
-10. Lack of a centralized utilities package.
-11. And much more. The list is extensive.
+- Lack of coding standards and reuse
+- Excessive complexity and duplication
+- Environment-specific code versions
+- Hard-coded persistence, controllers, and business logic
+- Poor or overly complex UI solutions
+- Bloated dependency trees
+- Security vulnerabilities
+- Missing centralized utilities
 
-This framework was designed to address the above and make the development process simple. As a result, it ensures 
-faster, standardized and reliable way to develop your applications. 
+The result is a **simple, standardized, secure, and reliable framework** that accelerates development while maintaining 
+high code quality, following these core goals:
 
-Features
+- ✅ Enforce **standards and best practices**
+- ✅ Promote **code reuse and modularity**
+- ✅ Simplify **environment management**
+- ✅ Decouple **persistence, business, and integration layers**
+- ✅ Reduce **dependencies and attack surface**
+- ✅ Improve **maintainability, security, and scalability**
+
+Project Status
 ---
-Please check the [wiki](https://github.com/fvilarinho/framework/wiki) for full details.
+The project is actively maintained and continuously validated through automated builds, releases, and static analysis.
 
-Build Status
----
-- Stable version: **3.10.16**
-- Development version: **3.10.17**
+* **Stable version:** 3.10.16
+* **Development version:** 3.10.17
 
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=fvilarinho_framework&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fvilarinho_framework&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=fvilarinho_framework&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
-[![Build status](https://github.com/fvilarinho/framework/actions/workflows/build.yml/badge.svg)](https://github.com/fvilarinho/framework/actions/workflows/build.yml)
-[![Release status](https://github.com/fvilarinho/framework/actions/workflows/release.yml/badge.svg)](https://github.com/fvilarinho/framework/actions/workflows/release.yml)
+| Version                | Supported |
+ ------------------------|-----------|
+| Stable and development | ✅         |
+| < Stable               | ❌         |
+
+- [![Build status](https://github.com/fvilarinho/framework/actions/workflows/build.yml/badge.svg)](https://github.com/fvilarinho/framework/actions/workflows/build.yml)
+- [![Release status](https://github.com/fvilarinho/framework/actions/workflows/release.yml/badge.svg)](https://github.com/fvilarinho/framework/actions/workflows/release.yml)
+- [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=fvilarinho_framework&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
+- [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=fvilarinho_framework&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
+- [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=fvilarinho_framework&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
 
 [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-light.svg)](https://sonarcloud.io/summary/new_code?id=fvilarinho_framework)
 
-Installation
+Documentation
 ---
-The pre-requisites to use this framework are:
+Use the links below to navigate through the documentation:
 
-For stable version:
-1. [Java Development Kit 11](https://openjdk.org/projects/jdk/11/)
-2. [Gradle 6.x](https://gradle.org/)
+- 📘 **Overview & Philosophy**
+- 🏗 **Architecture**
+- ⚙️ **Configuration & Environments**
+- 🔌 **Controllers & Integration**
+- 🗄 **Persistence Layer**
+- 🧠 **Business Layer**
+- 🧰 **Utilities & Common Modules**
+- 🔐 **Security**
+- 🧪 **Testing & Quality**
+- 🚀 **Build, Release & Versioning**
 
-For development version:
-1. [Java Development Kit 21](https://openjdk.org/projects/jdk/21/)
-2. [Gradle 9.x](https://gradle.org/)
+Contributing
+---
+Contributions are **VERY WELCOME**! 
 
-To start using the framework, you should clone the project and then import it into your preferable IDE.
-After the cloning, you can choose the version that you want to work.
-To use the development version, execute the command below:
+Please check the roadmap [here](https://github.com/users/fvilarinho/projects/12).
 
-`git checkout master`
+This project has an automated workflow to test, check quality and vulnerabilities but you can also:
 
-To use the last stable version, execute the command below:
+- Open issues for bugs or feature requests [here](https://github.com/fvilarinho/framework/issues)
+- Submit pull requests
+- Review existing code and documentation
 
-`git checkout tags/3.10.16 -b 3.10.16`
-
-Or use the IDE to switch between the versions.
+All contributions are reviewed to ensure they align with the framework’s principles of simplicity, quality, and 
+standardization. 
 
 License
 ---
-The framework is licensed under the LGPL 3.0. Please read the license file or check the URL [http://www.gnu.org/licenses/lgpl-3.0.html](http://www.gnu.org/licenses/lgpl-3.0.html)
+This project is licensed under the [LGPL 3.0](LICENSE).
 
 Author
 ---
-My name is Felipe Vilarinho (A.K.A. Vila) and you can reach me accessing my personal website. There you can find my
-contact info.
+Created and maintained by **Felipe Vilarinho (Vila)**. 
+You can find contact information and more projects 👉 [here](https://vilanet.sh). 
 
-[https://vilanet.sh](https://vilanet.sh)
-
-Contribution
----
-If you want to contribute, feel free to join as contributor in GitHub ([https://www.github.com/fvilarinho/framework]([https://www.github.com/fvilarinho/framework))
-and then make a pull request. I'll analyze your code and check if it can be incorporated as soon as possible. You can 
-also report a bug or request a new feature [here](https://github.com/fvilarinho/framework/issues).
-
-- [Security policy](SECURITY.md)
-
-And that's all! Have Fun!
-
-Best
+**And that's all! Happy coding! 🚀**
