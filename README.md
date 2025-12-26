@@ -12,8 +12,9 @@ and projects:
 1. Code with lack of standards, reuse and complexity.
 2. Code duplications due lack of quality checks.
 3. Different versions for different environments (Operating systems, Development, Production, etc).
-4. Hard-coded and/or non synchronized persistence layer within data models.
-5. Hard-coded and/or non synchronized business layer.
+4. Hard-coded and/or non-standardized persistence layer.
+5. Hard-coded and/or non-standardized controllers/integration layer.
+6. Hard-coded and/or non-standardized business layer.
 6. Poor and/or non-customizable and complex UI.
 7. Lots of unused/unecessary libraries in the dependency tree.
 8. Critical security flaws/vulnerabilities.
