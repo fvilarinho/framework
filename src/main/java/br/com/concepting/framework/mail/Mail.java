@@ -11,8 +11,10 @@ import br.com.concepting.framework.util.ByteUtil;
 import br.com.concepting.framework.util.FileUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
+import jakarta.activation.CommandMap;
 import jakarta.activation.DataHandler;
 import jakarta.activation.FileDataSource;
+import jakarta.activation.MailcapCommandMap;
 import jakarta.mail.*;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
@@ -50,6 +52,14 @@ import java.util.Properties;
  */
 public class Mail{
     private static Map<String, Mail> instances = null;
+
+    static {
+        MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
+
+        mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
+
+        CommandMap.setDefaultCommandMap(mc);
+    }
 
     private final MailResources resources;
 
