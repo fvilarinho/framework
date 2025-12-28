@@ -198,7 +198,7 @@ public class ActionFormComponent extends BaseComponent{
                     StringBuilder actionFormUrl = new StringBuilder();
 
                     actionFormUrl.append(actionForm.getAction());
-                    actionFormUrl.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
+                    actionFormUrl.append(ActionFormConstants.DEFAULT_ACTIONS_FILE_EXTENSION);
                     
                     this.action = actionFormUrl.toString();
                     

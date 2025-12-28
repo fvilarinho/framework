@@ -179,7 +179,7 @@ public class ActionFormController{
             String action = StringUtil.replaceAll(this.systemController.getURI(), this.systemController.getContextPath(), "");
             
             action = StringUtil.replaceAll(action, ProjectConstants.DEFAULT_UI_PAGES_DIR, "");
-            action = StringUtil.replaceAll(action, ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION, "");
+            action = StringUtil.replaceAll(action, ActionFormConstants.DEFAULT_ACTIONS_FILE_EXTENSION, "");
             
             int pos = action.indexOf(UIConstants.DEFAULT_PAGE_FILE_EXTENSION);
             
@@ -951,7 +951,7 @@ public class ActionFormController{
             String actionFormForwardName = actionForm.getForward();
             
             if(actionFormForwardName == null || actionFormForwardName.isEmpty())
-                actionFormForwardName = ActionFormConstants.DEFAULT_FORWARD_ID;
+                actionFormForwardName = ActionFormConstants.DEFAULT_ACTION_FORWARD_ID;
             
             SystemResourcesLoader loader = new SystemResourcesLoader();
             SystemResources systemResources = loader.getDefault();

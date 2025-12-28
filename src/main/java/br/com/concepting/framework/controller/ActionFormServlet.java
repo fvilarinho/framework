@@ -3,6 +3,7 @@ package br.com.concepting.framework.controller;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.controller.form.ActionFormController;
 import br.com.concepting.framework.controller.form.BaseActionForm;
+import br.com.concepting.framework.controller.form.constants.ActionFormConstants;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
@@ -38,7 +39,7 @@ import java.io.Serial;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
-@WebServlet(name = "actions", urlPatterns = "*.ui")
+@WebServlet(name = "actions", urlPatterns = ActionFormConstants.DEFAULT_ACTIONS_URL_PATTERN)
 public class ActionFormServlet extends HttpServlet{
 	@Serial
     private static final long serialVersionUID = -6893835539662603177L;

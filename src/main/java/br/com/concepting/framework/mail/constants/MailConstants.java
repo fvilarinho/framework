@@ -31,6 +31,7 @@ public final class MailConstants{
     public static final String SUBJECT_ATTRIBUTE_ID = "subject";
     public static final String TO_ATTRIBUTE_ID = "to";
     public static final String TRANSPORT_ATTRIBUTE_ID = "transport";
+
     public static final String DEFAULT_ID = "mail";
     public static final MailStorageType DEFAULT_STORAGE_TYPE = MailStorageType.IMAPS;
     public static final int DEFAULT_STORAGE_PORT = 143;

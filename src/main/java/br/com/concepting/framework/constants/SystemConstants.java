@@ -24,10 +24,15 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public final class SystemConstants{
+    public static final String ACCEPT_ATTRIBUTE_ID = "Accept";
+    public static final String ACCEPT_LANGUAGE_ATTRIBUTE_ID = "Accept-Language";
+    public static final String CONNECTING_IP_ATTRIBUTE_ID = "CF-Connecting-IP";
+    public static final String CONTENT_TYPE_ATTRIBUTE_ID = "Content-Type";
     public static final String CURRENT_EXCEPTION_ATTRIBUTE_ID = "currentException";
     public static final String CURRENT_LANGUAGE_ATTRIBUTE_ID = "currentLanguage";
     public static final String CURRENT_SKIN_ATTRIBUTE_ID = "currentSkin";
     public static final String ENCODING_ATTRIBUTE_ID = "acceptCharset";
+    public static final String EXCLUSION_URLS_ATTRIBUTE_ID = "exclusionUrls";
     public static final String ERROR_ID_ATTRIBUTE_ID = "errorId";
     public static final String ERROR_TRACE_ATTRIBUTE_ID = "errorTrace";
     public static final String FORM_ATTRIBUTE_ID = "form";
@@ -38,20 +43,16 @@ public final class SystemConstants{
     public static final String MAIN_CONSOLE_ATTRIBUTE_ID = "mainConsole";
     public static final String OPERATING_SYSTEM_ATTRIBUTE_ID = "os";
     public static final String OPERATING_SYSTEMS_ATTRIBUTE_ID = "oss";
-    public static final String CONTENT_TYPE_ATTRIBUTE_ID = "Content-Type";
-    public static final String ACCEPT_ATTRIBUTE_ID = "Accept";
     public static final String REQUEST_PARAMETERS_ATTRIBUTE_ID = "requestParameters";
-    public static final String USER_AGENT_ATTRIBUTE_ID = "User-Agent";
-    public static final String TRUE_CLIENT_IP_ATTRIBUTE_ID = "True-Client-IP";
-    public static final String CONNECTING_IP_ATTRIBUTE_ID = "CF-Connecting-IP";
-    public static final String ACCEPT_LANGUAGE_ATTRIBUTE_ID = "Accept-Language";
     public static final String RESOURCES_ATTRIBUTE_ID = "systemResources";
+    public static final String USER_AGENT_ATTRIBUTE_ID = "User-Agent";
     public static final String SKINS_ATTRIBUTE_ID = "skins";
     public static final String SYSTEM_MODULE_ATTRIBUTE_ID = "systemModule";
     public static final String SYSTEM_SESSION_ATTRIBUTE_ID = "systemSession";
+    public static final String TRUE_CLIENT_IP_ATTRIBUTE_ID = "True-Client-IP";
     public static final String URL_ATTRIBUTE_ID = "url";
     public static final String URLS_ATTRIBUTE_ID = "urls";
-    public static final String EXCLUSION_URLS_ATTRIBUTE_ID = "exclusionUrls";
+
     public static final String DEFAULT_CONTROLLER_ID = "controller";
     public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("systemResources.xml");
 }

@@ -23,14 +23,15 @@ package br.com.concepting.framework.processors.constants;
  */
 public final class ProcessorConstants{
     public static final String VAR_ATTRIBUTE_ID = "var";
+
     public static final String DEFAULT_EVALUATE_PROCESSOR_ID = "evaluate";
     public static final String DEFAULT_EXPRESSION_PROCESSOR_ID = "expression";
     public static final String DEFAULT_FOR_PROCESSOR_ID = "for";
     public static final String DEFAULT_IF_PROCESSOR_ID = "if";
     public static final String DEFAULT_ITERATE_PROCESSOR_ID = "iterate";
+    public static final String DEFAULT_LINEBREAK_TAG_ID = "[lineBreak]";
     public static final String DEFAULT_NOW_ID = "now";
     public static final String DEFAULT_RANDOM_ID = "random";
     public static final String DEFAULT_REMOVE_TAG_ID = "[remove]";
-    public static final String DEFAULT_LINEBREAK_TAG_ID = "[lineBreak]";
     public static final String DEFAULT_SET_PROCESSOR_ID = "set";
 }

@@ -66,7 +66,7 @@ function projectInputDialog() {
     fi
   done
 
-  PROJECT_PACKAGE_NAME="com.$PROJECT_NAME"
+  PROJECT_PACKAGE_NAME="my.app.$PROJECT_NAME"
 
   while true; do
     PROJECT_PACKAGE_NAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
@@ -329,7 +329,6 @@ function copyProjectFiles() {
 function configureDialog() {
   TITLE="CONFIGURE"
 
-  prepareToExecute
   repositoryDialog
   sonarDialog
 
@@ -338,8 +337,6 @@ function configureDialog() {
 
 # Opens the new project's repository dialog.
 function projectRepositoryDialog() {
-  prepareToExecute
-
   OLD_REPOSITORY_URL=$REPOSITORY_URL
   OLD_REPOSITORY_USERNAME=$REPOSITORY_USERNAME
   OLD_REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD
@@ -432,6 +429,8 @@ function menuDialog() {
 
     exit 0
   else
+    prepareToExecute
+
     case $OPTION in
       "1. CONFIGURE")
         configureDialog
@@ -522,7 +521,7 @@ function checkRequirementsDialog() {
 function welcomeDialog() {
   MAIN_TITLE="Concepting Framework $buildVersion"
   TITLE="WELCOME!"
-  ABOUT=$(cat README.md)
+  ABOUT=$(cat README.txt)
 
   $DIALOG_CMD --backtitle "$MAIN_TITLE" \
               --title "$TITLE" \

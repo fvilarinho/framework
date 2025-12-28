@@ -67,7 +67,7 @@ public abstract class CryptoFactory{
      * execute the operation.
      */
     public static ICrypto getInstance(String algorithm) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        if (SecurityConstants.CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
+        if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(true);
 
         throw new NoSuchAlgorithmException(algorithm);
@@ -113,7 +113,7 @@ public abstract class CryptoFactory{
      * execute the operation.
      */
     public static ICrypto getInstance(String algorithm, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        if (SecurityConstants.CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
+        if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(useBase64);
 
         throw new NoSuchAlgorithmException(algorithm);
@@ -165,7 +165,7 @@ public abstract class CryptoFactory{
      * execute the operation.
      */
     public static ICrypto getInstance(String algorithm, String passPhrase, Integer keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        if (SecurityConstants.CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
+        if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(passPhrase, keySize, useBase64);
 
         throw new NoSuchAlgorithmException(algorithm);
@@ -213,7 +213,7 @@ public abstract class CryptoFactory{
      * execute the operation.
      */
     public static ICrypto getInstance(String algorithm, String passPhrase, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        if (SecurityConstants.CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
+        if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(passPhrase, useBase64);
 
         throw new NoSuchAlgorithmException(algorithm);
@@ -257,7 +257,7 @@ public abstract class CryptoFactory{
      * execute the operation.
      */
     public static ICrypto getInstance(String algorithm, String passPhrase) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        if (SecurityConstants.CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
+        if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(passPhrase);
 
         throw new NoSuchAlgorithmException(algorithm);

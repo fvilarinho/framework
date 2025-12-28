@@ -25,5 +25,6 @@ package br.com.concepting.framework.resources.constants;
 public final class FactoryConstants{
     public static final String RESOURCES_ATTRIBUTE_ID = "factoryResourcesId";
     public static final String URI_ATTRIBUTE_ID = "uri";
+
     public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("factoryResources.xml");
 }

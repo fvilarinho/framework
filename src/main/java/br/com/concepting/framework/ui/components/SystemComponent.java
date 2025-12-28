@@ -8,7 +8,6 @@ import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.SystemModuleModel;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.resources.SystemResources;
-import br.com.concepting.framework.security.constants.SecurityConstants;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.model.LoginParameterModel;
 import br.com.concepting.framework.security.model.LoginSessionModel;
@@ -98,7 +97,7 @@ public class SystemComponent extends BaseComponent{
                 String actionFormUrl = ModelUtil.getUrlByModel(modelClass);
                 
                 url.append(actionFormUrl);
-                url.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
+                url.append(ActionFormConstants.DEFAULT_ACTIONS_FILE_EXTENSION);
                 url.append("?");
                 url.append(ActionFormConstants.ACTION_ATTRIBUTE_ID);
                 url.append("=");
@@ -106,7 +105,7 @@ public class SystemComponent extends BaseComponent{
                 url.append("&");
                 url.append(ActionFormConstants.FORWARD_ATTRIBUTE_ID);
                 url.append("=");
-                url.append(ActionFormConstants.DEFAULT_FORWARD_ID);
+                url.append(ActionFormConstants.DEFAULT_ACTION_FORWARD_ID);
 
                 systemController.forward(url.toString());
             }

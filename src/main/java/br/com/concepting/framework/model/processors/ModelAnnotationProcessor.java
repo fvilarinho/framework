@@ -489,7 +489,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                 XmlNode forwardsNode = new XmlNode(ActionFormConstants.FORWARDS_ATTRIBUTE_ID);
                 XmlNode forwardNode = new XmlNode(ActionFormConstants.FORWARD_ATTRIBUTE_ID);
                 
-                forwardNode.addAttribute(Constants.NAME_ATTRIBUTE_ID, ActionFormConstants.DEFAULT_FORWARD_ID);
+                forwardNode.addAttribute(Constants.NAME_ATTRIBUTE_ID, ActionFormConstants.DEFAULT_ACTION_FORWARD_ID);
                 forwardNode.addAttribute(SystemConstants.URL_ATTRIBUTE_ID, actionFormUrl.toString());
                 
                 forwardsNode.addChild(forwardNode);

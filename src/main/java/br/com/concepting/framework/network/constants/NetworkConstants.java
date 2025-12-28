@@ -25,16 +25,17 @@ import br.com.concepting.framework.resources.constants.ResourcesConstants;
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public final class NetworkConstants{
-    public static final String IP_ATTRIBUTE_ID = "ip";
-    public static final String NETWORK_MASK_ATTRIBUTE_ID = "networkMask";
+    public static final String CANONICAL_NAME_ATTRIBUTE_ID = "canonicalName";
     public static final String HOSTS_ATTRIBUTE_ID = "hosts";
     public static final String HOSTNAME_ATTRIBUTE_ID = "hostName";
-    public static final String CANONICAL_NAME_ATTRIBUTE_ID = "canonicalName";
+    public static final String IP_ATTRIBUTE_ID = "ip";
     public static final String LOOKUP_PORT_ATTRIBUTE_ID = "lookupPort";
+    public static final String NETWORK_MASK_ATTRIBUTE_ID = "networkMask";
     public static final String SERVER_NAME_ATTRIBUTE_ID = "serverName";
     public static final String SERVER_PORT_ATTRIBUTE_ID = "serverPort";
     public static final String USE_SSL_ATTRIBUTE_ID = "useSsl";
     public static final String USE_TLS_ATTRIBUTE_ID = "useTls";
+
     public static final String DEFAULT_HTTP_PROTOCOL_ID = "http";
     public static final String DEFAULT_HTTPS_PROTOCOL_ID = "https";
     public static final String DEFAULT_LOCALHOST_ADDRESS_ID = "127.0.0.1";

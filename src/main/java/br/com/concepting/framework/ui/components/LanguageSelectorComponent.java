@@ -88,7 +88,7 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
                         
                         url.append(contextPath);
                         url.append(actionFormUrl);
-                        url.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
+                        url.append(ActionFormConstants.DEFAULT_ACTIONS_FILE_EXTENSION);
                         
                         StringBuilder onChange = new StringBuilder();
 
@@ -103,7 +103,7 @@ public class LanguageSelectorComponent extends ListPropertyComponent{
                         onChange.append("&");
                         onChange.append(ActionFormConstants.FORWARD_ATTRIBUTE_ID);
                         onChange.append("=");
-                        onChange.append(ActionFormConstants.DEFAULT_ROOT_FORWARD_ID);
+                        onChange.append(ActionFormConstants.DEFAULT_ROOT_ACTION_FORWARD_ID);
                         onChange.append("&");
                         onChange.append(SystemConstants.CURRENT_LANGUAGE_ATTRIBUTE_ID);
                         onChange.append("=' + this.value);");

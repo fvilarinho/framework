@@ -35,18 +35,16 @@ public final class SecurityConstants{
     public static final String PASSWORD_ATTRIBUTE_ID = "password";
     public static final String REMEMBER_USER_AND_PASSWORD_ATTRIBUTE_ID = "rememberUserAndPassword";
     public static final String RESOURCES_ATTRIBUTE_ID = "securityResources";
-    public static final String SECURITY_FILTER_ATTRIBUTE_ID = "securityFilter";
     public static final String USER_ATTRIBUTE_ID = "user";
     public static final String USERS_ATTRIBUTE_ID = "users";
     public static final String USER_NAME_ATTRIBUTE_ID = "userName";
-    public static final String CRYPTO_AES_ALGORITHM_ID = "AES";
+
     public static final String DEFAULT_CHANGE_PASSWORD_ID = "changePassword";
+    public static final String DEFAULT_CRYPTO_AES_ALGORITHM_ID = "AES";
     public static final int DEFAULT_CRYPTO_AES_KEY_SIZE = 256;
-    public static final String DEFAULT_CRYPTO_ALGORITHM_ID = "DEFAULT_CRYPTO_AES_ALGORITHM_ID";
+    public static final String DEFAULT_CRYPTO_ALGORITHM_ID = DEFAULT_CRYPTO_AES_ALGORITHM_ID;
     public static final int DEFAULT_CRYPTO_KEY_SIZE = DEFAULT_CRYPTO_AES_KEY_SIZE;
-    public static final int DEFAULT_TOKEN_SIZE = 32;
     public static final String DEFAULT_DIGEST_ALGORITHM_ID = "MD5";
-    public static final String DEFAULT_FILTER_ID = "securityFilter";
     public static final String DEFAULT_LOAD_CHANGE_PASSWORD_ID = "loadChangePassword";
     public static final String DEFAULT_LOAD_FORGOT_PASSWORD_ID = "loadForgotPassword";
     public static final String DEFAULT_LOGIN_ID = "logIn";
@@ -57,4 +55,5 @@ public final class SecurityConstants{
     public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("securityResources.xml");
     public static final String DEFAULT_SEND_FORGOTTEN_PASSWORD_ID = "sendForgottenPassword";
     public static final String DEFAULT_SEND_FORGOTTEN_PASSWORD_MESSAGE_ID = DEFAULT_SEND_FORGOTTEN_PASSWORD_ID.concat("Message");
+    public static final int DEFAULT_TOKEN_SIZE = 32;
 }

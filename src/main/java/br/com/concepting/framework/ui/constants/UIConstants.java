@@ -53,6 +53,7 @@ public final class UIConstants{
     public static final String SUGGESTION_BOX_DATASET_ATTRIBUTE_ID = "suggestionBoxDataset";
     public static final String SUGGESTION_BOX_LABEL_PROPERTY_ATTRIBUTE_ID = "suggestionBoxLabelProperty";
     public static final String UPDATE_VIEWS_ATTRIBUTE_ID = "updateViews";
+
     public static final String DEFAULT_SCRIPT_ID = "script";
     public static final String DEFAULT_SCRIPTS_RESOURCES_DIR = "/scripts/";
     public static final String DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION = ".js";
@@ -266,6 +267,7 @@ public final class UIConstants{
     public static final String DEFAULT_PAGER_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_PAGER_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_PAGER_STYLE_CLASS = DEFAULT_PAGER_ID;
     public static final String DEFAULT_PAGER_STYLE_RESOURCES_ID = "/".concat(DEFAULT_PAGER_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
+    public static final String DEFAULT_PAGES_URL_PATTERN = "*.jsp";
     public static final String DEFAULT_PRINT_BUTTON_ID = "printButton";
     public static final String DEFAULT_PRINT_BUTTON_STYLE_CLASS = DEFAULT_PRINT_BUTTON_ID;
     public static final double DEFAULT_PROGRESS_BAR_CRITICAL_VALUE = 90;

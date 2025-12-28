@@ -107,10 +107,10 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
                             StringBuilder actionUrl = new StringBuilder();
                             
                             actionUrl.append(action);
-                            actionUrl.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
+                            actionUrl.append(ActionFormConstants.DEFAULT_ACTIONS_FILE_EXTENSION);
                             actionUrl.append(".*");
                             
-                            if(actionFormForward != null && !actionFormForward.getName().equals(ActionFormConstants.DEFAULT_FORWARD_ID)){
+                            if(actionFormForward != null && !actionFormForward.getName().equals(ActionFormConstants.DEFAULT_ACTION_FORWARD_ID)){
                                 actionUrl.append(ActionFormConstants.FORWARD_ATTRIBUTE_ID);
                                 actionUrl.append("=");
                                 actionUrl.append(actionFormForward.getName());

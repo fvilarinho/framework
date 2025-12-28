@@ -28,5 +28,6 @@ public final class AuditorConstants{
     public static final String APPENDER_ENTRY_ATTRIBUTE_ID = "appender";
     public static final String BUSINESS_COMPLEMENT_ATTRIBUTE_ID = "businessComplement";
     public static final String LEVEL_ATTRIBUTE_ID = "level";
+
     public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("auditorResources.xml");
 }

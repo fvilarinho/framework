@@ -27,18 +27,16 @@ public final class ProjectConstants{
     public static final String BUILD_NAME_ATTRIBUTE_ID = "buildName";
     public static final String BUILD_VERSION_ATTRIBUTE_ID = "buildVersion";
     public static final String PERSISTENCE_MAPPING_ATTRIBUTE_ID = "hibernate-mapping";
+
     public static final String DEFAULT_ACTION_CLASS_TEMPLATE_FILE_ID = "actionClass.xml";
     public static final String DEFAULT_ACTION_FORM_CLASS_TEMPLATE_FILE_ID = "actionFormClass.xml";
     public static final String DEFAULT_RESOURCES_TEMPLATE_FILE_ID = "resources.xml";
     public static final String DEFAULT_SOURCE_DIR = "src/";
     public static final String DEFAULT_JAVA_DIR = DEFAULT_SOURCE_DIR.concat("main/java/");
-    public static final String DEFAULT_RESOURCES_DIR = DEFAULT_SOURCE_DIR.concat("main/resources/");
-    public static final String DEFAULT_UI_DIR = DEFAULT_SOURCE_DIR.concat("main/ui/");
     public static final String DEFAULT_JAVA_FILE_EXTENSION = ".java";
     public static final String DEFAULT_MODEL_CLASS_TEMPLATE_FILE_ID = "modelClass.xml";
     public static final String DEFAULT_MODEL_CLASS_TEST_TEMPLATE_FILE_ID = "modelClassTest.xml";
     public static final String DEFAULT_MODULE_DESCRIPTORS_DIR = "WEB-INF";
-    public static final String DEFAULT_MODULE_MAPPINGS_FILE_ID = DEFAULT_RESOURCES_DIR.concat(DEFAULT_MODULE_DESCRIPTORS_DIR).concat("/web.xml");
     public static final String DEFAULT_MODULE_MAPPING_TEMPLATE_FILE_ID = "moduleMapping.xml";
     public static final String DEFAULT_PERSISTENCE_CLASS_TEMPLATE_FILE_ID = "persistenceClass.xml";
     public static final String DEFAULT_PERSISTENCE_DATA_TEMPLATE_FILE_ID = "persistenceData.xml";
@@ -46,11 +44,13 @@ public final class ProjectConstants{
     public static final String DEFAULT_PERSISTENCE_MAPPING_DTD_PUBLIC_ID = "-//Hibernate/Hibernate Mapping DTD 3.0//EN";
     public static final String DEFAULT_PERSISTENCE_MAPPING_DTD_SYSTEM_ID = "https://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd";
     public static final String DEFAULT_PERSISTENCE_MAPPING_TEMPLATE_FILE_ID = "persistenceMapping.xml";
+    public static final String DEFAULT_RESOURCES_DIR = DEFAULT_SOURCE_DIR.concat("main/resources/");
     public static final String DEFAULT_REPORTS_DIR = DEFAULT_SOURCE_DIR.concat("reports/");
     public static final String DEFAULT_SERVICE_CLASS_TEMPLATE_FILE_ID = "serviceClass.xml";
     public static final String DEFAULT_SERVICE_INTERFACE_TEMPLATE_FILE_ID = "serviceInterface.xml";
     public static final String DEFAULT_TEMPLATES_DIR = DEFAULT_SOURCE_DIR.concat("templates/");
     public static final String DEFAULT_TESTS_DIR = DEFAULT_SOURCE_DIR.concat("test/java/");
+    public static final String DEFAULT_UI_DIR = DEFAULT_SOURCE_DIR.concat("main/ui/");
     public static final String DEFAULT_UI_PAGE_FILE_ID = "index.jsp";
     public static final String DEFAULT_UI_PAGE_TEMPLATE_FILE_ID = "uiPage.xml";
     public static final String DEFAULT_UI_PAGES_DIR = DEFAULT_MODULE_DESCRIPTORS_DIR.concat("/jsp/");

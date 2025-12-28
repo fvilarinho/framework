@@ -26,6 +26,7 @@ public final class MqConstants{
     public static final String LISTENER_CLASS_ATTRIBUTE_ID = "listenerClass";
     public static final String QUEUE_ATTRIBUTE_ID = "queue";
     public static final String QUEUES_ATTRIBUTE_ID = "queues";
+
     public static final String DEFAULT_ID = "mq";
     public static final int DEFAULT_PORT = 61616;
 }

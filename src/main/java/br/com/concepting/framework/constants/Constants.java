@@ -34,7 +34,6 @@ public final class Constants{
     public static final String CONTENT_SIZE_ATTRIBUTE_ID = "contentSize";
     public static final String CONTENT_FILENAME_ATTRIBUTE_ID = "contentFilename";
     public static final String DISABLED_ATTRIBUTE_ID = "disabled";
-    public static final String ENABLED_ATTRIBUTE_ID = "enabled";
     public static final String IDENTITY_ATTRIBUTE_ID = "id";
     public static final String ITEM_ATTRIBUTE_ID = "item";
     public static final String ITEMS_ATTRIBUTE_ID = "items";
@@ -46,14 +45,13 @@ public final class Constants{
     public static final String PACKAGE_SUFFIX_ATTRIBUTE_ID = "packageSuffix";
     public static final String PATTERN_ATTRIBUTE_ID = "pattern";
     public static final String SEQUENCE_ATTRIBUTE_ID = "sequence";
-    public static final String STATUS_ATTRIBUTE_ID = "status";
-    public static final String STATUS_MESSAGE_ATTRIBUTE_ID = "statusMessage";
     public static final String TIMEOUT_ATTRIBUTE_ID = "timeout";
     public static final String TITLE_ATTRIBUTE_ID = "title";
     public static final String TOOLTIP_ATTRIBUTE_ID = "tooltip";
     public static final String TYPE_ATTRIBUTE_ID = "type";
     public static final String VALUE_ATTRIBUTE_ID = "value";
     public static final String VALUES_ATTRIBUTE_ID = "values";
+
     public static final String DEFAULT_ATTRIBUTE_ID = "default";
     public static final int DEFAULT_BUFFER_SIZE = 4096;
     public static final String DEFAULT_CAPITALIZE_DELIMITER = " ";
@@ -63,7 +61,6 @@ public final class Constants{
     public static final int DEFAULT_DECIMAL_PRECISION = 2;
     public static final String DEFAULT_DELIMITER = ",";
     public static final String DEFAULT_DIGEST_ALGORITHM_ID = "SHA-256";
-    public static final Class<?> DEFAULT_FIFO_QUEUE_CLASS = ArrayDeque.class;
     public static final String DEFAULT_IMAGE_ID = "image";
     public static final String DEFAULT_INTERFACES_ID = "interfaces";
     public static final String DEFAULT_INDENT_CHARACTER = " ";

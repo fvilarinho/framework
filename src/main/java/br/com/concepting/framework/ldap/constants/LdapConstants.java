@@ -26,6 +26,7 @@ public final class LdapConstants{
     public static final String BASE_DN_ATTRIBUTE_ID = "baseDn";
     public static final String USER_DN_ATTRIBUTE_ID = "userDn";
     public static final String TIMEOUT_ATTRIBUTE_ID = "com.sun.jndi.ldap.read.timeout";
+
     public static final String DEFAULT_AUTHENTICATION_TYPE = "simple";
     public static final String DEFAULT_ID = "ldap";
     public static final int DEFAULT_PORT = 389;

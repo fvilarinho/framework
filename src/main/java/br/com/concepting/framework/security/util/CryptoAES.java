@@ -149,7 +149,7 @@ public class CryptoAES extends BaseCrypto{
      * execute the operation.
      */
     public CryptoAES(int keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        super(SecurityConstants.CRYPTO_AES_ALGORITHM_ID, null, keySize, useBase64);
+        super(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID, null, keySize, useBase64);
     }
     
     /**
@@ -193,7 +193,7 @@ public class CryptoAES extends BaseCrypto{
      * execute the operation.
      */
     public CryptoAES(String passPhrase, int keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
-        super(SecurityConstants.CRYPTO_AES_ALGORITHM_ID, passPhrase, keySize, useBase64);
+        super(SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID, passPhrase, keySize, useBase64);
     }
 
     @Override

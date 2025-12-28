@@ -208,8 +208,8 @@ public class PropertyUtil {
         try {
             if (clazz != null)
                 return (O) getDefaultImplementation(clazz).getDeclaredConstructor().newInstance();
-        } catch (IllegalAccessException | InstantiationException | InvocationTargetException |
-                 NoSuchMethodException ignored) {
+        }
+        catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException ignored) {
         }
 
         return null;

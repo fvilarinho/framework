@@ -23,6 +23,7 @@ package br.com.concepting.framework.resources.constants;
  */
 public final class ResourcesConstants{
     public static final String OPTIONS_ATTRIBUTE_ID = "options";
+
     public static final String DEFAULT_RESOURCES_DIR = "etc/resources/";
     public static final String DEFAULT_PROPERTIES_RESOURCES_DIR = DEFAULT_RESOURCES_DIR.concat("properties/");
     public static final String DEFAULT_PROPERTIES_RESOURCES_FILE_EXTENSION = ".properties";

@@ -236,7 +236,7 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
         
         url.append(contextPath);
         url.append(actionFormUrl);
-        url.append(ActionFormConstants.DEFAULT_ACTION_FILE_EXTENSION);
+        url.append(ActionFormConstants.DEFAULT_ACTIONS_FILE_EXTENSION);
         
         StringBuilder onClick = new StringBuilder();
 
@@ -251,7 +251,7 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
         onClick.append("&");
         onClick.append(ActionFormConstants.FORWARD_ATTRIBUTE_ID);
         onClick.append("=");
-        onClick.append(ActionFormConstants.DEFAULT_FORWARD_ID);
+        onClick.append(ActionFormConstants.DEFAULT_ACTION_FORWARD_ID);
         onClick.append("');");
         
         LinkComponent linkComponent = new LinkComponent();
@@ -285,7 +285,7 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
         onClick.append("&");
         onClick.append(ActionFormConstants.FORWARD_ATTRIBUTE_ID);
         onClick.append("=");
-        onClick.append(ActionFormConstants.DEFAULT_FORWARD_ID);
+        onClick.append(ActionFormConstants.DEFAULT_ACTION_FORWARD_ID);
         onClick.append("');");
         
         linkComponent.setPageContext(this.pageContext);

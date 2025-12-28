@@ -2,6 +2,7 @@ package br.com.concepting.framework.security.controller;
 
 import br.com.concepting.framework.constants.SystemConstants;
 import br.com.concepting.framework.controller.SystemController;
+import br.com.concepting.framework.controller.form.constants.ActionFormConstants;
 import br.com.concepting.framework.controller.form.util.ActionFormUtil;
 import br.com.concepting.framework.controller.helpers.RequestParameterInfo;
 import br.com.concepting.framework.exceptions.InternalErrorException;
@@ -25,11 +26,13 @@ import br.com.concepting.framework.security.resources.SecurityResourcesLoader;
 import br.com.concepting.framework.security.service.interfaces.LoginSessionService;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
+import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.util.DateTimeUtil;
 import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.DateFieldType;
 
+import br.com.concepting.framework.webservice.constants.WebServiceConstants;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,7 +65,7 @@ import java.util.regex.Pattern;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
-@WebFilter(filterName = "securityFilter", urlPatterns = {"*.ui", "*.jsp", "/webServices/*"})
+@WebFilter(filterName = "securityFilter", urlPatterns = {ActionFormConstants.DEFAULT_ACTIONS_URL_PATTERN, UIConstants.DEFAULT_PAGES_URL_PATTERN, WebServiceConstants.DEFAULT_URL_PATTERN})
 public class SecurityFilter implements Filter{
     private SystemResources systemResources = null;
     private SecurityResources securityResources = null;

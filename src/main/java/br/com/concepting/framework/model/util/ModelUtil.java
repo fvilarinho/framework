@@ -1035,7 +1035,7 @@ public class ModelUtil{
         String[] packageItems = StringUtil.split(modelClassName, ".");
         StringBuilder packagePrefixBuffer = new StringBuilder();
         
-        for(int cont = 0; cont < 4; cont++){
+        for(int cont = 0; cont < 3; cont++){
             if(cont >= packageItems.length)
                 break;
             
