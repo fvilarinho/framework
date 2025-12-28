@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE artifacts>
+
+<artifacts>
+	<artifact name="persistenceData2">
+		<set var="title" value="br.com.concepting.framework.util.StringUtil.capitalize(@{build.name})"/>
+		<set var="copyright" value="br.com.concepting.framework.util.DateTimeUtil.format(@{now}, 'yyyy')"/>
+		<set var="copyright" value="@{title}.concat(' ').concat(@{copyright})"/>
+		<set var="password" value="br.com.concepting.framework.security.util.SecurityUtil.encryptPassword('admin')"/>
+		<set var="email" value="@{user.name}.concat('@myapp.com')"/>
+		<set var="actionFormName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormIdByModel(#{clazz})"/>
+		insert into @{openQuote}url@{closeQuote} (id, path) select 7, '/security/loginSession*action=init*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 7);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 8, '/security/loginSession*action=back*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 8);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 9, '/security/loginSession*action=refresh*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 9);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 10, '/security/loginSession*action=logIn*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 10);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 11, '/security/loginSession*action=validateMfaToken*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 11);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 12, '/security/loginSession*action=loadForgotPassword*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 12);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 13, '/security/loginSession*action=rememberUserAndPassword*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 13);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 14, '/security/loginSession*action=sendForgottenPassword*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 14);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 15, '/webServices/security/loginSession/logIn' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 15);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 16, '/webServices/security/loginSession/validateMfaToken' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 16);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 17, '/webServices/security/loginSession/sendForgottenPassword' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 17);
+
+		insert into @{openQuote}loginParameter@{closeQuote} (id, expirePasswordInterval, changePasswordInterval, changePassword, expirePasswordDateTime, useStrongPassword, minimumPasswordLength, multipleLogins, loginTries, mfa, language) select 1, 30, 5, true, now(), true, 8, true, 3, false, 'en_US' where not exists (select 1 from @{openQuote}loginParameter@{closeQuote} where id = 1);
+
+		insert into @{openQuote}user@{closeQuote} (id, name, fullName, email, password, active, system, creation, superUser, loginParameterId) select 1, '@{user.name}', '@{user.name}', '@{email}', '@{password}', true, false, now(), true, 1 where not exists (select 1 from @{openQuote}user@{closeQuote} where id = 1);
+		insert into @{openQuote}user@{closeQuote} (id, name, fullName, email, password, active, system, creation, superUser) select 2, '@{user.name}', '@{user.name}', '@{email}', '@{password}', true, true, now(), true where not exists (select 1 from @{openQuote}user@{closeQuote} where id = 2);
+		insert into @{openQuote}user@{closeQuote} (id, name, fullName, email, password, active, system, creation, superUser) select 3, 'root', 'root', '@{email}', '@{password}', true, true, now(), true where not exists (select 1 from @{openQuote}user@{closeQuote} where id = 3);
+
+		insert into @{openQuote}group@{closeQuote} (id, name, title) select 1, 'administrators', 'Administrators' where not exists (select 1 from @{openQuote}group@{closeQuote} where id = 1);
+		insert into @{openQuote}group@{closeQuote} (id, name, title) select 2, 'users', 'Users' where not exists (select 1 from @{openQuote}group@{closeQuote} where id = 2);
+
+		insert into @{openQuote}groupAccess@{closeQuote} (groupId, accessId) select 1, 1 where not exists (select 1 from @{openQuote}groupAccess@{closeQuote} where groupId = 1 and accessId = 1);
+		insert into @{openQuote}groupAccess@{closeQuote} (groupId, accessId) select 2, 1 where not exists (select 1 from @{openQuote}groupAccess@{closeQuote} where groupId = 2 and accessId = 1);
+
+		insert into @{openQuote}userGroup@{closeQuote} (userId, groupId) select 1, 1 where not exists (select 1 from @{openQuote}userGroup@{closeQuote} where userId = 1 and groupId = 1);
+		insert into @{openQuote}userGroup@{closeQuote} (userId, groupId) select 2, 1 where not exists (select 1 from @{openQuote}userGroup@{closeQuote} where userId = 2 and groupId = 1);
+		insert into @{openQuote}userGroup@{closeQuote} (userId, groupId) select 3, 1 where not exists (select 1 from @{openQuote}userGroup@{closeQuote} where userId = 3 and groupId = 1);
+
+		insert into @{openQuote}groupObject@{closeQuote} (groupId, objectId) select 1, 1 where not exists (select 1 from @{openQuote}groupObject@{closeQuote} where groupId = 1 and objectId = 1);
+
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 7 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 7);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 8 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 8);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 9 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 9);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 10 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 10);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 11 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 11);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 12 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 12);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 13 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 13);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 14 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 14);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 15 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 15);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 16 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 16);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 17 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 17);
+	</artifact>
+</artifacts>

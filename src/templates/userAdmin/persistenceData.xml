@@ -2,12 +2,12 @@
 <!DOCTYPE artifacts>
 
 <artifacts>
-	<artifact name="persistenceData2">
+	<artifact name="persistenceData3">
 		<set var="menuItemUrl" value="br.com.concepting.framework.model.util.ModelUtil.getUrlByModel(#{clazz})"/>
 		<set var="menuItemUrl" value="@{menuItemUrl}.concat('.ui?action=init&amp;forward=index')"/>
 		<set var="menuItemName" value="menuUserAdmin"/>
 		insert into @{openQuote}object@{closeQuote} (id, type, formId, name, title, description, tooltip, action, actionTarget, objectId, sequence) select 2, 'MENU_ITEM', 1, '@{menuItemName}', '#{ui}', '', '', '@{menuItemUrl}', '', 1, 1 where not exists (select 1 from @{openQuote}object@{closeQuote} where id = 2);
 		
-		insert into @{openQuote}groupObject}@{closeQuote} (objectId, groupId) select 2, 1 where not exists (select 1 from @{openQuote}groupObject@{closeQuote} where objectId = 2 and groupId = 1);
+		insert into @{openQuote}groupObject@{closeQuote} (objectId, groupId) select 2, 1 where not exists (select 1 from @{openQuote}groupObject@{closeQuote} where objectId = 2 and groupId = 1);
 	</artifact>
 </artifacts>

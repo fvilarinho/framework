@@ -2,7 +2,7 @@
 <!DOCTYPE artifacts>
 
 <artifacts>
-	<artifact name="persistenceData3">
+	<artifact name="persistenceData4">
 		<set var="menuItemUrl" value="br.com.concepting.framework.model.util.ModelUtil.getUrlByModel(#{clazz})"/>
 		<set var="menuItemUrl" value="@{menuItemUrl}.concat('.ui?action=init&amp;forward=index')"/>
 		<set var="menuItemName" value="menuGroupAdmin"/>
