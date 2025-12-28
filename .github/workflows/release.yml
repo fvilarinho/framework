@@ -9,6 +9,7 @@ on:
       - 'banner.txt'
       - 'docs/**'
       - 'LICENSE'
+      - 'src/templates/**'
       - 'setup.sh'
 
 jobs:

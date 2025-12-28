@@ -59,7 +59,8 @@ sourceSets {
 }
 
 dependencies {
-	implementation("org.apache.activemq:activemq-broker:5.19.1")
+    implementation("javax.activation:activation:1.1.1")
+    implementation("org.apache.activemq:activemq-broker:5.19.1")
     implementation("org.apache.activemq:activemq-client:5.19.1")
     implementation("net.sourceforge.barbecue:barbecue:1.5-beta1")
     implementation("net.bytebuddy:byte-buddy:1.18.2")

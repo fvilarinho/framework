@@ -9,8 +9,9 @@ on:
       - 'banner.txt'
       - 'docs/**'
       - 'LICENSE'
-      - 'setup.sh'
       - 'publish.sh'
+      - 'src/templates/**'
+      - 'setup.sh'
 
 jobs:
   run:
