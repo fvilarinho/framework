@@ -88,7 +88,7 @@ public class SystemComponent extends BaseComponent{
                     actionMethod = ActionType.REFRESH.getMethod();
                 }
             }
-            else{
+            else {
                 modelClass = securityResources.getLoginSessionClass();
                 actionMethod = ActionType.REFRESH.getMethod();
             }
