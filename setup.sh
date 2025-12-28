@@ -416,10 +416,10 @@ function menuDialog() {
                        0 \
                        90 \
                        7 \
-                       "1. CONFIGURE" "Starts the configuration process." \
-                       "2. BUILD" "Starts the building process." \
-                       "3. CODE ANALYSIS" "Starts the code analysis." \
-                       "4. PUBLISH" "Publishes the build in the repository." \
+                       "1. CONFIGURE" "Configure framework attributes." \
+                       "2. BUILD" "Start the building process." \
+                       "3. CODE ANALYSIS" "Start the code analysis & quality checks." \
+                       "4. PUBLISH" "Publish the current build in the repository." \
                        "5. NEW PROJECT" "Creates a new project." \
                        "6. LICENSE" "Know more about licensing." \
                        "0. EXIT" "Exit this setup." 2>&1 > /dev/tty)
@@ -517,19 +517,6 @@ function checkRequirementsDialog() {
               35
 }
 
-# Opens the welcome dialog.
-function welcomeDialog() {
-  MAIN_TITLE="Concepting Framework $buildVersion"
-  TITLE="WELCOME!"
-  ABOUT=$(cat README.txt)
-
-  $DIALOG_CMD --backtitle "$MAIN_TITLE" \
-              --title "$TITLE" \
-              --msgbox "$ABOUT" \
-              20 \
-              90
-}
-
 # Checks the dependencies to run this script.
 function checkDependencies() {
   DIALOG_CMD=$(which dialog)
@@ -545,13 +532,14 @@ function checkDependencies() {
 # Prepares the environment to execute this script.
 function prepareToExecute() {
   source functions.sh
+
+  MAIN_TITLE="Concepting Framework $buildVersion"
 }
 
 # Main function.
 function main() {
   checkDependencies
   prepareToExecute
-  welcomeDialog
   checkRequirementsDialog
   menuDialog
 }

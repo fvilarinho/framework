@@ -62,7 +62,6 @@ function prepareToExecute() {
   export JAVA_CMD=$(which java)
   export GRADLE_CMD=$(which gradle)
   export FIGLET_CMD=$(which figlet)
-  export DIALOG_CMD=$(which dialog)
 
   # Mandatory files/paths.
   export WORK_DIR="$PWD"
