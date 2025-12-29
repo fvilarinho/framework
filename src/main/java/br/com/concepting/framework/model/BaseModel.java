@@ -11,6 +11,7 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import org.apache.commons.beanutils.MethodUtils;
 
 import java.io.Serial;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 /**
@@ -100,7 +101,8 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
             if (this.comparePropertyId == null || this.comparePropertyId.isEmpty()) {
                 currentValue = this;
                 compareValue = compareObject;
-            } else {
+            }
+            else {
                 currentValue = PropertyUtil.getValue(this, this.comparePropertyId);
                 compareValue = PropertyUtil.getValue(compareObject, this.comparePropertyId);
             }
@@ -119,30 +121,64 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
     }
 
     @Override
-    @SuppressWarnings({"unchecked", "EqualsDoesntCheckParameterClass"})
     public boolean equals(Object compareModel){
         boolean compareFlag = true;
 
-        try{
-            ModelInfo modelInfo = ModelUtil.getInfo(getClass());
-            Collection<PropertyInfo> identitiesInfo = modelInfo.getIdentityPropertiesInfo();
-            Collection<PropertyInfo> uniquesInfo = modelInfo.getUniquePropertiesInfo();
-            Collection<PropertyInfo> propertiesInfo = CollectionUtil.union(identitiesInfo, uniquesInfo);
+        if((compareModel == null || !compareModel.getClass().equals(getClass())))
+            compareFlag = false;
+        else {
+            try{
+                ModelInfo modelInfo = ModelUtil.getInfo(getClass());
+                Collection<PropertyInfo> identitiesInfo = modelInfo.getIdentityPropertiesInfo();
+                Collection<PropertyInfo> uniquesInfo = modelInfo.getUniquePropertiesInfo();
 
-            if(!propertiesInfo.isEmpty()){
-                for(PropertyInfo propertyInfo: propertiesInfo){
-                    Object value = PropertyUtil.getValue(this, propertyInfo.getId());
-                    Object compareValue = PropertyUtil.getValue(compareModel, propertyInfo.getId());
+                if(!identitiesInfo.isEmpty()){
+                    for(PropertyInfo propertyInfo: identitiesInfo){
+                        try{
+                            Object value = PropertyUtil.getValue(this, propertyInfo.getId());
+                            Object compareValue = PropertyUtil.getValue(compareModel, propertyInfo.getId());
 
-                    compareFlag = (PropertyUtil.compareTo(value, compareValue) == 0);
+                            if(value != null && compareValue != null)
+                                compareFlag = (PropertyUtil.compareTo(value, compareValue) == 0);
+                            else if(value == null && compareValue != null)
+                                compareFlag = false;
+                            else if(value != null)
+                                compareFlag = false;
 
-                    if(!compareFlag)
-                        break;
+                            if (!compareFlag)
+                                break;
+                        }
+                        catch(Throwable ignored){
+                        }
+                    }
+                }
+
+                if(!compareFlag){
+                    if(!uniquesInfo.isEmpty()){
+                        for(PropertyInfo propertyInfo: uniquesInfo){
+                            try{
+                                Object value = PropertyUtil.getValue(this, propertyInfo.getId());
+                                Object compareValue = PropertyUtil.getValue(compareModel, propertyInfo.getId());
+
+                                if(value != null && compareValue != null)
+                                    compareFlag = (PropertyUtil.compareTo(value, compareValue) == 0);
+                                else if(value == null && compareValue != null)
+                                    compareFlag = false;
+                                else if(value != null)
+                                    compareFlag = false;
+
+                                if (!compareFlag)
+                                    break;
+                            }
+                            catch(Throwable ignored){
+                            }
+                        }
+                    }
                 }
             }
-        }
-        catch(Throwable e){
-            compareFlag = false;
+            catch(InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchMethodException | NoSuchFieldException | IllegalAccessException | IllegalArgumentException  e){
+                compareFlag = false;
+            }
         }
 
         return compareFlag;

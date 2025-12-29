@@ -101,7 +101,8 @@ public class PropertyUtil {
 
         try {
             return (Integer) MethodUtil.invokeMethod(object1, "compareTo", object2);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        }
+        catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             return -1;
         }
     }

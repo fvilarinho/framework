@@ -22,7 +22,6 @@ import jakarta.servlet.jsp.JspException;
 
 import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
-import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -498,11 +497,6 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
         
         try{
             for(N node: nodes){
-                if(node.getIndex() == null)
-                    node.setIndex(new SecureRandom().nextInt());
-                
-                node.setLevel(level);
-                
                 if((parent == null && node.getParent() == null) || (parent != null && parent.equals(node.getParent()))){
                     ExpressionProcessorUtil.setVariable(domain, Constants.ITEM_ATTRIBUTE_ID, node);
                     
