@@ -18,12 +18,11 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.SortOrderType;
-
 import jakarta.servlet.jsp.JspException;
+
 import java.io.Serial;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -567,9 +566,6 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                         BaseModel currentModel = (cont1 < datasetValues.size() ? datasetValues.get(cont1) : null);
                         
                         if(currentModel != null){
-                            if(currentModel.getIndex() == null)
-                                currentModel.setIndex(new SecureRandom().nextInt());
-                            
                             ExpressionProcessorUtil.setVariable(domain, Constants.ITEM_ATTRIBUTE_ID, currentModel);
                             
                             expressionProcessor.setDeclaration(currentModel);

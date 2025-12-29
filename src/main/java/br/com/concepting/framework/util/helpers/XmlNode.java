@@ -77,11 +77,9 @@ public class XmlNode extends Node{
      * Constructor - Initializes the node.
      *
      * @param node Instance that contains the node data.
-     * @param index Numeric value that contains the node index.
-     * @param level Numeric value that contains the node level in the tree data
      * structure.
      */
-    public XmlNode(Element node, Integer index, Integer level){
+    public XmlNode(Element node){
         this();
         
         setNamespace(node.getNamespacePrefix());
@@ -89,9 +87,7 @@ public class XmlNode extends Node{
         setBody(XmlUtil.removeNamespaces(node.asXML()));
         setText(buildText(node));
         setValue(StringUtil.replaceAll(node.getText(), "\t", ""));
-        setLevel(level);
-        setIndex(index);
-        
+
         List<Attribute> attributes = node.attributes();
         
         if(attributes != null && !attributes.isEmpty())
@@ -195,16 +191,11 @@ public class XmlNode extends Node{
             List<Element> nodes = node.elements();
             
             if(nodes != null && !nodes.isEmpty()){
-                Integer index = 0;
-                Integer level = getLevel();
-                
                 for(Element item: nodes){
                     if(item.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE){
-                        XmlNode childNode = new XmlNode(item, index, level + 1);
+                        XmlNode childNode = new XmlNode(item);
                         
                         addChild(childNode);
-                        
-                        index++;
                     }
                 }
             }

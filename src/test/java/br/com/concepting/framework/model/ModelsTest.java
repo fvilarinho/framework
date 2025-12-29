@@ -259,34 +259,6 @@ public class ModelsTest {
         assertEquals(-1, phonebookModel.compareTo(phonebookModel2));
         assertNotEquals(phonebookModel, phonebookModel2);
 
-        phonebookModel.setComparePropertyId("name2");
-        phonebookModel2.setComparePropertyId("name2");
-
-        assertEquals(-1,phonebookModel.compareTo(phonebookModel2));
-
-        phonebookModel.setComparePropertyId("index");
-        phonebookModel2.setComparePropertyId("index");
-
-        phonebookModel.setIndex(1);
-        phonebookModel2.setIndex(1);
-
-        assertEquals(0,phonebookModel.compareTo(phonebookModel2));
-
-        phonebookModel.setIndex(1);
-        phonebookModel2.setIndex(2);
-
-        assertEquals(-1,phonebookModel.compareTo(phonebookModel2));
-
-        phonebookModel.setComparePropertyId("index");
-        phonebookModel2.setComparePropertyId("name");
-
-        assertEquals(-1,phonebookModel.compareTo(phonebookModel2));
-
-        phonebookModel.setComparePropertyId("name");
-        phonebookModel2.setComparePropertyId("index");
-
-        assertEquals(-1,phonebookModel.compareTo(phonebookModel2));
-
         phonebookModel.setComparePropertyId("");
         phonebookModel2.setComparePropertyId("");
         phonebookModel.setName(null);

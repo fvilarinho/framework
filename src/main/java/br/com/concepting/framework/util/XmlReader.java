@@ -137,7 +137,7 @@ public class XmlReader{
         if(document != null){
             setDocumentType(document.getDocType());
             setEncoding(document.getXMLEncoding());
-            setRoot(new XmlNode(document.getRootElement(), 0, 0));
+            setRoot(new XmlNode(document.getRootElement()));
         }
     }
     

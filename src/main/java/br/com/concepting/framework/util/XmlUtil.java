@@ -240,7 +240,7 @@ public class XmlUtil{
             
             document.setXMLEncoding(encoding);
             
-            return new XmlNode(document.getRootElement(), 0, 0);
+            return new XmlNode(document.getRootElement());
         }
         
         return null;

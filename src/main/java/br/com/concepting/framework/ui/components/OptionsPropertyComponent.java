@@ -16,13 +16,11 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
-import org.apache.commons.lang3.StringUtils;
-
 import jakarta.servlet.jsp.JspException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;
-import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -824,14 +822,8 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
                 boolean remove;
                 boolean expressionResult;
 
-                if(option instanceof Node){
+                if(option instanceof Node)
                     optionChild = (N) option;
-                    
-                    if(optionChild.getIndex() == null)
-                        optionChild.setIndex(new SecureRandom().nextInt());
-                    
-                    optionChild.setLevel(level);
-                }
                 else
                     optionChild = null;
                 

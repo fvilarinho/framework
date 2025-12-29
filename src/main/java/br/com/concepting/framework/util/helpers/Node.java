@@ -37,56 +37,13 @@ public abstract class Node implements Serializable, Cloneable{
     @Serial
     private static final long serialVersionUID = -9107989395547430445L;
 
-    @Property(isUnique = true)
-    private Integer index = null;
-
-    @Property(isUnique = true)
-    private Integer level = null;
-
     @Property
     private Node parent = null;
     
     @Property
     @JsonIgnore
     private List<Node> children = null;
-    
 
-    /**
-     * Returns the level of the node.
-     *
-     * @return Numeric value that contains the level.
-     */
-    public Integer getLevel(){
-        return this.level;
-    }
-    
-    /**
-     * Defines the level of the node.
-     *
-     * @param level Numeric value that contains the level.
-     */
-    public void setLevel(Integer level){
-        this.level = level;
-    }
-    
-    /**
-     * Returns the index of the node in a list.
-     *
-     * @return Numeric value that contains the index.
-     */
-    public Integer getIndex(){
-        return this.index;
-    }
-    
-    /**
-     * Defines the index of the node in a list.
-     *
-     * @param index Numeric value that contains the index.
-     */
-    public void setIndex(Integer index){
-        this.index = index;
-    }
-    
     /**
      * Returns the instance of the parent.
      *

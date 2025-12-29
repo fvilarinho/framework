@@ -120,7 +120,7 @@
 				@Property(propertyId="description", mappedPropertyId="description"),
 				@Property(propertyId="users", relationCollectionItemsClass=UserModel.class, mappedPropertiesIds="groupId", mappedRelationPropertiesIds="userId", mappedRelationRepositoryId="userGroup", foreignKeyId="fk_group_user"),
 				@Property(propertyId="objects", relationCollectionItemsClass=ObjectModel.class, mappedPropertiesIds="groupId", mappedRelationPropertiesIds="objectId", mappedRelationRepositoryId="groupObject", keyId="fk_object_group", foreignKeyId="fk_group_object"),
-				@Property(propertyId="accesses", relationCollectionItemsClass=AccessModel.class, mappedPropertiesIds="groupId", mappedRelationPropertiesIds="accessId", mappedRelationRepositoryId="groupAccess", keyId="fk_access_group", foreignKeyId="fk_group_access")
+				@Property(propertyId="accesses", relationCollectionItemsClass=AccessModel.class, mappedPropertiesIds="groupId", mappedRelationPropertiesIds="accessId", mappedRelationRepositoryId="groupAccess", keyId="fk_access_group", foreignKeyId="fk_group_access", cascadeOnSave=true)
 			}
 		)
 		public class @{name} extends br.com.concepting.framework.security.model.GroupModel{
