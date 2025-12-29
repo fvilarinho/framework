@@ -14,7 +14,6 @@ import br.com.concepting.framework.ui.constants.UIConstants;
 import br.com.concepting.framework.ui.controller.UIController;
 import br.com.concepting.framework.util.*;
 import br.com.concepting.framework.util.types.ContentType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -59,8 +58,6 @@ import static br.com.concepting.framework.webservice.constants.WebServiceConstan
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class SystemController{
-	private static final ObjectMapper mapper = PropertyUtil.getMapper();
-
 	private PageContext                       pageContext          = null;
 	private HttpServletRequest                request              = null;
 	private HttpServletResponse               response             = null;
@@ -129,13 +126,11 @@ public class SystemController{
 	 * Load the request cookies.
 	 */
 	private void loadCookies(){
-		if(this.request != null){
-			if(this.request.getCookies() != null && this.request.getCookies().length > 0){
-				this.cookies = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+		if(this.request != null && this.request.getCookies() != null && this.request.getCookies().length > 0){
+			this.cookies = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-                if(this.cookies != null)
-    				Collections.addAll(this.cookies, this.request.getCookies());
-			}
+			if(this.cookies != null)
+				Collections.addAll(this.cookies, this.request.getCookies());
 		}
 	}
 
@@ -822,6 +817,7 @@ public class SystemController{
 				this.cookies.remove(cookie);
 
 			cookie = new Cookie(name, value);
+			cookie.setHttpOnly(true);
 			cookie.setSecure((this.request != null && this.request.getScheme() != null && this.request.getScheme().equalsIgnoreCase("https")));
 			cookie.setPath(getContextPath());
 
@@ -1000,26 +996,24 @@ public class SystemController{
 				this.session.setAttribute(attributeId, attributeValue);
 			else if(this.request != null && scopeType == ScopeType.REQUEST)
 				this.request.setAttribute(attributeId, attributeValue);
-			else if(!isWebServicesRequest){
-				if(this.session != null){
-					try{
-						int pos = attributeId.indexOf(".");
+			else if(!isWebServicesRequest && this.session != null){
+				try{
+					int pos = attributeId.indexOf(".");
 
-						if(pos >= 0){
-							String firstAttributeId = attributeId.substring(0, pos);
+					if(pos >= 0){
+						String firstAttributeId = attributeId.substring(0, pos);
 
-							attributeId = attributeId.substring(pos + 1);
+						attributeId = attributeId.substring(pos + 1);
 
-							Object instance = getAttribute(firstAttributeId, scopeType);
+						Object instance = getAttribute(firstAttributeId, scopeType);
 
-							if(instance != null)
-								PropertyUtil.setValue(instance, attributeId, attributeValue);
+						if(instance != null)
+							PropertyUtil.setValue(instance, attributeId, attributeValue);
 
-							this.session.setAttribute(firstAttributeId, instance);
-						}
+						this.session.setAttribute(firstAttributeId, instance);
 					}
-					catch(InvocationTargetException ignored){
-					}
+				}
+				catch(InvocationTargetException ignored){
 				}
 			}
 		}

@@ -59,7 +59,7 @@ public abstract class BaseCrypto implements ICrypto{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public BaseCrypto(String algorithm, String passPhrase, int keySize, boolean useBase64) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException{
+    protected BaseCrypto(String algorithm, String passPhrase, int keySize, boolean useBase64) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException, UnsupportedEncodingException{
         super();
         
         this.algorithm = algorithm;
@@ -82,7 +82,7 @@ public abstract class BaseCrypto implements ICrypto{
      * @return Instance that contains the cryptography key.
      * @throws InvalidKeyException Occurs when was not possible to execute the
      * operation.
-     * @throws NoSuchAlgorithmException Occurs when was not possible to execute
+     * @throws NoSuchAlgorithmException Occurs when was not possible to EXECUTE
      * the operation.
      * @throws InvalidKeySpecException Occurs when was not possible to execute
      * the operation.

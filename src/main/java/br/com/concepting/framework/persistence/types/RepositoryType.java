@@ -98,7 +98,7 @@ public enum RepositoryType{
      * @param description String that contains the description of the
      * repository.
      */
-    public void setDescription(String description){
+    void setDescription(String description){
         this.description = description;
     }
     
@@ -116,7 +116,7 @@ public enum RepositoryType{
      *
      * @param defaultPort Numeric value that contains the default listen port.
      */
-    public void setDefaultPort(Integer defaultPort){
+    void setDefaultPort(Integer defaultPort){
         this.defaultPort = defaultPort;
     }
     
@@ -134,7 +134,7 @@ public enum RepositoryType{
      *
      * @param openQuote String that contains the quote character.
      */
-    public void setOpenQuote(String openQuote){
+    void setOpenQuote(String openQuote){
         this.openQuote = openQuote;
     }
     
@@ -152,7 +152,7 @@ public enum RepositoryType{
      *
      * @param closeQuote String that contains the quote character.
      */
-    public void setCloseQuote(String closeQuote){
+    void setCloseQuote(String closeQuote){
         this.closeQuote = closeQuote;
     }
 }

@@ -63,8 +63,7 @@ public enum BitMetricType implements IMetric{
         return this.metricValue;
     }
 
-    @Override
-    public void setValue(double metricValue){
+    void setValue(double metricValue){
         this.metricValue = metricValue;
     }
 
@@ -73,8 +72,7 @@ public enum BitMetricType implements IMetric{
         return this.metricUnit;
     }
 
-    @Override
-    public void setUnit(String metricUnit){
+    void setUnit(String metricUnit){
         this.metricUnit = metricUnit;
     }
 }

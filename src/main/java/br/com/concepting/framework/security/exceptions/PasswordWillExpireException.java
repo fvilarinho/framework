@@ -65,7 +65,7 @@ public class PasswordWillExpireException extends ExpectedWarningException{
      *
      * @return Numeric value that contains the minutes until expiration.
      */
-    private int getMinutesUntilExpiration(){
+    public int getMinutesUntilExpiration(){
         return this.minutesUntilExpiration;
     }
 

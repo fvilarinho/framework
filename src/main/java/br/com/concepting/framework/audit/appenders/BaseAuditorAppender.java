@@ -51,7 +51,7 @@ public abstract class BaseAuditorAppender extends AbstractAppender {
     /**
      * Constructor - Initialize the appender.
      */
-    public BaseAuditorAppender(final String name) {
+    protected BaseAuditorAppender(final String name) {
         super(name, null, null, false, Property.EMPTY_ARRAY);
     }
 
@@ -201,9 +201,8 @@ public abstract class BaseAuditorAppender extends AbstractAppender {
                     Object businessComplementArgumentValue = businessComplementArgumentValues[cont];
                     C businessComplementItems = buildBusinessComplement(auditorModel, businessComplementArgumentId, businessComplementArgumentType, businessComplementArgumentValue, businessComplementArgumentClass);
 
-                    if (businessComplementItems != null && !businessComplementItems.isEmpty())
-                        if (businessComplement != null)
-                            businessComplement.addAll(businessComplementItems);
+                    if (businessComplementItems != null && !businessComplementItems.isEmpty() && businessComplement != null)
+                        businessComplement.addAll(businessComplementItems);
                 }
             }
             catch (IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException | ClassNotFoundException | NoSuchFieldException ignored) {
@@ -253,9 +252,8 @@ public abstract class BaseAuditorAppender extends AbstractAppender {
                             if(auditablePropertyInfo.isModel()){
                                 C items = buildBusinessComplement(auditor, name, type, value, businessComplementItemType);
                                 
-                                if(items != null && !items.isEmpty())
-                                    if(businessComplement != null)
-                                        businessComplement.addAll(items);
+                                if(items != null && !items.isEmpty() && businessComplement != null)
+                                    businessComplement.addAll(items);
                             }
                             else{
                                 AuditorComplementModel item = ConstructorUtils.invokeConstructor(businessComplementItemType, null);
@@ -279,9 +277,8 @@ public abstract class BaseAuditorAppender extends AbstractAppender {
                             Class<?> businessComplementValuesItemType = businessComplementValuesItem.getClass();
                             C items = buildBusinessComplement(auditor, businessComplementId, businessComplementValuesItemType, businessComplementValuesItem, businessComplementItemType);
                             
-                            if(items != null && !items.isEmpty())
-                                if(businessComplement != null)
-                                    businessComplement.addAll(items);
+                            if(items != null && !items.isEmpty() && businessComplement != null)
+                                businessComplement.addAll(items);
                         }
                     }
                 }

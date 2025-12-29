@@ -58,10 +58,11 @@ import java.util.stream.Collectors;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses">...</a>.</pre>
  */
-@WebServlet(name = "wenServices", urlPatterns = "/webServices/*")
+@WebServlet(name = "wenServices", urlPatterns = WebServiceConstants.DEFAULT_URL_PATTERN)
 public class WebServiceServlet extends HttpServlet {
-    private SystemController systemController = null;
-    private SecurityController securityController = null;
+    private transient SystemController systemController = null;
+    private transient SecurityController securityController = null;
+
     private SystemResources systemResources = null;
     private String uri = null;
     private String serviceUrl = null;
@@ -271,7 +272,7 @@ public class WebServiceServlet extends HttpServlet {
         } while (!superClass.equals(Object.class));
 
         if(methods != null && !methods.isEmpty()){
-            methods = methods.parallelStream().filter(s-> s.getAnnotation(Transaction.class) != null).collect(Collectors.toList());
+            methods = methods.parallelStream().filter(s-> s.getAnnotation(Transaction.class) != null).toList();
 
             if(!methods.isEmpty()){
                 for(Method method : methods){

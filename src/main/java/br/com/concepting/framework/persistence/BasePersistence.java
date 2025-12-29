@@ -44,7 +44,7 @@ public abstract class BasePersistence<CN, T, M extends BaseModel> implements IPe
     /**
      * Constructor - Initializes the persistence.
      */
-    public BasePersistence(){
+    protected BasePersistence(){
         super();
     }
     
@@ -54,7 +54,7 @@ public abstract class BasePersistence<CN, T, M extends BaseModel> implements IPe
      * @param <D> Class that defines the persistence.
      * @param persistence Instance that contains the persistence.
      */
-    public <D extends BasePersistence<CN, T, ? extends BaseModel>> BasePersistence(D persistence){
+    protected <D extends BasePersistence<CN, T, ? extends BaseModel>> BasePersistence(D persistence){
         this();
         
         if(persistence != null){

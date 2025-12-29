@@ -208,8 +208,8 @@ public class ReportUtil{
                 if(reportParameters != null && !reportParameters.isEmpty()){
                     JasperPrint jasperPrint;
                     
-                    if(datasource instanceof Connection)
-                        jasperPrint = JasperFillManager.fillReport(reportStream, reportParameters, (Connection) datasource);
+                    if(datasource instanceof Connection connection)
+                        jasperPrint = JasperFillManager.fillReport(reportStream, reportParameters, connection);
                     else
                         jasperPrint = JasperFillManager.fillReport(reportStream, reportParameters, new ReportDataSource((Collection<?>) datasource));
                     

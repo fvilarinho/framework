@@ -565,27 +565,25 @@ public class StringUtil{
                 if(rulesQueue != null && !rulesQueue.isEmpty()){
                     lastRule = rulesQueue.getLast();
                     
-                    if(!lastRule.backAfterEndChar()){
-                        if(lastRule.getEndChar() != null){
-                            pos = line.indexOf(lastRule.getEndChar());
-                            
-                            if(pos >= 0){
-                                if(pos == 0){
-                                    if(lastRule.getIndentSize() != null){
-                                        currentIndentCount -= lastRule.getIndentSize();
-                                        
-                                        rulesQueue.removeLast();
-                                    }
+                    if(!lastRule.backAfterEndChar() && lastRule.getEndChar() != null){
+                        pos = line.indexOf(lastRule.getEndChar());
+
+                        if(pos >= 0){
+                            if(pos == 0){
+                                if(lastRule.getIndentSize() != null){
+                                    currentIndentCount -= lastRule.getIndentSize();
+
+                                    rulesQueue.removeLast();
                                 }
-                                else{
-                                    if(lastRule.getStartChar() != null && !lastRule.getStartChar().isEmpty()){
-                                        pos = line.indexOf(lastRule.getStartChar());
-                                        
-                                        if(pos < 0){
-                                            currentIndentCount -= lastRule.getIndentSize();
-                                            
-                                            rulesQueue.removeLast();
-                                        }
+                            }
+                            else{
+                                if(lastRule.getStartChar() != null && !lastRule.getStartChar().isEmpty()){
+                                    pos = line.indexOf(lastRule.getStartChar());
+
+                                    if(pos < 0){
+                                        currentIndentCount -= lastRule.getIndentSize();
+
+                                        rulesQueue.removeLast();
                                     }
                                 }
                             }
@@ -636,27 +634,25 @@ public class StringUtil{
                 if(rulesQueue != null && !rulesQueue.isEmpty()){
                     lastRule = rulesQueue.getLast();
                     
-                    if(lastRule.backAfterEndChar()){
-                        if(lastRule.getEndChar() != null && !lastRule.getEndChar().isEmpty()){
-                            pos = line.indexOf(lastRule.getEndChar());
-                            
-                            if(pos >= 0){
-                                if(pos == 0){
-                                    if(lastRule.getIndentSize() != null){
-                                        currentIndentCount -= lastRule.getIndentSize();
-                                        
-                                        rulesQueue.removeLast();
-                                    }
+                    if(lastRule.backAfterEndChar() && lastRule.getEndChar() != null && !lastRule.getEndChar().isEmpty()){
+                        pos = line.indexOf(lastRule.getEndChar());
+
+                        if(pos >= 0){
+                            if(pos == 0){
+                                if(lastRule.getIndentSize() != null){
+                                    currentIndentCount -= lastRule.getIndentSize();
+
+                                    rulesQueue.removeLast();
                                 }
-                                else{
-                                    if(lastRule.getStartChar() != null && !lastRule.getStartChar().isEmpty()){
-                                        pos = line.indexOf(lastRule.getStartChar());
-                                        
-                                        if(pos < 0){
-                                            currentIndentCount -= lastRule.getIndentSize();
-                                            
-                                            rulesQueue.removeLast();
-                                        }
+                            }
+                            else{
+                                if(lastRule.getStartChar() != null && !lastRule.getStartChar().isEmpty()){
+                                    pos = line.indexOf(lastRule.getStartChar());
+
+                                    if(pos < 0){
+                                        currentIndentCount -= lastRule.getIndentSize();
+
+                                        rulesQueue.removeLast();
                                     }
                                 }
                             }

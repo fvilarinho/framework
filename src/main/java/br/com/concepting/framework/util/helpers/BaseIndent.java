@@ -36,7 +36,7 @@ public abstract class BaseIndent{
      * @param startChar String that contains the start character.
      * @param endChar String that contains the end character.
      */
-    public BaseIndent(String startChar, String endChar){
+    protected BaseIndent(String startChar, String endChar){
         this(startChar, endChar, Constants.DEFAULT_INDENT_SIZE);
     }
     
@@ -48,7 +48,7 @@ public abstract class BaseIndent{
      * @param indentSize Numeric value that contains the number of indentation
      * characters should be used.
      */
-    public BaseIndent(String startChar, String endChar, Integer indentSize){
+    protected BaseIndent(String startChar, String endChar, Integer indentSize){
         this(startChar, endChar, indentSize, Constants.DEFAULT_INDENT_CHARACTER);
     }
     
@@ -62,7 +62,7 @@ public abstract class BaseIndent{
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.
      */
-    public BaseIndent(String startChar, String endChar, Integer indentSize, boolean backAfterEndChar){
+    protected BaseIndent(String startChar, String endChar, Integer indentSize, boolean backAfterEndChar){
         this(startChar, endChar, indentSize);
         
         setBackAfterEndChar(backAfterEndChar);
@@ -76,7 +76,7 @@ public abstract class BaseIndent{
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.
      */
-    public BaseIndent(String startChar, String endChar, boolean backAfterEndChar){
+    protected BaseIndent(String startChar, String endChar, boolean backAfterEndChar){
         this(startChar, endChar);
         
         setBackAfterEndChar(backAfterEndChar);
@@ -91,7 +91,7 @@ public abstract class BaseIndent{
      * characters should be used.
      * @param indentChar String that contains the indentation character.
      */
-    public BaseIndent(String startChar, String endChar, Integer indentSize, String indentChar){
+    protected BaseIndent(String startChar, String endChar, Integer indentSize, String indentChar){
         this(startChar, endChar, indentSize, indentChar, false);
     }
     
@@ -106,7 +106,7 @@ public abstract class BaseIndent{
      * @param backAfterEndChar Indicates if the indentation should be cleared
      * after match the end character.
      */
-    public BaseIndent(String startChar, String endChar, Integer indentCount, String indentChar, boolean backAfterEndChar){
+    protected BaseIndent(String startChar, String endChar, Integer indentCount, String indentChar, boolean backAfterEndChar){
         super();
         
         setStartChar(startChar);

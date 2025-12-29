@@ -37,7 +37,7 @@ public abstract class BaseAnnotationProcessor implements IAnnotationProcessor{
      * @throws InternalErrorException Occurs when was not possible to
      * instantiate the processor.
      */
-    public BaseAnnotationProcessor(Class<?> declaration, AnnotationProcessorFactory annotationProcessorFactory) throws InternalErrorException{
+    protected BaseAnnotationProcessor(Class<?> declaration, AnnotationProcessorFactory annotationProcessorFactory) throws InternalErrorException{
         super();
         
         setDeclaration(declaration);

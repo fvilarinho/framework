@@ -279,9 +279,8 @@ public class ModelUtil{
                 if(identityPropertyInfo.isModel())
                     value = generateIdentifierMap((M) value);
                 
-                if(value != null)
-                    if(map != null)
-                        map.put(identityPropertyInfo.getId(), value);
+                if(value != null && map != null)
+                    map.put(identityPropertyInfo.getId(), value);
             }
         }
         
@@ -297,9 +296,8 @@ public class ModelUtil{
                 if(uniquePropertyInfo.isModel())
                     value = generateIdentifierMap((M) value);
                 
-                if(value != null)
-                    if(map != null)
-                        map.put(uniquePropertyInfo.getId(), value);
+                if(value != null && map != null)
+                    map.put(uniquePropertyInfo.getId(), value);
             }
         }
         
@@ -315,9 +313,8 @@ public class ModelUtil{
                 if(serializablePropertyInfo.isModel())
                     value = generateIdentifierMap((M) value);
                 
-                if(value != null)
-                    if(map != null)
-                        map.put(serializablePropertyInfo.getId(), value);
+                if(value != null && map != null)
+                    map.put(serializablePropertyInfo.getId(), value);
             }
         }
         
@@ -512,7 +509,7 @@ public class ModelUtil{
             catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
                 return false;
             }
-        }).collect(Collectors.toList());
+        }).toList();
     }
     
     /**
@@ -880,21 +877,18 @@ public class ModelUtil{
                 if(propertyInfo.isModel() && propertyInfo.getRelationJoinType() != RelationJoinType.NONE){
                     Class<? extends BaseModel> relationModelClass = (Class<? extends BaseModel>) propertyInfo.getClazz();
                     
-                    if(relationModelClass != null && !relationModelClass.equals(modelClass)){
-                        if(processedRelations == null || !processedRelations.contains(propertyInfo.getClazz())){
-                            if(processedRelations == null)
-                                processedRelations = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+                    if(relationModelClass != null && !relationModelClass.equals(modelClass) && (processedRelations == null || !processedRelations.contains(propertyInfo.getClazz()))){
+                        if(processedRelations == null)
+                            processedRelations = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-                            if(processedRelations != null)
-                                processedRelations.add(relationModelClass);
-                            
-                            buildPhoneticMap(relationModelClass, processedRelations, phoneticMap);
-                        }
+                        if(processedRelations != null)
+                            processedRelations.add(relationModelClass);
+
+                        buildPhoneticMap(relationModelClass, processedRelations, phoneticMap);
                     }
                 }
-                else if(propertyInfo.getSearchCondition() == ConditionType.PHONETIC)
-                    if(phoneticMap != null)
-                        phoneticMap.put(propertyInfo.getId(), propertyInfo);
+                else if(propertyInfo.getSearchCondition() == ConditionType.PHONETIC && phoneticMap != null)
+                    phoneticMap.put(propertyInfo.getId(), propertyInfo);
             }
         }
     }

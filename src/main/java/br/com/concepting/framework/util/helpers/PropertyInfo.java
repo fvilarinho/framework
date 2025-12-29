@@ -204,9 +204,8 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     public void setIsFloat(boolean isFloat){
         this.isFloat = isFloat;
         
-        if(isFloat)
-            if(getPrecision() == 0)
-                setPrecision(NumberUtil.getDefaultPrecision(Float.class));
+        if(isFloat && getPrecision() == 0)
+            setPrecision(NumberUtil.getDefaultPrecision(Float.class));
     }
     
     /**
@@ -235,9 +234,8 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     public void setIsDouble(boolean isDouble){
         this.isDouble = isDouble;
         
-        if(isDouble)
-            if(getPrecision() == 0)
-                setPrecision(NumberUtil.getDefaultPrecision(Double.class));
+        if(isDouble && getPrecision() == 0)
+            setPrecision(NumberUtil.getDefaultPrecision(Double.class));
     }
     
     /**
@@ -401,9 +399,8 @@ public class PropertyInfo implements Comparable<PropertyInfo>, Cloneable{
     public void setIsBigDecimal(boolean isBigDecimal){
         this.isBigDecimal = isBigDecimal;
         
-        if(isBigDecimal)
-            if(getPrecision() == 0)
-                setPrecision(NumberUtil.getDefaultPrecision(BigDecimal.class));
+        if(isBigDecimal && getPrecision() == 0)
+            setPrecision(NumberUtil.getDefaultPrecision(BigDecimal.class));
     }
     
     /**

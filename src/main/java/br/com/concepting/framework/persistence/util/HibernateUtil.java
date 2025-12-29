@@ -19,6 +19,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Environment;
 import org.hibernate.dialect.*;
 import org.hibernate.jdbc.Work;
@@ -200,7 +201,7 @@ public class HibernateUtil{
         Map<String, Object> hibernateSessionProperties = PropertyUtil.instantiate(Constants.DEFAULT_MAP_CLASS);
 
         if(hibernateSessionProperties != null)
-            hibernateSessionProperties.put(Environment.DIALECT, getSessionDialect(persistenceResources).getName());
+            hibernateSessionProperties.put(AvailableSettings.DIALECT, getSessionDialect(persistenceResources).getName());
         
         FactoryResources persistenceFactoryResources = persistenceResources.getFactoryResources();
         String persistenceFactoryClass = persistenceFactoryResources.getClazz();
@@ -222,9 +223,9 @@ public class HibernateUtil{
             datasource.setPassword(persistencePassword);
 
         if(hibernateSessionProperties != null) {
-            hibernateSessionProperties.put(Environment.DATASOURCE, datasource);
-            hibernateSessionProperties.put(Environment.GLOBALLY_QUOTED_IDENTIFIERS, true);
-            hibernateSessionProperties.put(Environment.USE_REFLECTION_OPTIMIZER, true);
+            hibernateSessionProperties.put(AvailableSettings.DATASOURCE, datasource);
+            hibernateSessionProperties.put(AvailableSettings.GLOBALLY_QUOTED_IDENTIFIERS, true);
+            hibernateSessionProperties.put(AvailableSettings.USE_REFLECTION_OPTIMIZER, true);
             hibernateSessionProperties.putAll(persistenceResources.getOptions());
         }
         
@@ -268,7 +269,8 @@ public class HibernateUtil{
                                     try {
                                         if (mapping.exists() && mapping.canRead())
                                             sources.addFile(mapping);
-                                    } catch (Throwable e1) {
+                                    }
+                                    catch (Throwable e1) {
                                         e1.printStackTrace(System.err);
                                     }
                                 }

@@ -370,49 +370,47 @@ public class GuidesComponent extends BaseActionFormComponent{
                 println("</td>");
                 println("</tr>");
                 
-                if(this.showNavigation){
-                    if(guidesSize > 1){
-                        println("<tr>");
-                        print("<td class=\"");
-                        print(UIConstants.DEFAULT_GUIDES_BUTTONS_STYLE_CLASS);
-                        println("\">");
-                        println("<hr size=\"1\"/>");
-                        
-                        if(cont > 0){
-                            GuideComponent previousGuideComponent = this.guidesComponents.get(cont - 1);
-                            
-                            if(previousGuideComponent.isEnabled()){
-                                PreviousGuideButtonComponent previousGuideButtonComponent = new PreviousGuideButtonComponent(previousGuideComponent, this);
-                                
-                                try{
-                                    previousGuideButtonComponent.doStartTag();
-                                    previousGuideButtonComponent.doEndTag();
-                                }
-                                catch(JspException e){
-                                    throw new InternalErrorException(e);
-                                }
+                if(this.showNavigation && guidesSize > 1){
+                    println("<tr>");
+                    print("<td class=\"");
+                    print(UIConstants.DEFAULT_GUIDES_BUTTONS_STYLE_CLASS);
+                    println("\">");
+                    println("<hr size=\"1\"/>");
+
+                    if(cont > 0){
+                        GuideComponent previousGuideComponent = this.guidesComponents.get(cont - 1);
+
+                        if(previousGuideComponent.isEnabled()){
+                            PreviousGuideButtonComponent previousGuideButtonComponent = new PreviousGuideButtonComponent(previousGuideComponent, this);
+
+                            try{
+                                previousGuideButtonComponent.doStartTag();
+                                previousGuideButtonComponent.doEndTag();
+                            }
+                            catch(JspException e){
+                                throw new InternalErrorException(e);
                             }
                         }
-                        
-                        if(cont >= 0 && (cont != guidesSize - 1)){
-                            GuideComponent nextGuideComponent = this.guidesComponents.get(cont + 1);
-                            
-                            if(nextGuideComponent.isEnabled()){
-                                NextGuideButtonComponent nextGuideButtonComponent = new NextGuideButtonComponent(nextGuideComponent, this);
-                                
-                                try{
-                                    nextGuideButtonComponent.doStartTag();
-                                    nextGuideButtonComponent.doEndTag();
-                                }
-                                catch(JspException e){
-                                    throw new InternalErrorException(e);
-                                }
-                            }
-                        }
-                        
-                        println("</td>");
-                        println("</tr>");
                     }
+
+                    if(cont >= 0 && (cont != guidesSize - 1)){
+                        GuideComponent nextGuideComponent = this.guidesComponents.get(cont + 1);
+
+                        if(nextGuideComponent.isEnabled()){
+                            NextGuideButtonComponent nextGuideButtonComponent = new NextGuideButtonComponent(nextGuideComponent, this);
+
+                            try{
+                                nextGuideButtonComponent.doStartTag();
+                                nextGuideButtonComponent.doEndTag();
+                            }
+                            catch(JspException e){
+                                throw new InternalErrorException(e);
+                            }
+                        }
+                    }
+
+                    println("</td>");
+                    println("</tr>");
                 }
                 
                 println("</table>");

@@ -28,25 +28,11 @@ public interface IMetric{
      * @return Numeric value.
      */
     double getValue();
-    
-    /**
-     * Defines the value of the metric.
-     *
-     * @param value Numeric value.
-     */
-    void setValue(double value);
-    
+
     /**
      * Returns the unit of the metric.
      *
      * @return String that contains the unit.
      */
     String getUnit();
-    
-    /**
-     * Defines the unit of the metric.
-     *
-     * @param unit String that contains the unit.
-     */
-    void setUnit(String unit);
 }

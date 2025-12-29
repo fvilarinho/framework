@@ -41,14 +41,14 @@ import java.util.Map;
 public class MailMessage extends Message<Object>{
     @Serial
     private static final long serialVersionUID = 6336269811220022270L;
-    
+
     private Collection<Address> to = null;
     private Collection<Address> cc = null;
     private Collection<Address> bcc = null;
     private Address from = null;
     private String subject = null;
     private Collection<Map<String, Object>> attachments = null;
-    
+
     /**
      * Attaches a file in the message.
      *

@@ -43,16 +43,16 @@ public abstract class BaseOptionsPropertyComponent extends BasePropertyComponent
     private static final long serialVersionUID = -5223346768919041691L;
     
     private static String noDataMessage = null;
-    
+
     private String optionLabelStyle = null;
     private String optionLabelStyleClass = null;
     private boolean multipleSelection = false;
     private Collection<OptionStateComponent> optionStatesComponents = null;
     private String dataset = null;
     private String datasetScope = null;
-    private Collection<?> datasetValues = null;
     private int datasetStartIndex = 0;
     private int datasetEndIndex = 0;
+    private Collection<?> datasetValues = null;
     private boolean hasNoData = true;
     
     /**

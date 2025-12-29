@@ -682,10 +682,8 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
         
         boolean showLabel = showLabel();
         
-        if(showLabel)
-            if(getComponentType() == ComponentType.OPTIONS)
-                if(getLabelPositionType() == PositionType.TOP)
-                    setShowLabel(false);
+        if(showLabel && getComponentType() == ComponentType.OPTIONS && getLabelPositionType() == PositionType.TOP)
+            setShowLabel(false);
         
         super.renderOpen();
         
@@ -889,12 +887,10 @@ public class OptionsPropertyComponent extends BaseOptionsPropertyComponent{
                             throw new InternalErrorException(e);
                         }
                         
-                        if(optionChild != null){
-                            if(optionChild.hasChildren()){
-                                List<?> optionChildren = optionChild.getChildren();
-                                
-                                renderOptions(optionChildren, optionChild, level + 1);
-                            }
+                        if(optionChild != null && optionChild.hasChildren()){
+                            List<?> optionChildren = optionChild.getChildren();
+
+                            renderOptions(optionChildren, optionChild, level + 1);
                         }
                         
                         renderOptionPanelRowClose(cont);

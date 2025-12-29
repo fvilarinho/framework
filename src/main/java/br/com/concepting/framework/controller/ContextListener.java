@@ -306,23 +306,21 @@ public class ContextListener implements ServletContextListener{
                                     catch (ClassNotFoundException ignored) {
                                     }
 
-                                    if (serviceClass != null) {
-                                        if (serviceResources.isJob()) {
-                                            if (serviceResources.isRecurrent()) {
-                                                if (jobServicesClasses == null)
-                                                    jobServicesClasses = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+                                    if (serviceClass != null && serviceResources.isJob()) {
+                                        if (serviceResources.isRecurrent()) {
+                                            if (jobServicesClasses == null)
+                                                jobServicesClasses = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
-                                                if (jobServicesClasses != null)
-                                                    jobServicesClasses.add(serviceClass);
-                                            }
-                                            else {
-                                                if (executor == null)
-                                                    executor = Executors.newWorkStealingPool();
+                                            if (jobServicesClasses != null)
+                                                jobServicesClasses.add(serviceClass);
+                                        }
+                                        else {
+                                            if (executor == null)
+                                                executor = Executors.newWorkStealingPool();
 
-                                                IService<? extends BaseModel> daemonService = ServiceUtil.getByServiceClass(serviceClass, ContextListener.this.loginSession);
+                                            IService<? extends BaseModel> daemonService = ServiceUtil.getByServiceClass(serviceClass, ContextListener.this.loginSession);
 
-                                                executor.submit(new ServiceThread(daemonService));
-                                            }
+                                            executor.submit(new ServiceThread(daemonService));
                                         }
                                     }
                                 }

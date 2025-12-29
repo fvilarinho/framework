@@ -1377,22 +1377,20 @@ public class PropertyUtil {
                     else {
                         propertyValue = getValue(instance, propertyName);
 
-                        if (propertyValue != null || replaceNotFoundMatches) {
-                            if (propertyPattern == null || propertyPattern.isEmpty()) {
-                                try {
-                                    PropertyInfo propertyInfo = getInfo(instance.getClass(), propertyName);
+                        if ((propertyValue != null || replaceNotFoundMatches) && (propertyPattern == null || propertyPattern.isEmpty())) {
+                            try {
+                                PropertyInfo propertyInfo = getInfo(instance.getClass(), propertyName);
 
-                                    propertyPattern = propertyInfo.getPattern();
+                                propertyPattern = propertyInfo.getPattern();
 
-                                    if (propertyInfo.isDate())
-                                        useAdditionalFormatting = propertyInfo.isTime();
-                                    else if (propertyInfo.isNumber()) {
-                                        useAdditionalFormatting = propertyInfo.useGroupSeparator();
-                                        precision = propertyInfo.getPrecision();
-                                    }
+                                if (propertyInfo.isDate())
+                                    useAdditionalFormatting = propertyInfo.isTime();
+                                else if (propertyInfo.isNumber()) {
+                                    useAdditionalFormatting = propertyInfo.useGroupSeparator();
+                                    precision = propertyInfo.getPrecision();
                                 }
-                                catch (NoSuchFieldException ignored) {
-                                }
+                            }
+                            catch (NoSuchFieldException ignored) {
                             }
                         }
                     }

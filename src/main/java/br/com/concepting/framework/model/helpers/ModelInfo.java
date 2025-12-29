@@ -314,29 +314,23 @@ public class ModelInfo{
         this.auditablePropertiesInfo = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
 
         for(PropertyInfo propertyInfo: propertiesInfo){
-            if(propertyInfo.isIdentity())
-                if(this.identityPropertiesInfo != null)
-                    this.identityPropertiesInfo.add(propertyInfo);
+            if(propertyInfo.isIdentity() && this.identityPropertiesInfo != null)
+                this.identityPropertiesInfo.add(propertyInfo);
 
-            if(propertyInfo.isUnique())
-                if(this.uniquePropertiesInfo != null)
-                    this.uniquePropertiesInfo.add(propertyInfo);
+            if(propertyInfo.isUnique() && this.uniquePropertiesInfo != null)
+                this.uniquePropertiesInfo.add(propertyInfo);
 
-            if(propertyInfo.isSerializable())
-                if(this.serializablePropertiesInfo != null)
-                    this.serializablePropertiesInfo.add(propertyInfo);
+            if(propertyInfo.isSerializable() && this.serializablePropertiesInfo != null)
+                this.serializablePropertiesInfo.add(propertyInfo);
 
-            if(propertyInfo.isForSearch())
-                if(this.searchPropertiesInfo != null)
-                   this.searchPropertiesInfo.add(propertyInfo);
+            if(propertyInfo.isForSearch() && this.searchPropertiesInfo != null)
+               this.searchPropertiesInfo.add(propertyInfo);
 
-            if(propertyInfo.isAuditable())
-                if(this.auditablePropertiesInfo != null)
-                    this.auditablePropertiesInfo.add(propertyInfo);
+            if(propertyInfo.isAuditable() && this.auditablePropertiesInfo != null)
+                this.auditablePropertiesInfo.add(propertyInfo);
 
-            if(propertyInfo.getValidations() != null && propertyInfo.getValidations().length > 0 && propertyInfo.getValidations()[0] == ValidationType.NONE)
-                if(this.validationPropertiesInfo != null)
-                    this.validationPropertiesInfo.add(propertyInfo);
+            if(propertyInfo.getValidations() != null && propertyInfo.getValidations().length > 0 && propertyInfo.getValidations()[0] == ValidationType.NONE && this.validationPropertiesInfo != null)
+                this.validationPropertiesInfo.add(propertyInfo);
         }
 
         if(this.identityPropertiesInfo != null && !this.identityPropertiesInfo.isEmpty())

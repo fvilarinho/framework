@@ -584,10 +584,8 @@ public class DateTimeUtil{
                 else if(hoursNow == hoursBirth){
                     if(minutesNow < minutesBirth)
                         age--;
-                    else if(minutesNow == minutesBirth){
-                        if(secondsNow < secondsBirth)
-                            age--;
-                    }
+                    else if(minutesNow == minutesBirth && secondsNow < secondsBirth)
+                        age--;
                 }
             }
         }

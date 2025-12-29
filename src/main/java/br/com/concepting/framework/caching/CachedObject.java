@@ -31,13 +31,13 @@ import java.util.Date;
 public class CachedObject<O> implements Serializable{
     @Serial
     private static final long serialVersionUID = 8165512408423991030L;
-    
+
     private String id = null;
     private DateTime lastAccess = null;
     private DateTime cacheDate = null;
-    private O content = null;
     private Cacher<O> cacher = null;
-    
+    private O content = null;
+
     /**
      * Returns the content identifier.
      *

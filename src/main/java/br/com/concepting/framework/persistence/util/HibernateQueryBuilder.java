@@ -215,11 +215,9 @@ public abstract class HibernateQueryBuilder{
                     else
                         fieldsClause.append(propertyInfo.getId());
                 }
-                else if(returnProperties == null){
-                    if(fieldsClause.isEmpty()){
-                        fieldsClause.append("select ");
-                        fieldsClause.append(propertyAlias);
-                    }
+                else if(returnProperties == null && fieldsClause.isEmpty()){
+                    fieldsClause.append("select ");
+                    fieldsClause.append(propertyAlias);
                 }
                 
                 if((groupByProperties != null && groupByProperties.contains(propertyPrefixBuffer.toString())) || (groupByProperties == null && propertiesFormulas == null && propertyPrefix.isEmpty() && propertyIsIdentity && propertyInfo.getMappedPropertyId() != null && !propertyInfo.getMappedPropertyId().isEmpty())){
@@ -258,7 +256,7 @@ public abstract class HibernateQueryBuilder{
                 Object propertyValueBuffer = null;
 
                 if((propertyCondition != null && !propertyCondition.isEmpty()) || (propertyValue != null && !propertyValue.isEmpty()))
-                    propertyIsForSearch = propertyCondition == null || propertyCondition.size() <= 0 || !propertyCondition.contains(ConditionType.NONE);
+                    propertyIsForSearch = propertyCondition == null || propertyCondition.isEmpty() || !propertyCondition.contains(ConditionType.NONE);
 
                 if(propertyValue == null && (propertiesValues == null || !propertiesValues.containsKey(propertyPrefixBuffer.toString()))){
                     if(propertyIsForSearch){
@@ -419,20 +417,17 @@ public abstract class HibernateQueryBuilder{
                         ConditionType propertyConditionItem = propertyConditionIterator.next();
                         Object propertyValueItem = (propertyValueIterator != null && propertyValueIterator.hasNext() ? propertyValueIterator.next() : null);
                         
-                        if(PropertyUtil.isString(propertyValueItem)){
-                            if(propertyInfo.isDate()){
-                                if(propertyInfo.isTime())
-                                    propertyValueItem = DateTimeUtil.parse((String) propertyValueItem, Constants.DEFAULT_DATE_TIME_PATTERN);
-                                else
-                                    propertyValueItem = DateTimeUtil.parse((String) propertyValueItem, Constants.DEFAULT_DATE_PATTERN);
-                            }
+                        if(PropertyUtil.isString(propertyValueItem) && propertyInfo.isDate()){
+                            if(propertyInfo.isTime())
+                                propertyValueItem = DateTimeUtil.parse((String) propertyValueItem, Constants.DEFAULT_DATE_TIME_PATTERN);
+                            else
+                                propertyValueItem = DateTimeUtil.parse((String) propertyValueItem, Constants.DEFAULT_DATE_PATTERN);
                         }
                         
                         boolean processCondition = true;
 
                         switch(propertyConditionItem){
-                            case IS_NULL:
-                            case IS_NOT_NULL: {
+                            case IS_NULL, IS_NOT_NULL: {
                                 if(whereClause.isEmpty())
                                     whereClause.append("where (");
                                 else{
@@ -515,10 +510,7 @@ public abstract class HibernateQueryBuilder{
                                 
                                 break;
                             }
-                            case GREATER_THAN_EQUAL:
-                            case GREATER_THAN:
-                            case LESS_THAN_EQUAL:
-                            case LESS_THAN: {
+                            case GREATER_THAN_EQUAL, GREATER_THAN, LESS_THAN_EQUAL, LESS_THAN: {
                                 if(propertyValueItem == null)
                                     processCondition = false;
                                 
@@ -561,13 +553,11 @@ public abstract class HibernateQueryBuilder{
                                 try{
                                     propertyValueBuffer = PropertyUtil.getValue(model, propertyInfo.getId());
                                     
-                                    if(PropertyUtil.isString(propertyValueBuffer)){
-                                        if(propertyInfo.isDate()){
-                                            if(propertyInfo.isTime())
-                                                propertyValueBuffer = DateTimeUtil.parse((String) propertyValueBuffer, Constants.DEFAULT_DATE_TIME_PATTERN);
-                                            else
-                                                propertyValueBuffer = DateTimeUtil.parse((String) propertyValueBuffer, Constants.DEFAULT_DATE_PATTERN);
-                                        }
+                                    if(PropertyUtil.isString(propertyValueBuffer) && propertyInfo.isDate()){
+                                        if(propertyInfo.isTime())
+                                            propertyValueBuffer = DateTimeUtil.parse((String) propertyValueBuffer, Constants.DEFAULT_DATE_TIME_PATTERN);
+                                        else
+                                            propertyValueBuffer = DateTimeUtil.parse((String) propertyValueBuffer, Constants.DEFAULT_DATE_PATTERN);
                                     }
                                     
                                 }
@@ -814,8 +804,7 @@ public abstract class HibernateQueryBuilder{
                                 
                                 break;
                             }
-                            case NOT_IN:
-                            case IN: {
+                            case NOT_IN, IN: {
                                 Collection<Object> propertyValueItems = null;
                                 
                                 if(propertyValueItem == null)

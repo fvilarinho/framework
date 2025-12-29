@@ -32,11 +32,11 @@ import java.util.Map;
 public class ActionFormMessage implements Serializable{
     @Serial
     private static final long serialVersionUID = -7121791309962868261L;
-    
+
     private ActionFormMessageType type = null;
     private String key = null;
     private Map<String, Object> attributes = null;
-    
+
     /**
      * Constructor - Initializes the form message.
      *

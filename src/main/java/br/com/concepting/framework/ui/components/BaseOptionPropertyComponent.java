@@ -36,10 +36,10 @@ import java.util.Collection;
 public abstract class BaseOptionPropertyComponent extends BasePropertyComponent{
     @Serial
     private static final long serialVersionUID = 8280294646254910196L;
-    
+
     private boolean selected = false;
     private Object optionValue = null;
-    
+
     /**
      * Returns the instance that contains the value of the option.
      *

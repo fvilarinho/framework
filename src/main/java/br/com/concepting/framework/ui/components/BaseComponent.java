@@ -54,7 +54,12 @@ import java.util.Locale;
 public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     @Serial
     private static final long serialVersionUID = -7267112866725230814L;
-    
+
+    private transient SystemController systemController = null;
+    private transient SecurityController securityController = null;
+    private transient UIController uiController = null;
+    private transient PrintWriter outputStream = null;
+
     private ComponentType componentType = null;
     private String name = null;
     private String resourcesId = null;
@@ -75,11 +80,7 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
     private boolean renderWhenAuthenticated = false;
     private SystemResources systemResources = null;
     private SecurityResources securityResources = null;
-    private SystemController systemController = null;
-    private SecurityController securityController = null;
-    private UIController uiController = null;
-    private PrintWriter outputStream = null;
-    
+
     /**
      * Indicates when the component will get focus.
      *
@@ -852,9 +853,8 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
             }
         }
         
-        if(parentComponent != null)
-            if(render())
-                this.render = parentComponent.render();
+        if(parentComponent != null && render())
+            this.render = parentComponent.render();
 
         if(this.renderWhenAuthenticated)
             this.render = this.securityController.isLoginSessionAuthenticated();

@@ -364,11 +364,12 @@ public class EvaluateProcessor extends GenericProcessor{
                                 }
 
                                 try {
-                                    instance = (O) MethodUtils.invokeMethod(instance, methodId, parametersValues);
+                                    instance = MethodUtils.invokeMethod(instance, methodId, parametersValues);
 
                                     if (instance == null)
                                         break;
-                                } catch (NullPointerException e) {
+                                }
+                                catch (NullPointerException e) {
                                     return null;
                                 }
                             }

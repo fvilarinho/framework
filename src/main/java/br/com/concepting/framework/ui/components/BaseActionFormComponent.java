@@ -56,7 +56,9 @@ import java.security.SecureRandom;
 public abstract class BaseActionFormComponent extends BaseComponent{
     @Serial
     private static final long serialVersionUID = 1879613642083701618L;
-    
+
+    private transient ActionFormController actionFormController = null;
+
     private int size = 0;
     private int maximumLength = 0;
     private String label = null;
@@ -98,8 +100,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     private String actionFormName = null;
     private PropertiesResources mainConsoleResources = null;
     private ActionFormComponent actionFormComponent = null;
-    private ActionFormController actionFormController = null;
-    
+
     /**
      * Returns the size of the component.
      *
@@ -1258,9 +1259,8 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             FormModel form = (systemModule != null ? systemModule.getForm(this.actionFormName) : null);
             ObjectModel object = (form != null ? form.getObject(name) : null);
             
-            if(object != null)
-                if(this.tooltip == null)
-                    this.tooltip = object.getTooltip();
+            if(object != null && this.tooltip == null)
+                this.tooltip = object.getTooltip();
         }
         
         PropertiesResources resources = getResources();

@@ -291,10 +291,10 @@ public class WebService{
 
                 data = processor.process();
 
-                if(request instanceof HttpPost)
-                    ((HttpPost)request).setEntity(new StringEntity(data));
-                else if(request instanceof HttpPut)
-                    ((HttpPut)request).setEntity(new StringEntity(data));
+                if(request instanceof HttpPost post)
+                    post.setEntity(new StringEntity(data));
+                else if(request instanceof HttpPut put)
+                    put.setEntity(new StringEntity(data));
             }
 
             return client.execute(request);

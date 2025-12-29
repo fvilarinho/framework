@@ -39,18 +39,18 @@ import java.util.Map;
 public class Filter implements Serializable{
     @Serial
     private static final long serialVersionUID = -4835660120485569201L;
-    
+
     private Collection<String> returnProperties = null;
     private Map<String, FormulaType> propertiesFormulas = null;
     private Map<String, String> propertiesAliases = null;
     private Map<String, RelationJoinType> propertiesRelationsJoins = null;
     private Map<String, Collection<ConditionType>> propertiesConditions = null;
     private Map<String, ConditionOperationType> propertiesConditionsOperations = null;
-    private Map<String, Collection<Object>> propertiesValues = null;
     private Map<String, SortOrderType> propertiesSortOrders = null;
+    private Map<String, Collection<Object>> propertiesValues = null;
     private Collection<String> groupByProperties = null;
     private int maximumResults = PersistenceConstants.DEFAULT_MAXIMUM_RESULTS;
-    
+
     /**
      * Returns the group by properties.
      *

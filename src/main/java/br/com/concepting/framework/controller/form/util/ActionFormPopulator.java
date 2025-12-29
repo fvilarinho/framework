@@ -124,13 +124,11 @@ public class ActionFormPopulator{
                 for(Entry<String, RequestParameterInfo> entry: requestParameters.entrySet()){
                     RequestParameterInfo requestParameterInfo = entry.getValue();
                     
-                    if(requestParameterInfo != null && requestParameterInfo.getType() == PropertyType.MODEL){
-                        if(!this.actionFormController.hasValidationMessage(entry.getKey())){
-                            if(ActionFormUtil.isDatasetProperty(entry.getKey()))
-                                populateDatasetProperty(requestParameterInfo);
-                            else
-                                populateProperty(requestParameterInfo);
-                        }
+                    if(requestParameterInfo != null && requestParameterInfo.getType() == PropertyType.MODEL && !this.actionFormController.hasValidationMessage(entry.getKey())){
+                        if(ActionFormUtil.isDatasetProperty(entry.getKey()))
+                            populateDatasetProperty(requestParameterInfo);
+                        else
+                            populateProperty(requestParameterInfo);
                     }
                 }
             }
@@ -450,9 +448,8 @@ public class ActionFormPopulator{
             if(propertyPatternBuffer != null && !propertyPatternBuffer.isEmpty())
                 propertyPattern = propertyPatternBuffer;
             
-            if(propertyPattern != null && !propertyPattern.isEmpty())
-                if(!persistPattern)
-                    propertyValue = StringUtil.unformat(propertyValue, propertyPattern);
+            if(propertyPattern != null && !propertyPattern.isEmpty() && !persistPattern)
+                propertyValue = StringUtil.unformat(propertyValue, propertyPattern);
             
             if(propertyValue != null){
                 if(inputType == InputType.UPPERCASE)

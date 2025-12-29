@@ -55,6 +55,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.List;
@@ -631,21 +633,17 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     File modelClassFile = new File(modelClassFilename.toString());
                     
-                    if(!modelClassFile.exists()){
-                        if(this.modelInfo.generatePersistence() || this.modelInfo.generateService()){
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
-                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
-                            ExpressionProcessorUtil.setVariable(Constants.NAME_ATTRIBUTE_ID, name);
-                            
-                            GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, modelClassTemplateArtifactNode);
-                            String modelClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
-                            
-                            if(!modelClassContent.isEmpty())
-                                FileUtil.toFile(modelClassFilename.toString(), modelClassContent, encoding);
-                            
-                            addCheckGeneratedCode(modelClassName.toString());
-                        }
+                    if(!modelClassFile.exists() && this.modelInfo.generatePersistence() || this.modelInfo.generateService()){
+                        ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
+                        ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
+                        ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
+                        ExpressionProcessorUtil.setVariable(Constants.NAME_ATTRIBUTE_ID, name);
+
+                        GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, modelClassTemplateArtifactNode);
+                        String modelClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
+
+                        if(!modelClassContent.isEmpty())
+                            FileUtil.toFile(modelClassFilename.toString(), modelClassContent, encoding);
                     }
                 }
             }
@@ -824,9 +822,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 resourcesFilename.append("_");
                                 resourcesFilename.append(availableLanguage);
                                 resourcesFilename.append(ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_FILE_EXTENSION);
-                                
+
                                 File resourcesFile = new File(resourcesFilename.toString());
-                                
+
                                 if(!resourcesFile.exists()){
                                     if(this.modelInfo.generateService() || this.modelInfo.generateUi()){
                                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
@@ -842,7 +840,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 }
                                 else{
                                     if(!this.modelInfo.generateService() && !this.modelInfo.generateUi())
-                                        resourcesFile.delete();
+                                        Files.delete(Path.of(resourcesFilename.toString()));
                                 }
                             }
                         }
@@ -2012,32 +2010,5 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
         catch(IOException | DocumentException e){
             throw new InternalErrorException(e);
         }
-    }
-    
-    /**
-     * Adds a class name to generate the code checking file.
-     *
-     * @param className String that contains the class name.
-     * @throws IOException Occurs when was not possible to execute the
-     * operation.
-     */
-    private void addCheckGeneratedCode(String className) throws IOException{
-        if(className == null || className.isEmpty())
-            return;
-        
-        ProjectBuild build = getAnnotationProcessorFactory().getBuild();
-        StringBuilder checkGeneratedCodeFilename = new StringBuilder();
-
-        checkGeneratedCodeFilename.append(FileUtil.getTempDirectory());
-        checkGeneratedCodeFilename.append(build.getName());
-        checkGeneratedCodeFilename.append("-");
-        checkGeneratedCodeFilename.append(build.getVersion());
-        
-        StringBuilder contentBuffer = new StringBuilder();
-        
-        contentBuffer.append(className);
-        contentBuffer.append(FileUtil.getDirectorySeparator());
-        
-        FileUtil.toFile(checkGeneratedCodeFilename.toString(), contentBuffer.toString(), true);
     }
 }

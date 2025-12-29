@@ -4,9 +4,9 @@ import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.BaseModel;
 import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
+import br.com.concepting.framework.model.helpers.Filter;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.util.ModelUtil;
-import br.com.concepting.framework.model.helpers.Filter;
 import br.com.concepting.framework.persistence.interfaces.IPersistence;
 import br.com.concepting.framework.persistence.resources.PersistenceResources;
 import br.com.concepting.framework.persistence.types.QueryType;
@@ -56,7 +56,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
     /**
      * Constructor - Initializes the persistence.
      */
-    public HibernatePersistence(){
+    protected HibernatePersistence(){
         super();
     }
     
@@ -66,7 +66,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
      * @param <D> Class that defines the persistence.
      * @param persistence Instance that contains the persistence.
      */
-    public <D extends HibernatePersistence<? extends BaseModel>> HibernatePersistence(D persistence){
+    protected <D extends HibernatePersistence<? extends BaseModel>> HibernatePersistence(D persistence){
         super(persistence);
     }
     
@@ -247,7 +247,7 @@ public abstract class HibernatePersistence<M extends BaseModel> extends BasePers
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Collection<M> filter(M model, Filter filter) throws InternalErrorException{
         Query query = HibernateQueryBuilder.build(QueryType.SEARCH, model, filter, this);
-        List<M> modelList = (List<M>) query.getResultList();
+        List<M> modelList = query.getResultList();
         
         if(modelList != null && !modelList.isEmpty()){
             Map<String, RelationJoinType> relationJoins = (filter != null ? filter.getPropertiesRelationsJoins() : null);

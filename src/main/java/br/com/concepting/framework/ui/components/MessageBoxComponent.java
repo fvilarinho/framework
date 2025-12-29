@@ -292,9 +292,8 @@ public class MessageBoxComponent extends DialogBoxComponent{
 
         Throwable exception = getException();
         
-        if(exception != null)
-            if(!ExceptionUtil.isInvalidResourceException(exception) && !ExceptionUtil.isExpectedException(exception))
-                setMessage(ExceptionUtil.getTrace(exception));
+        if(exception != null && !ExceptionUtil.isInvalidResourceException(exception) && !ExceptionUtil.isExpectedException(exception))
+            setMessage(ExceptionUtil.getTrace(exception));
         
         String domain = systemSession.getId();
         Locale currentLanguage = getCurrentLanguage();

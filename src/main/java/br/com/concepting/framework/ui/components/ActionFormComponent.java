@@ -42,13 +42,14 @@ import java.util.Collection;
 public class ActionFormComponent extends BaseComponent{
     @Serial
     private static final long serialVersionUID = -800612013578741201L;
-    
+
+    private transient ActionFormController actionFormController = null;
+
     private String action = null;
     private String target = null;
     private String encoding = null;
     private String onSubmit = null;
-    private ActionFormController actionFormController = null;
-    
+
     /**
      * Returns the identifier of the submission target.
      *
@@ -139,6 +140,7 @@ public class ActionFormComponent extends BaseComponent{
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
+    @Override
     protected void buildEvents() throws InternalErrorException{
         setOnSubmit("return ".concat(Boolean.FALSE.toString()));
         
@@ -151,6 +153,7 @@ public class ActionFormComponent extends BaseComponent{
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
+    @Override
     protected void buildResources() throws InternalErrorException{
         PageComponent pageComponent = (PageComponent) findAncestorWithClass(this, PageComponent.class);
         
@@ -185,6 +188,7 @@ public class ActionFormComponent extends BaseComponent{
      * @throws InternalErrorException Occurs when was not possible to execute
      * the operation.
      */
+    @Override
     protected void initialize() throws InternalErrorException{
         super.initialize();
         
@@ -239,6 +243,7 @@ public class ActionFormComponent extends BaseComponent{
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
+    @Override
     protected void renderOpen() throws InternalErrorException{
         SystemController systemController = getSystemController();
         PropertiesResources defaultResources = getDefaultResources();
@@ -302,6 +307,7 @@ public class ActionFormComponent extends BaseComponent{
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
+    @Override
     protected void renderClose() throws InternalErrorException{
         SystemController systemController = getSystemController();
         

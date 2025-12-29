@@ -54,11 +54,11 @@ public class AuditorComplementModel extends BaseModel{
     @Property
     @Auditable
     private String name = null;
-    
+
     @Property
     @Auditable
     private Object value = null;
-    
+
     /**
      * Returns the identifier of the property.
      *

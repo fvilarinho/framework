@@ -193,7 +193,7 @@ public enum ContentType{
      *
      * @param mimeType String that contains the identifier of the type.
      */
-    public void setMimeType(String mimeType){
+    void setMimeType(String mimeType){
         this.mimeType = mimeType;
     }
     
@@ -211,7 +211,7 @@ public enum ContentType{
      *
      * @param extension String that contains the file extension.
      */
-    public void setExtension(String extension){
+    void setExtension(String extension){
         this.extension = extension;
     }
     

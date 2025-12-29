@@ -110,7 +110,7 @@ public class Observer implements InvocationHandler{
         
         if(interceptableInterfaces != null && !interceptableInterfaces.isEmpty()){
             for(Class<?> item: interceptableInterfaces){
-                if(item.isInterface() && item.getName().equals(interceptableInstance.getName())){
+                if(item.isInterface() && item.isAssignableFrom(interceptableInstance)){
                     found = true;
                     
                     break;
@@ -118,9 +118,8 @@ public class Observer implements InvocationHandler{
             }
         }
         
-        if(!found && interceptableInstance.isInterface())
-            if(interceptableInterfaces != null)
-                interceptableInterfaces.add(interceptableInstance);
+        if(!found && interceptableInstance.isInterface() && interceptableInterfaces != null)
+            interceptableInterfaces.add(interceptableInstance);
 
         if(interceptableInterfaces != null){
             for(Class<?> instanceInterface: instanceInterfaces){
@@ -128,7 +127,7 @@ public class Observer implements InvocationHandler{
                     found = false;
 
                     for(Class<?> item: interceptableInterfaces){
-                        if(item.isInterface() && item.getName().equals(instanceInterface.getName())){
+                        if(item.isInterface() && item.isAssignableFrom(instanceInterface)){
                             found = true;
 
                             break;

@@ -272,7 +272,7 @@ public enum ComponentType{
      *
      * @param id String that contains the identifier.
      */
-    public void setId(String id){
+    void setId(String id){
         this.id = id;
     }
     
@@ -290,7 +290,7 @@ public enum ComponentType{
      *
      * @param type String that contains the type.
      */
-    public void setType(String type){
+    void setType(String type){
         this.type = type;
     }
 }

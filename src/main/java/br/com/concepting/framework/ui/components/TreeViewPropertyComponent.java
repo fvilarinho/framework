@@ -735,36 +735,34 @@ public class TreeViewPropertyComponent extends OptionsPropertyComponent{
                     println("</tr>");
                     println("</table>");
                     
-                    if(!hasMultipleSelection){
-                        if(isSelectedNode){
-                            StringBuilder content = new StringBuilder();
-                            
-                            content.append("setObjectValue('");
-                            content.append(name);
-                            content.append("', '");
-                            content.append(nodeValue);
-                            content.append("'); setObjectValue('");
-                            content.append(name);
-                            content.append(".");
-                            content.append(UIConstants.CURRENT_TREE_VIEW_NODE_ATTRIBUTE_ID);
-                            content.append("', '");
-                            content.append(nodeId);
-                            content.append("');");
-                            content.append(StringUtil.getLineBreak());
-                            
-                            ScriptComponent scriptComponent = new ScriptComponent();
-                            
-                            scriptComponent.setPageContext(this.pageContext);
-                            scriptComponent.setOutputStream(getOutputStream());
-                            scriptComponent.setContent(content.toString());
-                            
-                            try{
-                                scriptComponent.doStartTag();
-                                scriptComponent.doEndTag();
-                            }
-                            catch(JspException e){
-                                throw new InternalErrorException(e);
-                            }
+                    if(!hasMultipleSelection && isSelectedNode){
+                        StringBuilder content = new StringBuilder();
+
+                        content.append("setObjectValue('");
+                        content.append(name);
+                        content.append("', '");
+                        content.append(nodeValue);
+                        content.append("'); setObjectValue('");
+                        content.append(name);
+                        content.append(".");
+                        content.append(UIConstants.CURRENT_TREE_VIEW_NODE_ATTRIBUTE_ID);
+                        content.append("', '");
+                        content.append(nodeId);
+                        content.append("');");
+                        content.append(StringUtil.getLineBreak());
+
+                        ScriptComponent scriptComponent = new ScriptComponent();
+
+                        scriptComponent.setPageContext(this.pageContext);
+                        scriptComponent.setOutputStream(getOutputStream());
+                        scriptComponent.setContent(content.toString());
+
+                        try{
+                            scriptComponent.doStartTag();
+                            scriptComponent.doEndTag();
+                        }
+                        catch(JspException e){
+                            throw new InternalErrorException(e);
                         }
                     }
                     

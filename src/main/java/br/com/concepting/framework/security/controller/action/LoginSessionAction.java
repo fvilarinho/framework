@@ -100,13 +100,13 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
             
             if(loginParameter != null && loginParameter.isPasswordWillExpire())
                 throw new PasswordWillExpireException(loginParameter.getDaysUntilExpire(), loginParameter.getHoursUntilExpire(), loginParameter.getMinutesUntilExpire(), loginParameter.getSecondsUntilExpire());
+
+            securityController.setLoginSession(loginSession);
         }
         finally {
             systemController.addCookie(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID, loginSession.getId(), true);
 
             actionForm.setModel((L) loginSession.clone());
-
-            securityController.setLoginSession(loginSession);
         }
 
         if(loginParameter != null && loginParameter.changePassword()){

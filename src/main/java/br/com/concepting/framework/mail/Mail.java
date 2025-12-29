@@ -356,6 +356,7 @@ public class Mail{
      */
     private Session getTransportSession(){
         return Session.getDefaultInstance(this.properties, new Authenticator(){
+            @Override
             protected PasswordAuthentication getPasswordAuthentication(){
                 return new PasswordAuthentication(Mail.this.resources.getTransportUserName(), Mail.this.resources.getTransportPassword());
             }
@@ -369,6 +370,7 @@ public class Mail{
      */
     private Session getStorageSession(){
         return Session.getDefaultInstance(this.properties, new Authenticator(){
+            @Override
             protected PasswordAuthentication getPasswordAuthentication(){
                 return new PasswordAuthentication(Mail.this.resources.getStorageUserName(), Mail.this.resources.getStoragePassword());
             }
@@ -617,9 +619,8 @@ public class Mail{
             
             if(messages != null){
                 for(Message message: messages){
-                    if(onlyUnread)
-                        if(message.getFlags().contains(Flags.Flag.SEEN))
-                            continue;
+                    if(onlyUnread && message.getFlags().contains(Flags.Flag.SEEN))
+                        continue;
                     
                     message.setFlag(Flags.Flag.SEEN, true);
                     

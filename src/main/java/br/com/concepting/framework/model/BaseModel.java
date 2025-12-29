@@ -152,25 +152,23 @@ public abstract class BaseModel extends Node implements Comparable<BaseModel>{
                     }
                 }
 
-                if(!compareFlag){
-                    if(!uniquesInfo.isEmpty()){
-                        for(PropertyInfo propertyInfo: uniquesInfo){
-                            try{
-                                Object value = PropertyUtil.getValue(this, propertyInfo.getId());
-                                Object compareValue = PropertyUtil.getValue(compareModel, propertyInfo.getId());
+                if(!compareFlag && !uniquesInfo.isEmpty()){
+                    for(PropertyInfo propertyInfo: uniquesInfo){
+                        try{
+                            Object value = PropertyUtil.getValue(this, propertyInfo.getId());
+                            Object compareValue = PropertyUtil.getValue(compareModel, propertyInfo.getId());
 
-                                if(value != null && compareValue != null)
-                                    compareFlag = (PropertyUtil.compareTo(value, compareValue) == 0);
-                                else if(value == null && compareValue != null)
-                                    compareFlag = false;
-                                else if(value != null)
-                                    compareFlag = false;
+                            if(value != null && compareValue != null)
+                                compareFlag = (PropertyUtil.compareTo(value, compareValue) == 0);
+                            else if(value == null && compareValue != null)
+                                compareFlag = false;
+                            else if(value != null)
+                                compareFlag = false;
 
-                                if (!compareFlag)
-                                    break;
-                            }
-                            catch(Throwable ignored){
-                            }
+                            if (!compareFlag)
+                                break;
+                        }
+                        catch(Throwable ignored){
                         }
                     }
                 }

@@ -250,6 +250,7 @@ public class PageComponent extends BaseComponent{
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
+    @Override
     protected void renderEvents() throws InternalErrorException{
         renderEvents(getSystemController());
     }

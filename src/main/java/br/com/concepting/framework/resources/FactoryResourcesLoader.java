@@ -35,7 +35,7 @@ public abstract class FactoryResourcesLoader extends XmlResourcesLoader<FactoryR
      *
      * @throws InvalidResourcesException Occurs when the resources could not be read.
      */
-    public FactoryResourcesLoader() throws InvalidResourcesException{
+    protected FactoryResourcesLoader() throws InvalidResourcesException{
         super(FactoryConstants.DEFAULT_RESOURCES_ID);
     }
     
@@ -46,7 +46,7 @@ public abstract class FactoryResourcesLoader extends XmlResourcesLoader<FactoryR
      * is stored.
      * @throws InvalidResourcesException Occurs when the resources could not be read.
      */
-    public FactoryResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
+    protected FactoryResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname, FactoryConstants.DEFAULT_RESOURCES_ID);
     }
 

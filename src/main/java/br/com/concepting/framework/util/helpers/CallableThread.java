@@ -32,7 +32,7 @@ public abstract class CallableThread<O> implements Runnable{
      *
      * @param object Instance that contains the object that will be processed.
      */
-    public CallableThread(O object){
+    protected CallableThread(O object){
         super();
         
         set(object);

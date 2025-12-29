@@ -35,7 +35,7 @@ public abstract class NetworkResourcesLoader<R extends BaseResources<XmlNode>> e
      * @throws InvalidResourcesException Occurs when the default resources could
      * not be read.
      */
-    public NetworkResourcesLoader() throws InvalidResourcesException{
+    protected NetworkResourcesLoader() throws InvalidResourcesException{
         super(NetworkConstants.DEFAULT_RESOURCES_ID);
     }
     
@@ -46,7 +46,7 @@ public abstract class NetworkResourcesLoader<R extends BaseResources<XmlNode>> e
      * are stored.
      * @throws InvalidResourcesException Occurs when the resources could not be read.
      */
-    public NetworkResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
+    protected NetworkResourcesLoader(String resourcesDirname) throws InvalidResourcesException{
         super(resourcesDirname, NetworkConstants.DEFAULT_RESOURCES_ID);
     }
 }

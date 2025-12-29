@@ -216,9 +216,8 @@ public class PagerComponent extends BaseOptionsPropertyComponent{
         int datasetStartIndex = (this.currentPage - 1) * this.itemsPerPage;
         int datasetEndIndex = this.currentPage * this.itemsPerPage;
         
-        if(datasetValues != null && !datasetValues.isEmpty())
-            if(datasetEndIndex > datasetValues.size())
-                datasetEndIndex = datasetValues.size();
+        if(datasetValues != null && !datasetValues.isEmpty() && datasetEndIndex > datasetValues.size())
+            datasetEndIndex = datasetValues.size();
         
         setDatasetStartIndex(datasetStartIndex);
         setDatasetEndIndex(datasetEndIndex);

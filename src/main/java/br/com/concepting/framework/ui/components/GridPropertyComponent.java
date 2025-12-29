@@ -514,8 +514,8 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                         for(GridColumnComponent item: this.columnsComponents){
                             GridColumnGroupComponent columnGroupComponent;
 
-                            if(item.getParent() instanceof GridColumnGroupComponent)
-                                columnGroupComponent = (GridColumnGroupComponent) item.getParent();
+                            if(item.getParent() instanceof GridColumnGroupComponent parent)
+                                columnGroupComponent = parent;
                             else
                                 columnGroupComponent = null;
                             
@@ -619,8 +619,8 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                     String columnPattern = columnComponent.getPattern();
                                     GridColumnGroupComponent columnGroupComponent;
                                     
-                                    if(columnComponent.getParent() instanceof GridColumnGroupComponent)
-                                        columnGroupComponent = (GridColumnGroupComponent) columnComponent.getParent();
+                                    if(columnComponent.getParent() instanceof GridColumnGroupComponent parent)
+                                        columnGroupComponent = parent;
                                     else
                                         columnGroupComponent = null;
                                     
@@ -1396,8 +1396,8 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                 String columnWidth = item.getWidth();
                 GridColumnGroupComponent columnGroupComponent;
 
-                if(item.getParent() instanceof GridColumnGroupComponent)
-                    columnGroupComponent = (GridColumnGroupComponent) item.getParent();
+                if(item.getParent() instanceof GridColumnGroupComponent parent)
+                    columnGroupComponent = parent;
                 else
                     columnGroupComponent = null;
                 
@@ -1437,8 +1437,8 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
 
                 GridColumnGroupComponent columnGroupComponent;
                 
-                if(item.getParent() instanceof GridColumnGroupComponent)
-                    columnGroupComponent = (GridColumnGroupComponent) item.getParent();
+                if(item.getParent() instanceof GridColumnGroupComponent parent)
+                    columnGroupComponent = parent;
                 else
                     columnGroupComponent = null;
                 

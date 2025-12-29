@@ -446,27 +446,23 @@ public class ModelsTest {
 
         groupModel.setId(1);
 
-        assertTrue(groupModel.hasPermission(new ObjectModel()));
+        assertFalse(groupModel.hasPermission(new ObjectModel()));
 
         groupModel.setObjects(new ArrayList<>());
 
-        assertTrue(groupModel.hasPermission(new ObjectModel()));
+        assertFalse(groupModel.hasPermission(new ObjectModel()));
 
         groupModel.setObjects(Arrays.asList((ObjectModel)null));
 
-        assertTrue(groupModel.hasPermission(new ObjectModel()));
+        assertFalse(groupModel.hasPermission(new ObjectModel()));
 
         ObjectModel objectModel = new ObjectModel();
 
         objectModel.setId(1L);
 
+        groupModel.setObjects(Arrays.asList(objectModel));
+
         assertTrue(groupModel.hasPermission(objectModel));
-
-        ObjectModel objectModel2 = new ObjectModel();
-
-        objectModel.setId(2L);
-
-        assertTrue(groupModel.hasPermission(objectModel2));
     }
 
     @Test

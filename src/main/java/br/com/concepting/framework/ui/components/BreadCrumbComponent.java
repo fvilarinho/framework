@@ -120,9 +120,8 @@ public class BreadCrumbComponent extends BaseActionFormComponent{
                             for (ObjectModel item : objects) {
                                 object = item;
 
-                                if (object != null && object.getType() != null && object.getType().equals(ComponentType.MENU_ITEM))
-                                    if (object.getAction() != null && object.getAction().matches(actionUrl.toString()))
-                                        break;
+                                if (object != null && object.getType() != null && object.getType().equals(ComponentType.MENU_ITEM) && object.getAction() != null && object.getAction().matches(actionUrl.toString()))
+                                    break;
 
                                 object = null;
                             }

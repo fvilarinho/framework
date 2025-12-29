@@ -84,7 +84,7 @@ public enum FormulaType{
      *
      * @param id String that contains the identifier.
      */
-    public void setId(String id){
+    void setId(String id){
         this.id = id;
     }
 }

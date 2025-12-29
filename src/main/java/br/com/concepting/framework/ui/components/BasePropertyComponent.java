@@ -236,12 +236,10 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         
         int size = getSize();
         
-        if(size == 0){
-            if(this.propertyInfo != null){
-                size = this.propertyInfo.getSize();
-                
-                setSize(size);
-            }
+        if(size == 0 && this.propertyInfo != null){
+            size = this.propertyInfo.getSize();
+
+            setSize(size);
         }
         
         if(size == 0){
@@ -288,12 +286,10 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
     protected void buildMaximumLength() throws InternalErrorException{
         int maximumLength = getMaximumLength();
         
-        if(maximumLength == 0){
-            if(this.propertyInfo != null){
-                maximumLength = this.propertyInfo.getMaximumLength();
-                
-                setMaximumLength(maximumLength);
-            }
+        if(maximumLength == 0 && this.propertyInfo != null){
+            maximumLength = this.propertyInfo.getMaximumLength();
+
+            setMaximumLength(maximumLength);
         }
     }
     
@@ -839,19 +835,16 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     protected String getPattern() throws InternalErrorException{
-        if(this.pattern == null || this.pattern.isEmpty())
-            if(this.propertyInfo != null)
-                this.pattern = this.propertyInfo.getPattern();
+        if(this.propertyInfo != null && (this.pattern == null || this.pattern.isEmpty()))
+            this.pattern = this.propertyInfo.getPattern();
         
-        if(this.pattern == null || this.pattern.isEmpty()){
-            if(this.isDate){
-                Locale currentLanguage = getCurrentLanguage();
-                
-                if(this.isTime)
-                    this.pattern = DateTimeUtil.getDefaultDateTimePattern(currentLanguage);
-                else
-                    this.pattern = DateTimeUtil.getDefaultDatePattern(currentLanguage);
-            }
+        if(this.isDate && (this.pattern == null || this.pattern.isEmpty())){
+            Locale currentLanguage = getCurrentLanguage();
+
+            if(this.isTime)
+                this.pattern = DateTimeUtil.getDefaultDateTimePattern(currentLanguage);
+            else
+                this.pattern = DateTimeUtil.getDefaultDatePattern(currentLanguage);
         }
         
         return this.pattern;
@@ -1153,12 +1146,10 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
         
         AlignmentType labelAlignment = getLabelAlignmentType();
         
-        if(labelAlignment == null){
-            if(getLabelPositionType() == PositionType.TOP){
-                labelAlignment = AlignmentType.LEFT;
-                
-                setLabelAlignmentType(labelAlignment);
-            }
+        if(labelAlignment == null && getLabelPositionType() == PositionType.TOP){
+            labelAlignment = AlignmentType.LEFT;
+
+            setLabelAlignmentType(labelAlignment);
         }
         
         super.buildAlignment();
@@ -1189,29 +1180,27 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
             this.isTime = this.propertyInfo.isTime();
         }
         
-        if(this.isNumber){
-            if(this.propertyInfo != null){
-                if(this.minimumValue == null){
-                    Class<? extends Number> propertyClass = (Class<? extends Number>) this.propertyInfo.getClazz();
-                    
-                    if(this.propertyInfo.getMinimumValue() != null && !this.propertyInfo.getMinimumValue().isEmpty()){
-                        try{
-                            this.minimumValue = NumberUtil.parse(propertyClass, this.propertyInfo.getMinimumValue());
-                        }
-                        catch(ParseException ignored){
-                        }
+        if(this.isNumber && this.propertyInfo != null){
+            if(this.minimumValue == null){
+                Class<? extends Number> propertyClass = (Class<? extends Number>) this.propertyInfo.getClazz();
+
+                if(this.propertyInfo.getMinimumValue() != null && !this.propertyInfo.getMinimumValue().isEmpty()){
+                    try{
+                        this.minimumValue = NumberUtil.parse(propertyClass, this.propertyInfo.getMinimumValue());
+                    }
+                    catch(ParseException ignored){
                     }
                 }
-                
-                if(this.maximumValue == null){
-                    Class<? extends Number> propertyClass = (Class<? extends Number>) this.propertyInfo.getClazz();
-                    
-                    if(this.propertyInfo.getMaximumValue() != null && !this.propertyInfo.getMaximumValue().isEmpty()){
-                        try{
-                            this.maximumValue = NumberUtil.parse(propertyClass, this.propertyInfo.getMaximumValue());
-                        }
-                        catch(ParseException ignored){
-                        }
+            }
+
+            if(this.maximumValue == null){
+                Class<? extends Number> propertyClass = (Class<? extends Number>) this.propertyInfo.getClazz();
+
+                if(this.propertyInfo.getMaximumValue() != null && !this.propertyInfo.getMaximumValue().isEmpty()){
+                    try{
+                        this.maximumValue = NumberUtil.parse(propertyClass, this.propertyInfo.getMaximumValue());
+                    }
+                    catch(ParseException ignored){
                     }
                 }
             }
@@ -1282,6 +1271,7 @@ public abstract class BasePropertyComponent extends BaseActionFormComponent{
      *
      * @throws InternalErrorException Occurs when was not possible to render.
      */
+    @Override
     protected void renderLabelAttribute() throws InternalErrorException{
         BaseOptionsPropertyComponent optionsPropertyComponent = null;
         

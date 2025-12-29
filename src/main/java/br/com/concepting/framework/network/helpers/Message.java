@@ -32,12 +32,12 @@ import java.util.Date;
 public class Message<O> implements Serializable{
     @Serial
     private static final long serialVersionUID = 6336269811220022270L;
-    
+
     private DateTime sentDateTime = null;
     private DateTime receivedDateTime = null;
     private ContentType contentType = null;
     private O content = null;
-    
+
     /**
      * Returns the content type of the message.
      *

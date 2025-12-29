@@ -44,9 +44,9 @@ public class ActionFormServlet extends HttpServlet{
 	@Serial
     private static final long serialVersionUID = -6893835539662603177L;
 
-	private SystemController systemController = null;
-	private ActionFormController actionFormController = null;
-	private SecurityController securityController = null;
+	private transient SystemController systemController = null;
+	private transient ActionFormController actionFormController = null;
+	private transient SecurityController securityController = null;
 
 	/**
 	 * Initializes the action processing.

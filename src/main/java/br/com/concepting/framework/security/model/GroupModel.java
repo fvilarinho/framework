@@ -192,19 +192,10 @@ public class GroupModel extends BaseModel{
      * @return True/False.
      */
     public boolean hasPermission(ObjectModel compareObject){
-        boolean hasPermission = true;
+        boolean hasPermission = false;
 
         try{
-            if (!this.objects.isEmpty()) {
-                for (ObjectModel object : this.objects) {
-                    if (object != null) {
-                        hasPermission = object.equals(compareObject);
-
-                        if (hasPermission)
-                            break;
-                    }
-                }
-            }
+            hasPermission = (this.objects != null && !this.objects.isEmpty() && this.objects.contains(compareObject));
         }
         catch(Throwable ignored){
         }

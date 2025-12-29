@@ -293,9 +293,8 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
                 minutesUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.MINUTES) - (hoursUntilExpire * 60) - (daysUntilExpire * 24 * 60);
                 secondsUntilExpire = DateTimeUtil.diff(expirePasswordDateTime, now, DateFieldType.SECONDS) - (minutesUntilExpire * 60) - (hoursUntilExpire * 60 * 60) - (daysUntilExpire * 24 * 60 * 60);
                 
-                if(changePasswordInterval != null && changePasswordInterval > 0)
-                    if(daysUntilExpire <= changePasswordInterval)
-                        passwordWillExpire = true;
+                if(changePasswordInterval != null && changePasswordInterval > 0 && daysUntilExpire <= changePasswordInterval)
+                    passwordWillExpire = true;
                 
                 if((expirePasswordDateTime != null && now.after(expirePasswordDateTime)) || loginParameter.changePassword()){
                     expiredPassword = true;
@@ -415,9 +414,8 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         if(password != null && !password.equals(user.getPassword()))
             throw new PasswordsNotMatchException();
         
-        if(newPassword != null && confirmPassword != null)
-            if(!newPassword.equals(confirmPassword))
-                throw new PasswordsNotMatchException();
+        if(newPassword != null && confirmPassword != null && !newPassword.equals(confirmPassword))
+            throw new PasswordsNotMatchException();
         
         LP loginParameter = user.getLoginParameter();
         
@@ -425,9 +423,8 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             if(loginParameter.getMinimumPasswordLength() != null && newPassword != null && newPassword.length() < loginParameter.getMinimumPasswordLength())
                 throw new PasswordWithoutMinimumLengthException(newPassword.length(), loginParameter.getMinimumPasswordLength());
             
-            if(loginParameter.useStrongPassword() != null && loginParameter.useStrongPassword())
-                if(!SecurityUtil.isStrongPassword(newPassword))
-                    throw new PasswordIsNotStrongException();
+            if(loginParameter.useStrongPassword() != null && loginParameter.useStrongPassword() && !SecurityUtil.isStrongPassword(newPassword))
+                throw new PasswordIsNotStrongException();
         }
         
         try{

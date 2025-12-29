@@ -45,11 +45,11 @@ public class ExceptionUtil{
         Throwable e = exception;
         
         while(e instanceof InvocationTargetException || e instanceof UndeclaredThrowableException){
-            if(e instanceof InvocationTargetException)
-                e = ((InvocationTargetException) e).getTargetException();
+            if(e instanceof InvocationTargetException e1)
+                e = e1.getTargetException();
             
-            if(e instanceof UndeclaredThrowableException)
-                e = ((UndeclaredThrowableException) e).getUndeclaredThrowable();
+            if(e instanceof UndeclaredThrowableException e1)
+                e = e1.getUndeclaredThrowable();
         }
         
         return e;

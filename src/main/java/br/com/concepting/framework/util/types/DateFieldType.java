@@ -85,7 +85,7 @@ public enum DateFieldType{
      * @param milliseconds Numeric value that contains the milliseconds that
      * defines the field.
      */
-    public void setMilliseconds(long milliseconds){
+    void setMilliseconds(long milliseconds){
         this.milliseconds = milliseconds;
     }
 }

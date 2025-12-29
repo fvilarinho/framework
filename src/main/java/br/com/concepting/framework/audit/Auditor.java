@@ -326,30 +326,28 @@ public class Auditor{
      * could not be read.
      */
     private void loadResources() throws InvalidResourcesException{
-        if(this.resources == null){
-            if(this.entity != null){
-                Auditable auditableAnnotation = this.entity.getAnnotation(Auditable.class);
-                
-                if(auditableAnnotation == null){
-                    Class<?> superClass = this.entity;
-                    
-                    while(true){
-                        if(superClass.getSuperclass() == null)
-                            break;
+        if(this.resources == null && this.entity != null){
+            Auditable auditableAnnotation = this.entity.getAnnotation(Auditable.class);
 
-                        superClass = superClass.getSuperclass();
-                        auditableAnnotation = superClass.getAnnotation(Auditable.class);
+            if(auditableAnnotation == null){
+                Class<?> superClass = this.entity;
 
-                        if(auditableAnnotation == null)
-                            break;
-                    }
+                while(true){
+                    if(superClass.getSuperclass() == null)
+                        break;
+
+                    superClass = superClass.getSuperclass();
+                    auditableAnnotation = superClass.getAnnotation(Auditable.class);
+
+                    if(auditableAnnotation == null)
+                        break;
                 }
-                
-                String resourcesId = (auditableAnnotation != null ? auditableAnnotation.resourcesId() : null);
-                AuditorResourcesLoader loader = new AuditorResourcesLoader();
-                
-                this.resources = loader.get(resourcesId);
             }
+
+            String resourcesId = (auditableAnnotation != null ? auditableAnnotation.resourcesId() : null);
+            AuditorResourcesLoader loader = new AuditorResourcesLoader();
+
+            this.resources = loader.get(resourcesId);
         }
     }
 

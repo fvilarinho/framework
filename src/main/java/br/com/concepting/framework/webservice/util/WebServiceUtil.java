@@ -123,38 +123,35 @@ public class WebServiceUtil{
     private static <O> O deserialize(Map<String, Object> contentMap, Class<?> clazz) throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
         O result = null;
         
-        if(clazz != null){
-            if(PropertyUtil.isModel(clazz)){
-                Class<? extends BaseModel> modelClass = (Class<? extends BaseModel>) clazz;
-                ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
-                Collection<PropertyInfo> propertiesInfos = modelInfo.getPropertiesInfo();
-                
-                if(propertiesInfos != null && !propertiesInfos.isEmpty()){
-                    result = (O) propertyMapper.convertValue(contentMap, clazz);
-                    
-                    for(PropertyInfo propertyInfo: propertiesInfos){
-                        if(propertyInfo.isModel()){
-                            Map<String, Object> propertyMap = (Map<String, Object>) contentMap.get(propertyInfo.getId());
-                            Class<? extends BaseModel> propertyClass = (Class<? extends BaseModel>) propertyInfo.getClazz();
-                            O propertyValue = deserialize(propertyMap, propertyClass);
-                            
-                            if(propertyValue != null)
-                                contentMap.put(propertyInfo.getId(), propertyValue);
-                        }
-                        else if(propertyInfo.hasModel()){
-                            List<Map<String, Object>> propertyValuesMap = (List<Map<String, Object>>) contentMap.get(propertyInfo.getId());
-                            
-                            if(propertyValuesMap != null && !propertyValuesMap.isEmpty()){
-                                Class<? extends BaseModel> propertyClass = (Class<? extends BaseModel>) propertyInfo.getCollectionItemsClass();
-                                List<Object> propertyValues = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
-                                
-                                for(Map<String, Object> item: propertyValuesMap){
-                                    Object propertyValue = deserialize(item, propertyClass);
-                                    
-                                    if(propertyValue != null)
-                                        if(propertyValues != null)
-                                            propertyValues.add(propertyValue);
-                                }
+        if(clazz != null && PropertyUtil.isModel(clazz)){
+            Class<? extends BaseModel> modelClass = (Class<? extends BaseModel>) clazz;
+            ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
+            Collection<PropertyInfo> propertiesInfos = modelInfo.getPropertiesInfo();
+
+            if(propertiesInfos != null && !propertiesInfos.isEmpty()){
+                result = (O) propertyMapper.convertValue(contentMap, clazz);
+
+                for(PropertyInfo propertyInfo: propertiesInfos){
+                    if(propertyInfo.isModel()){
+                        Map<String, Object> propertyMap = (Map<String, Object>) contentMap.get(propertyInfo.getId());
+                        Class<? extends BaseModel> propertyClass = (Class<? extends BaseModel>) propertyInfo.getClazz();
+                        O propertyValue = deserialize(propertyMap, propertyClass);
+
+                        if(propertyValue != null)
+                            contentMap.put(propertyInfo.getId(), propertyValue);
+                    }
+                    else if(propertyInfo.hasModel()){
+                        List<Map<String, Object>> propertyValuesMap = (List<Map<String, Object>>) contentMap.get(propertyInfo.getId());
+
+                        if(propertyValuesMap != null && !propertyValuesMap.isEmpty()){
+                            Class<? extends BaseModel> propertyClass = (Class<? extends BaseModel>) propertyInfo.getCollectionItemsClass();
+                            List<Object> propertyValues = PropertyUtil.instantiate(Constants.DEFAULT_LIST_CLASS);
+
+                            for(Map<String, Object> item: propertyValuesMap){
+                                Object propertyValue = deserialize(item, propertyClass);
+
+                                if(propertyValue != null && propertyValues != null)
+                                    propertyValues.add(propertyValue);
                             }
                         }
                     }

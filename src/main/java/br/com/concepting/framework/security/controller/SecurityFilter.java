@@ -203,21 +203,18 @@ public class SecurityFilter implements Filter{
                 }
             }
             
-            if(!excludeUrl)
-                if(!this.securityController.isLoginSessionAuthenticated())
-                    throw new PermissionDeniedException();
+            if(!excludeUrl && !this.securityController.isLoginSessionAuthenticated())
+                throw new PermissionDeniedException();
         }
         
-        if(this.securityController.isLoginSessionAuthenticated())
-            if(!user.isSuperUser() && !user.hasPermission(uri))
-                throw new PermissionDeniedException();
+        if(this.securityController.isLoginSessionAuthenticated() && !user.isSuperUser() && !user.hasPermission(uri))
+            throw new PermissionDeniedException();
         
         if(!excludeUrl){
             LoginParameterModel loginParameter = user.getLoginParameter();
             
-            if(loginParameter != null && loginParameter.hasMfa() != null && loginParameter.hasMfa())
-                if(loginParameter.isMfaTokenValidated() == null || !loginParameter.isMfaTokenValidated())
-                    throw new InvalidMfaTokenException();
+            if(loginParameter != null && loginParameter.hasMfa() != null && loginParameter.hasMfa() && (loginParameter.isMfaTokenValidated() == null || !loginParameter.isMfaTokenValidated()))
+                throw new InvalidMfaTokenException();
         }
         
         SystemSessionModel systemSession = loginSession.getSystemSession();
@@ -243,43 +240,41 @@ public class SecurityFilter implements Filter{
         if(loginSession != null){
             boolean isWebServicesRequest = this.systemController.isWebServicesRequest();
             
-            if(isWebServicesRequest){
-                if(loginSession.getId() != null && !loginSession.getId().isEmpty()){
-                    Class<L> loginSessionClass = (Class<L>)loginSession.getClass();
-                    LoginSessionService<L, U, LP> loginSessionService = null;
-                    
+            if(isWebServicesRequest && loginSession.getId() != null && !loginSession.getId().isEmpty()){
+                Class<L> loginSessionClass = (Class<L>)loginSession.getClass();
+                LoginSessionService<L, U, LP> loginSessionService = null;
+
+                try{
+                    loginSessionService = getService(loginSessionClass);
+                }
+                catch(InternalErrorException ignored){
+                }
+
+                if(loginSessionService != null){
                     try{
-                        loginSessionService = getService(loginSessionClass);
+                        loginSession = loginSessionService.find(loginSession);
+
+                        if(loginSession == null || !loginSession.isActive())
+                            throw new ItemNotFoundException();
                     }
-                    catch(InternalErrorException ignored){
-                    }
-                    
-                    if(loginSessionService != null){
-                        try{
-                            loginSession = loginSessionService.find(loginSession);
-                            
-                            if(loginSession == null || !loginSession.isActive())
-                                throw new ItemNotFoundException();
-                        }
-                        catch(ItemNotFoundException e1){
-                            this.systemController.removeCookie(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID);
-                            
-                            throw new PermissionDeniedException();
-                        }
-                    }
-                    
-                    DateTime now = new DateTime();
-                    DateTime startDateTime = loginSession.getStartDateTime();
-                    int ttl = DateTimeUtil.diff(now, startDateTime, DateFieldType.MINUTES);
-                    
-                    if(ttl >= this.securityResources.getLoginSessionTimeout()){
-                        if(loginSessionService != null)
-                            loginSessionService.logOut();
-                        
+                    catch(ItemNotFoundException e1){
                         this.systemController.removeCookie(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID);
-                        
-                        throw new LoginSessionExpiredException();
+
+                        throw new PermissionDeniedException();
                     }
+                }
+
+                DateTime now = new DateTime();
+                DateTime startDateTime = loginSession.getStartDateTime();
+                int ttl = DateTimeUtil.diff(now, startDateTime, DateFieldType.MINUTES);
+
+                if(ttl >= this.securityResources.getLoginSessionTimeout()){
+                    if(loginSessionService != null)
+                        loginSessionService.logOut();
+
+                    this.systemController.removeCookie(SecurityConstants.LOGIN_SESSION_ATTRIBUTE_ID);
+
+                    throw new LoginSessionExpiredException();
                 }
             }
             

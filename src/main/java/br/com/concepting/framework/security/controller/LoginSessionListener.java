@@ -135,9 +135,8 @@ public class LoginSessionListener implements HttpSessionListener{
         SecurityResourcesLoader loader = new SecurityResourcesLoader();
         SecurityResources resources = loader.getDefault();
         
-        if(resources != null)
-            if(this.systemController != null)
-                this.systemController.setSessionTimeout(resources.getLoginSessionTimeout());
+        if(resources != null && this.systemController != null)
+            this.systemController.setSessionTimeout(resources.getLoginSessionTimeout());
     }
     
     /**
