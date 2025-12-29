@@ -36,7 +36,13 @@ import java.util.List;
 public abstract class Node implements Serializable, Cloneable{
     @Serial
     private static final long serialVersionUID = -9107989395547430445L;
-    
+
+    @Property(isUnique = true)
+    private Integer index = null;
+
+    @Property(isUnique = true)
+    private Integer level = null;
+
     @Property
     private Node parent = null;
     
@@ -44,12 +50,7 @@ public abstract class Node implements Serializable, Cloneable{
     @JsonIgnore
     private List<Node> children = null;
     
-    @Property(isUnique = true)
-    private Integer index = null;
-    
-    @Property(isUnique = true)
-    private Integer level = null;
-    
+
     /**
      * Returns the level of the node.
      *
