@@ -471,7 +471,7 @@ function menuDialog() {
 # Checks the requirements for the setup.
 function checkRequirementsDialog() {
   TITLE="CHECKING REQUIREMENTS"
-  BINARIES="java gradle"
+  BINARIES="java gradle curl jq"
 
   eval "BINARIES=($BINARIES)"
 

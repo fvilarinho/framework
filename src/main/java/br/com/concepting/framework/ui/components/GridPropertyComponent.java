@@ -835,8 +835,8 @@ public class GridPropertyComponent extends OptionsPropertyComponent{
                                 boolean columnIsTime = (PropertyUtil.isTime(columnClass) || columnComponent.isTime());
                                 GridColumnGroupComponent columnGroupComponent;
                                 
-                                if(columnComponent.getParent() instanceof GridColumnGroupComponent)
-                                    columnGroupComponent = (GridColumnGroupComponent) columnComponent.getParent();
+                                if(columnComponent.getParent() instanceof GridColumnGroupComponent parent)
+                                    columnGroupComponent = parent;
                                 else
                                     columnGroupComponent = null;
                                 

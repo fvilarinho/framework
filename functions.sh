@@ -62,6 +62,8 @@ function prepareToExecute() {
   export JAVA_CMD=$(which java)
   export GRADLE_CMD=$(which gradle)
   export FIGLET_CMD=$(which figlet)
+  export CURL_CMD=$(which curl)
+  export JQ_CMD=$(which jq)
 
   # Mandatory files/paths.
   export WORK_DIR="$PWD"

@@ -31,6 +31,7 @@ sonar {
         property("sonar.token", "${sonarToken}")
         property("sonar.projectKey", "${sonarProjectKey}")
         property("sonar.organization", "${sonarOrganization}")
+        property 'sonar.exclusions', "src/test/**"
     }
 }
 

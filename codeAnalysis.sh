@@ -14,14 +14,26 @@ function checkDependencies() {
     exit 1
   fi
 
-  if [ -z "$SONAR_TOKEN" ]; then
-    echo "The sonar token is not defined! Please configure the project first!"
+  if [ -z "$CURL_CMD" ]; then
+    echo "curl is not installed! Please install it first to continue!"
+
+    exit 1
+  fi
+
+  if [ -z "$JQ_CMD" ]; then
+    echo "curl is not installed! Please install it first to continue!"
 
     exit 1
   fi
 
   if [ -z "$SONAR_ORGANIZATION" ]; then
     echo "The sonar organization is not defined! Please configure the project first!"
+
+    exit 1
+  fi
+
+  if [ -z "$SONAR_TOKEN" ]; then
+    echo "The sonar token is not defined! Please configure the project first!"
 
     exit 1
   fi
@@ -36,7 +48,25 @@ function prepareToExecute() {
 
 # Starts the code analysis process.
 function codeAnalysis() {
-  ./gradlew build sonar
+  ./gradlew sonar || exit 1
+
+  SEPARATOR=_
+  SONAR_URL=https://sonarcloud.io
+  SONAR_PROJECT_KEY="$SONAR_ORGANIZATION$SEPARATOR$buildName"
+  QUALITY_GATE_STATUS=$($CURL_CMD -s \
+                                  -H "Authorization: Bearer $SONAR_TOKEN" \
+                                  "$SONAR_URL/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY" | $JQ_CMD -r '.projectStatus.status')
+
+  if [ -z $QUALITY_GATE_STATUS ] || [ "$QUALITY_GATE_STATUS" == "ERROR" ]; then
+    echo
+    echo "Code analysis failed in quality gates! Please check it in $SONAR_URL/project/overview?id=$SONAR_PROJECT_KEY!"
+
+    exit 1
+  fi
+
+    echo
+    echo "Code analysis passed in quality gated! Please check it in $SONAR_URL/project/overview?id=$SONAR_PROJECT_KEY!"
+
 }
 
 # Main function.

@@ -308,7 +308,7 @@ public class ByteUtil{
         double modBuffer = value % metricValue;
 
         if(modBuffer == 0)
-            valueBuffer = (double) Math.round(valueBuffer);
+            valueBuffer = Math.round(valueBuffer);
 
         buffer.append(NumberUtil.format(valueBuffer, (modBuffer > 0 ? 2 : 0), language));
 
@@ -459,7 +459,7 @@ public class ByteUtil{
         double modBuffer = value % metricValue;
 
         if(modBuffer == 0)
-            valueBuffer = (double) Math.round(valueBuffer);
+            valueBuffer = Math.round(valueBuffer);
 
         buffer.append(NumberUtil.format(valueBuffer, (modBuffer > 0 ? 2 : 0), language));
 
