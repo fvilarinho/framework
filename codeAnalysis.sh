@@ -59,13 +59,13 @@ function codeAnalysis() {
 
   if [ -z $QUALITY_GATE_STATUS ] || [ "$QUALITY_GATE_STATUS" == "ERROR" ]; then
     echo
-    echo "Code analysis failed in quality gates! Please check it in $SONAR_URL/project/overview?id=$SONAR_PROJECT_KEY!"
+    echo "Code analysis failed in quality gates! Please check it in $SONAR_UR!"
 
     exit 1
   fi
 
     echo
-    echo "Code analysis passed in quality gated! Please check it in $SONAR_URL/project/overview?id=$SONAR_PROJECT_KEY!"
+    echo "Code analysis passed in quality gated! Please check it in $SONAR_URL!"
 
 }
 
