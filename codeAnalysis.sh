@@ -54,9 +54,7 @@ function codeAnalysis() {
   SONAR_PROJECT_KEY="$SONAR_ORGANIZATION$SEPARATOR$buildName"
   QUALITY_GATE_STATUS=$($CURL_CMD -s \
                                   -H "Authorization: Bearer $SONAR_TOKEN" \
-                                  "$SONAR_URL/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY")
-
-  echo $QUALITY_GATE_STATUS
+                                  "$SONAR_URL/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY" | $JQ_CMD -r '.projectStatus.status')
 
   if [ -z $QUALITY_GATE_STATUS ] || [ "$QUALITY_GATE_STATUS" == "ERROR" ]; then
     echo
