@@ -180,6 +180,27 @@ function repositoryDialog() {
 # Opens the dialog to define the attributes of the sonar.
 function sonarDialog() {
   while "true"; do
+    SONAR_URL=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                            --title "$TITLE" \
+                            --inputbox "\nPlease enter the sonar url:" \
+                            10 \
+                            60 \
+                            "$SONAR_URL" 2>&1 > /dev/tty)
+
+    if [ $? -eq 1 ]; then
+      menuDialog
+    elif [ -z "$SONAR_URL" ]; then
+      $DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                  --title "$TITLE" \
+                  --msgbox "\nYou must specify the sonar url!" \
+                  7 \
+                  60
+    else
+      break
+    fi
+  done
+
+  while "true"; do
     SONAR_ORGANIZATION=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                                      --title "$TITLE" \
                                      --inputbox "\nPlease enter the sonar organization:" \
@@ -229,6 +250,7 @@ function createEnvironment() {
   echo "REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD" >> $BUILD_ENV_FILENAME
 
   echo >> $BUILD_ENV_FILENAME
+  echo "SONAR_URL=$SONAR_URL" >> $BUILD_ENV_FILENAME
   echo "SONAR_ORGANIZATION=$SONAR_ORGANIZATION" >> $BUILD_ENV_FILENAME
   echo "SONAR_TOKEN=$SONAR_TOKEN" >> $BUILD_ENV_FILENAME
 }
@@ -268,6 +290,7 @@ function createProjectEnvironment() {
     echo "REPOSITORY_PASSWORD=$PROJECT_REPOSITORY_PASSWORD" >> $PROJECT_BUILD_ENV_FILENAME
 
     echo >> $PROJECT_BUILD_ENV_FILENAME
+    echo "SONAR_URL=$PROJECT_SONAR_URL" >> $PROJECT_BUILD_ENV_FILENAME
     echo "SONAR_ORGANIZATION=$PROJECT_SONAR_ORGANIZATION" >> $PROJECT_BUILD_ENV_FILENAME
     echo "SONAR_TOKEN=$PROJECT_SONAR_TOKEN" >> $PROJECT_BUILD_ENV_FILENAME
   fi
@@ -360,14 +383,17 @@ function projectRepositoryDialog() {
 
 # Opens the new project's sonar dialog.
 function projectSonarDialog() {
+  OLD_SONAR_URL=$SONAR_URL
   OLD_SONAR_ORGANIZATION=$SONAR_ORGANIZATION
   OLD_SONAR_TOKEN=$SONAR_TOKEN
 
   sonarDialog
 
+  PROJECT_SONAR_URL=$SONAR_URL
   PROJECT_SONAR_ORGANIZATION=$SONAR_ORGANIZATION
   PROJECT_SONAR_TOKEN=$SONAR_TOKEN
 
+  SONAR_URL=$OLD_SONAR_URL
   SONAR_ORGANIZATION=$OLD_SONAR_ORGANIZATION
   SONAR_TOKEN=$OLD_SONAR_TOKEN
 }

@@ -51,7 +51,6 @@ function codeAnalysis() {
   ./gradlew sonar || exit 1
 
   SEPARATOR=_
-  SONAR_URL=https://sonarcloud.io
   SONAR_PROJECT_KEY="$SONAR_ORGANIZATION$SEPARATOR$buildName"
   QUALITY_GATE_STATUS=$($CURL_CMD -s \
                                   -H "Authorization: Bearer $SONAR_TOKEN" \
@@ -59,13 +58,13 @@ function codeAnalysis() {
 
   if [ -z $QUALITY_GATE_STATUS ] || [ "$QUALITY_GATE_STATUS" == "ERROR" ]; then
     echo
-    echo "Code analysis failed in quality gates! Please check it in $SONAR_UR!"
+    echo "Code analysis failed in quality gates!"
 
     exit 1
   fi
 
     echo
-    echo "Code analysis passed in quality gated! Please check it in $SONAR_URL!"
+    echo "Code analysis passed in quality gated!"
 
 }
 

@@ -15,6 +15,7 @@ def repositoryUrl = (environment.getProperty("REPOSITORY_URL") != null ? environ
 def repositoryUserName = (environment.getProperty("REPOSITORY_USERNAME") != null ? environment.getProperty("REPOSITORY_USERNAME") : System.getenv("REPOSITORY_USERNAME"))
 def repositoryPassword = (environment.getProperty("REPOSITORY_PASSWORD") != null ? environment.getProperty("REPOSITORY_PASSWORD") : System.getenv("REPOSITORY_PASSWORD"))
 
+def sonarUrl = (environment.getProperty("SONAR_URL") != null ? environment.getProperty("SONAR_URL") : System.getenv("SONAR_URL"))
 def sonarToken = (environment.getProperty("SONAR_TOKEN") != null ? environment.getProperty("SONAR_TOKEN") : System.getenv("SONAR_TOKEN"))
 def sonarOrganization = (environment.getProperty("SONAR_ORGANIZATION") != null ? environment.getProperty("SONAR_ORGANIZATION") : System.getenv("SONAR_ORGANIZATION"))
 def sonarProjectKey = sonarOrganization + "_" + rootProject.name
@@ -28,10 +29,11 @@ version = "${buildVersion}"
 
 sonar {
     properties {
+        property("sonar.url", "${sonarUrl}")
         property("sonar.token", "${sonarToken}")
         property("sonar.projectKey", "${sonarProjectKey}")
         property("sonar.organization", "${sonarOrganization}")
-        property 'sonar.exclusions', "src/test/**"
+        property("sonar.exclusions", "**/test/*")
     }
 }
 
