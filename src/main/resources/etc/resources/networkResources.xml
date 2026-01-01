@@ -6,7 +6,7 @@
 		<resources id="localhost" default="true"/>
 	</mail>
 	<ldap>
-		<resources id="localhost" factoryResourcesId="ldap" default="true"/>
+		<resources id="localhost" default="true"/>
 	</ldap>
 	<webService>
 		<resources id="localhost" default="true"/>
