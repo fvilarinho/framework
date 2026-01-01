@@ -8,15 +8,11 @@ import br.com.concepting.framework.resources.exceptions.InvalidResourcesExceptio
 import br.com.concepting.framework.util.constants.ReportConstants;
 import br.com.concepting.framework.util.helpers.ReportDataSource;
 import br.com.concepting.framework.util.types.ContentType;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRParameter;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.*;
 import net.sf.jasperreports.export.*;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -49,327 +45,254 @@ import java.util.ResourceBundle;
  */
 public class ReportUtil{
     /**
-     * Generates a report.
+     * Generate the report using the default parameters.
      *
-     * @param resourcesId String that contains the identifier of the report.
-     * @param datasource Instance that contains the data source.
-     * @return Byte array that contains the processed report.
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @param resourcesId String that contains the report identifier.
+     * @param datasource Instance that contains the datasource (List of objects or database connection) for the report.
+     * @return Array of bytes that contains the report.
+     * @throws InternalErrorException Occurs when was not possible to generate the report.
      */
     public static byte[] generateReport(String resourcesId, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
-            return generateReport(null, resourcesId, LanguageUtil.getDefaultLanguage(), datasource);
-        
-        return null;
+        return generateReport(resourcesId, datasource, false);
     }
-    
+
     /**
-     * Generates a report.
+     * Generate the report using the default parameters.
      *
-     * @param resourcesDirname String that contains the storage directory of the
-     * report.
-     * @param resourcesId String that contains the identifier of the report.
-     * @param datasource Instance that contains the data source.
-     * @return Byte array that contains the processed report.
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @param resourcesId String that contains the report identifier.
+     * @param datasource Instance that contains the datasource (List of objects or database connection) for the report.
+     * @param compiled Indicates if the report is compiled (binary) or not.
+     * @return Array of bytes that contains the report.
+     * @throws InternalErrorException Occurs when was not possible to generate the report.
      */
-    public static byte[] generateReport(String resourcesDirname, String resourcesId, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
-            return generateReport(resourcesDirname, resourcesId, LanguageUtil.getDefaultLanguage(), datasource);
-        
-        return null;
+    public static byte[] generateReport(String resourcesId, Object datasource, boolean compiled) throws InternalErrorException{
+        return generateReport(resourcesId, datasource, compiled, null);
     }
-    
+
     /**
-     * Generates a report.
+     * Generate the report using the default parameters.
      *
-     * @param resourcesId String that contains the identifier of the report.
-     * @param language Instance that contains the language that will be used.
-     * @param datasource Instance that contains the data source.
-     * @return Byte array that contains the processed report.
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @param resourcesId String that contains the report identifier.
+     * @param datasource Instance that contains the datasource (List of objects or database connection) for the report.
+     * @param language Instance that contains the language to be used in the report.
+     * @return Array of bytes that contains the report.
+     * @throws InternalErrorException Occurs when was not possible to generate the report.
      */
-    public static byte[] generateReport(String resourcesId, Locale language, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
-            return generateReport(null, resourcesId, null, language, datasource);
-        
-        return null;
+    public static byte[] generateReport(String resourcesId, Object datasource, Locale language) throws InternalErrorException{
+        return generateReport(resourcesId, datasource, false, language);
     }
-    
+
     /**
-     * Generates a report.
+     * Generate the report using the default parameters.
      *
-     * @param resourcesDirname String that contains the storage directory of the
-     * report.
-     * @param resourcesId String that contains the identifier of the report.
-     * @param language Instance that contains the language that will be used.
-     * @param datasource Instance that contains the data source.
-     * @return Byte array that contains the processed report.
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @param resourcesId String that contains the report identifier.
+     * @param datasource Instance that contains the datasource (List of objects or database connection) for the report.
+     * @param compiled Indicates if the report is compiled (binary) or not.
+     * @param language Instance that contains the language to be used in the report.
+     * @return Array of bytes that contains the report.
+     * @throws InternalErrorException Occurs when was not possible to generate the report.
      */
-    public static byte[] generateReport(String resourcesDirname, String resourcesId, Locale language, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
-            return generateReport(resourcesDirname, resourcesId, null, language, datasource);
-        
-        return null;
+    public static byte[] generateReport(String resourcesId, Object datasource, boolean compiled, Locale language) throws InternalErrorException{
+        return generateReport(resourcesId, null, datasource, compiled, language);
     }
-    
+
     /**
-     * Generates a report.
+     * Generate the report using the specific parameters.
      *
-     * @param resourcesId String that contains the identifier of the report.
-     * @param reportParameters Instance that contains the parameters of the
-     * report.
-     * @param datasource Instance that contains the data source.
-     * @return Byte array that contains the processed report.
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @param resourcesId String that contains the report identifier.
+     * @param reportParameters Map that contains the parameters of the report.
+     * @param datasource Instance that contains the datasource (List of objects or database connection) for the report.
+     * @return Array of bytes that contains the report.
+     * @throws InternalErrorException Occurs when was not possible to generate the report.
      */
     public static byte[] generateReport(String resourcesId, Map<String, Object> reportParameters, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
-            return generateReport(null, resourcesId, reportParameters, LanguageUtil.getDefaultLanguage(), datasource);
-        
-        return null;
+        return generateReport(resourcesId, reportParameters, datasource, null);
     }
-    
+
     /**
-     * Generates a report.
+     * Generate the report using the specific parameters.
      *
-     * @param resourcesDirname String that contains the storage directory of the
-     * report.
-     * @param resourcesId String that contains the identifier of the report.
-     * @param reportParameters Instance that contains the parameters of the
-     * report.
-     * @param datasource Instance that contains the data source.
-     * @return Byte array that contains the processed report.
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @param resourcesId String that contains the report identifier.
+     * @param reportParameters Map that contains the parameters of the report.
+     * @param datasource Instance that contains the datasource (List of objects or database connection) for the report.
+     * @param language Instance that contains the language to be used in the report.
+     * @return Array of bytes that contains the report.
+     * @throws InternalErrorException Occurs when was not possible to generate the report.
      */
-    public static byte[] generateReport(String resourcesDirname, String resourcesId, Map<String, Object> reportParameters, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
-            return generateReport(resourcesDirname, resourcesId, reportParameters, LanguageUtil.getDefaultLanguage(), datasource);
-        
-        return null;
+    public static byte[] generateReport(String resourcesId, Map<String, Object> reportParameters, Object datasource, Locale language) throws InternalErrorException{
+        return generateReport(resourcesId, reportParameters, datasource, false, language);
     }
-    
+
     /**
-     * Generates a report.
+     * Generate the report using the specific parameters.
      *
-     * @param resourcesId String that contains the identifier of the report.
-     * @param reportParameters Instance that contains the parameters of the
-     * report.
-     * @param language Instance that contains the language that will be used.
-     * @param datasource Instance that contains the data source.
-     * @return Byte array that contains the processed report.
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @param resourcesId String that contains the report identifier.
+     * @param reportParameters Map that contains the parameters of the report.
+     * @param datasource Instance that contains the datasource (List of objects or database connection) for the report.
+     * @param compiled Indicates if the report is compiled (binary) or not.
+     * @return Array of bytes that contains the report.
+     * @throws InternalErrorException Occurs when was not possible to generate the report.
      */
-    public static byte[] generateReport(String resourcesId, Map<String, Object> reportParameters, Locale language, Object datasource) throws InternalErrorException{
-        if(resourcesId != null && !resourcesId.isEmpty() && datasource != null)
-            return generateReport(null, resourcesId, reportParameters, language, datasource);
-        
-        return null;
+    public static byte[] generateReport(String resourcesId, Map<String, Object> reportParameters, Object datasource, boolean compiled)  throws InternalErrorException{
+        return generateReport(resourcesId, reportParameters, datasource, compiled, null);
     }
-    
+
     /**
-     * Generates a report.
+     * Generate the report using the specific parameters.
      *
-     * @param resourcesDirname String that contains the storage directory of the
-     * report.
-     * @param resourcesId String that contains the identifier of the report.
-     * @param reportParameters Instance that contains the parameters of the
-     * report.
-     * @param language Instance that contains the language that will be used.
-     * @param datasource Instance that contains the data source.
-     * @return Byte array that contains the processed report.
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
+     * @param resourcesId String that contains the report identifier.
+     * @param reportParameters Map that contains the parameters of the report.
+     * @param datasource Instance that contains the datasource (List of objects or database connection) for the report.
+     * @param compiled Indicates if the report is compiled (binary) or not.
+     * @param language Instance that contains the language to be used in the report.
+     * @return Array of bytes that contains the report.
+     * @throws InternalErrorException Occurs when was not possible to generate the report.
      */
-    public static byte[] generateReport(String resourcesDirname, String resourcesId, Map<String, Object> reportParameters, Locale language, Object datasource) throws InternalErrorException{
+    public static byte[] generateReport(String resourcesId, Map<String, Object> reportParameters, Object datasource, boolean compiled, Locale language) throws InternalErrorException{
+        if (language == null)
+            language = LanguageUtil.getDefaultLanguage();
+
         if(resourcesId != null && !resourcesId.isEmpty() && datasource != null){
-            String reportFileId = buildReportFilename(resourcesDirname, resourcesId);
-            InputStream reportStream = null;
-            
-            try{
-                if(resourcesDirname != null && !resourcesDirname.isEmpty())
-                    reportStream = new FileInputStream(reportFileId);
-                else
-                    reportStream = ReportUtil.class.getClassLoader().getResourceAsStream(reportFileId);
-                
-                if(reportStream == null)
-                    throw new InvalidResourcesException(resourcesDirname, resourcesId);
-                
-                reportParameters = prepareReportParameters(resourcesDirname, resourcesId, reportFileId, reportParameters, language);
-                
-                if(reportParameters != null && !reportParameters.isEmpty()){
+            String reportFileId = buildReportFilename(resourcesId, compiled);
+
+            try (InputStream reportStream = ReportUtil.class.getClassLoader().getResourceAsStream(reportFileId)) {
+                if (reportStream == null)
+                    throw new InvalidResourcesException(reportFileId);
+
+                JasperReport compiledReport = null;
+
+                if (!compiled)
+                    compiledReport = JasperCompileManager.compileReport(reportStream);
+
+                reportParameters = prepareReportParameters(resourcesId, reportFileId, reportParameters, language);
+
+                if (reportParameters != null && !reportParameters.isEmpty()) {
                     JasperPrint jasperPrint;
-                    
-                    if(datasource instanceof Connection connection)
-                        jasperPrint = JasperFillManager.fillReport(reportStream, reportParameters, connection);
-                    else
-                        jasperPrint = JasperFillManager.fillReport(reportStream, reportParameters, new ReportDataSource((Collection<?>) datasource));
-                    
+
+                    if (compiledReport != null) {
+                        if (datasource instanceof Connection connection)
+                            jasperPrint = JasperFillManager.fillReport(compiledReport, reportParameters, connection);
+                        else
+                            jasperPrint = JasperFillManager.fillReport(compiledReport, reportParameters, new ReportDataSource((Collection<?>) datasource));
+                    }
+                    else {
+                        if (datasource instanceof Connection connection)
+                            jasperPrint = JasperFillManager.fillReport(reportStream, reportParameters, connection);
+                        else
+                            jasperPrint = JasperFillManager.fillReport(reportStream, reportParameters, new ReportDataSource((Collection<?>) datasource));
+                    }
+
                     ContentType exportType = (ContentType) reportParameters.get(ReportConstants.EXPORT_TYPE_ATTRIBUTE_ID);
                     ByteArrayOutputStream exportStream = new ByteArrayOutputStream();
-                    
-                    switch(exportType){
-                        case HTML:{
+
+                    switch (exportType) {
+                        case HTML: {
                             SimpleHtmlReportConfiguration configuration = new SimpleHtmlReportConfiguration();
-                            
+
                             configuration.setWhitePageBackground(true);
-                            
+
                             HtmlExporter exporter = new HtmlExporter();
-                            
+
                             exporter.setConfiguration(configuration);
                             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
                             exporter.setExporterOutput(new SimpleHtmlExporterOutput(exportStream));
                             exporter.exportReport();
-                            
+
                             break;
                         }
-                        case TXT:{
+                        case TXT: {
                             SimpleTextReportConfiguration configuration = new SimpleTextReportConfiguration();
-                            
+
                             configuration.setPageWidthInChars((Integer) reportParameters.get(ReportConstants.TEXT_PAGE_WIDTH_ATTRIBUTE_ID));
                             configuration.setPageHeightInChars((Integer) reportParameters.get(ReportConstants.TEXT_PAGE_HEIGHT_ATTRIBUTE_ID));
-                            
+
                             JRTextExporter exporter = new JRTextExporter();
-                            
+
                             exporter.setConfiguration(configuration);
                             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
                             exporter.setExporterOutput(new SimpleWriterExporterOutput(exportStream));
-                            
+
                             break;
                         }
-                        case XLS:{
+                        case XLS: {
                             SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
-                            
+
                             configuration.setOnePagePerSheet(true);
-                            
+
                             JRXlsExporter exporter = new JRXlsExporter();
-                            
+
                             exporter.setConfiguration(configuration);
                             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
                             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(exportStream));
                             exporter.exportReport();
-                            
+
                             break;
                         }
-                        case RTF:{
+                        case RTF: {
                             JRRtfExporter exporter = new JRRtfExporter();
-                            
+
                             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
                             exporter.setExporterOutput(new SimpleWriterExporterOutput(exportStream));
                             exporter.exportReport();
-                            
+
                             break;
                         }
-                        case XML:{
+                        case XML: {
                             JRXmlExporter exporter = new JRXmlExporter();
-                            
+
                             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
                             exporter.setExporterOutput(new SimpleXmlExporterOutput(exportStream));
                             exporter.exportReport();
-                            
+
                             break;
                         }
-                        default:{
+                        default: {
                             JRPdfExporter exporter = new JRPdfExporter();
-                            
+
                             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
                             exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(exportStream));
                             exporter.exportReport();
-                            
+
                             break;
                         }
                     }
-                    
+
                     return exportStream.toByteArray();
                 }
             }
-            catch(IOException e){
-                throw new InvalidResourcesException(resourcesDirname, resourcesId, e);
-            }
-            catch(JRException e){
+            catch (IOException | JRException e) {
                 throw new InternalErrorException(e);
-            }
-            finally{
-                try{
-                    if(reportStream != null)
-                        reportStream.close();
-                }
-                catch(IOException ignored){
-                }
             }
         }
         
         return null;
     }
-    
+
     /**
      * Returns the report filename.
      *
-     * @param resourcesDirname String that contains the storage directory of the
-     * report.
-     * @param resourcesId String that contains the identifier of the report.
-     * @return String that contains the filename.
-     */
-    private static String buildReportFilename(String resourcesDirname, String resourcesId){
-        if(resourcesId == null || resourcesId.isEmpty())
-            return null;
-        
-        return buildReportFilename(resourcesDirname, resourcesId, true);
-    }
-    
-    /**
-     * Returns the report filename.
-     *
-     * @param resourcesDirname String that contains the storage directory of the
-     * report.
      * @param resourcesId String that contains the identifier of the report.
      * @param compiled Indicates if the report is compiled or not.
      * @return String that contains the filename.
      */
-    private static String buildReportFilename(String resourcesDirname, String resourcesId, boolean compiled){
+    private static String buildReportFilename(String resourcesId, boolean compiled){
         if(resourcesId == null || resourcesId.isEmpty())
             return null;
         
         StringBuilder resourcesIdBuffer = new StringBuilder();
         
-        if(resourcesDirname != null && resourcesDirname.isEmpty())
-            resourcesIdBuffer.append(ReportConstants.DEFAULT_RESOURCES_DIR);
-        else
-            resourcesIdBuffer.append(resourcesDirname);
-        
+        resourcesIdBuffer.append(ReportConstants.DEFAULT_RESOURCES_DIR);
         resourcesIdBuffer.append(resourcesId);
-        
+
         if(compiled)
             resourcesIdBuffer.append(ReportConstants.DEFAULT_COMPILED_REPORT_FILE_EXTENSION);
         else
             resourcesIdBuffer.append(ReportConstants.DEFAULT_SOURCE_REPORT_FILE_EXTENSION);
-        
+
         return resourcesIdBuffer.toString();
     }
-    
-    /**
-     * Defines the parameters of the report.
-     *
-     * @param resourcesDirname String that contains the storage directory of the
-     * report.
-     * @param resourcesId String that contains the identifier of the report.
-     * @param reportFilename String that contains the filename of the report.
-     * @param reportParameters Instance that contains the parameters of the
-     * report.
-     * @param language Instance that contains the language that will be used.
-     * @return Instance that contains the parameters of the report.
-     * @throws InternalErrorException Occurs when was not possible to execute
-     * the operation.
-     */
-    private static Map<String, Object> prepareReportParameters(String resourcesDirname, String resourcesId, String reportFilename, Map<String, Object> reportParameters, Locale language) throws InternalErrorException{
+
+    private static Map<String, Object> prepareReportParameters(String resourcesId, String reportFilename, Map<String, Object> reportParameters, Locale language) throws InternalErrorException{
         if(resourcesId == null || resourcesId.isEmpty() || reportFilename == null || reportFilename.isEmpty())
             return null;
         
@@ -385,11 +308,14 @@ public class ReportUtil{
                 resourceIdBuffer.append(ReportConstants.DEFAULT_PROPERTIES_RESOURCES_DIR);
                 resourceIdBuffer.append(resourcesId);
 
-                PropertiesResourcesLoader loader = new PropertiesResourcesLoader(resourcesDirname, resourceIdBuffer.toString(), language);
-                PropertiesResources resources = loader.getContent();
-                ResourceBundle bundle = resources.getContent();
+                try {
+                    PropertiesResourcesLoader loader = new PropertiesResourcesLoader(resourceIdBuffer.toString(), language);
+                    PropertiesResources resources = loader.getContent();
+                    ResourceBundle bundle = resources.getContent();
 
-                reportParameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);
+                    reportParameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);
+                }
+                catch(InvalidResourcesException ignored) {}
             }
 
             URL url = ReportUtil.class.getClassLoader().getResource(reportFilename);
