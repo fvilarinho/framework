@@ -13,7 +13,7 @@
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element type="xs:string" name="serverName"/>
-													<xs:element type="xs:short" name="serverPort"/>
+													<xs:element type="xs:integer" name="serverPort"/>
 													<xs:element type="xs:string" name="userName"/>
 													<xs:element type="xs:string" name="password"/>
 												</xs:sequence>
@@ -34,7 +34,7 @@
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element type="xs:string" name="serverName"/>
-													<xs:element type="xs:short" name="serverPort"/>
+													<xs:element type="xs:integer" name="serverPort"/>
 													<xs:element type="xs:string" name="userName"/>
 													<xs:element type="xs:string" name="password"/>
 												</xs:sequence>
@@ -65,7 +65,7 @@
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element type="xs:string" name="serverName" minOccurs="0"/>
-										<xs:element type="xs:short" name="serverPort" minOccurs="0"/>
+										<xs:element type="xs:integer" name="serverPort" minOccurs="0"/>
 										<xs:element type="xs:string" name="authenticationType" minOccurs="0"/>
 										<xs:element type="xs:string" name="userName" minOccurs="0"/>
 										<xs:element type="xs:string" name="password" minOccurs="0"/>
@@ -133,7 +133,7 @@
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element type="xs:string" name="serverName" minOccurs="0"/>
-										<xs:element type="xs:short" name="serverPort" minOccurs="0"/>
+										<xs:element type="xs:integer" name="serverPort" minOccurs="0"/>
 										<xs:element name="queues" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>

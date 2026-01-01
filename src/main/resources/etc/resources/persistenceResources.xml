@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="persistenceResources.xsd">  
-    <resources id="default" factoryResourcesId="h2" default="true">
+    <resources id="default" default="true">
         <repositoryId>test</repositoryId>  
         <options>
             <option id="hibernate.cache.use_minimal_puts" value="false"/>
