@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Map.Entry;
 
 
 /**
@@ -122,14 +123,9 @@ public class Auditor{
     private void initialize() throws InvalidResourcesException {
         this.logger = LogManager.getLogger(this.entity.getName());
 
-        LoggerConfig loggerConfiguration = loggersContext.getConfiguration().getLoggerConfig(this.entity.getName());
-
-        if(loggerConfiguration != null)
-            loggerConfiguration.setParent(null);
-
         loadResources();
-        loadLevel();
         loadAppenders();
+        loadLevel();
     }
     
     /**
@@ -376,6 +372,13 @@ public class Auditor{
         if(loggersConfiguration == null)
             return;
 
+        LoggerConfig rootLoggerConfiguration = loggersConfiguration.getRootLogger();
+        Map<String, Appender> rootLoggerAppenders = rootLoggerConfiguration.getAppenders();
+
+        if(rootLoggerAppenders != null && !rootLoggerAppenders.isEmpty())
+            for (Entry<String, Appender> appender : rootLoggerAppenders.entrySet())
+                rootLoggerConfiguration.removeAppender(appender.getKey());
+
         LoggerConfig loggerConfiguration = loggersConfiguration.getLoggerConfig(this.entity.getName());
 
         if(loggerConfiguration == null)
@@ -415,6 +418,8 @@ public class Auditor{
                 }
             }
         }
+
+        loggersContext.updateLoggers();
     }
 
     private AuditorMessage prepareAuditorMessage(String message){
