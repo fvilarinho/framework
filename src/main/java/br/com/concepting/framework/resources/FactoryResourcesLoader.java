@@ -61,10 +61,7 @@ public abstract class FactoryResourcesLoader extends XmlResourcesLoader<FactoryR
         String resourcesId = getResourcesId();
         FactoryResources resources = super.parseResources(resourcesNode);
         String type = resourcesNode.getAttribute(Constants.TYPE_ATTRIBUTE_ID);
-        
-        if(type == null || type.isEmpty())
-            throw new InvalidResourcesException(resourcesDirname, resourcesId, resourcesNode.getText());
-        
+
         resources.setType(type);
         
         XmlNode classNode = resourcesNode.getNode(Constants.CLASS_ATTRIBUTE_ID);

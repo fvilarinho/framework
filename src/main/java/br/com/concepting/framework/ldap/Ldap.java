@@ -145,7 +145,8 @@ public class Ldap{
         String url = this.resources.getFactoryResources().getUri();
         
         url = PropertyUtil.fillPropertiesInString(this.resources, url);
-        
+
+        properties.put(Context.INITIAL_CONTEXT_FACTORY, this.resources.getFactoryResources().getClazz());
         properties.put(Context.PROVIDER_URL, url);
         
         if(this.resources.getTimeout() > 0)
