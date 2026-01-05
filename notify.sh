@@ -34,8 +34,6 @@ function prepareToExecute() {
 function notify() {
   URL="https://hooks.slack.com/services/$SLACK_TOKEN"
 
-  echo "$STATUS"
-
   if [ "$STATUS" == "success" ]; then
     MESSAGE="Hi there
 

@@ -45,4 +45,4 @@ jobs:
 
     - name: Notify
       if: always()
-      run: ./notify.sh "release" "${{ job.status }}"%
+      run: ./notify.sh "release" "${{ job.status }}"
