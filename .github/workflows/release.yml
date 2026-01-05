@@ -41,3 +41,9 @@ jobs:
 
     - name: Publish
       run: ./publish.sh
+
+    - name: Notify
+      if: always()
+      env:
+        SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+      run: ./notify.sh "release" "${{ job.status }}"%
