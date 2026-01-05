@@ -22,6 +22,7 @@ jobs:
       SONAR_URL: ${{ secrets.SONAR_URL }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
     runs-on: ubuntu-latest
 
     steps:
@@ -42,6 +43,4 @@ jobs:
 
     - name: Notify
       if: always()
-      env:
-        SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
       run: ./notify.sh "build" "${{ job.status }}"%
