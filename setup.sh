@@ -224,7 +224,7 @@ function sonarDialog() {
   while "true"; do
     SONAR_TOKEN=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                               --title "$TITLE" \
-                              --inputbox "\nPlease enter the sonar organization:" \
+                              --inputbox "\nPlease enter the sonar token:" \
                               10 \
                               60 \
                               "$SONAR_TOKEN" 2>&1 > /dev/tty)
