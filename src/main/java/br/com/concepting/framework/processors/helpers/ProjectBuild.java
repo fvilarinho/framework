@@ -27,12 +27,31 @@ import java.io.Serializable;
 public class ProjectBuild implements Serializable{
     @Serial
     private static final long serialVersionUID = 5990509906533449866L;
-    
+
+    private String packageName = null;
     private String name = null;
     private String version = null;
     private String baseDirname = null;
     private String resourcesDirname = null;
-    
+
+    /**
+     * Returns the package name.
+     *
+     * @return String that contains the package name.
+     */
+    public String getPackageName() {
+        return this.packageName;
+    }
+
+    /**
+     * Defines the package name.
+     *
+     * @param packageName String that contains the package name.
+     */
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
     /**
      * Returns the directory of the resources.
      *

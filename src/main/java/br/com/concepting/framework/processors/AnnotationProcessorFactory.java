@@ -47,7 +47,7 @@ import java.util.Set;
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @SupportedAnnotationTypes({"br.com.concepting.framework.model.annotations.Model"})
-@SupportedOptions({"buildDir", "buildName", "buildVersion"})
+@SupportedOptions({"buildDir", "buildPackage", "buildName", "buildVersion"})
 public class AnnotationProcessorFactory extends AbstractProcessor{
     private ProcessingEnvironment environment = null;
     private ProjectBuild build = null;
@@ -103,6 +103,7 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
             this.securityResources = securityResourcesLoader.getDefault();
             
             this.build = new ProjectBuild();
+            this.build.setPackageName(getBuildPackage());
             this.build.setName(getBuildName());
             this.build.setVersion(getBuildVersion());
             this.build.setBaseDirname(getBuildBaseDirname());
@@ -121,7 +122,16 @@ public class AnnotationProcessorFactory extends AbstractProcessor{
     public SourceVersion getSupportedSourceVersion(){
         return SourceVersion.latestSupported();
     }
-    
+
+    /**
+     * Returns the package of the project.
+     *
+     * @return String that contains the package.
+     */
+    public String getBuildPackage(){
+        return this.environment.getOptions().get(ProjectConstants.BUILD_PACKAGE_ATTRIBUTE_ID);
+    }
+
     /**
      * Returns the identifier of the project.
      *

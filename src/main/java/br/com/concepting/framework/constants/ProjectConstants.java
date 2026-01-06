@@ -24,6 +24,7 @@ package br.com.concepting.framework.constants;
 public final class ProjectConstants{
     public static final String BUILD_ATTRIBUTE_ID = "build";
     public static final String BUILD_DIR_ATTRIBUTE_ID = "buildDir";
+    public static final String BUILD_PACKAGE_ATTRIBUTE_ID = "buildPackage";
     public static final String BUILD_NAME_ATTRIBUTE_ID = "buildName";
     public static final String BUILD_VERSION_ATTRIBUTE_ID = "buildVersion";
     public static final String PERSISTENCE_MAPPING_ATTRIBUTE_ID = "hibernate-mapping";

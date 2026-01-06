@@ -2,7 +2,7 @@
 
 # Shows the labels.
 function showLabel() {
-  echo "-=# $buildVersion #=-"
+  echo "-=# $BUILD_VERSION #=-"
   echo
 
   if [[ "$0" == *"build.sh"* ]]; then
@@ -42,20 +42,6 @@ function loadBuildEnvironment() {
   fi
 }
 
-# Load settings required for the build.
-function loadBuildSettings() {
-  export BUILD_SETTINGS_FILENAME="$WORK_DIR"/gradle.properties
-
-  if [ -f "$BUILD_SETTINGS_FILENAME" ]; then
-    LINES=$(grep -v "^#" "$BUILD_SETTINGS_FILENAME")
-
-    for LINE in $LINES
-    do
-      export $LINE
-    done;
-  fi
-}
-
 # Prepares the environment to execute the commands of this script.
 function prepareToExecute() {
   # Mandatory binaries.
@@ -69,7 +55,6 @@ function prepareToExecute() {
   export WORK_DIR="$PWD"
 
   loadBuildEnvironment
-  loadBuildSettings
 }
 
 prepareToExecute

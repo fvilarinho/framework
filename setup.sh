@@ -14,16 +14,16 @@ function licenseDialog() {
 # Opens the dialog to input the attributes of the new project.
 function projectInputDialog() {
   while true; do
-    PROJECT_NAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                               --title "$TITLE" \
-                               --inputbox "\nPlease enter the name of the project:" \
-                               10 \
-                               60 \
-                               "$PROJECT_NAME" 2>&1 > /dev/tty)
+    PROJECT_BUILD_NAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                                     --title "$TITLE" \
+                                     --inputbox "\nPlease enter the name of the project:" \
+                                     10 \
+                                     60 \
+                                     "$PROJECT_BUILD_NAME" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$PROJECT_NAME" ]; then
+    elif [ -z "$PROJECT_BUILD_NAME" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
                   --msgbox "\nYou must specify the name of the project!" \
@@ -31,7 +31,7 @@ function projectInputDialog() {
                   60
     else
       PROJECT_DIR=$(dirname "$(pwd)")
-      PROJECT_DIR=$PROJECT_DIR/$PROJECT_NAME
+      PROJECT_DIR=$PROJECT_DIR/$PROJECT_BUILD_NAME
 
       if [ -d "$PROJECT_DIR" ]; then
         $DIALOG_CMD --backtitle "$MAIN_TITLE" \
@@ -66,19 +66,19 @@ function projectInputDialog() {
     fi
   done
 
-  PROJECT_PACKAGE_NAME="my.app.$PROJECT_NAME"
+  PROJECT_BUILD_PACKAGE="my.app.$PROJECT_BUILD_NAME"
 
   while true; do
-    PROJECT_PACKAGE_NAME=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                                       --title "$TITLE" \
-                                       --inputbox "\nPlease enter the package name of the project:" \
-                                       10 \
-                                       60 \
-                                       "$PROJECT_PACKAGE_NAME" 2>&1 > /dev/tty)
+    PROJECT_BUILD_PACKAGE=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                                        --title "$TITLE" \
+                                        --inputbox "\nPlease enter the package name of the project:" \
+                                        10 \
+                                        60 \
+                                        "$PROJECT_BUILD_PACKAGE" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$PROJECT_PACKAGE_NAME" ]; then
+    elif [ -z "$PROJECT_BUILD_PACKAGE" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
                   --msgbox "\nYou must specify the package name of the project!" \
@@ -89,19 +89,19 @@ function projectInputDialog() {
     fi
   done
 
-  PROJECT_VERSION="1.0.0"
+  PROJECT_BUILD_VERSION="1.0.0"
 
   while "true"; do
-    PROJECT_VERSION=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
-                                  --title "$TITLE" \
-                                  --inputbox "\nPlease enter the initial version of the project:" \
-                                  10 \
-                                  60 \
-                                  "$PROJECT_VERSION" 2>&1 > /dev/tty)
+    PROJECT_BUILD_VERSION=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                                        --title "$TITLE" \
+                                        --inputbox "\nPlease enter the initial version of the project:" \
+                                        10 \
+                                        60 \
+                                        "$PROJECT_BUILD_VERSION" 2>&1 > /dev/tty)
 
     if [ $? -eq 1 ]; then
       menuDialog
-    elif [ -z "$PROJECT_VERSION" ]; then
+    elif [ -z "$PROJECT_BUILD_VERSION" ]; then
       $DIALOG_CMD --backtitle "$MAIN_TITLE" \
                   --title "$TITLE" \
                   --msgbox "\nYou must specify the version of the project!" \
@@ -224,7 +224,7 @@ function sonarDialog() {
   while "true"; do
     SONAR_TOKEN=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
                               --title "$TITLE" \
-                              --inputbox "\nPlease enter the sonar organization:" \
+                              --inputbox "\nPlease enter the sonar token:" \
                               10 \
                               60 \
                               "$SONAR_TOKEN" 2>&1 > /dev/tty)
@@ -243,9 +243,38 @@ function sonarDialog() {
   done
 }
 
+# Opens the dialog to define the attributes of the slack.
+function slackDialog() {
+  while "true"; do
+    SLACK_TOKEN=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                              --title "$TITLE" \
+                              --inputbox "\nPlease enter the slack token:" \
+                              10 \
+                              60 \
+                              "$SLACK_TOKEN" 2>&1 > /dev/tty)
+
+    if [ $? -eq 1 ]; then
+      menuDialog
+    elif [ -z "$SLACK_TOKEN" ]; then
+      $DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                  --title "$TITLE" \
+                  --msgbox "\nYou must specify the slack token!" \
+                  7 \
+                  60
+    else
+      break
+    fi
+  done
+}
+
 # Creates the environment file.
 function createEnvironment() {
-  echo "REPOSITORY_URL=$REPOSITORY_URL" > $BUILD_ENV_FILENAME
+  echo "BUILD_PACKAGE=$BUILD_PACKAGE" > $BUILD_ENV_FILENAME
+  echo "BUILD_NAME=$BUILD_NAME" >> $BUILD_ENV_FILENAME
+  echo "BUILD_VERSION=$BUILD_VERSION" >> $BUILD_ENV_FILENAME
+
+  echo >> $BUILD_ENV_FILENAME
+  echo "REPOSITORY_URL=$REPOSITORY_URL" >> $BUILD_ENV_FILENAME
   echo "REPOSITORY_USERNAME=$REPOSITORY_USERNAME" >> $BUILD_ENV_FILENAME
   echo "REPOSITORY_PASSWORD=$REPOSITORY_PASSWORD" >> $BUILD_ENV_FILENAME
 
@@ -253,6 +282,9 @@ function createEnvironment() {
   echo "SONAR_URL=$SONAR_URL" >> $BUILD_ENV_FILENAME
   echo "SONAR_ORGANIZATION=$SONAR_ORGANIZATION" >> $BUILD_ENV_FILENAME
   echo "SONAR_TOKEN=$SONAR_TOKEN" >> $BUILD_ENV_FILENAME
+
+  echo >> $BUILD_ENV_FILENAME
+  echo "SLACK_TOKEN=$SLACK_TOKEN" >> $BUILD_ENV_FILENAME
 }
 
 # Creates the new project's structure directories.
@@ -268,7 +300,7 @@ function createProjectBanner() {
 
   if [ ! -f "$BANNER_FILENAME" ]; then
     if [ -n "$FIGLET_CMD" ]; then
-      $FIGLET_CMD -W "$PROJECT_NAME" > $BANNER_FILENAME
+      $FIGLET_CMD -W "$PROJECT_BUILD_NAME" > $BANNER_FILENAME
 
       echo >> $BANNER_FILENAME
     fi
@@ -280,7 +312,12 @@ function createProjectEnvironment() {
   PROJECT_BUILD_ENV_FILENAME="$PROJECT_DIR/.env"
 
   if [ ! -f "$PROJECT_BUILD_ENV_FILENAME" ]; then
-    echo "FRAMEWORK_REPOSITORY_URL=$FRAMEWORK_REPOSITORY_URL" > $PROJECT_BUILD_ENV_FILENAME
+    echo "BUILD_PACKAGE=$PROJECT_BUILD_PACKAGE" > $PROJECT_BUILD_ENV_FILENAME
+    echo "BUILD_NAME=$PROJECT_BUILD_NAME" >> $PROJECT_BUILD_ENV_FILENAME
+    echo "BUILD_VERSION=$PROJECT_BUILD_VERSION" >> $PROJECT_BUILD_ENV_FILENAME
+
+    echo >> $PROJECT_BUILD_ENV_FILENAME
+    echo "FRAMEWORK_REPOSITORY_URL=$FRAMEWORK_REPOSITORY_URL" >> $PROJECT_BUILD_ENV_FILENAME
     echo "FRAMEWORK_REPOSITORY_USERNAME=$FRAMEWORK_REPOSITORY_USERNAME" >> $PROJECT_BUILD_ENV_FILENAME
     echo "FRAMEWORK_REPOSITORY_PASSWORD=$FRAMEWORK_REPOSITORY_PASSWORD" >> $PROJECT_BUILD_ENV_FILENAME
 
@@ -293,41 +330,18 @@ function createProjectEnvironment() {
     echo "SONAR_URL=$PROJECT_SONAR_URL" >> $PROJECT_BUILD_ENV_FILENAME
     echo "SONAR_ORGANIZATION=$PROJECT_SONAR_ORGANIZATION" >> $PROJECT_BUILD_ENV_FILENAME
     echo "SONAR_TOKEN=$PROJECT_SONAR_TOKEN" >> $PROJECT_BUILD_ENV_FILENAME
+
+    echo >> $PROJECT_BUILD_ENV_FILENAME
+    echo "SLACK_TOKEN=$PROJECT_SLACK_TOKEN" >> $PROJECT_BUILD_ENV_FILENAME
   fi
 }
 
 # Creates the new project's build files.
 function createProjectBuild() {
-  if [ ! -f "$PROJECT_DIR/build.gradle" ]; then
-    cp -f src/templates/build.gradle $PROJECT_DIR || exit 1
-  fi
+  GRADLE_SETTINGS_FILENAME="$PROJECT_DIR/settings.gradle"
 
-  if [ ! -f "$PROJECT_DIR/settings.gradle" ]; then
-    cp -f settings.gradle $PROJECT_DIR || exit 1
-  fi
-
-  GRADLE_PROPERTIES_FILENAME="$PROJECT_DIR/gradle.properties"
-
-  if [ ! -f "$GRADLE_PROPERTIES_FILENAME" ]; then
-    echo "buildPackage=$PROJECT_PACKAGE_NAME" > $GRADLE_PROPERTIES_FILENAME
-    echo "buildName=$PROJECT_NAME" >> $GRADLE_PROPERTIES_FILENAME
-    echo "buildVersion=$PROJECT_VERSION" >> $GRADLE_PROPERTIES_FILENAME
-  fi
-
-  if [ ! -f "$PROJECT_DIR/functions.sh" ]; then
-    cp -f functions.sh $PROJECT_DIR || exit 1
-  fi
-
-  if [ ! -f "$PROJECT_DIR/build.sh" ]; then
-    cp -f build.sh $PROJECT_DIR || exit 1
-  fi
-
-  if [ ! -f "$PROJECT_DIR/codeAnalysis.sh" ]; then
-    cp -f codeAnalysis.sh $PROJECT_DIR || exit 1
-  fi
-
-  if [ ! -f "$PROJECT_DIR/publish.sh" ]; then
-    cp -f publish.sh $PROJECT_DIR || exit 1
+  if [ ! -f "$GRADLE_SETTINGS_FILENAME" ]; then
+    echo "rootProject.name=\"$PROJECT_BUILD_NAME\"" > $GRADLE_SETTINGS_FILENAME
   fi
 }
 
@@ -344,7 +358,29 @@ function copyProjectFiles() {
   if [ ! -d $PROJECT_DIR/src/templates ]; then
     cp -r src/templates $PROJECT_DIR/src || exit 1
 
+    mv $PROJECT_DIR/src/templates/build.gradle $PROJECT_DIR || exit 1
+
     rm -f $PROJECT_DIR/src/templates/build.gradle || exit 1
+  fi
+
+  if [ ! -f "$PROJECT_DIR/functions.sh" ]; then
+    cp -f functions.sh $PROJECT_DIR || exit 1
+  fi
+
+  if [ ! -f "$PROJECT_DIR/build.sh" ]; then
+    cp -f build.sh $PROJECT_DIR || exit 1
+  fi
+
+  if [ ! -f "$PROJECT_DIR/codeAnalysis.sh" ]; then
+    cp -f codeAnalysis.sh $PROJECT_DIR || exit 1
+  fi
+
+  if [ ! -f "$PROJECT_DIR/notify.sh" ]; then
+    cp -f notify.sh $PROJECT_DIR || exit 1
+  fi
+
+  if [ ! -f "$PROJECT_DIR/publish.sh" ]; then
+    cp -f publish.sh $PROJECT_DIR || exit 1
   fi
 }
 
@@ -354,6 +390,7 @@ function configureDialog() {
 
   repositoryDialog
   sonarDialog
+  slackDialog
 
   createEnvironment
 }
@@ -368,7 +405,7 @@ function projectRepositoryDialog() {
   FRAMEWORK_REPOSITORY_USERNAME=$OLD_REPOSITORY_USERNAME
   FRAMEWORK_REPOSITORY_PASSWORD=$OLD_REPOSITORY_PASSWORD
 
-  REPOSITORY_URL="${REPOSITORY_URL/framework/$PROJECT_NAME}"
+  REPOSITORY_URL="${REPOSITORY_URL/framework/$PROJECT_BUILD_NAME}"
 
   repositoryDialog
 
@@ -398,6 +435,17 @@ function projectSonarDialog() {
   SONAR_TOKEN=$OLD_SONAR_TOKEN
 }
 
+# Opens the new project's slack dialog.
+function projectSlackDialog() {
+  OLD_SLACK_TOKEN=$SLACK_TOKEN
+
+  slackDialog
+
+  PROJECT_SLACK_TOKEN=$SONAR_TOKEN
+
+  SLACK_TOKEN=$OLD_SLACK_TOKEN
+}
+
 # Opens the new project's dialog.
 function newProjectDialog() {
   TITLE="NEW PROJECT"
@@ -405,6 +453,7 @@ function newProjectDialog() {
   projectInputDialog
   projectRepositoryDialog
   projectSonarDialog
+  projectSlackDialog
 
   createProjectStructure
   createProjectEnvironment
@@ -419,7 +468,7 @@ function newProjectDialog() {
 
   mkdir -p /tmp/framework
 
-  LOGS_FILENAME=/tmp/framework/$PROJECT_NAME.log
+  LOGS_FILENAME=/tmp/framework/$PROJECT_BUILD_NAME.log
 
   ./build.sh > $LOGS_FILENAME &
 
