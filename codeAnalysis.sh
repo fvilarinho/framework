@@ -51,21 +51,22 @@ function codeAnalysis() {
   ./gradlew sonar || exit 1
 
   SEPARATOR=_
-  SONAR_PROJECT_KEY="$SONAR_ORGANIZATION$SEPARATOR$buildName"
+  SONAR_PROJECT_KEY="$SONAR_ORGANIZATION$SEPARATOR$BUILD_NAME"
   QUALITY_GATE_STATUS=$($CURL_CMD -s \
                                   -H "Authorization: Bearer $SONAR_TOKEN" \
                                   "$SONAR_URL/api/qualitygates/project_status?projectKey=$SONAR_PROJECT_KEY" | $JQ_CMD -r '.projectStatus.status')
 
-  if [ -z $QUALITY_GATE_STATUS ] || [ "$QUALITY_GATE_STATUS" == "ERROR" ]; then
-    echo
+  echo
+
+  if [ "$QUALITY_GATE_STATUS" == "OK" ]; then
+    echo "Code analysis passed in quality gated!"
+
+    exit 0
+  else
     echo "Code analysis failed in quality gates!"
 
     exit 1
   fi
-
-    echo
-    echo "Code analysis passed in quality gated!"
-
 }
 
 # Main function.
