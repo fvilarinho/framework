@@ -66,7 +66,7 @@ function projectInputDialog() {
     fi
   done
 
-  PROJECT_BUILD_PACKAGE="my.app.$PROJECT_BUILD_NAME"
+  PROJECT_BUILD_PACKAGE="my.app"
 
   while true; do
     PROJECT_BUILD_PACKAGE=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
@@ -293,7 +293,8 @@ function createProjectStructure() {
            $PROJECT_DIR/src/test/java \
            $PROJECT_DIR/src/test/resources
 
-  PROJECT_BUILD_PACKAGE_DIR="${PROJECT_BUILD_PACKAGE//.//}"
+  BUFFER="$PROJECT_BUILD_PACKAGE.$PROJECT_BUILD_NAME"
+  PROJECT_BUILD_PACKAGE_DIR="${BUFFER//.//}"
 
   mkdir -p "$PROJECT_DIR/src/main/java/$PROJECT_BUILD_PACKAGE_DIR" \
            "$PROJECT_DIR/src/test/java/$PROJECT_BUILD_PACKAGE_DIR"
@@ -357,7 +358,7 @@ function copyProjectFiles() {
 
     SYSTEM_RESOURCES_FILENAME="$PROJECT_DIR/src/main/resources/etc/resources/systemResources.xml"
 
-    sed "s/$BUILD_PACKAGE/$PROJECT_BUILD_PACKAGE/g" "$SYSTEM_RESOURCES_FILENAME" > $SYSTEM_RESOURCES_FILENAME.tmp
+    sed "s/$BUILD_PACKAGE.$BUILD_NAME/$PROJECT_BUILD_PACKAGE.$PROJECT_BUILD_NAME/g" "$SYSTEM_RESOURCES_FILENAME" > $SYSTEM_RESOURCES_FILENAME.tmp
 
     cp -f $SYSTEM_RESOURCES_FILENAME.tmp $SYSTEM_RESOURCES_FILENAME
 

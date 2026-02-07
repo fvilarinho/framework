@@ -1816,13 +1816,14 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
             
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
-            XmlNode systemResourceContentNode = reader.getRoot();
-            XmlNode servicesNode = systemResourceContentNode.getNode(ServiceConstants.SERVICES_ATTRIBUTE_ID);
+            XmlNode contentNode = reader.getRoot();
+            XmlNode systemNode = contentNode.getNode(SystemConstants.DEFAULT_ID);
+            XmlNode servicesNode = systemNode.getNode(ServiceConstants.SERVICES_ATTRIBUTE_ID);
             
             if(servicesNode == null){
                 servicesNode = new XmlNode(ServiceConstants.SERVICES_ATTRIBUTE_ID);
-                
-                systemResourceContentNode.addChild(servicesNode);
+
+                systemNode.addChild(servicesNode);
             }
             
             List<XmlNode> servicesNodes = servicesNode.getChildren();
@@ -1847,7 +1848,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
 
             XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
 
-            writer.write(systemResourceContentNode);
+            writer.write(contentNode);
         }
         catch(IOException | DocumentException e){
             throw new InternalErrorException(e);
