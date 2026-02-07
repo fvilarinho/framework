@@ -452,8 +452,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
             
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
-            XmlNode content = reader.getRoot();
-            XmlNode actionFormsNode = content.getNode(ActionFormConstants.ACTION_FORMS_ATTRIBUTE_ID);
+            XmlNode contentNode = reader.getRoot();
+            XmlNode systemNode = contentNode.getNode(SystemConstants.DEFAULT_ID);
+            XmlNode actionFormsNode = systemNode.getNode(ActionFormConstants.ACTION_FORMS_ATTRIBUTE_ID);
             List<XmlNode> actionFormNodes = (actionFormsNode != null ? actionFormsNode.getChildren() : null);
             boolean found = false;
             
@@ -503,7 +504,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                 
                 XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
                 
-                writer.write(content);
+                writer.write(contentNode);
             }
         }
         catch(DocumentException | IOException e){
@@ -530,8 +531,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
             
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
-            XmlNode content = reader.getRoot();
-            XmlNode actionFormsNode = content.getNode(ActionFormConstants.ACTION_FORMS_ATTRIBUTE_ID);
+            XmlNode contentNode = reader.getRoot();
+            XmlNode systemNode = contentNode.getNode(SystemConstants.DEFAULT_ID);
+            XmlNode actionFormsNode = systemNode.getNode(ActionFormConstants.ACTION_FORMS_ATTRIBUTE_ID);
             List<XmlNode> actionFormNodes = (actionFormsNode != null ? actionFormsNode.getChildren() : null);
             boolean found = false;
             
@@ -552,7 +554,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                 if(found){
                     XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
                     
-                    writer.write(content);
+                    writer.write(contentNode);
                 }
             }
         }
@@ -1864,9 +1866,9 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
 
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
-            XmlNode systemResourceContentNode = reader.getRoot();
-
-            XmlNode servicesNode = systemResourceContentNode.getNode(ServiceConstants.SERVICES_ATTRIBUTE_ID);
+            XmlNode contentNode = reader.getRoot();
+            XmlNode systemNode = contentNode.getNode(SystemConstants.DEFAULT_ID);
+            XmlNode servicesNode = systemNode.getNode(ServiceConstants.SERVICES_ATTRIBUTE_ID);
             List<XmlNode> servicesNodes = (servicesNode != null ? servicesNode.getChildren() : null);
 
             if(servicesNodes != null && !servicesNodes.isEmpty()){
@@ -1910,7 +1912,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
 
                         XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
 
-                        writer.write(systemResourceContentNode);
+                        writer.write(contentNode);
                     }
                 }
             }
@@ -1986,17 +1988,18 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             systemResourcesFilename.append(SystemConstants.DEFAULT_RESOURCES_ID);
             
             XmlReader reader = new XmlReader(new File(systemResourcesFilename.toString()));
-            XmlNode systemResourceContentNode = reader.getRoot();
+            XmlNode contentNode = reader.getRoot();
+            XmlNode systemNode = contentNode.getNode(SystemConstants.DEFAULT_ID);
             
             Class<? extends BaseModel> modelClass = this.modelInfo.getClazz();
             
             if(modelClass != null && (modelClass.equals(MainConsoleModel.class) || modelClass.getSuperclass().equals(MainConsoleModel.class))){
-                XmlNode mainConsoleNode = systemResourceContentNode.getNode(SystemConstants.MAIN_CONSOLE_ATTRIBUTE_ID);
+                XmlNode mainConsoleNode = systemNode.getNode(SystemConstants.MAIN_CONSOLE_ATTRIBUTE_ID);
                 
                 if(mainConsoleNode == null){
                     mainConsoleNode = new XmlNode(SystemConstants.MAIN_CONSOLE_ATTRIBUTE_ID);
-                    
-                    systemResourceContentNode.addChild(mainConsoleNode);
+
+                    systemNode.addChild(mainConsoleNode);
                 }
 
                 if(this.modelInfo.generateUi())
@@ -2005,7 +2008,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
             
             XmlWriter writer = new XmlWriter(new File(systemResourcesFilename.toString()));
             
-            writer.write(systemResourceContentNode);
+            writer.write(contentNode);
         }
         catch(IOException | DocumentException e){
             throw new InternalErrorException(e);
