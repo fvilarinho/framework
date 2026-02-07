@@ -2,7 +2,7 @@
 <!DOCTYPE artifacts>
 
 <artifacts>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="security.model"
 	          name="UserModel">
 		package @{packageName};
@@ -44,7 +44,7 @@
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="security.model"
 	          name="LoginParameterModel">
 		package @{packageName};
@@ -89,7 +89,7 @@
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="security.model"
 	          name="GroupModel">
 		package @{packageName};
@@ -133,7 +133,7 @@
 			}
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="security.model"
 	          name="AccessModel">
 		package @{packageName};
@@ -166,7 +166,7 @@
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix(#{clazz})"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="security.model"
 	          name="LoginSessionModel">
 		package @{packageName};
@@ -204,7 +204,7 @@
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="security.model"
 	          name="UserAdminModel">
 		package @{packageName};
@@ -315,7 +315,7 @@
 			}
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="security.model"
 	          name="GroupAdminModel">
 		package @{packageName};
@@ -494,7 +494,7 @@
 			}
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="@{systemResoureces.packagesPrefix}"
 	          packageSuffix="model"
 	          name="SystemModuleModel">
 		package @{packageName};
@@ -533,7 +533,7 @@
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="model"
 	          name="FormModel">
 		package @{packageName};
@@ -566,12 +566,12 @@
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="model"
 	          name="ObjectModel">
 		package @{packageName};
 		<set var="serialVersionUID" value="br.com.concepting.framework.model.util.ModelUtil.generateSerialVersionUID()"/>
-	    <set var="groupModelClassName" value="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"/>
+	    <set var="groupModelClassName" value="@{systemResources.packagesPrefix}"/>
 	    <set var="groupModelClassName" value="@{groupModelClassName}.concat('.security.model.GroupModel')"/>
 	    	          
 		import br.com.concepting.framework.model.annotations.Model;
@@ -611,7 +611,7 @@
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="model"
 	          name="UrlModel">
 		package @{packageName};
@@ -640,7 +640,7 @@
 			private static final long serialVersionUID = @{serialVersionUID}L;
 		}
 	</artifact>
-	<artifact packagePrefix="br.com.concepting.framework.model.util.ModelUtil.getPackagePrefix('#{clazz.name}')"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="model"
 	          name="SystemSessionModel">
 		package @{packageName};

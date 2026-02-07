@@ -66,7 +66,19 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
         resources.setId(Constants.DEFAULT_ATTRIBUTE_ID);
         resources.setDefault(true);
 
-        XmlNode mainConsoleNode = resourcesNode.getNode(SystemConstants.MAIN_CONSOLE_ATTRIBUTE_ID);
+        XmlNode systemNode = resourcesNode.getNode(SystemConstants.DEFAULT_ID);
+
+        if(systemNode == null)
+            throw new InvalidResourcesException(resourcesDirname, resourcesId, resourcesNode.getText());
+
+        String packagesPrefix = systemNode.getAttribute(SystemConstants.PACKAGES_PREFIX_ATTRIBUTE_ID);
+
+        if(packagesPrefix == null || packagesPrefix.isEmpty())
+            throw new InvalidResourcesException(resourcesDirname, resourcesId, systemNode.getText());
+
+        resources.setPackagesPrefix(packagesPrefix);
+
+        XmlNode mainConsoleNode = systemNode.getNode(SystemConstants.MAIN_CONSOLE_ATTRIBUTE_ID);
 
         if (mainConsoleNode != null) {
             String mainConsoleClass = mainConsoleNode.getAttribute(Constants.CLASS_ATTRIBUTE_ID);
@@ -157,7 +169,7 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
         else
             throw new InvalidResourcesException(getResourcesDirname(), getResourcesId(), resourcesNode.getText());
 
-        XmlNode actionFormsNode = resourcesNode.getNode(ActionFormConstants.ACTION_FORMS_ATTRIBUTE_ID);
+        XmlNode actionFormsNode = systemNode.getNode(ActionFormConstants.ACTION_FORMS_ATTRIBUTE_ID);
 
         if(actionFormsNode != null){
             List<XmlNode> actionFormNodes = actionFormsNode.getChildren();
@@ -202,7 +214,7 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             }
         }
 
-        XmlNode persistenceNode = resourcesNode.getNode(PersistenceConstants.PERSISTENCE_ATTRIBUTE_ID);
+        XmlNode persistenceNode = systemNode.getNode(PersistenceConstants.PERSISTENCE_ATTRIBUTE_ID);
 
         if(persistenceNode != null) {
             String applyAtBoot = persistenceNode.getAttribute(PersistenceConstants.APPLY_SCRIPTS_AT_BOOT_ATTRIBUTE_ID);
@@ -217,7 +229,7 @@ public class SystemResourcesLoader extends XmlResourcesLoader<SystemResources>{
             }
         }
 
-        XmlNode servicesNode = resourcesNode.getNode(ServiceConstants.SERVICES_ATTRIBUTE_ID);
+        XmlNode servicesNode = systemNode.getNode(ServiceConstants.SERVICES_ATTRIBUTE_ID);
         
         if(servicesNode != null){
             String loadAtBoot = servicesNode.getAttribute(ServiceConstants.LOAD_AT_BOOT_ATTRIBUTE_ID);

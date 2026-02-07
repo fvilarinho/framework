@@ -3,60 +3,37 @@
  	<xs:element name="resources">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="mainConsole">
+				<xs:element name="system">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="languages">
+							<xs:element name="mainConsole">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="language" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-														<xs:attribute type="xs:string" name="id" use="required"/>
-														<xs:attribute type="xs:boolean" name="default"/>
-													</xs:extension>
-												</xs:simpleContent>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
-							<xs:element name="skins">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="skin" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-														<xs:attribute type="xs:string" name="id" use="required"/>
-														<xs:attribute type="xs:boolean" name="default"/>
-													</xs:extension>
-												</xs:simpleContent>
-											</xs:complexType>
-										</xs:element>
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
-						</xs:sequence>
-						<xs:attribute type="xs:string" name="class"/>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="actionForms">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="actionForm" minOccurs="0" maxOccurs="unbounded">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="forwards">
+										<xs:element name="languages">
 											<xs:complexType>
 												<xs:sequence>
-													<xs:element name="forward" maxOccurs="unbounded">
+													<xs:element name="language" maxOccurs="unbounded">
 														<xs:complexType>
 															<xs:simpleContent>
 																<xs:extension base="xs:string">
-																	<xs:attribute type="xs:string" name="name" use="required"/>
-																	<xs:attribute type="xs:string" name="url" use="required"/>
+																	<xs:attribute type="xs:string" name="id" use="required"/>
+																	<xs:attribute type="xs:boolean" name="default"/>
+																</xs:extension>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="skins">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="skin" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string">
+																	<xs:attribute type="xs:string" name="id" use="required"/>
+																	<xs:attribute type="xs:boolean" name="default"/>
 																</xs:extension>
 															</xs:simpleContent>
 														</xs:complexType>
@@ -65,36 +42,66 @@
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>
-									<xs:attribute type="xs:string" name="name" use="required"/>
-									<xs:attribute type="xs:string" name="action" use="required"/>
-									<xs:attribute type="xs:string" name="class" use="required"/>
+									<xs:attribute type="xs:string" name="class"/>
 								</xs:complexType>
 							</xs:element>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="persistence">
-					<xs:complexType>
-						<xs:attribute type="xs:string" name="applyScriptsAtBoot" default="false"/>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="services">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="service" minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="actionForms">
 								<xs:complexType>
-									<xs:simpleContent>
-										<xs:extension base="xs:string">
-											<xs:attribute type="xs:boolean" name="isWeb"/>
-											<xs:attribute type="xs:string" name="url"/>
-											<xs:attribute type="xs:boolean" name="isJob"/>
-											<xs:attribute type="xs:boolean" name="isRecurrent"/>
-										</xs:extension>
-									</xs:simpleContent>
+									<xs:sequence>
+										<xs:element name="actionForm" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="forwards">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="forward" maxOccurs="unbounded">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="xs:string">
+																				<xs:attribute type="xs:string" name="name" use="required"/>
+																				<xs:attribute type="xs:string" name="url" use="required"/>
+																			</xs:extension>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute type="xs:string" name="name" use="required"/>
+												<xs:attribute type="xs:string" name="action" use="required"/>
+												<xs:attribute type="xs:string" name="class" use="required"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="persistence">
+								<xs:complexType>
+									<xs:attribute type="xs:string" name="applyScriptsAtBoot" default="false"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="services">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="service" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute type="xs:boolean" name="isWeb"/>
+														<xs:attribute type="xs:string" name="url"/>
+														<xs:attribute type="xs:boolean" name="isJob"/>
+														<xs:attribute type="xs:boolean" name="isRecurrent"/>
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute type="xs:string" name="loadAtBoot" default="false"/>
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
-						<xs:attribute type="xs:string" name="loadAtBoot" default="false"/>
+						<xs:attribute type="xs:string" name="packagesPrefix" use="required"/>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>

@@ -13,6 +13,8 @@ import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.types.ConditionType;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
+import br.com.concepting.framework.resources.SystemResources;
+import br.com.concepting.framework.resources.SystemResourcesLoader;
 import br.com.concepting.framework.resources.constants.ResourcesConstants;
 import br.com.concepting.framework.util.*;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
@@ -29,7 +31,6 @@ import java.lang.reflect.Modifier;
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 /**
  * Class responsible to manipulate data models.
@@ -1002,46 +1003,7 @@ public class ModelUtil{
         
         return modelList;
     }
-    
-    /**
-     * Returns the package prefix of a data model.
-     *
-     * @param modelClass Class that defines the data model.
-     * @return String that contains the package prefix.
-     */
-    public static String getPackagePrefix(Class<? extends BaseModel> modelClass){
-        if(modelClass != null)
-            return getPackagePrefix(modelClass.getName());
-        
-        return null;
-    }
-    
-    /**
-     * Returns the package prefix of a data model.
-     *
-     * @param modelClassName String that defines the data model.
-     * @return String that contains the package prefix.
-     */
-    public static String getPackagePrefix(String modelClassName){
-        if(modelClassName == null || modelClassName.isEmpty())
-            return null;
-        
-        String[] packageItems = StringUtil.split(modelClassName, ".");
-        StringBuilder packagePrefixBuffer = new StringBuilder();
-        
-        for(int cont = 0; cont < 3; cont++){
-            if(cont >= packageItems.length)
-                break;
-            
-            if(cont > 0)
-                packagePrefixBuffer.append(".");
-            
-            packagePrefixBuffer.append(packageItems[cont]);
-        }
 
-        return packagePrefixBuffer.toString();
-    }
-    
     /**
      * Returns a URL based on a data model class name.
      *
@@ -1063,44 +1025,37 @@ public class ModelUtil{
      */
     public static String getUrlByModel(String modelClassName){
         if(modelClassName != null && !modelClassName.isEmpty()){
-            String url = modelClassName;
-            String prefix = ModelUtil.getPackagePrefix(modelClassName);
-            
-            url = StringUtil.replaceAll(url, prefix, "");
-            
-            StringBuilder searchBuffer = new StringBuilder();
-            
-            searchBuffer.append(".");
-            searchBuffer.append(ModelConstants.DEFAULT_ID);
-            
-            url = StringUtil.replaceAll(url, searchBuffer.toString(), "");
-            url = StringUtil.replaceAll(url, StringUtil.capitalize(ModelConstants.DEFAULT_ID), "");
-            
-            if(url.startsWith("."))
-                url = url.substring(1);
-            
-            StringBuilder urlBuffer = new StringBuilder();
-            int pos = url.lastIndexOf(".");
-            
-            if(pos >= 0){
-                urlBuffer.append(url, 0, pos + 1);
-                urlBuffer.append(url.substring(pos + 1).substring(0, 1).toLowerCase());
-                urlBuffer.append(url.substring(pos + 1).substring(1));
+            try {
+                SystemResourcesLoader systemResourcesLoader = new SystemResourcesLoader();
+                SystemResources systemResources = systemResourcesLoader.getDefault();
+                String buffer = StringUtil.replaceAll(modelClassName, systemResources.getPackagesPrefix().concat("."), "");
+
+                buffer = StringUtil.replaceAll(buffer, ".".concat(ModelConstants.DEFAULT_ID), "");
+
+                String[] urlSections = StringUtil.split(buffer, ".");
+                StringBuilder urlBuffer = new StringBuilder();
+
+                urlBuffer.append("/");
+
+                for (int i = 0 ; i < (urlSections.length - 1) ; i++) {
+                    if(i > 0)
+                        urlBuffer.append("/");
+
+                    urlBuffer.append(urlSections[i]);
+                }
+
+                String lastSection = urlSections[urlSections.length - 1];
+
+                lastSection = StringUtil.replaceAll(lastSection, StringUtil.capitalize(ModelConstants.DEFAULT_ID), "");
+
+                urlBuffer.append("/");
+                urlBuffer.append(lastSection.substring(0, 1).toLowerCase());
+                urlBuffer.append(lastSection.substring(1));
+
+                return urlBuffer.toString();
             }
-            else{
-                urlBuffer.append(url.substring(0, 1).toLowerCase());
-                urlBuffer.append(url.substring(1));
+            catch(Throwable ignored){
             }
-            
-            url = StringUtil.replaceAll(urlBuffer.toString(), ".", "/");
-            
-            urlBuffer = new StringBuilder();
-            urlBuffer.append("/");
-            urlBuffer.append(url);
-            
-            url = urlBuffer.toString();
-            
-            return url;
         }
         
         return null;

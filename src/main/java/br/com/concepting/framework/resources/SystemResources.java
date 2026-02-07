@@ -35,7 +35,8 @@ import java.util.Locale;
 public class SystemResources extends BaseResources<XmlNode>{
     @Serial
     private static final long serialVersionUID = -1115220620296191917L;
-    
+
+    private String packagesPrefix = null;
     private Class<? extends MainConsoleModel> mainConsoleClass = null;
     private Collection<Locale> languages = null;
     private Locale defaultLanguage = null;
@@ -45,6 +46,24 @@ public class SystemResources extends BaseResources<XmlNode>{
     private boolean loadServicesAtBoot = false;
     private Collection<ActionFormResources> actionForms = null;
     private Collection<ServiceResources> services = null;
+
+    /**
+     * Returns the prefix of the classes packages.
+     *
+     * @return String that contains the prefix.
+     */
+    public String getPackagesPrefix() {
+        return this.packagesPrefix;
+    }
+
+    /**
+     * Defines the prefix of the classes packages.
+     *
+     * @param packagesPrefix String that contains the prefix.
+     */
+    public void setPackagesPrefix(String packagesPrefix) {
+        this.packagesPrefix = packagesPrefix;
+    }
 
     /**
      * Indicates if the persistence scripts should be applied at boot.

@@ -292,6 +292,11 @@ function createProjectStructure() {
   mkdir -p $PROJECT_DIR/src/main/java \
            $PROJECT_DIR/src/test/java \
            $PROJECT_DIR/src/test/resources
+
+  PROJECT_BUILD_PACKAGE_DIR="${PROJECT_BUILD_PACKAGE//.//}"
+
+  mkdir -p "$PROJECT_DIR/src/main/java/$PROJECT_BUILD_PACKAGE_DIR" \
+           "$PROJECT_DIR/src/test/java/$PROJECT_BUILD_PACKAGE_DIR"
 }
 
 # Creates the new project's banner.
@@ -349,6 +354,14 @@ function createProjectBuild() {
 function copyProjectFiles() {
   if [ ! -d $PROJECT_DIR/src/main/resources ]; then
     cp -r src/main/resources $PROJECT_DIR/src/main || exit 1
+
+    SYSTEM_RESOURCES_FILENAME="$PROJECT_DIR/src/main/resources/etc/resources/systemResources.xml"
+
+    sed "s/$BUILD_PACKAGE.$BUILD_NAME/$PROJECT_BUILD_PACKAGE.$PROJECT_BUILD_NAME/g" "$SYSTEM_RESOURCES_FILENAME" > $SYSTEM_RESOURCES_FILENAME.tmp
+
+    cp -f $SYSTEM_RESOURCES_FILENAME.tmp $SYSTEM_RESOURCES_FILENAME
+
+    rm -f $SYSTEM_RESOURCES_FILENAME.tmp
   fi
 
   if [ ! -d $PROJECT_DIR/src/main/ui ]; then

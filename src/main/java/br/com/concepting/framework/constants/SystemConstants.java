@@ -43,6 +43,7 @@ public final class SystemConstants{
     public static final String MAIN_CONSOLE_ATTRIBUTE_ID = "mainConsole";
     public static final String OPERATING_SYSTEM_ATTRIBUTE_ID = "os";
     public static final String OPERATING_SYSTEMS_ATTRIBUTE_ID = "oss";
+    public static final String PACKAGES_PREFIX_ATTRIBUTE_ID = "packagesPrefix";
     public static final String REQUEST_PARAMETERS_ATTRIBUTE_ID = "requestParameters";
     public static final String RESOURCES_ATTRIBUTE_ID = "systemResources";
     public static final String USER_AGENT_ATTRIBUTE_ID = "User-Agent";
@@ -53,6 +54,7 @@ public final class SystemConstants{
     public static final String URL_ATTRIBUTE_ID = "url";
     public static final String URLS_ATTRIBUTE_ID = "urls";
 
+    public static final String DEFAULT_ID = "system";
     public static final String DEFAULT_CONTROLLER_ID = "controller";
     public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("systemResources.xml");
 }
