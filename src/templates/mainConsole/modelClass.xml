@@ -494,7 +494,7 @@
 			}
 		}
 	</artifact>
-	<artifact packagePrefix="@{systemResoureces.packagesPrefix}"
+	<artifact packagePrefix="@{systemResources.packagesPrefix}"
 	          packageSuffix="model"
 	          name="SystemModuleModel">
 		package @{packageName};
