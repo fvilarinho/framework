@@ -21,6 +21,10 @@ def buildSecretsFile = file(".secrets")
 if (buildSecretsFile.exists())
     buildSecretsFile.withReader("UTF-8") { reader -> environment.load(reader) }
 
+def frameworkRepositoryUrl = (environment.getProperty("FRAMEWORK_REPOSITORY_URL") != null ? environment.getProperty("FRAMEWORK_REPOSITORY_URL") : System.getenv("FRAMEWORK_REPOSITORY_URL"))
+def frameworkRepositoryUserName = (environment.getProperty("FRAMEWORK_REPOSITORY_USERNAME") != null ? environment.getProperty("FRAMEWORK_REPOSITORY_USERNAME") : System.getenv("FRAMEWORK_REPOSITORY_USERNAME"))
+def frameworkRepositoryPassword = (environment.getProperty("FRAMEWORK_REPOSITORY_PASSWORD") != null ? environment.getProperty("FRAMEWORK_REPOSITORY_PASSWORD") : System.getenv("FRAMEWORK_REPOSITORY_PASSWORD"))
+
 def repositoryUrl = (environment.getProperty("REPOSITORY_URL") != null ? environment.getProperty("REPOSITORY_URL") : System.getenv("REPOSITORY_URL"))
 def repositoryUserName = (environment.getProperty("REPOSITORY_USERNAME") != null ? environment.getProperty("REPOSITORY_USERNAME") : System.getenv("REPOSITORY_USERNAME"))
 def repositoryPassword = (environment.getProperty("REPOSITORY_PASSWORD") != null ? environment.getProperty("REPOSITORY_PASSWORD") : System.getenv("REPOSITORY_PASSWORD"))
