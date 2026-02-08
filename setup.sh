@@ -243,6 +243,30 @@ function sonarDialog() {
   done
 }
 
+# Opens the dialog to define the attributes of the snyk.
+function snykDialog() {
+  while "true"; do
+    SNYK_TOKEN=$($DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                             --title "$TITLE" \
+                             --inputbox "\nPlease enter the snyk token:" \
+                             10 \
+                             60 \
+                             "$SNYK_TOKEN" 2>&1 > /dev/tty)
+
+    if [ $? -eq 1 ]; then
+      menuDialog
+    elif [ -z "$SNYK_TOKEN" ]; then
+      $DIALOG_CMD --backtitle "$MAIN_TITLE" \
+                  --title "$TITLE" \
+                  --msgbox "\nYou must specify the snyk token!" \
+                  7 \
+                  60
+    else
+      break
+    fi
+  done
+}
+
 # Opens the dialog to define the attributes of the slack.
 function slackDialog() {
   while "true"; do
@@ -277,6 +301,9 @@ function createEnvironment() {
   echo "SONAR_URL=$SONAR_URL" >> $BUILD_SECRETS_FILENAME
   echo "SONAR_ORGANIZATION=$SONAR_ORGANIZATION" >> $BUILD_SECRETS_FILENAME
   echo "SONAR_TOKEN=$SONAR_TOKEN" >> $BUILD_SECRETS_FILENAME
+
+  echo >> $BUILD_SECRETS_FILENAME
+  echo "SNYK_TOKEN=$SNYK_TOKEN" >> $BUILD_SECRETS_FILENAME
 
   echo >> $BUILD_SECRETS_FILENAME
   echo "SLACK_TOKEN=$SLACK_TOKEN" >> $BUILD_SECRETS_FILENAME
@@ -333,6 +360,9 @@ function createProjectEnvironment() {
     echo "SONAR_URL=$PROJECT_SONAR_URL" >> $PROJECT_BUILD_SECRETS_FILENAME
     echo "SONAR_ORGANIZATION=$PROJECT_SONAR_ORGANIZATION" >> $PROJECT_BUILD_SECRETS_FILENAME
     echo "SONAR_TOKEN=$PROJECT_SONAR_TOKEN" >> $PROJECT_BUILD_SECRETS_FILENAME
+
+    echo >> $PROJECT_BUILD_SECRETS_FILENAME
+    echo "SNYK_TOKEN=$PROJECT_SNYK_TOKEN" >> $PROJECT_BUILD_SECRETS_FILENAME
 
     echo >> $PROJECT_BUILD_SECRETS_FILENAME
     echo "SLACK_TOKEN=$PROJECT_SLACK_TOKEN" >> $PROJECT_BUILD_SECRETS_FILENAME
@@ -401,6 +431,7 @@ function configureDialog() {
 
   repositoryDialog
   sonarDialog
+  snykDialog
   slackDialog
 
   createEnvironment
@@ -446,6 +477,17 @@ function projectSonarDialog() {
   SONAR_TOKEN=$OLD_SONAR_TOKEN
 }
 
+# Opens the new project's snyk dialog.
+function projectSnykDialog() {
+  OLD_SNYK_TOKEN=$SNYK_TOKEN
+
+  snykDialog
+
+  PROJECT_SNYK_TOKEN=$SNYK_TOKEN
+
+  SNYK_TOKEN=$OLD_SNYK_TOKEN
+}
+
 # Opens the new project's slack dialog.
 function projectSlackDialog() {
   OLD_SLACK_TOKEN=$SLACK_TOKEN
@@ -464,6 +506,7 @@ function newProjectDialog() {
   projectInputDialog
   projectRepositoryDialog
   projectSonarDialog
+  projectSnykDialog
   projectSlackDialog
 
   createProjectStructure
@@ -501,13 +544,14 @@ function menuDialog() {
                        --menu "\nPlease select an option to continue:" \
                        0 \
                        90 \
-                       7 \
+                       9 \
                        "1. CONFIGURE" "Configure framework attributes." \
                        "2. BUILD" "Start the building process." \
-                       "3. CODE ANALYSIS" "Start the code analysis & quality checks." \
-                       "4. PUBLISH" "Publish the current build in the repository." \
-                       "5. NEW PROJECT" "Creates a new project." \
-                       "6. LICENSE" "Know more about licensing." \
+                       "3. CODE ANALYSIS" "Analyse the code and process quality checks." \
+                       "4. LIBRARIES ANALYSIS" "Search for libraries vulnerabilities." \
+                       "5. PUBLISH" "Publish the current build in the repository." \
+                       "6. NEW PROJECT" "Creates a new project." \
+                       "7. LICENSE" "Know more about licensing." \
                        "0. EXIT" "Exit this setup." 2>&1 > /dev/tty)
 
   if [ $? -eq 1 ]; then
@@ -525,23 +569,34 @@ function menuDialog() {
       "2. BUILD")
         clear ; ./build.sh
 
+        sleep 1
+
         menuDialog
         ;;
       "3. CODE ANALYSIS")
         clear ; ./codeAnalysis.sh
 
+        sleep 1
+
         menuDialog
         ;;
-      "4. PUBLISH")
+      "4. LIBRARIES ANALYSIS")
+        clear ; ./librariesAnalysis.sh
+
+        sleep 1
+
+        menuDialog
+        ;;
+      "5. PUBLISH")
         clear ; ./publish.sh
 
         menuDialog
         ;;
-      "5. NEW PROJECT")
+      "6. NEW PROJECT")
         newProjectDialog
         menuDialog
         ;;
-      "6. LICENSE")
+      "7. LICENSE")
         licenseDialog
         menuDialog
         ;;

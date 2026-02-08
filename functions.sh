@@ -9,6 +9,8 @@ function showLabel() {
     echo "*** BUILD & TEST ***"
   elif [[ "$0" == *"codeAnalysis.sh"* ]]; then
     echo "*** CODE ANALYSIS ***"
+  elif [[ "$0" == *"librariesAnalysis.sh"* ]]; then
+    echo "*** LIBRARIES ANALYSIS ***"
   elif [[ "$0" == *"publish.sh"* ]]; then
     echo "*** PUBLISH ***"
   fi
@@ -56,11 +58,12 @@ function loadBuildEnvironment() {
 # Prepares the environment to execute the commands of this script.
 function prepareToExecute() {
   # Mandatory binaries.
-  export JAVA_CMD=$(which java)
-  export GRADLE_CMD=$(which gradle)
   export FIGLET_CMD=$(which figlet)
   export CURL_CMD=$(which curl)
   export JQ_CMD=$(which jq)
+  export JAVA_CMD=$(which java)
+  export GRADLE_CMD=$(which gradle)
+  export SNYK_CMD=$(which snyk)
 
   # Mandatory files/paths.
   export WORK_DIR="$PWD"

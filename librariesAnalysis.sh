@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Checks the dependencies of this script.
+function checkDependencies() {
+  if [ -z "$SNYK_CMD" ]; then
+    echo "snyk is not installed! Please install it first to continue!"
+
+    exit 1
+  fi
+
+  if [ -z "$SNYK_TOKEN" ]; then
+    echo "The snyk token is not defined! Please configure the project first!"
+
+    exit 1
+  fi
+}
+
+# Prepares the environment to execute this script.
+function prepareToExecute() {
+  source functions.sh
+
+  showBanner
+}
+
+# Starts the libraries analysis process.
+function librariesAnalysis() {
+  $SNYK_CMD test --severity-threshold=critical || exit 1
+
+  $SNYK_CMD log4shell
+}
+
+# Main function.
+function main() {
+  prepareToExecute
+  checkDependencies
+  librariesAnalysis
+}
+
+main

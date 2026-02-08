@@ -24,6 +24,8 @@ jobs:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
 
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
     runs-on: ubuntu-latest
 
@@ -42,6 +44,9 @@ jobs:
 
     - name: Code Analysis
       run: ./codeAnalysis.sh
+
+    - name: Libraries Analysis
+      run: ./librariesAnalysis.sh
 
     - name: Notify
       if: always()
