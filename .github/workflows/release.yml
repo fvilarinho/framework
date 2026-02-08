@@ -38,6 +38,9 @@ jobs:
         distribution: corretto
         java-version: 21
 
+    - name: Set up snyk
+      run: npm install npm@latest -g
+
     - name: Build and Test
       run: ./build.sh
 
