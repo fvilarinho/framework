@@ -40,7 +40,7 @@ jobs:
         java-version: 21
 
     - name: Set up snyk
-      run: curl --compressed https://downloads.snyk.io/cli/stable/snyk-macos -o snyk ; chmod +x ./snyk ; mv ./snyk /usr/local/bin/
+      run: curl --compressed https://downloads.snyk.io/cli/stable/snyk-linux -o snyk ; chmod +x ./snyk ; mv ./snyk /usr/local/bin/
 
     - name: Build and Test
       run: ./build.sh
