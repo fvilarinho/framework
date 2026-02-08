@@ -6,14 +6,19 @@ plugins {
 }
 
 def environment = new Properties()
-def environmentFile = file(".env")
+def buildEnvironmentFile = file(".env")
 
-if (environmentFile.exists())
-    environmentFile.withReader("UTF-8") { reader -> environment.load(reader) }
+if (buildEnvironmentFile.exists())
+    buildEnvironmentFile.withReader("UTF-8") { reader -> environment.load(reader) }
 
 def buildPackage = (environment.getProperty("BUILD_PACKAGE") != null ? environment.getProperty("BUILD_PACKAGE") : System.getenv("BUILD_PACKAGE"))
 def buildName = (environment.getProperty("BUILD_NAME") != null ? environment.getProperty("BUILD_NAME") : System.getenv("BUILD_NAME"))
 def buildVersion = (environment.getProperty("BUILD_VERSION") != null ? environment.getProperty("BUILD_VERSION") : System.getenv("BUILD_VERSION"))
+
+def buildSecretsFile = file(".secrets")
+
+if (buildSecretsFile.exists())
+    buildSecretsFile.withReader("UTF-8") { reader -> environment.load(reader) }
 
 def repositoryUrl = (environment.getProperty("REPOSITORY_URL") != null ? environment.getProperty("REPOSITORY_URL") : System.getenv("REPOSITORY_URL"))
 def repositoryUserName = (environment.getProperty("REPOSITORY_USERNAME") != null ? environment.getProperty("REPOSITORY_USERNAME") : System.getenv("REPOSITORY_USERNAME"))

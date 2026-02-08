@@ -40,6 +40,17 @@ function loadBuildEnvironment() {
       export $LINE
     done;
   fi
+
+  export BUILD_SECRETS_FILENAME="$WORK_DIR"/.secrets
+
+  if [ -f "$BUILD_SECRETS_FILENAME" ]; then
+    LINES=$(grep -v "^#" "$BUILD_SECRETS_FILENAME")
+
+    for LINE in $LINES
+    do
+      export $LINE
+    done;
+  fi
 }
 
 # Prepares the environment to execute the commands of this script.
