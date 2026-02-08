@@ -18,9 +18,11 @@ jobs:
       REPOSITORY_URL: ${{ secrets.REPOSITORY_URL }}
       REPOSITORY_USERNAME: ${{ secrets.REPOSITORY_USERNAME }}
       REPOSITORY_PASSWORD: ${{ secrets.REPOSITORY_PASSWORD }}
+
       SONAR_URL: ${{ secrets.SONAR_URL }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+
       SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
     runs-on: ubuntu-latest
 
