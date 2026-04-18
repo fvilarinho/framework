@@ -1,7 +1,6 @@
 package br.com.concepting.framework.util;
 
-import org.apache.commons.beanutils.ConstructorUtils;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -27,7 +26,7 @@ import java.util.Collection;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
-public class CollectionUtil extends CollectionUtils{
+public class CollectionUtil{
     /**
      * Clones a list.
      *

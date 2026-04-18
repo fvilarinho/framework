@@ -24,9 +24,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import org.apache.commons.beanutils.ConstructorUtils;
-import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.beanutils.PropertyUtilsBean;
+import org.apache.commons.beanutils2.ConstructorUtils;
+import org.apache.commons.beanutils2.PropertyUtils;
+import org.apache.commons.beanutils2.PropertyUtilsBean;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;

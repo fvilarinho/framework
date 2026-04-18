@@ -3,7 +3,7 @@ package br.com.concepting.framework.util;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.util.helpers.DateTime;
 import br.com.concepting.framework.util.types.DateFieldType;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;

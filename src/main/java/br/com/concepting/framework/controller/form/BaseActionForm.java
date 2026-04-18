@@ -20,7 +20,7 @@ import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.exceptions.PermissionDeniedException;
 import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.PropertyUtil;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 
 import java.io.Serial;
 import java.io.Serializable;

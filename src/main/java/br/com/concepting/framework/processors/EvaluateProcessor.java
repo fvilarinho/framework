@@ -7,8 +7,8 @@ import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
-import org.apache.commons.beanutils.ConstructorUtils;
-import org.apache.commons.beanutils.MethodUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
+import org.apache.commons.beanutils2.MethodUtils;
 import org.apache.commons.jexl3.*;
 
 import java.lang.reflect.InvocationTargetException;

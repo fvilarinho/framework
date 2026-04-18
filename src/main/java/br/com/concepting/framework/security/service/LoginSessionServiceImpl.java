@@ -30,7 +30,7 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.ContentType;
 import br.com.concepting.framework.util.types.DateFieldType;
 import br.com.concepting.framework.util.types.MethodType;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;

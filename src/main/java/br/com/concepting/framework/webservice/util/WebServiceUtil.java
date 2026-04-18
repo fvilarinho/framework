@@ -123,7 +123,7 @@ public class WebServiceUtil{
     private static <O> O deserialize(Map<String, Object> contentMap, Class<?> clazz) throws IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException, NoSuchFieldException{
         O result = null;
         
-        if(clazz != null && PropertyUtil.isModel(clazz)){
+        if(PropertyUtil.isModel(clazz)){
             Class<? extends BaseModel> modelClass = (Class<? extends BaseModel>) clazz;
             ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
             Collection<PropertyInfo> propertiesInfos = modelInfo.getPropertiesInfo();

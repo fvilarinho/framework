@@ -12,7 +12,7 @@ import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.XmlReader;
 import br.com.concepting.framework.util.constants.XmlConstants;
 import br.com.concepting.framework.util.helpers.XmlNode;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

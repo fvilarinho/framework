@@ -21,7 +21,7 @@ import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.service.util.ServiceUtil;
 import br.com.concepting.framework.util.types.ContentType;
 import br.com.concepting.framework.util.types.MethodType;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;

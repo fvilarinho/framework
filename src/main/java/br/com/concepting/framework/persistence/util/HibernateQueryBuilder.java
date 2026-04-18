@@ -17,7 +17,7 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.FormulaType;
 import br.com.concepting.framework.util.types.SearchType;
 import br.com.concepting.framework.util.types.SortOrderType;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 import org.hibernate.CacheMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

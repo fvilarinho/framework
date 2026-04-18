@@ -6,7 +6,7 @@ import br.com.concepting.framework.persistence.constants.PersistenceConstants;
 import br.com.concepting.framework.persistence.interfaces.IPersistence;
 import br.com.concepting.framework.persistence.resources.PersistenceResources;
 import br.com.concepting.framework.persistence.util.PersistenceUtil;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
 

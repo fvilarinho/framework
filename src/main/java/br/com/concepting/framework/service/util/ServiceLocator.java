@@ -8,7 +8,7 @@ import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.service.controller.ServiceInterceptor;
 import br.com.concepting.framework.service.interfaces.IService;
 import br.com.concepting.framework.util.Observer;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
 

@@ -16,7 +16,7 @@ import br.com.concepting.framework.security.util.interfaces.ICrypto;
 import br.com.concepting.framework.util.ByteUtil;
 import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;

@@ -1,6 +1,6 @@
 package br.com.concepting.framework.util;
 
-import org.apache.commons.beanutils.MethodUtils;
+import org.apache.commons.beanutils2.MethodUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

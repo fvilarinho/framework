@@ -22,8 +22,8 @@ import br.com.concepting.framework.service.util.ServiceUtil;
 import br.com.concepting.framework.util.ExceptionUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.types.ContentType;
-import org.apache.commons.beanutils.ConstructorUtils;
-import org.apache.commons.beanutils.MethodUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
+import org.apache.commons.beanutils2.MethodUtils;
 
 import java.lang.reflect.InvocationTargetException;
 

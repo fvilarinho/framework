@@ -3,9 +3,9 @@ package br.com.concepting.framework.mq.helpers;
 import br.com.concepting.framework.constants.Constants;
 import br.com.concepting.framework.util.helpers.DateTime;
 
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageListener;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageListener;
 
 /**
  * Class responsible to listen queues of the MQ service.

@@ -9,8 +9,13 @@ import br.com.concepting.framework.util.constants.ReportConstants;
 import br.com.concepting.framework.util.helpers.ReportDataSource;
 import br.com.concepting.framework.util.types.ContentType;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.export.*;
+import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.engine.export.JRTextExporter;
+import net.sf.jasperreports.engine.export.JRXmlExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.*;
+import net.sf.jasperreports.pdf.JRPdfExporter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -215,11 +220,11 @@ public class ReportUtil{
                             break;
                         }
                         case XLS: {
-                            SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
+                            SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
 
                             configuration.setOnePagePerSheet(true);
 
-                            JRXlsExporter exporter = new JRXlsExporter();
+                            JRXlsxExporter exporter = new JRXlsxExporter();
 
                             exporter.setConfiguration(configuration);
                             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));

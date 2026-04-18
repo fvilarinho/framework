@@ -22,20 +22,18 @@ import br.com.concepting.framework.util.*;
 import br.com.concepting.framework.util.types.ContentType;
 import br.com.concepting.framework.util.types.MethodType;
 import br.com.concepting.framework.webservice.constants.WebServiceConstants;
-import org.apache.commons.io.IOUtils;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Class responsible to route the request to the right webservice.

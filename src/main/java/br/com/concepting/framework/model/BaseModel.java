@@ -7,7 +7,7 @@ import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.helpers.Node;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
-import org.apache.commons.beanutils.MethodUtils;
+import org.apache.commons.beanutils2.MethodUtils;
 
 import java.io.Serial;
 import java.lang.reflect.InvocationTargetException;

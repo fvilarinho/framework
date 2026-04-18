@@ -22,7 +22,7 @@ import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.types.ByteMetricType;
 import br.com.concepting.framework.util.types.ContentType;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;

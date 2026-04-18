@@ -6,7 +6,7 @@ import br.com.concepting.framework.util.LanguageUtil;
 import br.com.concepting.framework.util.PropertyUtil;
 import br.com.concepting.framework.util.XmlUtil;
 import br.com.concepting.framework.util.helpers.XmlNode;
-import org.apache.commons.beanutils.ConstructorUtils;
+import org.apache.commons.beanutils2.ConstructorUtils;
 import org.dom4j.DocumentException;
 
 import java.lang.reflect.InvocationTargetException;
