@@ -13,6 +13,7 @@ import br.com.concepting.framework.model.constants.ModelConstants;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.resources.PropertiesResources;
 import br.com.concepting.framework.resources.SystemResources;
+import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.security.model.UserModel;
@@ -1192,9 +1193,30 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 this.label = object.getTitle();
         }
         
-        PropertiesResources resources = getResources();
-        PropertiesResources mainConsoleResources = getMainConsoleResources();
-        PropertiesResources defaultResources = getDefaultResources();
+        PropertiesResources resources = null;
+
+        try {
+            resources = getResources();
+        }
+        catch (InvalidResourcesException ignored) {
+        }
+
+        PropertiesResources mainConsoleResources = null;
+
+        try {
+            mainConsoleResources = getMainConsoleResources();
+        }
+        catch (InvalidResourcesException ignored) {
+        }
+
+        PropertiesResources defaultResources = null;
+
+        try {
+            defaultResources = getDefaultResources();
+        }
+        catch (InvalidResourcesException ignored) {
+        }
+
         String resourcesKeyValue = null;
         String labelValue = null;
         StringBuilder propertyId = null;
@@ -1204,7 +1226,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             propertyId.append(resourcesKey);
             propertyId.append(".");
             propertyId.append(Constants.LABEL_ATTRIBUTE_ID);
-            
+
             resourcesKeyValue = (resources != null ? resources.getProperty(propertyId.toString(), false) : null);
             
             if(resourcesKeyValue == null)
@@ -1262,10 +1284,31 @@ public abstract class BaseActionFormComponent extends BaseComponent{
             if(object != null && this.tooltip == null)
                 this.tooltip = object.getTooltip();
         }
-        
-        PropertiesResources resources = getResources();
-        PropertiesResources mainConsoleResources = getMainConsoleResources();
-        PropertiesResources defaultResources = getDefaultResources();
+
+        PropertiesResources resources = null;
+
+        try {
+            resources = getResources();
+        }
+        catch (InvalidResourcesException ignored) {
+        }
+
+        PropertiesResources mainConsoleResources = null;
+
+        try {
+            mainConsoleResources = getMainConsoleResources();
+        }
+        catch (InvalidResourcesException ignored) {
+        }
+
+        PropertiesResources defaultResources = null;
+
+        try {
+            defaultResources = getDefaultResources();
+        }
+        catch (InvalidResourcesException ignored) {
+        }
+
         String resourcesKeyValue = null;
         String tooltipValue = null;
         StringBuilder propertyId = null;

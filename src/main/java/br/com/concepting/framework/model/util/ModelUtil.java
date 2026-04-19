@@ -1048,7 +1048,9 @@ public class ModelUtil{
 
                 lastSection = StringUtil.replaceAll(lastSection, StringUtil.capitalize(ModelConstants.DEFAULT_ID), "");
 
-                urlBuffer.append("/");
+                if(!urlBuffer.toString().endsWith("/"))
+                    urlBuffer.append("/");
+
                 urlBuffer.append(lastSection.substring(0, 1).toLowerCase());
                 urlBuffer.append(lastSection.substring(1));
 
