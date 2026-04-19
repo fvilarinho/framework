@@ -218,9 +218,8 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      * Returns the instance that contains the resources.
      *
      * @return Instance that contains the resources.
-     * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    protected PropertiesResources getResources() throws InternalErrorException{
+    protected PropertiesResources getResources(){
         return getResources(this.resourcesId);
     }
     
@@ -229,15 +228,19 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      *
      * @param resourcesId String that contains the identifier of the resources.
      * @return Instance that contains the resources.
-     * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    protected PropertiesResources getResources(String resourcesId) throws InternalErrorException{
+    protected PropertiesResources getResources(String resourcesId){
         if(resourcesId == null || resourcesId.isEmpty())
             resourcesId = ResourcesConstants.DEFAULT_COMMON_RESOURCES_ID;
-        
-        PropertiesResourcesLoader loader = new PropertiesResourcesLoader(resourcesId, getCurrentLanguage());
 
-        return loader.getContent();
+        try {
+            PropertiesResourcesLoader loader = new PropertiesResourcesLoader(resourcesId, getCurrentLanguage());
+
+            return loader.getContent();
+        }
+        catch (InvalidResourcesException e) {
+            return null;
+        }
     }
     
     /**
@@ -596,16 +599,19 @@ public abstract class BaseComponent extends BodyTagSupport implements Cloneable{
      * Returns the instance that contains the current language.
      *
      * @return Instance that contains the current language.
-     * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
-    protected Locale getCurrentLanguage() throws InternalErrorException{
+    protected Locale getCurrentLanguage(){
         if(this.securityController != null){
-            LoginSessionModel loginSession = this.securityController.getLoginSession();
-            UserModel user = (loginSession != null ? loginSession.getUser() : null);
-            LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
-            
-            if(loginParameter != null && loginParameter.getLanguage() != null && !loginParameter.getLanguage().isEmpty())
-                return LanguageUtil.getLanguageByString(loginParameter.getLanguage());
+            try {
+                LoginSessionModel loginSession = this.securityController.getLoginSession();
+                UserModel user = (loginSession != null ? loginSession.getUser() : null);
+                LoginParameterModel loginParameter = (user != null ? user.getLoginParameter() : null);
+
+                if (loginParameter != null && loginParameter.getLanguage() != null && !loginParameter.getLanguage().isEmpty())
+                    return LanguageUtil.getLanguageByString(loginParameter.getLanguage());
+            }
+            catch(InternalErrorException ignored) {
+            }
         }
         
         return LanguageUtil.getDefaultLanguage();

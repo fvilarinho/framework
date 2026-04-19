@@ -13,7 +13,6 @@ import br.com.concepting.framework.model.constants.ModelConstants;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.resources.PropertiesResources;
 import br.com.concepting.framework.resources.SystemResources;
-import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.model.LoginSessionModel;
 import br.com.concepting.framework.security.model.UserModel;
@@ -26,7 +25,6 @@ import br.com.concepting.framework.util.StringUtil;
 import br.com.concepting.framework.util.types.AlignmentType;
 import br.com.concepting.framework.util.types.ComponentType;
 import br.com.concepting.framework.util.types.PositionType;
-
 import jakarta.servlet.jsp.JspException;
 
 import java.io.Serial;
@@ -1193,30 +1191,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 this.label = object.getTitle();
         }
         
-        PropertiesResources resources = null;
-
-        try {
-            resources = getResources();
-        }
-        catch (InvalidResourcesException ignored) {
-        }
-
-        PropertiesResources mainConsoleResources = null;
-
-        try {
-            mainConsoleResources = getMainConsoleResources();
-        }
-        catch (InvalidResourcesException ignored) {
-        }
-
-        PropertiesResources defaultResources = null;
-
-        try {
-            defaultResources = getDefaultResources();
-        }
-        catch (InvalidResourcesException ignored) {
-        }
-
+        PropertiesResources resources = resources = getResources();
+        PropertiesResources mainConsoleResources = getMainConsoleResources();
+        PropertiesResources defaultResources = getDefaultResources();
         String resourcesKeyValue = null;
         String labelValue = null;
         StringBuilder propertyId = null;
@@ -1285,30 +1262,9 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 this.tooltip = object.getTooltip();
         }
 
-        PropertiesResources resources = null;
-
-        try {
-            resources = getResources();
-        }
-        catch (InvalidResourcesException ignored) {
-        }
-
-        PropertiesResources mainConsoleResources = null;
-
-        try {
-            mainConsoleResources = getMainConsoleResources();
-        }
-        catch (InvalidResourcesException ignored) {
-        }
-
-        PropertiesResources defaultResources = null;
-
-        try {
-            defaultResources = getDefaultResources();
-        }
-        catch (InvalidResourcesException ignored) {
-        }
-
+        PropertiesResources resources = getResources();
+        PropertiesResources mainConsoleResources = getMainConsoleResources();
+        PropertiesResources defaultResources = getDefaultResources();
         String resourcesKeyValue = null;
         String tooltipValue = null;
         StringBuilder propertyId = null;
