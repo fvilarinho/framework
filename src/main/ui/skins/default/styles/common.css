@@ -791,7 +791,6 @@ option:hover{
 .header{
 	width                          : 100%;
 	min-height                     : 70px;
-	height:                        : 70px;
 	background                     : #efefef;
 	font-family                    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size                      : 14px;
@@ -814,7 +813,7 @@ option:hover{
 .content{
 	width          : 100%;
 	min-height     : 275px;
-	height         : calc(100vh - 200px);
+	height         : calc(102vh - 200px);
 	background     : WHITE;
 	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px;
@@ -849,8 +848,7 @@ option:hover{
  */
 .footer{
 	width                             : 100%;
-	min-height                        : 40px;
-	height                            : 40px;
+	min-height                        : 35px;
 	background                        : #efefef;
 	font-family                       : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size                         : 14px;
@@ -871,8 +869,7 @@ option:hover{
  */
 .navigationBar{
 	width          : 100%;
-	min-height     : 40px;
-	height         : 40px;
+	min-height     : 35px;
 	background     : WHITE;
 	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px;

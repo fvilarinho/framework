@@ -97,7 +97,6 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     private boolean onMouseOutValidateModel = false;
     private String onMouseOutValidateModelProperties = null;
     private String actionFormName = null;
-    private PropertiesResources mainConsoleResources = null;
     private ActionFormComponent actionFormComponent = null;
 
     /**
@@ -136,16 +135,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
     public void setMaximumLength(int maximumLength){
         this.maximumLength = maximumLength;
     }
-    
-    /**
-     * Defines the instance that contains the main console resource.
-     *
-     * @param mainConsoleResources Instance that contains the resource.
-     */
-    private void setMainConsoleResources(PropertiesResources mainConsoleResources){
-        this.mainConsoleResources = mainConsoleResources;
-    }
-    
+
     /**
      * Returns the instance that contains the main console resource.
      *
@@ -153,21 +143,19 @@ public abstract class BaseActionFormComponent extends BaseComponent{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     protected PropertiesResources getMainConsoleResources() throws InternalErrorException{
-        if(this.mainConsoleResources == null){
-            SystemResources systemResources = getSystemResources();
-            
-            if(systemResources != null){
-                Class<? extends MainConsoleModel> mainConsoleClass = systemResources.getMainConsoleClass();
-                
-                if(mainConsoleClass != null){
-                    String resourcesId = ModelUtil.getResourcesIdByModel(mainConsoleClass);
+        SystemResources systemResources = getSystemResources();
 
-                    setMainConsoleResources(getResources(resourcesId));
-                }
+        if(systemResources != null){
+            Class<? extends MainConsoleModel> mainConsoleClass = systemResources.getMainConsoleClass();
+
+            if(mainConsoleClass != null){
+                String resourcesId = ModelUtil.getResourcesIdByModel(mainConsoleClass);
+
+                return getResources(resourcesId);
             }
         }
-        
-        return this.mainConsoleResources;
+
+        return null;
     }
     
     /**
@@ -1191,7 +1179,7 @@ public abstract class BaseActionFormComponent extends BaseComponent{
                 this.label = object.getTitle();
         }
         
-        PropertiesResources resources = resources = getResources();
+        PropertiesResources resources = getResources();
         PropertiesResources mainConsoleResources = getMainConsoleResources();
         PropertiesResources defaultResources = getDefaultResources();
         String resourcesKeyValue = null;
@@ -1899,7 +1887,6 @@ public abstract class BaseActionFormComponent extends BaseComponent{
         setOnMouseOutUpdateViews(null);
         setOnMouseOutValidateModel(false);
         setOnMouseOutValidateModelProperties(null);
-        setMainConsoleResources(null);
         setActionFormName(null);
     }
 }
