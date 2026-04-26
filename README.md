@@ -68,7 +68,7 @@ Contributions are **VERY WELCOME**!
 
 Please check the roadmap 👉[here](https://github.com/users/fvilarinho/projects/12).
 
-This project has an automated workflow to test, check quality and vulnerabilities but you can also:
+This project has an automated workflow to test, check quality and vulnerabilities, but you can also:
 
 - Open issues for bugs or feature requests 👉[here](https://github.com/fvilarinho/framework/issues)
 - Submit pull requests

@@ -674,7 +674,7 @@ function checkDependencies() {
 function prepareToExecute() {
   source functions.sh
 
-  MAIN_TITLE="Concepting Framework $buildVersion"
+  MAIN_TITLE="Concepting Framework $BUILD_VERSION"
 }
 
 # Main function.
