@@ -49,8 +49,6 @@ public class WebService{
     
     private final WebServiceResources resources;
 
-    private CloseableHttpClient client = null;
-    
     /**
      * Returns the instance to manipulate the web service.
      *
@@ -131,19 +129,8 @@ public class WebService{
         super();
         
         this.resources = resources;
-        
-        initialize();
     }
-    
-    /**
-     * Initialize the communication with the web service.
-     *
-     * @throws InternalErrorException Occurs when was not possible to execute the operation.
-     */
-    private void initialize() throws InternalErrorException{
-        this.client = WebServiceUtil.getClient(this.resources.getTimeout());
-    }
-    
+
     /**
      * Process the web service.
      *
@@ -227,7 +214,8 @@ public class WebService{
      * @throws InternalErrorException Occurs when was not possible to execute the operation.
      */
     public CloseableHttpResponse process(String domain, Object value, Locale language) throws InternalErrorException{
-        try{
+        try(CloseableHttpClient client = WebServiceUtil.getClient(this.resources.getTimeout())) {
+            WebServiceUtil.getClient(this.resources.getTimeout());
             HttpUriRequest request = buildRequest(domain, value, language);
 
             return client.execute(request);

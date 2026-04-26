@@ -74,8 +74,14 @@ public class SystemComponent extends BaseComponent{
                     }
                     else{
                         if(loginParameter.changePassword() == null || !loginParameter.changePassword()){
-                            modelClass = systemResources.getMainConsoleClass();
-                            actionMethod = ActionType.INIT.getMethod();
+                            if(loginParameter.hasMfa() != null && loginParameter.hasMfa() && loginParameter.isMfaTokenValidated() != null && loginParameter.isMfaTokenValidated()) {
+                                modelClass = securityResources.getLoginSessionClass();
+                                actionMethod = ActionType.REFRESH.getMethod();
+                            }
+                            else {
+                                modelClass = systemResources.getMainConsoleClass();
+                                actionMethod = ActionType.INIT.getMethod();
+                            }
                         }
                         else{
                             modelClass = securityResources.getLoginSessionClass();
