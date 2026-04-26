@@ -52,7 +52,7 @@
 													<concepting:deleteButton showDialogBox="true"/>
 												</concepting:grid>
 											</concepting:guide>
-											<concepting:guide name="input" render="${@{actionFormName}.model.input != null and (@{actionFormName}.action == 'add' or @{actionFormName}.action == 'edit' or @{actionFormName}.action == 'updateExpirePasswordDateTime')}">
+											<concepting:guide name="input" render="${@{actionFormName}.model.input != null and (@{actionFormName}.action == 'add' or @{actionFormName}.action == 'edit' or @{actionFormName}.action == 'updateExpirePasswordDateTime' or @{actionFormName}.action == 'changeUserPassword')}">
 												<fieldset class="group">
 													<legend class="groupLabel">
 														<concepting:label resourcesKey="inputFieldset"/>:
@@ -69,7 +69,7 @@
 																<concepting:check name="input.active" resourcesKey="user.active"/>
 															</td>
 															<td valign="TOP" width="15%">
-																<concepting:upload name="input.logo" resourcesKey="user.logo" labelPosition="TOP" contentWidth="70" contentHeight="80"/>
+																<concepting:upload name="input.logo" resourcesKey="user.logo" labelPosition="TOP" contentWidth="75" contentHeight="75"/>
 															</td>
 														</tr>
 														<tr>
@@ -149,6 +149,7 @@
 													<tr>
 														<td align="CENTER">
 															<br/>
+															<concepting:button name="passwordButton" styleClass="passwordButton" onClick="showDialogBox('changeUserPassword', true)" render="${@{actionFormName}.action == 'edit' or @{actionFormName}.action == 'changeUserPassword'}"/>
 															<concepting:confirmButton action="save" showDialogBox="true" validateModel="true"/>
 															<concepting:backButton/>
 														</td>
@@ -156,6 +157,16 @@
 												</table>
 											</concepting:guide>
 										</concepting:guides>
+										<concepting:dialogBox name="changeUserPassword" modal="true" showButtons="false" render="${@{actionFormName}.action == 'edit' or @{actionFormName}.action == 'changeUserPassword'}">
+											<concepting:password name="input.newPassword" resourcesKey="user.newPassword"/>
+											<concepting:password name="input.confirmPassword" resourcesKey="user.confirmPassword"/>
+											<br/>
+											<center>
+												<concepting:confirmButton action="changeUserPassword"/>
+												<concepting:button resourcesKey="closeButton" styleClass="backButton" onClick="hideDialogBox('changeUserPassword');"/>
+											</center>
+										</concepting:dialogBox>
+
 										<br/>
 										<br/>
 									</td>

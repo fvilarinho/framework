@@ -81,7 +81,7 @@
 		        
 		        model.set@{capitalizedGroupDataset}(@{groupDataset});
 		    }
-    
+
 		    /**
 		     * @see br.com.concepting.framework.controller.action.BaseAction#init()
 		     */
@@ -175,11 +175,33 @@
 		        #{clazz.simpleName} model = form.getModel();
 		        @{inputModelName} user = model.getInput();
 		        @{serviceInterfaceName} service = getService();
-		        
+
+				if(input == null || input.getId() == null || input.getId() == 0)
+					throw new ItemNotSelectedException();
+
 		        service.updateExpirePasswordDateTime(user);
 		    }
-		    
-		    /**
+
+			/**
+			 * Change the user password.
+			 *
+			 * @throws Throwable Occurs when was not possible to execute the operation.
+			 */
+			public void changeUserPassword() throws Throwable {
+				@{actionFormName} form = getActionForm();
+				#{clazz.simpleName} model = form.getModel();
+				@{inputModelName} input = model.getInput();
+				@{serviceInterfaceName} service = getService();
+
+				if(input == null || input.getId() == null || input.getId() == 0)
+					throw new ItemNotSelectedException();
+
+				service.changeUserPassword(input);
+
+				getActionFormController().addSuccessMessage();
+			}
+
+			/**
 		     * Delete the selected user.
 		     *
 		     * @throws Throwable Occurs when was not possible to execute the operation.

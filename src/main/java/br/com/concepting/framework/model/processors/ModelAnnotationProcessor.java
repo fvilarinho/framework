@@ -635,17 +635,19 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                     
                     File modelClassFile = new File(modelClassFilename.toString());
                     
-                    if(!modelClassFile.exists() && this.modelInfo.generatePersistence() || this.modelInfo.generateService()){
-                        ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
-                        ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
-                        ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
-                        ExpressionProcessorUtil.setVariable(Constants.NAME_ATTRIBUTE_ID, name);
+                    if(!modelClassFile.exists()){
+                        if(this.modelInfo.generatePersistence() || this.modelInfo.generateService()) {
+                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
+                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
+                            ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
+                            ExpressionProcessorUtil.setVariable(Constants.NAME_ATTRIBUTE_ID, name);
 
-                        GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, modelClassTemplateArtifactNode);
-                        String modelClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
+                            GenericProcessor processor = processorFactory.getProcessor(this.modelInfo, modelClassTemplateArtifactNode);
+                            String modelClassContent = StringUtil.indent(processor.process(), JavaIndent.getRules());
 
-                        if(!modelClassContent.isEmpty())
-                            FileUtil.toFile(modelClassFilename.toString(), modelClassContent, encoding);
+                            if (!modelClassContent.isEmpty())
+                                FileUtil.toFile(modelClassFilename.toString(), modelClassContent, encoding);
+                        }
                     }
                 }
             }

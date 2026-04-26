@@ -489,6 +489,18 @@ option:hover{
 }
 
 /**
+ * Style that defines the password button.
+ */
+.passwordButton{
+	width     : 28px;
+	height    : 28px;
+	background: url("../images/passwordButton.png") NO-REPEAT;
+	border    : NONE;
+	outline   : NONE;
+	cursor    : POINTER;
+}
+
+/**
  * Style that defines the upload.
  */
 .upload{
@@ -722,8 +734,9 @@ option:hover{
  * Style that defines the image thumbnail.
  */
 .imageThumbnail{
-	background: WHITE;
-	border    : 1px SOLID #aaaaaa;
+	background   : WHITE;
+	border       : 1px SOLID #aaaaaa;
+	border-radius: 50%;
 }
 
 /**

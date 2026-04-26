@@ -6,10 +6,10 @@ import br.com.concepting.framework.constants.SystemConstants;
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.exceptions.ItemAlreadyExistsException;
 import br.com.concepting.framework.model.exceptions.ItemNotFoundException;
+import br.com.concepting.framework.model.helpers.Filter;
 import br.com.concepting.framework.model.helpers.ModelInfo;
 import br.com.concepting.framework.model.types.ConditionType;
 import br.com.concepting.framework.model.util.ModelUtil;
-import br.com.concepting.framework.model.helpers.Filter;
 import br.com.concepting.framework.persistence.interfaces.IPersistence;
 import br.com.concepting.framework.resources.exceptions.InvalidResourcesException;
 import br.com.concepting.framework.security.constants.SecurityConstants;
@@ -206,6 +206,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             invalidPassword = true;
         else if(password != null && !password.isEmpty() && user.getPassword() != null && !password.equals(user.getPassword()))
             invalidPassword = true;
+
         return invalidPassword;
     }
 
@@ -352,6 +353,9 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         
         user.setNewPassword(null);
         user.setConfirmPassword(null);
+        user.setLastLogin(new DateTime());
+
+        userService.update(user);
         
         loginParameter.setChangePassword(expiredPassword);
         loginParameter.setPasswordWillExpire(passwordWillExpire);
@@ -462,7 +466,6 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         return user;
     }
 
-    @SuppressWarnings("unchecked")
     @Transaction(url = "logOut", type = MethodType.DELETE)
     @Auditable
     @Override
@@ -471,32 +474,13 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         
         if(loginSession == null || loginSession.getId() == null || loginSession.getId().isEmpty())
             return;
-        
-        U user = loginSession.getUser();
-        
-        if(user == null || user.getId() == null || user.getId() == 0)
-            return;
-        
+
         try{
             loginSession = find(loginSession);
             
             loginSession.setActive(false);
             
             update(loginSession);
-            
-            user = loginSession.getUser();
-            
-            LP loginParameter = user.getLoginParameter();
-            
-            if(loginParameter != null)
-                loginParameter.setMfaToken(null);
-            
-            Class<U> userClass = (Class<U>) user.getClass();
-            IPersistence<U> userPersistence = getPersistence(userClass);
-            
-            user.setLastLogin(loginSession.getStartDateTime());
-            
-            userPersistence.update(user);
         }
         catch(ItemNotFoundException ignored){
         }
@@ -504,7 +488,6 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
 
     @Transaction
     @Auditable
-    @SuppressWarnings("unchecked")
     @Override
     public void logOutAll() throws InternalErrorException{
         Filter filter = new Filter();
@@ -519,14 +502,6 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
                 item.setActive(false);
                 
                 update(item);
-
-                UserModel user = item.getUser();
-                Class<UserModel> userClass = (Class<UserModel>) user.getClass();
-                IPersistence<UserModel> userPersistence = getPersistence(userClass);
-                
-                user.setLastLogin(item.getStartDateTime());
-                
-                userPersistence.update(user);
             }
         }
     }

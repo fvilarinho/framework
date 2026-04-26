@@ -36,6 +36,17 @@
 		     */
 			public void updateExpirePasswordDateTime(@{userModelName} user) throws InternalErrorException;
 
+			/**
+		     * Change the user password.
+		     *
+		     * @param user Instance that contains the user data model.
+			 * @throws PasswordsNotMatchException Occurs when the passwords don't match.
+			 * @throws PasswordWithoutMinimumLengthException Occurs when the password doesn't have the minimum length.
+			 * @throws PasswordIsNotStrongException Occurs when the password is not strong.
+			 * @throws InternalErrorException Occurs when was not possible to execute the operation.
+			 */
+			public void changeUserPassword(@{userModelName} user) throws InternalErrorException, PasswordsNotMatchException, PasswordIsNotStrongException, PasswordWithoutMinimumLengthException;
+
 		    /**
 		     * Save the changes of the user.
 		     *

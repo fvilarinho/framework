@@ -67,5 +67,8 @@
 		loginParameter.loginTries.tooltip=
 		loginParameter.mfa.label=MFA?
 		loginParameter.mfa.tooltip=
+
+		changeUserPassword.label=Change user password
+		changeUserPassword.tooltip=
 	</artifact>
 </artifacts>

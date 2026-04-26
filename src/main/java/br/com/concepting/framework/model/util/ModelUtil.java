@@ -1031,6 +1031,7 @@ public class ModelUtil{
                 String buffer = StringUtil.replaceAll(modelClassName, systemResources.getPackagesPrefix().concat("."), "");
 
                 buffer = StringUtil.replaceAll(buffer, ".".concat(ModelConstants.DEFAULT_ID), "");
+                buffer = StringUtil.replaceAll(buffer, ModelConstants.DEFAULT_ID.concat("."), "");
 
                 String[] urlSections = StringUtil.split(buffer, ".");
                 StringBuilder urlBuffer = new StringBuilder();

@@ -15,6 +15,8 @@
 	    <set var="loginParameterPropertyInfo" value="@{userModelInfo}.getPropertyInfo('loginParameter')"/>
 	    <set var="loginParameterModelClass" value="@{loginParameterPropertyInfo.clazz}"/>
 	    <set var="loginParameterModelClassName" value="@{loginParameterModelClass.name}"/>
+		<set var="loginParameterServiceInterfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{loginParameterModelClass})"/>
+		<set var="loginParameterServiceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{loginParameterModelClass})"/>
 	    <set var="loginParameterModelName" value="@{loginParameterModelClass.simpleName}"/>
 		<set var="interfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(#{clazz})"/>
 		<set var="interfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(#{clazz})"/>
@@ -33,11 +35,14 @@
 		import br.com.concepting.framework.util.types.DateFieldType;
 		
 		import #{clazz.name};
-		import @{userModelClassName};
-		import @{loginParameterModelClassName};
 		import @{interfaceClassName};
+
+		import @{userModelClassName};
 		import @{userServiceInterfaceClassName};
-		
+
+		import @{loginParameterModelClassName};
+		import @{loginParameterServiceInterfaceClassName};
+
 		/**
 		 * Class that defines the service of the user administration UI.
 		 *
@@ -61,42 +66,80 @@
 		            loginParameter.setExpirePasswordDateTime(expirePasswordDateTime);
 		        }
 			}
-			
-		    /**
+
+			/**
+		 	 * @see @{interfaceClassName}#changeUserPassword(@{userModelClassName})
+			 */
+			public void changeUserPassword(@{userModelName} user) throws InternalErrorException, PasswordsNotMatchException, PasswordIsNotStrongException, PasswordWithoutMinimumLengthException {
+				if (user != null) {
+					setUserPassword(user);
+					updateExpirePasswordDateTime(user);
+
+					user.setLastUpdate(new DateTime());
+
+					@{loginParameterModelName} loginParameter = user.getLoginParameter();
+
+					if(loginParameter != null) {
+						loginParameter.setChangePassword(false);
+
+						@{loginParameterServiceInterfaceName} loginParameterService = getService(@{loginParameterModelName}.class);
+
+						loginParameterService.update(loginParameter);
+					}
+
+					@{userServiceInterfaceName} userService = getService(UserModel.class);
+
+					userService.update(user);
+				}
+			}
+
+			/**
+			 * Sets the user password with the cryptography.
+			 *
+			 * @param user Instance that contains the user attributes.
+			 * @throws PasswordsNotMatchException Occurs when the password and its confirmation don't match.
+			 * @throws PasswordWithoutMinimumLengthException Occurs when the password doesn't have tbe minimum length.
+			 * @throws PasswordIsNotStrongException Occurs when the password is not strong.
+			 * @throws InternalErrorException Occurs when was not possible to execute this operation.
+			 */
+			private void setUserPassword(UserModel user) throws PasswordsNotMatchException, PasswordWithoutMinimumLengthException, PasswordIsNotStrongException, InternalErrorException {
+				String newPassword = user.getNewPassword();
+				String confirmPassword = user.getConfirmPassword();
+
+				if(newPassword != null &amp;&amp; confirmPassword != null &amp;&amp; !newPassword.equals(confirmPassword))
+					throw new PasswordsNotMatchException();
+
+				if(newPassword != null &amp;&amp; !newPassword.isEmpty()){
+					@{loginParameterModelName} loginParameter = user.getLoginParameter();
+
+					if(loginParameter != null){
+						if(newPassword.length() &lt; loginParameter.getMinimumPasswordLength())
+							throw new PasswordWithoutMinimumLengthException(loginParameter.getMinimumPasswordLength(), loginParameter.getMinimumPasswordLength());
+
+						if(loginParameter.useStrongPassword() &amp;&amp; !SecurityUtil.isStrongPassword(newPassword))
+							throw new PasswordIsNotStrongException();
+					}
+
+					try{
+						newPassword = SecurityUtil.encryptPassword(newPassword);
+
+						user.setPassword(newPassword);
+					}
+					catch(InvalidResourcesException e){
+						throw new InternalErrorException(e);
+					}
+				}
+			}
+
+			/**
 		     * @see @{interfaceClassName}#saveUser(@{userModelClassName})
 		     */
 			public void saveUser(@{userModelName} user) throws ItemAlreadyExistsException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, PasswordIsNotStrongException, InternalErrorException{
-				String newPassword = user.getNewPassword();
-				String confirmPassword = user.getConfirmPassword();
-				
-		        if(newPassword != null &amp;&amp; confirmPassword != null &amp;&amp; !newPassword.equals(confirmPassword))
-		            throw new PasswordsNotMatchException();
-		        
-		        if(newPassword != null &amp;&amp; !newPassword.isEmpty()){
-					@{loginParameterModelName} loginParameter = user.getLoginParameter();
-
-		            if(loginParameter != null){
-		                if(newPassword.length() &lt; loginParameter.getMinimumPasswordLength())
-		                    throw new PasswordWithoutMinimumLengthException(loginParameter.getMinimumPasswordLength(), loginParameter.getMinimumPasswordLength());
-		
-		                if(loginParameter.useStrongPassword() &amp;&amp; !SecurityUtil.isStrongPassword(newPassword))
-	                        throw new PasswordIsNotStrongException();
-		            }
-		
-		            try{
-		                newPassword = SecurityUtil.encryptPassword(newPassword);
-		                
-		                user.setPassword(newPassword);
-		            }
-		            catch(InvalidResourcesException e){
-		                throw new InternalErrorException(e);
-		            }
-		        }
+				setUserPassword(user);
+				updateExpirePasswordDateTime(user);
 		        
 		        user.setLastUpdate(new DateTime());
-		        
-		        updateExpirePasswordDateTime(user);
-				
+
 				@{userServiceInterfaceName} service = getService(@{userModelName}.class);
 				
 				service.save(user);
