@@ -29,11 +29,9 @@
 			<fmt:formatDate value="<%=new Date()%>" dateStyle="full"/>&nbsp;
 			<concepting:clock/>&nbsp;
 		</td>
-		<c:if test="${loginSession != null && loginSession.id != '' && loginSession.active}">
-			<td style="width: 15%; text-align: RIGHT;">
-				<concepting:loginSessionBox/>
-			</td>
-		</c:if>
+        <td style="width: 15%; text-align: RIGHT;">
+            <concepting:loginSessionBox/>
+        </td>
 	</tr>
 </table>
 <concepting:breadCrumb/>
