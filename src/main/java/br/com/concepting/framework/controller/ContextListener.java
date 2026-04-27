@@ -27,6 +27,7 @@ import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
+import net.sf.ehcache.CacheManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -111,7 +112,7 @@ public class ContextListener implements ServletContextListener{
     
     protected <L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> void onDestroy(ServletContextEvent event){
         setEvent(event);
-    
+
         try{
             SecurityResourcesLoader loader = new SecurityResourcesLoader();
             SecurityResources resources = loader.getDefault();
@@ -123,14 +124,15 @@ public class ContextListener implements ServletContextListener{
         catch(InternalErrorException e){
             event.getServletContext().log(null, e);
         }
-        
+
+        CacheManager.getInstance().shutdown();
+        AbandonedConnectionCleanupThread.checkedShutdown();
+
         if(scheduledExecutor != null)
             scheduledExecutor.shutdown();
         
         if(executor != null)
             executor.shutdown();
-
-        AbandonedConnectionCleanupThread.checkedShutdown();
     }
 
     @Override
