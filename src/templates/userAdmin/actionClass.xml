@@ -173,13 +173,13 @@
 		    public void updateExpirePasswordDateTime() throws Throwable{
 		        @{actionFormName} form = getActionForm();
 		        #{clazz.simpleName} model = form.getModel();
-		        @{inputModelName} user = model.getInput();
+		        @{inputModelName} input = model.getInput();
 		        @{serviceInterfaceName} service = getService();
 
 				if(input == null || input.getId() == null || input.getId() == 0)
 					throw new ItemNotSelectedException();
 
-		        service.updateExpirePasswordDateTime(user);
+		        service.updateExpirePasswordDateTime(input);
 		    }
 
 			/**
