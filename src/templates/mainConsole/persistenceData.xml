@@ -9,12 +9,14 @@
 		<set var="password" value="br.com.concepting.framework.security.util.SecurityUtil.encryptPassword('admin')"/>
 		<set var="email" value="@{user.name}.concat('@myapp.com')"/>
 		<set var="actionFormName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormIdByModel(#{clazz})"/>
+		<set var="url" value="br.com.concepting.framework.model.util.ModelUtil.getUrlByModel(#{clazz})"/>
 		insert into @{openQuote}url@{closeQuote} (id, path) select 1, '*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 1);
 		insert into @{openQuote}url@{closeQuote} (id, path) select 2, '/' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 2);
 		insert into @{openQuote}url@{closeQuote} (id, path) select 3, '/index.jsp' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 3);
 		insert into @{openQuote}url@{closeQuote} (id, path) select 4, '/*action=download*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 4);
-		insert into @{openQuote}url@{closeQuote} (id, path) select 5, '/common/mainConsole*action=changeCurrentLanguage*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 5);
-		insert into @{openQuote}url@{closeQuote} (id, path) select 6, '/common/mainConsole*action=changeCurrentSkin*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 6);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 5, '@{url}*action=changeCurrentLanguage*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 5);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 6, '@{url}*action=changeCurrentSkin*' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 6);
+		insert into @{openQuote}url@{closeQuote} (id, path) select 7, '@{url}*action=showAbout' where not exists (select 1 from @{openQuote}url@{closeQuote} where id = 7);
 
 		insert into @{openQuote}access@{closeQuote} (id, urlId, blocked) select 1, 1, false where not exists (select 1 from @{openQuote}access@{closeQuote} where id = 1);
 
@@ -23,11 +25,14 @@
 		insert into @{openQuote}form@{closeQuote} (id, systemModuleId, name, title, description) select 1, 1, '@{actionFormName}', '#{ui}', '#{ui}' where not exists (select 1 from @{openQuote}form@{closeQuote} where id = 1);
 
 		insert into @{openQuote}object@{closeQuote} (id, type, formId, name, sequence) select 1, 'MENU_ITEM', 1, 'menuAdministration', 1 where not exists (select 1 from @{openQuote}object@{closeQuote} where id = 1);
-		
+		insert into @{openQuote}object@{closeQuote} (id, type, formId, name, sequence) select 4, 'MENU_ITEM_SEPARATOR', 1, 'menuSeparator1', 2 where not exists (select 1 from @{openQuote}object@{closeQuote} where id = 4);
+		insert into @{openQuote}object@{closeQuote} (id, type, formId, name, action, sequence) select 5, 'MENU_ITEM', 1, 'menuAbout', '@{url}.ui?action=showAbout', 3 where not exists (select 1 from @{openQuote}object@{closeQuote} where id = 5);
+
 		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 2 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 2);
 		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 3 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 3);
 		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 4 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 4);
 		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 5 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 5);
 		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 6 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 6);
+		insert into @{openQuote}systemModuleExclusionUrls@{closeQuote} (systemModuleId, urlId) select 1, 7 where not exists (select 1 from @{openQuote}systemModuleExclusionUrls@{closeQuote} where systemModuleId = 1 and urlId = 7);
 	</artifact>
 </artifacts>

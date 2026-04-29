@@ -11,5 +11,8 @@
 		
 		menuGroupAdmin.label=Groups
 		menuGroupAdmin.tooltip=
+
+		menuAbout.label=About
+		menuAbout.tooltip=
 	</artifact>
 </artifacts>

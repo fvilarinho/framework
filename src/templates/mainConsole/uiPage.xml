@@ -18,7 +18,24 @@
 			<concepting:form name="@{actionFormName}" resourcesId="@{resourcesId}">
 				<table class="content">
 					<tr>
-                        <td/>
+						<td align="CENTER">
+							<table class="contentPanel">
+								<tr>
+									<td align="CENTER">
+										<concepting:guides name="guides" width="450" render="${@{actionFormName}.action == 'showAbout'}">
+											<concepting:guide name="aboutGuide" label="${@{actionFormName}.model.systemModule.title} ${@{actionFormName}.model.systemModule.version}">
+												This was developed using Concepting Framework. To know more about it, visit <a class="link" href="https://github.com/fvilarinho/framework" target="_framework">https://github.com/fvilarinho/framework</a>
+												<br/>
+												<br/>
+												<center>
+													<concepting:backButton/>
+												</center>
+											</concepting:guide>
+										</concepting:guides>
+									</td>
+								</tr>
+							</table>
+						</td>
 					</tr>
 				</table>
 				<jsp:include page="/WEB-INF/jsp/footer.jsp"/>

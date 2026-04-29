@@ -1,6 +1,7 @@
 package br.com.concepting.framework.common.model;
 
 import br.com.concepting.framework.model.BaseModel;
+import br.com.concepting.framework.model.SystemModuleModel;
 import br.com.concepting.framework.model.annotations.Model;
 import br.com.concepting.framework.model.annotations.Property;
 import br.com.concepting.framework.model.types.ValidationType;
@@ -38,7 +39,28 @@ public abstract class MainConsoleModel extends BaseModel {
     
     @Property(validations = ValidationType.REQUIRED)
     private String currentSkin = null;
-    
+
+    @Property
+    private SystemModuleModel systemModule = null;
+
+    /**
+     * Returns the instance that contains the system module data model.
+     *
+     * @return Instance that contains the data model.
+     */
+    public SystemModuleModel getSystemModule() {
+        return this.systemModule;
+    }
+
+    /**
+     * Defines the instance that contains the system module data model.
+     *
+     * @param systemModule Instance that contains the data model.
+     */
+    public void setSystemModule(SystemModuleModel systemModule) {
+        this.systemModule = systemModule;
+    }
+
     /**
      * Returns the identifier of the current language.
      *

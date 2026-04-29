@@ -4,6 +4,7 @@ import br.com.concepting.framework.common.controller.form.MainConsoleActionForm;
 import br.com.concepting.framework.common.model.MainConsoleModel;
 import br.com.concepting.framework.constants.SystemConstants;
 import br.com.concepting.framework.controller.SystemController;
+import br.com.concepting.framework.model.SystemModuleModel;
 import br.com.concepting.framework.security.controller.SecurityController;
 import br.com.concepting.framework.security.model.LoginParameterModel;
 import br.com.concepting.framework.security.model.LoginSessionModel;
@@ -74,5 +75,22 @@ public class MainConsoleAction<M extends MainConsoleModel> extends BaseAction<M>
             
             systemController.addCookie(SystemConstants.CURRENT_SKIN_ATTRIBUTE_ID, loginParameter.getSkin(), true);
         }
+    }
+
+    /**
+     * Shows the about dialog.
+     *
+     * @param <F> Class that defines the form.
+     * @throws Throwable Occurs when was not possible to execute the action.
+     */
+    public <F extends MainConsoleActionForm<M>> void showAbout() throws Throwable {
+        SecurityController securityController = this.getSecurityController();
+        LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
+        SystemModuleModel systemModule = (loginSession != null ? loginSession.getSystemModule() : null);
+        F actionForm = getActionForm();
+        M model = (actionForm != null ? actionForm.getModel() : null);
+
+        if(model != null)
+            model.setSystemModule(systemModule);
     }
 }
