@@ -23,7 +23,7 @@
 								<tr>
 									<td align="CENTER">
 										<concepting:guides name="guides" width="450" render="${@{actionFormName}.action == 'showAbout'}">
-											<concepting:guide name="aboutGuide" label="${@{actionFormName}.model.systemModule.title} ${@{actionFormName}.model.systemModule.version}">
+											<concepting:guide name="aboutGuide" label="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
 												This was developed using Concepting Framework. To know more about it, visit <a class="link" href="https://github.com/fvilarinho/framework" target="_framework">https://github.com/fvilarinho/framework</a>
 												<br/>
 												<br/>

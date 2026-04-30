@@ -78,19 +78,11 @@ public class MainConsoleAction<M extends MainConsoleModel> extends BaseAction<M>
     }
 
     /**
-     * Shows the about dialog.
+     * Shows the about's dialog.
      *
      * @param <F> Class that defines the form.
      * @throws Throwable Occurs when was not possible to execute the action.
      */
     public <F extends MainConsoleActionForm<M>> void showAbout() throws Throwable {
-        SecurityController securityController = this.getSecurityController();
-        LoginSessionModel loginSession = (securityController != null ? securityController.getLoginSession() : null);
-        SystemModuleModel systemModule = (loginSession != null ? loginSession.getSystemModule() : null);
-        F actionForm = getActionForm();
-        M model = (actionForm != null ? actionForm.getModel() : null);
-
-        if(model != null)
-            model.setSystemModule(systemModule);
     }
 }
