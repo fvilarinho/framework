@@ -22,16 +22,9 @@
 							<table class="contentPanel">
 								<tr>
 									<td align="CENTER">
-										<concepting:guides name="guides" width="450" render="${@{actionFormName}.action == 'showAbout'}">
-											<concepting:guide name="aboutGuide" label="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
-												This was developed using Concepting Framework. To know more about it, visit <a class="link" href="https://github.com/fvilarinho/framework" target="_framework">https://github.com/fvilarinho/framework</a>
-												<br/>
-												<br/>
-												<center>
-													<concepting:backButton/>
-												</center>
-											</concepting:guide>
-										</concepting:guides>
+										<concepting:dialogBox name="aboutDialog" width="450" showOnLoad="${@{actionFormName}.action == 'showAbout'}" title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
+											<concepting:label resourcesKey="aboutDialog.text"/>
+										</concepting:dialogBox>
 									</td>
 								</tr>
 							</table>

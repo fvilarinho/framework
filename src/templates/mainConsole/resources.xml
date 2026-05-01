@@ -14,5 +14,7 @@
 
 		menuAbout.label=About
 		menuAbout.tooltip=
+
+		aboutDialog.text=This application was developed using Concepting Framework. If you want to know more about it, please visit &lt;a class="link" href="https://github.com/fvilarinho/framework" target="_framework"&gt;https://github.com/fvilarinho/framework&lt;/a&gt;
 	</artifact>
 </artifacts>

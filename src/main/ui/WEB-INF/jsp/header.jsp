@@ -21,17 +21,24 @@
 </table>
 <table class="navigationBar">
 	<tr>
-		<td>
-			<concepting:menuBar/>
-		</td>
+		<c:if test="${loginSession != null && loginSession.active}">
+            <td>
+                <concepting:menuBar/>
+            </td>
+        </c:if>
 		<td style="width: 30%; text-align: RIGHT;">
 			<fmt:setLocale value="${loginSession.user.loginParameter.language}" scope="session"/>
 			<fmt:formatDate value="<%=new Date()%>" dateStyle="full"/>&nbsp;
 			<concepting:clock/>&nbsp;
 		</td>
-        <td style="width: 15%; text-align: RIGHT;">
-            <concepting:loginSessionBox/>
-        </td>
+		<c:if test="${loginSession != null && loginSession.active}">
+            <td align="CENTER" height="20" width="5">
+                <div class="menuBarSeparator"></div>
+            </td>
+            <td style="width: 15%; text-align: RIGHT;">
+                <concepting:loginSessionBox/>
+            </td>
+        </c:if>
 	</tr>
 </table>
 <concepting:breadCrumb/>
