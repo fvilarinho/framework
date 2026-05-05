@@ -7,10 +7,10 @@ on:
     paths-ignore:
       - '*.md'
       - 'banner.txt'
-      - 'docs/**'
+      - 'docs/**/*'
       - 'LICENSE'
       - 'publish.sh'
-      - 'src/templates/**'
+      - 'src/templates/**/*'
       - 'setup.sh'
 
 jobs:

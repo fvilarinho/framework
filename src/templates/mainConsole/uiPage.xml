@@ -23,7 +23,9 @@
 								<tr>
 									<td align="CENTER">
 										<concepting:dialogBox name="aboutDialog" width="450" showOnLoad="${@{actionFormName}.action == 'showAbout'}" title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
-											<concepting:label resourcesKey="aboutDialog"/>
+											<div style="text-align: CENTER; padding: 10px;">
+												<concepting:label resourcesKey="aboutDialog"/>
+											</div>div>
 										</concepting:dialogBox>
 									</td>
 								</tr>
