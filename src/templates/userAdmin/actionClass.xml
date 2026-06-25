@@ -9,56 +9,66 @@
 		<set var="serviceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(#{clazz})"/>
 	    <set var="actionFormClassName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormClassNameByModel(#{clazz})"/>
 		<set var="actionFormName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormNameByModel(#{clazz})"/>
-	    <set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
-		<set var="searchModelClass" value="@{searchPropertyInfo.clazz}"/>
-		<set var="searchModelClassName" value="@{searchModelClass.name}"/>
-		<set var="searchModelName" value="@{searchModelClass.simpleName}"/>
-		<set var="searchDataset" value="@{searchPropertyInfo.dataset}"/>
-		<set var="capitalizedSearchDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{searchDataset})"/>
-		<set var="searchServiceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchModelClass})"/>
-		<set var="searchServiceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchModelClass})"/>
-	    <set var="inputPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
-		<set var="inputModelClass" value="@{inputPropertyInfo.clazz}"/>
-		<set var="inputModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{inputModelClass})"/>
-		<set var="inputModelClassName" value="@{inputModelClass.name}"/>
-		<set var="inputModelName" value="@{inputModelClass.simpleName}"/>
-		<set var="inputDataset" value="@{inputPropertyInfo.dataset}"/>
-		<set var="capitalizedInputDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{inputDataset})"/>
-		<set var="inputServiceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{inputModelClass})"/>
-		<set var="inputServiceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{inputModelClass})"/>
-		<set var="loginParameterPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('loginParameter')"/>
-		<set var="loginParameterModelClass" value="@{loginParameterPropertyInfo.clazz}"/>
-		<set var="loginParameterModelClassName" value="@{loginParameterModelClass.name}"/>
-		<set var="loginParameterModelName" value="@{loginParameterModelClass.simpleName}"/>
-		<set var="groupPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('groups')"/>
-		<set var="groupModelClass" value="@{groupPropertyInfo.collectionItemsClass}"/>
-		<set var="groupModelClassName" value="@{groupModelClass.name}"/>
-		<set var="groupModelName" value="@{groupModelClass.simpleName}"/>
-		<set var="groupDataset" value="@{groupPropertyInfo.dataset}"/>
-		<set var="capitalizedGroupDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{groupDataset})"/>
-		<set var="groupServiceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{groupModelClass})"/>
-		<set var="groupServiceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{groupModelClass})"/>
+		<set var="hasSearchProperty" value="#{declaration}.hasPropertyInfo('search')"/>
+		<if expr="@{hasSearchProperty}">
+			<set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
+			<set var="searchModelClass" value="@{searchPropertyInfo.clazz}"/>
+			<set var="searchModelClassName" value="@{searchModelClass.name}"/>
+			<set var="searchModelName" value="@{searchModelClass.simpleName}"/>
+			<set var="searchDataset" value="@{searchPropertyInfo.dataset}"/>
+			<set var="capitalizedSearchDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{searchDataset})"/>
+			<set var="searchServiceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchModelClass})"/>
+			<set var="searchServiceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchModelClass})"/>
+		</if>
+		<set var="hasInputProperty" value="#{declaration}.hasPropertyInfo('input')"/>
+		<if expr="@{hasInputProperty}">
+			<set var="inputPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
+			<set var="inputModelClass" value="@{inputPropertyInfo.clazz}"/>
+			<set var="inputModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{inputModelClass})"/>
+			<set var="inputModelClassName" value="@{inputModelClass.name}"/>
+			<set var="inputModelName" value="@{inputModelClass.simpleName}"/>
+			<set var="inputDataset" value="@{inputPropertyInfo.dataset}"/>
+			<set var="capitalizedInputDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{inputDataset})"/>
+			<set var="inputServiceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{inputModelClass})"/>
+			<set var="inputServiceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{inputModelClass})"/>
+			<set var="loginParameterPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('loginParameter')"/>
+			<set var="loginParameterModelClass" value="@{loginParameterPropertyInfo.clazz}"/>
+			<set var="loginParameterModelClassName" value="@{loginParameterModelClass.name}"/>
+			<set var="loginParameterModelName" value="@{loginParameterModelClass.simpleName}"/>
+			<set var="groupPropertyInfo" value="@{inputModelInfo}.getPropertyInfo('groups')"/>
+			<set var="groupModelClass" value="@{groupPropertyInfo.collectionItemsClass}"/>
+			<set var="groupModelClassName" value="@{groupModelClass.name}"/>
+			<set var="groupModelName" value="@{groupModelClass.simpleName}"/>
+			<set var="groupDataset" value="@{groupPropertyInfo.dataset}"/>
+			<set var="capitalizedGroupDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{groupDataset})"/>
+			<set var="groupServiceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{groupModelClass})"/>
+			<set var="groupServiceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{groupModelClass})"/>
+		</if>
 		
 		import java.util.Collection;
 	
 		import br.com.concepting.framework.controller.action.BaseAction;
 		import br.com.concepting.framework.model.exceptions.ItemNotSelectedException;
 		import br.com.concepting.framework.util.helpers.DateTime;
-	
+
+		import @{actionFormClassName};
 		import #{clazz.name};
-		import @{inputModelClassName};
-        <if expr="@{searchModelClassName} != @{inputModelClassName}">
+        <if expr="@{searchModelClassName} != null and @{searchModelClassName} != @{inputModelClassName}">
         	import @{searchModelClassName};
         </if>
-        import @{loginParameterModelClassName};
-        import @{groupModelClassName};
-		import @{actionFormClassName};
+		<if expr="@{inputModelClassName} != null">
+			import @{inputModelClassName};
+			import @{loginParameterModelClassName};
+			import @{groupModelClassName};
+		</if>
 		import @{serviceInterfaceClassName};
-		import @{inputServiceClassName};
-        <if expr="@{searchModelClassName} != @{inputModelClassName}">
+        <if expr="@{searchServiceClassName} != null and @{searchServiceClassName} != @{groupServiceClassName}">
         	import @{searchServiceClassName};
         </if>
-		import @{groupServiceClassName};
+		<if expr="@{groupServiceClassName} != null">
+			import @{inputServiceClassName};
+			import @{groupServiceClassName};
+		</if>
 
 		/**
 		 * Class that defines the actions of the user administration UI.
@@ -68,177 +78,187 @@
 		 * @since @{now}
 		 */
 		public class @{name} extends BaseAction&lt;#{clazz.simpleName}&gt;{
-		    /**
-		     * List the available groups.
-		     *
-		     * @throws Throwable Occurs when was not possible to execute the operation.
-		     */
-		    public void listGroups() throws Throwable{
-		        @{actionFormName} form = getActionForm();
-		        #{clazz.simpleName} model = form.getModel();
-		        @{groupServiceName} service = getService(@{groupModelName}.class);
-		        Collection&lt;@{groupModelName}&gt; @{groupDataset} = service.list();
-		        
-		        model.set@{capitalizedGroupDataset}(@{groupDataset});
-		    }
+			<if expr="@{groupModelName} != null">
+				/**
+				 * List the available groups.
+				 *
+				 * @throws Throwable Occurs when was not possible to execute the operation.
+				 */
+				public void listGroups() throws Throwable{
+					@{actionFormName} form = getActionForm();
+					#{clazz.simpleName} model = form.getModel();
+					@{groupServiceName} service = getService(@{groupModelName}.class);
+					Collection&lt;@{groupModelName}&gt; @{groupDataset} = service.list();
+
+					model.set@{capitalizedGroupDataset}(@{groupDataset});
+				}
+			</if>
 
 		    /**
 		     * @see br.com.concepting.framework.controller.action.BaseAction#init()
 		     */
 		    public void init() throws Throwable{
 		        super.init();
-		        
-		        listGroups();
-		        search();
-		    }
-    
-		    /**
-		     * Search for available users.
-		     *
-		     * @throws Throwable Occurs when was not possible to execute the operation.
-		     */
-		    public void search() throws Throwable{
-		        @{actionFormName} form = getActionForm();
-		        #{clazz.simpleName} model = form.getModel();
-		        @{searchModelName} search = model.getSearch();
-		        
-		        if(search == null){
-		            search = new @{searchModelName}();
-		            
-		            model.setSearch(search);
-		        }
-		        
-		        if(search.isActive() == null)
-		            search.setActive(true);
-		            
-		        search.setSystem(false);
-        
-        		@{searchServiceName} service = getService(@{searchModelName}.class);
-		        Collection&lt;@{searchModelName}&gt; @{inputDataset} = service.search(search);
-		        
-		        model.setInput(null);
-		        model.set@{capitalizedInputDataset}(@{inputDataset});
-		    }
-    
-		    /**
-		     * Add a new user.
-		     *
-		     * @throws Throwable Occurs when was not possible to execute the operation.
-		     */
-		    public void add() throws Throwable{
-		        @{actionFormName} form = getActionForm();
-		        #{clazz.simpleName} model = form.getModel();
-		        @{inputModelName} input = new @{inputModelName}();
-		        
-		        input.setActive(true);
-		        input.setSystem(false);
-		        input.setCreation(new DateTime());
-		        
-		        @{loginParameterModelName} loginParameter = new @{loginParameterModelName}();
-		        
-		        loginParameter.setChangePassword(true);
-		        loginParameter.setUseStrongPassword(true);
-		        loginParameter.setMultipleLogins(true);
-		        
-		        input.setLoginParameter(loginParameter);
 
-		        model.setInput(input);
-		    }
-    
-		    /**
-		     * Edit the selected user.
-		     *
-		     * @throws Throwable Occurs when was not possible to execute the operation.
-		     */
-		    public void edit() throws Throwable{
-		        @{actionFormName} form = getActionForm();
-		        #{clazz.simpleName} model = form.getModel();
-		        @{inputModelName} input = model.getInput();
-		        @{inputServiceName} service = getService(@{inputModelName}.class);
-		        
-		        if(input == null || input.getId() == null || input.getId() == 0)
-		            throw new ItemNotSelectedException();
-		        
-		        input = service.find(input);
-		        input = service.loadReference(input, "groups");
-		        
-		        model.setInput(input);
-		    }
-		    
-		    /**
-		     * Update the expiration date/time of the password.
-		     *
-		     * @throws Throwable Occurs when was not possible to execute the operation.
-		     */
-		    public void updateExpirePasswordDateTime() throws Throwable{
-		        @{actionFormName} form = getActionForm();
-		        #{clazz.simpleName} model = form.getModel();
-		        @{inputModelName} input = model.getInput();
-		        @{serviceInterfaceName} service = getService();
-
-				if(input == null || input.getId() == null || input.getId() == 0)
-					throw new ItemNotSelectedException();
-
-		        service.updateExpirePasswordDateTime(input);
+				<if expr="@{groupModelName} != null">
+			        listGroups();
+				</if>
+				<if expr="@{hasSearchProperty}">
+					search();
+				</if>
 		    }
 
-			/**
-			 * Change the user password.
-			 *
-			 * @throws Throwable Occurs when was not possible to execute the operation.
-			 */
-			public void changeUserPassword() throws Throwable {
-				@{actionFormName} form = getActionForm();
-				#{clazz.simpleName} model = form.getModel();
-				@{inputModelName} input = model.getInput();
-				@{serviceInterfaceName} service = getService();
+			<if expr="@{hasSearchProperty}">
+				/**
+				 * Search for available users.
+				 *
+				 * @throws Throwable Occurs when was not possible to execute the operation.
+				 */
+				public void search() throws Throwable{
+					@{actionFormName} form = getActionForm();
+					#{clazz.simpleName} model = form.getModel();
+					@{searchModelName} search = model.getSearch();
 
-				if(input == null || input.getId() == null || input.getId() == 0)
-					throw new ItemNotSelectedException();
+					if(search == null){
+						search = new @{searchModelName}();
 
-				service.changeUserPassword(input);
+						model.setSearch(search);
+					}
 
-				getActionFormController().addSuccessMessage();
-			}
+					if(search.isActive() == null)
+						search.setActive(true);
 
-			/**
-		     * Delete the selected user.
-		     *
-		     * @throws Throwable Occurs when was not possible to execute the operation.
-		     */
-		    public void delete() throws Throwable{
-		        @{actionFormName} form = getActionForm();
-		        #{clazz.simpleName} model = form.getModel();
-		        @{inputModelName} input = model.getInput();
-		        @{inputServiceName} service = getService(@{inputModelName}.class);
-		        
-		        if(input == null || input.getId() == null || input.getId() == 0)
-		            throw new ItemNotSelectedException();
-		        
-		        service.delete(input);
-		        
-		        getActionFormController().addSuccessMessage();
-		        
-		        search();
-		    }
-		    
-		    /**
-		     * Save the changes of the selected user.
-		     *
-		     * @throws Throwable Occurs when was not possible to execute the operation.
-		     */
-		    public void save() throws Throwable{
-		        @{actionFormName} form = getActionForm();
-		        #{clazz.simpleName} model = form.getModel();
-		        @{inputModelName} input = model.getInput();
-		        @{serviceInterfaceName} service = getService();
-		        
-		        service.saveUser(input);
-		        
-		        getActionFormController().addSuccessMessage();
-		        
-		        search();
-		    }
+					search.setSystem(false);
+
+					@{searchServiceName} service = getService(@{searchModelName}.class);
+					Collection&lt;@{searchModelName}&gt; @{inputDataset} = service.search(search);
+
+					model.setInput(null);
+					model.set@{capitalizedInputDataset}(@{inputDataset});
+				}
+			</if>
+
+			<if expr="@{hasInputProperty}">
+				/**
+				 * Add a new user.
+				 *
+				 * @throws Throwable Occurs when was not possible to execute the operation.
+				 */
+				public void add() throws Throwable{
+					@{actionFormName} form = getActionForm();
+					#{clazz.simpleName} model = form.getModel();
+					@{inputModelName} input = new @{inputModelName}();
+
+					input.setActive(true);
+					input.setSystem(false);
+					input.setCreation(new DateTime());
+
+					@{loginParameterModelName} loginParameter = new @{loginParameterModelName}();
+
+					loginParameter.setChangePassword(true);
+					loginParameter.setUseStrongPassword(true);
+					loginParameter.setMultipleLogins(true);
+
+					input.setLoginParameter(loginParameter);
+
+					model.setInput(input);
+				}
+
+				/**
+				 * Edit the selected user.
+				 *
+				 * @throws Throwable Occurs when was not possible to execute the operation.
+				 */
+				public void edit() throws Throwable{
+					@{actionFormName} form = getActionForm();
+					#{clazz.simpleName} model = form.getModel();
+					@{inputModelName} input = model.getInput();
+					@{inputServiceName} service = getService(@{inputModelName}.class);
+
+					if(input == null || input.getId() == null || input.getId() == 0)
+						throw new ItemNotSelectedException();
+
+					input = service.find(input);
+					input = service.loadReference(input, "groups");
+
+					model.setInput(input);
+				}
+
+				/**
+				 * Update the expiration date/time of the password.
+				 *
+				 * @throws Throwable Occurs when was not possible to execute the operation.
+				 */
+				public void updateExpirePasswordDateTime() throws Throwable{
+					@{actionFormName} form = getActionForm();
+					#{clazz.simpleName} model = form.getModel();
+					@{inputModelName} input = model.getInput();
+					@{serviceInterfaceName} service = getService();
+
+					if(input == null || input.getId() == null || input.getId() == 0)
+						throw new ItemNotSelectedException();
+
+					service.updateExpirePasswordDateTime(input);
+				}
+
+				/**
+				 * Change the user password.
+				 *
+				 * @throws Throwable Occurs when was not possible to execute the operation.
+				 */
+				public void changeUserPassword() throws Throwable {
+					@{actionFormName} form = getActionForm();
+					#{clazz.simpleName} model = form.getModel();
+					@{inputModelName} input = model.getInput();
+					@{serviceInterfaceName} service = getService();
+
+					if(input == null || input.getId() == null || input.getId() == 0)
+						throw new ItemNotSelectedException();
+
+					service.changeUserPassword(input);
+
+					getActionFormController().addSuccessMessage();
+				}
+
+				/**
+				 * Delete the selected user.
+				 *
+				 * @throws Throwable Occurs when was not possible to execute the operation.
+				 */
+				public void delete() throws Throwable{
+					@{actionFormName} form = getActionForm();
+					#{clazz.simpleName} model = form.getModel();
+					@{inputModelName} input = model.getInput();
+					@{inputServiceName} service = getService(@{inputModelName}.class);
+
+					if(input == null || input.getId() == null || input.getId() == 0)
+						throw new ItemNotSelectedException();
+
+					service.delete(input);
+
+					getActionFormController().addSuccessMessage();
+
+					search();
+				}
+
+				/**
+				 * Save the changes of the selected user.
+				 *
+				 * @throws Throwable Occurs when was not possible to execute the operation.
+				 */
+				public void save() throws Throwable{
+					@{actionFormName} form = getActionForm();
+					#{clazz.simpleName} model = form.getModel();
+					@{inputModelName} input = model.getInput();
+					@{serviceInterfaceName} service = getService();
+
+					service.saveUser(input);
+
+					getActionFormController().addSuccessMessage();
+
+					search();
+				}
+			</if>
 		}
 	</artifact>
 </artifacts>

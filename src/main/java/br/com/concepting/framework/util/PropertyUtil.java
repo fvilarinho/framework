@@ -1687,7 +1687,8 @@ public class PropertyUtil {
 
                     if (propertyValue == null)
                         break;
-                } else
+                }
+                else
                     break;
             }
         }

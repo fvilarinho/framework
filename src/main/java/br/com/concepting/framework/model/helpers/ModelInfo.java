@@ -425,6 +425,44 @@ public class ModelInfo{
     }
 
     /**
+     * Returns if the data model contains a specific property.
+     *
+     * @param propertyId String that contains the identifier of the property.
+     * @return True/False.
+     */
+    @SuppressWarnings("unchecked")
+    public boolean hasPropertyInfo(String propertyId) {
+        if(this.propertiesInfo != null && !this.propertiesInfo.isEmpty()){
+            Class<? extends BaseModel> modelClass;
+            ModelInfo modelInfo;
+            int pos = propertyId.indexOf(".");
+            String propertyIdBuffer = (pos >= 0 ? propertyId.substring(0, pos) : propertyId);
+
+            for(PropertyInfo propertyInfo: this.propertiesInfo){
+                if(propertyIdBuffer.equals(propertyInfo.getId())){
+                    if(propertyInfo.isModel() && pos >= 0){
+                        try{
+                            modelClass = (Class<? extends BaseModel>) propertyInfo.getClazz();
+                            modelInfo = ModelUtil.getInfo(modelClass);
+                            propertyIdBuffer = propertyId.substring(pos + 1);
+
+                            return modelInfo.hasPropertyInfo(propertyIdBuffer);
+                        }
+                        catch(Throwable e){
+                            break;
+                        }
+                    }
+
+                    if(propertyIdBuffer.equals(propertyId))
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Returns the instance that contains a specific property of a data model.
      *
      * @param propertyId String that contains the identifier of the property.
@@ -450,8 +488,8 @@ public class ModelInfo{
 
                             return modelInfo.getPropertyInfo(propertyIdBuffer);
                         }
-                        catch(ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e){
-                            continue;
+                        catch(ClassNotFoundException | IllegalAccessException | InvocationTargetException | InstantiationException | NoSuchMethodException e){
+                            break;
                         }
                     }
 

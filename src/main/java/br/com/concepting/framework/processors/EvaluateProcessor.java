@@ -11,7 +11,6 @@ import org.apache.commons.beanutils2.ConstructorUtils;
 import org.apache.commons.beanutils2.MethodUtils;
 import org.apache.commons.jexl3.*;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -284,7 +283,8 @@ public class EvaluateProcessor extends GenericProcessor{
                             instanceId = StringUtil.replaceAll(instanceId, "}", "");
 
                             instance = getVariable(instanceId);
-                        } else {
+                        }
+                        else {
                             instanceId = StringUtil.replaceAll(instanceId, "#{", "");
                             instanceId = StringUtil.replaceAll(instanceId, "}", "");
 
@@ -329,7 +329,8 @@ public class EvaluateProcessor extends GenericProcessor{
                                 methods.add(methodsIdsBuffer.substring(0, pos + 1));
 
                             methodsIdsBuffer = methodsIdsBuffer.substring(pos + 2);
-                        } else {
+                        }
+                        else {
                             if (methods != null)
                                 methods.add(methodsIdsBuffer);
 
@@ -408,20 +409,18 @@ public class EvaluateProcessor extends GenericProcessor{
                     }
                 }
                 while (matcher.find());
-
-                try {
-                    JexlExpression expression = engine.createExpression(valueBuffer);
-
-                    return (O) expression.evaluate(context);
-                }
-                catch(Throwable e) {
-                    return (O)valueBuffer;
-                }
             }
 
-            return (O)valueBuffer;
+            try {
+                JexlExpression expression = engine.createExpression(valueBuffer);
+
+                return (O) expression.evaluate(context);
+            }
+            catch(Throwable e) {
+                return (O)valueBuffer;
+            }
         }
-        catch(IllegalAccessException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException | InstantiationException  e){
+        catch(Throwable e){
             throw new InternalErrorException(e);
         }
     }

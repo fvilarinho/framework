@@ -12,23 +12,29 @@
 		&lt;%@ taglib uri="https://www.concepting.com.br/framework/ui/components" prefix="concepting"%&gt;
     	<set var="actionFormName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormIdByModel(#{clazz})"/>
    		<set var="resourcesId" value="br.com.concepting.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})"/>
-		<set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
-		<set var="searchPropertyId" value="@{searchPropertyInfo.id}"/>
-		<set var="searchPropertyClass" value="@{searchPropertyInfo.clazz}"/>
-		<set var="searchPropertyName" value="@{searchPropertyClass.simpleName}"/>
-		<set var="searchPropertyPrefix" value="@{searchPropertyName}.substring(0, 1).toLowerCase()"/>
-		<set var="searchPropertyPrefix" value="@{searchPropertyPrefix}.concat(@{searchPropertyName}.substring(1))"/>
-		<set var="searchPropertyPrefix" value="br.com.concepting.framework.util.StringUtil.replaceAll(@{searchPropertyPrefix}, 'Model', '')"/>
-		<set var="searchPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
-		<set var="mainPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
-		<set var="mainPropertyId" value="@{mainPropertyInfo.id}"/>
-		<set var="mainPropertyDataset" value="@{mainPropertyInfo.dataset}"/>
-		<set var="mainPropertyClass" value="@{mainPropertyInfo.clazz}"/>
-		<set var="mainPropertyName" value="@{mainPropertyClass.simpleName}"/>
-		<set var="mainPropertyPrefix" value="@{mainPropertyName}.substring(0, 1).toLowerCase()"/>
-		<set var="mainPropertyPrefix" value="@{mainPropertyPrefix}.concat(@{mainPropertyName}.substring(1))"/>
-		<set var="mainPropertyPrefix" value="br.com.concepting.framework.util.StringUtil.replaceAll(@{mainPropertyPrefix}, 'Model', '')"/>
-		<set var="mainPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{mainPropertyClass})"/>
+		<set var="hasSearchProperty" value="#{declaration}.hasPropertyInfo('search')"/>
+		<if expr="@{hasSearchProperty}">
+			<set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
+			<set var="searchPropertyId" value="@{searchPropertyInfo.id}"/>
+			<set var="searchPropertyClass" value="@{searchPropertyInfo.clazz}"/>
+			<set var="searchPropertyName" value="@{searchPropertyClass.simpleName}"/>
+			<set var="searchPropertyPrefix" value="@{searchPropertyName}.substring(0, 1).toLowerCase()"/>
+			<set var="searchPropertyPrefix" value="@{searchPropertyPrefix}.concat(@{searchPropertyName}).substring(1)"/>
+			<set var="searchPropertyPrefix" value="br.com.concepting.framework.util.StringUtil.replaceAll(@{searchPropertyPrefix}, 'Model', '')"/>
+			<set var="searchPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
+		</if>
+		<set var="hasInputProperty" value="#{declaration}.hasPropertyInfo('input')"/>
+		<if expr="@{hasInputProperty}">
+			<set var="InputPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
+			<set var="InputPropertyId" value="@{InputPropertyInfo.id}"/>
+			<set var="InputPropertyDataset" value="@{InputPropertyInfo.dataset}"/>
+			<set var="InputPropertyClass" value="@{InputPropertyInfo.clazz}"/>
+			<set var="InputPropertyName" value="@{InputPropertyClass.simpleName}"/>
+			<set var="InputPropertyPrefix" value="@{InputPropertyName}.substring(0, 1).toLowerCase()"/>
+			<set var="InputPropertyPrefix" value="@{InputPropertyPrefix}.concat(@{InputPropertyName}).substring(1)"/>
+			<set var="InputPropertyPrefix" value="br.com.concepting.framework.util.StringUtil.replaceAll(@{InputPropertyPrefix}, 'Model', '')"/>
+			<set var="InputPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{InputPropertyClass})"/>
+		</if>
 
 		<concepting:page title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
 			<jsp:include page="/WEB-INF/jsp/header.jsp"/>
@@ -42,7 +48,7 @@
 							<table class="contentPanel">
 								<tr>
 									<td align="CENTER">
-										<if expr="(@{searchPropertyModelInfo} != null and @{mainPropertyModelInfo} != null) or (@{searchPropertyModelInfo} != null and @{mainPropertyModelInfo} == null) or (@{searchPropertyModelInfo} == null and @{mainPropertyModelInfo} != null)">
+										<if expr="(@{searchPropertyModelInfo} != null and @{InputPropertyModelInfo} != null) or (@{searchPropertyModelInfo} != null and @{InputPropertyModelInfo} == null) or (@{searchPropertyModelInfo} == null and @{InputPropertyModelInfo} != null)">
 											<concepting:guides name="guides" width="70%">
 												<concepting:guide name="list">
 													<if expr="@{searchPropertyModelInfo} != null">
@@ -72,13 +78,13 @@
 															</concepting:searchPropertiesGroup>
 														</if>
 													</if>
-													<if expr="@{mainPropertyModelInfo} != null">
-														<concepting:grid name="@{mainPropertyId}" dataset="@{mainPropertyDataset}" width="100%">
-		                                               		<set var="propertiesInfo" values="@{mainPropertyModelInfo.propertiesInfo}"/>
+													<if expr="@{InputPropertyModelInfo} != null">
+														<concepting:grid name="@{InputPropertyId}" dataset="@{InputPropertyDataset}" width="100%">
+		                                               		<set var="propertiesInfo" values="@{InputPropertyModelInfo.propertiesInfo}"/>
 															<iterate var="propertyInfo" values="@{propertiesInfo}">
 		                                                   		<set var="propertyId" value="@{propertyInfo.id}"/>
 																<if expr="(@{propertyInfo.mappedPropertyId} != null and @{propertyInfo.mappedPropertyId} != '') or (@{propertyInfo.relationType} != 'NONE' and @{propertyInfo.relationJoinType} != 'NONE')">
-			                                                        <set var="propertyResourcesKey" value="@{mainPropertyPrefix}.concat('.').concat(@{propertyId})"/>
+			                                                        <set var="propertyResourcesKey" value="@{InputPropertyPrefix}.concat('.').concat(@{propertyId})"/>
 																	<if expr="@{propertyInfo.isByteArray}">
 																		<concepting:gridColumn name="@{propertyId}" resourcesKey="@{propertyResourcesKey}" showAsImage="true" imageWidth="60"/>
 																	</if>
@@ -93,7 +99,7 @@
 															<concepting:deleteButton showDialogBox="true"/>
 														</concepting:grid>
 													</if>
-													<if expr="@{mainPropertyModelInfo} == null">
+													<if expr="@{InputPropertyModelInfo} == null">
 														<table class="contentPanel">
 															<tr>
 																<td align="CENTER">
@@ -103,7 +109,7 @@
 														</table>
 													</if>
 												</concepting:guide>
-												<if expr="@{mainPropertyModelInfo} != null">
+												<if expr="@{InputPropertyModelInfo} != null">
 													<concepting:guide name="input"
 	                                                                  render="${@{actionFormName}.action == 'add' or @{actionFormName}.action == 'edit'}">
 														<fieldset class="group">
@@ -113,10 +119,10 @@
 															<table>
 																<tr>
 																	<td>
-																		<set var="identityPropertiesInfo" value="@{mainPropertyModelInfo.identityPropertiesInfo}"/>
+																		<set var="identityPropertiesInfo" value="@{InputPropertyModelInfo.identityPropertiesInfo}"/>
 		                                                                <iterate var="identityPropertyInfo" values="@{identityPropertiesInfo}">
-	                                                                		<set var="identityPropertyResourcesKey" value="@{mainPropertyPrefix}.concat('.').concat(@{identityPropertyInfo.id})"/>
-	                                                                		<set var="identityPropertyId" value="@{mainPropertyId}.concat('.').concat(@{identityPropertyInfo.id})"/>
+	                                                                		<set var="identityPropertyResourcesKey" value="@{InputPropertyPrefix}.concat('.').concat(@{identityPropertyInfo.id})"/>
+	                                                                		<set var="identityPropertyId" value="@{InputPropertyId}.concat('.').concat(@{identityPropertyInfo.id})"/>
 		                                                                   	<if expr="@{identityPropertyInfo.isModel} or @{identityPropertyInfo.isEnum}">
 		                                                                       	<set var="identityPropertyDataset" value="@{identityPropertyInfo.dataset}"/>
 		                                                                       	<concepting:list name="@{identityPropertyId}" resourcesKey="@{identityPropertyResourcesKey}" dataset="@{identityPropertyDataset}" render="${@{actionFormName}.action == 'add'}"/>
@@ -134,11 +140,11 @@
 	                        		                                       		<concepting:label name="@{identityPropertyId}" resourcesKey="@{identityPropertyResourcesKey}" render="${@{actionFormName}.action == 'edit'}"/>
 										    								</if>
 		                                                                </iterate>
-			                                                            <set var="propertiesInfo" values="@{mainPropertyModelInfo.propertiesInfo}"/>
+			                                                            <set var="propertiesInfo" values="@{InputPropertyModelInfo.propertiesInfo}"/>
 			                                                            <iterate var="propertyInfo" values="@{propertiesInfo}">
 			                                                                <if expr="!@{propertyInfo.isIdentity} and ((@{propertyInfo.mappedPropertyId} != null and @{propertyInfo.mappedPropertyId} != '') or @{propertyInfo.relationType} != 'NONE')">
-			                                                                	<set var="propertyResourcesKey" value="@{mainPropertyPrefix}.concat('.').concat(@{propertyInfo.id})"/>
-			                                                                   	<set var="propertyId" value="@{mainPropertyId}.concat('.').concat(@{propertyInfo.id})"/>
+			                                                                	<set var="propertyResourcesKey" value="@{InputPropertyPrefix}.concat('.').concat(@{propertyInfo.id})"/>
+			                                                                   	<set var="propertyId" value="@{InputPropertyId}.concat('.').concat(@{propertyInfo.id})"/>
 			                                                                   	<if expr="@{propertyInfo.isModel} or @{propertyInfo.hasModel} or @{propertyInfo.isEnum} or @{propertyInfo.hasEnum}">
 			                                                                       	<set var="propertyDataset" value="@{propertyInfo.dataset}"/>
 			                                                                       	<concepting:list name="@{propertyId}" resourcesKey="@{propertyResourcesKey}" dataset="@{propertyDataset}"/>

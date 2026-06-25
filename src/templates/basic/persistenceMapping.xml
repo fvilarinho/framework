@@ -1063,7 +1063,7 @@
 	                                        </if>
 	                                        <set var="orderBy" value="@{orderBy}.concat(@{relationPropertyInfo.id})"/>
 	                                        <set var="orderBy" value="@{orderBy}.concat(' ')"/>
-	                                        <set var="orderBy" value="@{orderBy}.concat(@{relationPropertyInfo.sortOrder}.getOperator())"/>
+	                                        <set var="orderBy" value="@{orderBy}.concat(@{relationPropertyInfo.sortOrder}).getOperator()"/>
 	                                    </if>
 	                                </iterate>
 									<set var="lazyLoading" value="@{propertyInfo.relationJoinType} == 'NONE'"/>

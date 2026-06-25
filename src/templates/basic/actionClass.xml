@@ -8,39 +8,45 @@
 		<set var="modelName" value="#{clazz.simpleName}"/>
 	    <set var="actionFormClassName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormClassNameByModel(#{clazz})"/>
 		<set var="actionFormName" value="br.com.concepting.framework.controller.form.util.ActionFormUtil.getActionFormNameByModel(#{clazz})"/>
-		<set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
-		<set var="searchPropertyDataset" value="@{searchPropertyInfo.dataset}"/>
-		<set var="searchPropertyClass" value="@{searchPropertyInfo.clazz}"/>
-		<set var="searchPropertyName" value="@{searchPropertyClass.simpleName}"/>
-		<set var="searchPropertyClassName" value="@{searchPropertyClass.name}"/>
-		<set var="searchPropertyServiceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchPropertyClass})"/>
-		<set var="searchPropertyServiceInterfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchPropertyClass})"/>
-		<set var="searchPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
-		<set var="mainPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
-		<set var="mainPropertyDataset" value="@{mainPropertyInfo.dataset}"/>
-		<set var="mainPropertyClass" value="@{mainPropertyInfo.clazz}"/>
-		<set var="mainPropertyName" value="@{mainPropertyClass.simpleName}"/>
-		<set var="mainPropertyClassName" value="@{mainPropertyClass.name}"/>
-		<set var="mainPropertyServiceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{mainPropertyClass})"/>
-		<set var="mainPropertyServiceInterfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{mainPropertyClass})"/>
-		<set var="mainPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{mainPropertyClass})"/>
-		<set var="capitalizedMainPropertyDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{mainPropertyDataset})"/>
+		<set var="hasSearchProperty" value="#{declaration}.hasPropertyInfo('search')"/>
+		<if expr="@{hasSearchProperty}">
+			<set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
+			<set var="searchPropertyDataset" value="@{searchPropertyInfo.dataset}"/>
+			<set var="searchPropertyClass" value="@{searchPropertyInfo.clazz}"/>
+			<set var="searchPropertyName" value="@{searchPropertyClass.simpleName}"/>
+			<set var="searchPropertyClassName" value="@{searchPropertyClass.name}"/>
+			<set var="searchPropertyServiceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{searchPropertyClass})"/>
+			<set var="searchPropertyServiceInterfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{searchPropertyClass})"/>
+			<set var="searchPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
+		</if>
+		<set var="hasInputProperty" value="#{declaration}.hasPropertyInfo('input')"/>
+		<if expr="@{hasInputProperty}">
+			<set var="inputPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
+			<set var="inputPropertyDataset" value="@{inputPropertyInfo.dataset}"/>
+			<set var="inputPropertyClass" value="@{inputPropertyInfo.clazz}"/>
+			<set var="inputPropertyName" value="@{inputPropertyClass.simpleName}"/>
+			<set var="inputPropertyClassName" value="@{inputPropertyClass.name}"/>
+			<set var="inputPropertyServiceInterfaceName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceNameByModel(@{inputPropertyClass})"/>
+			<set var="inputPropertyServiceInterfaceClassName" value="br.com.concepting.framework.service.util.ServiceUtil.getServiceInterfaceClassNameByModel(@{inputPropertyClass})"/>
+			<set var="inputPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{inputPropertyClass})"/>
+			<set var="capitalizedInputPropertyDataset" value="br.com.concepting.framework.util.StringUtil.capitalize(@{inputPropertyDataset})"/>
+		</if>
 		
 		import br.com.concepting.framework.controller.action.BaseAction;
 		import #{clazz.name};
-		<if expr="@{searchPropertyModelInfo} != null or @{mainPropertyModelInfo} != null">
+		<if expr="@{searchPropertyModelInfo} != null or @{inputPropertyModelInfo} != null">
 			import @{actionFormClassName};
-			<if expr="@{searchPropertyModelInfo} != null and @{searchPropertyClassName} != @{mainPropertyClassName}">
+			<if expr="@{searchPropertyModelInfo} != null and @{searchPropertyClassName} != @{inputPropertyClassName}">
 		        import @{searchPropertyClassName};
 				import @{searchPropertyServiceInterfaceClassName};
 			</if>
 			import java.util.Collection;
-			<if expr="@{mainPropertyModelInfo} != null">
+			<if expr="@{inputPropertyModelInfo} != null">
 				import br.com.concepting.framework.model.exceptions.ItemNotSelectedException;
-		        import @{mainPropertyClassName};
-				import @{mainPropertyServiceInterfaceClassName};
+		        import @{inputPropertyClassName};
+				import @{inputPropertyServiceInterfaceClassName};
 				<set var="arraysImported" value="false"/>
-				<iterate var="propertyInfo" values="@{mainPropertyModelInfo.propertiesInfo}">
+				<iterate var="propertyInfo" values="@{inputPropertyModelInfo.propertiesInfo}">
 					<if expr="@{propertyInfo.isEnum} or @{propertyInfo.hasEnum} or ((@{propertyInfo.isModel} or @{propertyInfo.hasModel}) and @{propertyInfo.relationType} != 'NONE')">
 		                <set var="propertyClass" value="@{propertyInfo.clazz}"/>
 			            <if expr="@{propertyInfo.hasEnum} or @{propertyInfo.hasModel}">
@@ -67,16 +73,18 @@
 			public void init() throws Throwable{
 				super.init();
 				
-				<iterate var="propertyInfo" values="@{mainPropertyModelInfo.propertiesInfo}">
+				<iterate var="propertyInfo" values="@{inputPropertyModelInfo.propertiesInfo}">
 					<if expr="@{propertyInfo.isEnum} or @{propertyInfo.hasEnum} or ((@{propertyInfo.isModel} or @{propertyInfo.hasModel}) and @{propertyInfo.relationType} != 'NONE')">
 						<set var="capitalizedPropertyId" value="br.com.concepting.framework.util.StringUtil.capitalize(@{propertyInfo.id})"/>
 		                list@{capitalizedPropertyId}();
 					</if>
 				</iterate>
-				search();
+				<if expr="@{hasSearchProperty}">
+					search();
+				</if>
 			}
 
-			<iterate var="propertyInfo" values="@{mainPropertyModelInfo.propertiesInfo}">
+			<iterate var="propertyInfo" values="@{inputPropertyModelInfo.propertiesInfo}">
 				<if expr="@{propertyInfo.isEnum} or @{propertyInfo.hasEnum} or ((@{propertyInfo.isModel} or @{propertyInfo.hasModel}) and @{propertyInfo.relationType} != 'NONE')">
 	                <set var="propertyClass" value="@{propertyInfo.clazz}"/>
 		            <if expr="@{propertyInfo.hasEnum} or @{propertyInfo.hasModel}">
@@ -103,29 +111,31 @@
 					}
 				</if>
 			</iterate>
-			
-			public void search() throws Throwable{
-				@{actionFormName} form = getActionForm();
-				#{clazz.simpleName} model = form.getModel();
-				@{searchPropertyName} search = model.getSearch();
-				
-				if(search == null)
-					search = new @{searchPropertyName}();
-					
-				@{searchPropertyServiceInterfaceName} service = getService(@{searchPropertyName}.class);
-				Collection&lt;@{searchPropertyName}&gt; list = service.search(search);
-				
-				model.set@{capitalizedMainPropertyDataset}(list);
-				model.setInput(null);
-				
-				form.setModel(model);
-			}
+
+			<if expr="@{hasSearchProperty}">
+				public void search() throws Throwable{
+					@{actionFormName} form = getActionForm();
+					#{clazz.simpleName} model = form.getModel();
+					@{searchPropertyName} search = model.getSearch();
+
+					if(search == null)
+						search = new @{searchPropertyName}();
+
+					@{searchPropertyServiceInterfaceName} service = getService(@{searchPropertyName}.class);
+					Collection&lt;@{searchPropertyName}&gt; list = service.search(search);
+
+					model.set@{capitalizedInputPropertyDataset}(list);
+					model.setInput(null);
+
+					form.setModel(model);
+				}
+			</if>
 			
 			public void add() throws Throwable{
 				@{actionFormName} form = getActionForm();
 				#{clazz.simpleName} model = form.getModel();
 				
-				model.setInput(new @{mainPropertyName}());
+				model.setInput(new @{inputPropertyName}());
 				
 				form.setModel(model);
 			}
@@ -133,15 +143,15 @@
 			public void edit() throws Throwable{
 				@{actionFormName} form = getActionForm();
 				#{clazz.simpleName} model = form.getModel();
-				@{mainPropertyName} input = model.getInput();
+				@{inputPropertyName} input = model.getInput();
 				
 				if(input == null)
 					throw new ItemNotSelectedException();
 					
-				@{mainPropertyServiceInterfaceName} service = getService(@{mainPropertyName}.class);
+				@{inputPropertyServiceInterfaceName} service = getService(@{inputPropertyName}.class);
 				
 				input = service.find(input);
-				<iterate var="propertyInfo" values="@{mainPropertyModelInfo.propertiesInfo}">
+				<iterate var="propertyInfo" values="@{inputPropertyModelInfo.propertiesInfo}">
 					<if expr="(@{propertyInfo.isModel} or @{propertyInfo.hasModel}) and @{propertyInfo.relationType} != 'NONE'">
 		    			input = service.loadReference(input, "@{propertyInfo.id}");
 					</if>
@@ -153,12 +163,12 @@
 			public void delete() throws Throwable{
 				@{actionFormName} form = getActionForm();
 				#{clazz.simpleName} model = form.getModel();
-				@{mainPropertyName} input = model.getInput();
+				@{inputPropertyName} input = model.getInput();
 				
 				if(input == null)
 					throw new ItemNotSelectedException();
 					
-				@{mainPropertyServiceInterfaceName} service = getService(@{mainPropertyName}.class);
+				@{inputPropertyServiceInterfaceName} service = getService(@{inputPropertyName}.class);
 				
 				service.delete(input);
 				
@@ -170,8 +180,8 @@
 			public void save() throws Throwable{
 				@{actionFormName} form = getActionForm();
 				#{clazz.simpleName} model = form.getModel();
-				@{mainPropertyName} input = model.getInput();
-				@{mainPropertyServiceInterfaceName} service = getService(@{mainPropertyName}.class);
+				@{inputPropertyName} input = model.getInput();
+				@{inputPropertyServiceInterfaceName} service = getService(@{inputPropertyName}.class);
 				
 				service.save(input);
 				
