@@ -22,7 +22,7 @@
 							<table class="contentPanel">
 								<tr>
 									<td align="CENTER">
-										<concepting:dialogBox name="aboutDialog" width="450" showOnLoad="${@{actionFormName}.action == 'showAbout'}" title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
+										<concepting:dialogBox name="aboutDialog" showOnLoad="${@{actionFormName}.action == 'showAbout'}" title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
 											<div style="text-align: CENTER; padding: 10px;">
 												<concepting:label resourcesKey="aboutDialog"/>
 											</div>
