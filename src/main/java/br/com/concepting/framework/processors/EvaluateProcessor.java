@@ -223,12 +223,12 @@ public class EvaluateProcessor extends GenericProcessor{
      */
     @SuppressWarnings("unchecked")
     public <O> O evaluate(String value) throws InternalErrorException{
-        if(value == null)
-            return null;
+        if(value == null || value.isEmpty())
+            return (O)value;
 
         try{
-            JexlContext context = new MapContext();
             Object declaration = getDeclaration();
+            JexlContext context = new MapContext();
 
             context.set("declaration", declaration);
 
@@ -411,10 +411,17 @@ public class EvaluateProcessor extends GenericProcessor{
                 while (matcher.find());
             }
 
+            O result;
+
             try {
                 JexlExpression expression = engine.createExpression(valueBuffer);
 
-                return (O) expression.evaluate(context);
+                result = (O) expression.evaluate(context);
+
+                if(result == null)
+                    return (O)valueBuffer;
+
+                return result;
             }
             catch(Throwable e) {
                 return (O)valueBuffer;

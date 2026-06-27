@@ -830,7 +830,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 File resourcesFile = new File(resourcesFilename.toString());
 
                                 if(!resourcesFile.exists()){
-                                    if(this.modelInfo.generateService() || this.modelInfo.generateUi()){
+                                    if(this.modelInfo.generateUi()){
                                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_PREFIX_ATTRIBUTE_ID, packagePrefix);
                                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_SUFFIX_ATTRIBUTE_ID, packageSuffix);
                                         ExpressionProcessorUtil.setVariable(Constants.PACKAGE_NAME_ATTRIBUTE_ID, packageName);
@@ -843,7 +843,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                     }
                                 }
                                 else{
-                                    if(!this.modelInfo.generateService() && !this.modelInfo.generateUi())
+                                    if(!this.modelInfo.generateUi())
                                         Files.delete(Path.of(resourcesFilename.toString()));
                                 }
                             }

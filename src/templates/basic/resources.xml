@@ -14,23 +14,27 @@
 		<if expr="@{hasSearchProperty}">
 			<set var="searchPropertyInfo" value="#{declaration}.getPropertyInfo('search')"/>
 			<set var="searchPropertyClass" value="@{searchPropertyInfo.clazz}"/>
-			<set var="searchPropertyName" value="@{searchPropertyClass.simpleName}"/>
-			<set var="searchPropertyClassName" value="@{searchPropertyClass.name}"/>
-			<set var="searchPropertyPrefix" value="@{searchPropertyName}.substring(0, 1).toLowerCase()"/>
-			<set var="searchPropertyPrefix" value="@{searchPropertyPrefix}.concat(@{searchPropertyName}).substring(1)"/>
-			<set var="searchPropertyPrefix" value="br.com.concepting.framework.util.StringUtil.replaceAll(@{searchPropertyPrefix}, 'Model', '')"/>
 			<set var="searchPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{searchPropertyClass})"/>
+			<set var="searchPropertyClassName" value="@{searchPropertyClass.name}"/>
+			<set var="searchPropertyName" value="@{searchPropertyClass.simpleName}"/>
+			<set var="searchPropertySuffix" value="@{searchPropertyName}.substring(1)"/>
+			<set var="searchPropertySuffix" value="br.com.concepting.framework.util.StringUtil.replaceAll(@{searchPropertySuffix}, 'Model', '')"/>
+			<set var="searchPropertyPrefix" value="@{searchPropertyName}.substring(0, 1)"/>
+			<set var="searchPropertyPrefix" value="@{searchPropertyPrefix}.toLowerCase()"/>
+			<set var="searchPropertyPrefix" value="@{searchPropertyPrefix}.concat(@{searchPropertySuffix})"/>
 		</if>
 		<set var="hasInputProperty" value="#{declaration}.hasPropertyInfo('input')"/>
 		<if expr="@{hasInputProperty}">
 			<set var="inputPropertyInfo" value="#{declaration}.getPropertyInfo('input')"/>
 			<set var="inputPropertyClass" value="@{inputPropertyInfo.clazz}"/>
-			<set var="inputPropertyName" value="@{inputPropertyClass.simpleName}"/>
-			<set var="inputPropertyClassName" value="@{inputPropertyClass.name}"/>
-			<set var="inputPropertyPrefix" value="@{inputPropertyName}.substring(0, 1).toLowerCase()"/>
-			<set var="inputPropertyPrefix" value="@{inputPropertyPrefix}.concat(@{inputPropertyName}).substring(1)"/>
-			<set var="inputPropertyPrefix" value="br.com.concepting.framework.util.StringUtil.replaceAll(@{inputPropertyPrefix}, 'Model', '')"/>
 			<set var="inputPropertyModelInfo" value="br.com.concepting.framework.model.util.ModelUtil.getInfo(@{inputPropertyClass})"/>
+			<set var="inputPropertyClassName" value="@{inputPropertyClass.name}"/>
+			<set var="inputPropertyName" value="@{inputPropertyClass.simpleName}"/>
+			<set var="inputPropertySuffix" value="@{inputPropertyName}.substring(1)"/>
+			<set var="inputPropertySuffix" value="br.com.concepting.framework.util.StringUtil.replaceAll(@{inputPropertySuffix}, 'Model', '')"/>
+			<set var="inputPropertyPrefix" value="@{inputPropertyName}.substring(0, 1)"/>
+			<set var="inputPropertyPrefix" value="@{inputPropertyPrefix}.toLowerCase()"/>
+			<set var="inputPropertyPrefix" value="@{inputPropertyPrefix}.concat(@{inputPropertySuffix})"/>
 		</if>
 		<if expr="@{searchPropertyModelInfo} != null and @{searchPropertyClassName} != @{inputPropertyClassName}">
 			<iterate var="propertyInfo" values="@{searchPropertyModelInfo.searchPropertiesInfo}">

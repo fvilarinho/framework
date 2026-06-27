@@ -11,7 +11,6 @@
 		import static org.junit.Assert.assertNotNull;
 		import static org.junit.Assert.assertNull;
 		import static org.junit.Assert.assertEquals;
-		import static org.junit.Assert.assertTrue;
 
 		<set var="modelClass" value="#{clazz}"/>
 		<set var="alreadyImported" value="new java.util.ArrayList()"/>
@@ -61,7 +60,7 @@
 		<set var="modelClassName" value="#{clazz.simpleName}"/>
 
 		public class @{name}{
-			private #{clazz.simpleName} model = new #{clazz.simpleName}();
+			private final #{clazz.simpleName} model = new #{clazz.simpleName}();
 			 
 			<iterate var="propertyInfo" values="#{propertiesInfo}">
 				@Test
@@ -74,7 +73,7 @@
 					
 					<if expr="@{propertyInfo.isNumber}">
 						<if expr="@{propertyInfo.isLong}">
-							model.set@{capitalized}(1l);
+							model.set@{capitalized}(1L);
 						</if>
 						<if expr="@{propertyInfo.isDouble}">
 							model.set@{capitalized}(1d);
@@ -103,18 +102,9 @@
 						model.set@{capitalized}(value);
 					</if>
 					<if expr="@{propertyInfo.isCollection}">
-						<if expr="@{propertyInfo.hasModel}">
-							List&lt;@{propertyInfo.collectionItemsClass.simpleName}&gt; values = new @{propertyInfo.clazz.simpleName}&lt;&gt;();
+						List&lt;@{propertyInfo.collectionItemsClass.simpleName}&gt; values = new @{propertyInfo.clazz.simpleName}&lt;&gt;();
 
-							values.add(new @{propertyInfo.collectionItemsClass.simpleName}());
-							model.set@{capitalized}(values);
-						</if>
-						<if expr="@{propertyInfo.hasEnum}">
-							List&lt;@{propertyInfo.collectionItemsClass.simpleName}&gt; values = new @{propertyInfo.clazz.simpleName}&lt;&gt;();
-
-							values.add(@{propertyInfo.collectionItemsClass.simpleName}.values()[0]);
-							model.set@{capitalized}(values);
-						</if>
+						model.set@{capitalized}(values);
 					</if>
 					<if expr="@{propertyInfo.isDate}">
 						<if expr="@{propertyInfo.isTime}">
@@ -140,13 +130,16 @@
        				assertNotNull(model.get@{capitalized}());
 					<if expr="@{propertyInfo.isNumber}">
 						<if expr="@{propertyInfo.isLong}">
-							assertTrue(model.get@{capitalized}().equals(1l));
+							assertEquals(1L, model.get@{capitalized}(), 0L);
 						</if>
 						<if expr="@{propertyInfo.isDouble}">
-							assertTrue(model.get@{capitalized}().equals(1d));
+							assertEquals(1d, model.get@{capitalized}(), 0d);
 						</if>
-						<if expr="!(@{propertyInfo.isDouble} or @{propertyInfo.isLong})">
-							assertTrue(model.get@{capitalized}().equals(1));
+						<if expr="@{propertyInfo.isFloat}">
+							assertEquals(1f, model.get@{capitalized}(), 0f);
+						</if>
+						<if expr="!(@{propertyInfo.isFloat} or @{propertyInfo.isDouble} or @{propertyInfo.isLong})">
+							assertEquals(1, model.get@{capitalized}(), 0);
 						</if>
 					</if>
 					<if expr="@{propertyInfo.isString}">
@@ -182,7 +175,7 @@
 						assertEquals(value, model.get@{capitalized}());
 					</if>
 					<if expr="@{propertyInfo.isCollection}">
-						assertEquals(1, model.get@{capitalized}().size());
+						assertEquals(values, model.get@{capitalized}());
 					</if>
 					<if expr="@{propertyInfo.isDate}">
 						<if expr="@{propertyInfo.isTime}">

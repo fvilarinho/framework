@@ -174,6 +174,12 @@ public class FormModel extends BaseModel{
      * @return Instance that contains the object.
      */
     public ObjectModel getObject(String objectName){
+        Float t = 1f;
+        Short t2 = 1;
+        Long l = 1L;
+        Double d = 1d;
+
+
         if(this.objects != null)
             for(ObjectModel object: this.objects)
                 if(object.getName().equals(objectName))
