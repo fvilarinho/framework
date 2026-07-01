@@ -10,9 +10,11 @@ import br.com.concepting.framework.util.helpers.PropertyInfo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -53,7 +55,17 @@ public class WebServiceUtil{
      * @return Instance of the client.
      */
     public static CloseableHttpClient getClient(){
-        return HttpClients.createDefault();
+        try {
+            return HttpClients.custom().
+                               setSSLContext(new SSLContextBuilder().
+                                                 loadTrustMaterial(null, TrustAllStrategy.INSTANCE).
+                                                 build()).
+                               setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).
+                               build();
+        }
+        catch(Throwable ignored){
+            return null;
+        }
     }
     
     /**
@@ -67,7 +79,19 @@ public class WebServiceUtil{
                                              setConnectTimeout(timeout * 1000).
                                              setConnectionRequestTimeout(timeout * 1000).
                                              setSocketTimeout(timeout * 1000).build();
-        return HttpClientBuilder.create().setDefaultRequestConfig(config).build();
+
+        try {
+            return HttpClients.custom().
+                               setDefaultRequestConfig(config).
+                               setSSLContext(new SSLContextBuilder().
+                                                 loadTrustMaterial(null, TrustAllStrategy.INSTANCE).
+                                                 build()).
+                               setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).
+                               build();
+        }
+        catch(Throwable ignored){
+            return null;
+        }
     }
     
     /**

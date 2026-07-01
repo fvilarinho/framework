@@ -215,7 +215,6 @@ public class WebService{
      */
     public CloseableHttpResponse process(String domain, Object value, Locale language) throws InternalErrorException{
         try(CloseableHttpClient client = WebServiceUtil.getClient(this.resources.getTimeout())) {
-            WebServiceUtil.getClient(this.resources.getTimeout());
             HttpUriRequest request = buildRequest(domain, value, language);
 
             return client.execute(request);
