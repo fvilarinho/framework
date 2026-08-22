@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Checks the dependencies of this script.
 function checkDependencies() {

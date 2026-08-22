@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Check the dependencies of this script.
+# Checks the dependencies of this script.
 function checkDependencies() {
   if [ -z "$CURL_CMD" ]; then
     echo "curl is not installed! Please install it first to continue!"
