@@ -6,7 +6,7 @@
         version="2.1">
     <tlib-version>1.0</tlib-version>
     <short-name>ui-components</short-name>
-	<uri>https://www.concepting.com.br/framework/ui/components</uri>    
+	<uri>https://www.innovativethinking.com.br/framework/ui/components</uri>
 	<tag>
         <name>accordion</name>
         <tag-class>br.com.concepting.framework.ui.components.AccordionComponent</tag-class>
