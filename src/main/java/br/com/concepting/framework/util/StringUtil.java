@@ -149,7 +149,7 @@ public class StringUtil{
      * @return String after replacement.
      */
     public static String replaceAll(String value, String search, String replace){
-        if(value != null && !value.isEmpty() && search != null && !search.isEmpty() && !search.equals(replace)){
+        if(value != null && !value.isEmpty() && search != null && !search.isEmpty() && replace != null && !search.equals(replace)){
             int pos = value.indexOf(search);
             
             if(pos >= 0){
@@ -157,7 +157,7 @@ public class StringUtil{
                 
                 replaceBuffer.append(value, 0, pos);
                 
-                if(replace != null && !replace.isEmpty())
+                if(!replace.isEmpty())
                     replaceBuffer.append(replace);
                 
                 replaceBuffer.append(value.substring(pos + search.length()));
@@ -178,7 +178,7 @@ public class StringUtil{
      * @return String after replacement.
      */
     public static String replaceLast(String value, char search, String replace){
-        if(value != null && !value.isEmpty() && replace != null && !replace.isEmpty())
+        if(value != null && !value.isEmpty() && replace != null)
             return replaceLast(value, String.valueOf(search), replace);
 
         return value;

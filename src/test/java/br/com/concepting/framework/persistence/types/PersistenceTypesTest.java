@@ -14,7 +14,7 @@ public class PersistenceTypesTest {
     }
 
     @Test
-    public void testRepositoryTypes() {
+    public void testRepositoryPortTypes() {
         assertEquals(8082, RepositoryType.H2.getDefaultPort(), 0);
         assertEquals(1433, RepositoryType.MSSQL.getDefaultPort(), 0);
         assertEquals(2368, RepositoryType.SYBASE.getDefaultPort(), 0);
@@ -23,7 +23,10 @@ public class PersistenceTypesTest {
         assertEquals(3306, RepositoryType.MYSQL.getDefaultPort(), 0);
         assertEquals(5432, RepositoryType.POSTGRESQL.getDefaultPort(), 0);
         assertEquals(26437, RepositoryType.INFORMIX.getDefaultPort(), 0);
+    }
 
+    @Test
+    public void testRepositoryQuotesTypes() {
         assertEquals("\"", RepositoryType.H2.getOpenQuote());
         assertEquals("\"", RepositoryType.H2.getCloseQuote());
         assertEquals("[", RepositoryType.MSSQL.getOpenQuote());
@@ -40,11 +43,13 @@ public class PersistenceTypesTest {
         assertEquals("\"", RepositoryType.POSTGRESQL.getCloseQuote());
         assertEquals("\"", RepositoryType.INFORMIX.getOpenQuote());
         assertEquals("\"", RepositoryType.INFORMIX.getCloseQuote());
+    }
 
+    @Test
+    public void testRepositoryDescriptionTypes() {
         assertEquals("H2 Database Engine", RepositoryType.H2.getDescription());
         assertEquals("MS-SQL Server", RepositoryType.MSSQL.getDescription());
         assertEquals("Sybase ASE/ASA", RepositoryType.SYBASE.getDescription());
-        assertEquals("IBM DB2", RepositoryType.DB2.getDescription());
         assertEquals("IBM DB2", RepositoryType.DB2.getDescription());
         assertEquals("Oracle", RepositoryType.ORACLE.getDescription());
         assertEquals("MySQL", RepositoryType.MYSQL.getDescription());

@@ -35,8 +35,30 @@ import java.util.regex.Pattern;
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 public class NetworkUtil{
-    private static final Pattern DEFAULT_IP_CHECK_REGEX = Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
-    
+    public static boolean isIp(String ip) {
+        String[] parts = ip.split("\\.", -1);
+
+        if (parts.length != 4)
+            return false;
+
+        for (String part : parts) {
+            if (part.isEmpty() || part.length() > 3)
+                return false;
+
+            try {
+                int value = Integer.parseInt(part);
+
+                if (value < 0 || value > 255)
+                    return false;
+            }
+            catch (NumberFormatException e) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Returns the private IP of the operating system.
      *
@@ -77,7 +99,7 @@ public class NetworkUtil{
      * @param address Instance that contains the IP.
      * @return True/False.
      */
-    public static boolean isPrivateAddress(InetAddress address){
+    public static boolean isPrivateIp(InetAddress address){
         return (address != null && (isLoopbackAddress(address) || address.isSiteLocalAddress()));
     }
     
@@ -101,9 +123,9 @@ public class NetworkUtil{
      * @throws IOException Occurs when was not possible to execute the
      * operation.
      */
-    public static boolean isPrivateAddress(String address) throws IOException{
+    public static boolean isPrivateIp(String address) throws IOException{
         if(address != null && !address.isEmpty())
-            return isPrivateAddress(InetAddress.getByName(address));
+            return isPrivateIp(InetAddress.getByName(address));
         
         return true;
     }
@@ -167,15 +189,5 @@ public class NetworkUtil{
         Matcher matcher = pattern.matcher(ip);
         
         return matcher.matches();
-    }
-    
-    /**
-     * Indicates if a value represents an IP address.
-     *
-     * @param value String that should be checked.
-     * @return True/False.
-     */
-    public static boolean isIp(String value){
-        return DEFAULT_IP_CHECK_REGEX.matcher(value).matches();
     }
 }

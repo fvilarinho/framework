@@ -81,7 +81,7 @@ public class SecurityUtil{
         if(password == null)
             return false;
         
-        if(!password.matches(".*[0-9].*"))
+        if(!password.matches(".*\\d.*"))
             return false;
         
         if(!password.matches(".*[a-z].*"))
@@ -89,8 +89,8 @@ public class SecurityUtil{
         
         if(!password.matches(".*[A-Z].*"))
             return false;
-        
-        return password.matches(".*[\\!|\\@|\\#|\\$|\\%|\\ˆ|\\&|\\*|\\(|\\)|\\_|\\+|\\-|\\=|\\[|\\]\\|\\|\\{|\\}\\||\\;|\\'|\\:|\\\"|\\,|\\.|\\/|\\<|\\>|\\?].*");
+
+        return password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\",./<>?].*");
     }
     
     /**

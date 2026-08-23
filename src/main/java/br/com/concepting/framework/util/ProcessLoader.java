@@ -95,18 +95,19 @@ public class ProcessLoader{
                     worker.join(timeout * 1000L);
                     
                     if(worker.exit != null){
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(worker.in));
-                        StringBuilder result = new StringBuilder();
-                        String line;
+                        try ( BufferedReader reader = new BufferedReader(new InputStreamReader(worker.in));) {
+                            StringBuilder result = new StringBuilder();
+                            String line;
 
-                        while((line = reader.readLine()) != null){
-                            if(!result.isEmpty())
-                                result.append(StringUtil.getLineBreak());
-                            
-                            result.append(line);
+                            while ((line = reader.readLine()) != null) {
+                                if (!result.isEmpty())
+                                    result.append(StringUtil.getLineBreak());
+
+                                result.append(line);
+                            }
+
+                            return result.toString();
                         }
-                        
-                        return result.toString();
                     }
                     
                     throw new IOException(new TimeoutException(String.valueOf(timeout)));

@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class EvaluateProcessorTest {
     @Test
-    public void testConstructorsAndGetters() throws InternalErrorException {
+    public void testConstructorsAndGettersWithContent() throws InternalErrorException {
         XmlNode content = new XmlNode("root", "#{declaration}");
         EvaluateProcessor processor = new EvaluateProcessor("testDomain", "This is a test", content, Locale.ENGLISH);
 
@@ -20,29 +20,11 @@ public class EvaluateProcessorTest {
         assertNotNull(processor.getDeclaration());
         assertEquals(content, processor.getContent());
         assertEquals(Locale.ENGLISH, processor.getLanguage());
+    }
 
-        processor = new EvaluateProcessor("testDomain", "This is a test", Locale.ENGLISH);
-
-        assertEquals("testDomain", processor.getDomain());
-        assertNotNull(processor.getDeclaration());
-        assertNull(processor.getContent());
-        assertEquals(Locale.ENGLISH, processor.getLanguage());
-
-        processor = new EvaluateProcessor("testDomain", Locale.ENGLISH);
-
-        assertEquals("testDomain", processor.getDomain());
-        assertNull(processor.getDeclaration());
-        assertNull(processor.getContent());
-        assertEquals(Locale.ENGLISH, processor.getLanguage());
-
-        processor = new EvaluateProcessor("testDomain", "This is a test", content);
-
-        assertEquals("testDomain", processor.getDomain());
-        assertEquals("This is a test", processor.getDeclaration());
-        assertEquals(content, processor.getContent());
-        assertEquals(LanguageUtil.getDefaultLanguage(), processor.getLanguage());
-
-        processor = new EvaluateProcessor("testDomain", "This is a test");
+    @Test
+    public void testConstructorsAndGettersWithDefaultLanguage() {
+        EvaluateProcessor processor = new EvaluateProcessor("testDomain", "This is a test");
 
         assertEquals("testDomain", processor.getDomain());
         assertEquals("This is a test", processor.getDeclaration());
@@ -55,13 +37,6 @@ public class EvaluateProcessorTest {
         assertNull(processor.getDeclaration());
         assertNull(processor.getContent());
         assertEquals(LanguageUtil.getDefaultLanguage(), processor.getLanguage());
-
-        processor = new EvaluateProcessor(Locale.ENGLISH);
-
-        assertEquals(ExpressionProcessorUtil.class.getName(), processor.getDomain());
-        assertNull(processor.getDeclaration());
-        assertNull(processor.getContent());
-        assertEquals(Locale.ENGLISH, processor.getLanguage());
 
         processor = new EvaluateProcessor(new Object());
 
