@@ -24,7 +24,7 @@ function prepareToExecute() {
 
 # Starts the build process.
 function build() {
-  ./gradlew build publishToMavenLocal
+  ./gradlew build publishToMavenLoca --no-build-cache
 }
 
 # Main function.
