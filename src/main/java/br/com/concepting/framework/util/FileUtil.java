@@ -239,21 +239,13 @@ public class FileUtil{
      * @throws IOException Occurs when was not possible to read the file.
      */
     public static byte[] fromBinaryFile(File file) throws IOException{
-        FileInputStream stream = null;
-        
-        try{
-            if(file != null){
-                stream = new FileInputStream(file);
-                
+        if(file != null){
+            try (FileInputStream stream = new FileInputStream(file)) {
                 return ByteUtil.fromBinaryStream(stream);
             }
-            
-            return null;
         }
-        finally{
-            if(stream != null)
-                stream.close();
-        }
+
+        return null;
     }
     
     /**
@@ -278,21 +270,13 @@ public class FileUtil{
      * @throws IOException Occurs when was not possible to read the file.
      */
     public static String fromTextFile(File file) throws IOException{
-        FileInputStream stream = null;
-        
-        try{
-            if(file != null){
-                stream = new FileInputStream(file);
-                
+        if(file != null) {
+            try (FileInputStream stream = new FileInputStream(file)) {
                 return new String(ByteUtil.fromTextStream(stream), getDefaultEncoding());
             }
-            
-            return null;
         }
-        finally{
-            if(stream != null)
-                stream.close();
-        }
+
+        return null;
     }
 
     /**

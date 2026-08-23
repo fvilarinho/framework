@@ -21,11 +21,9 @@ public class TestModel extends BaseModel {
     public String getTestField() {
         return testField;
     }
+
     public void setTestField(String testField) {
         this.testField = testField;
-    }
-    private void sayHello(){
-        System.out.println("Hello world!");
     }
 
     public static void saySomething(String something) {

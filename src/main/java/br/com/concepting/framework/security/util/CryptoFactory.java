@@ -30,7 +30,7 @@ import java.security.spec.InvalidKeySpecException;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
-public abstract class CryptoFactory{
+public interface CryptoFactory{
     /**
      * Returns the default implementation of the cryptography.
      *
@@ -46,7 +46,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getDefaultInstance() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    static ICrypto getDefaultInstance() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         return getInstance(SecurityConstants.DEFAULT_CRYPTO_ALGORITHM_ID);
     }
     
@@ -66,7 +66,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getInstance(String algorithm) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    static ICrypto getInstance(String algorithm) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(true);
 
@@ -90,7 +90,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getDefaultInstance(boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    static ICrypto getDefaultInstance(boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         return getInstance(SecurityConstants.DEFAULT_CRYPTO_ALGORITHM_ID, useBase64);
     }
     
@@ -112,7 +112,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getInstance(String algorithm, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    static ICrypto getInstance(String algorithm, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(useBase64);
 
@@ -139,7 +139,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getDefaultInstance(String passPhrase, Integer keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    static ICrypto getDefaultInstance(String passPhrase, Integer keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         return getInstance(SecurityConstants.DEFAULT_CRYPTO_ALGORITHM_ID, passPhrase, keySize, useBase64);
     }
     
@@ -164,7 +164,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getInstance(String algorithm, String passPhrase, Integer keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    static ICrypto getInstance(String algorithm, String passPhrase, Integer keySize, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(passPhrase, keySize, useBase64);
 
@@ -189,7 +189,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getDefaultInstance(String passPhrase, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    static ICrypto getDefaultInstance(String passPhrase, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         return getInstance(SecurityConstants.DEFAULT_CRYPTO_ALGORITHM_ID, passPhrase, useBase64);
     }
     
@@ -212,7 +212,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getInstance(String algorithm, String passPhrase, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    static ICrypto getInstance(String algorithm, String passPhrase, boolean useBase64) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(passPhrase, useBase64);
 
@@ -235,7 +235,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getDefaultInstance(String passPhrase) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    static ICrypto getDefaultInstance(String passPhrase) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         return getInstance(SecurityConstants.DEFAULT_CRYPTO_ALGORITHM_ID, passPhrase);
     }
     
@@ -256,7 +256,7 @@ public abstract class CryptoFactory{
      * @throws UnsupportedEncodingException Occurs when was not possible to
      * execute the operation.
      */
-    public static ICrypto getInstance(String algorithm, String passPhrase) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
+    static ICrypto getInstance(String algorithm, String passPhrase) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, UnsupportedEncodingException{
         if (SecurityConstants.DEFAULT_CRYPTO_AES_ALGORITHM_ID.equals(algorithm))
             return new CryptoAES(passPhrase);
 

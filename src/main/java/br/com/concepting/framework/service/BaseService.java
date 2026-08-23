@@ -356,7 +356,7 @@ public abstract class BaseService<M extends BaseModel> implements IService<M>{
         if(serviceAnnotation != null && serviceAnnotation.isJob())
             return serviceAnnotation.pollingTime();
         
-        return null;
+        return 0;
     }
 
     @Override

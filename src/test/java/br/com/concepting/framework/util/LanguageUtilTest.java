@@ -13,8 +13,8 @@ public class LanguageUtilTest {
         assertEquals(Locale.of("pt", "BR"), LanguageUtil.getLanguageByString("pt_BR"));
         assertEquals(Locale.of("zh", "Hant", "TW"), LanguageUtil.getLanguageByString("zh_Hant_TW"));
 
-        assertNull(LanguageUtil.getLanguageByString(null));
-        assertNull(LanguageUtil.getLanguageByString(""));
+        assertEquals(Locale.getDefault(), LanguageUtil.getLanguageByString(null));
+        assertEquals(Locale.getDefault(), LanguageUtil.getLanguageByString(""));
     }
 
     @Test

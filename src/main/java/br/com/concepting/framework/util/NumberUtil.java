@@ -509,23 +509,24 @@ public class NumberUtil{
     public static <N extends Number> N[] getRange(Class<?> clazz){
         N[] range = null;
         
-        if(clazz != null){
-            if(clazz.equals(byte.class))
-                clazz = Byte.class;
-            else if(clazz.equals(short.class))
-                clazz = Short.class;
-            else if(clazz.equals(int.class))
-                clazz = Integer.class;
-            else if(clazz.equals(long.class))
-                clazz = Long.class;
-            else if(clazz.equals(float.class))
-                clazz = Float.class;
-            else if(clazz.equals(double.class))
-                clazz = Double.class;
+        if(clazz == null)
+            clazz = Integer.class;
 
-            range = (N[]) numberRange.get(clazz);
-        }
-        
+        if(clazz.equals(byte.class))
+            clazz = Byte.class;
+        else if(clazz.equals(short.class))
+            clazz = Short.class;
+        else if(clazz.equals(int.class))
+            clazz = Integer.class;
+        else if(clazz.equals(long.class))
+            clazz = Long.class;
+        else if(clazz.equals(float.class))
+            clazz = Float.class;
+        else if(clazz.equals(double.class))
+            clazz = Double.class;
+
+        range = (N[]) numberRange.get(clazz);
+
         return range;
     }
     

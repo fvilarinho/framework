@@ -157,8 +157,9 @@ public class LoginSessionListener implements HttpSessionListener{
     protected void onDestroy() throws InternalErrorException{
         if(this.loginSession != null){
             LoginSessionService<? extends LoginSessionModel, ? extends UserModel, ? extends LoginParameterModel> loginSessionService = getService();
-            
-            loginSessionService.logOut();
+
+            if(loginSessionService != null)
+                loginSessionService.logOut();
             
             this.loginSession = null;
         }

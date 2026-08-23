@@ -56,7 +56,7 @@ import java.util.Map.Entry;
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
 @SuppressWarnings("deprecation")
-public abstract class HibernateQueryBuilder{
+public interface HibernateQueryBuilder{
     /**
      * Builds a query expression based on a data model.
      *
@@ -68,7 +68,7 @@ public abstract class HibernateQueryBuilder{
      * @throws InternalErrorException Occurs when was not possible to build the
      * query.
      */
-    public static <M extends BaseModel> String buildExpression(M model, Filter filter, Map<String, Object> whereClauseParameters) throws InternalErrorException{
+    static <M extends BaseModel> String buildExpression(M model, Filter filter, Map<String, Object> whereClauseParameters) throws InternalErrorException{
         String propertyPrefix = "";
         String propertyAlias = "";
         StringBuilder expression = new StringBuilder();
@@ -137,7 +137,7 @@ public abstract class HibernateQueryBuilder{
      * query.
      */
     @SuppressWarnings("unchecked")
-    public static <M extends BaseModel> void buildExpression(M model, Filter filter, String propertyPrefix, String propertyAlias, StringBuilder fieldsClause, StringBuilder fromClause, StringBuilder joinClause, StringBuilder whereClause, StringBuilder groupByClause, StringBuilder orderByClause, Map<String, Object> whereClauseParameters, Collection<String> processedRelations, boolean considerConditions, boolean relationIsComponent, boolean relationHasModel) throws InternalErrorException{
+    static <M extends BaseModel> void buildExpression(M model, Filter filter, String propertyPrefix, String propertyAlias, StringBuilder fieldsClause, StringBuilder fromClause, StringBuilder joinClause, StringBuilder whereClause, StringBuilder groupByClause, StringBuilder orderByClause, Map<String, Object> whereClauseParameters, Collection<String> processedRelations, boolean considerConditions, boolean relationIsComponent, boolean relationHasModel) throws InternalErrorException{
         try{
             Class<? extends BaseModel> modelClass = model.getClass();
             ModelInfo modelInfo = ModelUtil.getInfo(modelClass);
@@ -1210,7 +1210,7 @@ public abstract class HibernateQueryBuilder{
      * query.
      */
     @SuppressWarnings({"rawtypes"})
-    public static Query build(QueryType queryType, HibernatePersistence<? extends BaseModel> persistence) throws InternalErrorException{
+    static Query build(QueryType queryType, HibernatePersistence<? extends BaseModel> persistence) throws InternalErrorException{
         return build(queryType, null, null, persistence);
     }
     
@@ -1226,7 +1226,7 @@ public abstract class HibernateQueryBuilder{
      * query.
      */
     @SuppressWarnings({"rawtypes"})
-    public static <M extends BaseModel> Query build(QueryType queryType, M model, HibernatePersistence<M> persistence) throws InternalErrorException{
+    static <M extends BaseModel> Query build(QueryType queryType, M model, HibernatePersistence<M> persistence) throws InternalErrorException{
         return build(queryType, model, null, persistence);
     }
     
@@ -1243,7 +1243,7 @@ public abstract class HibernateQueryBuilder{
      * query.
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static <M extends BaseModel> Query build(QueryType queryType, M model, Filter filter, HibernatePersistence<M> persistence) throws InternalErrorException{
+    static <M extends BaseModel> Query build(QueryType queryType, M model, Filter filter, HibernatePersistence<M> persistence) throws InternalErrorException{
         try{
             boolean modelIsNull = (model == null);
             Class<? extends BaseModel> modelClass = (modelIsNull ? PersistenceUtil.getModelClassByPersistence(persistence.getClass()) : model.getClass());
@@ -1311,6 +1311,4 @@ public abstract class HibernateQueryBuilder{
             throw new InternalErrorException(e);
         }
     }
-    
-    
 }

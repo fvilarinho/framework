@@ -122,8 +122,8 @@ public class StringUtil{
 
             return normalized.toString();
         }
-        
-        return value;
+
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -137,7 +137,7 @@ public class StringUtil{
         if(value != null && !value.isEmpty())
             return value.repeat(times);
 
-        return value;
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -448,8 +448,8 @@ public class StringUtil{
             
             return result.toString();
         }
-        
-        return null;
+
+        return StringUtils.EMPTY;
     }
     
     /**
@@ -462,8 +462,8 @@ public class StringUtil{
     public static String capitalize(String value, String delimiter){
         if(value != null && !value.isEmpty())
             return capitalize(value, delimiter, false);
-        
-        return null;
+
+        return StringUtils.EMPTY;
     }
     
     /**

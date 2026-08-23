@@ -47,6 +47,8 @@ public class LanguageUtil{
             else
                 language = Locale.of(languageBuffer[0], languageBuffer[1], languageBuffer[2]);
         }
+        else
+            language = Locale.getDefault();
         
         return language;
     }
