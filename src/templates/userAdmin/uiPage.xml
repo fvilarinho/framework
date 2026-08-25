@@ -130,6 +130,23 @@
 																				</td>
 																			</tr>
 																		</table>
+																		<hr size="1" width="100%"/>
+																		<table class="contentPanel">
+																			<tr>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:check name="input.loginParameter.receiveIm" resourcesKey="loginParameter.receiveIm" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:check name="input.loginParameter.receiveSms" resourcesKey="loginParameter.receiveSms" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:check name="input.loginParameter.receiveVoipCall" resourcesKey="loginParameter.receiveVoipCall" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																				<td valign="TOP" align="CENTER" width="20%">
+																					<concepting:text name="input.loginParameter.notificationToken" resourcesKey="loginParameter.notificationToken" labelPosition="TOP" alignment="LEFT"/>
+																				</td>
+																			</tr>
+																		</table>
 																	</concepting:guide>
 																	<concepting:guide name="groups">
 																		<concepting:grid name="input.groups" resourcesKey="groups" dataset="@{groupDataset}" width="100%">

@@ -67,6 +67,14 @@
 		loginParameter.loginTries.tooltip=
 		loginParameter.mfa.label=MFA?
 		loginParameter.mfa.tooltip=
+		loginParameter.receiveIm.label=Receive IM?
+		loginParameter.receiveIm.tooltip=
+		loginParameter.receiveSms.label=Receive SMS?
+		loginParameter.receiveSms.tooltip=
+		loginParameter.receiveVoipCall.label=Receive Voip Call?
+		loginParameter.receiveVoipCall.tooltip=
+		loginParameter.notificationToken.label=Notification Token
+		loginParameter.notificationToken.tooltip=
 
 		changeUserPassword.label=Change user password
 		changeUserPassword.tooltip=
