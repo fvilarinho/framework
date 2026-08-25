@@ -140,6 +140,23 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         
         loginSession.setRememberUserAndPassword(rememberedUserName != null && !rememberedUserName.isEmpty());
     }
+
+    /**
+     * Loads the change profile form.
+     *
+     * @throws Throwable Occurs when was not possible to execute the operation.
+     */
+    public void loadChangeProfile() throws Throwable{
+        BaseActionForm<L> actionForm = getActionForm();
+        L loginSession = (actionForm != null ? actionForm.getModel() : null);
+        U user = (loginSession != null ? loginSession.getUser() : null);
+
+        if(user == null || user.getId() == null || user.getId() == 0){
+            init();
+
+            throw new LoginSessionExpiredException();
+        }
+    }
     
     /**
      * Loads the change password form.
@@ -206,6 +223,45 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         
         actionFormController.addSuccessMessage();
     }
+
+    /**
+     * Confirms the profile change.
+     *
+     * @throws Throwable Occurs when was not possible to execute the operation.
+     */
+    public void changeProfile() throws Throwable{
+        ActionFormController actionFormController = getActionFormController();
+
+        if(actionFormController == null)
+            return;
+
+        BaseActionForm<L> actionForm = getActionForm();
+
+        if(actionForm == null)
+            return;
+
+        L loginSession = actionForm.getModel();
+
+        if(loginSession == null)
+            return;
+
+        U user = loginSession.getUser();
+
+        if(user == null)
+            return;
+
+        LoginSessionService<L, U, LP> service = getService();
+
+        user = service.changeProfile(user);
+
+        loginSession.setUser(user);
+
+        actionForm.setModel(loginSession);
+
+        getSecurityController().setLoginSession(loginSession);
+
+        actionFormController.addSuccessMessage();
+    }
     
     /**
      * Confirms the password change.
@@ -236,16 +292,33 @@ public abstract class LoginSessionAction<L extends LoginSessionModel, U extends 
         LoginSessionService<L, U, LP> service = getService();
         
         user = service.changePassword(user);
-        
+
         loginSession.setUser(user);
-        
+
         actionForm.setModel(loginSession);
-        
+
         getSecurityController().setLoginSession(loginSession);
         
         actionFormController.addSuccessMessage();
     }
-    
+
+    /**
+     * Cancels the profile change
+     *
+     * @throws Throwable Occurs when was not possible to execute the operation.
+     */
+    public void cancelChangeProfile() throws Throwable{
+        BaseActionForm<L> actionForm = getActionForm();
+        L loginSession = (actionForm != null ? actionForm.getModel() : null);
+        U user = (loginSession != null ? loginSession.getUser() : null);
+
+        if(user == null || user.getId() == null || user.getId() == 0){
+            init();
+
+            throw new LoginSessionExpiredException();
+        }
+    }
+
     /**
      * Cancels the password change
      *

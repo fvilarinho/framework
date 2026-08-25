@@ -76,15 +76,22 @@ public interface LoginSessionService<L extends LoginSessionModel, U extends User
      * Change the user password.
      *
      * @param user Instance that contains the user data model.
-     * @return Instance that contains the user data model.
      * @throws PasswordIsNotStrongException Occurs when the password is not strong.
      * @throws PasswordsNotMatchException Occurs when the new password doesn't match with the confirmation.
      * @throws PasswordWithoutMinimumLengthException Occurs when the password doesn't have the minimum length.
      * @throws InternalErrorException Occurs when was not possible to execute the
      * operation.
      */
-    U changePassword(U user) throws PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException;
-    
+    U changePassword(U user) throws UserNotFoundException, PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException;
+
+    /**
+     * Change the user profile.
+     *
+     * @param user Instance that contains the user data model.
+     * @throws InternalErrorException Occurs when was not possible to execute the
+     * operation.
+     */
+    U changeProfile(U user) throws UserNotFoundException, InternalErrorException;
     /**
      * Logs out the system.
      *

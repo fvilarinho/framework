@@ -40,12 +40,14 @@ public final class SecurityConstants{
     public static final String USER_NAME_ATTRIBUTE_ID = "userName";
 
     public static final String DEFAULT_CHANGE_PASSWORD_ID = "changePassword";
+    public static final String DEFAULT_CHANGE_PROFILE_ID = "changeProfile";
     public static final String DEFAULT_CRYPTO_AES_ALGORITHM_ID = "AES";
     public static final int DEFAULT_CRYPTO_AES_KEY_SIZE = 256;
     public static final String DEFAULT_CRYPTO_ALGORITHM_ID = DEFAULT_CRYPTO_AES_ALGORITHM_ID;
     public static final int DEFAULT_CRYPTO_KEY_SIZE = DEFAULT_CRYPTO_AES_KEY_SIZE;
     public static final String DEFAULT_DIGEST_ALGORITHM_ID = "MD5";
     public static final String DEFAULT_LOAD_CHANGE_PASSWORD_ID = "loadChangePassword";
+    public static final String DEFAULT_LOAD_CHANGE_PROFILE_ID = "loadChangeProfile";
     public static final String DEFAULT_LOAD_FORGOT_PASSWORD_ID = "loadForgotPassword";
     public static final String DEFAULT_LOGIN_ID = "logIn";
     public static final int DEFAULT_LOGIN_SESSION_TIMEOUT = 1440;

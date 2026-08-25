@@ -270,7 +270,39 @@ public class LoginSessionBoxComponent extends BaseActionFormComponent{
         catch(JspException e){
             throw new InternalErrorException(e);
         }
-        
+
+        println("<br/>");
+
+        onClick.delete(0, onClick.length());
+        onClick.append("submitRequest('");
+        onClick.append(MethodType.POST);
+        onClick.append("', '");
+        onClick.append(url);
+        onClick.append("', '");
+        onClick.append(ActionFormConstants.ACTION_ATTRIBUTE_ID);
+        onClick.append("=");
+        onClick.append(SecurityConstants.DEFAULT_LOAD_CHANGE_PROFILE_ID);
+        onClick.append("&");
+        onClick.append(ActionFormConstants.FORWARD_ATTRIBUTE_ID);
+        onClick.append("=");
+        onClick.append(ActionFormConstants.DEFAULT_ACTION_FORWARD_ID);
+        onClick.append("');");
+
+        linkComponent.setPageContext(this.pageContext);
+        linkComponent.setOutputStream(getOutputStream());
+        linkComponent.setActionFormName(getActionFormName());
+        linkComponent.setResourcesId(UIConstants.DEFAULT_LOGIN_SESSION_BOX_RESOURCES_ID);
+        linkComponent.setResourcesKey(SecurityConstants.DEFAULT_CHANGE_PROFILE_ID);
+        linkComponent.setOnClick(onClick.toString());
+
+        try{
+            linkComponent.doStartTag();
+            linkComponent.doEndTag();
+        }
+        catch(JspException e){
+            throw new InternalErrorException(e);
+        }
+
         println("<br/>");
         
         onClick.delete(0, onClick.length());

@@ -5,6 +5,9 @@
 	<artifact name="br.com.concepting.framework.model.util.ModelUtil.getResourcesIdByModel(#{clazz})">
 		changeYourPassword.label=Change your password!
 		changeYourPassword.tooltip=
+
+		changeYourProfile.label=Change your profile!
+		changeYourProfile.tooltip=
 	
 		forgotMyPassword.label=Forgot my password!
 		forgotMyPassword.tooltip=
@@ -23,6 +26,8 @@
 	
 		user.name.label=User
 		user.name.tooltip=
+		user.fullName.label=Full name
+		user.fullName.tooltip=
 		user.email.label=e-Mail
 		user.email.tooltip=
 		user.password.label=Password
@@ -33,5 +38,14 @@
 		user.confirmPassword.tooltip=
 		user.mfaToken.label=Token
 		user.mfaToken.tooltip=
+
+		loginParameter.receiveIm.label=Receive IM?
+		loginParameter.receiveIm.tooltip=
+		loginParameter.receiveSms.label=Receive SMS?
+		loginParameter.receiveSms.tooltip=
+		loginParameter.receiveVoipCall.label=Receive Voip Call?
+		loginParameter.receiveVoipCall.tooltip=
+		loginParameter.notificationToken.label=Notification Token
+		loginParameter.notificationToken.tooltip=
 	</artifact>
 </artifacts>

@@ -31,6 +31,8 @@ import br.com.concepting.framework.util.types.ContentType;
 import br.com.concepting.framework.util.types.DateFieldType;
 import br.com.concepting.framework.util.types.MethodType;
 import org.apache.commons.beanutils2.ConstructorUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
@@ -63,6 +65,8 @@ import java.util.List;
  */
 @Auditable
 public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U extends UserModel, LP extends LoginParameterModel> extends BaseService<L> implements LoginSessionService<L, U, LP>{
+    private static final Logger log = LoggerFactory.getLogger(LoginSessionServiceImpl.class);
+
     @SuppressWarnings("unchecked")
     @Transaction(url = "validateMfaToken", type = MethodType.POST, consumes = ContentType.JSON)
     @Auditable
@@ -392,13 +396,12 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
         return authorize(user);
     }
 
-    @SuppressWarnings("unchecked")
     @Transaction(url = "changePassword", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
     @Auditable
     @Override
-    public U changePassword(@TransactionParam(fromBody = true) U user) throws PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException{
+    public U changePassword(@TransactionParam(fromBody = true) U user) throws UserNotFoundException, PasswordIsNotStrongException, PasswordsNotMatchException, PasswordWithoutMinimumLengthException, InternalErrorException{
         if(user == null || user.getId() == null || user.getId() == 0)
-            return user;
+            throw new UserNotFoundException();
         
         String password = user.getPassword();
         String newPassword = user.getNewPassword();
@@ -409,7 +412,7 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             user = userService.find(user);
         }
         catch(ItemNotFoundException e){
-            throw new PasswordsNotMatchException();
+            throw new UserNotFoundException();
         }
         
         if(password != null && !password.isEmpty())
@@ -457,12 +460,53 @@ public abstract class LoginSessionServiceImpl<L extends LoginSessionModel, U ext
             
             user.setLoginParameter(loginParameter);
         }
-        
-        Class<U> userClass = (Class<U>) user.getClass();
-        IPersistence<U> userPersistence = getPersistence(userClass);
-        
-        userPersistence.update(user);
-        
+
+        userService.update(user);
+
+        return user;
+    }
+
+    @Transaction(url = "changeProfile", type = MethodType.POST, consumes = ContentType.JSON, produces = ContentType.JSON)
+    @Auditable
+    @Override
+    public U changeProfile(@TransactionParam(fromBody = true) U user) throws UserNotFoundException, InternalErrorException{
+        if(user == null || user.getId() == null || user.getId() == 0)
+            throw new UserNotFoundException();
+
+        String fullName = user.getFullName();
+        String email = user.getEmail();
+        LP loginParameter = user.getLoginParameter();
+        Boolean receiveIm = (loginParameter != null ? loginParameter.getReceiveIm() : false);
+        Boolean receiveSms = (loginParameter != null ? loginParameter.getReceiveSms() : false);
+        Boolean receiveVoipCall = (loginParameter != null ? loginParameter.getReceiveVoipCall() : false);
+        String notificationToken = (loginParameter != null ? loginParameter.getNotificationToken() : null);
+        IService<U> userService = getService(user.getClass());
+
+        try{
+            user = userService.find(user);
+        }
+        catch(ItemNotFoundException e){
+            throw new UserNotFoundException();
+        }
+
+        user.setFullName(fullName);
+        user.setEmail(email);
+
+        loginParameter = user.getLoginParameter();
+
+        if(loginParameter != null){
+            loginParameter.setReceiveIm(receiveIm);
+            loginParameter.setReceiveSms(receiveSms);
+            loginParameter.setReceiveVoipCall(receiveVoipCall);
+            loginParameter.setNotificationToken(notificationToken);
+        }
+
+        DateTime lastUpdate = new DateTime();
+
+        user.setLastUpdate(lastUpdate);
+
+        userService.update(user);
+
         return user;
     }
 
