@@ -34,7 +34,7 @@ Project Status
 The project is actively maintained and continuously validated through automated builds, releases, and static analysis.
 
 Supported versions:
-* **Stable:** 3.11.5
+* **Stable:** 3.11.6
 * **Development:** 3.12
 
 Build status
