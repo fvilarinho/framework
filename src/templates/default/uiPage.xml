@@ -16,13 +16,15 @@
 		<concepting:page title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
 			<jsp:include page="/WEB-INF/jsp/header.jsp"/>
 			<concepting:form name="@{actionFormName}" resourcesId="@{resourcesId}">
-				<table class="content">
-					<tr>
-						<td align="CENTER">
-							TODO: Implement the UI.
-						</td>
-					</tr>
-				</table>
+				<div class="contentScroll">
+					<table class="content">
+						<tr>
+							<td align="CENTER">
+								TODO: Implement the UI.
+							</td>
+						</tr>
+					</table>
+				</div>
 				<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 			</concepting:form>
 		</concepting:page>

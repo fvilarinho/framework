@@ -791,11 +791,14 @@ option:hover{
 	z-index   : 1000;
 }
 
-.container {
-    display: flex;
+/**
+ * Style that defines the page
+ */
+.page {
+    display       : flex;
     flex-direction: column;
-    width: 100%;
-    height: 100vh;
+    width         : 100%;
+    height        : 100vh;
 }
 
 /**
@@ -825,8 +828,7 @@ option:hover{
  */
 .content{
 	width          : 100%;
-	min-height     : 275px;
-	height         : calc(102vh - 200px);
+	height         : 100%;
 	background     : WHITE;
 	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
 	font-size      : 14px;
@@ -840,13 +842,22 @@ option:hover{
 }
 
 /**
- * Style that defines a content panel.
+ * Style that defines the page content panel.
  */
 .contentPanel{
 	width          : 100%;
 	border         : NONE;
 	border-collapse: COLLAPSE;
 	border-spacing : 0;
+}
+
+/**
+ * Style that defines the page content scroll.
+ */
+.contentScroll{
+	min-height     : 275px;
+	height         : calc(100vh - 200px);
+	overflow-y     : auto;
 }
 
 /**

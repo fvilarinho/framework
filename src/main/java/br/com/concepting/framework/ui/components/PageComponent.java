@@ -145,7 +145,9 @@ public class PageComponent extends BaseComponent{
             
             println("</head>");
             println("<body>");
-            println("<div class=\"container\">");
+            print("<div class=\"");
+            print(UIConstants.DEFAULT_PAGE_STYLE_CLASS);
+            println("\">");
             
             renderLoadingBox();
             renderPageShade();

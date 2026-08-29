@@ -16,23 +16,25 @@
 		<concepting:page title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
 			<jsp:include page="/WEB-INF/jsp/header.jsp"/>
 			<concepting:form name="@{actionFormName}" resourcesId="@{resourcesId}">
-				<table class="content">
-					<tr>
-						<td align="CENTER">
-							<table class="contentPanel">
-								<tr>
-									<td align="CENTER">
-										<concepting:dialogBox name="aboutDialog" showOnLoad="${@{actionFormName}.action == 'showAbout'}" title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
-											<div style="text-align: CENTER; padding: 10px;">
-												<concepting:label resourcesKey="aboutDialog"/>
-											</div>
-										</concepting:dialogBox>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
+				<div class="contentScroll">
+					<table class="content">
+						<tr>
+							<td align="CENTER">
+								<table class="contentPanel">
+									<tr>
+										<td align="CENTER">
+											<concepting:dialogBox name="aboutDialog" showOnLoad="${@{actionFormName}.action == 'showAbout'}" title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
+												<div style="text-align: CENTER; padding: 10px;">
+													<concepting:label resourcesKey="aboutDialog"/>
+												</div>
+											</concepting:dialogBox>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</div>
 				<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 			</concepting:form>
 		</concepting:page>

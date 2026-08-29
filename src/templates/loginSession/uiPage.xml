@@ -31,79 +31,81 @@
 		<concepting:page title="${loginSession.systemModule.title} ${loginSession.systemModule.version}">
     	   	<jsp:include page="/WEB-INF/jsp/header.jsp"/>
 	    	<concepting:form name="@{actionFormName}" resourcesId="@{resourcesId}">
-           		<table class="content">
-           			<tr>
-           				<td align="CENTER">
-		           			<table class="contentPanel">
-		           				<tr>
-		           					<td align="CENTER">
-                            			<concepting:guides name="guides" width="300">
-                                        	<concepting:guide name="mfaTokenValidation" render="${loadMfaTokenValidation}">
-	                                           	<center>
-	                                           		<br/>
-	                                               	<concepting:password name="user.mfaToken" size="15" labelPosition="TOP"/>
-	                                               	<br/>
-	                                               	<concepting:confirmButton action="validateMfaToken" validateModel="true" forward="root"/>
-	                                               	<concepting:backButton/>
-	                                           	</center>
-	                                       	</concepting:guide>
-                                        	<concepting:guide name="forgotMyPassword" render="${loadForgotPassword}">
-	                                           	<center>
-	                                           		<br/>
-	                                           		<concepting:label resourcesKey="sendYourForgottenPassword"/>
-	                                           		<br/><br/>
-	                                               	<concepting:text name="user.email" size="50" labelPosition="TOP"/>
-	                                               	<br/>
-	                                               	<concepting:confirmButton action="sendForgottenPassword" validateModel="true"/>
-	                                               	<concepting:backButton/>
-	                                           	</center>
-	                                       	</concepting:guide>
-											<concepting:guide name="changeYourProfile" render="${loadChangeProfile}">
-												<concepting:text name="user.fullName" size="50"/>
-												<concepting:text name="user.email" size="50"/>
-												<hr size="1"/>
-												<concepting:check name="user.loginParameter.receiveIm" resourcesKey="loginParameter.receiveIm"/>
-												<concepting:check name="user.loginParameter.receiveSms" resourcesKey="loginParameter.receiveSms"/>
-												<concepting:check name="user.loginParameter.receiveVoipCall" resourcesKey="loginParameter.receiveVoipCall"/>
-												<concepting:text name="user.loginParameter.notificationToken" resourcesKey="loginParameter.notificationToken"/>
-												<br/>
-												<center>
-													<concepting:confirmButton action="changeProfile"/>
-													<concepting:cancelButton action="cancelChangeProfile" forward="root"/>
-												</center>
-											</concepting:guide>
-	                                       	<concepting:guide name="changeYourPassword" render="${!loadMfaTokenValidation and loadChangePassword}">
-	                                           	<center>
-	                                               	<br/>
-	                                               	<concepting:password name="user.password" size="15" labelPosition="TOP"/>
-	                                               	<concepting:password name="user.newPassword" size="15" labelPosition="TOP"/>
-	                                               	<concepting:password name="user.confirmPassword" size="15" labelPosition="TOP"/>
-	                                               	<br/>
-	                                               	<concepting:confirmButton action="changePassword"/>
-	                                               	<concepting:cancelButton action="cancelChangePassword" forward="root"/>
-	                                           	</center>
-	                                       	</concepting:guide>
-	                                       	<concepting:guide name="logIn" render="${loadLogIn}">
-	                                           	<center>
-		                                           	<br/>
-		                                           	<concepting:text name="user.name" size="15" labelPosition="TOP" enabled="${!@{actionFormName}.model.rememberUserAndPassword}"/>
-		                                           	<concepting:password name="user.password" size="15" labelPosition="TOP" enabled="${!@{actionFormName}.model.rememberUserAndPassword}"/>
-                                               		<br/>
-                                               		<concepting:check name="rememberUserAndPassword" onClickAction="rememberUserAndPassword" onClickValidateModel="true" labelPosition="RIGHT"/>
-                                               		<br/>
-                                                   	<concepting:link name="forgotMyPassword" onClickAction="loadForgotPassword"/>
-	                                               	<br/><br/>
-	                                               	<concepting:confirmButton action="logIn" validateModel="true" forward="root"/>
-		                                           	<concepting:backButton action="init"/>
-	                                           	</center>
-	                                       	</concepting:guide>
-		                           		</concepting:guides>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
+				<div class="contentScroll">
+					<table class="content">
+						<tr>
+							<td align="CENTER">
+								<table class="contentPanel">
+									<tr>
+										<td align="CENTER">
+											<concepting:guides name="guides" width="300">
+												<concepting:guide name="mfaTokenValidation" render="${loadMfaTokenValidation}">
+													<center>
+														<br/>
+														<concepting:password name="user.mfaToken" size="15" labelPosition="TOP"/>
+														<br/>
+														<concepting:confirmButton action="validateMfaToken" validateModel="true" forward="root"/>
+														<concepting:backButton/>
+													</center>
+												</concepting:guide>
+												<concepting:guide name="forgotMyPassword" render="${loadForgotPassword}">
+													<center>
+														<br/>
+														<concepting:label resourcesKey="sendYourForgottenPassword"/>
+														<br/><br/>
+														<concepting:text name="user.email" size="50" labelPosition="TOP"/>
+														<br/>
+														<concepting:confirmButton action="sendForgottenPassword" validateModel="true"/>
+														<concepting:backButton/>
+													</center>
+												</concepting:guide>
+												<concepting:guide name="changeYourProfile" render="${loadChangeProfile}">
+													<concepting:text name="user.fullName" size="50"/>
+													<concepting:text name="user.email" size="50"/>
+													<hr size="1"/>
+													<concepting:check name="user.loginParameter.receiveIm" resourcesKey="loginParameter.receiveIm"/>
+													<concepting:check name="user.loginParameter.receiveSms" resourcesKey="loginParameter.receiveSms"/>
+													<concepting:check name="user.loginParameter.receiveVoipCall" resourcesKey="loginParameter.receiveVoipCall"/>
+													<concepting:text name="user.loginParameter.notificationToken" resourcesKey="loginParameter.notificationToken"/>
+													<br/>
+													<center>
+														<concepting:confirmButton action="changeProfile"/>
+														<concepting:cancelButton action="cancelChangeProfile" forward="root"/>
+													</center>
+												</concepting:guide>
+												<concepting:guide name="changeYourPassword" render="${!loadMfaTokenValidation and loadChangePassword}">
+													<center>
+														<br/>
+														<concepting:password name="user.password" size="15" labelPosition="TOP"/>
+														<concepting:password name="user.newPassword" size="15" labelPosition="TOP"/>
+														<concepting:password name="user.confirmPassword" size="15" labelPosition="TOP"/>
+														<br/>
+														<concepting:confirmButton action="changePassword"/>
+														<concepting:cancelButton action="cancelChangePassword" forward="root"/>
+													</center>
+												</concepting:guide>
+												<concepting:guide name="logIn" render="${loadLogIn}">
+													<center>
+														<br/>
+														<concepting:text name="user.name" size="15" labelPosition="TOP" enabled="${!@{actionFormName}.model.rememberUserAndPassword}"/>
+														<concepting:password name="user.password" size="15" labelPosition="TOP" enabled="${!@{actionFormName}.model.rememberUserAndPassword}"/>
+														<br/>
+														<concepting:check name="rememberUserAndPassword" onClickAction="rememberUserAndPassword" onClickValidateModel="true" labelPosition="RIGHT"/>
+														<br/>
+														<concepting:link name="forgotMyPassword" onClickAction="loadForgotPassword"/>
+														<br/><br/>
+														<concepting:confirmButton action="logIn" validateModel="true" forward="root"/>
+														<concepting:backButton action="init"/>
+													</center>
+												</concepting:guide>
+											</concepting:guides>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</div>
 				<jsp:include page="/WEB-INF/jsp/footer.jsp"/>
 			</concepting:form>
 		</concepting:page>
