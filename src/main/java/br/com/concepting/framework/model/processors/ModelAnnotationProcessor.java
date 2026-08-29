@@ -29,6 +29,7 @@ import br.com.concepting.framework.processors.helpers.ProjectBuild;
 import br.com.concepting.framework.resources.FactoryResources;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.SystemResourcesLoader;
+import br.com.concepting.framework.resources.constants.PropertiesResourcesConstants;
 import br.com.concepting.framework.resources.constants.ResourcesConstants;
 import br.com.concepting.framework.security.constants.SecurityConstants;
 import br.com.concepting.framework.security.model.LoginSessionModel;
@@ -825,7 +826,7 @@ public class ModelAnnotationProcessor extends BaseAnnotationProcessor{
                                 resourcesFilename.append(StringUtil.replaceAll(resourcesName.toString(), ".", FileUtil.getDirectorySeparator()));
                                 resourcesFilename.append("_");
                                 resourcesFilename.append(availableLanguage);
-                                resourcesFilename.append(ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_FILE_EXTENSION);
+                                resourcesFilename.append(PropertiesResourcesConstants.DEFAULT_FILE_EXTENSION);
 
                                 File resourcesFile = new File(resourcesFilename.toString());
 

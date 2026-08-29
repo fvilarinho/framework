@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class FileUtilTest {
     @Test
     public void testReadValidFile() {
-        URL url = getClass().getClassLoader().getResource("etc/resources/readme.txt");
+        URL url = getClass().getClassLoader().getResource("etc/readme.txt");
 
         if(url == null)
             fail("Test file not found!");

@@ -15,7 +15,7 @@ import br.com.concepting.framework.model.types.ConditionType;
 import br.com.concepting.framework.persistence.types.RelationJoinType;
 import br.com.concepting.framework.resources.SystemResources;
 import br.com.concepting.framework.resources.SystemResourcesLoader;
-import br.com.concepting.framework.resources.constants.ResourcesConstants;
+import br.com.concepting.framework.resources.constants.PropertiesResourcesConstants;
 import br.com.concepting.framework.util.*;
 import br.com.concepting.framework.util.helpers.PropertyInfo;
 import br.com.concepting.framework.util.types.SortOrderType;
@@ -1074,7 +1074,7 @@ public class ModelUtil{
         String resourcesId;
 
         if(modelClassName != null && !modelClassName.isEmpty()){
-            String resourcesPrefix = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR;
+            String resourcesPrefix = PropertiesResourcesConstants.DEFAULT_DIR;
             StringBuilder buffer = new StringBuilder();
 
             buffer.append(resourcesPrefix, 0, resourcesPrefix.length() - 1);
@@ -1083,7 +1083,7 @@ public class ModelUtil{
             resourcesId = buffer.toString();
         }
         else
-            resourcesId = ResourcesConstants.DEFAULT_COMMON_RESOURCES_ID;
+            resourcesId = PropertiesResourcesConstants.DEFAULT_COMMON_RESOURCES_ID;
 
         return StringUtil.replaceAll(resourcesId, "/", ".");
     }
@@ -1098,6 +1098,6 @@ public class ModelUtil{
         if(modelClass != null)
             return getResourcesIdByModel(modelClass.getName());
         
-        return StringUtil.replaceAll(ResourcesConstants.DEFAULT_COMMON_RESOURCES_ID, "/", ".");
+        return StringUtil.replaceAll(PropertiesResourcesConstants.DEFAULT_COMMON_RESOURCES_ID, "/", ".");
     }
 }

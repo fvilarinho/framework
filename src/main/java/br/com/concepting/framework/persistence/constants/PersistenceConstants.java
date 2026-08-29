@@ -54,14 +54,14 @@ public final class PersistenceConstants{
     public static final String DEFAULT_IMPLEMENTATION_ID = "persistenceImpl";
     public static final String DEFAULT_INTEGER_TYPE_ID = "integer";
     public static final String DEFAULT_LONG_TYPE_ID = "long";
-    public static final String DEFAULT_MAPPINGS_DIR = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("mappings/");
+    public static final String DEFAULT_MAPPINGS_DIR = ResourcesConstants.DEFAULT_DIR.concat("mappings/");
     public static final String DEFAULT_MAPPING_FILE_EXTENSION = ".hbm.xml";
     public static final int DEFAULT_MAXIMUM_RESULTS = 3000;
     public static final String DEFAULT_OBJECT_TYPE_ID = "serializable";
     public static final RepositoryType DEFAULT_REPOSITORY_TYPE = RepositoryType.MYSQL;
-    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("persistenceResources.xml");
+    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_DIR.concat("persistenceResources.xml");
     public static final String DEFAULT_SHORT_TYPE_ID = "short";
-    public static final String DEFAULT_SQL_DIR = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("sql/");
+    public static final String DEFAULT_SQL_DIR = ResourcesConstants.DEFAULT_DIR.concat("sql/");
     public static final String DEFAULT_STRING_TYPE_ID = "string";
     public static final int DEFAULT_TIMEOUT = 60;
 }

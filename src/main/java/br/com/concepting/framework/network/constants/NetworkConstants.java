@@ -40,5 +40,5 @@ public final class NetworkConstants{
     public static final String DEFAULT_HTTPS_PROTOCOL_ID = "https";
     public static final String DEFAULT_LOCALHOST_ADDRESS_ID = "127.0.0.1";
     public static final String DEFAULT_LOCALHOST_NAME_ID = "localhost";
-    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("networkResources.xml");
+    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_DIR.concat("networkResources.xml");
 }

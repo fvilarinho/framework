@@ -1,7 +1,7 @@
 package br.com.concepting.framework.ui.constants;
 
 import br.com.concepting.framework.constants.Constants;
-import br.com.concepting.framework.resources.constants.ResourcesConstants;
+import br.com.concepting.framework.resources.constants.PropertiesResourcesConstants;
 
 /**
  * Class that defines the constants used in the UI.
@@ -67,7 +67,7 @@ public final class UIConstants{
     public static final String DEFAULT_ACCORDION_ID = "accordion";
     public static final String DEFAULT_ACCORDION_SHOW_HIDE_SECTIONS_ID = "showHideSections";
     public static final String DEFAULT_ACCORDION_STYLE_CLASS = DEFAULT_ACCORDION_ID;
-    public static final String DEFAULT_ACCORDION_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_ACCORDION_ID);
+    public static final String DEFAULT_ACCORDION_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_ACCORDION_ID);
     public static final String DEFAULT_ACCORDION_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_ACCORDION_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_ACCORDION_STYLE_RESOURCES_ID = "/".concat(DEFAULT_ACCORDION_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_ADD_BUTTON_ID = "addButton";
@@ -89,7 +89,7 @@ public final class UIConstants{
     public static final String DEFAULT_CALENDAR_DAY_STYLE_CLASS = DEFAULT_CALENDAR_DAY_ID;
     public static final String DEFAULT_CALENDAR_HOURS_ID = "calendarHours";
     public static final String DEFAULT_CALENDAR_ID = "calendar";
-    public static final String DEFAULT_CALENDAR_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_CALENDAR_ID);
+    public static final String DEFAULT_CALENDAR_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_CALENDAR_ID);
     public static final String DEFAULT_CALENDAR_MILLISECONDS_ID = "calendarMilliseconds";
     public static final String DEFAULT_CALENDAR_MINUTES_ID = "calendarMinutes";
     public static final String DEFAULT_CALENDAR_MONTH_ID = "calendarMonth";
@@ -124,14 +124,14 @@ public final class UIConstants{
     public static final String DEFAULT_COLOR_PICKER_DIALOG_ID = "colorPickerDialog";
     public static final String DEFAULT_COLOR_PICKER_DIALOG_STYLE_CLASS = DEFAULT_COLOR_PICKER_DIALOG_ID;
     public static final String DEFAULT_COLOR_PICKER_ID = "colorPicker";
-    public static final String DEFAULT_COLOR_PICKER_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_COLOR_PICKER_ID);
+    public static final String DEFAULT_COLOR_PICKER_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_COLOR_PICKER_ID);
     public static final String DEFAULT_COLOR_PICKER_LABEL_STYLE_CLASS = "colorPickerLabel";
     public static final String DEFAULT_COLOR_PICKER_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_COLOR_PICKER_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_COLOR_PICKER_STYLE_RESOURCES_ID = "/".concat(DEFAULT_COLOR_PICKER_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_COLOR_PICKER_THUMBNAIL_ID = "colorPickerThumbnail";
     public static final String DEFAULT_COLOR_PICKER_THUMBNAIL_STYLE_CLASS = DEFAULT_COLOR_PICKER_THUMBNAIL_ID;
-    public static final String DEFAULT_COMMON_SCRIPT_RESOURCES_ID = "/".concat(ResourcesConstants.DEFAULT_COMMON_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
-    public static final String DEFAULT_COMMON_STYLE_RESOURCES_ID = "/".concat(ResourcesConstants.DEFAULT_COMMON_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
+    public static final String DEFAULT_COMMON_SCRIPT_RESOURCES_ID = "/".concat(PropertiesResourcesConstants.DEFAULT_COMMON_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
+    public static final String DEFAULT_COMMON_STYLE_RESOURCES_ID = "/".concat(PropertiesResourcesConstants.DEFAULT_COMMON_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_CONFIRM_BUTTON_ID = "confirmButton";
     public static final String DEFAULT_CONFIRM_BUTTON_STYLE_CLASS = DEFAULT_CONFIRM_BUTTON_ID;
     public static final String DEFAULT_CONFIRM_MESSAGE_ID = "confirmMessage";
@@ -173,7 +173,7 @@ public final class UIConstants{
     public static final String DEFAULT_GUIDE_STYLE_CLASS = DEFAULT_GUIDE_ID;
     public static final String DEFAULT_GUIDES_BUTTONS_STYLE_CLASS = "guidesButtons";
     public static final String DEFAULT_GUIDES_STYLE_CLASS = "guides";
-    public static final String DEFAULT_GUIDES_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_GUIDES_STYLE_CLASS);
+    public static final String DEFAULT_GUIDES_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_GUIDES_STYLE_CLASS);
     public static final String DEFAULT_GUIDES_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_GUIDES_STYLE_CLASS).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_GUIDES_STYLE_RESOURCES_ID = "/".concat(DEFAULT_GUIDES_STYLE_CLASS).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_IMAGES_RESOURCES_DIR = "/images/";
@@ -193,7 +193,7 @@ public final class UIConstants{
     public static final String DEFAULT_LOGIN_SESSION_BOX_ID = "loginSessionBox";
     public static final String DEFAULT_LOGIN_SESSION_BOX_CONTENT_ID = "loginSessionBoxContent";
     public static final String DEFAULT_LOGIN_SESSION_BOX_CONTENT_STYLE_CLASS = DEFAULT_LOGIN_SESSION_BOX_CONTENT_ID;
-    public static final String DEFAULT_LOGIN_SESSION_BOX_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_LOGIN_SESSION_BOX_ID);
+    public static final String DEFAULT_LOGIN_SESSION_BOX_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_LOGIN_SESSION_BOX_ID);
     public static final String DEFAULT_LOGIN_SESSION_BOX_LOGGED_AS_ID = "loginSessionBoxLoggedAs";
     public static final String DEFAULT_LOGIN_SESSION_BOX_LOGGED_AS_LABEL_ID = "loginSessionBoxLoggedAsLabel";
     public static final String DEFAULT_LOGIN_SESSION_BOX_LOGGED_AS_LABEL_STYLE_CLASS = DEFAULT_LOGIN_SESSION_BOX_LOGGED_AS_LABEL_ID;
@@ -227,7 +227,7 @@ public final class UIConstants{
     public static final String DEFAULT_MENU_BAR_ID = "menuBar";
     public static final String DEFAULT_MENU_BAR_CONTENT_STYLE_CLASS = "menuBarContent";
     public static final String DEFAULT_MENU_BAR_SEPARATOR_STYLE_CLASS = "menuBarSeparator";
-    public static final String DEFAULT_MENU_BAR_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_MENU_BAR_ID);
+    public static final String DEFAULT_MENU_BAR_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_MENU_BAR_ID);
     public static final String DEFAULT_MENU_BAR_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_MENU_BAR_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_MENU_BAR_STYLE_RESOURCES_ID = "/".concat(DEFAULT_MENU_BAR_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_MENU_BAR_STYLE_CLASS = DEFAULT_MENU_BAR_ID;
@@ -240,7 +240,7 @@ public final class UIConstants{
     public static final String DEFAULT_MENU_ITEM_SELECTED_STYLE_CLASS = "menuItemSelected";
     public static final String DEFAULT_MENU_ITEM_STYLE_CLASS = DEFAULT_MENU_ITEM_ID;
     public static final String DEFAULT_MESSAGE_BOX_ID = "messageBox";
-    public static final String DEFAULT_MESSAGE_BOX_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_MESSAGE_BOX_ID);
+    public static final String DEFAULT_MESSAGE_BOX_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_MESSAGE_BOX_ID);
     public static final String DEFAULT_MESSAGE_BOX_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_MESSAGE_BOX_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_MESSAGE_BOX_STYLE_RESOURCES_ID = "/".concat(DEFAULT_MESSAGE_BOX_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_OPTIONS_LABEL_STYLE_CLASS = "option";
@@ -255,7 +255,7 @@ public final class UIConstants{
     public static final String DEFAULT_PAGER_FIRST_PAGE_BUTTON_ID = "firstPageButton";
     public static final String DEFAULT_PAGER_FIRST_PAGE_BUTTON_STYLE_CLASS = DEFAULT_PAGER_FIRST_PAGE_BUTTON_ID;
     public static final String DEFAULT_PAGER_ID = "pager";
-    public static final String DEFAULT_PAGER_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_PAGER_ID);
+    public static final String DEFAULT_PAGER_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_PAGER_ID);
     public static final int DEFAULT_PAGER_ITEMS_PER_PAGE = 5;
     public static final String DEFAULT_PAGER_ITEMS_PER_PAGE_ID = "itemsPerPage";
     public static final String DEFAULT_PAGER_LAST_PAGE_BUTTON_ID = "lastPageButton";
@@ -276,7 +276,7 @@ public final class UIConstants{
     public static final String DEFAULT_PROGRESS_BAR_EMPTY_STYLE_CLASS = "emptyProgressBar";
     public static final String DEFAULT_PROGRESS_BAR_GENERAL_STYLE_CLASS = "generalProgressBar";
     public static final String DEFAULT_PROGRESS_BAR_ID = "progressBar";
-    public static final String DEFAULT_PROGRESS_BAR_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_PROGRESS_BAR_ID);
+    public static final String DEFAULT_PROGRESS_BAR_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_PROGRESS_BAR_ID);
     public static final String DEFAULT_PROGRESS_BAR_LEFT_STYLE_CLASS = "leftProgressBar";
     public static final long DEFAULT_PROGRESS_BAR_MAXIMUM_VALUE = 100;
     public static final String DEFAULT_PROGRESS_BAR_NORMAL_STYLE_CLASS = "normalProgressBar";
@@ -292,7 +292,7 @@ public final class UIConstants{
     public static final int DEFAULT_RICH_TEXT_AREA_FONT_SIZE = 12;
     public static final String DEFAULT_RICH_TEXT_AREA_FONT_COLOR = "rgb(0, 0, 0)";
     public static final String DEFAULT_RICH_TEXT_AREA_ID = "richTextArea";
-    public static final String DEFAULT_RICH_TEXT_AREA_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_RICH_TEXT_AREA_ID);
+    public static final String DEFAULT_RICH_TEXT_AREA_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_RICH_TEXT_AREA_ID);
     public static final String DEFAULT_RICH_TEXT_AREA_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_RICH_TEXT_AREA_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_RICH_TEXT_AREA_STYLE_CLASS = DEFAULT_RICH_TEXT_AREA_ID;
     public static final String DEFAULT_RICH_TEXT_AREA_STYLE_RESOURCES_ID = "/".concat(DEFAULT_RICH_TEXT_AREA_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
@@ -321,7 +321,7 @@ public final class UIConstants{
     public static final String DEFAULT_SPINNER_ADD_BUTTON_ID = "addSpinnerButton";
     public static final String DEFAULT_SPINNER_ADD_BUTTON_STYLE_CLASS = DEFAULT_SPINNER_ADD_BUTTON_ID;
     public static final String DEFAULT_SPINNER_BUTTON_LABEL_STYLE_CLASS = "spinnerButtonLabel";
-    public static final String DEFAULT_SPINNER_RESOURCES_ID = ResourcesConstants.DEFAULT_PROPERTIES_RESOURCES_DIR.concat(DEFAULT_SPINNER_ID);
+    public static final String DEFAULT_SPINNER_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_SPINNER_ID);
     public static final String DEFAULT_SPINNER_SCRIPT_RESOURCES_ID = "/".concat(DEFAULT_SPINNER_ID).concat(DEFAULT_SCRIPTS_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_SPINNER_STYLE_RESOURCES_ID = "/".concat(DEFAULT_SPINNER_ID).concat(DEFAULT_STYLES_RESOURCES_FILE_EXTENSION);
     public static final String DEFAULT_SPINNER_SUBTRACT_BUTTON_ID = "subtractSpinnerButton";

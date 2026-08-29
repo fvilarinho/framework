@@ -56,5 +56,5 @@ public final class SystemConstants{
 
     public static final String DEFAULT_ID = "system";
     public static final String DEFAULT_CONTROLLER_ID = "controller";
-    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("systemResources.xml");
+    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_DIR.concat("systemResources.xml");
 }

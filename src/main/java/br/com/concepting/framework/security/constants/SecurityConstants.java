@@ -54,7 +54,7 @@ public final class SecurityConstants{
     public static final String DEFAULT_LOGOUT_ID = "logOut";
     public static final int DEFAULT_MINIMUM_PASSWORD_LENGTH = 8;
     public static final String DEFAULT_REMEMBER_USER_AND_PASSWORD_ID = "rememberUserAndPassword";
-    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_RESOURCES_DIR.concat("securityResources.xml");
+    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_DIR.concat("securityResources.xml");
     public static final String DEFAULT_SEND_FORGOTTEN_PASSWORD_ID = "sendForgottenPassword";
     public static final String DEFAULT_SEND_FORGOTTEN_PASSWORD_MESSAGE_ID = DEFAULT_SEND_FORGOTTEN_PASSWORD_ID.concat("Message");
     public static final int DEFAULT_TOKEN_SIZE = 32;

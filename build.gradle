@@ -198,8 +198,8 @@ tasks.register("resourcesJar", Jar) {
 
     from(sourceSets.main.output) {
 		include("etc/**/*.properties")
-		include("etc/**/*.xml")
-		include("etc/**/*.xsd")
+		include("etc/*.xml")
+		include("etc/*.xsd")
 	}
 }
 

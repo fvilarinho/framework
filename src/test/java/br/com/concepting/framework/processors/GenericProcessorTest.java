@@ -29,16 +29,16 @@ public class GenericProcessorTest {
 
     @Before
     public void setup() throws IOException {
-        XmlReader reader = new XmlReader(getClass().getClassLoader().getResourceAsStream("etc/resources/processors/contentWithLogic.xml"));
+        XmlReader reader = new XmlReader(getClass().getClassLoader().getResourceAsStream("etc/contentWithLogic.xml"));
 
         this.contentWithLogic = reader.getRoot();
 
-        reader = new XmlReader(getClass().getClassLoader().getResourceAsStream("etc/resources/processors/contentWithNoLogic.xml"));
+        reader = new XmlReader(getClass().getClassLoader().getResourceAsStream("etc/contentWithNoLogic.xml"));
 
         this.contentWithNoLogic = reader.getRoot();
 
-        this.validContentWithLogic = new String(ByteUtil.fromTextStream(getClass().getClassLoader().getResourceAsStream("etc/resources/processors/validProcessedContentWithLogic.txt")), StandardCharsets.UTF_8);
-        this.validContentWithNoLogic = new String(ByteUtil.fromTextStream(getClass().getClassLoader().getResourceAsStream("etc/resources/processors/validProcessedContentWithNoLogic.txt")), StandardCharsets.UTF_8);
+        this.validContentWithLogic = new String(ByteUtil.fromTextStream(getClass().getClassLoader().getResourceAsStream("etc/validProcessedContentWithLogic.txt")), StandardCharsets.UTF_8);
+        this.validContentWithNoLogic = new String(ByteUtil.fromTextStream(getClass().getClassLoader().getResourceAsStream("etc/validProcessedContentWithNoLogic.txt")), StandardCharsets.UTF_8);
     }
 
     @Test

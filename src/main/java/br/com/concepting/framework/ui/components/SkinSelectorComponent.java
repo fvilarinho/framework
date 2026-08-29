@@ -7,7 +7,7 @@ import br.com.concepting.framework.controller.form.constants.ActionFormConstants
 import br.com.concepting.framework.exceptions.InternalErrorException;
 import br.com.concepting.framework.model.util.ModelUtil;
 import br.com.concepting.framework.resources.SystemResources;
-import br.com.concepting.framework.resources.constants.ResourcesConstants;
+import br.com.concepting.framework.resources.constants.PropertiesResourcesConstants;
 import br.com.concepting.framework.util.types.MethodType;
 
 import java.io.Serial;
@@ -39,7 +39,7 @@ public class SkinSelectorComponent extends ListPropertyComponent{
 
     @Override
     protected void buildResources() throws InternalErrorException{
-        setResourcesId(ResourcesConstants.DEFAULT_COMMON_RESOURCES_ID);
+        setResourcesId(PropertiesResourcesConstants.DEFAULT_COMMON_RESOURCES_ID);
         
         super.buildResources();
     }

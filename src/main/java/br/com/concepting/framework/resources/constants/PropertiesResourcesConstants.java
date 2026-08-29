@@ -1,8 +1,7 @@
 package br.com.concepting.framework.resources.constants;
 
 /**
- * Class that defines the constants used in the manipulation of factory
- * resources.
+ * Class that defines the constants used in the manipulation of properties.
  *
  * @author fvilarinho
  * @since 1.0.0
@@ -22,9 +21,10 @@ package br.com.concepting.framework.resources.constants;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <a href="https://www.gnu.org/licenses"></a>.</pre>
  */
-public final class FactoryConstants{
-    public static final String RESOURCES_ATTRIBUTE_ID = "factoryResourcesId";
-    public static final String URI_ATTRIBUTE_ID = "uri";
+public final class PropertiesResourcesConstants {
+    public static final String DEFAULT_DIR = ResourcesConstants.DEFAULT_DIR.concat("properties/");
+    public static final String DEFAULT_FILE_EXTENSION = ".properties";
+    public static final String DEFAULT_COMMON_ID = "common";
+    public static final String DEFAULT_COMMON_RESOURCES_ID = PropertiesResourcesConstants.DEFAULT_DIR.concat(DEFAULT_COMMON_ID);
 
-    public static final String DEFAULT_RESOURCES_ID = ResourcesConstants.DEFAULT_DIR.concat("factoryResources.xml");
 }
