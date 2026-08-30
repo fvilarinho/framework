@@ -10,6 +10,7 @@ on:
       - 'docs/**/*'
       - 'LICENSE'
       - 'publish.sh'
+      - 'src/main/ui/**/*'
       - 'src/templates/**/*'
       - 'setup.sh'
 

@@ -827,18 +827,22 @@ option:hover{
  * Style that defines the page content.
  */
 .content{
-	width          : 100%;
-	height         : 100%;
-	background     : WHITE;
-	font-family    : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
-	font-size      : 14px;
-	color          : #666666;
-	text-align     : CENTER;
-	border-left    : 1px SOLID #aaaaaa;
-	border-right   : 1px SOLID #aaaaaa;
-	border-spacing : 0;
-	border-collapse: COLLAPSE;
-	padding        : 0;
+	width              : 100%;
+	height             : 100%;
+	background-color   : WHITE;
+	background-image   : url(../images/background.png);
+	background-size    : cover;
+	background-repeat  : no-repeat;
+	background-position: center center;
+	font-family        : Trebuchet MS, Verdana, Tahoma, Arial, Sans-Serif, serif;
+	font-size          : 14px;
+	color              : #666666;
+	text-align         : CENTER;
+	border-left        : 1px SOLID #aaaaaa;
+	border-right       : 1px SOLID #aaaaaa;
+	border-spacing     : 0;
+	border-collapse    : COLLAPSE;
+	padding            : 0;
 }
 
 /**

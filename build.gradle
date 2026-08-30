@@ -213,8 +213,8 @@ tasks.register("coreJar", Jar) {
         exclude("**/service/**")
         exclude("**/ui/**")
         exclude("etc/**/*.properties")
-        exclude("etc/**/*.xml")
-        exclude("etc/**/*.xsd")
+        exclude("etc/*.xml")
+        exclude("etc/*.xsd")
 	}
 }
 
