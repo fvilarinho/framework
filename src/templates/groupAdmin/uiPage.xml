@@ -71,8 +71,8 @@
 															<tr>
 																<td valign="TOP">
 																	<concepting:label name="input.id" resourcesKey="group.id" render="${@{actionFormName}.action == 'edit'}"/>
-																	<concepting:text name="input.name" resourcesKey="group.name" render="${@{actionFormName}.input == null or @{actionFormName}.input.id == null or @{actionFormName}.input.id <= 0}"/>
-																	<concepting:label name="input.name" resourcesKey="group.name" render="${@{actionFormName}.input != null and @{actionFormName}.input.id != null and @{actionFormName}.input.id > 0}"/>
+																	<concepting:text name="input.name" resourcesKey="group.name" render="${@{actionFormName}.model.input == null or @{actionFormName}.model.input.id == null or @{actionFormName}.model.input.id &lt;= 0}"/>
+																	<concepting:label name="input.name" resourcesKey="group.name" render="${@{actionFormName}.model.input != null and @{actionFormName}.model.input.id != null and @{actionFormName}.model.input.id &gt; 0}"/>
 																	<concepting:text name="input.title" resourcesKey="group.title" size="50"/>
 																	<concepting:textArea name="input.description" resourcesKey="group.description" rows="5" columns="70"/>
 																	<br/>

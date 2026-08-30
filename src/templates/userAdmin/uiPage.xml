@@ -62,8 +62,8 @@
 															<tr>
 																<td valign="TOP">
 																	<concepting:label name="input.id" resourcesKey="user.id" render="${@{actionFormName}.action == 'edit'}"/>
-																	<concepting:text name="input.name" resourcesKey="user.name" render="${@{actionFormName}.input == null or @{actionFormName}.input.id == null or @{actionFormName}.input.id <= 0}"/>
-																	<concepting:label name="input.name" resourcesKey="user.name" render="${@{actionFormName}.input != null and @{actionFormName}.input.id != null and @{actionFormName}.input.id > 0}"/>
+																	<concepting:text name="input.name" resourcesKey="user.name" render="${@{actionFormName}.model.input == null or @{actionFormName}.model.input.id == null or @{actionFormName}.model.input.id &lt;= 0}"/>
+																	<concepting:label name="input.name" resourcesKey="user.name" render="${@{actionFormName}.model.input != null and @{actionFormName}.model.input.id != null and @{actionFormName}.model.input.id &gt; 0}"/>
 																	<concepting:text name="input.fullName" resourcesKey="user.fullName" size="70"/>
 																	<concepting:text name="input.email" resourcesKey="user.email" size="50"/>
 																	<concepting:password name="input.newPassword" resourcesKey="user.newPassword" render="${@{actionFormName}.action == 'add'}"/>
